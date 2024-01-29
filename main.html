@@ -1,114 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <style>
+        @font-face {
+            font-family: 'KNUTRUTHTTF';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/KNUTRUTHTTF.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-    <title>Document</title>
+        header {
+            font-family: 'KNUTRUTHTTF';
+        }
+
+        .headerbox {
+            font-size: 30px;
+            width: 80%;
+            text-align: center;
+            margin: auto;
+        }
+
+        .custom-hr {
+            background-color: rgba(168, 156, 200, 0.6);
+            height: 2px;
+            border: none;
+        }
+
+        .flex-header {
+            background-color: rgba(155, 178, 225, 0.6);
+            color: white;
+            height: 45px;
+            line-height: 40px;
+            display: inline-block;
+            border-radius: 5px;
+            width: 150px;
+            font-size: 20px;
+            margin-top: 10px; /* 추가된 스타일 */
+        }
+
+        header {
+            text-align: center;
+        }
+    </style>
 </head>
-<style>
-    @font-face {
-        font-family: 'KNUTRUTHTTF';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/KNUTRUTHTTF.woff2') format('woff2');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    header {
-        font-family: 'KNUTRUTHTTF';
-    }
-
-    .header1 {
-        background-color: rgba(155, 178, 225, 0.6);
-        color: white;
-        height: 45px;
-        line-height: 40px;
-        font-family: 'KNUTRUTHTTF';
-    }
-
-    .header2 {
-        background-color: rgba(155, 178, 225, 0.6);
-        color: white;
-        height: 45px;
-        line-height: 40px;
-    }
-
-    .header3 {
-        background-color: rgba(155, 178, 225, 0.6);
-        color: white;
-        height: 45px;
-        line-height: 40px;
-    }
-
-    .header4 {
-        background-color: rgba(155, 178, 225, 0.6);
-        color: white;
-        height: 45px;
-        line-height: 40px;
-    }
-
-    .flex-header {
-        display: inline-block;
-        border-radius: 5px;
-        width: 150px;
-        font-size: 20px;
-
-    }
-
-    .headerbox1 {
-        font-size: 30px;
-        width: 80%;
-        text-align: center;
-        margin: auto;
-    }
-
-    .headerbox2 {
-        font-size: 30px;
-        width: 80%;
-        text-align: center;
-        margin: auto;
-    }
-
-    .custom-hr {
-        background-color: rgba(168, 156, 200, 0.6);
-        /* 원하는 색상으로 변경하세요 */
-        height: 2px;
-        border: none;
-    }
-</style>
-
 
 <body>
     <header>
-        <div>
-            <div class="headerbox1">
-                <img class="logo" width="30px"
-                    src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
-                도서관리시스템
-            </div>
-            <div class="headerbox2">
-                <hr class="custom-hr">
-                <div class="header1 flex-header">
-                    도서관서비스
-                </div>
-                <div class="header2 flex-header">
-                    도서관 안내
-                </div>
-                <div class="header3 flex-header">
-                    정보광장
-                </div>
-                <div class="header4 flex-header">
-                    My Page
-                </div>
-                <hr class="custom-hr">
-            </div>
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
         </div>
-
-
+        <div class="headerbox">
+            <hr class="custom-hr">
+            <div class="flex-header">도서관 서비스</div>
+            <div class="flex-header">도서관 안내</div>
+            <div class="flex-header">정보광장</div>
+            <div class="flex-header">My Page</div>
+            <hr class="custom-hr">
+        </div>
     </header>
-
+    <section>
+        <!-- 여기부터 본문작성해주세요 -->
+        zzzz
+    </section>
 </body>
 
 </html>
