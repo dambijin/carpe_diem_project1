@@ -5,6 +5,8 @@
             font-style: normal;
         }
 
+@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+
         header {
             font-family: 'KNUTRUTHTTF';
             text-align: center;
@@ -21,6 +23,7 @@
             background-color: rgba(168, 156, 200, 0.6);
             height: 2px;
             border: none;
+            width:90%;
         }
 
         .flex-header {
