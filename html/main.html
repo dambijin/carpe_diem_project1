@@ -7,7 +7,101 @@
     <title>도서 관리 시스템</title>
     <link href="../css/header.css" rel="stylesheet">
     <style>
+        @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
 
+
+        .bodysize {
+            text-align: center;
+            font-family: "Wanted Sans Variable";
+
+        }
+
+        #search {
+            width: 55%;
+            height: 40px;
+            font-family: "Wanted Sans Variable";
+            font-size: 20px;
+        }
+
+        #search_option {
+            height: 46px;
+            font-family: "Wanted Sans Variable";
+        }
+
+        #search_button {
+            height: 46px;
+            font-family: "Wanted Sans Variable";
+        }
+
+        .banner {
+            width: 80%;
+            margin-bottom: 10px;
+        }
+
+        section {
+            width: 70%;
+            margin: auto;
+        }
+
+        /* 공지사항+신착도서 */
+        #announcement_library_information {
+            width: 70%;
+            display: inline-block;
+        }
+
+        /* 공지사항 */
+        #announcement {
+            background-color: rgba(168, 156, 200, 0.6);
+            height: 150px;
+            width: 100%;
+
+        }
+
+        /* 신착도서 */
+        #newbook {
+            background-color: rgba(155, 178, 225, 0.6);
+            height: 300px;
+            width: 100%;
+        }
+
+        /* 도서관별이용정보 */
+        #library_information {
+            background-color: rgba(239, 168, 176, 0.6);
+            display: inline-block;
+            width: 25%;
+            height: 450px;
+            vertical-align: top;
+            font-size: 18px;
+            padding-top: 8px;
+        }
+
+        #ann_title {
+            width: 80%;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        #ann_day {
+            text-align: right;
+        }
+
+        .newbook_img {
+            width: 100%;
+        }
+
+        select {
+            font-family: "Wanted Sans Variable";
+            font-size: 18px;
+        }
+
+        .gubun {
+            background-color: rgba(168, 156, 200, 0.6);
+            height: 2px;
+            border: none;
+            width: 90%;
+        }
     </style>
 </head>
 
@@ -27,10 +121,192 @@
             <hr class="custom-hr">
         </div>
     </header>
-    <section>
-        <!-- 여기부터 본문작성해주세요 -->
-        zzzznjsdnjsdflsfl
-    </section>
+    <div class="bodysize">
+        <div>
+            <select id="search_option">
+                <option>자료검색</option>
+                <option>제목</option>
+                <option>저자</option>
+            </select>
+            <input type="text" id="search">
+            <button type="button" id="search_button">검색</button>
+        </div>
+        <br>
+        <nav>
+            <img class="banner"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201720646124707870/banner.png?ex=65cad890&is=65b86390&hm=e9f9c0f357620caee5a714988ff0a5690f5a536763013c81f14a970ddbf67c56&">
+        </nav>
+        <section>
+            <div id="announcement_library_information">
+                <div id="announcement">
+                    <table>
+                        <tr>
+                            <td id="ann_title">
+                                독서토론대회
+                            </td>
+                            <td id="ann_day">
+                                2023-01-06
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="ann_title">
+                                책 나눔 이벤트
+                            </td>
+                            <td id="ann_day">
+                                2023-01-08
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="ann_title">
+                                독서진흥경진대회(무박 대회)
+                            </td>
+                            <td id="ann_day">
+                                2023-01-30
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="ann_title">
+                                독서진흥경진대회(무박 대회)
+                            </td>
+                            <td id="ann_day">
+                                2023-01-30
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="ann_title">
+                                독서진흥경진대회(무박 대회)
+                            </td>
+                            <td id="ann_day">
+                                2023-01-30
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="ann_title">
+                                독서진흥경진대회(무박 대회)
+                            </td>
+                            <td id="ann_day">
+                                2023-01-30
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="newbook">
+                    <table>
+                        <tr>
+                            <td>
+                                <img class="newbook_img"
+                                    src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
+                            </td>
+                            <td>
+                                <img class="newbook_img"
+                                    src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
+                            </td>
+                            <td>
+                                <img class="newbook_img"
+                                    src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
+                            </td>
+                            <td>
+                                <img class="newbook_img"
+                                    src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                자바스크립트
+                            </td>
+                            <td>
+                                CSS
+                            </td>
+                            <td>
+                                HTML
+                            </td>
+                            <td>
+                                Oracle로 배우는 데이터베이스
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                저자 : 김해
+                            </td>
+                            <td>
+                                저자 : 이시은
+                            </td>
+                            <td>
+                                저자 : 김봄
+                            </td>
+                            <td>
+                                저자 : 김달
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="library_information">
+                이용 정보
+                <select>
+                    <option>
+                        중앙도서관
+                    </option>
+                    <option>
+                        도솔도서관
+                    </option>
+                    <option>
+                        두정동도서관
+                    </option>
+                </select>
+                <table class="library_infor">
+                    <tr>
+                        <td>
+                            <hr class="gubun">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            이용시간
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            평일 : 오전 9시 ~ 오후 10시 <br>
+                            주말 : 오전 9시 ~ 오후8시<br>
+                            공휴일 : 휴관
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <hr class="gubun">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            휴관일
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            1월
+                        </td>
+                    </tr>
+                    <!-- 달력 -->
+                    <tr>
+                        <!-- jquery로 달력넣기 -->
+                        <td>일 월 화 수 목 금 토</td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            휴관일을 확인하세요
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
+        </section>
+    </div>
 </body>
+
 
 </html>
