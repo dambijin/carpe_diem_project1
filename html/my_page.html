@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link href="../css/header.css" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div>
+        <div class="headerbox">
+            <hr class="custom-hr">
+            <div class="flex-header">도서관 서비스</div>
+            <div class="flex-header">도서관 안내</div>
+            <div class="flex-header">정보광장</div>
+            <div class="flex-header">My Page</div>
+            <hr class="custom-hr">
+        </div>
+    </header>
+    <section>
+        <!-- 여기부터 본문작성해주세요 -->
+        <div border="1" width="800px">
+            <table width="800px" bottom-margin="20px" align="center">
+                <tr>
+                    <th style="border : 1px solid black;">내정보</th>
+                    <td style="border : 1px solid black; padding-left: 20px;">
+                        이름 : 홍길동 <br>
+                        번호 : 010-0000-0000<br>
+                        주소 : 천안시 아산동 병천읍<br>
+                        회원번호 : -- <br>
+                        대출가능여부 : --
+                    </td>
+                    <td style="border : 1px solid white; width : 70px; padding-top : 100px;">
+                        <button>정보수정</button>
+                    </td>
+                </tr>
+            </table>
+    
+            <div style="margin-left : 780px; margin-top : 10px; margin-bottom : 10px;">
+                <table style="border : 1px solid white; text-align: right;">
+                    <tr>
+                        <td style="width:10px;"><select>
+                                <option>출력 건수</option>
+                            </select></td>
+                        <td style="width:10px;"><select>
+                                <option> - 도서관 전체</option>
+                            </select></td>
+                        <td style="width:50px;">
+                            <button>검색</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <table border="0" align="center" width="800px">
+                <tr bgcolor="gray" height="30px">
+                    <th>번호</th>
+                    <th>책이름</th>
+                    <th>저자</th>
+                    <th>출판사</th>
+                    <th>대출일/반납예정일</th>
+                    <th>대출상태</th>
+                    <th>소장기관</th>
+                    <th>반납연기</th>
+                </tr>
+                <tr>
+                    <th>192</th>
+                    <th>아몰랑</th>
+                    <th>아몰랑</th>
+                    <th>아몰랑</th>
+                    <th>2024.01.20</th>
+                    <th>정상</th>
+                    <th>중앙</th>
+                    <th><button>연장</button></th>
+                </tr>
+            </table>
+        </div>
+    </section>
+</body>
+
+</html>

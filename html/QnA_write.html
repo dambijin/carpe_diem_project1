@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link href="../css/header.css" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div>
+        <div class="headerbox">
+            <hr class="custom-hr">
+            <div class="flex-header">도서관 서비스</div>
+            <div class="flex-header">도서관 안내</div>
+            <div class="flex-header">정보광장</div>
+            <div class="flex-header">My Page</div>
+            <hr class="custom-hr">
+        </div>
+    </header>
+    <section>
+        <!-- 여기부터 본문작성해주세요 -->
+        <div style="width: 600px; margin : auto;">
+            <div style="width : 300px; background-color: gray;">
+                <h2>
+                    개인정보 수집 + 이용 동의
+                </h2>
+            </div>
+        </div>
+        <div style=" width : 600px; margin: auto;">
+            <p>
+                <font size="2px">
+                    천안시에서는 게시판 운영을 위해 제15조 제1항에 따라 아래와 같이 개인정보를 수집 및 이용하며,<br>
+                    수집된 개인정보는 목적 이외의 용도로는 이용되지 않습니다.
+                </font>
+            </p>
+        </div>
+        <div style="border : 1px solid black; width : 600px; margin : auto;">
+            <table align="center" style="background-color: black; width : 600px;">
+                <tr style="background-color: white;">
+                    <th>개인정보 수집, 이용목적</th>
+                    <th>수집하는 개인정보 항목</th>
+                    <th>개인정보 보유 및 이용기간</th>
+                </tr>
+                <tr style="background-color: white; text-align: center;">
+                    <td>게시판 운영</td>
+                    <td>성명,ID값</td>
+                    <td>2년</td>
+                </tr>
+            </table>
+    
+        </div>
+        <div style=" width : 600px; margin: auto;">
+            <p height="50px">
+                <font size="2px">
+                    이와 같은 개인정보 수집,이용에 대한 동의를 거부할 수 있으며, 거부할 경우 게시판 경우 게시판 이용이 제한됩니다.
+                </font>
+            </p>
+            <div style="width : 600px; text-align: right;">
+                <font size="2px">
+                    <input type="radio">동의함
+                    <input type="radio">동의안함
+                </font>
+            </div>
+        </div>
+        <div style="border : 1px solid black; width : 600px; margin: 10px auto; background-color: gray;">
+            <table style="width : 600px; text-align: center;">
+                <tr style="background-color: white; height : 50px">
+                    <th style="width : 200px;">제목</th>
+                    <td align="left"><input type="text"></td>
+                </tr>
+                <tr style="background-color: white; height : 50px">
+                    <th style="width : 200px;">작성자</th>
+                    <td align="left"><input type="text"></td>
+                </tr>
+                <tr style="background-color: white; height : 50px">
+                    <th style="width : 200px;">휴대폰번호</th>
+                    <td align="left"> <select>
+                            <option disabled selected>선택하세요</option>
+                            <option>010</option>
+                            <option>011</option>
+                        </select>
+                        <input type="text" placeholder="내용을 입력해주세요." style="width : 100px"> -
+                        <input type="text" placeholder="내용을 입력해주세요." style="width : 100px">
+                    </td>
+                </tr>
+                <tr style="background-color: white; height : 50px">
+                    <th style="width : 200px;">공개</th>
+                    <td align="left">
+                        <input type="radio">공개
+                        <input type="radio">비공개
+                    </td>
+                </tr>
+                <tr style="background-color: white; height : 50px">
+                    <th style="width : 200px;">안내</th>
+                    <td align="left">
+                        <font size="1px">일정시간(20)분이 지나면 로그아웃됩니다.</font>
+                    </td>
+                </tr>
+                <tr style="background-color: white; height : 50px">
+                    <th style="width : 200px;">첨부파일</th>
+                    <td align="left"><input type="text"></td>
+                </tr>
+                <tr style="background-color: white; height : 50px">
+                    <th style="width : 200px;">비밀번호(비회원)</th>
+                    <td align="left"><input type="text"></td>
+                </tr>
+            </table>
+    
+        </div>
+        <div align="center">
+            <textarea style="width : 600px; height : 300px"></textarea>
+        </div>
+        <div style="width : 600px; margin: auto;">
+           
+            <div style="width : 600px; text-align : right; margin-top : 50px;">
+                <button>저장</button> &nbsp;
+                <button>취소</button> &nbsp;
+                <button>목록</button> &nbsp;
+            </div>
+    
+        </div>
+    </section>
+</body>
+
+</html>

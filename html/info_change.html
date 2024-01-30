@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link href="../css/header.css" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div>
+        <div class="headerbox">
+            <hr class="custom-hr">
+            <div class="flex-header">도서관 서비스</div>
+            <div class="flex-header">도서관 안내</div>
+            <div class="flex-header">정보광장</div>
+            <div class="flex-header">My Page</div>
+            <hr class="custom-hr">
+        </div>
+    </header>
+    <section>
+        <!-- 여기부터 본문작성해주세요 -->
+    
+            <div style="width:800px; text-align: center; margin:auto;">
+                <div style="width:300px; text-align:left">
+                    <h1>정보 수정</h1>
+                </div>
+            </div>
+            <table width="800px" border="1" margin="0" align="center" cellspacing="0">
+                <tr>
+                    <th>항목</th>
+                    <th style="padding : 5px 0 5px 15px">정보</th>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td style="padding : 5px 0 5px 15px">홍길동</td>
+                </tr>
+                <tr>
+                    <th>생년월일</th>
+                    <td style="padding : 5px 0 5px 15px">yyyy.mm.dd</td>
+                </tr>
+                <tr>
+                    <th>아이디</th>
+                    <td style="padding : 5px 0 5px 15px">gildong</td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td style="padding : 5px 0 5px 15px"><input type="text" placeholder="내용을 입력해주세요."></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th style="text-align: center; padding : 20px;">
+                        <font size="1px">비밀번호를 입력하세요(8~20자로 숫자, 영문소, 영문대, 특수문자 중 3가지 이상 조합)<br>
+                            - 입력가능한 특수문자는 [<font color="red"> ! , @ , $ , % , ^ , * , ( , ) </font>] 입니다. (지정된 특수문자 외는 입력이
+                            불가능합니다.)<br>
+                            비밀번호 수정 시 적어주세요.</font>
+                    </th>
+                </tr>
+                <tr>
+                    <th>비밀번호 확인</th>
+                    <td style="padding : 5px 0 5px 15px"><input type="text" placeholder="내용을 입력해주세요."></td>
+                </tr>
+                <tr>
+                    <th>휴대폰 번호</th>
+                    <td style="padding : 5px 0 5px 15px">
+                        <input type="text" placeholder="내용을 입력해주세요.">
+                        <font size="1px">SMS수신<input type="radio">예<input type="radio">아니오</font>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th style="text-align: center; padding : 20px;">
+                        <font size="1px">마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
+                            <font color="red"> 동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.</font>
+                        </font>
+                    </th>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td style="padding : 5px 0 5px 15px">
+                        <input type="text" placeholder="내용을 입력해주세요." style="width : 100px"> @ <input type="text"
+                            placeholder="내용을 입력해주세요." style="width : 100px">
+                        <select>
+                            <option disabled selected>선택하세요</option>
+                            <option>naver.com</option>
+                            <option>daum.net</option>
+                        </select>
+                        <font size="1px">이메일 수신<input type="radio">예<input type="radio">아니오</font>
+                    </td>
+                </tr>
+                <tr>
+                    <td>집전화번호</td>
+                    <td>
+                        <select>
+                            <option disabled selected>선택하세요</option>
+                            <option>010</option>
+                            <option>011</option>
+                        </select>
+                        <input type="text" placeholder="내용을 입력해주세요." style="width : 100px"> -
+                        <input type="text" placeholder="내용을 입력해주세요." style="width : 100px">
+                    </td>
+                <tr>
+                    <td>주소</td>
+                    <td> <input type="text" placeholder="내용을 입력해주세요." style="width : 100px">
+                        <button style="background-color : skyblue; border-radius: 5px; border-width: 0px;">
+                            <font color="white">주소 찾기</font>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td> <input type="text" placeholder="내용을 입력해주세요." style="width : 300px">
+        
+                    </td>
+                </tr>
+            </table>
+            <br><br>
+            <table align="center">
+                <tr>
+                    <td style="text-align: center; width: 800px;">
+                        <button value="submit">저장</button>
+                        &nbsp;
+                        <button value="reset">취소</button>
+                    </td>
+                </tr>
+            </table>
+        
+    </section>
+</body>
+
+</html>
