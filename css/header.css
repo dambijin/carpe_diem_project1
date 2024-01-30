@@ -1,0 +1,43 @@
+       @font-face {
+            font-family: 'KNUTRUTHTTF';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/KNUTRUTHTTF.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        header {
+            font-family: 'KNUTRUTHTTF';
+            text-align: center;
+        }
+
+        .headerbox {
+            font-size: 30px;
+            width: 80%;
+            text-align: center;
+            margin: auto;
+        }
+
+        .custom-hr {
+            background-color: rgba(168, 156, 200, 0.6);
+            height: 2px;
+            border: none;
+        }
+
+        .flex-header {
+            background-color: rgba(155, 178, 225, 0.6);
+            color: white;
+            height: 45px;
+            line-height: 40px;
+            display: inline-block;
+            border-radius: 5px;
+            width: 150px;
+            font-size: 20px;
+            margin-top: 10px;
+            /* 추가된 스타일 */
+        }
+
+        .flex-header:hover {
+            color: black;
+            background-color: rgba(140, 201, 240, 0.6);
+            /* 마우스 오버 시 글씨 색상을 검은색으로 변경 */
+        }
