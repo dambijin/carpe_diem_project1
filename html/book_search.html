@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link href="../css/header.css" rel="stylesheet">
+
+    <style>
+        @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+
+        section {
+            width: 80%;
+            margin: auto;
+            /* font-family: 'KNUTRUTHTTF'; */
+            font-family: 'Wanted Sans Variable';
+        }
+
+        /* 필터관련 */
+        .selbox {
+            border: 1px solid #000000;
+            background-color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-inline-start: 0px;
+        }
+
+        .selbox legend {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .selbox dl {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .selbox dd {
+            margin-inline-start: 0px;
+        }
+
+        .selbox dl dd ul {
+            list-style: none;
+            padding: 0px;
+            display: flex;
+            flex-wrap: wrap;
+            border-top: 1px solid #000000;
+            margin-top: 5px;
+            margin: auto;
+        }
+
+        .selbox dl dd ul li {
+            padding: 5px;
+            display: inline-block;
+        }
+
+        .selbox label.all {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .selbox label.all input {
+            margin-right: 3px;
+        }
+
+        .selbox dl dd ul li input[type="checkbox"] {
+            margin-right: 1px;
+        }
+
+        /* 검색창관련 */
+        .search_fieldset {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-inline-start: 0px;
+            border: 0px solid #ccc;
+        }
+
+        .search_fieldset legend {
+            margin-right: 20px;
+        }
+
+        .search_fieldset .result {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .search_fieldset .search {
+            flex: 4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search_fieldset .search .input {
+            flex: 4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search_fieldset .search .input select {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .search_fieldset .search .input input {
+            flex: 3;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .search_fieldset .search .btn-search {
+            flex: 1;
+            padding: 5px 10px;
+            background-color: rgba(168, 156, 200, 1.0);
+            color: #eee;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* 책 리스트 */
+        .list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .list dl {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            display: flex;
+            margin: 0px;
+        }
+
+        .list dt {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-right: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .list dd {
+            flex: 3;
+            padding-left: 20px;
+        }
+
+        .list dd .ico {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .list dd ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+
+        .list dd ul li {
+            margin-bottom: 5px;
+        }
+
+        .list dd ol {
+            list-style: none;
+            padding: 0;
+            display: flex;
+        }
+
+        .list dd ol li {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .list dt img {
+            width: 100px;
+            height: 100px;
+        }
+
+        /* 페이지 */
+        #paging {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #paging .total {
+            font-weight: bold;
+        }
+
+        #paging .paging {
+            display: flex;
+        }
+
+        #paging .paging a,
+        #paging .paging strong {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        #paging .paging a {
+            background-color: #f8f8f8;
+        }
+
+        #paging .paging strong {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<script>
+    function selboxAllChecked(id) {
+        var allCheck = document.getElementById(id);
+        var selbox = document.getElementsByClassName("selbox")[0];
+        var checkboxes = selbox.querySelectorAll('input[type="checkbox"]');
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = allCheck.checked;
+        }
+    }
+</script>
+
+<body>
+    <header>
+
+        <div class="blank_space"> </div>
+
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div>
+        <div class="sign_up_in">
+            <div class="sign_in">
+                로그인&nbsp;
+            </div>
+            <div class="sign_up">
+                회원가입
+            </div>
+        </div>
+
+
+        <div class="nav">
+            <hr class="custom-hr">
+            <div class="flex-header">도서관 서비스</div>
+            <div class="flex-header">도서관 안내</div>
+            <div class="flex-header">정보광장</div>
+            <div class="flex-header">My Page</div>
+            <hr class="custom-hr">
+        </div>
+
+    </header>
+    <section>
+        <!-- 여기부터 본문작성해주세요 -->
+        <div id="headSearchForm">
+            <fieldset class="selbox">
+                <legend>도서관 필터</legend>
+                <dl>
+                    <dd>
+                        <label class="all none"><input id="multiChk1" type="checkbox" name="multiChk1" value="1"
+                                title="전체선택" onclick="selboxAllChecked(this.id);"> 전체선택</label>
+                        <ul id="_multiChk1">
+                            <li><input name="manageCode[BC]" value="BC" id="BC" type="checkbox">
+                                <label for="BC">아우내도서관</label>
+                            </li>
+
+                            <li><input name="manageCode[BR]" value="BR" id="BR" type="checkbox">
+                                <label for="BR">성거도서관</label>
+                            </li>
+
+                            <li><input name="manageCode[DJ]" value="DJ" id="DJ" type="checkbox">
+                                <label for="DJ">두정도서관</label>
+                            </li>
+
+                            <li><input name="manageCode[DS]" value="DS" id="DS" type="checkbox">
+                                <label for="DS">도솔도서관</label>
+                            </li>
+
+                            <li><input name="manageCode[SC]" value="SC" id="SC" type="checkbox">
+                                <label for="SC">신방도서관</label>
+                            </li>
+
+                            <li><input name="manageCode[SY]" value="SY" id="SY" type="checkbox">
+                                <label for="SY">쌍용도서관</label>
+                            </li>
+
+                            <li><input name="manageCode[CS]" value="CS" id="CS" type="checkbox">
+                                <label for="CS">청수도서관</label>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </fieldset>
+            <div class="search_div">
+                <div class="allbox">
+                    <fieldset class="search_fieldset">
+                        <!-- <legend>통합검색</legend> -->
+                        <span class="result">
+                            <input type="checkbox" id="reSearch" name="reSearch" value="1" title="결과내 검색"> <label
+                                for="reSearch">결과 내 검색</label>
+                        </span>
+                        <div class="search">
+                            <div class="input">
+                                <strong>
+                                    <select name="item">
+                                        <option value="total">전체
+                                        </option>
+                                        <option value="title">제목
+                                        </option>
+                                        <option value="author">저자
+                                        </option>
+                                        <option value="publisher">발행처
+                                        </option>
+                                        <option value="keyword">키워드
+                                        </option>
+                                    </select>
+                                </strong>
+                                <input type="text" name="word" autocomplete="off" id="searchWord"
+                                    style="ime-mode:active" placeholder="검색어를 적어주세요">
+                                <!-- input type="hidden" name="item" value="title" id="item" -->
+                            </div>
+                            <input type="submit" class="btn btn-search" value="도서검색">
+                            <div id="autoComplete" style="display:none">
+                                <div class="keyword">
+                                    <ul>
+                                        <li>-</li>
+                                    </ul>
+                                </div>
+                                <div class="thumbnail">
+                                    <div class="list">
+                                        <dl>
+                                            <dt>
+                                                <a href="#" id="aLink"><img class="img" id="aImage"
+                                                        src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
+                                                        alt="NO IMAGE" width="83" height="119"></a>
+                                                <!-- em class="label"><img src="./wdModules/wdDataSearch/skins/default/./img/book/book_icon8.png" alt="KDC : 813.8"></em -->
+                                                <em class="loadr"><img
+                                                        src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
+                                                        id="loading_" alt="로딩중입니다."></em>
+                                            </dt>
+                                            <dd>
+                                                <div class="ico ico-bk">
+                                                    <strong><span id="aType">-</span></strong>
+                                                    <span><a href="#title" id="aTitle">-</a></span>
+                                                </div>
+                                                <ul>
+                                                    <li><strong>ㆍ저자</strong><em>|</em>
+                                                        <span id="aAuthor">-</span>
+                                                    </li>
+                                                    <li><strong>ㆍ출판사</strong><em>|</em> <span id="aPubInfo">-</span>
+                                                    </li>
+                                                    <li><strong>ㆍ발행년</strong><em>|</em> <span id="aPubYear">-</span>
+                                                    </li>
+                                                    <li><strong>ㆍ청구기호</strong><em>|</em> <span id="aCallNo">-</span>
+                                                    </li>
+                                                    <li><strong>ㆍ소장기관</strong><em>|</em> <span id="aLibName">-</span>
+                                                    </li>
+                                                    <li><strong>ㆍ자료실</strong><em>|</em> <span id="aPlaceName">-</span>
+                                                    </li>
+                                                </ul>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+        <!-- 책 리스트 -->
+        <div class="list">
+            <dl>
+                <dt>
+                    <a href="">
+                        <em></em>
+                    </a>
+                    <em class="label label-bk"><img
+                            src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
+                            alt="KDC : 005.73"></em>
+                </dt>
+                <dd>
+                    <div class="ico ico-bk">
+                        <a href="">
+                            (자바)자료구조론 </a>
+                    </div>
+                    <ul>
+                        <li class="label_no"><strong>주제 : </strong> 개발</li>
+                        <li>
+                            <strong>저자</strong> 송주석 ; 서성훈 [공]저 <em>|</em>
+                            <strong>발행처</strong> 사이텍미디어
+                        </li>
+
+                        <li>
+                            <strong>발행년</strong> 2006 <em>|</em>
+
+                            <strong>청구기호</strong> 005.73-송주석 <em>|</em><strong>등록번호</strong>YM0000007237
+                        </li>
+
+                        <li class="so">
+                            <strong>소장기관</strong> <span class="blue">아우내도서관</span> <em>|</em>
+
+                            <strong>자료실</strong> <span class="yellow">[아우내]보존실</span>
+                        </li>
+                    </ul>
+                    <ol>
+                        <li>대출가능</li>
+
+                        <!-- li><strong class="nonone">도서 예약불가</strong></li -->
+                        <li>
+                            <a href="#login" onclick="alert('로그인을 해주세요.'); return false;">
+
+                                예약<span class="skip">신청</span></a>
+                        </li>
+                    </ol>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <a href="">
+                        <img class="img"
+                            src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
+                            alt="" onError="">
+                    </a>
+                </dt>
+                <dd>
+                    <div class="ico ico-bk">
+                        <a href="">
+                            (자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기 </a>
+                    </div>
+                    <ul>
+                        <li class="label_no"><strong>주제 : </strong> 개발</li>
+                        <li>
+                            <strong>저자</strong> 이상민 지음 <em>|</em>
+                            <strong>발행처</strong> 한빛미디어
+                        </li>
+
+                        <li>
+                            <strong>발행년</strong> 2009 <em>|</em>
+
+                            <strong>청구기호</strong> 005.115-이상민 <em>|</em><strong>등록번호</strong>NG0000002167
+                        </li>
+
+                        <li class="so">
+                            <strong>소장기관</strong> <span class="blue">성남면작은도서관</span> <em>|</em>
+
+                            <strong>자료실</strong> <span class="yellow">성남면 작은도서관 </span>
+                        </li>
+                    </ul>
+                    <ol>
+                        <li>대출가능</li>
+                        <li>예약불가</li>
+                    </ol>
+                </dd>
+            </dl>
+
+        </div>
+
+
+        <div id="paging">
+            <div class="total"><strong>1</strong>페이지 / 총 <strong>40</strong>페이지</div>
+            <div class="paging">
+                <a href="./index.php?page=6&act=searchIList&word=%EC%9E%90%EB%B0%94&preWord=%EC%9E%90%EB%B0%94"
+                    class="pre">
+                    ◀</a>
+
+                <strong>1</strong>
+
+                <a href="./index.php?page=2&act=searchIList&word=%EC%9E%90%EB%B0%94&preWord=%EC%9E%90%EB%B0%94"
+                    class="num">2</a>
+
+                <a href="./index.php?page=3&act=searchIList&word=%EC%9E%90%EB%B0%94&preWord=%EC%9E%90%EB%B0%94"
+                    class="num">3</a>
+
+                <a href="./index.php?page=4&act=searchIList&word=%EC%9E%90%EB%B0%94&preWord=%EC%9E%90%EB%B0%94"
+                    class="num">4</a>
+
+                <a href="./index.php?page=5&act=searchIList&word=%EC%9E%90%EB%B0%94&preWord=%EC%9E%90%EB%B0%94"
+                    class="num">5</a>
+
+
+                <a href="./index.php?page=6&act=searchIList&word=%EC%9E%90%EB%B0%94&preWord=%EC%9E%90%EB%B0%94"
+                    class="next">▶</a>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
