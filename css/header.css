@@ -1,29 +1,35 @@
-       @font-face {
+ @font-face {
             font-family: 'KNUTRUTHTTF';
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/KNUTRUTHTTF.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
         }
 
-@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+        @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
 
         header {
             font-family: 'KNUTRUTHTTF';
             text-align: center;
+            margin: auto;
+            width: 80%;
         }
 
         .headerbox {
             font-size: 30px;
-            width: 80%;
+            width: 48%;
             text-align: center;
             margin: auto;
+            display: inline-block;
         }
+
+        .nav {}
 
         .custom-hr {
             background-color: rgba(168, 156, 200, 0.6);
             height: 2px;
             border: none;
-            width:90%;
+            width: 90%;
+            margin-top: 20px;
         }
 
         .flex-header {
@@ -43,4 +49,27 @@
             color: black;
             background-color: rgba(140, 201, 240, 0.6);
             /* 마우스 오버 시 글씨 색상을 검은색으로 변경 */
+        }
+
+        .blank_space {
+            display: inline-block;
+            width: 20%;
+        }
+
+        .sign_up_in {
+            text-align: right;
+            font-size: 18px;
+            width: 20%;
+            display: inline-block;
+
+        }
+
+        .sign_in {
+            display: inline-block;
+            border-right: black solid 2px;
+
+        }
+
+        .sign_up {
+            display: inline-block;
         }
