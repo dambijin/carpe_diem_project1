@@ -7,18 +7,86 @@
     <title>도서 관리 시스템</title>
     <link href="../css/header.css" rel="stylesheet">
     <style>
+        td,
+        th {
+            border: 1px solid black;
+            padding: 7px;
+        }
 
+        .text {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .padding {
+            padding: 5px 0 5px 15px;
+        }
+
+        .input_width {
+            width: 100px
+        }
+
+        #head {
+            width: 800px;
+            text-align: center;
+            margin: auto;
+        }
+
+        #head1 {
+            width: 300px;
+            text-align: left;
+        }
+
+        #table {
+            width: 800px;
+            margin: auto;
+            border-collapse: collapse;
+
+        }
+
+        #button>td {
+            text-align: center;
+            width: 800px;
+            border: 1px solid white;
+        }
+
+        #button_align {
+            text-align: center;
+            margin: auto;
+        }
+
+        #place_button {
+            background-color: skyblue;
+            border-radius: 5px;
+            border-width: 0px;
+        }
+
+        #place_input_width {
+            width: 300px;
+        }
     </style>
 </head>
 
 <body>
     <header>
+        <div class="blank_space"> </div>
+
         <div class="headerbox">
             <img class="logo" width="30px"
                 src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
             도서관리시스템
         </div>
-        <div class="headerbox">
+        <div class="sign_up_in">
+            <div class="sign_in">
+                로그인&nbsp;
+            </div>
+            <div class="sign_up">
+                회원가입
+            </div>
+        </div>
+
+
+        <div class="nav">
             <hr class="custom-hr">
             <div class="flex-header">도서관 서비스</div>
             <div class="flex-header">도서관 안내</div>
@@ -29,56 +97,57 @@
     </header>
     <section>
         <!-- 여기부터 본문작성해주세요 -->
-    
-            <div style="width:800px; text-align: center; margin:auto;">
-                <div style="width:300px; text-align:left">
-                    <h1>정보 수정</h1>
-                </div>
+
+        <div id="head">
+            <div id="head1">
+                <h1>정보 수정</h1>
             </div>
-            <table width="800px" border="1" margin="0" align="center" cellspacing="0">
+        </div>
+        <div>
+            <table id="table">
                 <tr>
                     <th>항목</th>
-                    <th style="padding : 5px 0 5px 15px">정보</th>
+                    <th class="padding">정보</th>
                 </tr>
                 <tr>
                     <th>이름</th>
-                    <td style="padding : 5px 0 5px 15px">홍길동</td>
+                    <td class="padding">홍길동</td>
                 </tr>
                 <tr>
                     <th>생년월일</th>
-                    <td style="padding : 5px 0 5px 15px">yyyy.mm.dd</td>
+                    <td class="padding">yyyy.mm.dd</td>
                 </tr>
                 <tr>
                     <th>아이디</th>
-                    <td style="padding : 5px 0 5px 15px">gildong</td>
+                    <td class="padding">gildong</td>
                 </tr>
                 <tr>
                     <th>비밀번호</th>
-                    <td style="padding : 5px 0 5px 15px"><input type="text" placeholder="내용을 입력해주세요."></td>
+                    <td class="padding"><input type="text" placeholder="내용을 입력해주세요."></td>
                 </tr>
                 <tr>
                     <th></th>
-                    <th style="text-align: center; padding : 20px;">
+                    <th class="text">
                         <font size="1px">비밀번호를 입력하세요(8~20자로 숫자, 영문소, 영문대, 특수문자 중 3가지 이상 조합)<br>
-                            - 입력가능한 특수문자는 [<font color="red"> ! , @ , $ , % , ^ , * , ( , ) </font>] 입니다. (지정된 특수문자 외는 입력이
-                            불가능합니다.)<br>
+                            - 입력가능한 특수문자는 [<font color="red"> ! , @ , $ , % , ^ , * , ( , ) </font>] 입니다. (지정된 특수문자 외는
+                            입력이 불가능합니다.)<br>
                             비밀번호 수정 시 적어주세요.</font>
                     </th>
                 </tr>
                 <tr>
                     <th>비밀번호 확인</th>
-                    <td style="padding : 5px 0 5px 15px"><input type="text" placeholder="내용을 입력해주세요."></td>
+                    <td class="padding"><input type="text" placeholder="내용을 입력해주세요."></td>
                 </tr>
                 <tr>
                     <th>휴대폰 번호</th>
-                    <td style="padding : 5px 0 5px 15px">
+                    <td class="padding">
                         <input type="text" placeholder="내용을 입력해주세요.">
                         <font size="1px">SMS수신<input type="radio">예<input type="radio">아니오</font>
                     </td>
                 </tr>
                 <tr>
                     <th></th>
-                    <th style="text-align: center; padding : 20px;">
+                    <th class="text">
                         <font size="1px">마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
                             <font color="red"> 동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.</font>
                         </font>
@@ -86,9 +155,9 @@
                 </tr>
                 <tr>
                     <th>이메일</th>
-                    <td style="padding : 5px 0 5px 15px">
-                        <input type="text" placeholder="내용을 입력해주세요." style="width : 100px"> @ <input type="text"
-                            placeholder="내용을 입력해주세요." style="width : 100px">
+                    <td class="padding">
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요."> @
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요.">
                         <select>
                             <option disabled selected>선택하세요</option>
                             <option>naver.com</option>
@@ -98,42 +167,43 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>집전화번호</td>
+                    <th>집전화번호</th>
                     <td>
                         <select>
                             <option disabled selected>선택하세요</option>
                             <option>010</option>
                             <option>011</option>
                         </select>
-                        <input type="text" placeholder="내용을 입력해주세요." style="width : 100px"> -
-                        <input type="text" placeholder="내용을 입력해주세요." style="width : 100px">
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요."> -
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요.">
                     </td>
                 <tr>
-                    <td>주소</td>
-                    <td> <input type="text" placeholder="내용을 입력해주세요." style="width : 100px">
-                        <button style="background-color : skyblue; border-radius: 5px; border-width: 0px;">
+                    <th>주소</th>
+                    <td> <input class="input_width" type="text" placeholder="내용을 입력해주세요.">
+                        <button id="place_button">
                             <font color="white">주소 찾기</font>
                         </button>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td> <input type="text" placeholder="내용을 입력해주세요." style="width : 300px">
-        
+                    <td> <input id="place_input_width" type="text" placeholder="내용을 입력해주세요.">
+
                     </td>
                 </tr>
             </table>
-            <br><br>
-            <table align="center">
-                <tr>
-                    <td style="text-align: center; width: 800px;">
-                        <button value="submit">저장</button>
-                        &nbsp;
-                        <button value="reset">취소</button>
-                    </td>
-                </tr>
-            </table>
-        
+        </div>
+        <br><br>
+        <table id="button_align">
+            <tr id="button">
+                <td>
+                    <button value="submit">저장</button>
+                    &nbsp;
+                    <button value="reset">취소</button>
+                </td>
+            </tr>
+        </table>
+
     </section>
 </body>
 

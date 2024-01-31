@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link href="../css/header.css" rel="stylesheet">
+    <script>
+        window.onload = function () {
+            let button1 = document.getElementById('button_click');
+            let button3 = document.getElementById('button_click1');
+            let btn = document.getElementById('btn');
+
+            button3.addEventListener('click', function () {
+                alert('연장 완')
+
+            });
+            button1.addEventListener('click', function () {
+                window.open('http://127.0.0.1:5500/html/info_change.html', '_blank')
+
+            });
+            btn.addEventListener('click', function () {
+            
+            });
+
+        };
+
+    </script>
+
+    <style>
+        .div1 {
+            width: 800px;
+            margin: 0px 50px 0px 100px;
+
+
+        }
+
+        .info {
+            border: 1px solid rgb(190, 187, 187);
+            border-radius: 10px;
+
+        }
+
+        #button {
+            border: 1px solid white;
+            width: 70px;
+
+        }
+
+        #select {
+            width: 800px;
+            margin-left: 650px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        #page1 {
+            border: 1px solid white;
+            text-align: center;
+            width: 800px;
+            margin-left: 100px;
+
+        }
+
+        #page1_tr {
+            background-color: rgb(206, 203, 203);
+            height: 30px;
+
+        }
+
+        #button_click {
+            padding: 20px 10px;
+            margin-top: 45px;
+        }
+
+        .button_click1 {
+            padding: 2px 20px;
+        }
+
+        button:hover {
+            background-color: rgba(155, 178, 225, 0.6);
+        }
+
+        button {
+            background-color: rgba(140, 201, 240, 0.6);
+            border-radius: 6px;
+            border: 1px solid #8CC9F0;
+            font-family: Arial;
+            font-size: 12px;
+            font-weight: bold;
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="blank_space"> </div>
+
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div>
+        <div class="sign_up_in">
+            <div class="sign_in">
+                로그인&nbsp;
+            </div>
+            <div class="sign_up">
+                회원가입
+            </div>
+        </div>
+
+
+        <div class="nav">
+            <hr class="custom-hr">
+            <div class="flex-header">도서관 서비스</div>
+            <div class="flex-header">도서관 안내</div>
+            <div class="flex-header">정보광장</div>
+            <div class="flex-header">My Page</div>
+            <hr class="custom-hr">
+        </div>
+    </header>
+    <section>
+        <!-- 여기부터 본문작성해주세요 -->
+
+        <div class="div1">
+            <table class="div1">
+                <tr>
+                    <th class="info">내정보</th>
+                    <td class="info">
+                        이름 : 홍길동 <br>
+                        번호 : 010-0000-0000<br>
+                        주소 : 천안시 아산동 병천읍<br>
+                        회원번호 : -- <br>
+                        대출가능여부 : --
+                    </td>
+                    <td id="button">
+                        <button type="button" id="button_click">정보수정</button>
+                    </td>
+                </tr>
+            </table>
+
+            <div id="select">
+                <table>
+                    <tr>
+                        <td><select name="a">
+                                <option>출력 건수</option>
+                            </select></td>
+                        <td><select>
+                                <option> - 도서관 전체</option>
+                            </select></td>
+                        <td>
+                            <button type="button" id="btn">검색</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <table id="page1">
+                <tr id="page1_tr">
+                    <th>번호</th>
+                    <th>책이름</th>
+                    <th>저자</th>
+                    <th>출판사</th>
+                    <th>대출일/반납예정일</th>
+                    <th>대출상태</th>
+                    <th>소장기관</th>
+                    <th>반납연기</th>
+                </tr>
+                <tr>
+                    <th>192</th>
+                    <th>아몰랑</th>
+                    <th>아몰랑</th>
+                    <th>아몰랑</th>
+                    <th>2024.01.20</th>
+                    <th>정상</th>
+                    <th>중앙</th>
+                    <th><button type="button" id="button_click1">연장</button></th>
+                </tr>
+            </table>
+        </div>
+
+    </section>
+</body>
+
+
+</html>
