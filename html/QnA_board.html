@@ -107,10 +107,28 @@
             color: #333;
         }
 
-        /* 공지사항 제목 */
-        .right_section .notice_subject {
-            font-size: 30px;
-            font-weight: bold;
+
+        /* 검색, 글쓰기 버튼 */
+
+
+        .paging_writing .writing .request,
+        .board_notice .search .request {
+            font-family: "Wanted Sans Variable";
+            width: 100px;
+            background-color: rgba(155, 178, 225, 0.6);
+            font-size: 18px;
+            border: 0;
+            border-radius: 5px;
+
+        }
+
+        /* 검색, 글쓰기 버튼 마우스 오버 */
+
+
+        .paging_writing .writing .request,
+        .board_notice .search .request:hover {
+            background-color: rgba(205, 155, 225, 0.6);
+
         }
 
         .paging_writing {
@@ -133,6 +151,12 @@
         .paging_writing .paging .underline_remove {
             text-decoration: none;
             font-size: 20px;
+        }
+
+        /* QnA 제목 */
+        .right_section .notice_subject {
+            font-size: 30px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -165,7 +189,6 @@
         </div>
     </header>
     <section>
-
         <div class="s_section">
             <div class="left_section">
                 <button type="button" class="sub_but">공지사항</button><br>
@@ -175,7 +198,7 @@
             </div>
             <div class="right_section">
                 <div class="notice_subject">
-                    공지사항
+                    Q & A
                 </div>
                 <div class="board_notice">
                     <div class="search">
@@ -190,13 +213,13 @@
                             <option>제목</option>
                         </select>
                         <input type="text" class="change_handwriting">
-                        <input type="button" class="change_handwriting" value="검색">
+                        <input type="button" class="change_handwriting request" value="검색">
                     </div>
                     <div class="board">
                         <table class="board_sub">
                             <tr>
                                 <th class="board_subject">순번</th>
-                                <th class="board_subject">공개</th>
+                                <th class="board_subject">분류</th>
                                 <th class="board_subject">제목</th>
                                 <th class="board_subject">관할도서관</th>
                                 <th class="board_subject">등록일</th>
@@ -247,7 +270,7 @@
                     </div>
                     <div class="paging_writing">
                         <div class="writing">
-                            <button class="change_handwriting">글쓰기</button>
+                            <button class="change_handwriting request">글쓰기</button>
                         </div>
                         <div class="paging">
                             <a href="" class="pre underline_remove">◀</a>
