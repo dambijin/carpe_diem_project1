@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
     <link href="../css/header.css" rel="stylesheet">
+    <script>
+         window.onload = function () {
+        let i = document.getElementById('email_domain1');
+        let selectedIndex = i.selectedIndex;
+        
+        // 선택된 option의 값(value)을 가져옴
+        let a = i.options[selectedIndex].value;
+            console.log(a);
+        function setInputValue() {
+        // input 요소를 id로 찾아옴
+        let b = document.setInputValue("email_domain");
+          b = a;
+    }
+       
+         }
+    </script>
     <style>
         td,
         th {
@@ -55,14 +71,19 @@
             margin: auto;
         }
 
-        #place_button {
-            background-color: skyblue;
-            border-radius: 5px;
-            border-width: 0px;
-        }
+       
 
         #place_input_width {
             width: 300px;
+        }
+        button {
+            background-color: rgba(140, 201, 240, 0.6);
+            border-radius: 6px;
+            border: 1px solid #8CC9F0;
+            font-family: Arial;
+            font-size: 13px;
+            font-weight: bold;
+
         }
     </style>
 </head>
@@ -97,12 +118,13 @@
     </header>
     <section>
         <!-- 여기부터 본문작성해주세요 -->
-
+        <!-- 상단배너 -->
         <div id="head">
             <div id="head1">
                 <h1>정보 수정</h1>
             </div>
         </div>
+        <!-- 수정항목 -->
         <div>
             <table id="table">
                 <tr>
@@ -123,7 +145,7 @@
                 </tr>
                 <tr>
                     <th>비밀번호</th>
-                    <td class="padding"><input type="text" placeholder="내용을 입력해주세요."></td>
+                    <td class="padding"><input type="text" placeholder="내용을 입력해주세요." id="password"></td>
                 </tr>
                 <tr>
                     <th></th>
@@ -136,12 +158,12 @@
                 </tr>
                 <tr>
                     <th>비밀번호 확인</th>
-                    <td class="padding"><input type="text" placeholder="내용을 입력해주세요."></td>
+                    <td class="padding"><input type="text" placeholder="내용을 입력해주세요." id="password1"></td>
                 </tr>
                 <tr>
                     <th>휴대폰 번호</th>
                     <td class="padding">
-                        <input type="text" placeholder="내용을 입력해주세요.">
+                        <input type="text" placeholder="내용을 입력해주세요." id="phonenumber">
                         <font size="1px">SMS수신<input type="radio">예<input type="radio">아니오</font>
                     </td>
                 </tr>
@@ -156,11 +178,11 @@
                 <tr>
                     <th>이메일</th>
                     <td class="padding">
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요."> @
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요.">
-                        <select>
-                            <option disabled selected>선택하세요</option>
-                            <option>naver.com</option>
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_id"> @
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_domain">
+                        <select id="email_domain1">
+                            <option disabled >선택하세요</option>
+                            <option selected>naver.com</option>
                             <option>daum.net</option>
                         </select>
                         <font size="1px">이메일 수신<input type="radio">예<input type="radio">아니오</font>
@@ -181,7 +203,7 @@
                     <th>주소</th>
                     <td> <input class="input_width" type="text" placeholder="내용을 입력해주세요.">
                         <button id="place_button">
-                            <font color="white">주소 찾기</font>
+                            주소 찾기
                         </button>
                     </td>
                 </tr>
@@ -194,6 +216,7 @@
             </table>
         </div>
         <br><br>
+        <!-- 버튼 -->
         <table id="button_align">
             <tr id="button">
                 <td>
@@ -205,6 +228,7 @@
         </table>
 
     </section>
+  
 </body>
 
 </html>
