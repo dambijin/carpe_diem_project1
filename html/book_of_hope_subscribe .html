@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link href="../css/header.css" rel="stylesheet">
+    <style>
+        /* 왼쪽 section */
+        section .left_section {
+            border-right: 2px solid rgba(168, 156, 200, 0.6);
+            display: inline-block;
+            width: 20%;
+            vertical-align: top;
+        }
+
+        /* 오른쪽 section */
+        section .right_section {
+            display: inline-block;
+            width: 79%;
+            text-align: left;
+        }
+
+        /* section */
+        section .s_section {
+            text-align: center;
+            width: 70%;
+            margin: auto;
+        }
+
+        section .sub_but {
+            width: 80%;
+            font-size: 20px;
+            font-family: 'KNUTRUTHTTF';
+            margin-bottom: 10px;
+            background-color: rgba(199, 156, 200, 0.6);
+            border-radius: 5px;
+            border: 0;
+            height: 40px;
+        }
+
+        /* 마우스 오버 시 변경이벤트 */
+        section .sub_but:hover {
+            background-color: rgba(96, 59, 199, 0.6);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+
+        <div class="blank_space"> </div>
+
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div>
+        <div class="sign_up_in">
+            <div class="sign_in">
+                로그인&nbsp;
+            </div>
+            <div class="sign_up">
+                회원가입
+            </div>
+        </div>
+
+
+        <div class="nav">
+            <hr class="custom-hr">
+            <div class="flex-header">도서관 서비스</div>
+            <div class="flex-header">도서관 안내</div>
+            <div class="flex-header">정보광장</div>
+            <div class="flex-header">My Page</div>
+            <hr class="custom-hr">
+        </div>
+
+    </header>
+    <section>
+        <div class="s_section">
+            <div class="left_section">
+                <button type="button" class="sub_but">공지사항</button><br>
+                <button type="button" class="sub_but">Q&A</button><br>
+                <button type="button" class="sub_but">희망도서신청</button>
+
+            </div>
+            <div class="right_section">
+                <div>도서신청</div>
+                <div>신청안내</div>
+
+                1. 신청 가능 자료 수 : 1인 월 5책 이내(예산범위 내)<br>
+                ※ 외국도서 신청자료 수 : 상한 기준 연 20책 이내(2020년 5월부터 시행)<br><br>
+            </div>
+        </div>
+
+    </section>
+</body>
+
+</html>
