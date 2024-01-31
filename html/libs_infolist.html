@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link href="../css/header.css" rel="stylesheet">
+    <style>
+        @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+
+         section {
+            width: 80%;
+            margin: auto;
+            /* font-family: 'KNUTRUTHTTF'; */
+            font-family: 'Wanted Sans Variable';
+        } 
+
+            /* 왼쪽 section */
+            section .left_section {
+            border-right: 2px solid rgba(168, 156, 200, 0.6);
+            display: inline-block;
+            width: 20%;
+            vertical-align: top;
+        }
+
+        /* 오른쪽 section */
+        section .right_section {
+            display: inline-block;
+            width: 79%;
+            text-align: left;
+        }
+
+        /* section */
+        section .s_section {
+            text-align: center;
+            /* width: 70%; */
+            margin: auto;
+        }
+
+        section .sub_but {
+            width: 80%;
+            font-size: 20px;
+            font-family: 'KNUTRUTHTTF';
+            margin-bottom: 10px;
+            background-color: rgba(199, 156, 200, 0.6);
+            border-radius: 5px;
+            border: 0;
+            height: 40px;
+        }
+
+        /* 마우스 오버 시 변경이벤트 */
+        section .sub_but:hover {
+            background-color: rgba(96, 59, 199, 0.6);
+            color: white;
+        }
+
+        .library-guide {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .library-image {
+            width: 300px;
+            height: auto;
+        }
+
+        .library-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .library-text h1 {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .library-text .textarea {
+            width: 400px;
+            height: 400px;
+            text-align: left;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            chg_text_detail("천안도서관");
+    };
+
+    function chg_text_detail(libname)
+    {
+        fetch('도서관안내/'+libname+'.txt')
+            .then(response => response.text())
+            .then(data => {
+                data = data.replace(/\n/g, '<br>');  // 줄바꿈을 처리               
+                data = data.replace('이용시간', '<h3 style="margin-bottom: 0;">이용시간</h3>');  // 줄바꿈을 처리
+                data = data.replace('위치', '<h3 style="margin-bottom: 0;">위치</h3>');  // 줄바꿈을 처리
+                data = data.replace('연락처', '<h3 style="margin-bottom: 0;">연락처</h3>');  // 줄바꿈을 처리
+                data = data.replace('특이사항', '<h3 style="margin-bottom: 0;">특이사항</h3>');  // 줄바꿈을 처리
+                document.getElementsByClassName('text_detail')[0].innerHTML = data;
+                var h1 = document.getElementsByClassName('lib_name')[0];
+                h1.innerHTML = libname;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    };
+    </script>
+</head>
+
+<body>
+    <header>
+
+        <div class="blank_space"> </div>
+
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div>
+        <div class="sign_up_in">
+            <div class="sign_in">
+                로그인&nbsp;
+            </div>
+            <div class="sign_up">
+                회원가입
+            </div>
+        </div>
+
+
+        <div class="nav">
+            <hr class="custom-hr">
+            <div class="flex-header">도서관 서비스</div>
+            <div class="flex-header">도서관 안내</div>
+            <div class="flex-header">정보광장</div>
+            <div class="flex-header">My Page</div>
+            <hr class="custom-hr">
+        </div>
+
+    </header>
+    <section>
+        <!-- 여기부터 본문작성해주세요 -->
+        <div class="s_section">
+            <div class="left_section">
+                <button type="button" class="sub_but" onclick='chg_text_detail("천안도서관")'>천안도서관</button><br>
+                <button type="button" class="sub_but" onclick='chg_text_detail("두정도서관")'>두정도서관</button><br>
+                <button type="button" class="sub_but" onclick='chg_text_detail("아우내도서관")'>아우내도서관</button>
+            </div>
+            <div class="right_section">
+                <div class="library-guide">
+                    <img src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
+                        alt="Library Image" class="library-image">
+                    <div class="library-text">
+                        <h1 class="lib_name" style="margin-bottom: 0;">ㅁㅁ도서관</h1>
+                        <p class="text_detail"></p>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </section>
+</body>
+
+</html>
