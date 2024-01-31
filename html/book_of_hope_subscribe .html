@@ -7,6 +7,8 @@
     <title>도서 관리 시스템</title>
     <link href="../css/header.css" rel="stylesheet">
     <style>
+        @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+
         /* 왼쪽 section */
         section .left_section {
             border-right: 2px solid rgba(168, 156, 200, 0.6);
@@ -20,6 +22,7 @@
             display: inline-block;
             width: 79%;
             text-align: left;
+            font-family: "Wanted Sans Variable";
         }
 
         /* section */
@@ -40,10 +43,71 @@
             height: 40px;
         }
 
-        /* 마우스 오버 시 변경이벤트 */
+        /* 왼쪽 section  마우스 오버 시 변경이벤트 */
         section .sub_but:hover {
             background-color: rgba(96, 59, 199, 0.6);
             color: white;
+        }
+
+        /* table 왼쪽 */
+        .right_section .subject {
+            background-color: rgba(168, 156, 200, 0.6);
+            text-align: center;
+            font-size: 18px;
+            width: 200px;
+        }
+
+        /* 각행마다 높이설정을 주기위해 만듬 */
+        .right_section tr {
+            height: 50px;
+            border-bottom: 1px solid rgba(59, 57, 63, 0.445);
+
+        }
+
+        /* table왼쪽에 input요소들*/
+        .right_section .textbox {
+            font-size: 18px;
+            font-family: "Wanted Sans Variable";
+            margin: 10px;
+
+        }
+
+        .right_section table {
+            border-collapse: collapse;
+
+        }
+
+        /* 신청사유 textbox */
+        .right_section .reason {
+            width: 400px;
+            height: 200px;
+        }
+
+        /* 신청버튼 */
+        .right_section .request {
+            font-family: "Wanted Sans Variable";
+            width: 100px;
+            background-color: rgba(155, 178, 225, 0.6);
+            font-size: 18px;
+            border: 0;
+            border-radius: 5px;
+
+        }
+
+        /* 신청버튼 마우스 오버 */
+        .right_section .request:hover {
+            background-color: rgba(205, 155, 225, 0.6);
+
+        }
+
+        /* 신청버튼 tr */
+        .right_section .request_but {
+            border: 0px;
+        }
+
+        /* 신청버튼 td */
+        .right_section .request_but td {
+            text-align: center;
         }
     </style>
 </head>
@@ -87,10 +151,75 @@
 
             </div>
             <div class="right_section">
-               
+                <div>도서신청</div>
+                <div>신청안내</div>
+                <div>
+                    1. 신청 가능 자료 수 : 1인 월 5책 이내(예산범위 내)<br>
+                    ※ 외국도서 신청자료 수 : 상한 기준 연 20책 이내(2020년 5월부터 시행)<br><br>
+                    * 표시는 필수 기재 사항입니다.
+                </div>
+                <div>
+                    <table>
+                        <tr>
+                            <td class="subject">* 희망소장처</td>
+                            <td><select class="textbox">
+                                    <option>천안도서관</option>
+                                    <option>두정도서관</option>
+                                    <option>아우내도서관</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="subject"> * 자료명 </td>
+                            <td><input type="text" class="textbox" placeholder="자료명"></td>
+                        </tr>
+                        <tr>
+                            <td class="subject"> * 저자 </td>
+                            <td><input type="text" class="textbox" placeholder="저자"></td>
+                        </tr>
+                        <tr>
+                            <td class="subject"> * 발행연도 </td>
+                            <td><input type="text" class="textbox" placeholder="발행연도"></td>
+                        </tr>
+                        <tr>
+                            <td class="subject">ISBN번호<br> ISSN번호</td>
+                            <td><input type="text" class="textbox" placeholder="ISBN/ISSN 번호"></td>
+                        </tr>
+                        <tr>
+                            <td class="subject">* 신청사유</td>
+                            <td><input type="text" class="textbox reason" placeholder="신청사유를 입력해주세요."></td>
+                        </tr>
+                        <tr>
+                            <td class="subject">* 출판사</td>
+                            <td><input type="text" class="textbox" placeholder="출판사"></td>
+                        </tr>
+                        <tr>
+                            <td class="subject">신청자 이름</td>
+                            <td><input type="text" class="textbox" placeholder="이름"></td>
+                        </tr>
+                        <tr>
+                            <td class="subject">* 휴대폰 번호</td>
+                            <td><input type="text" class="textbox" placeholder="-없이 입력해주세요"></td>
+                        </tr>
+                        <tr>
+                            <td class="subject">* 개인정보 수집 동의</td>
+                            <td><input type="checkbox">희망도서 신청을 위한 '개인정보 수집 및 이용'에 동의합니다.</td>
+                        </tr>
+
+                        <tr class="request_but">
+
+                            <td colspan="2"><button type="button" class="request">신청</button></td>
+                        </tr>
+
+                    </table>
+
+
+
+                </div>
+
+
             </div>
         </div>
-
     </section>
 </body>
 

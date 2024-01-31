@@ -16,19 +16,19 @@
 
         }
 
-        #search {
+        .search {
             width: 55%;
             height: 40px;
             font-family: "Wanted Sans Variable";
             font-size: 20px;
         }
 
-        #search_option {
+        .search_option {
             height: 46px;
             font-family: "Wanted Sans Variable";
         }
 
-        #search_button {
+        .search_button {
             height: 46px;
             font-family: "Wanted Sans Variable";
         }
@@ -44,13 +44,13 @@
         }
 
         /* 공지사항+신착도서 */
-        #announcement_library_information {
+        .announcement_library_information {
             width: 70%;
             display: inline-block;
         }
 
         /* 공지사항 */
-        #announcement {
+        .announcement {
             background-color: rgba(168, 156, 200, 0.6);
             height: 150px;
             width: 100%;
@@ -58,14 +58,14 @@
         }
 
         /* 신착도서 */
-        #newbook {
+        .newbook {
             background-color: rgba(155, 178, 225, 0.6);
             height: 300px;
             width: 100%;
         }
 
         /* 도서관별이용정보 */
-        #library_information {
+        .library_information {
             background-color: rgba(239, 168, 176, 0.6);
             display: inline-block;
             width: 25%;
@@ -75,7 +75,7 @@
             padding-top: 8px;
         }
 
-        #ann_title {
+        .ann_title {
             width: 80%;
         }
 
@@ -83,7 +83,7 @@
             width: 100%;
         }
 
-        #ann_day {
+        .ann_day {
             text-align: right;
         }
 
@@ -107,12 +107,25 @@
 
 <body>
     <header>
+
+        <div class="blank_space"> </div>
+
         <div class="headerbox">
             <img class="logo" width="30px"
                 src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
             도서관리시스템
         </div>
-        <div class="headerbox">
+        <div class="sign_up_in">
+            <div class="sign_in">
+                로그인&nbsp;
+            </div>
+            <div class="sign_up">
+                회원가입
+            </div>
+        </div>
+
+
+        <div class="nav">
             <hr class="custom-hr">
             <div class="flex-header">도서관 서비스</div>
             <div class="flex-header">도서관 안내</div>
@@ -120,16 +133,17 @@
             <div class="flex-header">My Page</div>
             <hr class="custom-hr">
         </div>
+
     </header>
     <div class="bodysize">
         <div>
-            <select id="search_option">
+            <select class="search_option">
                 <option>자료검색</option>
                 <option>제목</option>
                 <option>저자</option>
             </select>
-            <input type="text" id="search">
-            <button type="button" id="search_button">검색</button>
+            <input type="text" class="search">
+            <button type="button" class="search_button">검색</button>
         </div>
         <br>
         <nav>
@@ -137,60 +151,60 @@
                 src="https://cdn.discordapp.com/attachments/1200354574037434461/1201720646124707870/banner.png?ex=65cad890&is=65b86390&hm=e9f9c0f357620caee5a714988ff0a5690f5a536763013c81f14a970ddbf67c56&">
         </nav>
         <section>
-            <div id="announcement_library_information">
-                <div id="announcement">
+            <div class="announcement_library_information">
+                <div class="announcement">
                     <table>
                         <tr>
-                            <td id="ann_title">
+                            <td class="ann_title">
                                 독서토론대회
                             </td>
-                            <td id="ann_day">
+                            <td class="ann_day">
                                 2023-01-06
                             </td>
                         </tr>
                         <tr>
-                            <td id="ann_title">
+                            <td class="ann_title">
                                 책 나눔 이벤트
                             </td>
-                            <td id="ann_day">
+                            <td class="ann_day">
                                 2023-01-08
                             </td>
                         </tr>
                         <tr>
-                            <td id="ann_title">
+                            <td class="ann_title">
                                 독서진흥경진대회(무박 대회)
                             </td>
-                            <td id="ann_day">
+                            <td class="ann_day">
                                 2023-01-30
                             </td>
                         </tr>
                         <tr>
-                            <td id="ann_title">
+                            <td class="ann_title">
                                 독서진흥경진대회(무박 대회)
                             </td>
-                            <td id="ann_day">
+                            <td class="ann_day">
                                 2023-01-30
                             </td>
                         </tr>
                         <tr>
-                            <td id="ann_title">
+                            <td class="ann_title">
                                 독서진흥경진대회(무박 대회)
                             </td>
-                            <td id="ann_day">
+                            <td class="ann_day">
                                 2023-01-30
                             </td>
                         </tr>
                         <tr>
-                            <td id="ann_title">
+                            <td class="ann_title">
                                 독서진흥경진대회(무박 대회)
                             </td>
-                            <td id="ann_day">
+                            <td class="ann_day">
                                 2023-01-30
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div id="newbook">
+                <div class="newbook">
                     <table>
                         <tr>
                             <td>
@@ -242,7 +256,7 @@
                 </div>
             </div>
 
-            <div id="library_information">
+            <div class="library_information">
                 이용 정보
                 <select>
                     <option>

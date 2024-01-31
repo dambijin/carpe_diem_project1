@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link href="../css/header.css" rel="stylesheet">
+    <style>
+        /* 반응형 웹 %로 제공 */
+        @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+
+        .substance {
+            background-color: rgba(168, 156, 200, 0.6);
+            height: 50px;
+        }
+
+        .title {
+            font-family: 'KNUTRUTHTTF';
+            font-size: 30px;
+        }
+
+        .hope table {
+            width: 70%;
+            border-collapse: collapse;
+            margin: auto;
+
+        }
+
+        .hope td {
+            font-family: "Wanted Sans Variable";
+            border: 2px solid black;
+
+        }
+
+        .book_of_hope {
+            text-align: center;
+
+        }
+
+        /* 버튼공용 */
+        .hope .but {
+            margin-top: 15px;
+            font-family: "Wanted Sans Variable";
+            width: 100px;
+            background-color: rgba(155, 178, 225, 0.6);
+            font-size: 18px;
+            border: 0;
+            border-radius: 5px;
+            height: 30px;
+        }
+
+        .hope .but:hover {
+            background-color: rgba(205, 155, 225, 0.6);
+        }
+
+
+
+        .hope .because {
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body class="book_of_hope">
+    <h2 class="title">신청한 희망도서</h2>
+    <section class="hope">
+        <table>
+            <tr>
+                <td class="substance">
+                    희망소장처
+                </td>
+                <td>
+                    두정도서관
+                </td>
+            </tr>
+            <tr>
+                <td class="substance">
+                    자료명
+                </td>
+                <td>
+                    100일만에 배우는 자바스크립트
+                </td>
+            </tr>
+            <tr>
+                <td class="substance">
+                    저자
+                </td>
+                <td>
+                    김자바
+                </td>
+            </tr>
+            <tr>
+                <td class="substance">
+                    발행연도
+                </td>
+                <td>
+                    2016년
+                </td>
+            </tr>
+            <tr>
+                <td class="substance">
+                    ISBN번호<br>
+                    ISSN번호
+                </td>
+                <td>
+                    123456789
+                </td>
+            </tr>
+            <tr>
+                <td class="substance">
+                    신청사유
+                </td>
+                <td class="because">
+                    제가 너무 읽고 싶은 책이었어요
+                </td>
+            </tr>
+            <tr>
+                <td class="substance">
+                    출판사
+                </td>
+                <td>
+                    휴먼출판사
+                </td>
+            </tr>
+            <tr>
+                <td class="substance">
+                    휴대폰번호
+                </td>
+                <td>
+                    010-1234-1234
+                </td>
+            </tr>
+        </table>
+        <button type="button" class="button_revocation but">취소신청</button>
+        <button type="button" class="button_x but">닫기</button>
+    </section>
+
+</body>
+
+</html>
