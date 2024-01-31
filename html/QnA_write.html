@@ -6,12 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
     <link href="../css/header.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+        </script>
+    <script>
+        function checkOnlyOne(element) {
+
+            const checkboxes
+                = document.getElementsByName("pub");
+
+            checkboxes.forEach((cb) => {
+                cb.checked = false;
+            })
+
+            element.checked = true;
+        }
+        function checkOnlyOne(element) {
+
+            const checkboxes
+                = document.getElementsByName("npub");
+
+            checkboxes.forEach((cb) => {
+                cb.checked = false;
+            })
+
+            element.checked = true;
+        }
+
+
+
+    </script>
     <style>
         .div_table {
-            border: 1px solid black;
+
             width: 600px;
             margin: 10px auto;
-            background-color: gray;
+
+            border-collapse: collapse;
         }
 
         .div_back {
@@ -27,6 +58,7 @@
         .table_table {
             width: 600px;
             text-align: center;
+            border-collapse: collapse;
         }
 
         tr {
@@ -40,9 +72,9 @@
         }
 
         .div_button {
-            width: 600px;
+           
             text-align: right;
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         .div_buttonAll {
@@ -52,10 +84,15 @@
 
         th {
             width: 200px;
+            border: 1px solid black;
+            padding: 7px;
+
         }
 
         td {
             text-align: left;
+            border: 1px solid black;
+            padding: 7px;
         }
 
         .td1 {
@@ -74,11 +111,14 @@
         }
 
         #table2 {
-            background-color: black;
+            border: 1px solid black;
+            background-color: white;
             width: 600px;
+            border-collapse: collapse;
         }
 
         #table_tr {
+
             background-color: rgb(192, 188, 188);
         }
 
@@ -92,6 +132,15 @@
 
         .input_phone {
             width: 100px;
+        }
+        button {
+            background-color: rgba(140, 201, 240, 0.6);
+            border-radius: 6px;
+            border: 1px solid #8CC9F0;
+            font-family: Arial;
+            font-size: 15px;
+            font-weight: bold;
+
         }
     </style>
 </head>
@@ -126,6 +175,7 @@
     </header>
     <section>
         <!-- 여기부터 본문작성해주세요 -->
+        <!-- 상단 배너 -->
         <div class="div_back">
             <div id="head">
                 <h2>
@@ -133,6 +183,7 @@
                 </h2>
             </div>
         </div>
+        <!-- 개인정보 이용 설명 -->
         <div class="div_back">
             <p>
                 <font>
@@ -141,6 +192,7 @@
                 </font>
             </p>
         </div>
+        <!-- 개인정보 이용 목적 -->
         <div id="div_table">
             <table id="table2">
                 <tr id="table_tr">
@@ -156,19 +208,22 @@
             </table>
 
         </div>
+        <!-- 개인정보 이용 동의 설명 -->
         <div class="div_back">
             <p height="50px">
                 <font>
                     이와 같은 개인정보 수집,이용에 대한 동의를 거부할 수 있으며, 거부할 경우 게시판 경우 게시판 이용이 제한됩니다.
                 </font>
             </p>
+            <!-- 개인정보 이용동의 체크 -->
             <div class="div_agree">
                 <font>
-                    <input type="radio">동의함
-                    <input type="radio">동의안함
+                    <input type="radio" name="npub">동의함
+                    <input type="radio" name="npub">동의안함
                 </font>
             </div>
         </div>
+        <!-- 글쓰기 정보 -->
         <div class="div_table">
             <table class="table_table">
                 <tr>
@@ -193,8 +248,10 @@
                 <tr>
                     <th>공개</th>
                     <td>
-                        <input type="radio">공개
-                        <input type="radio">비공개
+                        <font>
+                            <input type="radio" name="pub" checked>공개
+                            <input type="radio" name="pub">비공개
+                        </font>
                     </td>
                 </tr>
                 <tr>
@@ -212,11 +269,12 @@
                     <td><input type="text"></td>
                 </tr>
             </table>
-
+            <!-- 글쓰기 -->
         </div>
         <div class="td1">
             <textarea></textarea>
         </div>
+        <!-- 버튼 -->
         <div class="div_buttonAll">
 
             <div class="div_button">

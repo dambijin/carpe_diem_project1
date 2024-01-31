@@ -4,28 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지(회원정보수정)</title>
-    <link href="css/header.css" rel="stylesheet">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/member_information.css" rel="stylesheet">
 </head>
 <style>
-button{
-    background-color: rgba(155, 178, 225, 0.6);
-    height: 30px;
+header .nav .member_list {
+    background-color: rgba(168, 156, 200, 0.6);
+    color: #000000;
+    height: 45px;
+    line-height: 40px;
+    display: inline-block;
+    border-radius: 5px;
+    width: 150px;
+    font-size: 20px;
+    margin-top: 10px;
 }
-h2{
-    width:20%;
-    text-align : center;
-    margin : auto;
-    margin-bottom: 20px;
-}
+
+/* table */
 table{
     width:900px;
     height:600px;
 }
-.colspan{
+table tr {
+    background-color: #fff;
+}
+table tr th,td {
+border:1px solid #ccc;
+padding:3px;
+}
+table tr td .colspan{
     font-size: 13px;
     color: red;
 }
+table tr td .add {
+    font-family: "Wanted Sans Variable";
+    font-size: 15px;
+    background-color: rgba(155, 178, 225, 0.6);
+    width: 100px;
+    height: 30px;
+    border: 0;
+    border-radius: 5px;
+}
+table tr td .add:hover{
+    background-color: rgba(205, 155, 225, 0.6);
+}
 
+
+/* 수정 취소 버튼 */
 .input{
     border:1px;
     width: 20%;
@@ -33,124 +58,145 @@ table{
     text-align: center;
     margin-top: 20px;
 }
+.input .button{
+    font-family: "Wanted Sans Variable";
+    font-size: 18px;
+    background-color: rgba(155, 178, 225, 0.6);
+    width: 70px;
+    height: 30px;
+    border: 0;
+    border-radius: 5px;
+}
+.input .button:hover{
+    background-color: rgba(205, 155, 225, 0.6);
+}
+
 </style>
 <body>
+    <!-- header -->
     <header>
+        <div class="blank_space"> </div>
+
         <div class="headerbox">
             <img class="logo" width="30px"
                 src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
             도서관리시스템
-        </div> 
-        <input type="button" value="로그아웃">
-        <div class="headerbox">
+        </div>
+        <div class="sign_up_in">
+            <div class="sign_in">
+                로그인&nbsp;
+            </div>
+            <div class="sign_up">
+                회원가입
+            </div>
+        </div>
+
+
+        <div class="nav">
             <hr class="custom-hr">
-            <div class="flex-header">회원목록</div>
+            <div class="member_list">회원목록</div>
             <div class="flex-header">재고</div>
             <div class="flex-header">회원도서목록</div>
             <hr class="custom-hr">
         </div>
     </header>
 
-<!-- 목록창-->
 
-<div>
-    <h2>정보수정</h2>
-</div>
-    
+    <div>
+        <h2 align="center">회원 정보수정</h2>
+    </div>
 
-<div>
-<table border="0" align="center"  cellpadding="5" cellspacing="1" bgcolor="cccccc">
-    <tr bgcolor="#ffffff">
-        <th width="20%" height="40px">항목</th>
-        <th width="80%">정보</th>
-    </tr>
-    <tr  bgcolor="#ffffff">
-        <th height="40px">이름</th>
-        <td><input type="text"></td>
-    </tr>
-    <tr  bgcolor="#ffffff">
-        <th height="40px">생년월일</th>
-        <td><input type="text"></td>
-    </tr>
-    <tr  bgcolor="#ffffff">
-        <th height="40px">아이디</th>
-        <td><input type="text"></td>
-    </tr>
-    <tr  bgcolor="#ffffff">
-        <th height="40px">비밀번호</th>
-        <td><input type="text"></td>
-    </tr>
-    <tr  bgcolor="#ffffff">
-        <td width=20% colspan="2" align="center">
-            <div class="colspan">
-                비밀번호를 입력하세요(8~20자로 숫자, 영문소, 영문대, 특수문자 중 3가지 이상 조합) <br>
-                - 입력가능한 특수문자는 [ ! , @ , $ , % , ^ , * , ( , ) ] 입니다. (지정된 특수문자 외는 입력이 불가능합니다.)<br>
-                비밀번호 수정 시 적어주세요.
-            </div>
-        </td>
-    </tr>
-    <tr bgcolor="#ffffff">
-        <th height="40px">비밀번호확인</th>
-        <td><input type="text"></td>
-    </tr>
-    <tr bgcolor="#ffffff">
-        <th height="40px">휴대폰번호</th>
-        <td>
-            <input type="text"> 
-            SMS수신
-            <input type="radio">예
-            <input type="radio">아니오
-        </td>
-    </tr>
-    <tr height="100px" bgcolor="#ffffff">
-        <td colspan="2" align="center" height="40px">
-            <div class="colspan">
-                마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
-                동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.
-            </div>
-        </td>
-    </tr>
-    <tr bgcolor="#ffffff">
-        <th height="40px">이메일</th>
-        <td>
-            <input type="text">@<input type="text">
-            <select>
-                <option>google.com</option>
-                <option selected>naver.com</option>
-                <option>daum.net</option>
-            </select><br>
-            이메일수신
-            <input type="radio">예
-            <input type="radio">아니오
-        </td>
-    </tr>
-    <tr bgcolor="#ffffff">
-        <th height="40px">집전화번호</th>
-        <td>
-            <select>
-                <option>043</option>
-                <option>042</option>
-                <option>041</option>
-            </select>
-            <input type="text">-
-            <input type="text">
-        </td>
-    </tr>
-    <tr bgcolor="#ffffff">
-        <th height="40px">주소</th>
-        <td>
-            <input type="text"><input type="button" value="주소찾기"><br>
-            <input type="text">
-        </td>
-    </tr>
-</table>
-</div>
+    <div>
+        <table border="0" align="center"  cellpadding="5" cellspacing="1" bgcolor="cccccc">
+            <tr>
+                <th width="20%" height="40px">항목</th>
+                <th width="80%">정보</th>
+            </tr>
+            <tr>
+                <th height="40px">이름</th>
+                <td><input type="text" name="name" value=""></td>
+            </tr>
+            <tr>
+                <th height="40px">생년월일</th>
+                <td><input type="text" name="birth" value=""></td>
+            </tr>
+            <tr>
+                <th height="40px">아이디</th>
+                <td><input type="text" name="id"></td>
+            </tr>
+            <tr>
+                <th height="40px">비밀번호</th>
+                <td><input type="text" name="password" maxlength="16"></td>
+            </tr>
+            <tr>
+                <td width=20% colspan="2" align="center">
+                    <div class="colspan">
+                        비밀번호를 입력하세요(8 ~ 16자)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th height="40px">비밀번호확인</th>
+                <td><input type="text" name="password_check"></td>
+            </tr>
+            <tr>
+                <th height="40px">휴대폰번호</th>
+                <td>
+                    <input type="text" name="phone_number"> 
+                    SMS수신
+                    <input type="radio">예
+                    <input type="radio">아니오
+                </td>
+            </tr>
+            <tr height="100px">
+                <td colspan="2" align="center" height="40px">
+                    <div class="colspan">
+                        마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
+                        동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th height="40px">이메일</th>
+                <td>
+                    <input type="text" name="email">@<input type="text" name="email_com">
+                    <select>
+                        <option>google.com</option>
+                        <option selected>naver.com</option>
+                        <option>daum.net</option>
+                    </select><br>
+                    이메일수신
+                    <input type="radio">예
+                    <input type="radio">아니오
+                </td>
+            </tr>
+            <tr>
+                <th height="40px">집전화번호</th>
+                <td>
+                    <select>
+                        <option>043</option>
+                        <option>042</option>
+                        <option>041</option>
+                    </select>
+                    <input type="text" name="home_num1">-
+                    <input type="text" name="home_num2">
+                </td>
+            </tr>
+            <tr>
+                <th height="40px">주소</th>
+                <td>
+                    <input type="text"><input type="button" value="주소찾기" class="add"><br>
+                    <input type="text">
+                </td>
+            </tr>
+        </table>
+    </div>
 
-<div class="input">
-    <input type="button" value="저장">
-    <input type="button" value="취소">
-</div>
-
+    <!-- 수정 취소 -->
+    <div class="input">
+        <input type="submit" value="수정" class="button">
+        <input type="reset" value="취소" class="button">
+    </div>
 
 </body>
 </html>

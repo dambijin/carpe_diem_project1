@@ -6,21 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
     <link href="../css/header.css" rel="stylesheet">
+    <script>
+        function checkOnlyOne(element) {
+
+            const checkboxes
+                = document.getElementsByName("pub");
+
+            checkboxes.forEach((cb) => {
+                cb.checked = false;
+            })
+
+            element.checked = true;
+        }
+    </script>
     <style>
         .div_table {
-            border: 1px solid black;
+
             width: 600px;
             margin: 10px auto;
-            background-color: gray;
+
         }
 
         .table_table {
             width: 600px;
             text-align: center;
+            border-collapse: collapse;
+            margin-top: 30px;
         }
 
         tr {
-            background-color: white;
+
             height: 50px
         }
 
@@ -30,9 +45,9 @@
         }
 
         .div_button {
-            width: 600px;
+           
             text-align: right;
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         .div_buttonAll {
@@ -42,14 +57,35 @@
 
         th {
             width: 200px;
+            border: 1px solid black;
         }
 
         td {
-            text-align: left
+            text-align: left;
+            border: 1px solid black;
+            padding: 7px;
         }
 
         .input_phone {
             width: 100px;
+        }
+
+        font {
+            font-size: 11px;
+        }
+
+        #textarea {
+            text-align: center;
+            margin: 30px auto;
+        }
+        button {
+            background-color: rgba(140, 201, 240, 0.6);
+            border-radius: 6px;
+            border: 1px solid #8CC9F0;
+            font-family: Arial;
+            font-size: 15px;
+            font-weight: bold;
+
         }
     </style>
 </head>
@@ -85,6 +121,7 @@
     <section>
         <!-- 여기부터 본문작성해주세요 -->
 
+        <!-- 글쓰기 정보란 -->
         <div class="div_table">
             <table class="table_table">
                 <tr>
@@ -109,8 +146,10 @@
                 <tr>
                     <th>공개</th>
                     <td>
-                        <input type="radio">공개
-                        <input type="radio">비공개
+                        <font>
+                            <input type="radio" name="pub" checked>공개
+                            <input type="radio" name="pub">비공개
+                        </font>
                     </td>
                 </tr>
                 <tr>
@@ -128,11 +167,12 @@
                     <td><input type="text"></td>
                 </tr>
             </table>
-
+            <!-- 본문 작성란 -->
         </div>
-        <div align="center">
+        <div id="textarea">
             <textarea></textarea>
         </div>
+        <!-- 버튼 -->
         <div class="div_buttonAll">
 
             <div class="div_button">

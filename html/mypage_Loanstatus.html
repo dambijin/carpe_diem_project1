@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
     <link href="../css/header.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+        </script>
     <script>
         window.onload = function () {
             let button1 = document.getElementById('button_click');
@@ -17,11 +20,19 @@
 
             });
             button1.addEventListener('click', function () {
-                window.open('http://127.0.0.1:5500/html/info_change.html', '_blank')
+                window.open('http://127.0.0.1:5500/html/info_change.html', '_self')
 
             });
             btn.addEventListener('click', function () {
-            
+
+                alert(
+                    $("select[name=a] option:selected").text() +
+                    $("select[name=b] option:selected").text() +
+                    "로 검색하셨습니다."
+
+                );
+
+
             });
 
         };
@@ -31,7 +42,7 @@
     <style>
         .div1 {
             width: 800px;
-            margin: 0px 50px 0px 100px;
+            margin: auto;
 
 
         }
@@ -50,16 +61,13 @@
 
         #select {
             width: 800px;
-            margin-left: 650px;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin : 10px 560px;
         }
 
         #page1 {
             border: 1px solid white;
             text-align: center;
             width: 800px;
-            margin-left: 100px;
 
         }
 
@@ -125,6 +133,7 @@
     <section>
         <!-- 여기부터 본문작성해주세요 -->
 
+        <!-- 내정보 -->
         <div class="div1">
             <table class="div1">
                 <tr>
@@ -141,15 +150,17 @@
                     </td>
                 </tr>
             </table>
-
+            <!-- 분류 -->
             <div id="select">
                 <table>
                     <tr>
                         <td><select name="a">
-                                <option>출력 건수</option>
+                                <option disabled selected>출력 건수</option>
+                                <option>10개씩</option>
                             </select></td>
-                        <td><select>
-                                <option> - 도서관 전체</option>
+                        <td><select name="b">
+                                <option disabled selected> - 도서관 전체</option>
+                                <option>중앙도서관</option>
                             </select></td>
                         <td>
                             <button type="button" id="btn">검색</button>
@@ -157,6 +168,7 @@
                     </tr>
                 </table>
             </div>
+            <!-- 보드 -->
             <table id="page1">
                 <tr id="page1_tr">
                     <th>번호</th>
@@ -169,14 +181,14 @@
                     <th>반납연기</th>
                 </tr>
                 <tr>
-                    <th>192</th>
-                    <th>아몰랑</th>
-                    <th>아몰랑</th>
-                    <th>아몰랑</th>
-                    <th>2024.01.20</th>
-                    <th>정상</th>
-                    <th>중앙</th>
-                    <th><button type="button" id="button_click1">연장</button></th>
+                    <td>192</td>
+                    <td>아몰랑</td>
+                    <td>아몰랑</td>
+                    <td>아몰랑</td>
+                    <td>2024.01.20</td>
+                    <td>정상</td>
+                    <td>중앙</td>
+                    <td><button type="button" id="button_click1">연장</button></td>
                 </tr>
             </table>
         </div>

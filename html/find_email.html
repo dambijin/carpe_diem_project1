@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link href="../css/header.css" rel="stylesheet">
+    <style>
+        .email_find .main {
+            font-size: 25px;
+            display: inline-block;
+        }
+
+        .search-title {
+            background-color: rgba(140, 201, 240, 0.6);
+            color: #000000;
+            height: 50px;
+            line-height: 40px;
+            display: inline-block;
+            border-radius: 5px;
+            width: 160px;
+            font-size: 18px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .search-text {
+            border: 1px solid black;
+            width: 450px;
+        }
+
+        .search-text tr td {
+            width: 100px;
+            height: 30px;
+        }
+        .search-text th {
+            background-color: rgba(168, 156, 200, 0.6);
+        }
+
+        .button {
+            background-color: rgb(58, 58, 58);
+            color: #ffffff;
+            font-weight:bold;
+            width: 100px;
+            height: 30px;
+            text-align: center;
+            margin: auto;
+            
+        }
+
+        .email_find {
+            width: 80%;
+            margin: auto;
+        }
+
+        /* 이메일로찾기, 휴대폰번호로찾기 div */
+        .email_find .search {
+            display: inline-block;
+            text-align: center;
+            width: 65%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+
+        <div class="blank_space"> </div>
+
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div>
+        <div class="sign_up_in">
+            <div class="sign_in">
+                로그인&nbsp;
+            </div>
+            <div class="sign_up">
+                회원가입
+            </div>
+        </div>
+
+
+        <div class="nav">
+            <hr class="custom-hr">
+            <div class="flex-header">도서관 서비스</div>
+            <div class="flex-header">도서관 안내</div>
+            <div class="flex-header">정보광장</div>
+            <div class="flex-header">My Page</div>
+            <hr class="custom-hr">
+        </div>
+    </header>
+    <section>
+        <div class="email_find">
+            <div class="main">아이디 찾기</div>
+            <div class="search">
+                <div class="search-title">
+                    이메일로 찾기
+                </div>
+                <div class="search-title">
+                    휴대폰번호로 찾기
+                </div>
+            </div>
+            <div><br></div>
+            <table class="search-text" border="0" cellpadding="5" align="center">
+                <tr>
+                    <th width="30%">성명</th>
+                    <td width="*"><input type="text" value="내용을 입력해주세요"></td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td><input type="text" value="내용을 입력해주세요"> @
+                        <select>
+                            <option value="naver.com">naver.com</option>
+                            <option value="google.com">google.com</option>
+                            <option value="daum.net">daum.net</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <br>
+        
+        <div class="btnSearch">
+            <input type="button" name="enter" value="확인" class="button" align="center">
+        </div>
+    </div>
+    </section>
+</body>
+
+</html>

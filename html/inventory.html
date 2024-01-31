@@ -1,35 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>관리자페이지(재고)</title>
-  <link href="css/header.css" rel="stylesheet">
- </head>
- <style>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>관리자페이지(재고)</title>
+	<link href="../css/header.css" rel="stylesheet">
+	<link href="../css/inventory.css" rel="stylesheet">
+</head>
+<style>
+header .blank_space .nav .book_inventory {
+    background-color: rgba(168, 156, 200, 0.6);
+    color: #000000;
+    height: 45px;
+    line-height: 40px;
+    display: inline-block;
+    border-radius: 5px;
+    width: 150px;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+/*  검색창 */
 .search {
-	width: 80%;
-	margin: auto;
-	text-align: center;
-	margin-bottom: 10px;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 10px;
 }
-.list{
-    width: 100px;
-    height: 40px;
-    margin: 5px;
-}
-select{
+.search .select{
     width: 80px;
     height: 30px;
 }
-textbox{
-    width: 80px;
-    height: 30px;
+.search .textbox {
+    width: 350px;
+    height: 20px;
+    padding:2px;
 }
-button{
-    background-color: rgba(155, 178, 225, 0.6);
-    height: 30px;
+
+/* 테이블 */
+div table tr{
+    background-color: #fff;
 }
+div table tr th,td {
+    border:1px solid #ccc;
+    padding:3px;
+}
+
+/* 등록삭제 버튼 */
 .input1{
     border:1px;
     width: 20%;
@@ -37,7 +54,20 @@ button{
     text-align: center;
     margin-top: 20px;
 }
-.input2{
+.input1 .button{
+    font-family: "Wanted Sans Variable";
+    font-size: 18px;
+    background-color: rgba(155, 178, 225, 0.6);
+    width: 50px;
+    height: 30px;
+    border: 0;
+    border-radius: 5px;
+}
+.search .button:hover {
+    background-color: rgba(205, 155, 225, 0.6);
+}
+/* 쪽이동 */
+.nextpage{
     border:1px;
     width: 20%;
     margin: auto;
@@ -45,186 +75,195 @@ button{
     margin-top: 20px;
 }
 
- </style>
+</style>
 
- <body>
+<body>
+	<!-- header -->
+	<header>
+		<div class="blank_space"> </div>
 
-<!-- 목록창-->
-
-<header>
-    <div class="headerbox">
-        <img class="logo" width="30px"
-            src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
-        도서관리시스템
-    </div> 
-    <input type="button" value="로그아웃">
-    <div class="headerbox">
-        <hr class="custom-hr">
-        <div class="flex-header">회원목록</div>
-        <div class="flex-header">재고</div>
-        <div class="flex-header">회원도서목록</div>
-        <hr class="custom-hr">
-    </div>
-</header>
-
-
-<br>
-
-<!-- 검색창   -->
-<div class="search">
-    <select  align="center" class="select">
-        <option value="">책이름</option>
-        <option value="">회원번호</option>
-        <option value="">신청번호</option>
-        <option value="">신청날짜</option>
-    </select>
-    <input type="text" class="textbox">
-    <button type = button>검색</button>
-</div>
+			<div class="headerbox">
+				<img class="logo" width="30px"
+					src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+				도서관리시스템
+			</div>
+			<div class="sign_up_in">
+				<div class="sign_in">
+					로그인&nbsp;
+				</div>
+				<div class="sign_up">
+					회원가입
+				</div>
+			</div>
 
 
+			<div class="nav">
+				<hr class="custom-hr">
+				<div class="flex-header">회원목록</div>
+				<div class="book_inventory">재고</div>
+				<div class="flex-header">회원도서목록</div>
+				<hr class="custom-hr">
+			</div>
+	</header>
+	<br>
 
-<!-- table -->
-<div>
-<table border = "0" width="900" height="200" align="center"
-    cellpadding="5" cellspacing="1" bgcolor="cccccc">
-	<tr bgcolor="#ffffff">
-		<th width="100">책이름</th>
-		<th width="100">저자</th>
-		<th width="100">발행년</th>
-		<th width="100">청구기호</th>
-		<th width="100">등록번호</th>
-		<th width="100">소장기관</th>
-		<th width="100">등록날짜</th>
-		<th width="100">예약</th>
-		<th width="100">대출상태</th>
-		<th width="100">도서폐기</th>
-	</tr>
-	<tr bgcolor="#ffffff">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<th></th>
-		<th>예약</th>
-		<th>대출중</th>
-		<th><input type="checkbox"></th>
-	</tr>
-	<tr bgcolor="#ffffff">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<th></th>
-		<th>예약없음</th>
-		<th>대출중</th>
-		<th><input type="checkbox"></th>
-	</tr>
-	<tr bgcolor="#ffffff">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-        <th></th>
-		<th>예약없음</th>
-		<th>대출중</th>
-		<th><input type="checkbox"></th>
-	</tr>
-	<tr bgcolor="#ffffff">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-        <th></th>
-		<th>예약없음</th>
-		<th>대출중</th>
-		<th><input type="checkbox"></th>
-	</tr>
-	<tr bgcolor="#ffffff">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-        <th></th>
-		<th>예약없음</th>
-		<th>대출중</th>
-		<th><input type="checkbox"></th>
-	</tr>
-    <tr bgcolor="#ffffff">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-        <th></th>
-		<th>예약없음</th>
-		<th>대출중</th>
-		<th><input type="checkbox"></th>
-	</tr>
-    <tr bgcolor="#ffffff">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-        <th></th>
-		<th>예약없음</th>
-		<th>대출중</th>
-		<th><input type="checkbox"></th>
-	</tr>
-    <tr bgcolor="#ffffff">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-        <th></th>
-		<th>예약없음</th>
-		<th>대출중</th>
-		<th><input type="checkbox"></th>
-	</tr>
-    <tr bgcolor="#ffffff">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-        <th></th>
-		<th>예약없음</th>
-		<th>대출중</th>
-		<th><input type="checkbox"></th>
-	</tr>
-</table>
-</div>
-
-<div class="input1">
-<input type="button" value="등록">
-<input type="button" value="삭제">
-</div>
-
-<div class="input2">
-<input type = "button" value="<">
-<input type = "button" value="1">
-<input type = "button" value="2">
-<input type = "button" value="3">
-<input type = "button" value="4">
-<input type = "button" value=">">
-</div>
+	<!-- 검색창   -->
+	<div class="search">
+		<select  align="center" class="select">
+			<option value="">책이름</option>
+			<option value="">회원번호</option>
+			<option value="">신청번호</option>
+			<option value="">신청날짜</option>
+		</select>
+		<input type="text" class="textbox">
+		<button type = button class="button">검색</button>
+	</div>
 
 
- </body>
+
+	<!-- table -->
+	<div>
+		<table border = "0" width="1200" height="200" align="center"
+			cellpadding="5" cellspacing="1" bgcolor="cccccc">
+			<tr>
+				<th width="100">책이름</th>
+				<th width="100">저자</th>
+				<th width="100">발행년</th>
+				<th width="100">청구기호</th>
+				<th width="100">등록번호</th>
+				<th width="100">소장기관</th>
+				<th width="100">등록날짜</th>
+				<th width="100">예약</th>
+				<th width="100">대출상태</th>
+				<th width="100">도서폐기</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th></th>
+				<th>예약</th>
+				<th>대출중</th>
+				<th><input type="checkbox"></th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th></th>
+				<th>예약없음</th>
+				<th>대출중</th>
+				<th><input type="checkbox"></th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th></th>
+				<th>예약없음</th>
+				<th>대출중</th>
+				<th><input type="checkbox"></th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th></th>
+				<th>예약없음</th>
+				<th>대출중</th>
+				<th><input type="checkbox"></th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th></th>
+				<th>예약없음</th>
+				<th>대출중</th>
+				<th><input type="checkbox"></th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th></th>
+				<th>예약없음</th>
+				<th>대출중</th>
+				<th><input type="checkbox"></th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th></th>
+				<th>예약없음</th>
+				<th>대출중</th>
+				<th><input type="checkbox"></th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th></th>
+				<th>예약없음</th>
+				<th>대출중</th>
+				<th><input type="checkbox"></th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th></th>
+				<th>예약없음</th>
+				<th>대출중</th>
+				<th><input type="checkbox"></th>
+			</tr>
+		</table>
+	</div>
+
+	<!-- 등록 삭제 -->
+	<div class="input1">
+		<input type="button" value="등록" class="button">
+		<input type="button" value="삭제" class="button">
+	</div>
+
+	<!-- 쪽이동 -->
+	<div class="nextpage">
+		<input type = "button" value="<">
+		<input type = "button" value="1">
+		<input type = "button" value="2">
+		<input type = "button" value="3">
+		<input type = "button" value="4">
+		<input type = "button" value=">">
+	</div>
+
+
+</body>
 </html>
