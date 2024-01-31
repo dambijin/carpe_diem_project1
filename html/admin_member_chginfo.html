@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지(회원정보수정)</title>
-    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/layout.css" rel="stylesheet">
     <link href="../css/member_information.css" rel="stylesheet">
 </head>
 <style>
@@ -74,33 +74,7 @@ table tr td .add:hover{
 </style>
 <body>
     <!-- header -->
-    <header>
-        <div class="blank_space"> </div>
-
-        <div class="headerbox">
-            <img class="logo" width="30px"
-                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
-            도서관리시스템
-        </div>
-        <div class="sign_up_in">
-            <div class="sign_in">
-                로그인&nbsp;
-            </div>
-            <div class="sign_up">
-                회원가입
-            </div>
-        </div>
-
-
-        <div class="nav">
-            <hr class="custom-hr">
-            <div class="member_list">회원목록</div>
-            <div class="flex-header">재고</div>
-            <div class="flex-header">회원도서목록</div>
-            <hr class="custom-hr">
-        </div>
-    </header>
-
+    <header></header>
 
     <div>
         <h2 align="center">회원 정보수정</h2>
@@ -198,5 +172,7 @@ table tr td .add:hover{
         <input type="reset" value="취소" class="button">
     </div>
 
+    <!-- 헤더를 덮어씌우는 자바스크립트 -->
+    <script src="../js/header_admin.js"></script>
 </body>
 </html>

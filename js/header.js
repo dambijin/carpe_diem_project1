@@ -41,7 +41,7 @@ document.querySelector('header').innerHTML = `
                 <a href="#">대출현황</a>
                 <a href="#">대출내역</a>
                 <a href="#">예약</a>
-                <a href="#">희망도서신청목록</a>
+                <a href="#">희망도서<br>신청목록</a>
             </div>
         </div>
         <hr class="custom-hr">

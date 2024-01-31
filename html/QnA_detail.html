@@ -5,53 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
-    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/layout.css" rel="stylesheet">
     <style>
-        @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
-
-        /* section */
-        section .s_section {
-            text-align: center;
-            width: 70%;
-            margin: auto;
-        }
-
-
-        /* 왼쪽 section */
-        section .left_section {
-            border-right: 2px solid rgba(168, 156, 200, 0.6);
-            display: inline-block;
-            width: 20%;
-            vertical-align: top;
-        }
-
-        /* 오른쪽 section */
-        section .right_section {
-            display: inline-block;
-            width: 79%;
-            text-align: left;
-            font-family: "Wanted Sans Variable";
-        }
-
-
-        /* 공지사항, Q&A, 희망도서신청 */
-        section .sub_but {
-            width: 80%;
-            font-size: 20px;
-            font-family: 'KNUTRUTHTTF';
-            margin-bottom: 10px;
-            background-color: rgba(199, 156, 200, 0.6);
-            border-radius: 5px;
-            border: 0;
-            height: 40px;
-        }
-
-        /* 왼쪽 section  마우스 오버 시 변경이벤트 */
-        section .sub_but:hover {
-            background-color: rgba(96, 59, 199, 0.6);
-            color: white;
-        }
-
         /* 글쓴 내용 테이블의 제목, 작성자, 등록일, 조회, 도서관 ,첨부 */
         .QnA_detail .subject {
             width: 100px;
@@ -87,35 +42,7 @@
 </head>
 
 <body>
-    <header>
-
-        <div class="blank_space"> </div>
-
-        <div class="headerbox">
-            <img class="logo" width="30px"
-                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
-            도서관리시스템
-        </div>
-        <div class="sign_up_in">
-            <div class="sign_in">
-                로그인&nbsp;
-            </div>
-            <div class="sign_up">
-                회원가입
-            </div>
-        </div>
-
-
-        <div class="nav">
-            <hr class="custom-hr">
-            <div class="flex-header">도서관 서비스</div>
-            <div class="flex-header">도서관 안내</div>
-            <div class="flex-header">정보광장</div>
-            <div class="flex-header">My Page</div>
-            <hr class="custom-hr">
-        </div>
-
-    </header>
+    <header></header>
     <section>
         <div class="s_section">
             <div class="left_section">
@@ -186,6 +113,8 @@
             </div>
         </div>
     </section>
+    <!-- 헤더를 덮어씌우는 자바스크립트 -->
+    <script src="../js/header.js"></script>
 </body>
 
 </html>

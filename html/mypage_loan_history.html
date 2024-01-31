@@ -5,20 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
-    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/layout.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
     </script>
 <script>
     window.onload = function () {
         let button1 = document.getElementById('button_click');
-        let button3 = document.getElementById('button_click1');
+       
         let btn = document.getElementById('btn');
 
-        button3.addEventListener('click', function () {
-            alert('취소 완')
-
-        });
+        
         button1.addEventListener('click', function () {
             window.open('http://127.0.0.1:5500/html/info_change.html', '_self')
 
@@ -77,9 +74,10 @@
             margin-top: 45px;
         }
 
-        #button_click1 {
+        .button_click1 {
             padding: 2px 20px;
         }
+
         button:hover {
             background-color: rgba(155, 178, 225, 0.6);
         }
@@ -91,38 +89,13 @@
             font-family: Arial;
             font-size: 12px;
             font-weight: bold;
+
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <div class="blank_space"> </div>
-
-        <div class="headerbox">
-            <img class="logo" width="30px"
-                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
-            도서관리시스템
-        </div>
-        <div class="sign_up_in">
-            <div class="sign_in">
-                로그인&nbsp;
-            </div>
-            <div class="sign_up">
-                회원가입
-            </div>
-        </div>
-
-
-        <div class="nav">
-            <hr class="custom-hr">
-            <div class="flex-header">도서관 서비스</div>
-            <div class="flex-header">도서관 안내</div>
-            <div class="flex-header">정보광장</div>
-            <div class="flex-header">My Page</div>
-            <hr class="custom-hr">
-        </div>
-    </header>
+    <header></header>
     <section>
         <!-- 여기부터 본문작성해주세요 -->
         <!-- 내정보 -->
@@ -159,19 +132,17 @@
                     </td>
                     </tr>
                 </table>
-                <!-- 보드 -->
             </div>
+            <!-- 보드 -->
             <table id="page1">
                 <tr id="page1_tr">
                     <th>번호</th>
-                    <th>책제목</th>
+                    <th>자료명/등록번호</th>
                     <th>저자</th>
                     <th>출판사</th>
-                    <th>신청일자/반납예정일</th>
-                    <th>반납일/예약가능일</th>
+                    <th>대출일</th>
+                    <th>반납일</th>
                     <th>소장기관</th>
-                    <th>상호대차 전환신청</th>
-                    <th>취소</th>
                 </tr>
                 <tr>
                     <td>192</td>
@@ -181,12 +152,12 @@
                     <td>2024.01.20</td>
                     <td>정상</td>
                     <td>중앙</td>
-                    <td>?</td>
-                    <td><button type="button" id="button_click1">취소</button></td>
                 </tr>
             </table>
         </div>
     </section>
+    <!-- 헤더를 덮어씌우는 자바스크립트 -->
+    <script src="../js/header.js"></script>
 </body>
 
 </html>
