@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>관리자페이지(회원목록)</title>
+	<link href="css/header.css" rel="stylesheet">
+</head>
+<style>
+	.search {
+		width: 80%;
+		margin: auto;
+		text-align: center;
+		margin-bottom: 10px;
+	}
+	.select {
+		width: 80px;
+		height: 30px;
+	}
+	textbox {
+		width: 80px;
+		height: 30px;
+	}
+
+	button {
+		background-color: rgba(155, 178, 225, 0.6);
+		height: 30px;
+	}
+	table{
+		width: 900px;
+		height: 200px; 
+	}
+	table input{
+		background-color: rgba(155, 178, 225, 0.6);
+	}
+	
+	.paging{
+		width: 80%;
+		margin: auto;
+		text-align: center;
+	}
+</style>
+
+<body>
+
+	<!-- 목록창-->
+
+	<header>
+		<div class="headerbox">
+			<img class="logo" width="30px"
+				src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+			도서관리시스템
+		</div>
+		<input type="button" value="로그아웃">
+		<div class="headerbox">
+			<hr class="custom-hr">
+			<div class="flex-header">회원목록</div>
+			<div class="flex-header">재고</div>
+			<div class="flex-header">회원도서목록</div>
+			<hr class="custom-hr">
+		</div>
+	</header>
+
+
+	<br>
+
+	<!-- 검색창   -->
+	<div class="search">
+		<select align="center" class="select">
+			<option value="">이름</option>
+			<option value="">회원번호</option>
+			<option value="">연체상태</option>
+		</select>
+		<input type="text" name="search" class="textbox">
+		<button type=button>검색</button>
+	</div>
+
+	<!-- table -->
+	<div>
+	<table border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc">
+		<tr bgcolor="#ffffff">
+			<th width="100">회원번호</th>
+			<th width="100">이름</th>
+			<th width="100">생년월일</th>
+			<th width="100">전화번호</th>
+			<th width="100">주소</th>
+			<th width="100">연체상태</th>
+			<th width="100">예약목록</th>
+			<th width="100">대출내역</th>
+			<th width="100">정보수정</th>
+		</tr>
+		<tr bgcolor="#ffffff">
+			<td> </td>
+			<td> </td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="수정"></th>
+		</tr>
+		<tr bgcolor="#ffffff">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="수정"></th>
+		</tr>
+		<tr bgcolor="#ffffff">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="수정"></th>
+		</tr>
+		<tr bgcolor="#ffffff">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="수정"></th>
+		</tr>
+		<tr bgcolor="#ffffff">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="수정"></th>
+		</tr>
+		<tr bgcolor="#ffffff">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="수정"></th>
+		</tr>
+		<tr bgcolor="#ffffff">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="수정"></th>
+		</tr>
+		<tr bgcolor="#ffffff">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="수정"></th>
+		</tr>
+		<tr bgcolor="#ffffff">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="조회"></th>
+			<th><input type="button" value="수정"></th>
+		</tr>
+	</table>
+	</div>
+	<br>
+	<br>
+
+	<div class="paging">
+		<input type="button" value="<">
+		<input type="button" value="1">
+		<input type="button" value="2">
+		<input type="button" value="3">
+		<input type="button" value="4">
+		<input type="button" value=">">
+	</div>
+
+
+</body>
+
+</html>

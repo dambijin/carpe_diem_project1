@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자페이지(희망도서목록)</title>
+    <link href="css/header.css" rel="stylesheet">
+</head>
+
+<style>
+.search{
+    width: 80%;
+	margin: auto;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.input{
+    border:1px;
+    width: 20%;
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+}
+</style>
+
+<body>
+    <header>
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div> 
+        <input type="button" value="로그아웃">
+        <div class="headerbox">
+            <hr class="custom-hr">
+            <div class="flex-header">회원목록</div>
+            <div class="flex-header">재고</div>
+            <div class="flex-header">희망도서목록</div>
+            <hr class="custom-hr">
+        </div>
+    </header>
+
+<!-- 검색창   -->
+<div class="search">
+    <select  align="center" class="select">
+        <option value="">책이름</option>
+        <option value="">신청번호</option>
+        <option value="">회원번호</option>
+        <option value="">신청날짜</option>
+    </select>
+    <input type="text" class="textbox">
+    <button type = button>검색</button>
+</div>
+
+<div>
+    <table border="0" width="900px" height="40px" align="center"
+    cellpadding="5" cellspacing="1" bgcolor="cccccc">
+        <tr bgcolor="#ffffff">
+            <th width="100px">신청번호</th>
+            <th width="100px">회원번호</th>
+            <th>책이름</th>
+            <th>저자</th>
+            <th>신청날짜</th>
+            <th>처리</th>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <td>1</td>
+            <td>10</td>
+            <td>자바의기초</td>
+            <td></td>
+            <td></td>
+            <td>
+                <input type="button" value="완료">
+                <input type="button" value="반려">
+            </td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <td>2</td>
+            <td>20</td>
+            <td>html</td>
+            <td></td>
+            <td></td>
+            <td>
+                <input type="button" value="완료">
+                <input type="button" value="반려">
+            </td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <td>3</td>
+            <td>30</td>
+            <td>css</td>
+            <td></td>
+            <td></td>
+            <td>
+                <input type="button" value="완료">
+                <input type="button" value="반려">
+            </td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <td>2</td>
+            <td>20</td>
+            <td>html</td>
+            <td></td>
+            <td></td>
+            <td>
+                <input type="button" value="완료">
+                <input type="button" value="반려">
+            </td>
+        </tr>
+        
+    </table>
+</div>
+
+<div class="input">
+    <input type = "button" value="<">
+    <input type = "button" value="1">
+    <input type = "button" value="2">
+    <input type = "button" value="3">
+    <input type = "button" value="4">
+    <input type = "button" value=">">
+</div>
+
+
+</body>
+</html>

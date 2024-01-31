@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자페이지(책 등록)</title>
+    <link href="css/header.css" rel="stylesheet">
+</head>
+<style>
+.input{
+    border:1px;
+    width: 20%;
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+}
+</style>
+<body>
+    <header>
+        <div class="headerbox">
+            <img class="logo" width="30px"
+                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+            도서관리시스템
+        </div> 
+        <input type="button" value="로그아웃">
+        <div class="headerbox">
+            <hr class="custom-hr">
+            <div>책등록</div>
+            <hr class="custom-hr">
+        </div>
+    </header>
+
+    <div>
+    <table border="0" width="900px" height="100px" align="center"
+    cellpadding="5" cellspacing="1" bgcolor="cccccc">
+        <tr bgcolor="#ffffff">
+            <th width="50%">책이름</th>
+            <td width="50%"><input type="text"></td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <th>저자</th>
+            <td><input type="text"></td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <th>발행년도</th>
+            <td><input type="text"></td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <th>청구기호</th>
+            <td><input type="text"></td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <th>등록번호</th>
+            <td><input type="text"></td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <th>소장기관</th>
+            <td>
+                <select>
+                    <option>천안도서관</option>
+                    <option>청주도서관</option>
+                    <option>서울도서관</option>
+                </select>
+            </td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <th>등록일자</th>
+            <td><input type="text"></td>
+        </tr>
+        <tr bgcolor="#ffffff">
+            <th>ISBN</th>
+            <td><input type="text"></td>
+        </tr>
+    </table>
+    </div>
+
+<div class="input">
+    <input type="button" value="등록">
+    <input type="button" value="취소">
+</div>
+
+
+
+</body>
+</html>
