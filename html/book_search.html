@@ -287,8 +287,9 @@
 <script>
     function selboxAllChecked(id) {
         var allCheck = document.getElementById(id);
-        var selbox = document.getElementsByClassName("selbox")[0];
-        var checkboxes = selbox.querySelectorAll('input[type="checkbox"]');
+        // var selbox = document.getElementsByClassName("selbox")[0];
+        // var checkboxes = selbox.querySelectorAll('.selbox input[type="checkbox"]');
+        var checkboxes = document.querySelectorAll('.selbox input[type="checkbox"]');
 
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = allCheck.checked;
