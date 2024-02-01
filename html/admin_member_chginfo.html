@@ -7,6 +7,10 @@
     <link href="../css/layout.css" rel="stylesheet">
     <link href="../css/member_information.css" rel="stylesheet">
 </head>
+
+<!-- function 스크립트 -->
+<script src="../js/admin_library.js"></script>
+
 <style>
 header .nav .member_list {
     background-color: rgba(168, 156, 200, 0.6);
@@ -168,8 +172,10 @@ table tr td .add:hover{
 
     <!-- 수정 취소 -->
     <div class="input">
-        <input type="submit" value="수정" class="button">
-        <input type="reset" value="취소" class="button">
+        <input type="button" value="수정" class="button"
+            onclick="chgInfo()">
+        <input type="reset" value="취소" class="button"
+            onclick="location.href='admin_member_list.html';">
     </div>
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->

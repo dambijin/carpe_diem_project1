@@ -7,6 +7,10 @@
 	<link href="../css/layout.css" rel="stylesheet">
 	<link href="../css/inventory.css" rel="stylesheet">
 </head>
+
+<!-- function 스크립트 -->
+<script src="../js/admin_library.js"></script>
+
 <style>
 header .blank_space .nav .book_inventory {
     background-color: rgba(168, 156, 200, 0.6);
@@ -26,7 +30,6 @@ header .blank_space .nav .book_inventory {
     margin: auto;
     text-align: center;
     margin-bottom: 10px;
-	margin-top: 10px;
 }
 .search .select{
     width: 80px;
@@ -37,14 +40,28 @@ header .blank_space .nav .book_inventory {
     height: 20px;
     padding:2px;
 }
-
+.search .button {
+	font-family: "Wanted Sans Variable";
+    font-size: 18px;
+    background-color: rgba(155, 178, 225, 0.6);
+    width: 50px;
+    height: 30px;
+    border: 0;
+    border-radius: 5px;
+}
+.search .button:hover {
+    background-color: rgba(205, 155, 225, 0.6);
+}
 /* 테이블 */
-div table tr{
+table tr{
     background-color: #fff;
 }
-div table tr th,td {
+table tr th {
+	background-color: rgba(168, 156, 200, 0.6);
+}
+table tr td {
     border:1px solid #ccc;
-    padding:3px;
+	text-align: center;
 }
 
 /* 등록삭제 버튼 */
@@ -64,7 +81,7 @@ div table tr th,td {
     border: 0;
     border-radius: 5px;
 }
-.search .button:hover {
+.input1 .button:hover {
     background-color: rgba(205, 155, 225, 0.6);
 }
 /* 쪽이동 */
@@ -81,6 +98,7 @@ div table tr th,td {
 <body>
 	<!-- header -->
 	<header></header>
+
 	<!-- 검색창   -->
 	<div class="search">
 		<select  align="center" class="select">
@@ -90,10 +108,11 @@ div table tr th,td {
 			<option value="">신청날짜</option>
 		</select>
 		<input type="text" class="textbox">
-		<button type = button class="button">검색</button>
+		<button type = "button" class="button">검색</button>
 	</div>
 
 	<!-- table -->
+	<form name="myform" method="post" action="">
 	<div>
 		<table border = "0" width="1200" height="200" align="center"
 			cellpadding="5" cellspacing="1" bgcolor="cccccc">
@@ -107,7 +126,11 @@ div table tr th,td {
 				<th width="100">등록날짜</th>
 				<th width="100">예약</th>
 				<th width="100">대출상태</th>
-				<th width="100">도서폐기</th>
+				<th width="100">
+					도서폐기
+					<input type="checkbox" class="checkbox" 
+						name="allcheck" onclick="fn_allcheck()">
+				</th>
 			</tr>
 			<tr>
 				<td></td>
@@ -116,10 +139,10 @@ div table tr th,td {
 				<td></td>
 				<td></td>
 				<td></td>
-				<th></th>
-				<th>예약</th>
-				<th>대출중</th>
-				<th><input type="checkbox"></th>
+				<td></td>
+				<td>예약</td>
+				<td>대출중</td>
+				<td><input type="checkbox" name="check"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -128,10 +151,10 @@ div table tr th,td {
 				<td></td>
 				<td></td>
 				<td></td>
-				<th></th>
-				<th>예약없음</th>
-				<th>대출중</th>
-				<th><input type="checkbox"></th>
+				<td></td>
+				<td>예약없음</td>
+				<td>대출중</td>
+				<td><input type="checkbox" name="check"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -140,10 +163,10 @@ div table tr th,td {
 				<td></td>
 				<td></td>
 				<td></td>
-				<th></th>
-				<th>예약없음</th>
-				<th>대출중</th>
-				<th><input type="checkbox"></th>
+				<td></td>
+				<td>예약없음</td>
+				<td>대출중</td>
+				<td><input type="checkbox" name="check"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -152,10 +175,10 @@ div table tr th,td {
 				<td></td>
 				<td></td>
 				<td></td>
-				<th></th>
-				<th>예약없음</th>
-				<th>대출중</th>
-				<th><input type="checkbox"></th>
+				<td></td>
+				<td>예약없음</td>
+				<td>대출중</td>
+				<td><input type="checkbox" name="check"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -164,10 +187,10 @@ div table tr th,td {
 				<td></td>
 				<td></td>
 				<td></td>
-				<th></th>
-				<th>예약없음</th>
-				<th>대출중</th>
-				<th><input type="checkbox"></th>
+				<td></td>
+				<td>예약없음</td>
+				<td>대출중</td>
+				<td><input type="checkbox" name="check"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -176,10 +199,10 @@ div table tr th,td {
 				<td></td>
 				<td></td>
 				<td></td>
-				<th></th>
-				<th>예약없음</th>
-				<th>대출중</th>
-				<th><input type="checkbox"></th>
+				<td></td>
+				<td>예약없음</td>
+				<td>대출중</td>
+				<td><input type="checkbox" name="check"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -188,10 +211,10 @@ div table tr th,td {
 				<td></td>
 				<td></td>
 				<td></td>
-				<th></th>
-				<th>예약없음</th>
-				<th>대출중</th>
-				<th><input type="checkbox"></th>
+				<td></td>
+				<td>예약없음</td>
+				<td>대출중</td>
+				<td><input type="checkbox" name="check"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -200,10 +223,10 @@ div table tr th,td {
 				<td></td>
 				<td></td>
 				<td></td>
-				<th></th>
-				<th>예약없음</th>
-				<th>대출중</th>
-				<th><input type="checkbox"></th>
+				<td></td>
+				<td>예약없음</td>
+				<td>대출중</td>
+				<td><input type="checkbox" name="check"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -212,18 +235,20 @@ div table tr th,td {
 				<td></td>
 				<td></td>
 				<td></td>
-				<th></th>
-				<th>예약없음</th>
-				<th>대출중</th>
-				<th><input type="checkbox"></th>
+				<td></td>
+				<td>예약없음</td>
+				<td>대출중</td>
+				<td><input type="checkbox" name="check"></td>
 			</tr>
 		</table>
+	</form>
 	</div>
 
 	<!-- 등록 삭제 -->
 	<div class="input1">
-		<input type="button" value="등록" class="button">
-		<input type="button" value="삭제" class="button">
+		<button type="button" class="button"
+			onclick="bookadd_popup()">등록</button>
+		<button type="button" class="button">폐기</button>
 	</div>
 
 	<!-- 쪽이동 -->
@@ -239,5 +264,6 @@ div table tr th,td {
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="../js/header_admin.js"></script>
+
 </body>
 </html>
