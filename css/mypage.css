@@ -1,0 +1,77 @@
+section{
+    width: 100%;
+    margin: auto;
+}
+
+.div1 {
+    /* width: 800px; */
+    margin: auto;
+    width: 100%;
+}
+.div1_table{
+    margin: auto;
+    width: 90%;
+    margin : 0px 0px 0px 0px;
+}
+
+.info {
+    border: 1px solid rgb(190, 187, 187);
+    border-radius: 10px;
+    text-align: center;
+    width: 20%;
+}
+.info1 {
+    border: 1px solid rgb(190, 187, 187);
+    border-radius: 10px;
+    width : 65%;
+}
+
+#button {
+    border: 1px solid white;
+    display: flex;
+    position: absolute;
+    margin : -110px 0px 0px 630px;
+    
+}
+
+#select {
+    
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 65%;
+}
+
+#page1 {
+    border: 1px solid white;
+    text-align: center;
+    /* width: 800px; */
+    width: 100%;
+}
+
+#page1_tr {
+    background-color: rgb(206, 203, 203);
+    height: 30px;
+}
+
+#button_click {
+    padding: 20px 10px;
+    margin-top: 45px;
+}
+
+.button_click1 {
+    padding: 2px 20px;
+}
+
+button:hover {
+    background-color: rgba(155, 178, 225, 0.6);
+}
+
+.right_section button {
+    background-color: rgba(140, 201, 240, 0.6);
+    border-radius: 6px;
+    border: 1px solid #8CC9F0;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+
+}

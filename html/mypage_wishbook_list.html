@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도서 관리 시스템</title>
+    <title>마이페이지 희망도서 신청목록</title>
     <link href="../css/layout.css" rel="stylesheet">
+    <link href="../css/mypage.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
     </script>
@@ -34,70 +35,27 @@
 
 </script>
     <style>
-        .div1 {
-            width: 800px;
-            margin: auto;
-        }
-
-        .info {
-            border: 1px solid rgb(190, 187, 187);
-            border-radius: 10px;
-        }
-
-        #button {
-            border: 1px solid white;
-            width: 70px;
-            
-        }
-
-        #select {
-            margin-left: 555px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        #page1 {
-            border: 1px solid white;
-            text-align: center;
-            width: 800px;
-            font-size: 14px;
-        }
-
-        #page1_tr {
-            background-color: rgb(206, 203, 203);
-            height: 30px;
-        }
-
-        #button_click {
-            padding: 20px 10px;
-            margin-top: 45px;
-        }
-
-        #button_click1 {
-            padding: 2px 20px;
-        }
-        button:hover {
-            background-color: rgba(155, 178, 225, 0.6);
-        }
-
-        button {
-            background-color: rgba(140, 201, 240, 0.6);
-            border-radius: 6px;
-            border: 1px solid #8CC9F0;
-            font-family: Arial;
-            font-size: 12px;
-            font-weight: bold;
-        }
+     
     </style>
 </head>
 
 <body>
     <header></header>
+    
     <section>
         <!-- 여기부터 본문작성해주세요 -->
-        <!-- 내정보 -->
+        <div class="s_section">
+            <div class="left_section">
+                <button type="button" class="sub_but">대출 현황</button><br>
+                <button type="button" class="sub_but">대출 내역</button><br>
+                <button type="button" class="sub_but">예약</button>
+                <button type="button" class="sub_but">희망도서<br>신청목록</button>
+            </div>
+            <div class="right_section">
+                <div>
+                   <!-- 내정보 -->
         <div class="div1">
-            <table class="div1">
+            <table class="div1_table">
                 <tr>
                     <th class="info">내정보</th>
                     <td class="info">
@@ -107,11 +65,12 @@
                         회원번호 : -- <br>
                         대출가능여부 : --
                     </td>
-                    <td id="button">
-                        <button type="button" id="button_click" >정보수정</button>
-                    </td>
+                   
                 </tr>
             </table>
+            <div id="button">
+                <button type="button" id="button_click" >정보수정</button>
+            </div>
             <!-- 분류 -->
             <div id="select">
                 <table>
@@ -161,7 +120,11 @@
                 </tr>
             </table>
         </div>
+                </div>
+            </div>
+        </div>
     </section>
+
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="../js/header.js"></script>
 </body>

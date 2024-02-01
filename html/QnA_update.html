@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도서 관리 시스템</title>
+    <title>QnA 게시판 글쓰기(수정)</title>
     <link href="../css/layout.css" rel="stylesheet">
     <script>
         function checkOnlyOne(element) {
@@ -92,69 +92,82 @@
 
 <body>
     <header></header>
+    
     <section>
         <!-- 여기부터 본문작성해주세요 -->
 
         <!-- 글쓰기 정보란 -->
-        <div class="div_table">
-            <table class="table_table">
-                <tr>
-                    <th>제목</th>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <th>작성자</th>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <th>휴대폰번호</th>
-                    <td> <select>
-                            <option disabled selected>선택하세요</option>
-                            <option>010</option>
-                            <option>011</option>
-                        </select>
-                        <input class="input_phone" type="text" placeholder="내용을 입력해주세요."> -
-                        <input class="input_phone" type="text" placeholder="내용을 입력해주세요.">
-                    </td>
-                </tr>
-                <tr>
-                    <th>공개</th>
-                    <td>
-                        <font>
-                            <input type="radio" name="pub" checked>공개
-                            <input type="radio" name="pub">비공개
-                        </font>
-                    </td>
-                </tr>
-                <tr>
-                    <th>안내</th>
-                    <td>
-                        <font size="1px">일정시간(20)분이 지나면 로그아웃됩니다.</font>
-                    </td>
-                </tr>
-                <tr>
-                    <th>첨부파일</th>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <th>비밀번호(비회원)</th>
-                    <td><input type="text"></td>
-                </tr>
-            </table>
-            <!-- 본문 작성란 -->
-        </div>
-        <div id="textarea">
-            <textarea></textarea>
-        </div>
-        <!-- 버튼 -->
-        <div class="div_buttonAll">
+        <div class="s_section">
+            <div class="left_section">
+                <button type="button" class="sub_but">공지사항</button><br>
+                <button type="button" class="sub_but">Q&A</button><br>
+                <button type="button" class="sub_but">희망도서신청</button>
 
-            <div class="div_button">
-                <button>저장</button> &nbsp;
-                <button>취소</button> &nbsp;
-                <button>목록</button> &nbsp;
             </div>
-
+            <div class="right_section">
+                <div>
+                    <div class="div_table">
+                        <table class="table_table">
+                            <tr>
+                                <th>제목</th>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <th>작성자</th>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <th>휴대폰번호</th>
+                                <td> <select>
+                                        <option disabled selected>선택하세요</option>
+                                        <option>010</option>
+                                        <option>011</option>
+                                    </select>
+                                    <input class="input_phone" type="text" placeholder="내용을 입력해주세요."> -
+                                    <input class="input_phone" type="text" placeholder="내용을 입력해주세요.">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>공개</th>
+                                <td>
+                                    <font>
+                                        <input type="radio" name="pub" checked>공개
+                                        <input type="radio" name="pub">비공개
+                                    </font>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>안내</th>
+                                <td>
+                                    <font size="1px">일정시간(20)분이 지나면 로그아웃됩니다.</font>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>첨부파일</th>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <th>비밀번호(비회원)</th>
+                                <td><input type="text"></td>
+                            </tr>
+                        </table>
+                        <!-- 본문 작성란 -->
+                    </div>
+                    <div id="textarea">
+                        <textarea></textarea>
+                    </div>
+                    <!-- 버튼 -->
+                    <div class="div_buttonAll">
+            
+                        <div class="div_button">
+                            <button>저장</button> &nbsp;
+                            <button>취소</button> &nbsp;
+                            <button>목록</button> &nbsp;
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
