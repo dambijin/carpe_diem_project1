@@ -21,27 +21,27 @@ document.querySelector('header').innerHTML = `
         <div class="flex-header dropdown">
         도서관 서비스
             <div class="dropdown-content">
-                <a href="#">자료검색</a>
+                <a href="book_search.html">자료검색</a>
             </div>
         </div>
         <div class="flex-header dropdown">도서관 안내
         <div class="dropdown-content">
-            <a href="#">이용안내</a>
+            <a href="libs_infolist.html">이용안내</a>
             </div>
         </div>
         <div class="flex-header dropdown">정보광장
             <div class="dropdown-content">
-                    <a href="#">공지사항</a>
-                    <a href="#">Q&A</a>
-                    <a href="#">희망도서신청</a>
+                    <a href="notice_board.html">공지사항</a>
+                    <a href="QnA_board.html">Q&A</a>
+                    <a href="wishbook_add.html">희망도서신청</a>
             </div>
         </div>
         <div class="flex-header dropdown">My Page
             <div class="dropdown-content">
-                <a href="#">대출현황</a>
-                <a href="#">대출내역</a>
-                <a href="#">예약</a>
-                <a href="#">희망도서<br>신청목록</a>
+                <a href="mypage_loan_status.html">대출현황</a>
+                <a href="mypage_loan_history.html">대출내역</a>
+                <a href="mypage_reservation_list.html">예약</a>
+                <a href="mypage_wishbook_list.html">희망도서<br>신청목록</a>
             </div>
         </div>
         <hr class="custom-hr">

@@ -18,9 +18,9 @@ document.querySelector('header').innerHTML = `
 
     <div class="nav">
         <hr class="custom-hr">
-        <div class="flex-header">회원목록</div>
-        <div class="flex-header">재고</div>
-        <div class="flex-header">희망도서목록</div>
+        <div class="flex-header" onclick="location.href='admin_member_list.html';">회원목록</div>
+        <div class="flex-header" onclick="location.href='admin_book_list.html';">재고</div>
+        <div class="flex-header" onclick="location.href='admin_wishbook_list.html';">희망도서목록</div>
         <hr class="custom-hr">
     </div>
 `;
