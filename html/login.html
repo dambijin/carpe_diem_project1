@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link href="../css/layout.css" rel="stylesheet">
+    <style>
+        /* 헤더 아래 모두 */
+        .log_in {
+            text-align: center;
+            width: 80%;
+            margin: auto;
+            font-family: "Wanted Sans Variable";
+
+        }
+
+        /* 로그인 제목 */
+        .log_in .subject {
+            font-family: "Wanted Sans Variable";
+            font-size: 30px;
+            text-align: left;
+        }
+
+        /* 테이블 */
+        .log_in_table table {
+            width: 80%;
+            text-align: left;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        /* 테이블 tr */
+        .log_in_table tr {
+            height: 30px;
+        }
+
+        /* 테이블 아이디 비밀번호 td */
+        .log_in_table .sub {
+            background-color: rgba(168, 156, 200, 0.6);
+            text-align: center;
+        }
+
+
+        /* 로그인 제목 아래 내용 */
+        .log_in_table {
+            border: 2px solid rgba(168, 156, 200, 0.6);
+            width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+
+        /* 아이디저장 자동로그인 체크 div */
+        .log_in_table .check_sub {
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        /* 아이디 비밀번호 입력칸(텍스트박스) */
+        .log_in_table .textbox {
+            height: 25px;
+            font-size: 15px;
+        }
+
+        /* 아이디 비밀번호 input 텍스트 .log_in_table .textbox
+        로그인 버튼 .log_but .log_button
+        아이디찾기, 비밀번호찾기, 회원가입 버튼 .find_button .but
+        글씨체 변경
+        */
+        .log_in_table .textbox,
+        .log_but .log_button,
+        .find_button .but {
+            font-family: "Wanted Sans Variable";
+
+        }
+
+        /* 아이디찾기, 비밀번호찾기, 회원가입 버튼 */
+        .find_button .but {
+            background-color: rgba(140, 201, 240, 0.6);
+            font-size: 17px;
+            border: 0;
+            border-radius: 5px;
+        }
+
+        .find_button .but:hover {
+            background-color: rgba(168, 156, 200, 0.6);
+
+        }
+
+        /* 로그인버튼 */
+        .log_but .log_button {
+            background-color: rgba(155, 178, 225, 0.6);
+            font-size: 19px;
+            border: 0;
+            border-radius: 5px;
+            width: 100px;
+        }
+
+        .log_but .log_button:hover {
+            background-color: rgba(205, 155, 225, 0.6);
+        }
+
+
+        /* 로그인 버튼 div */
+        .log_in_table .log_but {
+            margin-bottom: 15px;
+        }
+
+        /* 아이디찾기, 비밀번호찾기, 회원가입 div */
+        .log_in_table .find_button {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <header></header>
+    <section>
+        <div class="log_in">
+            <div class="subject">
+                로그인
+            </div>
+            <div class="log_in_table">
+                <table>
+                    <tr>
+                        <td class="sub">아이디</td>
+                        <td><input type="text" class="textbox"></td>
+                    </tr>
+                    <tr>
+                        <td class="sub">비밀번호</td>
+                        <td><input type="text" class="textbox"></td>
+                    </tr>
+                </table>
+                <div class="check_sub">
+                    <input type="checkbox">아이디 저장
+                    <input type="checkbox">자동 로그인
+                </div>
+                <div class="log_but"><button type="button" class="log_button">로그인</button></div>
+                <div class="find_button">
+                    <button type="button" class="find_button but">아이디 찾기</button>
+                    <button type="button" class="find_password but">비밀번호 찾기</button>
+                    <button type="button" class="sign_up but">회원가입</button>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 헤더를 덮어씌우는 자바스크립트 -->
+    <script src="../js/header.js"></script>
+</body>
+
+</html>

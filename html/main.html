@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도서 관리 시스템</title>
+    <title>메인 페이지</title>
     <link href="../css/layout.css" rel="stylesheet">
     <style>
         .bodysize {
@@ -29,12 +29,12 @@
             font-family: "Wanted Sans Variable";
         }
 
-        .banner {
+        nav .banner {
             width: 80%;
             margin-bottom: 10px;
         }
 
-        section {
+        .library_information_content {
             width: 70%;
             margin: auto;
         }
@@ -54,14 +54,14 @@
         }
 
         /* 신착도서 */
-        .newbook {
+        .announcement_library_information .newbook {
             background-color: rgba(155, 178, 225, 0.6);
             height: 300px;
             width: 100%;
         }
 
         /* 도서관별이용정보 */
-        .library_information {
+        .library_information_content .library_information {
             background-color: rgba(239, 168, 176, 0.6);
             display: inline-block;
             width: 25%;
@@ -71,28 +71,31 @@
             padding-top: 8px;
         }
 
-        .ann_title {
+        .library_information_content .announcement_library_information .announcement .ann_title {
             width: 80%;
         }
 
-        table {
+        .library_information_content .announcement_library_information .announcement,
+        .library_information_content .announcement_library_information .newbook table,
+        .library_information table {
             width: 100%;
         }
 
-        .ann_day {
+        .announcement .ann_day {
             text-align: right;
         }
 
-        .newbook_img {
+        .announcement_library_information .newbook_img {
             width: 100%;
         }
 
-        select {
+        .bodysize select,
+        .library_information select {
             font-family: "Wanted Sans Variable";
             font-size: 18px;
         }
 
-        .gubun {
+        .library_infor .gubun {
             background-color: rgba(168, 156, 200, 0.6);
             height: 2px;
             border: none;
@@ -118,7 +121,7 @@
             <img class="banner"
                 src="https://cdn.discordapp.com/attachments/1200354574037434461/1201720646124707870/banner.png?ex=65cad890&is=65b86390&hm=e9f9c0f357620caee5a714988ff0a5690f5a536763013c81f14a970ddbf67c56&">
         </nav>
-        <section>
+        <section class="library_information_content">
             <div class="announcement_library_information">
                 <div class="announcement">
                     <table>
