@@ -8,10 +8,14 @@ document.querySelector('header').innerHTML = `
     </div>
     <div class="sign_up_in">
         <div class="sign_in">
-            로그인&nbsp;
+            <a href="sign_in.html">
+                로그인&nbsp;
+            </a>
         </div>
         <div class="sign_up">
-            회원가입
+            <a href="sign_up.html">
+                회원가입
+            </a>
         </div>
     </div>
 

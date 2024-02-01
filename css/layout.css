@@ -66,8 +66,21 @@ header .sign_in {
     border-right: black solid 2px;
 }
 
+header .sign_in:hover {
+    color: rgba(140, 201, 240, 1.0);
+}
+
 header .sign_up {
     display: inline-block;
+}
+
+header .sign_up:hover {
+    color: rgba(239, 168, 176, 1.0);
+}
+
+header .sign_up_in a {
+    color: inherit;    /* 텍스트 색상을 상위 요소와 동일하게 설정 */
+    text-decoration: none;    /* 밑줄 제거 */
 }
 
 header .dropdown {
