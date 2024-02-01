@@ -8,118 +8,122 @@
     <link href="../css/layout.css" rel="stylesheet">
     <link href="../css/mypage.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+        </script>
+    <script>
+        window.onload = function () {
+            let button1 = document.getElementById('button_click');
+
+            let btn = document.getElementById('btn');
+
+
+            button1.addEventListener('click', function () {
+                window.open('http://127.0.0.1:5500/html/info_change.html', '_self')
+
+            });
+            btn.addEventListener('click', function () {
+
+                alert(
+                    $("select[name=a] option:selected").text() +
+                    $("select[name=b] option:selected").text() +
+                    "로 검색하셨습니다."
+
+                );
+            });
+
+        };
+
     </script>
-<script>
-    window.onload = function () {
-        let button1 = document.getElementById('button_click');
-       
-        let btn = document.getElementById('btn');
-
-       
-        button1.addEventListener('click', function () {
-            window.open('http://127.0.0.1:5500/html/info_change.html', '_self')
-
-        });
-        btn.addEventListener('click', function () {
-
-            alert(
-                $("select[name=a] option:selected").text() +
-                $("select[name=b] option:selected").text() +
-                "로 검색하셨습니다."
-
-            );
-        });
-
-    };
-
-</script>
     <style>
-     
+
     </style>
 </head>
 
 <body>
     <header></header>
-    
+
     <section>
         <!-- 여기부터 본문작성해주세요 -->
         <div class="s_section">
             <div class="left_section">
-                <button type="button" class="sub_but">대출 현황</button><br>
-                <button type="button" class="sub_but">대출 내역</button><br>
-                <button type="button" class="sub_but">예약</button>
-                <button type="button" class="sub_but">희망도서<br>신청목록</button>
+                <a href="mypage_loan_status.html"><button type="button" class="sub_but">대출 현황</button></a><br>
+                <a href="mypage_loan_history.html"><button type="button" class="sub_but">대출 내역</button></a><br>
+                <a href="mypage_reservation_list.html"><button type="button" class="sub_but">예약</button></a>
+                <a href="mypage_wishbook_list.html"><button type="button" class="sub_but">희망도서<br>신청목록</button></a>
             </div>
             <div class="right_section">
                 <div>
-                   <!-- 내정보 -->
-        <div class="div1">
-            <table class="div1_table">
-                <tr>
-                    <th class="info">내정보</th>
-                    <td class="info">
-                        이름 : 홍길동 <br>
-                        번호 : 010-0000-0000<br>
-                        주소 : 천안시 아산동 병천읍<br>
-                        회원번호 : -- <br>
-                        대출가능여부 : --
-                    </td>
-                   
-                </tr>
-            </table>
-            <div id="button">
-                <button type="button" id="button_click" >정보수정</button>
-            </div>
-            <!-- 분류 -->
-            <div id="select">
-                <table>
-                    <tr>
-                        <td><select name="a">
-                            <option disabled selected>출력 건수</option>
-                            <option>10개씩</option>
-                        </select></td>
-                    <td><select name="b">
-                            <option disabled selected> - 도서관 전체</option>
-                            <option>중앙도서관</option>
-                        </select></td>
-                    <td>
-                        <button type="button" id="btn">검색</button>
-                    </td>
-                    </tr>
-                </table>
-                <!-- 보드 -->
-            </div>
-            <table id="page1">
-                <tr id="page1_tr">
-                    <th>희망소장처</th>
-                    <th>자료명</th>
-                    <th>저자</th>
-                    <th>발행년도</th>
-                    <th>ISBN/ISSN 번호</th>
-                    <th>신청사유</th>
-                    <th>출판사</th>
-                    <th>휴대폰번호</th>
-                    <th>신청일자</th>
-                    <th>처리상태</th>
-                    <th>취소</th>
-                </tr>
-                <tr>
-                    <td>?</td>
-                    <td>아몰랑</td>
-                    <td>아몰랑</td>
-                    <td>아몰랑</td>
-                    <td>?</td>
-                    <td>정상</td>
-                    <td>아몰랑</td>
-                    <td>010-0000-0000</td>
-                    <td>2024.03.03</td>
-                    <td>정상</td>
-                    <td><input type="checkbox"></td>
-                </tr>
-                </tr>
-            </table>
-        </div>
+                    <!-- 내정보 -->
+                    <div class="div1">
+                        <table class="div1_table">
+                            <tr>
+                                <th class="info">내정보</th>
+                                <td class="info1">
+                                    이름 : 홍길동 <br>
+                                    번호 : 010-0000-0000<br>
+                                    주소 : 천안시 아산동 병천읍<br>
+                                    회원번호 : -- <br>
+                                    대출가능여부 : --
+                                </td>
+
+                            </tr>
+                        </table>
+                        <div id="button">
+                            <button type="button" id="button_click">정보수정</button>
+                        </div>
+                        <!-- 분류 -->
+                        <div id="select">
+                            <table>
+                                <tr>
+                                    <td><select name="a">
+                                            <option disabled selected>출력 건수</option>
+                                            <option>10개씩</option>
+                                        </select></td>
+                                    <td><select name="b">
+                                            <option disabled selected> - 도서관 전체</option>
+                                            <option>중앙도서관</option>
+                                        </select></td>
+                                    <td>
+                                        <button type="button" id="btn">검색</button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- 보드 -->
+                        </div>
+                        <table id="page1">
+                            <tr id="page1_tr">
+                                <th>희망소장처</th>
+                                <th>자료명</th>
+                                <th>저자</th>
+                                <th>발행년도</th>
+                                <th>ISBN/ISSN 번호</th>
+                                <th>신청사유</th>
+                                <th>출판사</th>
+                                <th>휴대폰번호</th>
+                                <th>신청일자</th>
+                                <th>처리상태</th>
+                                <th>취소</th>
+                            </tr>
+                            <tr>
+                                <td>?</td>
+                                <td>아몰랑</td>
+                                <td>아몰랑</td>
+                                <td>아몰랑</td>
+                                <td>?</td>
+                                <td>정상</td>
+                                <td>아몰랑</td>
+                                <td>010-0000-0000</td>
+                                <td>2024.03.03</td>
+                                <td>정상</td>
+                                <td><input type="checkbox"></td>
+                            </tr>
+                            </tr>
+                        </table>
+                       
+                        </div>
+                        <div id="button_cancle">
+                            <button>취소</button>
+                    </div>
                 </div>
             </div>
         </div>
