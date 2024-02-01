@@ -41,12 +41,12 @@
 
         .selbox dl dd ul {
             list-style: none;
-            padding: 0px;
+            padding: 5px;
+            padding-left: 0px;
             display: flex;
             flex-wrap: wrap;
             border-top: 1px solid #000000;
-            margin-top: 5px;
-            margin: auto;
+            margin-top: 10px;
         }
 
         .selbox dl dd ul li {
@@ -62,10 +62,18 @@
 
         .selbox label.all input {
             margin-right: 3px;
+             /* 모든 브라우저를 지원하기 위해 -webkit- 및 -ms- 접두사를 사용 */
+            -webkit-transform: scale(1.5);
+            -ms-transform: scale(1.5);
+            transform: scale(1.5);
         }
 
         .selbox dl dd ul li input[type="checkbox"] {
             margin-right: 1px;
+            /* 모든 브라우저를 지원하기 위해 -webkit- 및 -ms- 접두사를 사용 */
+            -webkit-transform: scale(1.5);
+            -ms-transform: scale(1.5);
+            transform: scale(1.5);
         }
 
         /* 검색창관련 */
@@ -104,12 +112,18 @@
         .search_fieldset .search .input select {
             flex: 1;
             margin-right: 10px;
+            height: 40px;
+            font-size: 18px;
+            font-family: 'Wanted Sans Variable';
         }
 
         .search_fieldset .search .input input {
             flex: 3;
             padding: 5px;
             border: 1px solid #ccc;
+            height: 35px;
+            font-family: 'Wanted Sans Variable';
+            font-size: 18px;
         }
 
         .search_fieldset .search .btn-search {
@@ -119,6 +133,9 @@
             color: #eee;
             border: none;
             cursor: pointer;
+            height: 45px;
+            font-family: 'Wanted Sans Variable';
+            font-size: 18px;
         }
 
         /* 책 리스트 */
@@ -218,6 +235,52 @@
             background-color: #007bff;
             color: #fff;
         }
+
+        .result input[type="checkbox"] {
+            /* 모든 브라우저를 지원하기 위해 -webkit- 및 -ms- 접두사를 사용 */
+            -webkit-transform: scale(1.5);
+            -ms-transform: scale(1.5);
+            transform: scale(1.5);
+        }
+
+        .result label {
+            font-size: 20px;
+            font-family: 'Wanted Sans Variable';
+        }
+
+        .result_filter_div {
+            height: 50px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .result_filter_div .blank_space {
+            display: inline-block;
+            width: 25%;
+        }
+
+        .result_filter_div .result_text {
+            display: inline-block;
+            text-align: center;
+            width: 49%;
+            font-size: 40px;
+            font-family: 'Wanted Sans Variable';
+        }
+
+        .result_filter_div .result_filter_all {
+            display: inline-block;
+            text-align: right;
+            width: 25%;
+            /* height: 100%; */
+            vertical-align: middle;
+        }
+
+        .result_filter_div .result_filter_all .result_filter
+        {
+            height: 35px;
+            font-size: 18px;
+            font-family: 'Wanted Sans Variable';
+        }
     </style>
 </head>
 
@@ -281,8 +344,8 @@
                     <fieldset class="search_fieldset">
                         <!-- <legend>통합검색</legend> -->
                         <span class="result">
-                            <input type="checkbox" id="reSearch" name="reSearch" value="1" title="결과내 검색"> <label
-                                for="reSearch">결과 내 검색</label>
+                            <input type="checkbox" id="reSearch" name="reSearch" value="1" title="결과내 검색">
+                            <label for="reSearch">&nbsp;&nbsp;결과 내 검색</label>
                         </span>
                         <div class="search">
                             <div class="input">
@@ -350,6 +413,24 @@
                     </fieldset>
                 </div>
             </div>
+            <div class="result_filter_div">
+                <div class="blank_space"></div>
+                <div class="result_text">검색결과</div>
+                <div class="result_filter_all">
+                    <select class="result_filter">
+                        <option>10개씩</option>
+                        <option>20개씩</option>
+                        <option>30개씩</option>
+                    </select>
+                    &nbsp;
+                    <select class="result_filter">
+                        <option>제목 오름차순</option>
+                        <option>제목 내림차순</option>
+                        <option>발행년 오름차순</option>
+                        <option>발행년 내림차순</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <!-- 책 리스트 -->
@@ -392,8 +473,7 @@
 
                         <!-- li><strong class="nonone">도서 예약불가</strong></li -->
                         <li>
-                            <a href="#login" onclick="alert('로그인을 해주세요.'); return false;">
-
+                            <a href="#login" onclick="alert('로그인을 해주세요.');">
                                 예약<span class="skip">신청</span></a>
                         </li>
                     </ol>
@@ -444,27 +524,21 @@
         <div id="paging">
             <div class="total"><strong>1</strong>페이지 / 총 <strong>40</strong>페이지</div>
             <div class="paging">
-                <a href=""
-                    class="pre">
+                <a href="" class="pre">
                     ◀</a>
 
                 <strong>1</strong>
 
-                <a href=""
-                    class="num">2</a>
+                <a href="" class="num">2</a>
 
-                <a href=""
-                    class="num">3</a>
+                <a href="" class="num">3</a>
 
-                <a href=""
-                    class="num">4</a>
+                <a href="" class="num">4</a>
 
-                <a href=""
-                    class="num">5</a>
+                <a href="" class="num">5</a>
 
 
-                <a href=""
-                    class="next">▶</a>
+                <a href="" class="next">▶</a>
             </div>
         </div>
     </section>

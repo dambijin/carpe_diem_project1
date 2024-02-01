@@ -39,14 +39,15 @@
             margin-inline-start: 0px;
         }
 
+
         .selbox dl dd ul {
             list-style: none;
-            padding: 0px;
+            padding: 5px;
+            padding-left: 0px;
             display: flex;
             flex-wrap: wrap;
             border-top: 1px solid #000000;
-            margin-top: 5px;
-            margin: auto;
+            margin-top: 10px;
         }
 
         .selbox dl dd ul li {
@@ -62,10 +63,18 @@
 
         .selbox label.all input {
             margin-right: 3px;
+             /* 모든 브라우저를 지원하기 위해 -webkit- 및 -ms- 접두사를 사용 */
+            -webkit-transform: scale(1.5);
+            -ms-transform: scale(1.5);
+            transform: scale(1.5);
         }
 
         .selbox dl dd ul li input[type="checkbox"] {
             margin-right: 1px;
+            /* 모든 브라우저를 지원하기 위해 -webkit- 및 -ms- 접두사를 사용 */
+            -webkit-transform: scale(1.5);
+            -ms-transform: scale(1.5);
+            transform: scale(1.5);
         }
 
         /* 검색창관련 */
@@ -104,12 +113,18 @@
         .search_fieldset .search .input select {
             flex: 1;
             margin-right: 10px;
+            height: 40px;
+            font-size: 18px;
+            font-family: 'Wanted Sans Variable';
         }
 
         .search_fieldset .search .input input {
             flex: 3;
             padding: 5px;
             border: 1px solid #ccc;
+            height: 35px;
+            font-family: 'Wanted Sans Variable';
+            font-size: 18px;
         }
 
         .search_fieldset .search .btn-search {
@@ -119,8 +134,10 @@
             color: #eee;
             border: none;
             cursor: pointer;
+            height: 45px;
+            font-family: 'Wanted Sans Variable';
+            font-size: 18px;
         }
-
         /* 상세정보관련 */
         .view {
             display: flex;
