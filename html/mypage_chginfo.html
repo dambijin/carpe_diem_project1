@@ -7,20 +7,20 @@
     <title>도서 관리 시스템</title>
     <link href="../css/layout.css" rel="stylesheet">
     <script>
-         window.onload = function () {
-        let i = document.getElementById('email_domain1');
-        let selectedIndex = i.selectedIndex;
-        
-        // 선택된 option의 값(value)을 가져옴
-        let a = i.options[selectedIndex].value;
+        window.onload = function () {
+            let i = document.getElementById('email_domain1');
+            let selectedIndex = i.selectedIndex;
+
+            // 선택된 option의 값(value)을 가져옴
+            let a = i.options[selectedIndex].value;
             console.log(a);
-        function setInputValue() {
-        // input 요소를 id로 찾아옴
-        let b = document.setInputValue("email_domain");
-          b = a;
-    }
-       
-         }
+            function setInputValue() {
+                // input 요소를 id로 찾아옴
+                let b = document.setInputValue("email_domain");
+                b = a;
+            }
+
+        }
     </script>
     <style>
         td,
@@ -71,11 +71,12 @@
             margin: auto;
         }
 
-       
+
 
         #place_input_width {
             width: 300px;
         }
+
         button {
             background-color: rgba(140, 201, 240, 0.6);
             border-radius: 6px;
@@ -155,7 +156,7 @@
                         <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_id"> @
                         <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_domain">
                         <select id="email_domain1">
-                            <option disabled >선택하세요</option>
+                            <option disabled>선택하세요</option>
                             <option selected>naver.com</option>
                             <option>daum.net</option>
                         </select>
@@ -202,7 +203,7 @@
         </table>
 
     </section>
-  
+
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="../js/header.js"></script>
 </body>
