@@ -35,7 +35,7 @@
         }
 
         tr {
-
+            border-bottom: 1px solid rgba(59, 57, 63, 0.445);
             height: 50px
         }
 
@@ -57,12 +57,12 @@
 
         th {
             width: 200px;
-            border: 1px solid black;
+
         }
 
         td {
             text-align: left;
-            border: 1px solid black;
+
             padding: 7px;
         }
 
@@ -80,12 +80,49 @@
         }
 
         button {
-            background-color: rgba(140, 201, 240, 0.6);
-            border-radius: 6px;
-            border: 1px solid #8CC9F0;
-            font-family: Arial;
-            font-size: 15px;
+            font-family: "Wanted Sans Variable";
+            width: 100px;
+            background-color: rgba(155, 178, 225, 0.6);
+            font-size: 18px;
+            border: 0;
+            border-radius: 5px;
 
+
+        }
+
+        input {
+            height: 18px;
+        }
+
+        .input_phone {
+            width: 100px;
+        }
+
+        input[type=radio] {
+            border: 0px;
+            width: 10px;
+            height: 10px;
+        }
+
+        select {
+            height: 25px;
+        }
+
+        font {
+            font-size: 15px;
+        }
+
+        col {
+            background: rgba(168, 156, 200, 0.6);
+            text-align: center;
+            font-size: 18px;
+            width: 200px;
+        }
+
+        .input_phone,
+        .inputbox {
+            font-size: 18px;
+            font-family: "Wanted Sans Variable";
 
         }
     </style>
@@ -109,13 +146,16 @@
                 <div>
                     <div class="div_table">
                         <table class="table_table">
+                            <colgroup>
+                                <col>
+                            </colgroup>
                             <tr>
                                 <th>제목</th>
-                                <td><input type="text"></td>
+                                <td><input type="text" class="inputbox" placeholder="내용을 입력해주세요."></td>
                             </tr>
                             <tr>
                                 <th>작성자</th>
-                                <td><input type="text"></td>
+                                <td><input type="text" class="inputbox" placeholder="내용을 입력해주세요."></td>
                             </tr>
                             <tr>
                                 <th>휴대폰번호</th>
@@ -149,7 +189,7 @@
                             </tr>
                             <tr>
                                 <th>비밀번호(비회원)</th>
-                                <td><input type="text"></td>
+                                <td><input type="text" class="inputbox" placeholder="내용을 입력해주세요."></td>
                             </tr>
                         </table>
                         <!-- 본문 작성란 -->

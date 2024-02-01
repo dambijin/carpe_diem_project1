@@ -51,6 +51,8 @@
         .div_agree {
             width: 600px;
             text-align: right;
+            margin: 20px auto;
+
         }
 
         .table_table {
@@ -60,7 +62,7 @@
         }
 
         tr {
-            background-color: white;
+            border-bottom: 1px solid rgba(59, 57, 63, 0.445);
             height: 50px
         }
 
@@ -72,6 +74,7 @@
         .div_button {
             text-align: right;
             margin-top: 30px;
+
         }
 
         .div_buttonAll {
@@ -81,14 +84,14 @@
 
         th {
             width: 200px;
-            border: 1px solid black;
+
             padding: 7px;
 
         }
 
         td {
             text-align: left;
-            border: 1px solid black;
+
             padding: 7px;
         }
 
@@ -97,18 +100,20 @@
         }
 
         #head {
-            width: 300px;
-            background-color: rgb(192, 188, 188);
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
         #div_table {
-            border: 1px solid black;
+
             width: 600px;
             margin: auto;
         }
 
         #table2 {
-            border: 1px solid black;
+
             background-color: white;
             width: 600px;
             border-collapse: collapse;
@@ -116,7 +121,8 @@
 
         #table_tr {
 
-            background-color: rgb(192, 188, 188);
+            background-color: rgba(168, 156, 200, 0.6);
+            text-align: center;
         }
 
         #table_tr2 {
@@ -127,17 +133,57 @@
             font-size: 11px;
         }
 
+
+
+        input {
+            height: 18px;
+        }
+
         .input_phone {
             width: 100px;
         }
 
         button {
-            background-color: rgba(140, 201, 240, 0.6);
-            border-radius: 6px;
-            border: 1px solid #8CC9F0;
-            font-family: Arial;
-            font-size: 15px;
+            font-family: "Wanted Sans Variable";
+            width: 100px;
+            background-color: rgba(155, 178, 225, 0.6);
+            font-size: 18px;
+            border: 0;
+            border-radius: 5px;
 
+
+        }
+
+        .npub {
+            height: 20px;
+        }
+
+        input[type=radio] {
+            border: 0px;
+            width: 10px;
+            height: 10px;
+        }
+
+        select {
+            height: 25px;
+           
+        }
+
+        font {
+            font-size: 15px;
+        }
+
+        col {
+            background: rgba(168, 156, 200, 0.6);
+            text-align: center;
+            font-size: 18px;
+            width: 200px;
+        }
+
+        .input_phone,
+        .inputbox {
+            font-size: 18px;
+            font-family: "Wanted Sans Variable";
 
         }
     </style>
@@ -160,18 +206,16 @@
                     <!-- 상단 배너 -->
                     <div class="div_back">
                         <div id="head">
-                            <h2>
-                                개인정보 수집 + 이용 동의
-                            </h2>
+                            개인정보 수집 + 이용 동의
                         </div>
                     </div>
                     <!-- 개인정보 이용 설명 -->
                     <div class="div_back">
                         <p>
-                            <font>
-                                천안시에서는 게시판 운영을 위해 제15조 제1항에 따라 아래와 같이 개인정보를 수집 및 이용하며,<br>
-                                수집된 개인정보는 목적 이외의 용도로는 이용되지 않습니다.
-                            </font>
+
+                            천안시에서는 게시판 운영을 위해 제15조 제1항에 따라 아래와 같이 개인정보를 수집 및 이용하며,
+                            수집된 개인정보는 목적 이외의 용도로는 이용되지 않습니다.
+
                         </p>
                     </div>
                     <!-- 개인정보 이용 목적 -->
@@ -193,63 +237,76 @@
                     <!-- 개인정보 이용 동의 설명 -->
                     <div class="div_back">
                         <p height="50px">
-                            <font>
-                                이와 같은 개인정보 수집,이용에 대한 동의를 거부할 수 있으며, 거부할 경우 게시판 경우 게시판 이용이 제한됩니다.
-                            </font>
+
+                            이와 같은 개인정보 수집,이용에 대한 동의를 거부할 수 있으며, 거부할 경우 게시판 경우 게시판 이용이 제한됩니다.
+
                         </p>
                         <!-- 개인정보 이용동의 체크 -->
                         <div class="div_agree">
-                            <font>
-                                <input type="radio" name="npub">동의함
-                                <input type="radio" name="npub">동의안함
-                            </font>
+
+                            <input type="radio" name="npub">
+                            <font> 동의함</font>
+                            <input type="radio" name="npub">
+                            <font> 동의안함</font>
+
                         </div>
                     </div>
                     <!-- 글쓰기 정보 -->
                     <div class="div_table">
                         <table class="table_table">
-                            <tr>
-                                <th>제목</th>
-                                <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                                <th>작성자</th>
-                                <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                                <th>휴대폰번호</th>
-                                <td> <select>
-                                        <option disabled selected>선택하세요</option>
-                                        <option>010</option>
-                                        <option>011</option>
-                                    </select>
-                                    <input class=input_phone type="text" placeholder="내용을 입력해주세요."> -
-                                    <input class=input_phone type="text" placeholder="내용을 입력해주세요.">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>공개</th>
-                                <td>
-                                    <font>
-                                        <input type="radio" name="pub" checked>공개
-                                        <input type="radio" name="pub">비공개
-                                    </font>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>안내</th>
-                                <td>
-                                    <font>일정시간(20)분이 지나면 로그아웃됩니다.</font>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>첨부파일</th>
-                                <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                                <th>비밀번호(비회원)</th>
-                                <td><input type="text"></td>
-                            </tr>
+                            <colgroup>
+                                <col>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>제목</th>
+                                    <td><input type="text" class="inputbox" placeholder="내용을 입력해주세요."></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>작성자</th>
+                                    <td><input type="text" class="inputbox" placeholder="내용을 입력해주세요."></td>
+                                </tr>
+                                <tr>
+                                    <th>휴대폰번호</th>
+                                    <td> <select>
+                                            <option disabled selected>선택하세요</option>
+                                            <option>010</option>
+                                            <option>011</option>
+                                        </select>
+                                        <input class=input_phone type="text" placeholder="내용을 입력해주세요."> -
+                                        <input class=input_phone type="text" placeholder="내용을 입력해주세요.">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>공개</th>
+                                    <td>
+
+                                        <input type="radio" name="pub" checked>
+                                        <font> 공개</font>
+                                        <input type="radio" name="pub">
+                                        <font> 비공개</font>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>안내</th>
+                                    <td>
+                                        <font>
+                                            일정시간(20)분이 지나면 로그아웃됩니다.
+                                        </font>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>첨부파일</th>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <th>비밀번호(비회원)</th>
+                                    <td><input type="text" class="inputbox" placeholder="비밀번호"></td>
+                                </tr>
+                            </tbody>
                         </table>
                         <!-- 글쓰기 -->
                     </div>

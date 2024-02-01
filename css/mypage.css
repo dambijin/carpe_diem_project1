@@ -30,7 +30,7 @@ section{
     border: 1px solid white;
     display: flex;
     position: absolute;
-    margin : -110px 0px 0px 630px;
+    margin : -8.3% 10% 10% 49%;
     
 }
 
@@ -77,5 +77,6 @@ button:hover {
 
 }
 #button_cancle {
-    margin : 10px 0px 0px 660px
+    
+    margin : 10px 0px 0px 94%;
 }
