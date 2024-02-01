@@ -130,7 +130,8 @@ section .sub_but {
     background-color: rgba(199, 156, 200, 0.6);
     border-radius: 5px;
     border: 0;
-    height: 40px;
+    padding: 10px;
+    /* height: 40px; */
 }
 
 /* 왼쪽 section  마우스 오버 시 변경이벤트 */
