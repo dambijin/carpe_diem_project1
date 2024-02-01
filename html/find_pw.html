@@ -9,30 +9,82 @@
     <link href="../css/password_find.css" rel="stylesheet">
 </head>
 <style>
-    table tr {
-        background-color: #fff;
+    /* 헤더 아래 내용 */
+    .section_find_pw {
+        width: 80%;
+        text-align: center;
+        margin: auto;
     }
 
-    /* 확인 */
-    .input {
-        border: 1px;
-        width: 10%;
+    /* 비밀번호 찾기 제목 */
+    .section_find_pw .find_pw {
+        font-family: "Wanted Sans Variable";
+        font-size: 30px;
+        margin-bottom: 15px;
+    }
+
+    /* 테이블 div */
+    .section_find_pw .idt {
+        border: 2px solid rgba(168, 156, 200, 0.5);
+        border-radius: 20px;
+        width: 600px;
         margin: auto;
         text-align: center;
-        margin-top: 20px;
+        font-family: "Wanted Sans Variable";
     }
 
-    .input .button {
+    /* 테이블 */
+    .section_find_pw .idt table {
+        width: 80%;
+        margin: auto;
+        margin-top: 15px;
+    }
+
+    /* 테이블 왼쪽 정렬 */
+    .section_find_pw .idt tr {
+        text-align: left;
+    }
+
+    /* 아이디, 이름, 비밀번호, 인증번호 td */
+    .section_find_pw .idt .sub {
+        background-color: rgba(168, 156, 200, 0.6);
+        text-align: center;
+        width: 20%;
+    }
+
+    /* 테이블 tr */
+    .section_find_pw .idt tr {
+        height: 30px;
+    }
+
+    /* 테이블 input */
+    .section_find_pw .idt input,
+    .section_find_pw .idt select {
+        height: 25px;
+        font-size: 15px;
         font-family: "Wanted Sans Variable";
-        font-size: 14px;
+    }
+
+    /* 이메일 input */
+    .section_find_pw .idt .email {
+        width: 30%;
+    }
+
+
+    /* 확인버튼 */
+    .complete_but .complete {
+        font-family: "Wanted Sans Variable";
+        font-size: 19px;
         background-color: rgba(155, 178, 225, 0.6);
         width: 100px;
         height: 30px;
         border: 0;
         border-radius: 5px;
+        margin-top: 15px;
+        margin-bottom: 15px;
     }
 
-    .input .button:hover {
+    .complete_but .complete:hover {
         background-color: rgba(205, 155, 225, 0.6);
     }
 </style>
@@ -43,51 +95,56 @@
 
     <!-- section -->
     <section>
-        <div>
-            <h2 align="center">비밀번호찾기</h2>
-        </div>
+        <div class="section_find_pw">
+            <div class="find_pw">
+                비밀번호찾기
+            </div>
 
-        <div class="idt">
-            <table border="0" width="600px" height="250px" align="center" cellpadding="5" cellspacing="1"
-                bgcolor="cccccc">
-                <tr>
-                    <th width="30%">아이디</th>
-                    <td width="*">
-                        <input type="text" name="userid" placeholder="아이디를 입력해주세요." autofocus>
-                    </td>
-                </tr>
-                <tr>
-                    <th>이름</th>
-                    <td>
-                        <input type="text" name="name" placeholder="이름을 입력해주세요.">
-                    </td>
-                </tr>
-                <tr>
-                    <th>이메일</th>
-                    <td>
-                        <input type="text">@
-                        <select>
-                            <option>naver.com</option>
-                            <option>google.com</option>
-                            <option>daum.net</option>
-                        </select>
-                        <input type="button" value="인증번호 발송" class="button">
-                    </td>
-                </tr>
-                <tr>
-                    <th>인증번호</th>
-                    <td>
-                        <input type="text">
-                    </td>
-                </tr>
-            </table>
+
+
+            <div class="idt">
+                <table>
+                    <tr>
+                        <td class="sub">아이디</td>
+                        <td>
+                            <input type="text" name="userid" placeholder="아이디를 입력해주세요." autofocus>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sub">이름</td>
+                        <td>
+                            <input type="text" name="name" placeholder="이름을 입력해주세요.">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sub">이메일</td>
+                        <td>
+                            <input type="text" placeholder="이메일을 입력해주세요." class="email">@
+                            <select>
+                                <option>naver.com</option>
+                                <option>google.com</option>
+                                <option>daum.net</option>
+                            </select>
+                            <input type="button" value="인증번호 발송" class="verification_code">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sub">인증번호</td>
+                        <td>
+                            <input type="text" placeholder="인증번호를 입력해주세요.">
+                        </td>
+                    </tr>
+                </table>
+                <div class="complete_but">
+                    <button type="button" class="complete">확인</button>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <!-- 확인 -->
-    <div class="input">
-        <input type="button" value="확인" class="button">
-    </div>
+
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="../js/header.js"></script>

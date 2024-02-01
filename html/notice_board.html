@@ -29,6 +29,17 @@
             margin-top: 10px;
         }
 
+        /* 테이블 제목 td */
+        .board_notice .board_sub .sub {
+            width: 60%;
+
+        }
+
+        /* 테이블 등록일 td */
+        .board_notice .board_sub .day {
+            width: 13%;
+        }
+
         /* 글씨체 변경 */
         .paging_writing .writing .change_handwriting,
         .board_notice .search .change_handwriting {
@@ -59,6 +70,28 @@
             border-radius: 5px;
             text-decoration: none;
             color: #333;
+        }
+
+        /* 검색, 글쓰기 버튼 */
+        .board_notice .search .request,
+        .paging_writing .writing .request {
+            font-family: "Wanted Sans Variable";
+            width: 80px;
+            background-color: rgba(155, 178, 225, 0.6);
+            font-size: 18px;
+            border: 0;
+            border-radius: 5px;
+
+        }
+
+        .board_notice .search .request {
+            width: 50px;
+        }
+
+        /* 검색, 글쓰기 버튼 마우스 오버 */
+        .paging_writing .writing .request:hover,
+        .board_notice .search .request:hover {
+            background-color: rgba(205, 155, 225, 0.6);
         }
 
         /* 공지사항 제목 */
@@ -97,9 +130,9 @@
 
         <div class="s_section">
             <div class="left_section">
-                <button type="button" class="sub_but">공지사항</button><br>
-                <button type="button" class="sub_but">Q&A</button><br>
-                <button type="button" class="sub_but">희망도서신청</button>
+                <button type="button" class="sub_but" onclick="location.href='notice_board.html';">공지사항</button><br>
+                <button type="button" class="sub_but" onclick="location.href='QnA_board.html';">Q&A</button><br>
+                <button type="button" class="sub_but" onclick="location.href='wishbook_add.html';">희망도서신청</button>
 
             </div>
             <div class="right_section">
@@ -119,16 +152,16 @@
                             <option>제목</option>
                         </select>
                         <input type="text" class="change_handwriting">
-                        <input type="button" class="change_handwriting" value="검색">
+                        <input type="button" class="change_handwriting request" value="검색">
                     </div>
                     <div class="board">
                         <table class="board_sub">
                             <tr>
                                 <th class="board_subject">순번</th>
                                 <th class="board_subject">공개</th>
-                                <th class="board_subject">제목</th>
+                                <th class="board_subject sub">제목</th>
                                 <th class="board_subject">관할도서관</th>
-                                <th class="board_subject">등록일</th>
+                                <th class="board_subject day">등록일</th>
                                 <th class="board_subject">조회</th>
                             </tr>
                             <tr>
@@ -176,7 +209,7 @@
                     </div>
                     <div class="paging_writing">
                         <div class="writing">
-                            <button class="change_handwriting">글쓰기</button>
+                            <button class="change_handwriting request">글쓰기</button>
                         </div>
                         <div class="paging">
                             <a href="" class="pre underline_remove">◀</a>
