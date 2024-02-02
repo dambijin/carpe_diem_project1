@@ -6,11 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>관리자페이지(회원목록)</title>
 	<link href="../css/layout.css" rel="stylesheet">
-	<link href="../css/member_list.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="../js/admin_library.js"></script>
+<script defer src="../js/admin_library.js"></script>
+<script defer src="../js/admin_member_list.js"></script>
 
 <style>
 header .nav .member_list {
@@ -95,7 +95,13 @@ header .nav .member_list {
 	<header></header>
 
 	<!-- 검색창   -->
+	<button type="button" id="member_add">대출 회원 추가</button>
 	<div class="search">
+		<select class="view_count" onchange="changeViewCount(this.value)">
+			<option value="10">10개씩</option>
+			<option value="20">20개씩</option>
+			<option value="30">30개씩</option>
+		</select>
 		<select align="center" class="select">
 			<option value="">회원번호</option>
 			<option value="">이름</option>
@@ -107,7 +113,8 @@ header .nav .member_list {
 
 	<!-- table -->
 	<div>
-	<table class="member_table" border="0" align="center" cellpadding="5" cellspacing="1">
+	<table class="member_table" border="0" align="center" cellpadding="5" cellspacing="1"
+		id="todo_membertable">
 		<tr>
 			<th width="100">회원번호</th>
 			<th width="100">이름</th>
@@ -120,110 +127,21 @@ header .nav .member_list {
 			<th width="100">정보수정</th>
 		</tr>
 		<tr>
-			<td> </td>
-			<td> </td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>10</td>
+			<td>임우혁</td>
+			<td>2001-05-24</td>
+			<td>010-1234-5678</td>
+			<td>청주</td>
 			<td>
 				<a href="" onclick="overdue_popup()">3일</a>
 			</td>
-			<td><input type="button" value="조회" onclick='alert("예약목록 조회")'></td>
-			<td><input type="button" value="조회" onclick='alert("대출내역 조회")'></td>
+			<td><input type="button" value="조회" onclick="reservation_check()"></td>
+			<td><input type="button" value="조회" onclick="loan_check()"></td>
 			<td><input type="button" value="수정"
 				onclick="location.href='admin_member_chginfo.html';"></td>
 		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td>없음</td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="수정"
-				onclick="location.href='admin_member_chginfo.html';"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td>6일</td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="수정"
-				onclick="location.href='admin_member_chginfo.html';"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="수정"
-				onclick="location.href='admin_member_chginfo.html';"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="수정"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="수정"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="수정"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="수정"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="조회"></td>
-			<td><input type="button" value="수정"></td>
-		</tr>
+		
+		
 	</table>
 	</div>
 

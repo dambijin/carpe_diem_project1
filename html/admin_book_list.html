@@ -5,11 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>관리자페이지(재고)</title>
 	<link href="../css/layout.css" rel="stylesheet">
-	<link href="../css/inventory.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="../js/admin_library.js"></script>
+<script defer src="../js/admin_library.js"></script>
+<script defer src="../js/admin_book_list.js"></script>
 
 <style>
 header .blank_space .nav .book_inventory {
@@ -99,23 +99,29 @@ table tr td {
 	<!-- header -->
 	<header></header>
 
+	<button type="button" id="book_add">책 추가</button>
 	<!-- 검색창   -->
 	<div class="search">
+		<select class="view_count" onchange="changeViewCount(this.value)">
+			<option value="10">10개씩</option>
+			<option value="20">20개씩</option>
+			<option value="30">30개씩</option>
+		</select>
 		<select  align="center" class="select">
 			<option value="">책이름</option>
 			<option value="">회원번호</option>
 			<option value="">신청번호</option>
 			<option value="">신청날짜</option>
 		</select>
-		<input type="text" class="textbox">
-		<button type = "button" class="button">검색</button>
+		<input type="text" class="textbox" id="input_todo">
+		<button type = "button" class="button" id="todo_search">검색</button>
 	</div>
 
 	<!-- table -->
 	<form name="myform" method="post" action="">
 	<div>
 		<table border = "0" width="1200" height="200" align="center"
-			cellpadding="5" cellspacing="1" bgcolor="cccccc">
+			cellpadding="5" cellspacing="1" bgcolor="cccccc" id="todo_booktable">
 			<tr>
 				<th width="100">책이름</th>
 				<th width="100">저자</th>
@@ -133,113 +139,18 @@ table tr td {
 				</th>
 			</tr>
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>java중급</td>
+				<td>최민수강사님</td>
+				<td>2023-05-01</td>
+				<td>12215</td>
+				<td>10</td>
+				<td>천안도서관</td>
+				<td>2024-02-02</td>
 				<td>예약</td>
 				<td>대출중</td>
 				<td><input type="checkbox" name="check"></td>
 			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>예약없음</td>
-				<td>대출중</td>
-				<td><input type="checkbox" name="check"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>예약없음</td>
-				<td>대출중</td>
-				<td><input type="checkbox" name="check"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>예약없음</td>
-				<td>대출중</td>
-				<td><input type="checkbox" name="check"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>예약없음</td>
-				<td>대출중</td>
-				<td><input type="checkbox" name="check"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>예약없음</td>
-				<td>대출중</td>
-				<td><input type="checkbox" name="check"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>예약없음</td>
-				<td>대출중</td>
-				<td><input type="checkbox" name="check"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>예약없음</td>
-				<td>대출중</td>
-				<td><input type="checkbox" name="check"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>예약없음</td>
-				<td>대출중</td>
-				<td><input type="checkbox" name="check"></td>
-			</tr>
+			
 		</table>
 	</form>
 	</div>
@@ -249,7 +160,7 @@ table tr td {
 		<button type="button" class="button"
 			onclick="bookadd_popup()">등록</button>
 		<button type="button" class="button"
-			onclick="alert('폐기되었습니다')">폐기</button>
+			onclick="dispose()">폐기</button>
 	</div>
 
 	<!-- 쪽이동 -->
