@@ -37,26 +37,28 @@
 
     </script>
     <style>
+        /* 개인정보 표 */
         .div_table {
-            width: 600px;
+            width: 100%;
             margin: 10px auto;
             border-collapse: collapse;
         }
 
+        /* 개인정보 배너, 텍스트 설명 */
         .div_back {
-            width: 600px;
+            width: 100%;
             margin: auto;
         }
-
+        /* 동의 체크박스 */
         .div_agree {
-            width: 600px;
+            width: 100%;
             text-align: right;
             margin: 20px auto;
 
         }
 
         .table_table {
-            width: 600px;
+            width: 100%;
             text-align: center;
             border-collapse: collapse;
         }
@@ -67,7 +69,7 @@
         }
 
         textarea {
-            width: 600px;
+            width: 100%;
             height: 300px
         }
 
@@ -78,7 +80,7 @@
         }
 
         .div_buttonAll {
-            width: 600px;
+            width: 100%;
             margin: auto;
         }
 
@@ -99,6 +101,7 @@
             text-align: center;
         }
 
+        /* 개인정보 배너 */
         #head {
             font-size: 25px;
             font-weight: bold;
@@ -108,23 +111,24 @@
 
         #div_table {
 
-            width: 600px;
+            width: 100%;
             margin: auto;
         }
 
+        /* 개인정보 표 */
         #table2 {
 
             background-color: white;
-            width: 600px;
+            width: 100%;
             border-collapse: collapse;
         }
-
+         /* 개인정보 표 */
         #table_tr {
 
             background-color: rgba(168, 156, 200, 0.6);
             text-align: center;
         }
-
+         /* 개인정보 표 */
         #table_tr2 {
             background-color: white;
         }
@@ -140,7 +144,7 @@
         }
 
         .input_phone {
-            width: 100px;
+            width: 80px;
         }
 
         button {
@@ -166,7 +170,7 @@
 
         select {
             height: 25px;
-           
+
         }
 
         font {
@@ -184,6 +188,23 @@
         .inputbox {
             font-size: 18px;
             font-family: "Wanted Sans Variable";
+
+        }
+
+        .but_upload {
+            font-family: "Wanted Sans Variable";
+            width: 80px;
+            background-color: rgba(155, 178, 225, 0.6);
+            font-size: 18px;
+            border: 0;
+            border-radius: 5px;
+            height: 30px;
+
+        }
+
+        #select_phone {
+            width: 50px;
+            font-size: 18px;
 
         }
     </style>
@@ -270,7 +291,7 @@
                                 </tr>
                                 <tr>
                                     <th>휴대폰번호</th>
-                                    <td> <select>
+                                    <td> <select id="select_phone">
                                             <option disabled selected>선택하세요</option>
                                             <option>010</option>
                                             <option>011</option>
@@ -300,7 +321,8 @@
                                 </tr>
                                 <tr>
                                     <th>첨부파일</th>
-                                    <td><input type="text"></td>
+                                    <td><input type="text" class="inputbox"></td>
+                                    <td><button type="button" class="but_upload">▲업로드</button></td>
                                 </tr>
                                 <tr>
                                     <th>비밀번호(비회원)</th>
@@ -317,9 +339,9 @@
                     <div class="div_buttonAll">
 
                         <div class="div_button">
-                            <button>저장</button> &nbsp;
-                            <button>취소</button> &nbsp;
-                            <button>목록</button> &nbsp;
+                            <button type="submit">저장</button> &nbsp;
+                            <button type="reset">취소</button> &nbsp;
+                            <a href="QnA_board.html"><button type="button">목록</button></a> &nbsp;
                         </div>
 
                     </div>

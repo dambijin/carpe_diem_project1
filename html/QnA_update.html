@@ -95,7 +95,7 @@
         }
 
         .input_phone {
-            width: 100px;
+            width: 80px;
         }
 
         input[type=radio] {
@@ -123,6 +123,11 @@
         .inputbox {
             font-size: 18px;
             font-family: "Wanted Sans Variable";
+
+        }
+        #select_phone {
+            width : 50px;
+            font-size: 18px;
 
         }
     </style>
@@ -159,7 +164,7 @@
                             </tr>
                             <tr>
                                 <th>휴대폰번호</th>
-                                <td> <select>
+                                <td> <select id="select_phone">
                                         <option disabled selected>선택하세요</option>
                                         <option>010</option>
                                         <option>011</option>
@@ -185,7 +190,8 @@
                             </tr>
                             <tr>
                                 <th>첨부파일</th>
-                                <td><input type="text"></td>
+                                <td><input type="text" class="inputbox"></td>
+                                <td><button type="button" class="but_upload">▲업로드</button></td>
                             </tr>
                             <tr>
                                 <th>비밀번호(비회원)</th>
@@ -201,9 +207,9 @@
                     <div class="div_buttonAll">
 
                         <div class="div_button">
-                            <button>저장</button> &nbsp;
-                            <button>취소</button> &nbsp;
-                            <button>목록</button> &nbsp;
+                            <button type="submit">저장</button> &nbsp;
+                            <button type="reset">취소</button> &nbsp;
+                            <a href="QnA_board.html"><button type="button">목록</button></a> &nbsp;
                         </div>
 
                     </div>
