@@ -1,3 +1,4 @@
+
 let bookpopup;
 
 // 회원정보 수정
@@ -13,12 +14,13 @@ function bookadd_popup() {
 // admin_book_add 책 등록           미완성
 function bookAdd() {
     alert("등록되었습니다");
-    window.opener.location.reload();
+    // window.opener.location.reload();
     window.close();
 }
 // admin_book_add 닫기          미완성
 function close() {
-    bookpopup.close();
+    window.open('', '_self', '');
+    window.close();
 }
 // 도서폐기 전체선택
 function fn_allcheck() {
