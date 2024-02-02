@@ -12,23 +12,6 @@
             font-family: "Wanted Sans Variable";
         }
 
-        .search {
-            width: 55%;
-            height: 40px;
-            font-family: "Wanted Sans Variable";
-            font-size: 20px;
-        }
-
-        .search_option {
-            height: 46px;
-            font-family: "Wanted Sans Variable";
-        }
-
-        .search_button {
-            height: 46px;
-            font-family: "Wanted Sans Variable";
-        }
-
         nav .banner {
             width: 80%;
             margin-bottom: 10px;
@@ -101,20 +84,105 @@
             border: none;
             width: 90%;
         }
+
+        /* 검색창관련 */
+        .search_box{
+            width: 80%;
+            margin: auto;
+        }
+        .search_fieldset {
+            margin: auto;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-inline-start: 0px;
+            border: 0px solid #ccc;
+            justify-content: center;
+        }
+
+        .search_fieldset legend {
+            margin-right: 20px;
+        }
+
+        .search_fieldset .result {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .search_fieldset .search {
+            flex: 4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search_fieldset .search .input {
+            flex: 4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search_fieldset .search .input select {
+            flex: 1;
+            margin-right: 10px;
+            height: 40px;
+            font-size: 18px;
+            font-family: 'Wanted Sans Variable';
+        }
+
+        .search_fieldset .search .input input {
+            flex: 3;
+            padding: 5px;
+            border: 1px solid #ccc;
+            height: 35px;
+            font-family: 'Wanted Sans Variable';
+            font-size: 18px;
+        }
+
+        .search_fieldset .search .btn-search {
+            flex: 1;
+            padding: 5px 10px;
+            background-color: rgba(168, 156, 200, 1.0);
+            color: #eee;
+            border: none;
+            cursor: pointer;
+            height: 45px;
+            font-family: 'Wanted Sans Variable';
+            font-size: 18px;
+        }
     </style>
 </head>
 
 <body>
     <header></header>
     <div class="bodysize">
-        <div>
-            <select class="search_option">
-                <option>자료검색</option>
-                <option>제목</option>
-                <option>저자</option>
-            </select>
-            <input type="text" class="search">
-            <button type="button" class="search_button">검색</button>
+        <div class="search_box">
+            <fieldset class="search_fieldset">
+                <!-- <legend>통합검색</legend> -->
+                <div class="search">
+                    <div class="input">
+                        <strong>
+                            <select name="item">
+                                <option value="total">전체
+                                </option>
+                                <option value="title">제목
+                                </option>
+                                <option value="author">저자
+                                </option>
+                                <option value="publisher">발행처
+                                </option>
+                                <option value="keyword">키워드
+                                </option>
+                            </select>
+                        </strong>
+                        <input type="text" name="word" autocomplete="off" id="searchWord" style="ime-mode:active"
+                            placeholder="검색어를 적어주세요">
+                        <!-- input type="hidden" name="item" value="title" id="item" -->
+                    </div>
+                    <input type="submit" class="btn btn-search" value="도서검색">
+            </fieldset>
         </div>
         <br>
         <nav>

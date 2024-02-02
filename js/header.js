@@ -1,5 +1,5 @@
 document.querySelector('header').innerHTML = `
-    <div class="blank_space"> </div>
+    <div class="blank_space"><a href="admin_member_list.html">관리자페이지</a></div>
 
     <div class="headerbox" onclick="location.href='main.html';">
         <img class="logo" width="30px"
