@@ -22,6 +22,7 @@
             border-radius: 20px;
             width: 600px;
             margin: auto;
+            height: 220px;
             text-align: center;
             font-family: "Wanted Sans Variable";
         }
@@ -40,16 +41,28 @@
         }
 
         .search_text {
-            
-            width: 450px;
-            border-collapse : collapse;
+            width: 80%;
+            text-align: left;
+            margin: auto;
+            margin-top: 20px;
         }
         .search_text tr th {
             background-color : rgba(168, 156, 200, 0.6);
+            text-align: center;
+            width: 30%;
         }
-        .search_text tr td {
-            width: 100px;
-            height: 30px;
+        input {
+	        width: 150px;
+	        height: 20px;
+        }
+        .search_text .text_name {
+            height: 25px;
+            font-size: 15px;
+        }
+        .search_text tr .sub {
+            text-align: center;
+            width: 25%;
+            background-color: rgba(168, 156, 200, 0.6);
         }
 
         .search_text th {
@@ -63,14 +76,15 @@
             margin-top: 20px;
         }
 
-        .btnSearch .button {
+        .btnSearch #button {
             font-family: "Wanted Sans Variable";
-            font-size: 14px;
+            font-size: 19px;
             background-color: rgba(155, 178, 225, 0.6);
             width: 100px;
             height: 30px;
             border: 0;
             border-radius: 5px;
+            margin-bottom: 15px;
         }
 
 
@@ -78,7 +92,7 @@
             width: 80%;
             margin: auto;
         }
-        .btnSearch .button:hover {
+        .btnSearch #button:hover {
         background-color: rgba(205, 155, 225, 0.6);
         }
 
@@ -91,7 +105,20 @@
         .email_find .search .search_title:hover {
             background-color: rgba(140, 201, 240, 0.6);
         }
+        .email_find .text_email {
+            width: 25%;
+            height: 25px;
+        }
     </style>
+    <script>
+        window.onload = function () {
+            let button = document.getElementById('button');
+
+            button.addEventListener('click', function() {
+                alert("해당 정보의 아이디는 'abcd' 입니다")
+            });
+        };
+    </script>
 </head>
 
 <body>
@@ -106,19 +133,21 @@
                 <div class="search_title" onclick="location.href='find_id_tel.html'" style="cursor:pointer">
                     전화번호로 찾기
             </div>
-            <div><br></div>
-            <table class="search_text" border="0" cellpadding="5" align="center">
+            
+            <table class="search_text" cellpadding="5">
                 <tr>
-                    <th width="30%">이름</th>
-                    <td width="*"><input type="text" placeholder="이름을 입력해주세요."></td>
+                    <td width="30%" name="userid" class="sub">이름</td>
+                    <td width="*"><input type="text" class="text_name" placeholder="이름을 입력해주세요."></td>
                 </tr>
                 <tr>
-                    <th>이메일</th>
-                    <td><input type="text" placeholder="이메일을 입력해주세요."> @
-                        <select>
+                    <td class="sub" name="eamil">이메일</td>
+                    <td><input type="text" class="text_email" placeholder="이메일을 입력해주세요."> @
+                        <input type="text" class="text_email" placeholder="직접입력">
+                        <select style="height:30px;">
                             <option value="naver.com">naver.com</option>
                             <option value="google.com">google.com</option>
                             <option value="daum.net">daum.net</option>
+                            <option value="직접입력">직접입력</option>
                         </select>
                     </td>
                 </tr>
@@ -126,7 +155,7 @@
          
 
             <div class="btnSearch">
-                <input type="button" name="enter" value="확인" class="button" align="center">
+                <input type="button" name="enter" value="확인" id="button" onclick="location.href='find_id_tel.html'">
             </div>
         </div>
         
