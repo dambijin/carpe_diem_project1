@@ -11,27 +11,18 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
     <script>
-        window.onload = function () {
+        window.addEventListener("load", function () {
             let button1 = document.getElementById('button_click');
 
-            let btn = document.getElementById('btn');
 
 
             button1.addEventListener('click', function () {
-                window.open('http://127.0.0.1:5500/html/info_change.html', '_self')
+                window.open('http://127.0.0.1:5500/html/mypage_chginfo.html', '_self')
 
             });
-            btn.addEventListener('click', function () {
+        })
 
-                alert(
-                    $("select[name=a] option:selected").text() +
-                    $("select[name=b] option:selected").text() +
-                    "로 검색하셨습니다."
 
-                );
-            });
-
-        };
 
     </script>
     <style>
@@ -65,67 +56,71 @@
                                     회원번호 : -- <br>
                                     대출가능여부 : --
                                 </td>
-
+                                <td> <button type="button" id="button_click">정보수정</button></td>
                             </tr>
+
+
                         </table>
-                        <div id="button">
-                            <button type="button" id="button_click">정보수정</button>
-                        </div>
                         <!-- 분류 -->
-                        <div id="select">
-                            <table>
-                                <tr>
-                                    <td><select name="a">
-                                            <option disabled selected>출력 건수</option>
-                                            <option>10개씩</option>
-                                        </select></td>
-                                    <td><select name="b">
+                        <div>
+                            <div id="select">
+                                <div>
+
+                                    <select>
+                                        <option disabled selected>출력 건수</option>
+                                        <option>10개씩</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="select1">
+                                <div>
+                                    <td><select>
                                             <option disabled selected> - 도서관 전체</option>
                                             <option>중앙도서관</option>
                                         </select></td>
-                                    <td>
-                                        <button type="button" id="btn">검색</button>
-                                    </td>
-                                </tr>
-                            </table>
-                            <!-- 보드 -->
-                        </div>
-                        <table id="page1">
-                            <tr id="page1_tr">
-                                <th>희망소장처</th>
-                                <th>자료명</th>
-                                <th>저자</th>
-                                <th>발행년도</th>
-                                <th>ISBN/ISSN 번호</th>
-                                <th>신청사유</th>
-                                <th>출판사</th>
-                                <th>휴대폰번호</th>
-                                <th>신청일자</th>
-                                <th>처리상태</th>
-                                <th>취소</th>
-                            </tr>
-                            <tr>
-                                <td>?</td>
-                                <td>아몰랑</td>
-                                <td>아몰랑</td>
-                                <td>아몰랑</td>
-                                <td>?</td>
-                                <td>정상</td>
-                                <td>아몰랑</td>
-                                <td>010-0000-0000</td>
-                                <td>2024.03.03</td>
-                                <td>정상</td>
-                                <td><input type="checkbox"></td>
-                            </tr>
-                            </tr>
-                        </table>
 
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 보드 -->
                     </div>
-                    <div id="button_cancle">
-                        <button>취소</button>
-                    </div>
+                    <table id="page1">
+                        <tr id="page1_tr">
+                            <th>희망소장처</th>
+                            <th>자료명</th>
+                            <th>저자</th>
+                            <th>발행년도</th>
+                            <th>ISBN/ISSN 번호</th>
+                            <th>신청사유</th>
+                            <th>출판사</th>
+                            <th>휴대폰번호</th>
+                            <th>신청일자</th>
+                            <th>처리상태</th>
+                            <th>취소</th>
+                        </tr>
+                        <tr class="tr">
+                            <td>?</td>
+                            <td>아몰랑</td>
+                            <td>아몰랑</td>
+                            <td>아몰랑</td>
+                            <td>?</td>
+                            <td>정상</td>
+                            <td>아몰랑</td>
+                            <td>010-0000-0000</td>
+                            <td>2024.03.03</td>
+                            <td>정상</td>
+                            <td><input type="checkbox"></td>
+                        </tr>
+                        </tr>
+                    </table>
+
+                </div>
+                <div id="button_cancle">
+                    <button>취소</button>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 

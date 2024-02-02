@@ -7,38 +7,51 @@ section{
     /* width: 800px; */
     margin: auto;
     width: 100%;
+   
 }
 .div1_table{
     margin: auto;
-    width: 90%;
+    width: 100%;
     margin : 0px 0px 0px 0px;
+    display: inline-block;
 }
 
 .info {
     border: 1px solid rgb(190, 187, 187);
     border-radius: 10px;
     text-align: center;
-    width: 20%;
+    width: 30%;
 }
 .info1 {
     border: 1px solid rgb(190, 187, 187);
     border-radius: 10px;
-    width : 65%;
+    width : 70%;
 }
 
 #button {
     border: 1px solid white;
-    display: flex;
-    position: absolute;
-    margin : -8.3% 10% 10% 49%;
+
+    
     
 }
 
 #select {
-    
+    width : 49%;
     margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 65%;
+    margin-bottom: 10px; 
+    display: inline-block;
+    position: relative;
+   
+   
+}
+#select1 {
+    width : 49%;
+    margin-top: 10px;
+    margin-bottom: 10px; 
+    text-align: right;
+    display: inline-block;
+  
+    
 }
 
 #page1 {
@@ -47,6 +60,7 @@ section{
     /* width: 800px; */
     width: 100%;
     font-size: 12px;
+    border-collapse: collapse;
 }
 
 #page1_tr {
@@ -56,7 +70,7 @@ section{
 
 #button_click {
     padding: 20px 10px;
-    margin-top: 45px;
+    
 }
 
 .button_click1 {
@@ -68,15 +82,24 @@ button:hover {
 }
 
 .right_section button {
-    background-color: rgba(140, 201, 240, 0.6);
+    font-family: "Wanted Sans Variable";
+    background-color: rgba(155, 178, 225, 0.6);
     border-radius: 6px;
-    border: 1px solid #8CC9F0;
+    border: 0px;
     font-family: Arial;
     font-size: 12px;
     font-weight: bold;
+    border-radius: 5px;
 
 }
 #button_cancle {
     
-    margin : 10px 0px 0px 94%;
+    margin : 10px 0px 0px 93%;
+   
+
+}
+.tr {
+    border-bottom : 1px solid black;
+    border-top : 1px solid black;
+    height : 40px;
 }

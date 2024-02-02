@@ -10,34 +10,19 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
     <script>
-        function checkOnlyOne(element) {
+      
+        window.addEventListener("load", function(){
+            save();
+        })
 
-            const checkboxes
-                = document.getElementsByName("pub");
-
-            checkboxes.forEach((cb) => {
-                cb.checked = false;
-            })
-
-            element.checked = true;
+        function save (){
+            let textarea = document.querySelector("#textarea");
+            
         }
-        function checkOnlyOne(element) {
-
-            const checkboxes
-                = document.getElementsByName("npub");
-
-            checkboxes.forEach((cb) => {
-                cb.checked = false;
-            })
-
-            element.checked = true;
-        }
-
-
 
     </script>
     <style>
-        /* 개인정보 표 */
+        /* 개인정보 표, 글쓰기 표 */
         .div_table {
             width: 100%;
             margin: 10px auto;
@@ -49,6 +34,7 @@
             width: 100%;
             margin: auto;
         }
+
         /* 동의 체크박스 */
         .div_agree {
             width: 100%;
@@ -57,28 +43,33 @@
 
         }
 
+        /* 글쓰기 */
         .table_table {
             width: 100%;
             text-align: center;
             border-collapse: collapse;
         }
 
+        /* 표 */
         tr {
             border-bottom: 1px solid rgba(59, 57, 63, 0.445);
             height: 50px
         }
 
+        /* 글쓰기 박스 */
         textarea {
             width: 100%;
             height: 300px
         }
 
+        /* 버튼 */
         .div_button {
             text-align: right;
             margin-top: 30px;
 
         }
 
+        /* 버튼 */
         .div_buttonAll {
             width: 100%;
             margin: auto;
@@ -93,10 +84,11 @@
 
         td {
             text-align: left;
-
+            width: 30%;
             padding: 7px;
         }
 
+        /* 개인정보 표 세부사항 */
         .td1 {
             text-align: center;
         }
@@ -122,13 +114,15 @@
             width: 100%;
             border-collapse: collapse;
         }
-         /* 개인정보 표 */
+
+        /* 개인정보 표 */
         #table_tr {
 
             background-color: rgba(168, 156, 200, 0.6);
             text-align: center;
         }
-         /* 개인정보 표 */
+
+        /* 개인정보 표 */
         #table_tr2 {
             background-color: white;
         }
@@ -184,6 +178,7 @@
             width: 200px;
         }
 
+        /* 인풋박스 통합 폰트 지정 */
         .input_phone,
         .inputbox {
             font-size: 18px;
@@ -265,9 +260,9 @@
                         <!-- 개인정보 이용동의 체크 -->
                         <div class="div_agree">
 
-                            <input type="radio" name="npub">
+                            <input type="radio" name="agree">
                             <font> 동의함</font>
-                            <input type="radio" name="npub">
+                            <input type="radio" name="agree">
                             <font> 동의안함</font>
 
                         </div>
@@ -333,13 +328,13 @@
                         <!-- 글쓰기 -->
                     </div>
                     <div class="td1">
-                        <textarea></textarea>
+                        <textarea id="textarea"></textarea>
                     </div>
                     <!-- 버튼 -->
                     <div class="div_buttonAll">
 
                         <div class="div_button">
-                            <button type="submit">저장</button> &nbsp;
+                            <button type="submit" id="save">저장</button> &nbsp;
                             <button type="reset">취소</button> &nbsp;
                             <a href="QnA_board.html"><button type="button">목록</button></a> &nbsp;
                         </div>
