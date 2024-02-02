@@ -145,6 +145,7 @@ section .sub_but {
     border-radius: 5px;
     border: 0;
     padding: 10px;
+    cursor: pointer;
     /* height: 40px; */
 }
 
