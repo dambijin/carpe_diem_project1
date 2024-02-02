@@ -2,16 +2,20 @@ document.querySelector('header').innerHTML = `
     <div class="blank_space"> </div>
 
     <div class="headerbox" onclick="location.href='main.html';">
-        <img class="logo" width="30px"
-            src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
+    <img class="logo" width="30px"
+    src="../resource/logo.png">
         도서관리시스템
     </div>
     <div class="sign_up_in">
         <div class="sign_in">
-            로그인&nbsp;
+            <a href="sign_in.html">
+                로그인&nbsp;
+            </a>
         </div>
         <div class="sign_up">
-            회원가입
+            <a href="sign_up.html">
+                회원가입
+            </a>
         </div>
     </div>
 
