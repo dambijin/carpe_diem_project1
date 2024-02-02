@@ -11,7 +11,7 @@ header {
     font-family: 'KNUTRUTHTTF';
     text-align: center;
     margin: auto;
-    width: 80%;
+    width: 80%; 
 }
 
 header .headerbox {
@@ -20,6 +20,7 @@ header .headerbox {
     text-align: center;
     margin: auto;
     display: inline-block;
+    cursor: pointer;
 }
 
 header .custom-hr {

@@ -1,7 +1,7 @@
 document.querySelector('header').innerHTML = `
     <div class="blank_space"> </div>
 
-    <div class="headerbox">
+    <div class="headerbox" onclick="location.href='main.html';">
         <img class="logo" width="30px"
             src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png">
         도서관리시스템
