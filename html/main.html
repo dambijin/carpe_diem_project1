@@ -6,17 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 페이지</title>
     <link href="../css/layout.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../css/calender.css">
+    <script src="../js/main.js"></script>
+
     <style>
+        /* 바디사이즈 */
         .bodysize {
             text-align: center;
             font-family: "Wanted Sans Variable";
         }
 
+        /* 배너 */
         nav .banner {
-            width: 80%;
+            width: 70%;
             margin-bottom: 10px;
         }
 
+        /* 섹션 */
         .library_information_content {
             width: 70%;
             margin: auto;
@@ -33,7 +41,16 @@
             background-color: rgba(168, 156, 200, 0.6);
             height: 150px;
             width: 100%;
+            font-size: 20px;
+            font-weight: bold;
+        }
 
+        /* 공지사항테이블 */
+        .announcement_table {
+            font-size: 16px;
+            font-weight: normal;
+            margin-top: 10px;
+            width: 100%;
         }
 
         /* 신착도서 */
@@ -86,10 +103,11 @@
         }
 
         /* 검색창관련 */
-        .search_box{
+        .search_box {
             width: 80%;
             margin: auto;
         }
+
         .search_fieldset {
             margin: auto;
             display: flex;
@@ -141,6 +159,7 @@
             font-size: 18px;
         }
 
+        /* 자료검색 */
         .search_fieldset .search .btn-search {
             flex: 1;
             padding: 5px 10px;
@@ -186,13 +205,13 @@
         </div>
         <br>
         <nav>
-            <img class="banner"
-                src="https://cdn.discordapp.com/attachments/1200354574037434461/1201720646124707870/banner.png?ex=65cad890&is=65b86390&hm=e9f9c0f357620caee5a714988ff0a5690f5a536763013c81f14a970ddbf67c56&">
+            <img class="banner" src="../resource/banner.png">
         </nav>
         <section class="library_information_content">
             <div class="announcement_library_information">
                 <div class="announcement">
-                    <table>
+                    공지사항
+                    <table class="announcement_table" id="announcement_table">
                         <tr>
                             <td class="ann_title">
                                 독서토론대회
@@ -233,14 +252,7 @@
                                 2023-01-30
                             </td>
                         </tr>
-                        <tr>
-                            <td class="ann_title">
-                                독서진흥경진대회(무박 대회)
-                            </td>
-                            <td class="ann_day">
-                                2023-01-30
-                            </td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="newbook">
@@ -308,54 +320,12 @@
                         두정동도서관
                     </option>
                 </select>
-                <table class="library_infor">
-                    <tr>
-                        <td>
-                            <hr class="gubun">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            이용시간
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            평일 : 오전 9시 ~ 오후 10시 <br>
-                            주말 : 오전 9시 ~ 오후8시<br>
-                            공휴일 : 휴관
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <hr class="gubun">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            휴관일
-                        </td>
-                    </tr>
+                <div class="calendar">
+                    휴관일
+                    <div id="datepicker">
+                    </div>
+                </div>
 
-                    <tr>
-                        <td>
-                            1월
-                        </td>
-                    </tr>
-                    <!-- 달력 -->
-                    <tr>
-                        <!-- jquery로 달력넣기 -->
-                        <td>일 월 화 수 목 금 토</td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            휴관일을 확인하세요
-                        </td>
-                    </tr>
-
-
-                </table>
             </div>
         </section>
     </div>
