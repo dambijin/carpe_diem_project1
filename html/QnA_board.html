@@ -13,31 +13,40 @@
         });
 
         function search() {
+            // 검색버튼
             let search1 = document.getElementsByClassName("search_button")[0]
+
+            // 검색 input
             let input = document.querySelector(".search_input")
+
+            // 게시판 테이블
             let board_sub = document.querySelector(".board_sub")
+
+            // 검색버튼 클릭
             search1.addEventListener("click", function () {
                 alert(input.value);
             })
-            let btn = document.querySelector(".btn");
-           
 
-            let title= "이것은 제목~"
+            // 임시버튼
+            let btn = document.querySelector(".btn");
+            let title = "이거슨 제목~"
+
+            // 임시버튼을 클릭
             btn.addEventListener("click", function () {
                 let html = '';
-                    html +='           <td></td>';
-                    html +='           <td></td>';
-                    html +='            <td>'+title+'</td>';
-                    html +='           <td></td>';
-                    html +='           <td></td>';
-                    html +='           <td></td>';
-                   
-                    let tr = document.createElement("tr"); // <tr></tr>
-                     tr.innerHTML = html;
-                     board_sub.append(tr);
-                
+                html += '           <td></td>';
+                html += '           <td></td>';
+                html += '            <td>' + title + '</td>';
+                html += '           <td></td>';
+                html += '           <td></td>';
+                html += '           <td></td>';
+
+                let tr = document.createElement("tr");
+                tr.innerHTML = html;
+                board_sub.append(tr);
+
             })
-           
+
 
         }
     </script>
@@ -78,7 +87,8 @@
 
         /* 글씨체 변경 */
         .paging_writing .writing .change_handwriting,
-        .board_notice .search .change_handwriting {
+        .board_notice .search .change_handwriting,
+        .board_notice .board .change_handwriting {
             font-family: "Wanted Sans Variable";
             font-size: 16px;
 
@@ -253,7 +263,7 @@
                         <div class="writing">
                             <button class="change_handwriting request"
                                 onclick="location.href='QnA_write.html';">글쓰기</button>
-                            <button class="btn" >이거슨 버튼</button>
+                            <button class="btn">이거슨 버튼</button>
                         </div>
                         <div class="search">
 

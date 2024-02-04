@@ -38,11 +38,13 @@
 
         /* 공지사항 */
         .announcement {
-            background-color: rgba(168, 156, 200, 0.6);
-            height: 150px;
             width: 100%;
             font-size: 20px;
             font-weight: bold;
+            border: 2px solid rgba(168, 156, 200, 0.6);
+            border-bottom: 0px;
+            background-color: rgba(168, 156, 200, 0.6);
+
         }
 
         /* 공지사항테이블 */
@@ -51,13 +53,40 @@
             font-weight: normal;
             margin-top: 10px;
             width: 100%;
+            border-collapse: collapse;
+
+        }
+
+        /* 공지사항 td */
+        .announcement_library_information .announcement_table td {
+            border-bottom: 2px solid rgba(168, 156, 200, 0.6);
         }
 
         /* 신착도서 */
         .announcement_library_information .newbook {
-            background-color: rgba(155, 178, 225, 0.6);
-            height: 300px;
+            height: 320px;
             width: 100%;
+            background-color: rgba(140, 201, 240, 0.6);
+            border: 2px solid rgba(140, 201, 240, 0.6);
+            border-bottom: 0px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* 신착도서 테이블 */
+        .newbook_table {
+            margin-top: 10px;
+            font-size: 15px;
+            font-weight: normal;
+        }
+
+        .newbook_table td {
+            border-right: 2px solid rgba(140, 201, 240, 0.6);
+        }
+
+        /* 신착도서 div */
+        .newbook_table .newbook_div {
+            margin-top: 8px;
         }
 
         /* 도서관별이용정보 */
@@ -71,9 +100,18 @@
             padding-top: 8px;
         }
 
+        /* 이용정보 */
+        .library_information .calendar {
+            text-align: center;
+            margin: auto;
+        }
+
+
         .library_information_content .announcement_library_information .announcement .ann_title {
             width: 80%;
         }
+
+
 
         .library_information_content .announcement_library_information .announcement,
         .library_information_content .announcement_library_information .newbook table,
@@ -86,7 +124,7 @@
         }
 
         .announcement_library_information .newbook_img {
-            width: 100%;
+            width: 200px;
         }
 
         .bodysize select,
@@ -207,10 +245,11 @@
         <nav>
             <img class="banner" src="../resource/banner.png">
         </nav>
+
         <section class="library_information_content">
             <div class="announcement_library_information">
                 <div class="announcement">
-                    공지사항
+                    공지사항<button type="button" id="completion">임시추가버튼</button>
                     <table class="announcement_table" id="announcement_table">
                         <tr>
                             <td class="ann_title">
@@ -236,72 +275,22 @@
                                 2023-01-30
                             </td>
                         </tr>
-                        <tr>
-                            <td class="ann_title">
-                                독서진흥경진대회(무박 대회)
-                            </td>
-                            <td class="ann_day">
-                                2023-01-30
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="ann_title">
-                                독서진흥경진대회(무박 대회)
-                            </td>
-                            <td class="ann_day">
-                                2023-01-30
-                            </td>
-                        </tr>
-
                     </table>
                 </div>
+
                 <div class="newbook">
-                    <table>
-                        <tr>
+                    신착도서 <button type="button" id="newbook_but">임시추가버튼</button>
+                    <table class="newbook_table">
+                        <tr id="nb">
                             <td>
-                                <img class="newbook_img"
-                                    src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
+                                <div>
+                                    <img class="newbook_img"
+                                        src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
+                                </div>
+                                <div class="newbook_div">자바스크립트</div>
+                                <div class="newbook_div">저자 : 김땡땡</div>
                             </td>
-                            <td>
-                                <img class="newbook_img"
-                                    src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
-                            </td>
-                            <td>
-                                <img class="newbook_img"
-                                    src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
-                            </td>
-                            <td>
-                                <img class="newbook_img"
-                                    src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                자바스크립트
-                            </td>
-                            <td>
-                                CSS
-                            </td>
-                            <td>
-                                HTML
-                            </td>
-                            <td>
-                                Oracle로 배우는 데이터베이스
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                저자 : 김해
-                            </td>
-                            <td>
-                                저자 : 이시은
-                            </td>
-                            <td>
-                                저자 : 김봄
-                            </td>
-                            <td>
-                                저자 : 김달
-                            </td>
+
                         </tr>
                     </table>
                 </div>
@@ -311,15 +300,19 @@
                 이용 정보
                 <select>
                     <option>
-                        중앙도서관
+                        천안도서관
                     </option>
                     <option>
-                        도솔도서관
+                        두정도서관
                     </option>
                     <option>
-                        두정동도서관
+                        아우내도서관
                     </option>
                 </select>
+                <div>
+                    이용시간
+
+                </div>
                 <div class="calendar">
                     휴관일
                     <div id="datepicker">

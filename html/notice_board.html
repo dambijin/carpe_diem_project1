@@ -4,8 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지사항 게시판</title>
+    <title>공지사항</title>
     <link href="../css/layout.css" rel="stylesheet">
+    <script>
+
+        window.addEventListener("load", function () {
+            search();
+        });
+
+        function search() {
+            // 검색버튼
+            let search1 = document.getElementsByClassName("search_button")[0]
+
+            // 검색 input
+            let input = document.querySelector(".search_input")
+
+            // 게시판 테이블
+            let board_sub = document.querySelector(".board_sub")
+
+            // 검색버튼 클릭
+            search1.addEventListener("click", function () {
+                alert(input.value);
+            })
+
+            // 임시버튼
+            let btn = document.querySelector(".btn");
+            let title = "제목입니다";
+
+            // 임시버튼을 클릭
+            btn.addEventListener("click", function () {
+                let html = '';
+                html += '           <td></td>';
+                html += '           <td></td>';
+                html += '            <td>' + title + '</td>';
+                html += '           <td></td>';
+                html += '           <td></td>';
+                html += '           <td></td>';
+
+                let tr = document.createElement("tr");
+                tr.innerHTML = html;
+                board_sub.append(tr);
+
+            })
+
+
+        }
+    </script>
     <style>
         /* 헤더 아래 */
         .board_notice {
@@ -40,16 +84,19 @@
             width: 13%;
         }
 
+
         /* 글씨체 변경 */
         .paging_writing .writing .change_handwriting,
-        .board_notice .search .change_handwriting {
+        .board_notice .search .change_handwriting,
+        .board_notice .board .change_handwriting {
             font-family: "Wanted Sans Variable";
             font-size: 16px;
         }
 
         /* 출력건수,제목, 검색(테이블 바로 위에) */
         .board_notice .search {
-            text-align: right;
+            text-align: center;
+            margin-top: 20px;
         }
 
         /* 테이블 tr */
@@ -65,12 +112,13 @@
 
         /* 페이지 쪽수 */
         .board_notice .paging {
-            margin: 0 5px;
+            margin: 10px 5px;
             padding: 5px 10px;
             border-radius: 5px;
             text-decoration: none;
             color: #333;
         }
+
 
         /* 검색, 글쓰기 버튼 */
         .board_notice .search .request,
@@ -82,22 +130,18 @@
             border: 0;
             border-radius: 5px;
             cursor: pointer;
+
+
         }
 
         .board_notice .search .request {
-            width: 50px;
+            width: 10%;
         }
 
         /* 검색, 글쓰기 버튼 마우스 오버 */
         .paging_writing .writing .request:hover,
         .board_notice .search .request:hover {
             background-color: rgba(205, 155, 225, 0.6);
-        }
-
-        /* 공지사항 제목 */
-        .right_section .notice_subject {
-            font-size: 30px;
-            font-weight: bold;
         }
 
         .paging_writing {
@@ -108,7 +152,8 @@
         /* 글쓰기버튼 div*/
         .board_notice .writing {
             text-align: right;
-            margin-top: 10px;
+            margin: 10px auto;
+            width: 100%;
         }
 
         /* 순번,분류,제목,관할도서관,등록일,조회 tr */
@@ -121,18 +166,28 @@
             text-decoration: none;
             font-size: 20px;
         }
+
+        /* QnA 제목 */
+        .right_section .notice_subject {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        #select {
+            text-align: right;
+        }
     </style>
 </head>
 
 <body>
     <header></header>
     <section>
-
         <div class="s_section">
             <div class="left_section">
                 <button type="button" class="sub_but" onclick="location.href='notice_board.html';">공지사항</button><br>
                 <button type="button" class="sub_but" onclick="location.href='QnA_board.html';">Q&A</button><br>
                 <button type="button" class="sub_but" onclick="location.href='wishbook_add.html';">희망도서신청</button>
+
 
             </div>
             <div class="right_section">
@@ -140,25 +195,19 @@
                     공지사항
                 </div>
                 <div class="board_notice">
-                    <div class="search">
-                        <select class="change_handwriting">
-                            <option>10개</option>
-                            <option>20개</option>
-                            <option>30개</option>
-                        </select>
-                        <select class="change_handwriting">
-                            <option>제목</option>
-                            <option>관할도서관</option>
-                            <option>제목</option>
-                        </select>
-                        <input type="text" class="change_handwriting">
-                        <input type="button" class="change_handwriting request" value="검색">
-                    </div>
+
                     <div class="board">
+                        <div id="select">
+                            <select class="change_handwriting">
+                                <option>10개</option>
+                                <option>20개</option>
+                                <option>30개</option>
+                            </select>
+                        </div>
                         <table class="board_sub">
                             <tr>
                                 <th class="board_subject">순번</th>
-                                <th class="board_subject">공개</th>
+                                <th class="board_subject">분류</th>
                                 <th class="board_subject sub">제목</th>
                                 <th class="board_subject">관할도서관</th>
                                 <th class="board_subject day">등록일</th>
@@ -196,6 +245,7 @@
                                 <td></td>
                                 <td></td>
                             </tr>
+
                             <tr>
                                 <td></td>
                                 <td></td>
@@ -208,9 +258,21 @@
                         </table>
                     </div>
                     <div class="paging_writing">
+
                         <div class="writing">
                             <button class="change_handwriting request"
-                                onclick="location.href='notice_write.html';">글쓰기</button>
+                                onclick="location.href='QnA_write.html';">글쓰기</button>
+                            <button class="btn">임시버튼</button>
+                        </div>
+                        <div class="search">
+
+                            <select class="change_handwriting">
+                                <option>제목</option>
+                                <option>관할도서관</option>
+                                <option>제목</option>
+                            </select>
+                            <input type="text" class="change_handwriting search_input">
+                            <input type="button" class="change_handwriting request search_button" value="검색">
                         </div>
                         <div class="paging">
                             <a href="" class="pre underline_remove">◀</a>
