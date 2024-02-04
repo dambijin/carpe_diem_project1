@@ -22,8 +22,6 @@ window.addEventListener("load", function () {
 })
 
 
-
-
 function announcement() {
     // 공지사항
     // 임시추가버튼을 클릭했을때
@@ -49,10 +47,10 @@ function announcement() {
         announ.append(tr);
         // 만약에 5개의 공지사항이 모두 있을 경우 맨아래 tr 필요
 
-    })
+    });
 
     // 신착도서
-    // 임시추가버튼을 클릭했을때
+    // 임시추가버튼
     let newbut = document.querySelector("#newbook_but");
 
     // 클릭하면
@@ -72,6 +70,54 @@ function announcement() {
         td.innerHTML = html;
 
         newbook.append(td);
+
+
     });
 
+
+
+
+
+
+
 };
+
+window.addEventListener("load", function () {
+    libsinfolist();
+});
+
+function libsinfolist() {
+    let select = document.querySelector("#libs_info");
+    let libstime = document.getElementById("libs_time");
+
+    select.addEventListener("change", function () {
+        let sel = select.value;
+
+        if (sel === "천안도서관") {
+            let html = '';
+            html += '이용시간<br>';
+            html += '- 평일 : 오전 9시 ~ 오후 9시 <br>';
+            html += '- 토요일 : 오전 9시 ~ 오후 7시 <br>';
+            html += '- 공휴일 : 휴무 <br> <br>';
+            libstime.innerHTML = html;
+        } else if (sel === "두정도서관") {
+            let html = '';
+            html += '이용시간 <br>';
+            html += '- 평일 : 오전 9시 ~ 오후 9시 <br>';
+            html += '- 토요일 : 오전 9시 ~ 오후 8시 <br>';
+            html += '- 공휴일 : 휴무 <br> <br>';
+            libstime.innerHTML = html;
+        } else if (sel === "아우내도서관") {
+            let html = '';
+            html += '이용시간<br>';
+            html += '- 평일 : 오전 9시 ~ 오후 9시 <br>';
+            html += '- 토요일 : 오전 10시 ~ 오후 6시 <br>';
+            html += '- 공휴일 : 휴무 <br> <br>';
+            libstime.innerHTML = html;
+        } else {
+            libstime.textContent = "";
+        }
+
+    });
+};
+

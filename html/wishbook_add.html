@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 신청</title>
     <link href="../css/layout.css" rel="stylesheet">
+    <script src="../js/wishbook_add.js"></script>
     <style>
         /* table 왼쪽 */
         .right_section .subject {
@@ -103,7 +104,7 @@
                     <table class="hope_subscribe">
                         <tr>
                             <td class="subject">* 희망소장처</td>
-                            <td><select class="textbox">
+                            <td><select class="textbox" id="library">
                                     <option>천안도서관</option>
                                     <option>두정도서관</option>
                                     <option>아우내도서관</option>
@@ -112,35 +113,35 @@
                         </tr>
                         <tr>
                             <td class="subject"> * 자료명 </td>
-                            <td><input type="text" class="textbox" placeholder="자료명"></td>
+                            <td><input type="text" class="textbox" placeholder="자료명" id="material"></td>
                         </tr>
                         <tr>
                             <td class="subject"> * 저자 </td>
-                            <td><input type="text" class="textbox" placeholder="저자"></td>
+                            <td><input type="text" class="textbox" placeholder="저자" id="writer"></td>
                         </tr>
                         <tr>
                             <td class="subject"> * 발행연도 </td>
-                            <td><input type="text" class="textbox" placeholder="발행연도"></td>
+                            <td><input type="text" class="textbox" placeholder="발행연도" id="year"></td>
                         </tr>
                         <tr>
                             <td class="subject">ISBN번호<br> ISSN번호</td>
-                            <td><input type="text" class="textbox" placeholder="ISBN/ISSN 번호"></td>
+                            <td><input type="text" class="textbox" placeholder="ISBN/ISSN 번호" id="is"></td>
                         </tr>
                         <tr>
                             <td class="subject">* 신청사유</td>
-                            <td><input type="text" class="textbox reason" placeholder="신청사유를 입력해주세요."></td>
+                            <td><input type="text" class="textbox reason" placeholder="신청사유를 입력해주세요." id="reason"></td>
                         </tr>
                         <tr>
                             <td class="subject">* 출판사</td>
-                            <td><input type="text" class="textbox" placeholder="출판사"></td>
+                            <td><input type="text" class="textbox" placeholder="출판사" id="publisher"></td>
                         </tr>
                         <tr>
                             <td class="subject">신청자 이름</td>
-                            <td><input type="text" class="textbox" placeholder="이름"></td>
+                            <td><input type="text" class="textbox" placeholder="이름" id="user_name"></td>
                         </tr>
                         <tr>
                             <td class="subject">* 휴대폰 번호</td>
-                            <td><input type="text" class="textbox" placeholder="-없이 입력해주세요"></td>
+                            <td><input type="text" class="textbox" placeholder="-없이 입력해주세요" id="handphone"></td>
                         </tr>
                         <tr>
                             <td class="subject">* 개인정보 수집 동의</td>
@@ -149,7 +150,7 @@
 
                         <tr class="request_but">
 
-                            <td colspan="2"><button type="button" class="request">신청</button></td>
+                            <td colspan="2"><button type="button" class="request" id="request_but">신청</button></td>
                         </tr>
 
                     </table>
