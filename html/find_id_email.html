@@ -56,6 +56,11 @@
 	        height: 20px;
         }
         .search_text .text_name {
+            width: 190px;
+        }
+        .search_text .text_name,
+        .search_text #text_email1,
+        .search_text #text_email2 {
             height: 25px;
             font-size: 15px;
         }
@@ -105,7 +110,7 @@
         .email_find .search .search_title:hover {
             background-color: rgba(140, 201, 240, 0.6);
         }
-        .email_find .text_email {
+        #text_email1, #text_email2 {
             width: 25%;
             height: 25px;
         }
@@ -115,9 +120,41 @@
             let button = document.getElementById('button');
 
             button.addEventListener('click', function() {
-                alert("해당 정보의 아이디는 'abcd' 입니다")
+                let username = document.querySelector('.text_name').value;
+                let useremail1 = document.querySelector('#text_email1').value;
+                let useremail2 = document.querySelector('#text_email2').value;
+                
+    
+                if (username == "") {
+                    alert("이름을 입력해주세요.");
+                    document.querySelector('.text_name').focus();
+                } else if (useremail1 == "") {
+                    alert("이메일를 입력해주세요.");
+                    document.querySelector('#text_email1').focus();
+                } else if (useremail2 == "") {
+                    alert("이메일주소를 입력해주세요.");
+                    document.querySelector('#text_email2').focus();
+                } else {
+                    alert("해당 정보의 아이디는 "+username+"입니다");
+                    onclick(location.href='find_pw.html')
+                }
             });
         };
+        window.addEventListener("load", function () {
+            email();
+        })
+
+        function email() {
+            let email1 = document.querySelector("#email_domain")
+            let email2 = document.querySelector("#text_email2")
+
+            email1.addEventListener("change", function () {
+                email2.value = email1.options[email1.selectedIndex].value;
+
+            })
+            
+        }
+
     </script>
 </head>
 
@@ -136,18 +173,18 @@
             
             <table class="search_text" cellpadding="5">
                 <tr>
-                    <td width="30%" name="userid" class="sub">이름</td>
-                    <td width="*"><input type="text" class="text_name" placeholder="이름을 입력해주세요."></td>
+                    <td width="30%" class="sub">이름</td>
+                    <td width="*"><input type="text" class="text_name" placeholder="이름을 입력해주세요." autofocus></td>
                 </tr>
                 <tr>
-                    <td class="sub" name="eamil">이메일</td>
-                    <td><input type="text" class="text_email" placeholder="이메일을 입력해주세요."> @
-                        <input type="text" class="text_email" placeholder="직접입력">
-                        <select style="height:30px;">
-                            <option value="naver.com">naver.com</option>
-                            <option value="google.com">google.com</option>
-                            <option value="daum.net">daum.net</option>
+                    <td class="sub">이메일</td>
+                    <td><input type="text" id="text_email1" placeholder="이메일을 입력해주세요."> @
+                        <input type="text" id="text_email2" placeholder="직접입력">
+                        <select style="height:30px;" id="email_domain">
                             <option value="직접입력">직접입력</option>
+                            <option name="email" value="naver.com">naver.com</option>
+                            <option name="email" value="google.com">google.com</option>
+                            <option name="email" value="daum.net">daum.net</option>
                         </select>
                     </td>
                 </tr>
@@ -155,7 +192,7 @@
          
 
             <div class="btnSearch">
-                <input type="button" name="enter" value="확인" id="button" onclick="location.href='find_id_tel.html'">
+                <input type="button" name="enter" value="확인" id="button">
             </div>
         </div>
         

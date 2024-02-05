@@ -60,7 +60,8 @@
         }
 
         /* 아이디 비밀번호 입력칸(텍스트박스) */
-        .log_in_table .textbox {
+        .log_in_table .textbox1,
+        .log_in_table .textbox2 {
             height: 25px;
             font-size: 15px;
         }
@@ -70,8 +71,9 @@
         아이디찾기, 비밀번호찾기, 회원가입 버튼 .find_button .but
         글씨체 변경
         */
-        .log_in_table .textbox,
-        .log_but .log_button,
+        .log_in_table .textbox1,
+        .log_in_table .textbox2,
+        .log_but #log_button,
         .find_button .but {
             font-family: "Wanted Sans Variable";
 
@@ -91,7 +93,7 @@
         }
 
         /* 로그인버튼 */
-        .log_but .log_button {
+        .log_but #log_button {
             background-color: rgba(155, 178, 225, 0.6);
             font-size: 19px;
             border: 0;
@@ -99,7 +101,7 @@
             width: 100px;
         }
 
-        .log_but .log_button:hover {
+        .log_but #log_button:hover {
             background-color: rgba(205, 155, 225, 0.6);
         }
 
@@ -114,6 +116,27 @@
             margin-bottom: 10px;
         }
     </style>
+    <script>
+        window.onload = function() {
+            let button = document.getElementById('log_button')
+
+            button.addEventListener('click', function() {
+                let userid = document.querySelector('.textbox1').value;
+                let userpw = document.querySelector('.textbox2').value;
+
+                if(userid == "") {
+                    alert("아이디를 입력해주세요.");
+                    document.querySelector('.textbox1').focus();
+                } else if(userpw == "") {
+                    alert("비밀번호를 입력해주세요.");
+                    document.querySelector('.textbox2').focus();
+                } else {
+                    onclick(location.href='main.html')
+                    
+                }
+            });
+        }
+    </script>
 </head>
 
 
@@ -129,22 +152,22 @@
                 <table>
                     <tr>
                         <td class="sub">아이디</td>
-                        <td><input type="text" class="textbox" autofocus></td>
+                        <td><input type="text" class="textbox1" placeholder=" 아이디" autofocus></td>
                     </tr>
                     <tr>
                         <td class="sub">비밀번호</td>
-                        <td><input type="text" class="textbox"></td>
+                        <td><input type="text" class="textbox2" placeholder=" 비밀번호"></td>
                     </tr>
                 </table>
                 <div class="check_sub">
                     <input type="checkbox">아이디 저장
                     <input type="checkbox">자동 로그인
                 </div>
-                <div class="log_but"><button type="button" class="log_button">로그인</button></div>
+                <div class="log_but"><button type="button" id="log_button">로그인</button></div>
                 <div class="find_button">
-                    <button type="button" class="find_button but">아이디 찾기</button>
-                    <button type="button" class="find_password but">비밀번호 찾기</button>
-                    <button type="button" class="sign_up but">회원가입</button>
+                    <button type="button" class="find_button but" onclick="location.href='find_id_email.html';">아이디 찾기</button>
+                    <button type="button" class="find_password but" onclick="location.href='find_pw.html';">비밀번호 찾기</button>
+                    <button type="button" class="sign_up but" onclick="location.href='sign_up.html';">회원가입</button>
 
                 </div>
             </div>

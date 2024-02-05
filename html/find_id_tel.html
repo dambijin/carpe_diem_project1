@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>휴대폰번호로 아이디 찾기</title>
+    <title>전화번호로 아이디 찾기</title>
     <link href="../css/layout.css" rel="stylesheet">
     <style>
         /* 헤더 가운데 정렬 */
@@ -28,6 +28,11 @@
             height: 220px;
             text-align: center;
             font-family: "Wanted Sans Variable";
+        }
+        .tel_find .idt table {
+            width: 80%;
+            margin: auto;
+            margin-top: 15px;
         }
 
         .search_title {
@@ -114,12 +119,17 @@
     
             button.addEventListener('click', function() {
                 let username = document.querySelector('#text_name').value;
+                let usertel = document.querySelector('#text_tel').value;
     
                 if (username == "") {
                     alert("이름을 입력해주세요.");
-                   
+                    document.querySelector('#text_name').focus();
+                } else if (usertel == "") {
+                    alert("전화번호를 입력해주세요.");
+                    document.querySelector('#text_tel').focus();
                 } else {
                     alert("해당 정보의 아이디는 "+username+"입니다");
+                    onclick(location.href='find_pw.html')
                 }
     
                 
@@ -141,10 +151,11 @@
                 <div class="search_title" onclick="location.href='find_id_tel.html'" style="cursor:pointer">
                     전화번호로 찾기
                 </div>
+                <div class="idt">
                 <table class="search_text" cellpadding="5" cellspacing="1">
                     <tr>
                         <td width="30%"  class="sub">이름</td>
-                        <td width="*"><input type="text" id="text_name" placeholder="이름을 입력해주세요."></td>
+                        <td width="*"><input type="text" id="text_name" placeholder="이름을 입력해주세요." autofocus></td>
                     </tr>
                     <tr>
                         <td class="sub">전화번호</td>
@@ -156,6 +167,7 @@
                     <input type="button" name="enter" value="확인" id="button">
                 </div>
             </div>
+        </div>
            
 
             
