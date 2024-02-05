@@ -56,7 +56,6 @@
             width: 80%;
         }
 
-
         /* 글쓰는 내용들 */
         .td1 textarea {
             width: 100%;
@@ -72,15 +71,27 @@
             margin-top: 10px;
         }
 
-        /* 업로드버튼 */
-        .notice_table .table_table .but_upload {
+        /* 파일첨부 */
+        .notice_table .table_table #file_route {
             font-family: "Wanted Sans Variable";
-            width: 80px;
+            width: 80%;
+        }
+
+        .notice_table .table_table #file_upload {
+            font-family: "Wanted Sans Variable";
             background-color: rgba(155, 178, 225, 0.6);
             font-size: 18px;
-            border: 0;
-            border-radius: 5px;
-            height: 30px;
+            padding: 4px;
+        }
+
+        .right_section #file_upload:hover {
+            background-color: rgba(205, 155, 225, 0.6);
+        }
+
+        /* 등록버튼 마우스 오버 */
+        .right_section button:hover {
+            background-color: rgba(205, 155, 225, 0.6);
+
         }
 
         .div_button .but {
@@ -91,7 +102,6 @@
             border: 0;
             border-radius: 5px;
         }
-
 
         .input_phone {
             width: 100px;
@@ -104,6 +114,49 @@
             text-align: center;
         }
     </style>
+
+    <script>
+        window.addEventListener("load", function () {
+
+            let libs_list = ["천안도서관","두정도서관","아우내도서관"];
+            let libs_list_box = document.querySelector("#library");
+
+            for(let i = 0; i<libs_list.length;i++)
+            {
+                libs_list_box.innerHTML += "<option>"+libs_list[i]+"</option>";
+            }        
+
+            // 등록 버튼
+            document.querySelector("#completion").addEventListener('click', function () {
+                //제목
+                let title = document.querySelector("#notice_write_title");
+                //작성자
+                let writer = "admin";
+                //소속도서관
+                let lib = document.querySelector("#lib_name");
+                //첨부파일
+                let attach = document.querySelector("#file_route");
+                //내용
+                let cont_text = document.querySelector(".td1 textarea");
+                alert(title.value + "\n" + writer + "\n" + lib.value + "\n" + attach.value + "\n" + cont_text.value + "\n등록이 완료되었습니다.");
+                location.href="notice_board.html";
+            });
+
+            document.querySelector("#upload_file").addEventListener("change", function (changeEvent) {
+                // 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
+                // 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
+                // 여기서는 첫 번째 파일만 사용하므로 'files[0]'을 선택합니다.
+                var imgFile = changeEvent.target.files[0];
+
+                // 파일 경로를 표시할 요소를 선택합니다.
+                var fileName = document.getElementById("file_route");
+
+                // 선택한 요소의 값에 파일 이름을 설정합니다.
+                // 이렇게 하면 사용자가 선택한 파일의 이름이 웹 페이지에 표시됩니다.
+                fileName.value = imgFile.name;
+            });
+        })
+    </script>
 </head>
 
 <body>
@@ -132,18 +185,19 @@
                             </tr>
                             <tr>
                                 <td class="sub">소속도서관</td>
-                                <td class="text"><input type="text"></td>
+                                <td class="text"><select class="textbox" id="library">
+                                </select></td>
                             </tr>
                             <tr>
                                 <td class="sub">첨부파일</td>
                                 <td class="text">
-                                    <input type="text" class="up_load">
-                                    <button type="button" class="but_upload">▲업로드</button>
+                                    <input type="text" id="file_route" disabled="disabled" value="">
+                                    <label for="upload_file" id="file_upload">파일첨부</label>
+                                    <input type="file" id="upload_file" required=true
+                                        style="position:absolute; clip:rect(0, 0, 0, 0);">
                                 </td>
                             </tr>
                         </table>
-
-
 
                     </div>
                     <div class="td1">
@@ -151,7 +205,7 @@
                     </div>
                     <div class="div_buttonAll">
                         <div class="div_button">
-                            <button type="button" class="but" id="completion">완료</button>
+                            <button type="button" class="but" id="completion">등록</button>
                         </div>
 
                     </div>
@@ -160,8 +214,6 @@
         </section>
     </div>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-
-
     <script src="../js/header.js"></script>
 </body>
 

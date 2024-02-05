@@ -31,7 +31,7 @@
         }
 
         /* 제목 오른쪽 td */
-        .notice_detail .subject_title {
+        .notice_detail #subject_title {
             width: 800px;
         }
 
@@ -45,7 +45,7 @@
         }
 
         /* 수정삭제버튼 */
-        .notice_detail .notice_but {
+        .notice_detail button {
             margin-top: 10px;
             font-family: "Wanted Sans Variable";
             width: 80px;
@@ -56,10 +56,30 @@
             cursor: pointer;
         }
 
-        .notice_detail .notice_but:hover {
+        .notice_detail button:hover {
             background-color: rgba(205, 155, 225, 0.6);
         }
     </style>
+        <script>
+            window.addEventListener("load", function () {
+                // 등록 버튼
+                document.querySelector("#notice_update").addEventListener('click', function () {
+                    location.href="notice_update.html";
+                });
+
+                document.querySelector("#notice_delete").addEventListener('click', function () {
+                    alert("삭제했습니다.");
+                });
+
+                document.querySelector("#subject_title").innerHTML="tttt";
+                document.querySelector("#subject_writer").innerHTML="wwww";
+                document.querySelector("#subject_date").innerHTML="2024-02-05";
+                document.querySelector("#subject_view").innerHTML="10000000000";
+                document.querySelector("#subject_lib").innerHTML="llll";
+                document.querySelector("#subject_file").innerHTML='<a href="/path/to/your/file.pdf" download>첨부파일 다운로드</a>';
+                document.querySelector("#subject_cont").innerHTML="cccc";
+            })
+        </script>
 </head>
 
 <body>
@@ -79,30 +99,30 @@
                     <table>
                         <tr>
                             <td class="subject">제목</td>
-                            <td colspan="5" class="subject_title">희망도서 신청 관련 문의</td>
+                            <td colspan="5" id="subject_title"></td>
                         </tr>
                         <tr>
                             <td class="subject">작성자</td>
-                            <td>관리자</td>
+                            <td id="subject_writer"></td>
                             <td class="subject">등록일</td>
-                            <td>2024-01-30</td>
+                            <td id="subject_date"></td>
                             <td class="subject">조회</td>
-                            <td>46</td>
+                            <td id="subject_view"></td>
                         </tr>
                         <tr>
                             <td class="subject">도서관</td>
-                            <td colspan="5">천안도서관</td>
+                            <td colspan="5" id="subject_lib"></td>
                         </tr>
                         <tr>
                             <td class="subject">첨부</td>
-                            <td colspan="5">첨부파일</td>
+                            <td colspan="5" id="subject_file"></td>
                         </tr>
                         <tr>
-                            <td class="content" colspan="6">글 내용입니다.</td>
+                            <td class="content" colspan="6" id="subject_cont"></td>
                         </tr>
                     </table>
-                    <button type="button" class="notice_but" onclick="location.href='notice_update.html';">수정</button>
-                    <button type="button" class="notice_but">삭제</button>
+                    <button type="button" id="notice_update">수정</button>
+                    <button type="button" id="notice_delete" >삭제</button>
                 </div>
             </div>
         </div>
