@@ -15,17 +15,41 @@
             email();
 
         })
-
+        // 이메일 선택시 따라붙기
         function email() {
             let email1 = document.querySelector("#email_domain1")
             let email2 = document.querySelector("#email_domain")
             let name = document.querySelector("#name")
 
+            let email_list = ["직접입력","naver.com","daum.net","google.com"];
+            
+           
+                for(let i=0; i < email_list.length; i++){
+                    let result_email_list = document.querySelector("#email_domain1")
+                    let html = '';
+                    html += email_list[i];
 
-            email1.addEventListener("change", function () {
-                email2.value = email1.options[email1.selectedIndex].value;
+                    let opt = document.createElement("option");
+                    opt.innerHTML = html;
 
-            })
+                    result_email_list.append(opt)
+                }
+    
+
+            // email1.addEventListener("change", function () {
+            //     let selectedIndex = email1.selectedIndex;
+            //     email2.value = email1.options[email1.selectedIndex].value;
+                
+            //      if(email1.options[0] === email1.options[selectedIndex]){
+            //         email2.value ="";
+            //         email2.readOnly = false;
+            //     } else if (email1.options[1] === email1.options[selectedIndex]){
+            //         email2.readOnly = true;
+            //     } else if (email1.options[2] === email1.options[selectedIndex]){
+            //         email2.readOnly = true;
+            //     }
+          
+            // })
 
 
 
@@ -260,10 +284,8 @@
                     <td class="padding">
                         <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_id"> @
                         <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_domain">
-                        <select id="email_domain1">
-                            <option selected>직접 입력</option>
-                            <option value="naver.com">naver.com</option>
-                            <option value="daum.net">daum.net</option>
+                        <select id="email_domain1" value="직접입력">
+                           
                         </select>
                         <font size="1px">이메일 수신<input type="radio" value="Y" name="email">예
                             <input type="radio" value="N" name="email">아니오
