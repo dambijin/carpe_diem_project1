@@ -17,6 +17,11 @@
 
         function save (){
             let textarea = document.querySelector("#textarea");
+            let save = document.querySelector("#save");
+            save.addEventListener("click", function(){
+                alert(textarea.value);
+                location.href="QnA_board.html"
+            })
             
         }
 
@@ -138,7 +143,7 @@
         }
 
         .input_phone {
-            width: 80px;
+            width: 70px;
         }
 
         button {
@@ -147,9 +152,12 @@
             background-color: rgba(155, 178, 225, 0.6);
             font-size: 18px;
             border: 0;
-            border-radius: 5px;
+            border-radius: 5px;         
 
 
+        }
+        button:hover{
+            background-color: rgba(205, 155, 225, 0.6);
         }
 
         .npub {
@@ -286,11 +294,8 @@
                                 </tr>
                                 <tr>
                                     <th>휴대폰번호</th>
-                                    <td> <select id="select_phone">
-                                            <option disabled selected>선택하세요</option>
-                                            <option>010</option>
-                                            <option>011</option>
-                                        </select>
+                                    <td> 
+                                        <input class=input_phone type="text" placeholder="내용을 입력해주세요."> -
                                         <input class=input_phone type="text" placeholder="내용을 입력해주세요."> -
                                         <input class=input_phone type="text" placeholder="내용을 입력해주세요.">
                                     </td>
@@ -334,8 +339,7 @@
                     <div class="div_buttonAll">
 
                         <div class="div_button">
-                            <button type="submit" id="save">저장</button> &nbsp;
-                            <button type="reset">취소</button> &nbsp;
+                            <button class="button" type="submit" id="save">저장</button> &nbsp;
                             <a href="QnA_board.html"><button type="button">목록</button></a> &nbsp;
                         </div>
 

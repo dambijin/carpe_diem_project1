@@ -11,16 +11,45 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
     <script>
-        window.onload = function () {
-            let button1 = document.getElementById('button_click');
+
+        window.addEventListener("load", function(){
+            bind();
+        });
 
 
 
+       function bind () {
+            // 정보수정 버튼
+            let button1 = document.querySelector('#chginfo');
+            // 임시 글쓰기 버튼
+            let write = document.querySelector("#write")
+            //  보드
+            let table = document.querySelector("#page1")
 
+
+        // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
                 window.open('http://127.0.0.1:5500/html/mypage_chginfo.html', '_self')
 
             });
+            // 임시 보드 내용 추가
+            write.addEventListener("click", function () {
+                let html = '';
+                html += '<tr class="tr">';
+                html += '      <td>192</td>';
+                html += '      <td>아몰랑</td>';
+                html += '      <td>아몰랑</td>';
+                html += '     <td>아몰랑</td>';
+                html += '     <td>2024.01.20</td>';
+                html += '     <td>정상</td>';
+                html += '       <td>중앙</td>';
+                html += '</tr>';
+
+              table.innerHTML += html;
+
+            })
+
+
 
 
         };
@@ -57,7 +86,7 @@
                                     회원번호 : -- <br>
                                     대출가능여부 : --
                                 </td>
-                                <td><button type="button" id="button_click">정보수정</button></td>
+                                <td><button type="button" id="chginfo">정보수정</button></td>
                             </tr>
 
 
@@ -78,10 +107,13 @@
                             </div>
                             <div id="select1">
                                 <div>
-                                    <td><select>
+                                    <td>
+                                        <select>
                                             <option disabled selected> - 도서관 전체</option>
                                             <option>중앙도서관</option>
-                                        </select></td>
+                                        </select>
+                                        <button type="button" id="write">글쓰기</button>
+                                    </td>
 
                                 </div>
                             </div>
@@ -106,6 +138,7 @@
                                 <td>정상</td>
                                 <td>중앙</td>
                             </tr>
+                            
 
                         </table>
                     </div>

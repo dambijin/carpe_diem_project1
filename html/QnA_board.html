@@ -36,7 +36,7 @@
                 let html = '';
                 html += '           <td></td>';
                 html += '           <td></td>';
-                html += '            <td>' + title + '</td>';
+                html += '            <td><a href="QnA_detail.html">'+ title + '</a></td>';
                 html += '           <td></td>';
                 html += '           <td></td>';
                 html += '           <td></td>';
@@ -204,6 +204,7 @@
                                 <option>20개</option>
                                 <option>30개</option>
                             </select>
+                            <button class="btn">이거슨 버튼</button>
                         </div>
                         <table class="board_sub">
                             <tr>
@@ -214,47 +215,7 @@
                                 <th class="board_subject day">등록일</th>
                                 <th class="board_subject">조회</th>
                             </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                           
 
                         </table>
                     </div>
@@ -263,13 +224,13 @@
                         <div class="writing">
                             <button class="change_handwriting request"
                                 onclick="location.href='QnA_write.html';">글쓰기</button>
-                            <button class="btn">이거슨 버튼</button>
+                          
                         </div>
                         <div class="search">
 
                             <select class="change_handwriting">
                                 <option>제목</option>
-                                <option>관할도서관</option>
+                                <option>작성자</option>
                                 <option>제목</option>
                             </select>
                             <input type="text" class="change_handwriting search_input">

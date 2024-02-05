@@ -7,16 +7,19 @@
     <title>QnA 게시판 글쓰기(수정)</title>
     <link href="../css/layout.css" rel="stylesheet">
     <script>
-        function checkOnlyOne(element) {
+      
+      window.addEventListener("load", function(){
+            save();
+        })
 
-            const checkboxes
-                = document.getElementsByName("pub");
-
-            checkboxes.forEach((cb) => {
-                cb.checked = false;
+        function save (){
+            let textarea = document.querySelector("#textarea");
+            let save = document.querySelector("#save");
+            save.addEventListener("click", function(){
+                alert(textarea.value);
+                location.href="QnA_board.html"
             })
-
-            element.checked = true;
+            
         }
     </script>
     <style>
@@ -172,11 +175,8 @@
                             </tr>
                             <tr>
                                 <th>휴대폰번호</th>
-                                <td> <select id="select_phone">
-                                        <option disabled selected>010</option>
-                                        <option>019</option>
-                                        <option>011</option>
-                                    </select>
+                                <td> 
+                                    <input class="input_phone number_input" type="text" placeholder="내용을 입력해주세요."> -<br>
                                     <input class="input_phone number_input" type="text" placeholder="내용을 입력해주세요."> -
                                     <input class="input_phone number_input" type="text" placeholder="내용을 입력해주세요.">
                                 </td>
@@ -215,7 +215,7 @@
                     <div class="div_buttonAll">
 
                         <div class="div_button">
-                            <button type="submit">저장</button> &nbsp;
+                            <button type="submit" id="save">저장</button> &nbsp;
                             <button type="reset">취소</button> &nbsp;
                             <a href="QnA_board.html"><button type="button">목록</button></a> &nbsp;
                         </div>

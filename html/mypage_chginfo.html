@@ -6,22 +6,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
     <link href="../css/layout.css" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js" /></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+   
+    
     <script>
         window.addEventListener("load", function () {
             email();
+
         })
 
         function email() {
             let email1 = document.querySelector("#email_domain1")
             let email2 = document.querySelector("#email_domain")
+            let name = document.querySelector("#name")
+
 
             email1.addEventListener("change", function () {
                 email2.value = email1.options[email1.selectedIndex].value;
 
             })
+
+
+
+            name.textContent = "박상민";
+            birth.textContent = "1995.06.15";
+            id.textContent = "sdfsdf";
+
+            let mod = document.querySelector("#mod")
+
+            mod.addEventListener("click", function () {
+                let password = document.querySelector("#password").value
+                let password1 = document.querySelector("#password1").value
+                let smsCheck = document.getElementsByName("sms")
+                let selectSms;
+                let emailCheck = document.getElementsByName("email")
+                let selectEmail
+                for(let i=0; i < smsCheck.length; i++){
+                    if(smsCheck[i].checked){
+                        selectSms = smsCheck[i].value;
+                    } 
+                     if (emailCheck[i].checked){
+                        selectEmail = emailCheck[i].value;
+                    }
+                 
+                }
+                
+                if (password === password1) {
+                    alert(name.textContent + "님의 정보를 수정하였습니다." + "\n" +
+                        "비밀번호 : " + password + "\n" +
+                        "휴대폰 번호 : " + phonenumber.value + "\n" + 
+                        "sms수신동의여부 : " + selectSms +"\n" +
+                        "email수신동의여부 : " + selectEmail + "\n" + 
+                        "로 변경되었습니다." )
+                } else if (password !== password1) {
+                    document.querySelector("#password").value = "";
+                    document.querySelector("#password1").value = "";
+                    alert("비밀번호를 다시 확인해주세요.");
+
+
+                }
             
+            })
 
         }
+
+        function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+ 
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullAddr = ''; // 최종 주소 변수
+                var extraAddr = ''; // 조합형 주소 변수
+ 
+                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    fullAddr = data.roadAddress;
+ 
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    fullAddr = data.jibunAddress;
+                }
+ 
+                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                if(data.userSelectedType === 'R'){
+                    //법정동명이 있을 경우 추가한다.
+                    if(data.bname !== ''){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있을 경우 추가한다.
+                    if(data.buildingName !== ''){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                }
+ 
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample6_postcode').value = data.zonecode; //5자리 새우편번호 사용
+                
+                 document.getElementById('sample6_address').value = fullAddr;
+ 
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById('sample6_address2').focus();
+            }
+        }).open();
+    }
+
+
 
 
     </script>
@@ -76,7 +169,7 @@
 
 
 
-        #place_input_width {
+        .place_input_width {
             width: 300px;
         }
 
@@ -120,15 +213,15 @@
                 </tr>
                 <tr>
                     <th>이름</th>
-                    <td class="padding">홍길동</td>
+                    <td class="padding" id="name"></td>
                 </tr>
                 <tr>
                     <th>생년월일</th>
-                    <td class="padding">yyyy.mm.dd</td>
+                    <td class="padding" id="birth"></td>
                 </tr>
                 <tr>
                     <th>아이디</th>
-                    <td class="padding">gildong</td>
+                    <td class="padding" id="id"></td>
                 </tr>
                 <tr>
                     <th>비밀번호</th>
@@ -151,7 +244,7 @@
                     <th>휴대폰 번호</th>
                     <td class="padding">
                         <input type="text" placeholder="내용을 입력해주세요." id="phonenumber">
-                        <font size="1px">SMS수신<input type="radio" name="sms">예<input type="radio" name="sms">아니오</font>
+                        <font size="1px">SMS수신<input type="radio" value="Y" name="sms">예<input type="radio" value="N" name="sms">아니오</font>
                     </td>
                 </tr>
                 <tr>
@@ -172,32 +265,36 @@
                             <option value="naver.com">naver.com</option>
                             <option value="daum.net">daum.net</option>
                         </select>
-                        <font size="1px">이메일 수신<input type="radio" name="email">예<input type="radio" name="email">아니오
+                        <font size="1px">이메일 수신<input type="radio" value="Y" name="email">예
+                            <input type="radio" value="N" name="email">아니오
                         </font>
                     </td>
                 </tr>
                 <tr>
                     <th>집전화번호</th>
                     <td>
-                        <select>
-                            <option disabled selected>선택하세요</option>
-                            <option>010</option>
-                            <option>011</option>
-                        </select>
+
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요."> -
                         <input class="input_width" type="text" placeholder="내용을 입력해주세요."> -
                         <input class="input_width" type="text" placeholder="내용을 입력해주세요.">
                     </td>
                 <tr>
                     <th>주소</th>
-                    <td> <input class="input_width" type="text" placeholder="내용을 입력해주세요.">
-                        <button id="place_button">
+                    <td> <input class="input_width" type="text" placeholder="우편 번호" id="sample6_postcode">
+                        <button id="place_button" onclick="sample6_execDaumPostcode()">
                             주소 찾기
                         </button>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td> <input id="place_input_width" type="text" placeholder="내용을 입력해주세요.">
+                    <td> <input class="place_input_width" id="sample6_address" type="text" placeholder="도로명 주소">
+
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td> <input class="place_input_width" id="sample6_address2" type="text" placeholder="상세 주소">
 
                     </td>
                 </tr>
@@ -207,7 +304,7 @@
         <!-- 버튼 -->
         <div id="button_align">
 
-            <button value="submit" class="button">저장</button>
+            <button value="submit" class="button" id="mod">수정</button>
             &nbsp;
             <button value="reset" class="button">취소</button>
 

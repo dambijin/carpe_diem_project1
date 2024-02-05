@@ -11,19 +11,109 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
     <script>
-        window.onload = function () {
-            let button1 = document.getElementById('button_click');
+        window.addEventListener("load", function () {
+            bind();
+        })
+
+
+
+
+        function bind() {
+            let button1 = document.getElementById('chginfo');
             let button3 = document.getElementById('button_cancle');
+            let write = document.getElementById('write')
+            let table = document.getElementById('page1')
 
 
+
+            // 취소버튼 클릭시 팝업 알림
             button3.addEventListener('click', function () {
                 alert('취소 완')
 
             });
+            // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
                 window.open('http://127.0.0.1:5500/html/mypage_chginfo.html', '_self')
 
             });
+            // 임시 보드 작성
+            write.addEventListener("click", function () {
+                let html = '';
+
+                html += '           <td>192</td>';
+                html += '          <td>아몰랑</td>';
+                html += '           <td>아몰랑</td>';
+                html += '          <td>아몰랑</td>';
+                html += '          <td>2024.01.20</td>';
+                html += '          <td>정상</td>';
+                html += '         <td>중앙</td>';
+                html += '        <td>?</td>';
+                html += '       <td><input type="checkbox" class="checkbox"></td>';
+
+
+                let tr = document.createElement("tr");
+                tr.classList.add("tr")
+                tr.innerHTML = html;
+
+                // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
+                tr.querySelector(".checkbox")
+                    .addEventListener("click", function (event) {
+
+                        if (!event.target.checked) {
+
+                            document.querySelector("#selectAll").checked = false;
+                        } else {
+
+                            let allCount = document.querySelectorAll(".checkbox").length;
+                            let checkedCount = document.querySelectorAll(".checkbox:checked").length;
+                            if (allCount == checkedCount) {
+                                document.querySelector("#selectAll").checked = true;
+                            } else {
+                                document.querySelector("#selectAll").checked = false;
+                            }
+                        }
+                    })
+
+
+                // 전체선택 체크
+                document.querySelector("#selectAll").addEventListener("click", function (event) {
+
+                    let list_check = document.querySelectorAll(".checkbox")
+
+                    if (event.target.checked) {
+                        for (let i = 0; i < list_check.length; i++) {
+                            list_check[i].checked = true;
+                        }
+                    } else {
+                        for (let i = 0; i < list_check.length; i++) {
+                            list_check[i].checked = false;
+                        }
+                    }
+
+                });
+
+                // 선택항목 삭제
+                document.querySelector("#cancle").addEventListener("click", function () {
+                    let list_checked = document.querySelectorAll(".checkbox:checked")
+                    for (let i = 0; i < list_checked.length; i++) {
+                        list_checked[i].parentNode.parentNode.remove();
+                    }
+                })
+
+
+
+
+
+
+                table.append(tr)
+            })
+
+
+
+
+
+
+
 
 
         };
@@ -59,7 +149,7 @@
                                     회원번호 : -- <br>
                                     대출가능여부 : --
                                 </td>
-                                <td> <button type="button" id="button_click">정보수정</button></td>
+                                <td> <button type="button" id="chginfo">정보수정</button></td>
                             </tr>
 
 
@@ -78,10 +168,11 @@
                             </div>
                             <div id="select1">
                                 <div>
-                                    <td><select>
-                                            <option disabled selected> - 도서관 전체</option>
-                                            <option>중앙도서관</option>
-                                        </select></td>
+                                    <select>
+                                        <option disabled selected> - 도서관 전체</option>
+                                        <option>중앙도서관</option>
+                                    </select>
+                                    <input type="button" value="글쓰기" id="write">
 
                                 </div>
                             </div>
@@ -98,23 +189,15 @@
                             <th>반납일/예약가능일</th>
                             <th>소장기관</th>
                             <th>상호대차 전환신청</th>
-                            <th>취소</th>
+                            <th>취소
+                                <input type="checkbox" id="selectAll">
+                            </th>
                         </tr>
-                        <tr class="tr">
-                            <td>192</td>
-                            <td>아몰랑</td>
-                            <td>아몰랑</td>
-                            <td>아몰랑</td>
-                            <td>2024.01.20</td>
-                            <td>정상</td>
-                            <td>중앙</td>
-                            <td>?</td>
-                            <td><input type="checkbox"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div id="button_cancle">
-                    <button>취소</button>
+                    <button id="cancle">취소</button>
                 </div>
             </div>
         </div>
