@@ -34,21 +34,24 @@
             // 임시버튼을 클릭
             btn.addEventListener("click", function () {
                 let html = '';
-                html += '           <td></td>';
-                html += '           <td></td>';
-                html += '            <td>' + title + '</td>';
-                html += '           <td></td>';
-                html += '           <td></td>';
-                html += '           <td></td>';
+                html += '<td></td>';
+                html += '<td></td>';
+                html += '<td>'
+                html += '<a href="notice_detail.html" class="table_a">';
+                html += title;
+                html += '</a>';
+                html += '</td>';
+                html += '<td></td>';
+                html += '<td></td>';
+                html += '<td></td>';
 
                 let tr = document.createElement("tr");
                 tr.innerHTML = html;
                 board_sub.append(tr);
 
-            })
+            });
 
-
-        }
+        };
     </script>
     <style>
         /* 헤더 아래 */
@@ -173,6 +176,13 @@
             font-weight: bold;
         }
 
+        /* 테이블 a href*/
+        .board_notice .board_sub .table_a {
+            text-decoration: none;
+            font-size: 16px;
+            color: black;
+        }
+
         #select {
             text-align: right;
         }
@@ -207,54 +217,21 @@
                         <table class="board_sub">
                             <tr>
                                 <th class="board_subject">순번</th>
-                                <th class="board_subject">분류</th>
+                                <th class="board_subject">도서관</th>
                                 <th class="board_subject sub">제목</th>
-                                <th class="board_subject">관할도서관</th>
+                                <th class="board_subject">작성자</th>
                                 <th class="board_subject day">등록일</th>
                                 <th class="board_subject">조회</th>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>1</td>
+                                <td>천안</td>
+                                <td><a href="notice_detail.html" class="table_a">희망도서 신청 관련 문의</a>
+                                </td>
+                                <td>김**</td>
+                                <td>2024-01-30</td>
+                                <td>46</td>
                             </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
                         </table>
                     </div>
                     <div class="paging_writing">
