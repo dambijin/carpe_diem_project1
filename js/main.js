@@ -73,13 +73,6 @@ function announcement() {
 
 
     });
-
-
-
-
-
-
-
 };
 
 window.addEventListener("load", function () {
@@ -87,27 +80,35 @@ window.addEventListener("load", function () {
 });
 
 function libsinfolist() {
+
+    let libs_list = ["천안도서관", "두정도서관", "아우내도서관"];
+    let libs_list_box = document.querySelector("#libs_info");
+
+    for (let i = 0; i < libs_list.length; i++) {
+        libs_list_box.innerHTML += "<option>" + libs_list[i] + "</option>";
+    }
+
     let select = document.querySelector("#libs_info");
     let libstime = document.getElementById("libs_time");
 
     select.addEventListener("change", function () {
         let sel = select.value;
 
-        if (sel === "천안도서관") {
+        if (sel === libs_list[0]) {
             let html = '';
             html += '이용시간<br>';
             html += '- 평일 : 오전 9시 ~ 오후 9시 <br>';
             html += '- 토요일 : 오전 9시 ~ 오후 7시 <br>';
             html += '- 공휴일 : 휴무 <br> <br>';
             libstime.innerHTML = html;
-        } else if (sel === "두정도서관") {
+        } else if (sel === libs_list[1]) {
             let html = '';
             html += '이용시간 <br>';
             html += '- 평일 : 오전 9시 ~ 오후 9시 <br>';
             html += '- 토요일 : 오전 9시 ~ 오후 8시 <br>';
             html += '- 공휴일 : 휴무 <br> <br>';
             libstime.innerHTML = html;
-        } else if (sel === "아우내도서관") {
+        } else if (sel === libs_list[2]) {
             let html = '';
             html += '이용시간<br>';
             html += '- 평일 : 오전 9시 ~ 오후 9시 <br>';
