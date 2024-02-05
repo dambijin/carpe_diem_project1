@@ -15,130 +15,6 @@
             font-family: 'Wanted Sans Variable';
         }
 
-        /* 필터관련 */
-        .selbox {
-            border: 1px solid #000000;
-            background-color: #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-inline-start: 0px;
-        }
-
-        .selbox legend {
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .selbox dl {
-            margin-top: 0px;
-            margin-bottom: 0px;
-        }
-
-        .selbox dd {
-            margin-inline-start: 0px;
-        }
-
-
-        .selbox dl dd ul {
-            list-style: none;
-            padding: 5px;
-            padding-left: 0px;
-            display: flex;
-            flex-wrap: wrap;
-            border-top: 1px solid #000000;
-            margin-top: 10px;
-        }
-
-        .selbox dl dd ul li {
-            padding: 5px;
-            display: inline-block;
-        }
-
-        .selbox label.all {
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .selbox label.all input {
-            margin-right: 3px;
-            /* 모든 브라우저를 지원하기 위해 -webkit- 및 -ms- 접두사를 사용 */
-            -webkit-transform: scale(1.5);
-            -ms-transform: scale(1.5);
-            transform: scale(1.5);
-        }
-
-        .selbox dl dd ul li input[type="checkbox"] {
-            margin-right: 1px;
-            /* 모든 브라우저를 지원하기 위해 -webkit- 및 -ms- 접두사를 사용 */
-            -webkit-transform: scale(1.5);
-            -ms-transform: scale(1.5);
-            transform: scale(1.5);
-        }
-
-        /* 검색창관련 */
-        .search_fieldset {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            margin-inline-start: 0px;
-            border: 0px solid #ccc;
-        }
-
-        .search_fieldset legend {
-            margin-right: 20px;
-        }
-
-        .search_fieldset .result {
-            flex: 1;
-            display: flex;
-            align-items: center;
-        }
-
-        .search_fieldset .search {
-            flex: 4;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .search_fieldset .search .input {
-            flex: 4;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .search_fieldset .search .input select {
-            flex: 1;
-            margin-right: 10px;
-            height: 40px;
-            font-size: 18px;
-            font-family: 'Wanted Sans Variable';
-        }
-
-        .search_fieldset .search .input input {
-            flex: 3;
-            padding: 5px;
-            border: 1px solid #ccc;
-            height: 35px;
-            font-family: 'Wanted Sans Variable';
-            font-size: 18px;
-        }
-
-        .search_fieldset .search .btn-search {
-            flex: 1;
-            padding: 5px 10px;
-            background-color: rgba(168, 156, 200, 1.0);
-            color: #eee;
-            border: none;
-            cursor: pointer;
-            height: 45px;
-            font-family: 'Wanted Sans Variable';
-            font-size: 18px;
-        }
-
         /* 상세정보관련 */
         .view {
             display: flex;
@@ -207,44 +83,50 @@
             margin-bottom: 10px;
         }
 
-        .table form table {
+        .table table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .table form table thead th {
+        .table table thead th {
             background-color: #f8f8f8;
             padding: 10px;
             border: 1px solid #ccc;
             text-align: left;
         }
 
-        .table form table tbody td {
+        .table table tbody td {
             padding: 10px;
             border: 1px solid #ccc;
             vertical-align: center;
         }
 
-        .table form table tbody td a {
+        .table table tbody td a {
             color: #007bff;
             text-decoration: none;
         }
 
-        .table form table tbody td .success {
-            color: #007bff;
-            font-weight: bold;
+        .table table tbody .reservation_success {
+            color: blue;
+            text-decoration: underline;
         }
 
-        .table form table tbody td .fail {
+        .table table tbody .reservation_success:hover {
+            background-color: rgba(199, 156, 200, 0.6);
+            color: black;
+        }
+
+        .table table tbody ._fail {
             color: red;
-            font-weight: bold;
         }
-
+        .table table tbody ._success {
+            color: blue;
+        }
         .table .info h3 {
             margin-top: 20px;
         }
 
-        .table .info .nocontent {
+        .table .info .content_text {
             color: #888;
             font-size: 0.9em;
         }
@@ -252,6 +134,92 @@
 </head>
 
 <script>
+    window.addEventListener("load", function () {
+
+        // 현재 페이지의 URL
+        let url = window.location.href;
+
+        // URL의 쿼리 문자열을 파싱
+        let params = new URLSearchParams(url.split('?')[1]);
+
+        let title = decodeURI(params.get('title'));
+        let topic = decodeURI(params.get('topic'));
+        let author = decodeURI(params.get('author'));
+        let publisher = decodeURI(params.get('publisher'));
+        let year = decodeURI(params.get('year'));
+        let callNumber = decodeURI(params.get('callNumber'));
+        let registerNumber = decodeURI(params.get('registerNumber'));
+        let library = decodeURI(params.get('library'));
+        let loan_state = params.get('loan_state') == 'true';
+        let reservation_state = params.get('reservation_state') == 'true';
+
+        //가져온값에 없어서 일단 임시로...나중에 db를 붙이면 해결될 듯
+        let isbn = "8955501609";
+        let pages = "554p";
+        let detail_text= "상세내용 주저리주저리"
+
+        //메인정보
+        let html = `
+        <dl>
+            <dt>
+                <em class="label">
+                    <img src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
+                        alt="KDC : 005.73" width="50px" />
+                </em>
+            </dt>
+            <dd>
+                <div class="ico ico-bk"><span>${title}</span></div>
+                <ul>
+                    <li class="label_no"><strong>ㆍ주제</strong>&nbsp;&nbsp;&nbsp;&nbsp;${topic}</li>
+                    <li><strong>ㆍ저자사항</strong>&nbsp;&nbsp;&nbsp;&nbsp;${author}</li>
+                    <li><strong>ㆍ발행사항</strong>&nbsp;&nbsp;&nbsp;&nbsp;${publisher}, ${year}</li>
+                    <li><strong>ㆍ페이지</strong>&nbsp;&nbsp;&nbsp;&nbsp;${pages}</li>
+                    <li><strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;${isbn}</li>
+                    <li><strong>ㆍ주제어/키워드</strong>&nbsp;&nbsp;&nbsp;&nbsp;${topic}</li>
+                    <li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;${library}</li>
+                </ul>
+            </dd>
+        </dl>
+    `;
+
+        // 생성한 HTML을 DOM에 삽입
+        document.querySelector(".view").innerHTML += html;
+
+        let loan_stat = " class=\"_fail\">대출불가<";
+        let reservation_stat = " class=\"_fail\">예약불가<";
+        if (loan_state) {
+            loan_stat = " class=\"_success\">대출가능<"
+        }
+
+        if (reservation_state) {
+            reservation_stat = " class=\"reservation_success\" onclick=\"reservation('" + registerNumber + "')\">예약가능<";
+        }
+        //소장정보
+        html = `
+        <tr>
+            <td>${registerNumber}</td>
+            <td></td>
+            <td>
+                <strong>${callNumber}</strong><br>
+                <strong>${isbn}</strong>
+            </td>
+            <td>
+                <strong${loan_stat}/strong><br>
+            </td>
+            <td>-</td>
+            <td>
+                <strong${reservation_stat}/strong><br>
+            </td>
+        </tr>
+    `;
+        document.querySelector(".responsive").querySelector("tbody").innerHTML += html;
+
+        document.querySelector(".content_text").innerHTML += detail_text;
+    });
+    // 생성한 HTML을 DOM에 삽입
+
+
+
     function selboxAllChecked(id) {
         var allCheck = document.getElementById(id);
         var selbox = document.getElementsByClassName("selbox")[0];
@@ -261,179 +229,59 @@
             checkboxes[i].checked = allCheck.checked;
         }
     }
+    //예약기능
+    function reservation(RN) {
+        alert(RN + " 예약되었습니다.");
+    }
 </script>
 
 <body>
     <header></header>
     <section>
         <!-- 여기부터 본문작성해주세요 -->
-        <!-- 책 검색필터 및 검색 -->
-        <div id="headSearchForm">
-            <fieldset class="selbox">
-                <legend>도서관 필터</legend>
-                <dl>
-                    <dd>
-                        <label class="all none"><input id="multiChk1" type="checkbox" name="multiChk1" value="1"
-                                title="전체선택" onclick="selboxAllChecked(this.id);"> 전체선택</label>
-                        <ul id="_multiChk1">
-                            <li><input name="manageCode[BC]" value="BC" id="BC" type="checkbox">
-                                <label for="BC">아우내도서관</label>
-                            </li>
-
-                            <li><input name="manageCode[BR]" value="BR" id="BR" type="checkbox">
-                                <label for="BR">성거도서관</label>
-                            </li>
-
-                            <li><input name="manageCode[DJ]" value="DJ" id="DJ" type="checkbox">
-                                <label for="DJ">두정도서관</label>
-                            </li>
-
-                            <li><input name="manageCode[DS]" value="DS" id="DS" type="checkbox">
-                                <label for="DS">도솔도서관</label>
-                            </li>
-
-                            <li><input name="manageCode[SC]" value="SC" id="SC" type="checkbox">
-                                <label for="SC">신방도서관</label>
-                            </li>
-
-                            <li><input name="manageCode[SY]" value="SY" id="SY" type="checkbox">
-                                <label for="SY">쌍용도서관</label>
-                            </li>
-
-                            <li><input name="manageCode[CS]" value="CS" id="CS" type="checkbox">
-                                <label for="CS">청수도서관</label>
-                            </li>
-                        </ul>
-                    </dd>
-                </dl>
-            </fieldset>
-            <div class="search_div">
-                <div class="allbox">
-                    <fieldset class="search_fieldset">
-                        <!-- <legend>통합검색</legend> -->
-                        <div class="search">
-                            <div class="input">
-                                <strong>
-                                    <select name="item">
-                                        <option value="total">전체
-                                        </option>
-                                        <option value="title">제목
-                                        </option>
-                                        <option value="author">저자
-                                        </option>
-                                        <option value="publisher">발행처
-                                        </option>
-                                        <option value="keyword">키워드
-                                        </option>
-                                    </select>
-                                </strong>
-                                <input type="text" name="word" autocomplete="off" id="searchWord"
-                                    style="ime-mode:active" placeholder="검색어를 적어주세요">
-                                <!-- input type="hidden" name="item" value="title" id="item" -->
-                            </div>
-                            <input type="submit" class="btn btn-search" value="도서검색">
-                    </fieldset>
-                </div>
-            </div>
-        </div>
         <!-- 책 상세페이지 -->
         <div id="searchDetailInfo">
             <div class="view">
-                <dl>
-                    <dt>
-                        <em class="label">
-                            <img src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
-                                alt="KDC : 005.73" width="50px" />
-                        </em>
-                    <dd>
-                        <div class="ico ico-bk"><span>(자바)자료구조론</span> </div>
-                        <ul>
-                            <li class="label_no"> <strong>ㆍ주제</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                                개발
-                            </li>
-
-                            <li> <strong>ㆍ저자사항</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                                송주석
-                            </li>
-
-                            <li> <strong>ㆍ발행사항</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                                경기도: 사이텍미디어, 2006
-                            </li>
-
-                            <li> <strong>ㆍ형태사항</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                                544p., 삽도 27cm
-                            </li>
-
-                            <li> <strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                                8955501609
-                            </li>
-
-                            <li> <strong>ㆍ주제어/키워드</strong>&nbsp;&nbsp;&nbsp;&nbsp;웹개발 / 자바</li>
-
-                            <li> <strong>ㆍ소장기관</strong> &nbsp;&nbsp;&nbsp;&nbsp;아우내도서관</li>
-                        </ul>
-                    </dd>
-                </dl>
+                <!-- 책 내용 자바스크립트로 가져오기 -->
             </div>
             <div class="table">
                 <h3>소장정보</h3>
-                <form method="post" name="dataRegistForm"
-                    action="./index.php?mod=wdDataSearch&act=dataBasketRegist&regAct=insert"
-                    onsubmit="return wjDataChecked();">
-                    <table class="responsive" summary="구분, 낱권정보, 소장처, 별치, 자료상태, 반납예정일, 예약, 상호대차서비스를 안내하는 표입니다.">
-                        <colgroup>
-                            <col width="">
-                            <col width="">
-                            <col width="">
-                            <col width="">
-                            <col width="">
-                            <col width="">
-                            <col width="">
-                            <col width="">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th scope="col">등록번호</th>
-                                <th scope="col">낱권정보</th>
-                                <th scope="col">자료실 / 청구기호 / ISBN</th>
-                                <th scope="col">자료상태</th>
-                                <th scope="col">반납예정일</th>
-                                <th scope="col">예약</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td> 11312316154919</td>
-                                <td></td>
-                                <td><strong>[아우내]보존실</strong><br>
-                                    <a href="./index.php?mod=wdDataSearch&act=callNoPrint&bookKey=85302040"
-                                        onClick="var tar = window.open(this.href,'callNoPrint','width=280,height=350,resizable=1'); tar.focus(); return false;"
-                                        class="print">005.73-송주석</a>
-                                    <br>
-                                    <strong>8955501609</strong>
-                                </td>
-                                <td><strong class="success">대출가능</strong><br><strong class="fail">대출불가</strong></td>
-                                <td>-</td>
-                                <td>
-                                    <strong class="fail">예약불가</strong><br>
-                                    <strong><a href="#login" onClick="alert('로그인을 해주세요.')" class="btn">예약신청</a></strong>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
+                <table class="responsive">
+                    <colgroup>
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                        <col width="">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">등록번호</th>
+                            <th scope="col">낱권정보</th>
+                            <th scope="col">청구기호 / ISBN</th>
+                            <th scope="col">자료상태</th>
+                            <th scope="col">반납예정일</th>
+                            <th scope="col">예약</th>
+                        </tr>
+                    </thead>
+                    <!-- 소장내용 자바스크립트로 가져오기 -->
+                    <tbody>
+                    </tbody>
+                </table>
+
                 <div class="info">
                     <h3>상세정보</h3>
                     <div>
-                        <div class="nocontent">책 설명이나 특이사항 주저리주저리</div>
+                        <div class="content_text"><!-- 책 상세정보 자바스크립트로 가져오기 --></div>
                     </div>
                 </div>
             </div>
         </div>
 
     </section>
-    <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
 </body>
 
 </html>

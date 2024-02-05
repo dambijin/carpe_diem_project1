@@ -183,14 +183,14 @@
             font-family: 'Wanted Sans Variable';
         }
 
-        /* 책 리스트 */
-        .list {
+        /* 검색결과 책 리스트 */
+        #result_booklist {
             display: flex;
             flex-direction: column;
             width: 100%;
         }
 
-        .list dl {
+        #result_booklist dl {
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 20px;
@@ -198,7 +198,7 @@
             margin: 0px;
         }
 
-        .list dt {
+        #result_booklist dt {
             flex: 1;
             display: flex;
             justify-content: center;
@@ -207,40 +207,55 @@
             border-right: 1px solid #ccc;
         }
 
-        .list dd {
+        #result_booklist dd {
             flex: 3;
             padding-left: 20px;
         }
 
-        .list dd .ico {
+        #result_booklist dd .ico {
             font-weight: bold;
             margin-bottom: 10px;
         }
 
-        .list dd ul {
+        #result_booklist dd ul {
             list-style: none;
             padding: 0;
             margin-bottom: 10px;
         }
 
-        .list dd ul li {
+        #result_booklist dd ul li {
             margin-bottom: 5px;
         }
 
-        .list dd ol {
+        #result_booklist dd ol {
             list-style: none;
             padding: 0;
             display: flex;
         }
 
-        .list dd ol li {
+        #result_booklist dd ol li {
             padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
+            background-color: #e0e0e0;
+            color: black;
+            font-weight: bold;
             border-radius: 5px;
+            margin-right: 10px;
         }
 
-        .list dt img {
+        #result_booklist dd ol .reservation_success {
+            color: blue;
+        }
+
+        #result_booklist dd ol .reservation_success:hover {
+            background-color: rgba(199, 156, 200, 0.6);
+            color: black;
+        }
+
+        #result_booklist dd ol .reservation_fail {
+            color: red;
+        }
+
+        #result_booklist dt img {
             width: 100px;
             height: 100px;
         }
@@ -353,6 +368,101 @@
 
             result_filter2.append(opt);
         }
+
+        // 검색결과 기본세팅
+        // 책 정보를 저장하는 배열
+        let books = [
+            {
+                title: "(자바)자료구조론",
+                topic: "개발",
+                author: "송주석 ; 서성훈 [공]저",
+                publisher: "사이텍미디어",
+                year: "2006",
+                callNumber: "005.73-송주석",
+                registerNumber: "YM0000007237",
+                library: "아우내도서관",
+                loan_state: true,
+                reservation_state: false
+            },
+            {
+                title: "(자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기",
+                topic: "개발",
+                author: "이상민 지음",
+                publisher: "한빛미디어",
+                year: "2009",
+                callNumber: "005.115-이상민",
+                registerNumber: "NG0000002167",
+                library: "성남면작은도서관",
+                loan_state: false,
+                reservation_state: true
+            },
+            {
+                title: "(자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기2222",
+                topic: "개발222",
+                author: "이상민 지음22",
+                publisher: "한빛미디어22",
+                year: "2010",
+                callNumber: "005.115-이상민",
+                registerNumber: "NG0000002168",
+                library: "성남면작은도서관222",
+                loan_state: true,
+                reservation_state: true
+            }
+        ];
+
+        // 책 정보를 바탕으로 HTML을 생성
+
+        for (let i = 0; i < books.length; i++) {
+            let result_booklist = document.querySelector("#result_booklist");
+            var book = books[i];
+
+            let loan_stat = "대출불가";
+            let reservation_stat = " class=\"reservation_fail\">예약불가<";
+            if (book.loan_state) {
+                loan_stat = "대출가능"
+            }
+
+            if (book.reservation_state) {
+                reservation_stat = " class=\"reservation_success\" onclick=\"reservation('" + book.registerNumber + "')\">예약가능<";
+            }
+            let html = '';
+            html += `
+            <dl>
+                <dt>
+                    <em class="label label-bk"><img
+                            src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
+                            alt="KDC : 005.73"></em>
+                </dt>
+                <dd>
+                    <div class="ico ico-bk">
+                        <a href="javascript:void(0);" onclick="openBookDetail('${encodeURIComponent(JSON.stringify(book))}')">${book.title}</a>
+                    </div>
+                    <ul>
+                        <li class="label_no"><strong>주제 : </strong> ${book.topic}</li>
+                        <li>
+                            <strong>저자 : </strong> ${book.author} <em>|</em>
+                            <strong>발행처 : </strong> ${book.publisher}
+                        </li>
+                        <li>
+                            <strong>발행년 : </strong> ${book.year} <em>|</em>
+                            <strong>청구기호 : </strong> ${book.callNumber} <em> | </em><strong>등록번호 : </strong> ${book.registerNumber}
+                        </li>
+                        <li class="so">
+                            <strong>소장기관 : </strong> <span class="blue">${book.library}</span>
+                        </li>
+                    </ul>
+                    <ol>
+                        <li>${loan_stat}</li>
+                        <li${reservation_stat}/li>
+                    </ol>
+                </dd>
+            </dl>
+        `;
+
+            result_booklist.innerHTML += html;
+        }
+        // HTML 생성 및 삽입
+
     })
 
     //모두 체크기능
@@ -365,6 +475,22 @@
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = allCheck.checked;
         }
+    }
+
+    function openBookDetail(bookString) {
+        // book 객체의 모든 속성을 쿼리 문자열로 변환
+        let book = JSON.parse(decodeURIComponent(bookString));
+        var queryString = Object.keys(book).map(function (key) {
+            return encodeURIComponent(key) + '=' + encodeURIComponent(book[key]);
+        }).join('&');
+
+        // 쿼리 문자열을 URL에 추가하여 새 창을 열기
+        window.open('book_detail.html?' + queryString, '_blank', 'width=900,height=600');
+    }
+
+    //예약기능
+    function reservation(RN) {
+        alert(RN + " 예약되었습니다.");
     }
 </script>
 
@@ -424,90 +550,8 @@
         </div>
 
         <!-- 책 리스트 -->
-        <div class="list">
-            <dl>
-                <dt>
-                    <a href="">
-                        <em></em>
-                    </a>
-                    <em class="label label-bk"><img
-                            src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
-                            alt="KDC : 005.73"></em>
-                </dt>
-                <dd>
-                    <div class="ico ico-bk">
-                        <a href="book_detail.html">
-                            (자바)자료구조론 </a>
-                    </div>
-                    <ul>
-                        <li class="label_no"><strong>주제 : </strong> 개발</li>
-                        <li>
-                            <strong>저자</strong> 송주석 ; 서성훈 [공]저 <em>|</em>
-                            <strong>발행처</strong> 사이텍미디어
-                        </li>
-
-                        <li>
-                            <strong>발행년</strong> 2006 <em>|</em>
-
-                            <strong>청구기호</strong> 005.73-송주석 <em>|</em><strong>등록번호</strong>YM0000007237
-                        </li>
-
-                        <li class="so">
-                            <strong>소장기관</strong> <span class="blue">아우내도서관</span> <em>|</em>
-
-                            <strong>자료실</strong> <span class="yellow">[아우내]보존실</span>
-                        </li>
-                    </ul>
-                    <ol>
-                        <li>대출가능</li>
-
-                        <!-- li><strong class="nonone">도서 예약불가</strong></li -->
-                        <li>
-                            <a href="#login" onclick="alert('로그인을 해주세요.');">
-                                예약<span class="skip">신청</span></a>
-                        </li>
-                    </ol>
-                </dd>
-            </dl>
-            <dl>
-                <dt>
-                    <a href="">
-                        <img class="img"
-                            src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
-                            alt="" onError="">
-                    </a>
-                </dt>
-                <dd>
-                    <div class="ico ico-bk">
-                        <a href="book_detail.html">
-                            (자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기 </a>
-                    </div>
-                    <ul>
-                        <li class="label_no"><strong>주제 : </strong> 개발</li>
-                        <li>
-                            <strong>저자</strong> 이상민 지음 <em>|</em>
-                            <strong>발행처</strong> 한빛미디어
-                        </li>
-
-                        <li>
-                            <strong>발행년</strong> 2009 <em>|</em>
-
-                            <strong>청구기호</strong> 005.115-이상민 <em>|</em><strong>등록번호</strong>NG0000002167
-                        </li>
-
-                        <li class="so">
-                            <strong>소장기관</strong> <span class="blue">성남면작은도서관</span> <em>|</em>
-
-                            <strong>자료실</strong> <span class="yellow">성남면 작은도서관 </span>
-                        </li>
-                    </ul>
-                    <ol>
-                        <li>대출가능</li>
-                        <li>예약불가</li>
-                    </ol>
-                </dd>
-            </dl>
-
+        <div id="result_booklist">
+            <!-- 자바스크립트로 검색결과리스트 가져오기 -->
         </div>
 
 
