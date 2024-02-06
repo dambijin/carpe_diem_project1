@@ -22,11 +22,11 @@
             let email2 = document.querySelector("#email_domain")
             let name = document.querySelector("#name")
 
+
+
             email1.addEventListener("change", function () {
                 let selectedIndex = email1.selectedIndex;
                 email2.value = email1.options[email1.selectedIndex].value;  //동기화
-
-
                 if (email1.selectedIndex > 0) //직접입력 차단
                 {
                     email2.readOnly = true;
@@ -37,6 +37,8 @@
                     email2.readOnly = false;
                 }
             })
+
+
 
             // 이메일 리스트 스크립트
             let email_list = ["직접입력", "naver.com", "daum.net", "google.com"];
@@ -61,6 +63,20 @@
             //    수신동의 체크
             let mod = document.querySelector("#mod")
 
+            // 정보 임의 지정
+            document.querySelector("#password").value = "1234";
+            document.querySelector("#password1").value = "1234";
+            document.querySelector("#phonenumber").value = "010-0000-0000";
+            document.querySelector("#email_id").value = "doseo";
+            document.querySelector("#tel1").value = "041";
+            document.querySelector("#tel2").value = "331";
+            document.querySelector("#tel3").value = "1234";
+            document.getElementsByName("sms")[0].checked = true;
+            document.getElementsByName("email")[0].checked = true;
+
+
+
+
             mod.addEventListener("click", function () {
                 let password = document.querySelector("#password").value
                 let password1 = document.querySelector("#password1").value
@@ -76,21 +92,46 @@
                         selectEmail = emailCheck[i].value;
                     }
                 }
-                
-                // 비밀번호 체크 알림
-                if (password === password1) {
-                    alert(name.textContent + "님의 정보를 수정하였습니다." + "\n" +
-                        "비밀번호 : " + password + "\n" +
-                        "휴대폰 번호 : " + phonenumber.value + "\n" +
-                        "sms수신동의여부 : " + selectSms + "\n" +
-                        "email수신동의여부 : " + selectEmail + "\n" +
-                        "로 변경되었습니다.")
-                } else if (password !== password1) {
-                    document.querySelector("#password").value = "";
-                    document.querySelector("#password1").value = "";
-                    alert("비밀번호를 다시 확인해주세요.");
+
+
+                // 유효성 검사
+                if (password == "") {
+                    alert("비밀번호 입력 안함")
+                    document.querySelector("#password").focus();
+                } else if (password1 == "") {
+                    alert("비밀번호 확인 입력안함")
+                    document.querySelector("#password1").focus();
+                } else if (selectSms == null) {
+                    alert("sms수신동의 체크안함")
+                } else if (selectEmail == null) {
+                    alert("email수신동의 체크안함")
                 }
+                else {
+                    if (password === password1) {
+                        alert(name.textContent + "님의 정보를 수정하였습니다." + "\n" +
+                            "비밀번호 : " + password + "\n" +
+                            "휴대폰 번호 : " + phonenumber.value + "\n" +
+                            "이메일 : " + document.querySelector("#email_id").value + email2.value + "\n" +
+                            "sms수신동의여부 : " + selectSms + "\n" +
+                            "email수신동의여부 : " + selectEmail + "\n" +
+                            "로 변경되었습니다." )
+                        location.href = "mypage_loan_status.html"
+                    } else {
+                        document.querySelector("#password").value = "";
+                        document.querySelector("#password1").value = "";
+                        alert("비밀번호를 다시 확인해주세요.");
+                    }
+                }
+
             })
+            console.log(email)
+            // 취소버튼 이동
+            let cancle = document.querySelector("#cancle")
+            cancle.addEventListener("click", function () {
+                location.href = "mypage_loan_status.html";
+            })
+
+
         }
         // 주소찾기
         function sample6_execDaumPostcode() {
@@ -166,12 +207,6 @@
             margin: auto;
         }
 
-        /* 상단배너 */
-        #head1 {
-            width: 300px;
-            text-align: left;
-        }
-
         /* 테이블 사이즈 */
         #table {
             width: 800px;
@@ -215,6 +250,12 @@
         font {
             font-size: 13px;
         }
+
+        ::placeholder {
+            font-family: "Wanted Sans Variable";
+
+
+        }
     </style>
 </head>
 
@@ -224,9 +265,7 @@
         <!-- 여기부터 본문작성해주세요 -->
         <!-- 상단배너 -->
         <div id="head">
-            <div id="head1">
-                <h1>정보 수정</h1>
-            </div>
+            <h1>정보 수정</h1>
         </div>
         <!-- 수정항목 -->
         <div>
@@ -249,32 +288,33 @@
                 </tr>
                 <tr>
                     <th>비밀번호</th>
-                    <td class="padding"><input type="text" placeholder="내용을 입력해주세요." id="password"></td>
+                    <td class="padding"><input type="text" placeholder="비밀번호" id="password"></td>
                 </tr>
                 <tr>
-                    <th></th>
-                    <th class="text">
+
+                    <th class="text" colspan="2">
                         <font>비밀번호를 입력하세요(8~20자로 숫자, 영문소, 영문대, 특수문자 중 3가지 이상 조합)<br>
                             - 입력가능한 특수문자는 [<font color="red"> ! , @ , $ , % , ^ , * , ( , ) </font>] 입니다. (지정된 특수문자 외는
                             입력이 불가능합니다.)<br>
                             비밀번호 수정 시 적어주세요.</font>
                     </th>
+
                 </tr>
                 <tr>
                     <th>비밀번호 확인</th>
-                    <td class="padding"><input type="text" placeholder="내용을 입력해주세요." id="password1"></td>
+                    <td class="padding"><input type="text" placeholder="비밀번호 확인" id="password1"></td>
                 </tr>
                 <tr>
                     <th>휴대폰 번호</th>
                     <td class="padding">
-                        <input type="text" placeholder="내용을 입력해주세요." id="phonenumber">
+                        <input type="text" placeholder="휴대폰 번호" id="phonenumber">
                         <font>SMS수신<input type="radio" value="Y" name="sms">예<input type="radio" value="N"
                                 name="sms">아니오</font>
                     </td>
                 </tr>
                 <tr>
-                    <th></th>
-                    <th class="text">
+
+                    <th class="text" colspan="2">
                         <font>마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
                             <font color="red"> 동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.</font>
                         </font>
@@ -297,9 +337,9 @@
                     <th>집전화번호</th>
                     <td>
 
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요."> -
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요."> -
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요.">
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="tel1"> -
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="tel2"> -
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="tel3">
                     </td>
                 <tr>
                     <th>주소</th>
@@ -318,7 +358,7 @@
 
             <button value="submit" class="button" id="mod">수정</button>
             &nbsp;
-            <button value="reset" class="button">취소</button>
+            <button value="reset" class="button" id="cancle">취소</button>
 
         </div>
 
