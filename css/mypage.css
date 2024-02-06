@@ -105,4 +105,9 @@ button:hover {
 select{
     font-family: "Wanted Sans Variable";
 }
+.notice_subject {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
 

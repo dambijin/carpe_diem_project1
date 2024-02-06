@@ -27,16 +27,15 @@
                 alert(input.value);
             })
 
-            // 임시버튼
-            let btn = document.querySelector(".btn");
+          
             let title = "이거슨 제목~"
 
             // 임시버튼을 클릭
-            btn.addEventListener("click", function () {
-                let html = '';
+            for(let i=1; i<=10; i++){
+            let html = '';
                 html += '           <td></td>';
                 html += '           <td></td>';
-                html += '            <td><a href="QnA_detail.html">'+ title + '</a></td>';
+                html += '            <td><a href="QnA_detail.html">'+ title + i + '</a></td>';
                 html += '           <td></td>';
                 html += '           <td></td>';
                 html += '           <td></td>';
@@ -44,8 +43,10 @@
                 let tr = document.createElement("tr");
                 tr.innerHTML = html;
                 board_sub.append(tr);
+            }
+               
 
-            })
+            
 
 
         }
@@ -204,7 +205,7 @@
                                 <option>20개</option>
                                 <option>30개</option>
                             </select>
-                            <button class="btn">이거슨 버튼</button>
+                          
                         </div>
                         <table class="board_sub">
                             <tr>

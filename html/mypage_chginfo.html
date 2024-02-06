@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
     <link href="../css/layout.css" rel="stylesheet">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js">
     </script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
@@ -26,21 +26,17 @@
                 let selectedIndex = email1.selectedIndex;
                 email2.value = email1.options[email1.selectedIndex].value;  //동기화
 
-                
-                if(email1.selectedIndex > 0 ) //직접입력 차단
+
+                if (email1.selectedIndex > 0) //직접입력 차단
                 {
                     email2.readOnly = true;
                 }
                 else                            //직접입력 허용
                 {
-                    email2.value ="";
+                    email2.value = "";
                     email2.readOnly = false;
                 }
-
-                
-
             })
-
 
             // 이메일 리스트 스크립트
             let email_list = ["직접입력", "naver.com", "daum.net", "google.com"];
@@ -56,10 +52,6 @@
 
                 result_email_list.append(opt)
             }
-
-
-           
-
 
             // 본문 내용 스크립트화
             name.textContent = "박상민";
@@ -83,8 +75,8 @@
                     if (emailCheck[i].checked) {
                         selectEmail = emailCheck[i].value;
                     }
-
                 }
+                
                 // 비밀번호 체크 알림
                 if (password === password1) {
                     alert(name.textContent + "님의 정보를 수정하였습니다." + "\n" +
@@ -97,12 +89,8 @@
                     document.querySelector("#password").value = "";
                     document.querySelector("#password1").value = "";
                     alert("비밀번호를 다시 확인해주세요.");
-
-
                 }
-
             })
-
         }
         // 주소찾기
         function sample6_execDaumPostcode() {
@@ -148,12 +136,9 @@
             }).open();
         }
 
-
-
-
     </script>
     <style>
-        section{
+        section {
             font-family: "Wanted Sans Variable";
         }
 
@@ -169,8 +154,6 @@
             padding: 20px;
         }
 
-       
-       
         /* 인풋박스 사이즈 */
         .input_width {
             width: 100px
@@ -196,14 +179,18 @@
             border-collapse: collapse;
 
         }
+
         /* 하단 버튼 위치 조정 */
         #button_align {
             text-align: center;
             margin: auto;
         }
+
         .place_input_width {
             width: 300px;
+            margin: 5px auto;
         }
+
         /* 하단 버튼 css */
         .button {
             font-family: "Wanted Sans Variable";
@@ -213,6 +200,7 @@
             border: 0;
             border-radius: 5px;
         }
+
         /* 주소찾기 버튼 */
         #place_button {
             font-family: "Wanted Sans Variable";
@@ -221,9 +209,11 @@
             font-size: 13px;
             border: 0;
             border-radius: 5px;
+            margin-bottom: 5px;
         }
+
         font {
-            font-size : 13px;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -316,21 +306,10 @@
                     <td> <input class="input_width" type="text" placeholder="우편 번호" id="sample6_postcode">
                         <button id="place_button" onclick="sample6_execDaumPostcode()">
                             주소 찾기
-                        </button>
+                        </button><br>
+                        <input class="place_input_width" id="sample6_address" type="text" placeholder="도로명 주소"><br>
+                        <input class="place_input_width" id="sample6_address2" type="text" placeholder="상세 주소">
                     </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td> <input class="place_input_width" id="sample6_address" type="text" placeholder="도로명 주소">
-
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td> <input class="place_input_width" id="sample6_address2" type="text" placeholder="상세 주소">
-
-                    </td>
-                </tr>
             </table>
         </div>
         <br><br>
