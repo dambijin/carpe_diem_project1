@@ -9,6 +9,7 @@
 
 <!-- function 스크립트 -->
 <script src="../js/admin_library.js"></script>
+<script src="../js/admin_book_overdue.js"></script>
 
 <style>
 header .nav .book_in {
@@ -76,8 +77,9 @@ header .nav .book_in {
         </div>
 
         <div>
+            <button type="button" id="over_add">책 추가</button>
             <table class="add_table" border="0" width="900px" height="100px" align="center"
-            cellpadding="5" cellspacing="1" bgcolor="cccccc">
+            cellpadding="5" cellspacing="1" bgcolor="cccccc" id="todo_booktable">
                 <tr>
                     <th>책제목</th>
                     <th>저자</th>
@@ -87,7 +89,7 @@ header .nav .book_in {
                     <th>연체일자</th>
                     <th width="100px">
                         연체상태
-                        <input type="checkbox">
+                        <input type="checkbox" name="check" id="select_all">
                     </th>
                 </tr>
                 <tr>
@@ -98,29 +100,7 @@ header .nav .book_in {
                     <td>yyyy/mm/dd</td>
                     <td>3일</td>
                     <td>
-                        <input type="checkbox">
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <input type="checkbox">
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <input type="checkbox">
+                        <input type="checkbox" class="check">
                     </td>
                 </tr>
                 
@@ -130,7 +110,7 @@ header .nav .book_in {
     
     <!-- 등록 취소 -->
     <div class="input">
-        <button type="button" value="연체해제" class="button"
+        <button type="button" value="연체해제" class="button" id="selected_del"
             onclick="overdue_close()">연체해제</button>
         <input type="reset" value="닫기" class="button"
             onclick="closePopup()">
