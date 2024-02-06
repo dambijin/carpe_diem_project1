@@ -12,9 +12,6 @@
     <script>
 
         window.addEventListener("load", function () {
-
-
-
             document.querySelector("#upload_file").addEventListener("change", function (changeEvent) {
                 // 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
                 // 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
@@ -66,13 +63,13 @@
                             document.querySelector('#user_name').focus();
                         } else if (number1 == "") {
                             alert("전화번호를 입력해주세요.");
-                            document.querySelector('#number1').focus();
+                            document.querySelector('#pnumber1').focus();
                         } else if (number2 == "") {
                             alert("전화번호를 입력해주세요.");
-                            document.querySelector('#number2').focus();
+                            document.querySelector('#pnumber2').focus();
                         } else if (number3 == "") {
                             alert("전화번호를 입력해주세요.");
-                            document.querySelector('#number3').focus();
+                            document.querySelector('#pnumber3').focus();
                         } else if (userpw != "") {
                             if (userpw.length < 4 || userpw.length > 10) {
                                 alert("비밀번호는 최소 4자 이상, 최대 10자 이하여야 합니다.");
@@ -172,6 +169,24 @@
             width: 30%;
             padding: 7px;
             text-align: center;
+        }
+
+        /* QnA글쓰기 */
+        .div_back .sub {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* QnA글쓰기 아래 hr */
+        .hr_bottom {
+            background-color: rgba(168, 156, 200, 0.6);
+            height: 2px;
+            border: none;
+            width: 50%;
+            margin-top: 20px;
         }
 
         /* 개인정보 배너 */
@@ -340,6 +355,10 @@
                     <!-- 여기부터 본문작성해주세요 -->
                     <!-- 상단 배너 -->
                     <div class="div_back">
+                        <div class="sub">
+                            QnA 글쓰기
+                            <hr class="hr_bottom">
+                        </div>
                         <div id="head">
                             개인정보 수집 + 이용 동의
                         </div>
