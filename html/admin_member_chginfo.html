@@ -11,6 +11,52 @@
 <!-- function 스크립트 -->
 <script src="../js/admin_library.js"></script>
 
+<script>
+    // 회원정보 수정
+    function chgInfo() {
+        alert("수정되었습니다");
+    }
+
+
+    //    수신동의 체크
+    let mod = document.querySelector("#mod")
+
+    mod.addEventListener("click", function () {
+        let password = document.querySelector("#password").value
+        let password1 = document.querySelector("#password1").value
+        let smsCheck = document.getElementsByName("sms")
+        let selectSms;
+        let emailCheck = document.getElementsByName("email")
+        let selectEmail
+        for (let i = 0; i < smsCheck.length; i++) {
+            if (smsCheck[i].checked) {
+                selectSms = smsCheck[i].value;
+            }
+            if (emailCheck[i].checked) {
+                selectEmail = emailCheck[i].value;
+            }
+        }
+    
+    // 비밀번호 체크 알림
+    if (password === password1) {
+        alert(name.textContent + "님의 정보를 수정하였습니다." + "\n" +
+            "비밀번호 : " + password + "\n" +
+            "휴대폰 번호 : " + phonenumber.value + "\n" +
+            "sms수신동의여부 : " + selectSms + "\n" +
+            "email수신동의여부 : " + selectEmail + "\n" +
+            "로 변경되었습니다.")
+    } else if (password !== password1) {
+        document.querySelector("#password").value = "";
+        document.querySelector("#password1").value = "";
+        alert("비밀번호를 다시 확인해주세요.");
+    }
+})
+    
+window.addEventListener("load",function(){
+        document.querySelector("#password").value = "abcdeqesd";
+    });
+</script>
+
 <style>
     header .nav .member_list {
         background-color: rgba(168, 156, 200, 0.6);
@@ -121,6 +167,7 @@
     }
 </style>
 
+
 <body>
     <!-- header -->
     <header></header>
@@ -137,30 +184,31 @@
             </tr>
             <tr>
                 <th height="40px">이름</th>
-                <td><input type="text" name="name" value=""></td>
+                <td>홍길동</td>
             </tr>
             <tr>
                 <th height="40px">생년월일</th>
-                <td><input type="text" name="birth" value=""></td>
+                <td>2001-01-01</td>
             </tr>
             <tr>
                 <th height="40px">아이디</th>
-                <td><input type="text" name="id"></td>
+                <td>userid123</td>
             </tr>
             <tr>
                 <th height="40px">비밀번호</th>
-                <td><input type="text" name="password" maxlength="16" placeholder=" 비밀번호(8 ~ 16자)"></td>
+                <td><input type="password" name="password" id="password"
+                    maxlength="16" placeholder=" 비밀번호(8 ~ 16자)"></td>
             </tr>
 
             <tr>
                 <th height="40px">비밀번호확인</th>
 
-                <td><input type="text" name="password_check"></td>
+                <td><input type="password" id="password1" name="password_check"></td>
             </tr>
             <tr>
                 <th height="40px">휴대폰번호</th>
                 <td>
-                    <input type="text" name="phone_number">
+                    <input type="number" name="phone_number">
                     SMS수신
                     <input type="radio" name="sms">예
                     <input type="radio" name="sms">아니오

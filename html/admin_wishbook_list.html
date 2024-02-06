@@ -10,7 +10,50 @@
 
 <!-- function 스크립트 -->
 <script src="../js/admin_library.js"></script>
-<script src="../js/admin_wishbook_list.js"></script>
+<script>
+    window.addEventListener("load", function () {
+		bind();
+	});
+
+    function bind() {
+        var inputTodo = document.getElementById("input_todo");
+        if (inputTodo != null) {
+            inputTodo.addEventListener("keydown", enterkey);
+        }
+    }
+    // 검색에 입력값 받아와 enterkey 작동
+    
+    // 검색기능
+    function search() {
+        var textbox = document.getElementById("input_todo");
+        if (textbox != null) {
+            alert(textbox.value + " ");
+        }
+    }
+    // 엔터 이벤트
+    function enterkey() {
+        if (window.event.keyCode == 13) {
+            search();
+        }
+    }
+
+    function complete() {
+        alert("완료되었습니다.")
+    }
+
+
+    function companion() {
+        alert("반려되었습니다.")
+    }
+
+    // 책이름 클릭 시 팝업창 띄우기
+    function popup() {
+        window.open('wishbook_detail.html', '팝업', 'width=900,height=900');
+    }
+
+
+
+</script>
 
 <style>
     header .nav .wish_list {
@@ -76,9 +119,11 @@
         background-color: #fff;
         text-align: center;
     }
+
     table tr th {
         background-color: rgba(168, 156, 200, 0.6);
     }
+
     table tr td {
         height: 20px;
         border: 1px solid #ccc;
@@ -108,7 +153,7 @@
                 <option value="">신청날짜</option>
             </select>
             <input type="text" class="textbox" id="input_todo">
-            <button type=button class="button" onclick="seach()">검색</button>
+            <button type=button class="button" onclick="search()" onkeyup="enterkey()">검색</button>
         </div>
 
         <div>
@@ -125,7 +170,7 @@
                 <tr>
                     <td>1</td>
                     <td>10</td>
-                    <td>자바의기초</td>
+                    <td><a href="" onclick="popup()">자바의기초</a></td>
                     <td></td>
                     <td></td>
                     <td>
