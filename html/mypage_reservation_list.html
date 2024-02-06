@@ -21,8 +21,7 @@
         function bind() {
             let button1 = document.getElementById('chginfo');
             let button3 = document.getElementById('button_cancle');
-            let write = document.getElementById('write')
-            let table = document.getElementById('page1')
+            let table = document.getElementById('page1');
 
 
 
@@ -37,10 +36,11 @@
 
             });
             // 임시 보드 작성
-            write.addEventListener("click", function () {
+          
+                for(let i=1; i <= 10; i++){
                 let html = '';
 
-                html += '           <td>192</td>';
+                html += '           <td>' + i + '</td>';
                 html += '          <td>아몰랑</td>';
                 html += '           <td>아몰랑</td>';
                 html += '          <td>아몰랑</td>';
@@ -106,8 +106,8 @@
 
 
                 table.append(tr)
-            })
-
+            }
+            
 
 
 
@@ -172,7 +172,7 @@
                                         <option disabled selected> - 도서관 전체</option>
                                         <option>중앙도서관</option>
                                     </select>
-                                    <input type="button" value="글쓰기" id="write">
+                                  
 
                                 </div>
                             </div>

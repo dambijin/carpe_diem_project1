@@ -11,7 +11,7 @@
       window.addEventListener("load", function(){
             save();
         })
-
+        // 저장 버튼 클릭 이벤트
         function save (){
             let textarea = document.querySelector("#textarea");
             let save = document.querySelector("#save");
@@ -23,36 +23,37 @@
         }
     </script>
     <style>
+          /* 개인정보 표, 글쓰기 표 */
         .div_table {
 
             width: 100%;
             margin: 10px auto;
 
         }
-
+         /* 글쓰기 */
         .table_table {
             width: 100%;
             text-align: center;
             border-collapse: collapse;
             margin-top: 30px;
         }
-
+         /* 표 */
         tr {
             border-bottom: 1px solid rgba(59, 57, 63, 0.445);
             height: 50px
         }
-
+        /* 글쓰기 박스 */
         textarea {
             width: 100%;
             height: 300px
         }
-
+        /* 버튼 */
         .div_button {
 
             text-align: right;
             margin-top: 30px;
         }
-
+        /* 버튼 */
         .div_buttonAll {
             width: 100%;
             margin: auto;
@@ -68,20 +69,15 @@
             width: 30%;
             padding: 7px;
         }
-
+        /* 휴대폰번호 텍스트 박스 사이즈 지정 */
         .input_phone {
-            width: 100px;
+            width: 70px;
         }
-
-        font {
-            font-size: 11px;
-        }
-
+         /* 글쓰기 박스 */
         #textarea {
-           
             margin: 30px auto;
         }
-
+        /* 버튼 css */
         button {
             font-family: "Wanted Sans Variable";
             width: 100px;
@@ -89,65 +85,54 @@
             font-size: 18px;
             border: 0;
             border-radius: 5px;
-
-
         }
+        /* 버튼 호버 */
         button:hover{
             background-color: rgba(205, 155, 225, 0.6);
         }
-
+        /* 인풋박스 높이 지정 */
         input {
             height: 18px;
         }
-
+        /* 휴대폰번호 텍스트 박스 사이즈 지정 */
         .input_phone {
-            width: 80px;
+            width: 70px;
         }
-
+        /* 라디오 박스 */
         input[type=radio] {
             border: 0px;
             width: 10px;
             height: 10px;
         }
-
-        select {
-            height: 25px;
-        }
-
+        
         font {
             font-size: 15px;
         }
-
+        /* 본문 col그룹 css */
         col {
             background: rgba(168, 156, 200, 0.6);
             text-align: center;
             font-size: 18px;
             width: 200px;
         }
-
+        /* 인풋박스 통합 폰트 지정 */
         .input_phone,
         .inputbox {
             font-size: 18px;
             font-family: "Wanted Sans Variable";
-            width: 100%;
+           
         }
 
         /* 전화번호 input */
         .number_input {
-            width: 80px;
+            width: 70px;
 
         }
-
-
-        #select_phone {
-            width: 80px;
-            font-size: 18px;
-
-        }
+        /* 개인정보 표 세부사항 */
         .td1 {
             text-align: center;
         }
-        
+        /* 업로드 버튼 css */
         .but_upload {
             font-family: "Wanted Sans Variable";
             width: 80px;
@@ -194,7 +179,7 @@
                             <tr>
                                 <th>휴대폰번호</th>
                                 <td> 
-                                    <input class="input_phone number_input" type="text" placeholder="내용을 입력해주세요."> -<br>
+                                    <input class="input_phone number_input" type="text" placeholder="내용을 입력해주세요."> -
                                     <input class="input_phone number_input" type="text" placeholder="내용을 입력해주세요."> -
                                     <input class="input_phone number_input" type="text" placeholder="내용을 입력해주세요.">
                                 </td>
