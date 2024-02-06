@@ -38,29 +38,53 @@ function bind() {
             tr.innerHTML = book_html;
     
         todolist.append(tr);
+    })
+
+
+    // 10개씩 누를 때 change 이벤트 : 변동이 있을 때 발생
+    function changeViewCount(count) {
+        alert(count + "개씩 보기로 변경되었습니다.");
+    }
+
+    // 폐기버튼누를 때 이벤트
+    function dispose() {
+        alert("폐기되었습니다")
+    }
+
+
+
+// *체크선택된 애들만 폐기되도록    미완성
+
+    document.querySelector("#selected_del").addEventListener("click", function () {
+        let list_checked = document.querySelectorAll(".check:checked")
+            for(let i=0; i<list_checked.length; i++){
+                list_checked[i].parentNode.parentNode.remove();
+            }
+        })
+
+    document.querySelector("#select_all").addEventListener("click", function (event) {
+        // 클릭된 요소가
+        // check 상태라면
+        let list_check = document.querySelectorAll(".check")
+
+        if(event.target.checked){
+            for(let i=0; i<list_check.length; i++){
+                list_check[i].checked = true;
+            }
+        } else {
+            for(let i=0; i<list_check.length; i++){
+                list_check[i].checked = false;
+            }
+        }
+        // check 상태가 아니라면
     });
+
 };
-
-// 10개씩 누를 때 change 이벤트 : 변동이 있을 때 발생
-function changeViewCount(count) {
-	alert(count + "개씩 보기로 변경되었습니다.");
+// 검색기능
+function seach() {
+    var textbox = document.getElementById("input_todo");
+    if (textbox != null){
+        alert(textbox.value + " ");
+    }
 }
 
-// 폐기버튼누를 때 이벤트
-function dispose() {
-    alert("폐기되었습니다")
-}
-
-// 검색기능(텍스트박스내용 알림띄우기)
-        //todo_search : 검색 input창
-// let search = document.querySelector("#todo_search");
-//         // i
-// let search2 = document.querySelector(#input_todo);
-
-// search.addEventListener() {
-//     alert("dasda");
-// };
-
-
-
-// *체크선택된 애들만 폐기되도록

@@ -50,3 +50,12 @@ function reservation_check() {
 function loan_check() {
 	alert("대출내역조회");
 }
+
+
+// 검색기능
+function seach() {
+    var textbox = document.getElementById("input_todo");
+    if (textbox != null){
+        alert(textbox.value + " ");
+    }
+}

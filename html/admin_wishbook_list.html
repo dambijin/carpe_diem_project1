@@ -10,6 +10,7 @@
 
 <!-- function 스크립트 -->
 <script src="../js/admin_library.js"></script>
+<script src="../js/admin_wishbook_list.js"></script>
 
 <style>
     header .nav .wish_list {
@@ -106,8 +107,8 @@
                 <option value="">회원번호</option>
                 <option value="">신청날짜</option>
             </select>
-            <input type="text" class="textbox">
-            <button type=button class="button">검색</button>
+            <input type="text" class="textbox" id="input_todo">
+            <button type=button class="button" onclick="seach()">검색</button>
         </div>
 
         <div>
@@ -128,8 +129,8 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <input type="button" value="완료">
-                        <input type="button" value="반려">
+                        <input type="button" value="완료" onclick="complete()">
+                        <input type="button" value="반려" onclick="companion()">
                     </td>
                 </tr>
                 <tr>
@@ -139,8 +140,8 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <input type="button" value="완료">
-                        <input type="button" value="반려">
+                        <input type="button" value="완료" onclick="complete()">
+                        <input type="button" value="반려" onclick="companion()">
                     </td>
                 </tr>
                 <tr>
@@ -150,8 +151,8 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <input type="button" value="완료">
-                        <input type="button" value="반려">
+                        <input type="button" value="완료" onclick="complete()">
+                        <input type="button" value="반려" onclick="companion()">
                     </td>
                 </tr>
                 <tr>
@@ -161,8 +162,8 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <input type="button" value="완료">
-                        <input type="button" value="반려">
+                        <input type="button" value="완료" onclick="complete()">
+                        <input type="button" value="반려" onclick="companion()">
                     </td>
                 </tr>
 
