@@ -12,49 +12,67 @@
 <script src="../js/admin_library.js"></script>
 
 <script>
-    // 회원정보 수정
-    function chgInfo() {
-        alert("수정되었습니다");
-    }
-
-
-    //    수신동의 체크
-    let mod = document.querySelector("#mod")
-
-    mod.addEventListener("click", function () {
-        let password = document.querySelector("#password").value
-        let password1 = document.querySelector("#password1").value
-        let smsCheck = document.getElementsByName("sms")
-        let selectSms;
-        let emailCheck = document.getElementsByName("email")
-        let selectEmail
-        for (let i = 0; i < smsCheck.length; i++) {
-            if (smsCheck[i].checked) {
-                selectSms = smsCheck[i].value;
-            }
-            if (emailCheck[i].checked) {
-                selectEmail = emailCheck[i].value;
-            }
-        }
-    
-    // 비밀번호 체크 알림
-    if (password === password1) {
-        alert(name.textContent + "님의 정보를 수정하였습니다." + "\n" +
-            "비밀번호 : " + password + "\n" +
-            "휴대폰 번호 : " + phonenumber.value + "\n" +
-            "sms수신동의여부 : " + selectSms + "\n" +
-            "email수신동의여부 : " + selectEmail + "\n" +
-            "로 변경되었습니다.")
-    } else if (password !== password1) {
-        document.querySelector("#password").value = "";
-        document.querySelector("#password1").value = "";
-        alert("비밀번호를 다시 확인해주세요.");
-    }
-})
-    
-window.addEventListener("load",function(){
+    // window load했을 때
+    window.addEventListener("load", function () {
         document.querySelector("#password").value = "abcdeqesd";
     });
+
+    // 이메일 자동완성
+    function selectWebsite() {
+        var selectBox = document.getElementById("select");
+        var emailInput = document.getElementById("emailId");
+
+        var selectedValue = selectBox.value;
+
+        if (selectedValue === "directly") {
+            // 직접입력 옵션 선택 시 텍스트 입력 상자를 활성화합니다.
+            emailInput.removeAttribute("disabled");
+            emailInput.value = ""; // 기존 값 비우기
+        } else {
+            // 다른 옵션 선택 시 해당 값을 텍스트 입력 상자에 자동 완성합니다.
+            emailInput.value = selectedValue;
+            emailInput.setAttribute("disabled", "disabled"); // 텍스트 입력 상자 비활성화
+        }
+    }
+
+    // 회원정보 수정
+    // 수정버튼 누르면 알림창 띄우기 (내용도 같이)
+    function chgInfo() {
+        // 회원 정보 수정 로직 추가
+        var name = document.querySelector("td:nth-child(2)").textContent;
+        var password = document.querySelector("#password").value;
+        var password1 = document.querySelector("#password1").value;
+        var phoneNumber = document.querySelector("input[name='phone_number']").value;
+
+        var smsCheck = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
+        var emailInput = document.getElementById("emailId");
+        var email = emailInput.value;
+        var emailSelection = document.getElementById("select").value;
+        var emailReception = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
+
+        // 비밀번호 확인 다르면 수정 안됨
+        if (password === password1) {
+            // 변경된 정보 메시지 생성
+            var changed_Message = name + "님의 정보가 변경되었습니다.\n" +
+                "비밀번호 : " + password + "\n" +
+                "휴대폰 번호 : " + phoneNumber + "\n" +
+                "SMS 수신 동의 여부 : " + smsCheck + "\n" +
+                "이메일 : " + (emailSelection === "directly" ? email : emailSelection) + "\n" +
+                "이메일 수신 동의 여부 : " + emailReception;
+
+            // 변경된 정보 메시지를 알림창으로 표시
+            alert(changed_Message);
+        } else {
+            // 비밀번호 불일치 시 알림
+            document.querySelector("#password").value = "";
+            document.querySelector("#password1").value = "";
+            alert("비밀번호를 다시 확인해주세요.");
+        }
+
+    }
+
+
+
 </script>
 
 <style>
@@ -165,6 +183,10 @@ window.addEventListener("load",function(){
         width: 90%;
         margin-bottom: 5px;
     }
+
+    #emailId {
+        width: 200px;
+    }
 </style>
 
 
@@ -196,14 +218,16 @@ window.addEventListener("load",function(){
             </tr>
             <tr>
                 <th height="40px">비밀번호</th>
-                <td><input type="password" name="password" id="password"
-                    maxlength="16" placeholder=" 비밀번호(8 ~ 16자)"></td>
+                <td><input type="password" name="password" id="password" maxlength="16" placeholder=" 비밀번호를 입력해주세요.">
+                </td>
             </tr>
 
             <tr>
                 <th height="40px">비밀번호확인</th>
 
-                <td><input type="password" id="password1" name="password_check"></td>
+                <td>
+                    <input type="password" id="password1" name="password_check" placeholder=" 비밀번호를 확인해주세요.">
+                </td>
             </tr>
             <tr>
                 <th height="40px">휴대폰번호</th>
@@ -226,12 +250,19 @@ window.addEventListener("load",function(){
             <tr>
                 <th height="40px">이메일</th>
                 <td>
-                    <input type="text" name="email" class="temail">@<input type="text" name="email_com" class="temail">
-                    <select class="temail">
-                        <option>google.com</option>
-                        <option selected>naver.com</option>
-                        <option>daum.net</option>
-                    </select><br>
+                    <input type="text" value="" placeholder="이메일 입력">
+
+                    <span>@</span>
+
+                    <input type="text" name="email_com" placeholder="이메일을 선택하세요." id="emailId">
+
+                    <select class="temail" onchange="selectWebsite()" id="select">
+                        <option value="directly" id="textEmail">직접입력</option>
+                        <option value="google.com" id="google.com">google.com</option>
+                        <option value="naver.com" id="naver.com">naver.com</option>
+                        <option value="daum.net" id="daum.net">daum.net</option>
+                    </select>
+
                     이메일수신
                     <input type="radio" name="sms">예
                     <input type="radio" name="sms">아니오
