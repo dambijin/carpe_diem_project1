@@ -15,7 +15,7 @@
 
         .library-image {
             width: 300px;
-            height: auto;
+            height: 300px;
         }
 
         .library-text {
@@ -25,15 +25,11 @@
         }
 
         .library-text h1 {
-            font-size: 1.5em;
             font-weight: bold;
             margin-bottom: 10px;
-        }
-
-        .library-text .textarea {
-            width: 400px;
-            height: 400px;
-            text-align: left;
+            text-shadow: 0px 0px black, 0px 1px black, 1px 0px black, 0px 0px black;
+            color: rgba(199, 156, 200, 1.0);
+           font-size: 30px;
         }
 
         h3 {
@@ -41,10 +37,6 @@
             margin-bottom: 0;
         }
 
-        h1 {
-
-            color: rgba(199, 156, 200, 1.0);
-        }
     </style>
     <script>
         window.onload = function () {
@@ -83,6 +75,9 @@
                 // 오류가 발생 시 콘솔에 출력
                 console.error('Error:', error);
             });
+
+            //이미지
+            document.querySelector(".library-image").setAttribute("src","../resource/"+libname+".png");
         };
     </script>
 </head>
@@ -99,7 +94,7 @@
             </div>
             <div class="right_section">
                 <div class="library-guide">
-                    <img src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
+                    <img src="../resource/logo.png"
                         alt="Library Image" class="library-image">
                     <div class="library-text">
                         <h1 class="lib_name" style="margin-bottom: 0;">○○도서관</h1>

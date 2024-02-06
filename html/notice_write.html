@@ -81,7 +81,10 @@
             font-family: "Wanted Sans Variable";
             background-color: rgba(155, 178, 225, 0.6);
             font-size: 18px;
-            padding: 4px;
+            border: 0;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
         }
 
         .right_section #file_upload:hover {
@@ -101,6 +104,7 @@
             font-size: 18px;
             border: 0;
             border-radius: 5px;
+            cursor: pointer;
         }
 
         .input_phone {
@@ -113,18 +117,24 @@
             margin-bottom: 10px;
             text-align: center;
         }
+
+        #library
+        {
+            font-family: "Wanted Sans Variable";
+            font-size: 18px;
+        }
+
     </style>
 
     <script>
         window.addEventListener("load", function () {
 
-            let libs_list = ["천안도서관","두정도서관","아우내도서관"];
+            let libs_list = ["천안도서관", "두정도서관", "아우내도서관"];
             let libs_list_box = document.querySelector("#library");
 
-            for(let i = 0; i<libs_list.length;i++)
-            {
-                libs_list_box.innerHTML += "<option>"+libs_list[i]+"</option>";
-            }        
+            for (let i = 0; i < libs_list.length; i++) {
+                libs_list_box.innerHTML += "<option>" + libs_list[i] + "</option>";
+            }
 
             // 등록 버튼
             document.querySelector("#completion").addEventListener('click', function () {
@@ -133,13 +143,22 @@
                 //작성자
                 let writer = "admin";
                 //소속도서관
-                let lib = document.querySelector("#lib_name");
+                let lib = document.querySelector("#library");
+                let lib_text = lib.options[lib.selectedIndex].value;
                 //첨부파일
                 let attach = document.querySelector("#file_route");
                 //내용
                 let cont_text = document.querySelector(".td1 textarea");
-                alert(title.value + "\n" + writer + "\n" + lib.value + "\n" + attach.value + "\n" + cont_text.value + "\n등록이 완료되었습니다.");
-                location.href="notice_board.html";
+
+                if (title.value != "" && writer != "" && lib_text != "" && cont_text.value != "") {
+                    alert(title.value + "\n" + writer + "\n" + lib_text + "\n" + attach.value + "\n" + cont_text.value + "\n등록이 완료되었습니다.");
+                    location.href = "notice_board.html";
+                }
+                else
+                {
+                    alert("첨부파일을 제외한 모든 내용을 작성해주세요.")
+                }
+
             });
 
             document.querySelector("#upload_file").addEventListener("change", function (changeEvent) {
@@ -186,13 +205,13 @@
                             <tr>
                                 <td class="sub">소속도서관</td>
                                 <td class="text"><select class="textbox" id="library">
-                                </select></td>
+                                    </select></td>
                             </tr>
                             <tr>
                                 <td class="sub">첨부파일</td>
                                 <td class="text">
                                     <input type="text" id="file_route" disabled="disabled" value="">
-                                    <label for="upload_file" id="file_upload">파일첨부</label>
+                                    <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
                                     <input type="file" id="upload_file" required=true
                                         style="position:absolute; clip:rect(0, 0, 0, 0);">
                                 </td>

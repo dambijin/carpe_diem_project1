@@ -136,6 +136,7 @@
             height: 45px;
             font-family: 'Wanted Sans Variable';
             font-size: 18px;
+            margin-left: 5px;
         }
 
         .result input[type="checkbox"] {
@@ -195,7 +196,7 @@
             border-radius: 5px;
             padding: 20px;
             display: flex;
-            margin: 0px;
+            margin-bottom: 2px;
         }
 
         #result_booklist dt {
@@ -244,15 +245,17 @@
 
         #result_booklist dd ol .reservation_success {
             color: blue;
-        }
-
-        #result_booklist dd ol .reservation_success:hover {
+            cursor: pointer;
             background-color: rgba(199, 156, 200, 0.6);
-            color: black;
         }
 
-        #result_booklist dd ol .reservation_fail {
+
+        #result_booklist dd ol ._fail {
             color: red;
+        }
+
+        #result_booklist dd ol .loan_success {
+            color: blue;
         }
 
         #result_booklist dt img {
@@ -299,7 +302,6 @@
 </head>
 
 <script>
-
     window.addEventListener("load", function () {
 
         //필터 기본세팅
@@ -340,6 +342,20 @@
 
             search_opt.append(opt);
         }
+
+
+        // 도서검색 버튼
+        // Enter 키 이벤트 리스너 추가
+        document.querySelector(".btn-search").addEventListener("click", function () {
+            search();
+        });
+        // Enter 키 이벤트 리스너 추가
+        document.getElementById("searchWord").addEventListener("keyup", function (event) {
+            // keyCode 13은 Enter 키를 나타냅니다
+            if (event.keyCode === 13) {
+                search();
+            }
+        });
 
         // 결과옵션 기본세팅
         let result_filter_list = ["10", "20", "30", "40", "50"];
@@ -417,10 +433,10 @@
             let result_booklist = document.querySelector("#result_booklist");
             var book = books[i];
 
-            let loan_stat = "대출불가";
-            let reservation_stat = " class=\"reservation_fail\">예약불가<";
+            let loan_stat = " class=\"_fail\">대출불가<";
+            let reservation_stat = " class=\"_fail\">예약불가<";
             if (book.loan_state) {
-                loan_stat = "대출가능"
+                loan_stat = " class=\"loan_success\">대출가능<";
             }
 
             if (book.reservation_state) {
@@ -453,7 +469,7 @@
                         </li>
                     </ul>
                     <ol>
-                        <li>${loan_stat}</li>
+                        <li${loan_stat}/li>
                         <li${reservation_stat}/li>
                     </ol>
                 </dd>
@@ -462,7 +478,7 @@
 
             result_booklist.innerHTML += html;
         }
-        
+
 
         paging();
     })
@@ -499,7 +515,7 @@
 
         document.querySelector(".total_count").innerHTML = "전체 : 총&nbsp;" + total_count + "&nbsp권";
         html = `
-                    <div class="total"><strong>1</strong>페이지 / 총 <strong>${Math.ceil(total_count/view_count)}</strong>페이지</div>
+                    <div class="total"><strong>1</strong>페이지 / 총 <strong>${Math.ceil(total_count / view_count)}</strong>페이지</div>
                         <div class="paging">
                             <a href="" class="pre">
                                 ◀</a>
@@ -524,6 +540,11 @@
     //예약기능
     function reservation(RN) {
         alert(RN + " 예약되었습니다.");
+    }
+
+    function search() {
+        let search_text = document.getElementById("searchWord").value;
+        alert(search_text+" 검색되었습니다.")
     }
 </script>
 
