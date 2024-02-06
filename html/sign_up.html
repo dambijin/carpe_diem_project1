@@ -22,7 +22,6 @@
 
         .sign_up_form td {
             width: 100%;
-
             height: 40px;
         }
 
@@ -79,6 +78,15 @@
         .sign_up_form .textbox {
             font-family: "Wanted Sans Variable";
             font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        /* 우편번호 인풋상자 */
+        .sign_up_form .zip_code {
+            font-family: "Wanted Sans Variable";
+            font-size: 18px;
+            width: 100px;
+            margin-bottom: 5px;
         }
 
         /* 주소찾기버튼 */
@@ -264,15 +272,13 @@
             </tr>
             <tr>
                 <td class="r_border">주소</td>
-                <td><input type="text" name="pw" placeholder="기본주소" class="textbox" id="add1_text">
+                <td><input type="text" name="pw" placeholder="우편번호" class="zip_code">
                     <button id="place_button" onclick="sample6_execDaumPostcode()">
                         주소 찾기
                     </button>
+                    <input type="text" name="pw" placeholder="기본주소" class="textbox" id="add1_text">
+                    <input type="text" name="pw" placeholder="나머지주소" class="textbox" id="add2_text">
                 </td>
-            </tr>
-            <tr>
-                <td class="r_border">상세주소</td>
-                <td><input type="text" name="pw" placeholder="나머지주소" class="textbox" id="add2_text"></td>
             </tr>
             <tr>
                 <td class="r_border">개인정보동의</td>

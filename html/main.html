@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 페이지</title>
     <link href="../css/layout.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="../css/calender.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="../js/main.js"></script>
 
     <style>
@@ -26,13 +26,13 @@
 
         /* 섹션 */
         .library_information_content {
-            width: 70%;
+            width: 75%;
             margin: auto;
         }
 
         /* 공지사항+신착도서 */
         .announcement_library_information {
-            width: 70%;
+            width: 69%;
             display: inline-block;
         }
 
@@ -93,25 +93,27 @@
         .library_information_content .library_information {
             background-color: rgba(239, 168, 176, 0.6);
             display: inline-block;
-            width: 25%;
+            width: 30%;
             height: 450px;
             vertical-align: top;
-            font-size: 18px;
+            font-size: 22px;
             padding-top: 8px;
+            font-weight: bold;
         }
 
-        /* 이용정보 */
+        /* 이용시간, 휴관일 */
         .library_information .calendar {
             text-align: center;
             margin: auto;
+            font-weight: normal;
+            margin-top: 10px;
+            font-size: 18px;
         }
 
 
         .library_information_content .announcement_library_information .announcement .ann_title {
             width: 80%;
         }
-
-
 
         .library_information_content .announcement_library_information .announcement,
         .library_information_content .announcement_library_information .newbook table,
@@ -221,24 +223,15 @@
                 <div class="search">
                     <div class="input">
                         <strong>
-                            <select name="item">
-                                <option value="total">전체
-                                </option>
-                                <option value="title">제목
-                                </option>
-                                <option value="author">저자
-                                </option>
-                                <option value="publisher">발행처
-                                </option>
-                                <option value="keyword">키워드
-                                </option>
+                            <select name="item" id="libsear">
+
                             </select>
                         </strong>
                         <input type="text" name="word" autocomplete="off" id="searchWord" style="ime-mode:active"
                             placeholder="검색어를 적어주세요">
                         <!-- input type="hidden" name="item" value="title" id="item" -->
                     </div>
-                    <input type="submit" class="btn btn-search" value="도서검색">
+                    <input type="button" class="btn btn-search" value="도서검색" id="libsearch" onclick="search()">
             </fieldset>
         </div>
         <br>
@@ -299,16 +292,15 @@
             <div class="library_information">
                 이용 정보
                 <select id="libs_info">
+
                 </select>
-                <div id="libs_time">
-                    이용시간<br>
-                    - 평일 : 오전 9시 ~ 오후 9시<br>
-                    - 토요일 : 오전9시 ~ 오후7시<br>
-                    - 공휴일 : 휴무<br><br>
+                <div id="libs_time" class="calendar">
+
                 </div>
                 <div class="calendar">
-                    휴관일
-                    <div id="datepicker">
+
+                    <div class="text_detail">
+
                     </div>
                 </div>
 

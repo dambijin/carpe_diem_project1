@@ -19,8 +19,52 @@ $(function () {
 
 window.addEventListener("load", function () {
     announcement();
+    libsinfolist();
+    chg_text_detail("천안도서관");
+
+    // 도서검색 버튼 엔터이벤트
+    let textbox = document.getElementById("searchWord");
+    // Enter 키 이벤트 리스너 추가
+    textbox.addEventListener("keyup", function (event) {
+        // keyCode 13은 Enter 키를 나타냅니다
+        if (event.keyCode === 13) {
+            event.preventDefault(); // 기본 동작인 폼 제출 방지
+            search(); // 검색 함수 호출
+        }
+    });
 })
 
+// 도서검색 버튼 클릭
+function search() {
+    let textbox = document.getElementById("searchWord");
+    if (textbox.value == "") {
+        alert("내용을 입력해주세요");
+        document.querySelector('#searchWord').focus();
+    } else {
+        alert(textbox.value + "을 검색했습니다");
+        window.location.href = 'book_search.html';
+    }
+
+};
+
+function chg_text_detail(sel) {
+    // 'fetch' 함수를 사용하여 특정 URL에서 데이터를 가져옴.
+    fetch('메인페이지 이용정보/' + sel + '.txt').then(function (response) {
+        // 'response.text()'는 응답 본문을 텍스트로 읽은 후 반환
+        // 'response.text()'로부터 반환, 'data'는 텍스트 파일의 내용     
+        return response.text();
+    }).then(function (data) {
+        data = data.replace(/\n/g, '<br>');   // 텍스트 파일 내의 줄바꿈('\n')을 HTML의 줄바꿈('<br>')으로 변환합니다.
+        data = data.replace('이용시간', '<b>이용시간</b>');
+        data = data.replace('휴관일', '<b>휴관일</b>');
+        // 변환된 데이터를 웹 페이지에 추가
+        document.querySelector('.text_detail').innerHTML = data;
+        // 도서관 이름을 웹 페이지의 특정 요소에 추가합니다.
+    }).catch(function (error) {
+        // 오류가 발생 시 콘솔에 출력
+        console.error('Error:', error);
+    });
+};
 
 function announcement() {
     // 공지사항
@@ -46,7 +90,6 @@ function announcement() {
 
         announ.append(tr);
         // 만약에 5개의 공지사항이 모두 있을 경우 맨아래 tr 필요
-
     });
 
     // 신착도서
@@ -70,17 +113,13 @@ function announcement() {
         td.innerHTML = html;
 
         newbook.append(td);
-
-
     });
 };
 
-window.addEventListener("load", function () {
-    libsinfolist();
-});
+
 
 function libsinfolist() {
-
+    // 도서관 select
     let libs_list = ["천안도서관", "두정도서관", "아우내도서관"];
     let libs_list_box = document.querySelector("#libs_info");
 
@@ -88,37 +127,30 @@ function libsinfolist() {
         libs_list_box.innerHTML += "<option>" + libs_list[i] + "</option>";
     }
 
-    let select = document.querySelector("#libs_info");
-    let libstime = document.getElementById("libs_time");
 
+    // 자료검색 select
+    let libs_search = ["전체", "제목", "저자", "발행처", "키워드"];
+    let libs_searchbox = document.querySelector("#libsear");
+
+    for (let i = 0; i < libs_search.length; i++) {
+        libs_searchbox.innerHTML += "<option>" + libs_search[i] + "</option>";
+    }
+
+
+    // 이용정보 select 변경될때
+    let select = document.querySelector("#libs_info");
     select.addEventListener("change", function () {
         let sel = select.value;
-
-        if (sel === libs_list[0]) {
-            let html = '';
-            html += '이용시간<br>';
-            html += '- 평일 : 오전 9시 ~ 오후 9시 <br>';
-            html += '- 토요일 : 오전 9시 ~ 오후 7시 <br>';
-            html += '- 공휴일 : 휴무 <br> <br>';
-            libstime.innerHTML = html;
-        } else if (sel === libs_list[1]) {
-            let html = '';
-            html += '이용시간 <br>';
-            html += '- 평일 : 오전 9시 ~ 오후 9시 <br>';
-            html += '- 토요일 : 오전 9시 ~ 오후 8시 <br>';
-            html += '- 공휴일 : 휴무 <br> <br>';
-            libstime.innerHTML = html;
-        } else if (sel === libs_list[2]) {
-            let html = '';
-            html += '이용시간<br>';
-            html += '- 평일 : 오전 9시 ~ 오후 9시 <br>';
-            html += '- 토요일 : 오전 10시 ~ 오후 6시 <br>';
-            html += '- 공휴일 : 휴무 <br> <br>';
-            libstime.innerHTML = html;
-        } else {
-            libstime.textContent = "";
-        }
+        chg_text_detail(sel);
 
     });
 };
+
+
+
+
+
+
+
+
 
