@@ -7,49 +7,93 @@
     <title>QnA 게시판</title>
     <link href="../css/layout.css" rel="stylesheet">
     <script>
-
         window.addEventListener("load", function () {
+            select();
             search();
+
+            // 도서검색 버튼 엔터이벤트
+            let textbox = document.getElementById("searchbox");
+            // Enter 키 이벤트 리스너 추가
+            textbox.addEventListener("keyup", function (event) {
+                // keyCode 13은 Enter 키를 나타냅니다
+                if (event.keyCode === 13) {
+                    event.preventDefault(); // 기본 동작인 폼 제출 방지
+                    search_box(); // 검색 함수 호출
+                }
+            });
         });
 
-        function search() {
-            // 검색버튼
-            let search1 = document.getElementsByClassName("search_button")[0]
+        function search_box() {
+            let textbox = document.getElementById("searchbox");
+            if (textbox.value == "") {
+                alert("내용을 입력해주세요");
+                document.querySelector('#searchbox').focus();
+            } else {
+                alert(textbox.value + "검색했습니다");
 
+            }
+
+        };
+
+        function search() {
             // 검색 input
             let input = document.querySelector(".search_input")
 
             // 게시판 테이블
             let board_sub = document.querySelector(".board_sub")
-
-            // 검색버튼 클릭
-            search1.addEventListener("click", function () {
-                alert(input.value);
-            })
-
-          
-            let title = "이거슨 제목~"
+            let title = "제목입니다";
+            // 임시버튼
+            let btn = document.querySelector(".btn");
 
             // 임시버튼을 클릭
-            for(let i=1; i<=10; i++){
-            let html = '';
-                html += '           <td></td>';
-                html += '           <td></td>';
-                html += '            <td><a href="QnA_detail.html">'+ title + i + '</a></td>';
-                html += '           <td></td>';
-                html += '           <td></td>';
-                html += '           <td></td>';
+            /*
+            btn.addEventListener("click", function () {
+                let html = '';
+                html += '<td></td>';
+                html += '<td></td>';
+                html += '<td>'
+                html += '<a href="notice_detail.html" class="table_a">';
+                html += title;
+                html += '</a>';
+                html += '</td>';
+                html += '<td></td>';
+                html += '<td></td>';
+                html += '<td></td>';
+
+                let tr = document.createElement("tr");
+                tr.innerHTML = html;
+                board_sub.append(tr);
+
+            });*/
+
+            for (let i = 1; i <= 10; i++) {
+                let html = '';
+                html += '<td>' + i + '</td>';
+                html += '<td></td>';
+                html += '<td>'
+                html += '<a href="QnA_detail.html" class="table_a">';
+                html += title;
+                html += '</a>';
+                html += '</td>';
+                html += '<td></td>';
+                html += '<td></td>';
+                html += '<td></td>';
 
                 let tr = document.createElement("tr");
                 tr.innerHTML = html;
                 board_sub.append(tr);
             }
-               
 
-            
+        };
 
+        function select() {
+            let search = ["제목", "관할도서관"];
+            let search_box = document.querySelector("#searchselect");
 
-        }
+            for (let i = 0; i < search.length; i++) {
+                search_box.innerHTML += "<option>" + search[i] + "</option>";
+            }
+        };
     </script>
     <style>
         /* 헤더 아래 */
@@ -123,17 +167,14 @@
 
 
         /* 검색, 글쓰기 버튼 */
-        .board_notice .search .request,
-        .paging_writing .writing .request {
+        .board_notice .request {
             font-family: "Wanted Sans Variable";
-            width: 80px;
+            width: 70px;
             background-color: rgba(155, 178, 225, 0.6);
             font-size: 18px;
             border: 0;
             border-radius: 5px;
             cursor: pointer;
-
-
         }
 
         .board_notice .search .request {
@@ -173,6 +214,15 @@
         .right_section .notice_subject {
             font-size: 30px;
             font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* 테이블 a href*/
+        .board_notice .board_sub .table_a {
+            text-decoration: none;
+            font-size: 16px;
+            color: black;
         }
 
         #select {
@@ -200,12 +250,11 @@
 
                     <div class="board">
                         <div id="select">
-                            <select class="change_handwriting">
-                                <option>10개</option>
-                                <option>20개</option>
-                                <option>30개</option>
+                            <select class="change_handwriting" id="searchselect">
                             </select>
-                          
+                            <input type="text" class="change_handwriting search_input" id="searchbox">
+                            <input type="button" class="change_handwriting request search_button" value="검색"
+                                onclick="search_box()">
                         </div>
                         <table class="board_sub">
                             <tr>
@@ -216,7 +265,7 @@
                                 <th class="board_subject day">등록일</th>
                                 <th class="board_subject">조회</th>
                             </tr>
-                           
+
 
                         </table>
                     </div>
@@ -225,18 +274,9 @@
                         <div class="writing">
                             <button class="change_handwriting request"
                                 onclick="location.href='QnA_write.html';">글쓰기</button>
-                          
-                        </div>
-                        <div class="search">
 
-                            <select class="change_handwriting">
-                                <option>제목</option>
-                                <option>작성자</option>
-                                <option>제목</option>
-                            </select>
-                            <input type="text" class="change_handwriting search_input">
-                            <input type="button" class="change_handwriting request search_button" value="검색">
                         </div>
+
                         <div class="paging">
                             <a href="" class="pre underline_remove">◀</a>
                             <strong class="underline_remove">1</strong>
