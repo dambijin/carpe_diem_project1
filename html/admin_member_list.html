@@ -16,7 +16,7 @@
 		window.open
 			("admin_book_overdue.html", "팝업", "width=1000, height=700, left=100, top=100");
 	}
-	// 연체해제 누르면 확인 후 닫기         미완성
+	// 연체해제 누르면 확인 후 닫기
 	function overdue_close() {
 		alert("연체해제 되었습니다");
 		window.close();
@@ -99,6 +99,29 @@
 	function member_list() {
 		alert("회원 정보")
 	}
+
+	// 검색 옵션과 검색 텍스트박스에 입력된 값을 처리하는 함수
+	function handleSearchOption() {
+		// 검색 옵션과 검색 텍스트박스의 DOM 요소 가져오기
+        var searchOption = document.getElementById("search_option").value;
+        var searchTextbox = document.getElementById("input_todo");
+        
+        // 선택된 옵션에 따라 다르게 동작
+        switch (searchOption) {
+            case "회원번호":
+                alert("회원번호: " + searchTextbox.value);
+                break;
+            case "이름":
+                alert("이름: " + searchTextbox.value);
+                break;
+            case "연체상태":
+                alert("연체상태: " + searchTextbox.value);
+                break;
+            default:
+				// 기타 옵션의 경우 아무 동작도 수행하지 않음
+                break;
+        }
+    }
 </script>
 
 
@@ -254,11 +277,13 @@
 			<option value="20">20개씩</option>
 			<option value="30">30개씩</option>
 		</select>
-		<select class="range">
-			<option value="">회원번호</option>
-			<option value="">이름</option>
-			<option value="">연체상태</option>
+
+		<select class="range" id="search_option" onchange="handleSearchOption()">
+			<option value="회원번호">회원번호</option>
+			<option value="이름">이름</option>
+			<option value="연체상태">연체상태</option>
 		</select>
+
 		<input type="text" name="search" class="textbox" id="input_todo">
 		<button type=button class="button" onclick="search()">검색</button>
 	</div>
