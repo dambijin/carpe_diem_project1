@@ -7,6 +7,85 @@
     <title>비밀번호찾기</title>
     <link href="../css/layout.css" rel="stylesheet">
 </head>
+<script>
+    window.addEventListener("load", function () {
+        email();
+
+    })
+    // 이메일 선택시 따라붙기
+    function email() {
+        let email1 = document.querySelector("#email_domain")
+        let email2 = document.querySelector("#text_email2")
+        let name = document.querySelector("#name")
+
+
+
+        email1.addEventListener("change", function () {
+            let selectedIndex = email1.selectedIndex;
+            email2.value = email1.options[email1.selectedIndex].value;  //동기화
+            if (email1.selectedIndex > 0) //직접입력 차단
+            {
+                email2.readOnly = true;
+            }
+            else                            //직접입력 허용
+            {
+                email2.value = "";
+                email2.readOnly = false;
+            }
+        })
+
+
+
+        // 이메일 리스트 스크립트
+        let email_list = ["직접입력", "naver.com", "daum.net", "google.com"];
+
+
+        for (let i = 0; i < email_list.length; i++) {
+            let result_email_list = document.querySelector("#email_domain")
+            let html = '';
+            html += email_list[i];
+
+            let opt = document.createElement("option");
+            opt.innerHTML = html;
+
+            result_email_list.append(opt)
+        }
+    }
+
+
+    window.onload = function () {
+        let button1 = document.getElementById('complete1')
+
+        button1.addEventListener('click', function () {
+            let userid = document.querySelector('#id').value;
+            let username = document.querySelector('#name').value;
+            let useremail1 = document.querySelector('#text_email1').value;
+            let useremail2 = document.querySelector('#text_email2').value;
+            let userCertification = document.querySelector('#Certification').value;
+
+            if (userid == "") {
+                alert("아이디를 입력해주세요.");
+                document.querySelector('#id').focus();
+            } else if (username == "") {
+                alert("이름을 입력해주세요.");
+                document.querySelector('#name').focus();
+            } else if (useremail1 == "") {
+                alert("이메일을 입력해주세요.");
+                document.querySelector('#text_email1').focus();
+            } else if (useremail2 == "") {
+                alert("이메일주소를 입력해주세요.");
+                document.querySelector('#text_email2').focus();
+            } else if (userCertification == "") {
+                alert("인증번호를 입력해주세요.")
+                document.querySelector('#Certification').focus();
+            } else {
+                alert("해당 정보의 비밀번호는 " + username + "입니다");
+                onclick(location.href = 'sign_in.html')
+            }
+        })
+    }
+   
+</script>
 <style>
     /* 헤더 아래 내용 */
     .section_find_pw {
@@ -66,7 +145,7 @@
 
     /* 이메일 input */
     .section_find_pw .idt .email {
-        width: 30%;
+        width: 20%;
     }
 
 
@@ -106,37 +185,37 @@
                     <tr>
                         <td class="sub">아이디</td>
                         <td>
-                            <input type="text" name="userid" placeholder="아이디를 입력해주세요." autofocus>
+                            <input type="text" name="userid" id="id" placeholder="아이디를 입력해주세요." autofocus>
                         </td>
                     </tr>
                     <tr>
                         <td class="sub">이름</td>
                         <td>
-                            <input type="text" name="name" placeholder="이름을 입력해주세요.">
+                            <input type="text" name="name" id="name" placeholder="이름을 입력해주세요.">
                         </td>
                     </tr>
                     <tr>
                         <td class="sub">이메일</td>
                         <td>
-                            <input type="text" placeholder="이메일을 입력해주세요." class="email">@
-                            <select>
-                                <option>naver.com</option>
-                                <option>google.com</option>
-                                <option>daum.net</option>
+                            <input type="text" placeholder="이메일을 입력해주세요." class="email" id="text_email1"> @
+                            <input type="text" class="email" id="text_email2" placeholder="직접입력">
+                            <select class="email" id="email_domain" value="직접입력">
+
                             </select>
-                            <input type="button" value="인증번호 발송" class="verification_code">
+                            <input type="button" value="인증번호 발송" class="verification_code" id="send">
                         </td>
                     </tr>
                     <tr>
                         <td class="sub">인증번호</td>
                         <td>
-                            <input type="text" placeholder="인증번호를 입력해주세요.">
+                            <input type="text" id="Certification" placeholder="인증번호를 입력해주세요.">
                         </td>
                     </tr>
                 </table>
                 <div class="complete_but">
-                    <button type="button" class="complete">확인</button>
+                    <button type="button" class="complete" id="complete1" onkeyup="enterkey()">확인</button>
                 </div>
+
             </div>
 
         </div>

@@ -131,6 +131,7 @@
         }
     </style>
     <script>
+        
         window.onload = function () {
             let button = document.getElementById('button');
 
@@ -151,24 +152,56 @@
                     document.querySelector('#text_email2').focus();
                 } else {
                     alert("해당 정보의 아이디는 " + username + "입니다");
-                    onclick(location.href = 'find_pw.html')
+                    onclick(location.href = 'sign_in.html')
                 }
             });
         };
+        
+
         window.addEventListener("load", function () {
             email();
-        })
 
+        })
+        // 이메일 선택시 따라붙기
         function email() {
             let email1 = document.querySelector("#email_domain")
             let email2 = document.querySelector("#text_email2")
+            let name = document.querySelector("#name")
+
+
 
             email1.addEventListener("change", function () {
-                email2.value = email1.options[email1.selectedIndex].value;
-
+                let selectedIndex = email1.selectedIndex;
+                email2.value = email1.options[email1.selectedIndex].value;  //동기화
+                if (email1.selectedIndex > 0) //직접입력 차단
+                {
+                    email2.readOnly = true;
+                }
+                else                            //직접입력 허용
+                {
+                    email2.value = "";
+                    email2.readOnly = false;
+                }
             })
 
+
+
+            // 이메일 리스트 스크립트
+            let email_list = ["직접입력", "naver.com", "daum.net", "google.com"];
+
+
+            for (let i = 0; i < email_list.length; i++) {
+                let result_email_list = document.querySelector("#email_domain")
+                let html = '';
+                html += email_list[i];
+
+                let opt = document.createElement("option");
+                opt.innerHTML = html;
+
+                result_email_list.append(opt)
+            }
         }
+    
 
     </script>
 </head>
@@ -195,11 +228,7 @@
                         <td class="sub">이메일</td>
                         <td><input type="text" id="text_email1" placeholder="이메일을 입력해주세요."> @
                             <input type="text" id="text_email2" placeholder="직접입력">
-                            <select id="email_domain">
-                                <option value="직접입력">직접입력</option>
-                                <option name="email" value="naver.com">naver.com</option>
-                                <option name="email" value="google.com">google.com</option>
-                                <option name="email" value="daum.net">daum.net</option>
+                            <select id="email_domain" value="직접입력">
                             </select>
                         </td>
                     </tr>

@@ -97,6 +97,7 @@
         }
     </style>
     <script>
+        
         window.onload = function () {
             let button = document.getElementById('button');
 
@@ -161,19 +162,7 @@
             });
         };
 
-        window.addEventListener("load", function () {
-            email();
-        })
-
-        function email() {
-            let email1 = document.querySelector('#email_domain')
-            let email2 = document.querySelector('#email2_text')
-
-            email1.addEventListener("change", function () {
-                email2.value = email1.options[email1.selectedIndex].value;
-
-            })
-        }
+        
         function sample6_execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function (data) {
@@ -207,18 +196,58 @@
                     }
 
                     // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    console.log(data.zonecode)
-                    console.log(document.getElementById('add1_text'));
-                    document.getElementById('add1_text').value = data.zonecode; //5자리 새우편번호 사용
+                    document.getElementById('add_text').value = data.zonecode; //5자리 새우편번호 사용
 
                     document.getElementById('add1_text').value = fullAddr;
 
                     // 커서를 상세주소 필드로 이동한다.
-                    document.getElementById('sample6_address2').focus();
+                    document.getElementById('add2_text').focus();
                 }
             }).open();
         }
+        window.addEventListener("load", function () {
+            email();
 
+        })
+        // 이메일 선택시 따라붙기
+        function email() {
+            let email1 = document.querySelector("#email_domain")
+            let email2 = document.querySelector("#email2_text")
+            let name = document.querySelector("#name")
+
+
+
+            email1.addEventListener("change", function () {
+                let selectedIndex = email1.selectedIndex;
+                email2.value = email1.options[email1.selectedIndex].value;  //동기화
+                if (email1.selectedIndex > 0) //직접입력 차단
+                {
+                    email2.readOnly = true;
+                }
+                else                            //직접입력 허용
+                {
+                    email2.value = "";
+                    email2.readOnly = false;
+                }
+            })
+
+
+
+            // 이메일 리스트 스크립트
+            let email_list = ["직접입력", "naver.com", "daum.net", "google.com"];
+
+
+            for (let i = 0; i < email_list.length; i++) {
+                let result_email_list = document.querySelector("#email_domain")
+                let html = '';
+                html += email_list[i];
+
+                let opt = document.createElement("option");
+                opt.innerHTML = html;
+
+                result_email_list.append(opt)
+            }
+        }
     </script>
 </head>
 
@@ -262,17 +291,14 @@
                 <td class="r_border">이메일</td>
                 <td><input type="text" name="email" placeholder="이메일" class="email textbox" id="email1_text"> @
                     <input type="text" name="email" placeholder="상세주소" class="email textbox" id="email2_text">
-                    <select id="email_domain">
-                        <option>직접입력</option>
-                        <option>naver.com</option>
-                        <option>kakao.com</option>
-                        <option>daum.net</option>
+                    <select id="email_domain" value="직접입력">
+                  
                     </select>
                 </td>
             </tr>
             <tr>
                 <td class="r_border">주소</td>
-                <td><input type="text" name="pw" placeholder="우편번호" class="zip_code">
+                <td><input type="text" name="pw" placeholder="우편번호" class="zip_code" id="add_text">
                     <button id="place_button" onclick="sample6_execDaumPostcode()">
                         주소 찾기
                     </button>
