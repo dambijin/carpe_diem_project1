@@ -43,7 +43,7 @@ function changeViewCount(count) {
 
 // 예약목록 조회 이벤트
 function reservation_check() {
-	alert("대출내역조회");
+	alert("예약내역조회");
 }
 
 // 대출내역 조회 이벤트
@@ -53,9 +53,28 @@ function loan_check() {
 
 
 // 검색기능
-function seach() {
+function search() {
     var textbox = document.getElementById("input_todo");
     if (textbox != null){
         alert(textbox.value + " ");
     }
+}
+
+// 엔터 이벤트
+function enterkey() {
+	if (window.event.keyCode == 13) {
+ 
+		// 엔터키가 눌렸을 때 실행하는 반응
+		search();
+   }
+}
+
+var inputTodo = document.getElementById("input_todo");
+if (inputTodo != null) {
+    inputTodo.addEventListener("keydown", enterkey);
+}
+
+// 이름 클릭 시 
+function member_list() {
+	alert("회원 정보")
 }
