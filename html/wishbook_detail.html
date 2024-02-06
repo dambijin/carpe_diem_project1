@@ -6,6 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
     <link href="../css/layout.css" rel="stylesheet">
+    <script>
+        window.addEventListener("load", function () {
+            bind();
+        })
+
+        function bind() {
+           
+
+            let a = document.querySelector("#a").innerHTML = "두정도서관";
+            let b = document.querySelector("#b").innerHTML = " 100일만에 배우는 자바스크립트";
+            let c = document.querySelector("#c").innerHTML = "김자바";
+            let d = document.querySelector("#d").innerHTML = "2016년";
+            let e = document.querySelector("#e").innerHTML = "123456789";
+            let f = document.querySelector("#f").innerHTML = "제가 너무 읽고 싶은 책이었어요";
+            let g = document.querySelector("#g").innerHTML = "휴먼출판사";
+            let h = document.querySelector("#h").innerHTML = " 010-1234-1234";
+            let cancle = document.querySelector("#cancle")
+            let close = document.querySelector("#close")
+            cancle.addEventListener("click", function(){
+                alert("취소되었습니다.")
+            })
+            close.addEventListener("click", function(){
+                window.close();
+            })
+        }
+
+    </script>
     <style>
         /* 반응형 웹 %로 제공 */
         .substance {
@@ -58,6 +85,7 @@
     </style>
 </head>
 
+
 <body class="book_of_hope">
     <h2 class="title">신청한 희망도서</h2>
     <section class="hope">
@@ -66,32 +94,31 @@
                 <td class="substance">
                     희망소장처
                 </td>
-                <td>
-                    두정도서관
-                </td>
+                <td id="a"></td>
+
             </tr>
             <tr>
                 <td class="substance">
                     자료명
                 </td>
-                <td>
-                    100일만에 배우는 자바스크립트
+                <td id="b">
+
                 </td>
             </tr>
             <tr>
                 <td class="substance">
                     저자
                 </td>
-                <td>
-                    김자바
+                <td id="c">
+
                 </td>
             </tr>
             <tr>
                 <td class="substance">
                     발행연도
                 </td>
-                <td>
-                    2016년
+                <td id="d">
+
                 </td>
             </tr>
             <tr>
@@ -99,37 +126,37 @@
                     ISBN번호<br>
                     ISSN번호
                 </td>
-                <td>
-                    123456789
+                <td id="e">
+
                 </td>
             </tr>
             <tr>
                 <td class="substance">
                     신청사유
                 </td>
-                <td class="because">
-                    제가 너무 읽고 싶은 책이었어요
+                <td class="because" id="f">
+
                 </td>
             </tr>
             <tr>
                 <td class="substance">
                     출판사
                 </td>
-                <td>
-                    휴먼출판사
+                <td id="g">
+
                 </td>
             </tr>
             <tr>
                 <td class="substance">
                     휴대폰번호
                 </td>
-                <td>
-                    010-1234-1234
+                <td id="h">
+
                 </td>
             </tr>
         </table>
-        <button type="button" class="button_revocation but">취소신청</button>
-        <button type="button" class="button_x but">닫기</button>
+        <button type="button" class="button_revocation but" id="cancle">취소신청</button>
+        <button type="button" class="button_x but" id="close">닫기</button>
     </section>
 
 </body>
