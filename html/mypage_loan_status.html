@@ -20,20 +20,19 @@
 
         function bind() {
             let button1 = document.getElementById('chginfo');
-
             let table = document.querySelector("#page1")
 
-
+            // 정보수정 클릭시 페이지 이동
             button1.addEventListener('click', function () {
                 window.open('http://127.0.0.1:5500/html/mypage_chginfo.html', '_self')
 
             });
-          
 
 
-            write.addEventListener("click", function () {
+            // 임시 게시판 생성
+            for (let i = 1; i <= 10; i++) {
                 let html = '';
-                html += '      <td>192</td>';
+                html += '      <td>' + i + '</td>';
                 html += '      <td>아몰랑</td>';
                 html += '      <td>아몰랑</td>';
                 html += '     <td>아몰랑</td>';
@@ -41,22 +40,24 @@
                 html += '     <td>정상</td>';
                 html += '       <td>중앙</td>';
                 html += '  <td><button type="button" class="extension">연장</button></td>';
-              
+
 
                 let tr = document.createElement("tr");
                 tr.classList.add("tr")
                 tr.innerHTML = html;
-                
-               tr.querySelector(".extension").addEventListener("click", function(){
-                alert("연장되었습니다.")
-               })
-       
 
-                
+
+                // 연장버튼 클릭 이벤트
+                tr.querySelector(".extension").addEventListener("click", function () {
+                    alert("연장되었습니다.")
+                })
+
 
                 table.append(tr);
-            })
-          
+            }
+
+
+
         };
 
     </script>
@@ -116,7 +117,7 @@
                                             <option disabled selected> - 도서관 전체</option>
                                             <option>중앙도서관</option>
                                         </select></td>
-                                    <button type="button" id="write">글쓰기</button>
+                                 
 
                                 </div>
                             </div>
@@ -133,7 +134,7 @@
                                 <th>소장기관</th>
                                 <th>반납연기</th>
                             </tr>
-                           
+
                         </table>
                     </div>
 

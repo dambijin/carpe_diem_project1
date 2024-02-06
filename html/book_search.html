@@ -342,14 +342,16 @@
         }
 
         // 결과옵션 기본세팅
-        let result_filter_list = ["10개씩", "20개씩", "30개씩", "40개씩", "50개씩"];
+        let result_filter_list = ["10", "20", "30", "40", "50"];
 
         for (let i = 0; i < result_filter_list.length; i++) {
             let result_filter1 = document.querySelector("#result_filter1");
             let html = '';
-            html += result_filter_list[i];
+            html += result_filter_list[i] + "개씩";
 
             let opt = document.createElement("option");
+            opt.value = result_filter_list[i];  // value 속성 설정
+
             opt.innerHTML = html;
 
             result_filter1.append(opt);
@@ -411,7 +413,6 @@
         ];
 
         // 책 정보를 바탕으로 HTML을 생성
-
         for (let i = 0; i < books.length; i++) {
             let result_booklist = document.querySelector("#result_booklist");
             var book = books[i];
@@ -461,8 +462,9 @@
 
             result_booklist.innerHTML += html;
         }
-        // HTML 생성 및 삽입
+        
 
+        paging();
     })
 
     //모두 체크기능
@@ -486,6 +488,37 @@
 
         // 쿼리 문자열을 URL에 추가하여 새 창을 열기
         window.open('book_detail.html?' + queryString, '_blank', 'width=900,height=600');
+    }
+
+    //검색결과 총 개수 표기 및 페이징관련
+    function paging() {
+        let total_count = 521;  //임시
+
+        let result_filter1 = document.querySelector("#result_filter1");
+        let view_count = result_filter1.options[result_filter1.selectedIndex].value;
+
+        document.querySelector(".total_count").innerHTML = "전체 : 총&nbsp;" + total_count + "&nbsp권";
+        html = `
+                    <div class="total"><strong>1</strong>페이지 / 총 <strong>${Math.ceil(total_count/view_count)}</strong>페이지</div>
+                        <div class="paging">
+                            <a href="" class="pre">
+                                ◀</a>
+
+                            <strong>1</strong>
+
+                            <a href="" class="num">2</a>
+
+                            <a href="" class="num">3</a>
+
+                            <a href="" class="num">4</a>
+
+                            <a href="" class="num">5</a>
+
+
+                            <a href="" class="next">▶</a>
+                        </div>        
+`
+        document.querySelector("#paging").innerHTML = html;
     }
 
     //예약기능
@@ -535,10 +568,10 @@
                 </div>
             </div>
             <div class="result_filter_div">
-                <div class="blank_space"></div>
+                <div class="blank_space total_count">전체 수 :</div>
                 <div class="result_text">검색결과</div>
                 <div class="result_filter_all">
-                    <select class="result_filter" id="result_filter1">
+                    <select class="result_filter" id="result_filter1" onchange="paging()">
                         <!-- 자바스크립트로 검색결과옵션가져오기 -->
                     </select>
                     &nbsp;
@@ -556,24 +589,7 @@
 
 
         <div id="paging">
-            <div class="total"><strong>1</strong>페이지 / 총 <strong>40</strong>페이지</div>
-            <div class="paging">
-                <a href="" class="pre">
-                    ◀</a>
-
-                <strong>1</strong>
-
-                <a href="" class="num">2</a>
-
-                <a href="" class="num">3</a>
-
-                <a href="" class="num">4</a>
-
-                <a href="" class="num">5</a>
-
-
-                <a href="" class="next">▶</a>
-            </div>
+            <!-- 자바스크립트로 페이지 가져오기 및 갱신 -->
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->

@@ -11,20 +11,14 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
     <script>
-       window.addEventListener("load", function () {
+        window.addEventListener("load", function () {
             bind();
         })
-
-
-
 
         function bind() {
             let button1 = document.getElementById('chginfo');
             let button3 = document.getElementById('button_cancle');
-            let write = document.getElementById('write')
             let table = document.getElementById('page1')
-
-
 
             // 취소버튼 클릭시 팝업 알림
             button3.addEventListener('click', function () {
@@ -37,10 +31,10 @@
 
             });
             // 임시 보드 작성
-            write.addEventListener("click", function () {
+            for (let i = 1; i <= 10; i++) {
                 let html = '';
 
-                html += '            <td>?</td>';
+                html += '            <td>' + '천안' + i + '</td>';
                 html += '           <td><a href="wishbook_detail.html">책이름</a></td>';
                 html += '           <td>박상민</td>';
                 html += '          <td>1998</td>';
@@ -52,10 +46,7 @@
                 html += '      <td>정상</td>';
                 html += '       <td><input type="checkbox" class="checkbox"></td>';
 
-               
-                          
-                            
-                           
+
                 let tr = document.createElement("tr");
                 tr.classList.add("tr")
                 tr.innerHTML = html;
@@ -104,23 +95,8 @@
                         list_checked[i].parentNode.parentNode.remove();
                     }
                 })
-
-
-
-
-
-
                 table.append(tr)
-            })
-
-
-
-
-
-
-
-
-
+            }
         };
     </script>
     <style>
@@ -177,7 +153,7 @@
                                             <option disabled selected> - 도서관 전체</option>
                                             <option>중앙도서관</option>
                                         </select></td>
-                                    <input type="button" value="글쓰기" id="write">
+
 
                                 </div>
                             </div>
@@ -199,7 +175,7 @@
                             <th>취소
                                 <input type="checkbox" id="selectAll">
                             </th>
-                       
+
                     </table>
 
                 </div>

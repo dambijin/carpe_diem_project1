@@ -1,6 +1,7 @@
 section{
     width: 100%;
     margin: auto;
+    font-family: "Wanted Sans Variable";
 }
 
 .div1 {
@@ -30,9 +31,7 @@ section{
 
 #button {
     border: 1px solid white;
-
-    
-    
+    font-family: "Wanted Sans Variable";
 }
 
 #select {
@@ -103,3 +102,7 @@ button:hover {
     border-top : 1px solid black;
     height : 40px;
 }
+select{
+    font-family: "Wanted Sans Variable";
+}
+
