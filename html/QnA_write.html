@@ -10,20 +10,99 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
     <script>
-      
-        window.addEventListener("load", function(){
-            save();
-        })
-        // 저장 버튼 클릭 이벤트
-        function save (){
-            let textarea = document.querySelector("#textarea");
-            let save = document.querySelector("#save");
-            save.addEventListener("click", function(){
-                alert(textarea.value);
-                location.href="QnA_board.html"
-            })
-            
-        }
+
+        window.addEventListener("load", function () {
+
+
+
+            document.querySelector("#upload_file").addEventListener("change", function (changeEvent) {
+                // 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
+                // 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
+                // 여기서는 첫 번째 파일만 사용하므로 'files[0]'을 선택합니다.
+                var imgFile = changeEvent.target.files[0];
+
+                // 파일 경로를 표시할 요소를 선택합니다.
+                var fileName = document.getElementById("file_route");
+
+                // 선택한 요소의 값에 파일 이름을 설정합니다.
+                // 이렇게 하면 사용자가 선택한 파일의 이름이 웹 페이지에 표시됩니다.
+                fileName.value = imgFile.name;
+            });
+
+            // 유효성검사
+            let button = document.getElementById('save');
+
+            button.addEventListener('click', function () {
+                // 동의함 체크박스
+                let check1 = document.querySelector('#check1').checked;
+                // 동의안함 체크박스
+                let check2 = document.querySelector('#check2').checked;
+                // 제목
+                let subject = document.querySelector('#sject').value;
+                // 작성자
+                let user_name = document.querySelector('#user_name').value;
+                // 휴대폰번호1
+                let number1 = document.querySelector('#pnumber1').value;
+                // 휴대폰번호2
+                let number2 = document.querySelector('#pnumber2').value;
+                // 휴대폰번호3
+                let number3 = document.querySelector('#pnumber3').value;
+                // 비밀번호
+                let userpw = document.querySelector('#user_pw').value;
+                // textarea
+                let btext = document.querySelector('#textarea').value;
+
+                if (check2) {
+                    alert("개인정보 수집+이용 동의에 체크가 필요합니다.");
+                } else if (!check2) {
+                    if (!check1) {
+                        alert("개인정보 수집+이용 동의에 체크가 필요합니다.");
+                    } else {
+                        if (subject == "") {
+                            alert("제목을 입력해주세요.");
+                            document.querySelector('#sject').focus();
+                        } else if (user_name == "") {
+                            alert("이름을 작성해주세요");
+                            document.querySelector('#user_name').focus();
+                        } else if (number1 == "") {
+                            alert("전화번호를 입력해주세요.");
+                            document.querySelector('#number1').focus();
+                        } else if (number2 == "") {
+                            alert("전화번호를 입력해주세요.");
+                            document.querySelector('#number2').focus();
+                        } else if (number3 == "") {
+                            alert("전화번호를 입력해주세요.");
+                            document.querySelector('#number3').focus();
+                        } else if (userpw != "") {
+                            if (userpw.length < 4 || userpw.length > 10) {
+                                alert("비밀번호는 최소 4자 이상, 최대 10자 이하여야 합니다.");
+                                document.querySelector('#user_pw').focus();
+                            } else {
+                                if (btext == "") {
+                                    alert("내용을 입력해주세요.");
+                                    document.querySelector('#textarea').focus();
+                                } else {
+                                    alert(textarea.value + "등록 되었습니다");
+                                    location.href = 'QnA_board.html';
+                                }
+                            }
+
+                        } else {
+                            if (btext == "") {
+                                alert("내용을 입력해주세요.");
+                                document.querySelector('#textarea').focus();
+                            } else {
+                                alert(textarea.value + "등록 되었습니다");
+                                location.href = 'QnA_board.html';
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+
+
 
     </script>
     <style>
@@ -87,14 +166,11 @@
 
         }
 
-        td {
+        /* 개인정보 테이블 td */
+        #div_table #table2 td {
             text-align: left;
             width: 30%;
             padding: 7px;
-        }
-
-        /* 개인정보 표 세부사항 */
-        .td1 {
             text-align: center;
         }
 
@@ -130,16 +206,13 @@
             background-color: white;
         }
 
-        
 
         /* 인풋박스 높이 지정 */
         input {
             height: 18px;
         }
-        /* 휴대폰번호 텍스트 박스 사이즈 지정 */
-        .input_phone {
-            width: 70px;
-        }
+
+
         /* 버튼 css */
         button {
             font-family: "Wanted Sans Variable";
@@ -147,18 +220,18 @@
             background-color: rgba(155, 178, 225, 0.6);
             font-size: 18px;
             border: 0;
-            border-radius: 5px;         
-
-
+            border-radius: 5px;
         }
+
         /* 버튼 호버 */
-        button:hover{
+        button:hover {
             background-color: rgba(205, 155, 225, 0.6);
         }
 
         .npub {
             height: 20px;
         }
+
         /* 라디오 박스 */
         input[type=radio] {
             border: 0px;
@@ -166,11 +239,16 @@
             height: 10px;
         }
 
-       
+        /* 공개 비공개 체크박스 */
+        .private {
+            font-size: 17px;
+        }
+
         /* 폰트 사이즈 지정 */
         font {
             font-size: 15px;
         }
+
         /* 본문 col그룹 css */
         col {
             background: rgba(168, 156, 200, 0.6);
@@ -184,8 +262,13 @@
         .inputbox {
             font-size: 18px;
             font-family: "Wanted Sans Variable";
-
+            width: 50%;
         }
+
+        .inputbox_subject {
+            width: 100%;
+        }
+
         /* 업로드 버튼 css */
         .but_upload {
             font-family: "Wanted Sans Variable";
@@ -195,10 +278,49 @@
             border: 0;
             border-radius: 5px;
             height: 30px;
+        }
+
+        /* 전화번호 인풋 */
+        .phonenumber {
+            width: 70px;
 
         }
 
-      
+        /* 전화번호 인풋 화살표 없애기 */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+
+        /* 작성칸 테이블 */
+        .div_table .table_table td {
+            width: 500px;
+            text-align: left;
+        }
+
+
+
+        /* 첨부파일 */
+        .div_table .table_table #file_route {
+            font-family: "Wanted Sans Variable";
+            width: 60%;
+        }
+
+        .div_table .table_table #file_upload {
+            font-family: "Wanted Sans Variable";
+            background-color: rgba(155, 178, 225, 0.6);
+            font-size: 18px;
+            border: 0;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .right_section #file_upload:hover {
+            background-color: rgba(205, 155, 225, 0.6);
+        }
     </style>
 </head>
 
@@ -255,12 +377,11 @@
 
                         </p>
                         <!-- 개인정보 이용동의 체크 -->
-                        <div class="div_agree">
-
-                            <input type="radio" name="agree">
-                            <font> 동의함</font>
-                            <input type="radio" name="agree">
-                            <font> 동의안함</font>
+                        <div class="div_agree private">
+                            <input type="radio" name="agree" id="check1">
+                            동의함
+                            <input type="radio" name="agree" id="check2">
+                            동의안함
 
                         </div>
                     </div>
@@ -273,62 +394,66 @@
                             <thead>
                                 <tr>
                                     <th>제목</th>
-                                    <td><input type="text" class="inputbox" placeholder="내용을 입력해주세요."></td>
+                                    <td><input type="text" class="inputbox" placeholder="제목" id="sject"></td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <th>작성자</th>
-                                    <td><input type="text" class="inputbox" placeholder="내용을 입력해주세요."></td>
+                                    <td><input type="text" class="inputbox" placeholder="이름을 작성해주세요." id="user_name">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>휴대폰번호</th>
-                                    <td> 
-                                        <input class=input_phone type="text" placeholder="내용을 입력해주세요."> -
-                                        <input class=input_phone type="text" placeholder="내용을 입력해주세요."> -
-                                        <input class=input_phone type="text" placeholder="내용을 입력해주세요.">
+                                    <td>
+                                        <input class="input_phone phonenumber" type="number" id="pnumber1"> -
+                                        <input class="input_phone phonenumber" type="number" id="pnumber2"> -
+                                        <input class="input_phone phonenumber" type="number" id="pnumber3">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>공개</th>
-                                    <td>
+                                    <td class="private">
 
                                         <input type="radio" name="pub" checked>
-                                        <font> 공개</font>
+                                        공개
                                         <input type="radio" name="pub">
-                                        <font> 비공개</font>
+                                        비공개
 
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>안내</th>
                                     <td>
-                                        <font>
-                                            일정시간(20)분이 지나면 로그아웃됩니다.
-                                        </font>
+                                        일정시간(20)분이 지나면 로그아웃됩니다.
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>첨부파일</th>
-                                    <td><input type="text" class="inputbox"></td>
-                                    <td><button type="button" class="but_upload">▲업로드</button></td>
+                                    <td><input type="text" id="file_route" disabled="disabled" value="">
+                                        <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
+                                        <input type="file" id="upload_file" required=true
+                                            style="position:absolute; clip:rect(0, 0, 0, 0);">
+                                    </td>
+
                                 </tr>
                                 <tr>
                                     <th>비밀번호(비회원)</th>
-                                    <td><input type="text" class="inputbox" placeholder="비밀번호"></td>
+                                    <td><input type="password" class="inputbox" placeholder="비밀번호(4~10자로 입력해주세요)"
+                                            id="user_pw"></td>
                                 </tr>
                             </tbody>
                         </table>
                         <!-- 글쓰기 -->
                     </div>
                     <div class="td1">
-                        <textarea id="textarea"></textarea>
+                        <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요."></textarea>
                     </div>
                     <!-- 버튼 -->
                     <div class="div_buttonAll">
 
                         <div class="div_button">
-                            <button class="button" type="submit" id="save">저장</button> &nbsp;
+                            <button class="button" type="submit" id="save">등록</button> &nbsp;
                             <a href="QnA_board.html"><button type="button">목록</button></a> &nbsp;
                         </div>
 
