@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 신청</title>
     <link href="../css/layout.css" rel="stylesheet">
-    <script src="../js/wishbook_add.js"></script>
     <style>
         /* table 왼쪽 */
         .right_section .subject {
@@ -36,12 +35,6 @@
             border-collapse: collapse;
             width: 100%;
             margin-top: 10px;
-        }
-
-        /* 신청사유 textbox */
-        .right_section .reason {
-            width: 400px;
-            height: 200px;
         }
 
         /* 신청버튼 */
@@ -78,7 +71,115 @@
             margin-bottom: 10px;
             text-align: center;
         }
+
+        /* 신청사유 textbox */
+        .right_section #reason {
+            width: 400px;
+            height: 200px;
+            vertical-align: top;
+            text-align: start;
+            /* 텍스트를 상자의 위쪽으로 정렬? */
+        }
+
+        /* 신청안내 펼치기/접기 */
+        .right_section details {
+            width: 400px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            padding: .5em .5em 0;
+            background: #f9f9f9;
+        }
+
+        .right_section summary {
+            font-weight: bold;
+            margin: -.5em -.5em 0;
+            padding: .5em;
+        }
+
+        .right_section details[open] {
+            padding: .5em;
+        }
+
+        .right_section details[open] summary {
+            border-bottom: 1px solid #aaa;
+            margin-bottom: .5em;
+        }
     </style>
+    <script>
+        window.addEventListener("load", function () {
+            let libs_list = ["천안도서관", "두정도서관", "아우내도서관"];
+            let libs_list_box = document.querySelector("#library");
+
+            for (let i = 0; i < libs_list.length; i++) {
+                libs_list_box.innerHTML += "<option>" + libs_list[i] + "</option>";
+            }
+
+            document.getElementById('request_but').addEventListener('click', function () {
+                // 모든 입력 필드의 id를 배열로 저장
+                let inputIds = ['library', 'material', 'writer', 'year', 'reason', 'publisher', 'handphone'];
+
+                for (let i = 0; i < inputIds.length; i++) {
+                    var input = document.getElementById(inputIds[i]);
+
+                    if (input.tagName === 'SELECT') {
+                        // select 요소의 경우, selectedIndex가 0보다 크거나 같아야 합니다.
+                        if (input.selectedIndex < 0) {
+                            alert('필수작성(*) 칸(을 채워주세요.');
+                            input.focus();
+                            return;
+                        }
+                    } else {
+                        // input 요소의 경우, value가 비어 있지 않아야 합니다.
+                        if (!input.value.trim()) {
+                            alert('필수작성(*) 칸을 채워주세요.');
+                            input.focus();
+                            return;
+                        }
+                    }
+                }
+
+                // 개인정보 수집 동의 체크박스가 체크되어 있는지 확인
+                let checkbox = document.querySelector('.hope_subscribe input[type="checkbox"]');
+                if (!checkbox.checked) {
+                    alert('개인정보 수집에 동의해주세요.');
+                    checkbox.focus();
+                    return;
+                }
+
+                request();
+            });
+        })
+
+        function request() {
+
+            // 신청 버튼
+            let reqbut = document.querySelector("#request_but");
+
+            reqbut.addEventListener('click', function () {
+                // select (천안도서관, 두정도서관, 아우내도서관)
+                let lib = document.querySelector("#library");
+                // 자료명 input
+                let mrial = document.querySelector("#material");
+                // 저자
+                let writer = document.querySelector("#writer");
+                // 발행연도
+                let year = document.querySelector("#year");
+                // ISBN번호 ISSN번호
+                let is = document.querySelector("#is");
+                // 사유
+                let reason = document.querySelector("#reason");
+                // 출판사
+                let publisher = document.querySelector("#publisher");
+                // 신청자이름
+                let user = document.querySelector("#user_name");
+                // 전화번호
+                let handphone = document.querySelector("#handphone");
+
+                alert(lib.value + "\n" + mrial.value + "\n" + writer.value + "\n" + year.value + "\n" + is.value + "\n" + reason.value + "\n" + publisher.value + "\n" + user.value + "\n" + handphone.value + "\n신청이 완료되었습니다.");
+
+            });
+        };
+    </script>
 </head>
 
 
@@ -95,19 +196,18 @@
             <div class="right_section">
                 <div class="wish_book">희망도서신청</div>
                 <div>신청안내</div>
-                <div>
-                    1. 신청 가능 자료 수 : 1인 월 5책 이내(예산범위 내)<br>
-                    ※ 외국도서 신청자료 수 : 상한 기준 연 20책 이내(2020년 5월부터 시행)<br><br>
-                    * 표시는 필수 기재 사항입니다.
-                </div>
+                <details>
+                    <summary>신청 가능 자료 수(클릭)</summary>
+                    <p>1. 신청 가능 자료 수 : 1인 월 5책 이내(예산범위 내)</p>
+                    <p>※ 외국도서 신청자료 수 : 상한 기준 연 20책 이내(2020년 5월부터 시행)</p>
+                    <p>* 표시는 필수 기재 사항입니다.</p>
+                </details>
                 <div>
                     <table class="hope_subscribe">
                         <tr>
                             <td class="subject">* 희망소장처</td>
                             <td><select class="textbox" id="library">
-                                    <option>천안도서관</option>
-                                    <option>두정도서관</option>
-                                    <option>아우내도서관</option>
+                                    <!-- 자바스크립트로 옵션가져오기 -->
                                 </select>
                             </td>
                         </tr>
