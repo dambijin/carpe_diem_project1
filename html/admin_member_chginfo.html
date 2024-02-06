@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,83 +12,125 @@
 <script src="../js/admin_library.js"></script>
 
 <style>
-header .nav .member_list {
-    background-color: rgba(168, 156, 200, 0.6);
-    color: #000000;
-    height: 45px;
-    line-height: 40px;
-    display: inline-block;
-    border-radius: 5px;
-    width: 150px;
-    font-size: 20px;
-    margin-top: 10px;
-}
+    header .nav .member_list {
+        background-color: rgba(168, 156, 200, 0.6);
+        color: #000000;
+        height: 45px;
+        line-height: 40px;
+        display: inline-block;
+        border-radius: 5px;
+        width: 150px;
+        font-size: 20px;
+        margin-top: 10px;
+    }
 
-/* table */
-table{
-    width:900px;
-    height:600px;
-}
-table tr {
-    background-color: #fff;
-}
-table tr th,td {
-border:1px solid #ccc;
-padding:3px;
-}
-table tr td .colspan{
-    font-size: 13px;
-    color: red;
-}
-table tr td .add {
-    font-family: "Wanted Sans Variable";
-    font-size: 15px;
-    background-color: rgba(155, 178, 225, 0.6);
-    width: 100px;
-    height: 30px;
-    border: 0;
-    border-radius: 5px;
-}
-table tr td .add:hover{
-    background-color: rgba(205, 155, 225, 0.6);
-}
+    /* 회원 정보 수정 글씨 */
+    .admin_chginfo {
+        font-family: "Wanted Sans Variable";
+    }
 
+    /* 테이블 */
+    .chtable table {
+        width: 50%;
+        height: 600px;
+        border-collapse: collapse;
+        font-family: "Wanted Sans Variable";
+    }
 
-/* 수정 취소 버튼 */
-.input{
-    border:1px;
-    width: 20%;
-    margin: auto;
-    text-align: center;
-    margin-top: 20px;
-}
-.input .button{
-    font-family: "Wanted Sans Variable";
-    font-size: 18px;
-    background-color: rgba(155, 178, 225, 0.6);
-    width: 70px;
-    height: 30px;
-    border: 0;
-    border-radius: 5px;
-}
-.input .button:hover{
-    background-color: rgba(205, 155, 225, 0.6);
-}
+    .chtable table tr {
+        background-color: #fff;
+    }
 
-.home_num {
-    width: 50px;
-}
+    .chtable table tr th,
+    td {
+        border: 1px solid #ccc;
+        padding: 3px;
+    }
+
+    /* 테이블 인풋 */
+    .chtable table input {
+        font-family: "Wanted Sans Variable";
+        font-size: 17px;
+    }
+
+    .chtable table tr td .colspan {
+        font-size: 13px;
+        color: red;
+        font-weight: bold;
+    }
+
+    .chtable table tr td .add {
+        font-family: "Wanted Sans Variable";
+        font-size: 17px;
+        background-color: rgba(155, 178, 225, 0.6);
+        width: 80ㅔㅌ;
+        height: 30px;
+        border: 0;
+        border-radius: 5px;
+    }
+
+    .chtable table tr td .add:hover {
+        background-color: rgba(205, 155, 225, 0.6);
+    }
+
+    /* 이메일 인풋 이메일 셀렉 */
+    .chtable table .temail {
+        font-family: "Wanted Sans Variable";
+        font-size: 17px;
+        width: 150px;
+    }
+
+    /* 수정 취소 버튼 */
+    .input {
+        border: 1px;
+        width: 20%;
+        margin: auto;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .input .button {
+        font-family: "Wanted Sans Variable";
+        font-size: 18px;
+        background-color: rgba(155, 178, 225, 0.6);
+        width: 70px;
+        height: 30px;
+        border: 0;
+        border-radius: 5px;
+    }
+
+    .input .button:hover {
+        background-color: rgba(205, 155, 225, 0.6);
+    }
+
+    .home_num {
+        width: 50px;
+    }
+
+    /* 우편번호 인풋 */
+    .chtable table .zipcode {
+        width: 100px;
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
+
+    /* 기본주소 상세주소 인풋 */
+    .chtable table .adr {
+        width: 90%;
+        margin-bottom: 5px;
+    }
 </style>
+
 <body>
     <!-- header -->
     <header></header>
 
     <div>
-        <h2 align="center">회원 정보수정</h2>
+        <h2 align="center" class="admin_chginfo">회원 정보수정</h2>
     </div>
 
-    <div>
-        <table border="0" align="center"  cellpadding="5" cellspacing="1" bgcolor="cccccc">
+    <div class="chtable">
+        <table border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc">
             <tr>
                 <th width="20%" height="40px">항목</th>
                 <th width="80%">정보</th>
@@ -106,31 +149,27 @@ table tr td .add:hover{
             </tr>
             <tr>
                 <th height="40px">비밀번호</th>
-                <td><input type="text" name="password" maxlength="16"></td>
+                <td><input type="text" name="password" maxlength="16" placeholder=" 비밀번호(8 ~ 16자)"></td>
             </tr>
-            <tr>
-                <td width=20% colspan="2" align="center">
-                    <div class="colspan">
-                        비밀번호를 입력하세요(8 ~ 16자)
-                    </div>
-                </td>
-            </tr>
+
             <tr>
                 <th height="40px">비밀번호확인</th>
+
                 <td><input type="text" name="password_check"></td>
             </tr>
             <tr>
                 <th height="40px">휴대폰번호</th>
                 <td>
-                    <input type="text" name="phone_number"> 
+                    <input type="text" name="phone_number">
                     SMS수신
-                    <input type="radio">예
-                    <input type="radio">아니오
+                    <input type="radio" name="sms">예
+                    <input type="radio" name="sms">아니오
                 </td>
             </tr>
             <tr height="100px">
                 <td colspan="2" align="center" height="40px">
                     <div class="colspan">
+                        고객님께 물어봐주세요<br><br>
                         마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
                         동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.
                     </div>
@@ -139,30 +178,32 @@ table tr td .add:hover{
             <tr>
                 <th height="40px">이메일</th>
                 <td>
-                    <input type="text" name="email">@<input type="text" name="email_com">
-                    <select>
+                    <input type="text" name="email" class="temail">@<input type="text" name="email_com" class="temail">
+                    <select class="temail">
                         <option>google.com</option>
                         <option selected>naver.com</option>
                         <option>daum.net</option>
                     </select><br>
                     이메일수신
-                    <input type="radio">예
-                    <input type="radio">아니오
+                    <input type="radio" name="sms">예
+                    <input type="radio" name="sms">아니오
                 </td>
             </tr>
             <tr>
                 <th height="40px">집전화번호</th>
                 <td>
-                    <input type="text" class="home_num">
-                    <input type="text" class="home_num">-
+                    <input type="text" class="home_num"> -
+                    <input type="text" class="home_num"> -
                     <input type="text" class="home_num">
                 </td>
             </tr>
             <tr>
                 <th height="40px">주소</th>
                 <td>
-                    <input type="text"><input type="button" value="주소찾기" class="add"><br>
-                    <input type="text">
+                    <input type="text" placeholder="우편번호" class="zipcode"><input type="button" value="주소찾기"
+                        class="add"><br>
+                    <input type="text" placeholder="기본주소" class="adr"><br>
+                    <input type="text" placeholder="상세주소" class="adr">
                 </td>
             </tr>
         </table>
@@ -170,13 +211,12 @@ table tr td .add:hover{
 
     <!-- 수정 취소 -->
     <div class="input">
-        <input type="button" value="수정" class="button"
-            onclick="chgInfo()">
-        <input type="reset" value="취소" class="button"
-            onclick="location.href='admin_member_list.html';">
+        <input type="button" value="수정" class="button" onclick="chgInfo()">
+        <input type="reset" value="취소" class="button" onclick="location.href='admin_member_list.html';">
     </div>
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="../js/header_admin.js"></script>
 </body>
+
 </html>
