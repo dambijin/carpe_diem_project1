@@ -17,16 +17,11 @@ section{
     display: inline-block;
 }
 
-.info {
-    border: 1px solid rgb(190, 187, 187);
-    border-radius: 10px;
-    text-align: center;
-    width: 30%;
-}
+
 .info1 {
     border: 1px solid rgb(190, 187, 187);
     border-radius: 10px;
-    width : 70%;
+    width : 100%;
 }
 
 #button {
@@ -82,8 +77,7 @@ section{
     font-family: "Wanted Sans Variable";
     background-color: rgba(155, 178, 225, 0.6);
     border-radius: 6px;
-    border: 0px;
-    font-family: Arial;
+    border: 0px; 
     font-weight: bold;
     border-radius: 5px;
 
