@@ -154,10 +154,20 @@
         width: 150px;
         font-size: 20px;
         margin-top: 10px;
+
     }
 
+    /* 책등록 글씨 */
+    .add_subject {
+        font-family: 'Wanted Sans Variable';
+    }
+
+    /* 테이블 */
     .add_table {
         border-collapse: collapse;
+        margin: auto;
+        width: 60%;
+        font-family: 'Wanted Sans Variable';
     }
 
     .add_table th {
@@ -173,10 +183,17 @@
     }
 
     .add_table th,
-    td {
+    .add_table td {
         border: 1px solid black;
         height: 50px;
         padding: 3px;
+    }
+
+    /* 테이블 안에 인풋 */
+    .add_table input,
+    .add_table select {
+        font-family: "Wanted Sans Variable";
+        font-size: 18px;
     }
 
     /*  등록 취소 버튼 (맨 아래) */
@@ -188,6 +205,8 @@
         margin-top: 20px;
     }
 
+
+    /* 버튼 */
     .input .button {
         font-family: "Wanted Sans Variable";
         font-size: 18px;
@@ -196,16 +215,34 @@
         width: 70px;
         height: 30px;
         border-radius: 5px;
+        cursor: pointer;
     }
 
     .input .button:hover {
         background-color: rgba(205, 155, 225, 0.6);
     }
 
+    /* 인풋 넘버 위아래 방향키 삭제 */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+
+    /* 가져오기 버튼 */
+    .upload {
+        font-family: "Wanted Sans Variable";
+        font-size: 16px;
+        background-color: rgba(155, 178, 225, 0.6);
+        border: 0;
+        width: 70px;
+        height: 30px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .upload:hover {
+        background-color: rgba(205, 155, 225, 0.6);
     }
 </style>
 
@@ -215,18 +252,17 @@
 
     <!-- section -->
     <section>
-        <div>
+        <div class="add_subject">
             <h2 align="center">책등록</h2>
         </div>
 
         <div>
-            <table class="add_table" border="0" width="900px" height="100px" align="center" cellpadding="5"
-                cellspacing="1" bgcolor="cccccc">
+            <table class="add_table">
                 <tr>
                     <th>ISBN</th>
                     <td>
                         <input type="number" name="isbn">
-                        <input type="button" value="가져오기" id="isbn_import">
+                        <input type="button" value="가져오기" id="isbn_import" class="upload">
                     </td>
                 </tr>
                 <tr>

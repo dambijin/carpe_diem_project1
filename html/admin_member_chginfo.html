@@ -148,8 +148,8 @@
     }
 
     .chtable table tr th,
-    td {
-        border: 1px solid #ccc;
+    .chtable table tr td {
+        border: 1px solid #000000;
         padding: 3px;
     }
 
@@ -165,19 +165,20 @@
         font-weight: bold;
     }
 
+    /* 주소찾기 버튼 */
     .chtable table tr td .add {
         font-family: "Wanted Sans Variable";
         font-size: 17px;
-        background-color: rgba(155, 178, 225, 0.6);
-        width: 80ㅔㅌ;
+        background-color: rgb(36, 116, 190);
+        width: 80px;
         height: 30px;
         border: 0;
         border-radius: 5px;
+        color: white;
+        cursor: pointer;
     }
 
-    .chtable table tr td .add:hover {
-        background-color: rgba(205, 155, 225, 0.6);
-    }
+
 
     /* 이메일 인풋 이메일 셀렉 */
     .chtable table .temail {
@@ -186,7 +187,7 @@
         width: 150px;
     }
 
-    /* 수정 취소 버튼 */
+    /* 수정 취소 버튼 div */
     .input {
         border: 1px;
         width: 20%;
@@ -195,18 +196,24 @@
         margin-top: 20px;
     }
 
+    /* 수정 취소 버튼 */
     .input .button {
         font-family: "Wanted Sans Variable";
         font-size: 18px;
-        background-color: rgba(155, 178, 225, 0.6);
+        background-color: rgba(71, 125, 231, 0.973);
         width: 70px;
         height: 30px;
         border: 0;
         border-radius: 5px;
+        color: white;
+        cursor: pointer;
     }
 
-    .input .button:hover {
-        background-color: rgba(205, 155, 225, 0.6);
+
+
+    /* 테이블 th */
+    .chtable th {
+        background-color: rgba(163, 163, 163, 0.6);
     }
 
     .home_num {
@@ -275,14 +282,14 @@
                 <th height="40px">비밀번호확인</th>
 
                 <td>
-                    <input type="password" id="password1" name="password_check" maxlength="16" placeholder=" 비밀번호를 확인해주세요.">
+                    <input type="password" id="password1" name="password_check" maxlength="16"
+                        placeholder=" 비밀번호를 확인해주세요.">
                 </td>
             </tr>
             <tr>
                 <th height="40px">휴대폰번호</th>
                 <td>
-                    <input type="number" name="phone_number" id="phone"
-                    placeholder="-를 빼고 작성해주세요.">
+                    <input type="number" name="phone_number" id="phone" placeholder="-를 빼고 작성해주세요.">
                     SMS수신
                     <input type="radio" name="sms1" checked>예
                     <input type="radio" name="sms1">아니오
@@ -300,7 +307,7 @@
             <tr>
                 <th height="40px">이메일</th>
                 <td>
-                    <input type="text" id="emailId1" placeholder="이메일 입력" >
+                    <input type="text" id="emailId1" placeholder="이메일 입력">
 
                     <span>@</span>
 
@@ -326,8 +333,7 @@
             <tr>
                 <th height="40px">주소</th>
                 <td>
-                    <input type="text"class="zipcode" id="zipcodenum"  
-                    placeholder="우편번호" >
+                    <input type="text" class="zipcode" id="zipcodenum" placeholder="우편번호">
                     <input type="button" value="주소찾기" class="add"><br>
                     <input type="text" class="adr" id="adr1" placeholder="기본주소"><br>
                     <input type="text" class="adr" id="adr2" placeholder="상세주소">

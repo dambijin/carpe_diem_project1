@@ -77,7 +77,7 @@
 			});
 
 			// 전체선택 체크 해제
-			document.querySelector("#select_all").addEventListener("click", function (event){
+			document.querySelector("#select_all").addEventListener("click", function (event) {
 				// 클릭된 요소가 check 상태라면
 				let list_check = document.querySelectorAll(".checkbox")
 				console.log(list_check.length);
@@ -174,31 +174,36 @@
 	// 검색 옵션과 검색 텍스트박스에 입력된 값을 처리하는 함수
 	function handleSearchOption() {
 		// 검색 옵션 가져옴
-        var searchOption = document.getElementById("search_option").value;
+		var searchOption = document.getElementById("search_option").value;
 		// 검색 텍스트박스 입력값을 가져옴
-        var searchTextbox = document.getElementById("input_todo");
-        
-        // 선택된 옵션에 따라 다르게 동작
-        switch (searchOption) {
-            case "책이름":
-                alert("책이름: " + searchTextbox.value);
-                break;
-            case "청구기호":
-                alert("청구기호: " + searchTextbox.value);
-                break;
-            case "등록번호":
-                alert("등록번호: " + searchTextbox.value);
-                break;
-            default:
+		var searchTextbox = document.getElementById("input_todo");
+
+		// 선택된 옵션에 따라 다르게 동작
+		switch (searchOption) {
+			case "책이름":
+				alert("책이름: " + searchTextbox.value);
+				break;
+			case "청구기호":
+				alert("청구기호: " + searchTextbox.value);
+				break;
+			case "등록번호":
+				alert("등록번호: " + searchTextbox.value);
+				break;
+			default:
 				// 기타 옵션의 경우 아무 동작도 수행하지 않음
-                break;
-        }
-    }
-	
+				break;
+		}
+	}
+
 
 </script>
 
 <style>
+	/* 전체 */
+	.booklist_entire {
+		font-family: "Wanted Sans Variable";
+	}
+
 	header .blank_space .nav .book_inventory {
 		background-color: rgba(168, 156, 200, 0.6);
 		color: #000000;
@@ -211,12 +216,14 @@
 		margin-top: 10px;
 	}
 
-	/*  검색창 */
+	/*  검색창 div*/
 	.search {
 		width: 80%;
 		margin: auto;
 		text-align: center;
 		margin-bottom: 10px;
+		font-family: "Wanted Sans Variable";
+
 	}
 
 	.search .search_opt_list {
@@ -229,38 +236,42 @@
 		height: 30px;
 	}
 
+	/* 검색창 인풋 */
 	.search .textbox {
 		width: 350px;
-		height: 20px;
+		height: 22px;
 		padding: 2px;
-	}
-
-	.search .button {
 		font-family: "Wanted Sans Variable";
-		font-size: 18px;
-		background-color: rgba(155, 178, 225, 0.6);
-		width: 50px;
-		height: 30px;
-		border: 0;
-		border-radius: 5px;
-	}
-
-	.search .button:hover {
-		background-color: rgba(205, 155, 225, 0.6);
+		font-size: 17px;
 	}
 
 	/* 테이블 */
-	table tr {
+	.booklist_entire table {
+		border-collapse: collapse;
+	}
+
+	/* 테이블 tr*/
+	.booklist_entire table tr {
 		background-color: #fff;
 	}
 
-	table tr th {
-		background-color: rgba(168, 156, 200, 0.6);
+	/* 테이블 th */
+	.booklist_entire table th {
+		background-color: rgba(163, 163, 163, 0.6);
+		border: 1px solid #000000;
+		height: 35px;
 	}
 
-	table tr td {
-		border: 1px solid #ccc;
+	/* 테이블 td */
+	.booklist_entire td {
+		border: 1px solid #000000;
 		text-align: center;
+	}
+
+	/* select 셀렉트 */
+	.booklist_entire select {
+		font-family: "Wanted Sans Variable";
+		font-size: 17px;
 	}
 
 	/* 등록삭제 버튼 */
@@ -272,19 +283,30 @@
 		margin-top: 20px;
 	}
 
+	/* 검색 버튼, 등록 폐기 버튼 */
+	.search .button,
 	.input1 .button {
 		font-family: "Wanted Sans Variable";
 		font-size: 18px;
-		background-color: rgba(155, 178, 225, 0.6);
 		width: 50px;
 		height: 30px;
 		border: 0;
 		border-radius: 5px;
+		cursor: pointer;
+		color: white;
 	}
 
-	.input1 .button:hover {
-		background-color: rgba(205, 155, 225, 0.6);
+	/* 검색 버튼 */
+	.search .button {
+		background-color: rgb(36, 116, 190);
 	}
+
+	/* 등록 폐기 버튼 */
+	.input1 .button {
+		background-color: rgba(71, 125, 231, 0.973);
+
+	}
+
 
 	/* 쪽이동 */
 	.nextpage {
@@ -294,70 +316,81 @@
 		text-align: center;
 		margin-top: 20px;
 	}
+
+
+	/* 쪽이동 a 태그*/
+	.underline_remove {
+		text-decoration: none;
+		font-size: 20px;
+		color: black;
+	}
 </style>
 
 <body>
 	<!-- header -->
 	<header></header>
+	<div class="booklist_entire">
+		<button type="button" id="book_add">책 추가</button>
+		<!-- 검색창   -->
+		<div class="search">
+			<select class="view_count" onchange="changeViewCount(this.value)">
+				<option value="10">10개씩</option>
+				<option value="20">20개씩</option>
+				<option value="30">30개씩</option>
+			</select>
+			<!-- <select class="search_opt_list" id="search_option" onchange="handleSearchOption()"> -->
+			<select class="search_opt_list" id="search_option">
+				<!-- 자바스크립트화 -->
+			</select>
+			<input type="text" name="search" class="textbox" id="input_todo">
+			<button type="button" class="button" id="todo_search" onclick="search()">검색
+			</button>
+		</div>
 
-	<button type="button" id="book_add">책 추가</button>
-	<!-- 검색창   -->
-	<div class="search">
-		<select class="view_count" onchange="changeViewCount(this.value)">
-			<option value="10">10개씩</option>
-			<option value="20">20개씩</option>
-			<option value="30">30개씩</option>
-		</select>
-		<!-- <select class="search_opt_list" id="search_option" onchange="handleSearchOption()"> -->
-		<select class="search_opt_list" id="search_option">
-			<!-- 자바스크립트화 -->
-		</select>
-		<input type="text" name="search" class="textbox" id="input_todo">
-		<button type="button" class="button" id="todo_search" onclick="search()">검색
-		</button>
+
+		<!-- table -->
+		<form name="myform" method="post" action="">
+			<div class="detail_tabel">
+				<table border="0" width="1200" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc"
+					id="todo_booktable">
+					<tr>
+						<th width="100">책이름</th>
+						<th width="100">저자</th>
+						<th width="100">발행년</th>
+						<th width="100">청구기호</th>
+						<th width="100">등록번호</th>
+						<th width="100">소장기관</th>
+						<th width="100">등록날짜</th>
+						<th width="100">예약</th>
+						<th width="100">대출상태</th>
+						<th width="100">
+							도서폐기
+							<input type="checkbox" id="select_all">
+						</th>
+					</tr>
+				</table>
+		</form>
+
+		<!-- 등록 삭제 -->
+		<div class="input1">
+			<button type="button" class="button" onclick="bookadd_popup()">등록</button>
+			<button type="button" class="button" id="button_cancle">폐기</button>
+		</div>
+
+
+
+		<!-- 쪽이동 -->
+		<div class="paging nextpage">
+			<a href="" class="pre underline_remove">◀</a>
+			<strong class="underline_remove">1</strong>
+			<a href="" class="num underline_remove">2</a>
+			<a href="" class="num underline_remove">3</a>
+			<a href="" class="num underline_remove">4</a>
+			<a href="" class="num underline_remove">5</a>
+			<a href="" class="next underline_remove">▶</a>
+		</div>
+
 	</div>
-
-	<!-- table -->
-	<form name="myform" method="post" action="">
-		<div>
-			<table border="0" width="1200" align="center" 
-			cellpadding="5" cellspacing="1" bgcolor="cccccc" id="todo_booktable">
-				<tr>
-					<th width="100">책이름</th>
-					<th width="100">저자</th>
-					<th width="100">발행년</th>
-					<th width="100">청구기호</th>
-					<th width="100">등록번호</th>
-					<th width="100">소장기관</th>
-					<th width="100">등록날짜</th>
-					<th width="100">예약</th>
-					<th width="100">대출상태</th>
-					<th width="100">
-						도서폐기
-						<input type="checkbox"  id="select_all">
-					</th>
-				</tr>
-			</table>
-	</form>
-	</div>
-
-	<!-- 등록 삭제 -->
-	<div class="input1">
-		<button type="button" class="button" onclick="bookadd_popup()">등록</button>
-		<button type="button" class="button" id="button_cancle">폐기</button>
-	</div>
-
-	<!-- 쪽이동 -->
-	<div class="nextpage">
-		<input type="button" value="<">
-		<input type="button" value="1">
-		<input type="button" value="2">
-		<input type="button" value="3">
-		<input type="button" value="4">
-		<input type="button" value=">">
-	</div>
-
-
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="../js/header_admin.js"></script>
 

@@ -32,7 +32,7 @@ window.addEventListener("load", function () {
             search(); // 검색 함수 호출
         }
     });
-})
+});
 
 // 도서검색 버튼 클릭
 function search() {
