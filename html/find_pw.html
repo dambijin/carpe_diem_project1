@@ -8,6 +8,9 @@
     <link href="../css/layout.css" rel="stylesheet">
 </head>
 <script>
+    function btn(sample) {
+        alert(sample)
+    }
     window.addEventListener("load", function () {
         email();
 
@@ -83,6 +86,16 @@
                 onclick(location.href = 'sign_in.html')
             }
         })
+        let textbox1 = document.getElementById("Certification");
+            // Enter 키 이벤트 리스너 추가
+            textbox1.addEventListener("keydown", function (event) {
+                // keyCode 13은 Enter 키를 나타냅니다
+                if (event.keyCode === 13) {
+
+                    button.click();
+
+                }
+            });
     }
    
 </script>
@@ -202,7 +215,8 @@
                             <select class="email" id="email_domain" value="직접입력">
 
                             </select>
-                            <input type="button" value="인증번호 발송" class="verification_code" id="send">
+                            <input type="button" value="인증번호 발송" onclick="javascript:btn('인증번호가 발송되었습니다.' )"
+                            class="verification_code" id="send">
                         </td>
                     </tr>
                     <tr>
@@ -213,7 +227,7 @@
                     </tr>
                 </table>
                 <div class="complete_but">
-                    <button type="button" class="complete" id="complete1" onkeyup="enterkey()">확인</button>
+                    <button type="button" class="complete" id="complete1">확인</button>
                 </div>
 
             </div>

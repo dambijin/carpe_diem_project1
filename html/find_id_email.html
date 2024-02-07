@@ -131,7 +131,7 @@
         }
     </style>
     <script>
-        
+
         window.onload = function () {
             let button = document.getElementById('button');
 
@@ -155,8 +155,30 @@
                     onclick(location.href = 'sign_in.html')
                 }
             });
+            let textbox1 = document.getElementById("text_email1");
+            // Enter 키 이벤트 리스너 추가
+            textbox1.addEventListener("keydown", function (event) {
+                // keyCode 13은 Enter 키를 나타냅니다
+                if (event.keyCode === 13) {
+                    
+                    button.click();
+                    
+                }
+            });
+
+            // 도서검색 버튼 엔터이벤트
+            let textbox2 = document.getElementById("text_email2");
+            // Enter 키 이벤트 리스너 추가
+            textbox2.addEventListener("keydown", function (event) {
+                // keyCode 13은 Enter 키를 나타냅니다
+                if (event.keyCode === 13) {
+                    
+                    button.click();
+                   
+                }
+            });
         };
-        
+
 
         window.addEventListener("load", function () {
             email();
@@ -201,7 +223,7 @@
                 result_email_list.append(opt)
             }
         }
-    
+
 
     </script>
 </head>

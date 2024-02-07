@@ -138,7 +138,18 @@
 
                 // 아이디 찾는 기능 추가
             });
+            let textbox1 = document.getElementById("text_tel");
+            // Enter 키 이벤트 리스너 추가
+            textbox1.addEventListener("keydown", function (event) {
+                // keyCode 13은 Enter 키를 나타냅니다
+                if (event.keyCode === 13) {
+
+                    button.click();
+
+                }
+            });
         };
+
     </script>
 </head>
 

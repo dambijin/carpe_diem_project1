@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
     <link href="../css/layout.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         /* 헤더 아래 모두 */
         .log_in {
@@ -135,6 +136,85 @@
                     
                 }
             });
+            let textbox1 = document.getElementById("text_id");
+            // Enter 키 이벤트 리스너 추가
+            textbox1.addEventListener("keydown", function (event) {
+                // keyCode 13은 Enter 키를 나타냅니다
+                if (event.keyCode === 13) {
+                    
+                    button.click();
+                    
+                }
+            });
+            let textbox2 = document.getElementById("text_pass");
+            // Enter 키 이벤트 리스너 추가
+            textbox2.addEventListener("keydown", function (event) {
+                // keyCode 13은 Enter 키를 나타냅니다
+                if (event.keyCode === 13) {
+                    
+                    button.click();
+                    
+                }
+            });
+        }
+        $(document).ready(function(){
+            // 페이지 로드 시 쿠키에 저장된 아이디 값을 가져와서 입력칸에 표시
+            var key = getCookie("key");
+            $("#text_id").val(key); 
+            
+            // 저장된 아이디가 있을 경우 체크박스를 체크 상태로 변경
+            if($("#text_id").val() != ""){ 
+                $("#checkId").prop("checked", true); 
+            }
+            
+            // 아이디 저장하기 체크박스의 상태 변경 이벤트 리스너
+            $("#checkId").change(function(){ 
+                if($("#checkId").is(":checked")){
+                    // 체크됐을 때 아이디를 쿠키에 저장
+                    setCookie("key", $("#text_id").val(), 7);
+                } else {
+                    // 체크 해제됐을 때 쿠키 삭제
+                    deleteCookie("key");
+                }
+            });
+            
+            // 아이디 입력칸에 키를 입력할 때마다 쿠키에 저장 (아이디 저장하기 체크된 상태일 때만)
+            $("#text_id").keyup(function(){
+                if($("#checkId").is(":checked")){
+                    setCookie("key", $("#text_id").val(), 7);
+                }
+            });
+        });
+    
+        // 쿠키 저장 함수
+        function setCookie(cookieName, value, exdays) {
+            var exdate = new Date();
+            exdate.setDate(exdate.getDate() + exdays);
+            var cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+            document.cookie = cookieName + "=" + cookieValue;
+        }
+    
+        // 쿠키 삭제 함수
+        function deleteCookie(cookieName) {
+            var expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() - 1);
+            document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+        }
+         
+        // 쿠키 가져오는 함수
+        function getCookie(cookieName) {
+            cookieName = cookieName + '=';
+            var cookieData = document.cookie;
+            var start = cookieData.indexOf(cookieName);
+            var cookieValue = '';
+            if (start != -1) {
+                start += cookieName.length;
+                var end = cookieData.indexOf(';', start);
+                if (end == -1)
+                    end = cookieData.length;
+                cookieValue = cookieData.substring(start, end);
+            }
+            return unescape(cookieValue);
         }
     </script>
 </head>
@@ -152,15 +232,15 @@
                 <table>
                     <tr>
                         <td class="sub">아이디</td>
-                        <td><input type="text" class="textbox1" placeholder=" 아이디" autofocus></td>
+                        <td><input type="text" class="textbox1" id="text_id" placeholder=" 아이디" autofocus></td>
                     </tr>
                     <tr>
                         <td class="sub">비밀번호</td>
-                        <td><input type="text" class="textbox2" placeholder=" 비밀번호"></td>
+                        <td><input type="password" class="textbox2" id="text_pass" placeholder=" 비밀번호"></td>
                     </tr>
                 </table>
                 <div class="check_sub">
-                    <input type="checkbox">아이디 저장
+                    <input type="checkbox" id="checkId">아이디 저장
                     <input type="checkbox">자동 로그인
                 </div>
                 <div class="log_but"><button type="button" id="log_button">로그인</button></div>
