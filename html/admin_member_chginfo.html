@@ -29,7 +29,7 @@
         }
 
         // 자바스크립트화
-        document.querySelector("#name").value = "홍길동";
+        document.querySelector("#name").innerHTML = "홍길동";
         document.querySelector("#yymmdd").value = "2001-01-01";
         document.querySelector("#userid").value = "userid123";
         document.querySelector("#phone").value = "01012345678";
@@ -262,7 +262,7 @@
             </tr>
             <tr>
                 <th height="40px">이름</th>
-                <td><input type="text" id="name"></td>
+                <td id="name"></td>
             </tr>
             <tr>
                 <th height="40px">생년월일</th>
