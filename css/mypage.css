@@ -78,24 +78,20 @@ section{
     padding: 2px 20px;
 }
 
-button:hover {
-    background-color: rgba(155, 178, 225, 0.6);
-}
-
 .right_section button {
     font-family: "Wanted Sans Variable";
     background-color: rgba(155, 178, 225, 0.6);
     border-radius: 6px;
     border: 0px;
     font-family: Arial;
-    font-size: 12px;
     font-weight: bold;
     border-radius: 5px;
 
 }
 #button_cancle {
     
-    margin : 10px 0px 0px 93%;
+    text-align: right;
+    width: 100%;
    
 
 }
@@ -120,6 +116,17 @@ select{
     text-align: center;
     width: 85%;
     margin: auto;
+}
+button:hover{
+    background-color: rgba(205, 155, 225, 0.6);
+}
+#cancle{
+    margin-top: 20px;
+    width: 100px;
+    height: 30px;
+}
+.bookname {
+    text-decoration: none;
 }
 
 

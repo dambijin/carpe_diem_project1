@@ -12,8 +12,8 @@
         })
 
         function bind() {
-           
-
+            
+            // 정보 임시 저장
             let a = document.querySelector("#a").innerHTML = "두정도서관";
             let b = document.querySelector("#b").innerHTML = " 100일만에 배우는 자바스크립트";
             let c = document.querySelector("#c").innerHTML = "김자바";
@@ -24,11 +24,21 @@
             let h = document.querySelector("#h").innerHTML = " 010-1234-1234";
             let cancle = document.querySelector("#cancle")
             let close = document.querySelector("#close")
-            cancle.addEventListener("click", function(){
-                alert("취소되었습니다.")
+           
+            // 취소신청 확인 알림 후 창닫기 이벤트
+            cancle.addEventListener("click", function () {
+                let result = confirm("취소하시겠습니까?")
+                if (result === true) {
+                    alert("취소되었습니다.")
+                    window.close(); 
+                } else {      
+                }
             })
-            close.addEventListener("click", function(){
+
+            // 닫기 버튼 이벤트
+            close.addEventListener("click", function () {
                 window.close();
+
             })
         }
 

@@ -68,11 +68,16 @@
             document.querySelector("#password1").value = "1234";
             document.querySelector("#phonenumber").value = "010-0000-0000";
             document.querySelector("#email_id").value = "doseo";
+            document.querySelector("#email_domain").value = "human.com";
             document.querySelector("#tel1").value = "041";
             document.querySelector("#tel2").value = "331";
             document.querySelector("#tel3").value = "1234";
+            document.querySelector("#sample6_postcode").value = "33176";
+            document.querySelector("#sample6_address").value = "충남 부여군 석성면 연화로 50-8";
+            document.querySelector("#sample6_address2").value = "204동 6051호";
             document.getElementsByName("sms")[0].checked = true;
             document.getElementsByName("email")[0].checked = true;
+
 
 
 
@@ -81,9 +86,10 @@
                 let password = document.querySelector("#password").value
                 let password1 = document.querySelector("#password1").value
                 let smsCheck = document.getElementsByName("sms")
-                let selectSms;
+                let phonenumber = document.querySelector("#phonenumber").value
                 let emailCheck = document.getElementsByName("email")
-                let selectEmail
+                let selectSms;
+                let selectEmail;
                 for (let i = 0; i < smsCheck.length; i++) {
                     if (smsCheck[i].checked) {
                         selectSms = smsCheck[i].value;
@@ -98,23 +104,45 @@
                 if (password == "") {
                     alert("비밀번호 입력 안함")
                     document.querySelector("#password").focus();
+
                 } else if (password1 == "") {
                     alert("비밀번호 확인 입력안함")
                     document.querySelector("#password1").focus();
-                } else if (selectSms == null) {
-                    alert("sms수신동의 체크안함")
-                } else if (selectEmail == null) {
-                    alert("email수신동의 체크안함")
+
+                } else if (phonenumber == "") {
+                    alert("핸드폰번호 입력안함")
+                    document.querySelector("#phonenumber").focus();
+
+                } else if (document.querySelector("#email_id").value == "") {
+                    alert("이메일id 입력안함")
+                    document.querySelector("#email_id").focus();
+
+                } else if (document.querySelector("#email_domain").value == "") {
+                    alert("이메일 도메인 입력안함")
+                    document.querySelector("#email_domain").focus();
+
+                } else if (document.querySelector("#sample6_postcode").value == "") {
+                    alert("우편번호 입력")
+                    document.querySelector("#sample6_postcode").focus();
+
+                } else if (document.querySelector("#sample6_address").value == "") {
+                    alert("주소 입력")
+                    document.querySelector("#sample6_address").focus();
+
+                } else if (document.querySelector("#sample6_address2").value == "") {
+                    alert("상세 주소 입력")
+                    document.querySelector("#sample6_address2").focus();
+
                 }
                 else {
                     if (password === password1) {
                         alert(name.textContent + "님의 정보를 수정하였습니다." + "\n" +
                             "비밀번호 : " + password + "\n" +
-                            "휴대폰 번호 : " + phonenumber.value + "\n" +
-                            "이메일 : " + document.querySelector("#email_id").value + email2.value + "\n" +
+                            "휴대폰 번호 : " + phonenumber + "\n" +
+                            "이메일 : " + document.querySelector("#email_id").value + "@" + email2.value + "\n" +
                             "sms수신동의여부 : " + selectSms + "\n" +
                             "email수신동의여부 : " + selectEmail + "\n" +
-                            "로 변경되었습니다." )
+                            "로 변경되었습니다.")
                         location.href = "mypage_loan_status.html"
                     } else {
                         document.querySelector("#password").value = "";
@@ -122,9 +150,8 @@
                         alert("비밀번호를 다시 확인해주세요.");
                     }
                 }
-
             })
-            console.log(email)
+         
             // 취소버튼 이동
             let cancle = document.querySelector("#cancle")
             cancle.addEventListener("click", function () {
@@ -225,7 +252,7 @@
         .place_input_width {
             width: 90%;
             margin: 5px auto;
-            height : 20px;
+            height: 20px;
         }
 
         /* 하단 버튼 css */
