@@ -19,17 +19,11 @@
 
     function bind() {
         // 연체추가 가져오기
-        let add = document.querySelector("#over_add");
+        let add = document.querySelector("#overdue_table");
 
-        add.addEventListener('click', function handle_book() { // 책 추가 클릭이벤트
-
+        for (let i = 1; i <= 10; i++) {
             // 테이블을 todlist 에 담아둠
             let todolist = document.querySelector("#todo_booktable");
-
-            if (!todolist) {
-                console.error("Error: todo_booktable not found.");
-                return;
-            }
 
             let book_html = '';
 
@@ -41,58 +35,69 @@
             book_html += '<td>yyyy/mm/dd</td>';
             book_html += '<td>yyyy/mm/dd</td>';
             book_html += '<td>3일</td>';
-            book_html += '<td><input type="checkbox" class="check"></td>';
+            book_html += '<td><input type="checkbox" class="checkbox"></td>';
             // html +=	'</tr>'
 
             let tr = document.createElement("tr"); // <tr></tr>
             tr.innerHTML = book_html;
 
-            todolist.append(tr);
-        })
+            // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
+            tr.querySelector(".checkbox").addEventListener("click", function (event) {
+                // 만약 현재 클릭된 체크박스가 체크 해제되었다면
+                if (!event.target.checked) {
+                    // 전체선택 체크박스도 체크 해제
+                    document.querySelector("#select_all").checked = false;
+                } else {
+                    // 전체 체크박스 개수와 현재 체크된 체크박스 개수를 세어서 비교
+                    let allCount = document.querySelectorAll(".checkbox").length;
+                    let checkedCount = document.querySelectorAll(".checkbox:checked").length;
 
-        // 체크박스 
-        document.querySelector("#selected_del").addEventListener("click", function () {
-            let list_checked = document.querySelectorAll(".check:checked");
-
-            if (list_checked.length > 0) {
-                for (let i = 0; i < list_checked.length; i++) {
-                    list_checked[i].parentNode.parentNode.remove();
+                    // 만약 모든 체크박스가 체크 되어있다면
+                    if (allCount == checkedCount) {
+                        // 전체선택 체크박스를 체크
+                        document.querySelector("#select_all").checked = true;
+                    } else {
+                        // else 전체선택 체크박스를 체크 해제
+                        document.querySelector("#select_all").checked = false;
+                    }
                 }
-            } else {
-                alert("연체해제할 항목을 선택해주세요");
-            }
-        });
+            });
 
+            todolist.append(tr);
+        }
+
+        // 전체선택 이벤트
         document.querySelector("#select_all").addEventListener("click", function (event) {
-            let list_check = document.querySelectorAll(".check");
+            let list_check = document.querySelectorAll(".checkbox");
 
             for (let i = 0; i < list_check.length; i++) {
                 list_check[i].checked = event.target.checked;
             }
         })
+
+        //폐기버튼 알림창 및 폐기 클릭 시 remove()
+        console.log(document.getElementById("button_cancle"));
+
+        document.getElementById('button_cancle').addEventListener('click', function () {
+            let list_checked = document.querySelectorAll(".checkbox:checked");
+
+
+            if (list_checked.length == 0) {
+                alert("폐기할 항목을 선택해주세요.");
+            } else if (confirm("선택한 항목을 폐기하시겠습니까?")) {
+                for (let i = 0; i < list_checked.length; i++) {
+                    list_checked[i].parentNode.parentNode.remove();
+                }
+                alert("폐기되었습니다.");
+            } else {
+                alert("선택된 항목이 없습니다.");
+            }
+        });
+
+
     };
 
-    //폐기버튼 알림창 및 폐기 클릭 시 remove()
-    console.log(document.getElementById("selected_del"));
 
-    document.getElementById('selected_del').addEventListener('click', function () {
-        let list_checked = document.querySelectorAll(".checkbox:checked");
-
-
-        if (list_checked.length == 0) {
-            alert("폐기할 항목을 선택해주세요.");
-        } else if (confirm("선택한 항목을 폐기하시겠습니까?")) {
-            for (let i = 0; i < list_checked.length; i++) {
-                let listItem = list_checked[i].closest('li'); // 수정된 부분
-                if (listItem) {
-                    listItem.remove();
-                }
-            }
-            alert("폐기되었습니다.");
-        } else {
-            alert("선택된 항목이 없습니다.");
-        }
-    });
 
 
 
@@ -163,8 +168,6 @@
     .input .button:hover {
         background-color: rgba(205, 155, 225, 0.6);
     }
-
-    
 </style>
 
 <body>
@@ -178,9 +181,8 @@
         </div>
 
         <div>
-            <button type="button" id="over_add">책 추가</button>
             <table class="add_table" border="0" width="900px" align="center" cellpadding="5" cellspacing="1"
-                bgcolor="cccccc" id="todo_booktable">
+                bgcolor="cccccc" id="todo_booktable" id="overdue_table">
                 <tr>
                     <th>책제목</th>
                     <th>저자</th>
@@ -199,7 +201,7 @@
 
     <!-- 등록 취소 -->
     <div class="input">
-        <button type="button" value="연체해제" class="button" id="selected_del" onclick="overdue_close()">연체해제</button>
+        <button type="button" value="연체해제" class="button" id="button_cancle" onclick="overdue_close()">연체해제</button>
         <input type="reset" value="닫기" class="button" onclick="closePopup()">
     </div>
 

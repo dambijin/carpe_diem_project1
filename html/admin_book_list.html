@@ -23,27 +23,20 @@
 	});
 
 	function bind() {
-		let add = document.querySelector("#book_add");  // 책 추가 버튼
 
-		// 책 추가 함수 
-		add.addEventListener('click', function handle_book() {
-			// 테이블을 todlist 에 담아둠
-			let todolist = document.querySelector("#todo_booktable");
+		// 테이블을 todlist 에 담아둠
+		let todolist = document.querySelector("#todo_booktable");
 
-			if (!todolist) {
-				console.error("Error: todo_booktable not found.");
-				return;
-			}
-
+		for (let i = 1; i <= 10; i++) {
 			let book_html = '';
 
 			// html += '</tr>';
 			// 추가한다
-			book_html += '<td>java중급</td>';
+			book_html += '<td>' + i + '</td>';
+			book_html += '<td>java초급</td>';
 			book_html += '<td>최민수강사님</td>';
 			book_html += '<td>2023-05-01</td>';
 			book_html += '<td>12215</td>';
-			book_html += '<td>10</td>';
 			book_html += '<td>천안도서관</td>';
 			book_html += '<td>2024-02-02</td>';
 			book_html += '<td>예약</td>';
@@ -76,38 +69,33 @@
 				}
 			});
 
-			// 전체선택 체크 해제
-			document.querySelector("#select_all").addEventListener("click", function (event) {
-				// 클릭된 요소가 check 상태라면
-				let list_check = document.querySelectorAll(".checkbox")
-				console.log(list_check.length);
-
-				// 체크된 것만
-				if (event.target.checked) {
-					// 모든 체크박스를 체크
-					for (let i = 0; i < list_check.length; i++) {
-						list_check[i].checked = true;
-					}
-				} else {
-					// 모든 체크박스를 체크 해제
-					for (let i = 0; i < list_check.length; i++) {
-						list_check[i].checked = false;
-					}
-				}
-			});
-			// 위 코드에서 첫번째 것만
-			// 선택 안 잡힘
+			// todolist에 tr을 추가함
 			todolist.append(tr);
 
+		}
+
+		// 전체선택 체크 해제
+		document.querySelector("#select_all").addEventListener("click", function (event) {
+			// 클릭된 요소가 check 상태라면
+			let list_check = document.querySelectorAll(".checkbox")
+			console.log(list_check.length);
+
+			// 체크된 것만
+			if (event.target.checked) {
+				// 모든 체크박스를 체크
+				for (let i = 0; i < list_check.length; i++) {
+					list_check[i].checked = true;
+				}
+			} else {
+				// 모든 체크박스를 체크 해제
+				for (let i = 0; i < list_check.length; i++) {
+					list_check[i].checked = false;
+				}
+			}
 		});
 
 
-
-
-
 		//폐기버튼 알림창 및 폐기 클릭 시 remove()
-		console.log(document.getElementById("button_cancle"));
-
 		document.getElementById('button_cancle').addEventListener('click', function () {
 			let list_checked = document.querySelectorAll(".checkbox:checked");
 
@@ -130,6 +118,13 @@
 			inputTodo.addEventListener("keydown", enterkey);
 		};
 
+		// 엔터 이벤트
+		function enterkey() {
+			if (window.event.keyCode == 13) {
+				// 엔터키가 눌렸을 때 실행하는 반응
+				search();
+			}
+		};
 
 		//검색옵션 기본세팅
 		let search_opt_list = ["책이름", "저자", "청구기호", "등록번호", "소장기관"];
@@ -144,6 +139,8 @@
 
 			search_opt.append(opt);
 		}
+
+
 	};
 
 
@@ -161,14 +158,6 @@
 		}
 	};
 
-	// 엔터 이벤트
-	function enterkey() {
-		if (window.event.keyCode == 13) {
-
-			// 엔터키가 눌렸을 때 실행하는 반응
-			search();
-		}
-	};
 
 	//나중에 쓸 수 있는 코드	
 	// 검색 옵션과 검색 텍스트박스에 입력된 값을 처리하는 함수
@@ -330,7 +319,6 @@
 	<!-- header -->
 	<header></header>
 	<div class="booklist_entire">
-		<button type="button" id="book_add">책 추가</button>
 		<!-- 검색창   -->
 		<div class="search">
 			<select class="view_count" onchange="changeViewCount(this.value)">
@@ -354,11 +342,11 @@
 				<table border="0" width="1200" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc"
 					id="todo_booktable">
 					<tr>
+						<th width="100">등록번호</th>
 						<th width="100">책이름</th>
 						<th width="100">저자</th>
 						<th width="100">발행년</th>
 						<th width="100">청구기호</th>
-						<th width="100">등록번호</th>
 						<th width="100">소장기관</th>
 						<th width="100">등록날짜</th>
 						<th width="100">예약</th>

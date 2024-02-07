@@ -28,45 +28,36 @@
 	});
 
 	function bind() {
-		let add = document.querySelector("#member_add");
 
-		add.addEventListener('click', function () { // 대출회원 추가 클릭이벤트
+		// 테이블을 todlist 에 담아둠
+		let todolist = document.querySelector("#page1");
 
-			// 테이블을 todlist 에 담아둠
-			let todolist = document.querySelector("#page1");
+		// 임시 게시판 생성
+		for (let i = 1; i <= 10; i++) {
+			let html = '';
 
-			// 임시 게시판 생성
-			for (let i = 1; i <= 10; i++) {
-				let html = '';
-
-				html += '<td>'+ i + '</td>';
-				html += '<td><div class="member_name" onclick="member_list()">임우혁</div></td>';
-				html += '<td>2001-05-24</td>';
-				html += '<td>010-1234-5678</td>';
-				html += '<td>청주</td>';
-				html += '<td><div class="member_name" onclick="overdue_popup()">3일</div></td>';
-				html += '<td><input type="button" value="조회" onclick=\'alert("예약목록 조회")\'></td>';
-				html += '<td><input type="button" value="조회" onclick=\'alert("대출내역 조회")\'></td>';
-				html += '<td><input type="button" value="수정" onclick="location.href=\'admin_member_chginfo.html\';"></td>';
+			html += '<td class="member_no">' + i + '</td>';
+			html += '<td><div class="member_name" onclick="member_list()">임우혁</div></td>';
+			html += '<td>2001-05-24</td>';
+			html += '<td>010-1234-5678</td>';
+			html += '<td>청주</td>';
+			html += '<td><div class="overdue_name" onclick="overdue_popup()">3일</div></td>';
+			html += '<td><input type="button" value="조회" onclick=\'alert("예약목록 조회")\'></td>';
+			html += '<td><input type="button" value="조회" onclick=\'alert("대출내역 조회")\'></td>';
+			html += '<td><input type="button" value="수정" onclick="location.href=\'admin_member_chginfo.html\';"></td>';
 
 
-				let tr = document.createElement("tr"); // <tr></tr>
-				tr.classList.add("tr")
-				tr.innerHTML = html;
+			let tr = document.createElement("tr"); // <tr></tr>
+			tr.innerHTML = html;
 
-				// 예약목록 조회 이벤트
-				function reservation_check() {
-					alert("예약내역조회");
-				}
-
-				// 대출내역 조회 이벤트
-				function loan_check() {
-					alert("대출내역조회");
-				}
-			}
+			//이름에 클릭이벤트
+			tr.querySelector(".member_name").addEventListener("click", function () {
+				let member_no = tr.querySelector(".member_no").innerHTML;
+				alert("회원번호 : " + member_no);
+			})
 
 			todolist.append(tr);
-		})
+		}
 
 		// 엔터키 눌렀을 때
 		var inputTodo = document.getElementById("input_todo");
@@ -90,6 +81,16 @@
 
 	};
 
+
+	// 예약목록 조회 이벤트
+	function reservation_check() {
+		alert("예약내역조회");
+	}
+
+	// 대출내역 조회 이벤트
+	function loan_check() {
+		alert("대출내역조회");
+	}
 	// 10개씩 누를 때 change 이벤트 : 변동이 있을 때 발생
 	function changeViewCount(count) {
 		alert(count + "개씩 보기로 변경되었습니다.");
@@ -113,7 +114,9 @@
 
 	// 이름 클릭 시 
 	function member_list() {
-		alert("회원 정보")
+		// alert("회원 정보:")
+		// // 회원목록이름 클릭 시 회원번호 가져오기
+		// let name = document.getElementById(name);
 	}
 
 	// 검색 옵션과 검색 텍스트박스에 입력된 값을 처리하는 함수
@@ -319,22 +322,6 @@
 				<th width="100">대출내역</th>
 				<th width="100">정보수정</th>
 			</tr>
-			<tr>
-				<td>10</td>
-				<td>
-					<div class="member_name" onclick="member_list()">임우혁</div>
-				</td>
-				<td>2001-05-24</td>
-				<td>010-1234-5678</td>
-				<td>청주</td>
-				<td>
-					<div class="overdue_name" onclick="overdue_popup()">3일</div>
-				</td>
-				<td><input type="button" value="조회" onclick="reservation_check()"></td>
-				<td><input type="button" value="조회" onclick="loan_check()"></td>
-				<td><input type="button" value="수정" onclick="location.href='admin_member_chginfo.html';"></td>
-			</tr>
-
 
 		</table>
 	</div>
