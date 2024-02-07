@@ -12,17 +12,32 @@
 <script src="../js/admin_library.js"></script>
 <script>
     window.addEventListener("load", function () {
-		bind();
-	});
+        bind();
+    });
 
     function bind() {
         var inputTodo = document.getElementById("input_todo");
         if (inputTodo != null) {
             inputTodo.addEventListener("keydown", enterkey);
         }
-    }
+
+
+        //검색옵션 기본세팅
+        let search_opt_list = ["신청번호", "회원번호", "책이름", "저자", "신청날짜"];
+
+        for (let i = 0; i < search_opt_list.length; i++) {
+            let search_opt = document.querySelector("#search_option");
+            let html = '';
+            html += search_opt_list[i];
+
+            let opt = document.createElement("option");//<option></option>
+            opt.innerHTML = html;//<option>serach_opt_list[i]</option>
+
+            search_opt.append(opt);
+        }
+    };
     // 검색에 입력값 받아와 enterkey 작동
-    
+
     // 검색기능
     function search() {
         var textbox = document.getElementById("input_todo");
@@ -137,6 +152,14 @@
         text-align: center;
         margin-top: 20px;
     }
+
+    .book_name {
+		color: blue;
+		font-family: bold;
+		text-decoration: underline;
+		font-weight: bold;
+		cursor: pointer;
+	}
 </style>
 
 <body>
@@ -146,11 +169,8 @@
     <!-- section   -->
     <section>
         <div class="search">
-            <select align="center" class="select">
-                <option value="">책이름</option>
-                <option value="">신청번호</option>
-                <option value="">회원번호</option>
-                <option value="">신청날짜</option>
+            <select align="center" class="select" id="search_option">
+                <!-- 자바스크립트화 -->
             </select>
             <input type="text" class="textbox" id="input_todo">
             <button type=button class="button" onclick="search()" onkeyup="enterkey()">검색</button>
@@ -170,29 +190,7 @@
                 <tr>
                     <td>1</td>
                     <td>10</td>
-                    <td><a href="" onclick="popup()">자바의기초</a></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <input type="button" value="완료" onclick="complete()">
-                        <input type="button" value="반려" onclick="companion()">
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>20</td>
-                    <td>html</td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <input type="button" value="완료" onclick="complete()">
-                        <input type="button" value="반려" onclick="companion()">
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>30</td>
-                    <td>css</td>
+                    <td><div class="book_name" onclick="popup()">자바의기초</div></td>
                     <td></td>
                     <td></td>
                     <td>

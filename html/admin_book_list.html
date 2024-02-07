@@ -129,6 +129,21 @@
 		if (inputTodo != null) {
 			inputTodo.addEventListener("keydown", enterkey);
 		};
+
+
+		//검색옵션 기본세팅
+		let search_opt_list = ["책이름", "저자", "청구기호", "등록번호", "소장기관"];
+
+		for (let i = 0; i < search_opt_list.length; i++) {
+			let search_opt = document.querySelector("#search_option");
+			let html = '';
+			html += search_opt_list[i];
+
+			let opt = document.createElement("option");//<option></option>
+			opt.innerHTML = html;//<option>serach_opt_list[i]</option>
+
+			search_opt.append(opt);
+		}
 	};
 
 
@@ -205,6 +220,11 @@
 	}
 
 	.search .search_opt_list {
+		width: 80px;
+		height: 30px;
+	}
+
+	.search .view_count {
 		width: 80px;
 		height: 30px;
 	}
@@ -288,10 +308,9 @@
 			<option value="20">20개씩</option>
 			<option value="30">30개씩</option>
 		</select>
-		<select class="search_opt_list" id="search_option" onchange="handleSearchOption()">
-			<option value="책이름">책이름</option>
-			<option value="청구기호">청구기호</option>
-			<option value="등록번호">등록번호</option>
+		<!-- <select class="search_opt_list" id="search_option" onchange="handleSearchOption()"> -->
+		<select class="search_opt_list" id="search_option">
+			<!-- 자바스크립트화 -->
 		</select>
 		<input type="text" name="search" class="textbox" id="input_todo">
 		<button type="button" class="button" id="todo_search" onclick="search()">검색
@@ -301,8 +320,8 @@
 	<!-- table -->
 	<form name="myform" method="post" action="">
 		<div>
-			<table border="0" width="1200" height="200" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc"
-				id="todo_booktable">
+			<table border="0" width="1200" align="center" 
+			cellpadding="5" cellspacing="1" bgcolor="cccccc" id="todo_booktable">
 				<tr>
 					<th width="100">책이름</th>
 					<th width="100">저자</th>
@@ -318,19 +337,6 @@
 						<input type="checkbox"  id="select_all">
 					</th>
 				</tr>
-				<tr>
-					<td>java중급</td>
-					<td>최민수강사님</td>
-					<td>2023-05-01</td>
-					<td>12215</td>
-					<td>10</td>
-					<td>천안도서관</td>
-					<td>2024-02-02</td>
-					<td>예약</td>
-					<td>대출중</td>
-					<td><input type="checkbox" name="check"></td>
-				</tr>
-
 			</table>
 	</form>
 	</div>

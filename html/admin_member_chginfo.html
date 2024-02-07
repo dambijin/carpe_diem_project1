@@ -14,17 +14,35 @@
 <script>
     // window load했을 때
     window.addEventListener("load", function () {
+        //검색옵션 기본세팅
+        let search_opt_list = 
+        ["직접입력","naver.com", "google.com"];
+
+        for (let i = 0; i < search_opt_list.length; i++) {
+            let search_opt = document.querySelector("#select_email");
+            let html = '';
+            html += search_opt_list[i];
+
+            let opt = document.createElement("option");//<option></option>
+            opt.innerHTML = html;//<option>serach_opt_list[i]</option>
+
+            search_opt.append(opt);
+        }
+    });
+
+    // window load했을 때
+    window.addEventListener("load", function () {
         document.querySelector("#password").value = "abcdeqesd";
     });
 
     // 이메일 자동완성
     function selectWebsite() {
-        var selectBox = document.getElementById("select");
-        var emailInput = document.getElementById("emailId");
+        var selectBox = document.getElementById("select_email");
+        var emailInput = document.getElementById("emailId2");
 
         var selectedValue = selectBox.value;
 
-        if (selectedValue === "directly") {
+        if (selectedValue === "직접입력") {
             // 직접입력 옵션 선택 시 텍스트 입력 상자를 활성화합니다.
             emailInput.removeAttribute("disabled");
             emailInput.value = ""; // 기존 값 비우기
@@ -45,9 +63,9 @@
         var phoneNumber = document.querySelector("input[name='phone_number']").value;
 
         var smsCheck = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
-        var emailInput = document.getElementById("emailId");
-        var email = emailInput.value;
-        var emailSelection = document.getElementById("select").value;
+        var emailInput1_text = document.getElementById("emailId1").value;
+        var emailInput2_text = document.getElementById("emailId2").value;
+        var emailSelection = document.getElementById("select_email").value;
         var emailReception = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
 
         // 비밀번호 확인 다르면 수정 안됨
@@ -57,7 +75,7 @@
                 "비밀번호 : " + password + "\n" +
                 "휴대폰 번호 : " + phoneNumber + "\n" +
                 "SMS 수신 동의 여부 : " + smsCheck + "\n" +
-                "이메일 : " + (emailSelection === "directly" ? email : emailSelection) + "\n" +
+                "이메일 : " + emailInput1_text+"@"+emailInput2_text + "\n" +
                 "이메일 수신 동의 여부 : " + emailReception;
 
             // 변경된 정보 메시지를 알림창으로 표시
@@ -71,7 +89,7 @@
 
     }
 
-
+    console.log();
 
 </script>
 
@@ -184,8 +202,14 @@
         margin-bottom: 5px;
     }
 
-    #emailId {
+    #emailId1,#emailId2 {
         width: 200px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 </style>
 
@@ -218,7 +242,7 @@
             </tr>
             <tr>
                 <th height="40px">비밀번호</th>
-                <td><input type="password" name="password" id="password" maxlength="16" placeholder=" 비밀번호를 입력해주세요.">
+                <td><input type="password" name="password" id="password" maxlength="20" placeholder=" 비밀번호를 입력해주세요.">
                 </td>
             </tr>
 
@@ -226,13 +250,14 @@
                 <th height="40px">비밀번호확인</th>
 
                 <td>
-                    <input type="password" id="password1" name="password_check" placeholder=" 비밀번호를 확인해주세요.">
+                    <input type="password" id="password1" name="password_check" maxlength="16"
+                        placeholder=" 비밀번호를 확인해주세요.">
                 </td>
             </tr>
             <tr>
                 <th height="40px">휴대폰번호</th>
                 <td>
-                    <input type="number" name="phone_number">
+                    <input type="number" name="phone_number" value="01012345678" placeholder="-를 빼고 작성해주세요.">
                     SMS수신
                     <input type="radio" name="sms">예
                     <input type="radio" name="sms">아니오
@@ -250,17 +275,14 @@
             <tr>
                 <th height="40px">이메일</th>
                 <td>
-                    <input type="text" value="" placeholder="이메일 입력">
+                    <input type="text" value="abc123" placeholder="이메일 입력" id="emailId1">
 
                     <span>@</span>
 
-                    <input type="text" name="email_com" placeholder="이메일을 선택하세요." id="emailId">
+                    <input type="text" name="email_com" placeholder="이메일을 선택하세요." id="emailId2">
 
-                    <select class="temail" onchange="selectWebsite()" id="select">
-                        <option value="directly" id="textEmail">직접입력</option>
-                        <option value="google.com" id="google.com">google.com</option>
-                        <option value="naver.com" id="naver.com">naver.com</option>
-                        <option value="daum.net" id="daum.net">daum.net</option>
+                    <select class="temail" onchange="selectWebsite()" id="select_email">
+                        <!-- 자바스크립트화 -->
                     </select>
 
                     이메일수신
@@ -271,18 +293,18 @@
             <tr>
                 <th height="40px">집전화번호</th>
                 <td>
-                    <input type="text" class="home_num"> -
-                    <input type="text" class="home_num"> -
-                    <input type="text" class="home_num">
+                    <input type="number" class="home_num" value="043"> -
+                    <input type="number" class="home_num" value="5555"> -
+                    <input type="number" class="home_num" value="7891">
                 </td>
             </tr>
             <tr>
                 <th height="40px">주소</th>
                 <td>
-                    <input type="text" placeholder="우편번호" class="zipcode"><input type="button" value="주소찾기"
-                        class="add"><br>
-                    <input type="text" placeholder="기본주소" class="adr"><br>
-                    <input type="text" placeholder="상세주소" class="adr">
+                    <input type="text" placeholder="우편번호" class="zipcode" value="31472">
+                    <input type="button" value="주소찾기" class="add"><br>
+                    <input type="text" placeholder="기본주소" class="adr" value="충청북도 청주시 흥덕구 1순환로"><br>
+                    <input type="text" placeholder="상세주소" class="adr" value="548번지 101호">
                 </td>
             </tr>
         </table>

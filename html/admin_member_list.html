@@ -61,6 +61,21 @@
 		if (inputTodo != null) {
 			inputTodo.addEventListener("keydown", enterkey);
 		}
+
+		//검색옵션 기본세팅
+		let search_opt_list = ["회원번호", "이름", "생년월일", "전화번호", "주소"];
+
+		for (let i = 0; i < search_opt_list.length; i++) {
+			let search_opt = document.querySelector("#search_option");
+			let html = '';
+			html += search_opt_list[i];
+
+			let opt = document.createElement("option");//<option></option>
+			opt.innerHTML = html;//<option>serach_opt_list[i]</option>
+
+			search_opt.append(opt);
+		}
+
 	};
 
 	// 10개씩 누를 때 change 이벤트 : 변동이 있을 때 발생
@@ -103,25 +118,25 @@
 	// 검색 옵션과 검색 텍스트박스에 입력된 값을 처리하는 함수
 	function handleSearchOption() {
 		// 검색 옵션과 검색 텍스트박스의 DOM 요소 가져오기
-        var searchOption = document.getElementById("search_option").value;
-        var searchTextbox = document.getElementById("input_todo");
-        
-        // 선택된 옵션에 따라 다르게 동작
-        switch (searchOption) {
-            case "회원번호":
-                alert("회원번호: " + searchTextbox.value);
-                break;
-            case "이름":
-                alert("이름: " + searchTextbox.value);
-                break;
-            case "연체상태":
-                alert("연체상태: " + searchTextbox.value);
-                break;
-            default:
+		var searchOption = document.getElementById("search_option").value;
+		var searchTextbox = document.getElementById("input_todo");
+
+		// 선택된 옵션에 따라 다르게 동작
+		switch (searchOption) {
+			case "회원번호":
+				alert("회원번호: " + searchTextbox.value);
+				break;
+			case "이름":
+				alert("이름: " + searchTextbox.value);
+				break;
+			case "연체상태":
+				alert("연체상태: " + searchTextbox.value);
+				break;
+			default:
 				// 기타 옵션의 경우 아무 동작도 수행하지 않음
-                break;
-        }
-    }
+				break;
+		}
+	}
 </script>
 
 
@@ -272,16 +287,16 @@
 	<!-- 검색창   -->
 	<button type="button" id="member_add">대출 회원 추가</button>
 	<div class="search">
-		<select class="view_count" onchange="changeViewCount(this.value)">
+		<!-- <select class="view_count" onchange="changeViewCount(this.value)"> -->
+		<select class="view_count">
 			<option value="10">10개씩</option>
 			<option value="20">20개씩</option>
 			<option value="30">30개씩</option>
 		</select>
 
-		<select class="range" id="search_option" onchange="handleSearchOption()">
-			<option value="회원번호">회원번호</option>
-			<option value="이름">이름</option>
-			<option value="연체상태">연체상태</option>
+		<!-- <select class="range" id="search_option" onchange="handleSearchOption()"> -->
+		<select class="range" id="search_option">
+			<!-- 자바스크립트로 가져오기 -->
 		</select>
 
 		<input type="text" name="search" class="textbox" id="input_todo">

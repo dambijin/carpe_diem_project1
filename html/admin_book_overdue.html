@@ -69,11 +69,30 @@
             for (let i = 0; i < list_check.length; i++) {
                 list_check[i].checked = event.target.checked;
             }
-        });
+        })
+    };
+
+    //폐기버튼 알림창 및 폐기 클릭 시 remove()
+    console.log(document.getElementById("selected_del"));
+
+    document.getElementById('selected_del').addEventListener('click', function () {
+        let list_checked = document.querySelectorAll(".checkbox:checked");
 
 
-
-    }
+        if (list_checked.length == 0) {
+            alert("폐기할 항목을 선택해주세요.");
+        } else if (confirm("선택한 항목을 폐기하시겠습니까?")) {
+            for (let i = 0; i < list_checked.length; i++) {
+                let listItem = list_checked[i].closest('li'); // 수정된 부분
+                if (listItem) {
+                    listItem.remove();
+                }
+            }
+            alert("폐기되었습니다.");
+        } else {
+            alert("선택된 항목이 없습니다.");
+        }
+    });
 
 
 
@@ -144,6 +163,8 @@
     .input .button:hover {
         background-color: rgba(205, 155, 225, 0.6);
     }
+
+    
 </style>
 
 <body>
@@ -158,8 +179,8 @@
 
         <div>
             <button type="button" id="over_add">책 추가</button>
-            <table class="add_table" border="0" width="900px" height="100px" align="center" cellpadding="5"
-                cellspacing="1" bgcolor="cccccc" id="todo_booktable">
+            <table class="add_table" border="0" width="900px" align="center" cellpadding="5" cellspacing="1"
+                bgcolor="cccccc" id="todo_booktable">
                 <tr>
                     <th>책제목</th>
                     <th>저자</th>
@@ -172,18 +193,6 @@
                         <input type="checkbox" name="check" id="select_all">
                     </th>
                 </tr>
-                <tr>
-                    <td>aaaaaaaaaaa</td>
-                    <td>홍길동</td>
-                    <td>천안도서관</td>
-                    <td>yyyy/mm/dd</td>
-                    <td>yyyy/mm/dd</td>
-                    <td>3일</td>
-                    <td>
-                        <input type="checkbox" class="check">
-                    </td>
-                </tr>
-
             </table>
         </div>
     </section>
