@@ -237,6 +237,7 @@
 
 	/* 쪽이동 */
 	.nextpage {
+		font-family: "Wanted Sans Variable";
 		width: 80%;
 		margin: auto;
 		text-align: center;
@@ -256,6 +257,7 @@
 
 	/* 연체상태 td 글씨 */
 	.table_div .member_table a {
+		font-family: "Wanted Sans Variable";
 		color: blue;
 		font-weight: bold;
 	}
@@ -284,11 +286,20 @@
 		font-weight: bold;
 		cursor: pointer;
 	}
+
+	h1 {
+		font-family: "Wanted Sans Variable";
+	}
 </style>
 
 <body>
 	<!-- header-->
 	<header></header>
+
+	<!-- 회원목록 -->
+	<div>
+		<h1 align="center">회원목록</h1>
+	</div>
 
 	<!-- 검색창   -->
 	<div class="search">
@@ -307,6 +318,8 @@
 		<input type="text" name="search" class="textbox" id="input_todo">
 		<button type=button class="button" onclick="search()">검색</button>
 	</div>
+
+
 
 	<!-- table 보드 -->
 	<div class="table_div">
