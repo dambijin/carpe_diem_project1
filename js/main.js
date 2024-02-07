@@ -68,12 +68,8 @@ function chg_text_detail(sel) {
 
 function announcement() {
     // 공지사항
-    // 임시추가버튼을 클릭했을때
-    let completion = document.querySelector("#completion");
 
-    // 클릭하면
-    completion.addEventListener('click', function () {
-        //테이블안에
+    for (let i = 0; i < 5; i++) {
         let announ = document.querySelector("#announcement_table")
 
         let html = '';
@@ -90,30 +86,30 @@ function announcement() {
 
         announ.append(tr);
         // 만약에 5개의 공지사항이 모두 있을 경우 맨아래 tr 필요
-    });
+    }
+
 
     // 신착도서
-    // 임시추가버튼
-    let newbut = document.querySelector("#newbook_but");
-
-    // 클릭하면
-    newbut.addEventListener('click', function () {
         // tr 안에
-        let newbook = document.querySelector("#nb")
+        for(let i =0; i<3; i++)
+        {
+            let newbook = document.querySelector("#nb")
 
-        let html = '';
+            let html = '';
+    
+            html += '<div>';
+            html += '<img class="newbook_img" src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">';
+            html += '</div>';
+            html += '<div class="newbook_div">자바스크립트</div>';
+            html += '<div class="newbook_div">저자 : 김땡땡</div>';
+    
+            let td = document.createElement("td");
+            td.innerHTML = html;
+    
+            newbook.append(td);
+    
+        }
 
-        html += '<div>';
-        html += '<img class="newbook_img" src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">';
-        html += '</div>';
-        html += '<div class="newbook_div">자바스크립트</div>';
-        html += '<div class="newbook_div">저자 : 김땡땡</div>';
-
-        let td = document.createElement("td");
-        td.innerHTML = html;
-
-        newbook.append(td);
-    });
 };
 
 
