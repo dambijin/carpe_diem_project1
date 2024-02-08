@@ -68,22 +68,24 @@ function chg_text_detail(sel) {
 
 function announcement() {
     // 공지사항
-
     for (let i = 0; i < 5; i++) {
         let announ = document.querySelector("#announcement_table")
 
         let html = '';
         html += '<td class="ann_title">';
-        html += '독서토론대회';
+        html += '독서토론대회'+(i+1);
         html += '</td>';
         html += '<td class="ann_day">';
         html += '2023-01-06';
         html += '</td>';
 
-
         let tr = document.createElement("tr");
         tr.innerHTML = html;
 
+        tr.querySelector(".ann_title")
+        .addEventListener("click", function () {
+            location.href="notice_detail.html";
+        })
         announ.append(tr);
         // 만약에 5개의 공지사항이 모두 있을 경우 맨아래 tr 필요
     }
@@ -97,19 +99,23 @@ function announcement() {
 
             let html = '';
     
-            html += '<div>';
+            html += '<div class="newbook_div">';
             html += '<img class="newbook_img" src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png?ex=65c9c2b3&is=65b74db3&hm=e5dca025187ad91185fa40db48b0a231f86ad9a3d7e890102ebe60fcf09dce5b&">';
             html += '</div>';
-            html += '<div class="newbook_div">자바스크립트</div>';
-            html += '<div class="newbook_div">저자 : 김땡땡</div>';
+            html += '<div class="newbook_title">(자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기</div>';
+            html += '<div class="newbook_author">저자 : 이상민</div>';
     
             let td = document.createElement("td");
             td.innerHTML = html;
-    
-            newbook.append(td);
-    
-        }
 
+            td.querySelector(".newbook_div")
+            .addEventListener("click", function () {
+                let href_text = "book_detail.html?title=(%EC%9E%90%EB%B0%94%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%8F%84%20%EC%89%BD%EA%B3%A0%20%EC%A6%90%EA%B2%81%EA%B2%8C%20%EB%B0%B0%EC%9A%B0%EB%8A%94)%20%ED%85%8C%EC%8A%A4%ED%8C%85%20%EC%9D%B4%EC%95%BC%EA%B8%B0&topic=%EA%B0%9C%EB%B0%9C&author=%EC%9D%B4%EC%83%81%EB%AF%BC%20%EC%A7%80%EC%9D%8C&publisher=%ED%95%9C%EB%B9%9B%EB%AF%B8%EB%94%94%EC%96%B4&year=2009&callNumber=005.115-%EC%9D%B4%EC%83%81%EB%AF%BC&registerNumber=NG0000002167&library=%EC%84%B1%EB%82%A8%EB%A9%B4%EC%9E%91%EC%9D%80%EB%8F%84%EC%84%9C%EA%B4%80&loan_state=false&reservation_state=true"
+                window.open(href_text, '_blank', 'width=900,height=600');
+            })
+    
+            newbook.append(td);    
+        }
 };
 
 
