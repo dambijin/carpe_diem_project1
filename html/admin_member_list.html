@@ -21,15 +21,14 @@
 		alert("연체해제 되었습니다");
 		window.close();
 	}
-	// todo 이벤트
-	// 대출회원 추가버튼 가져오기
+	//  윈도우가 로드됐을 때 bind함수 작동
 	window.addEventListener("load", function () {
 		bind();
 	});
 
 	function bind() {
 
-		// 테이블을 todlist 에 담아둠
+		// 테이블을 가져와서 todolist변수에 담아둠
 		let todolist = document.querySelector("#page1");
 
 		// 임시 게시판 생성
@@ -37,7 +36,7 @@
 			let html = '';
 
 			html += '<td class="member_no">' + i + '</td>';
-			html += '<td><div class="member_name" onclick="member_list()">임우혁</div></td>';
+			html += '<td><div class="member_name">임우혁</div></td>';
 			html += '<td>2001-05-24</td>';
 			html += '<td>010-1234-5678</td>';
 			html += '<td>청주</td>';
@@ -46,26 +45,34 @@
 			html += '<td><input type="button" value="조회" onclick=\'alert("대출내역 조회")\'></td>';
 			html += '<td><input type="button" value="수정" onclick="location.href=\'admin_member_chginfo.html\';"></td>';
 
-
+			// 새로운 tr 추가
 			let tr = document.createElement("tr"); // <tr></tr>
 			tr.innerHTML = html;
 
 			//이름에 클릭이벤트
+			// tr 엘리먼트 내에서 member_name을 찾아 이벤트 리스너 추가
+			// tr 엘리먼트 내에서 member_no 찾아 그 내용(innerHTML)을 변수에 담음
 			tr.querySelector(".member_name").addEventListener("click", function () {
 				let member_no = tr.querySelector(".member_no").innerHTML;
 				alert("회원번호 : " + member_no);
 			})
 
+			// 테이블의 tr 엘리먼트를 추가
 			todolist.append(tr);
 		}
 
-		// 엔터키 눌렀을 때
+		// 검색 textbox를 가져와서 inputTodo 변수에 담고
+		// 값이 null이 아니면
+		// textbox의 엔터키를 눌렀을 때 
+		// 밑에 함수가 있어서 검색됨
 		var inputTodo = document.getElementById("input_todo");
 		if (inputTodo != null) {
-			inputTodo.addEventListener("keydown", enterkey);
+			inputTodo.addEventListener("keydown", enterkey); /* enterkey함수 이벤트 */
 		}
 
 		//검색옵션 기본세팅
+		// select 옵션 가져와서 변수에담고
+		// html 변수에 배열의 값을 추가해서 for문 돌림
 		let search_opt_list = ["회원번호", "이름", "생년월일", "전화번호", "주소"];
 
 		for (let i = 0; i < search_opt_list.length; i++) {
@@ -78,9 +85,23 @@
 
 			search_opt.append(opt);
 		}
-
 	};
 
+	// 엔터눌렀을 때 search() 실행
+	function enterkey() {
+		if (window.event.keyCode == 13) {
+			// 엔터키가 눌렸을 때 실행하는 반응
+			search();
+		}
+	}
+	// 검색기능
+	// 텍스트박스가 null이 아니면 textbox 입력값을 alert띄움
+	function search() {
+		var textbox = document.getElementById("input_todo");
+		if (textbox != null) {
+			alert(textbox.value + " ");
+		}
+	}
 
 	// 예약목록 조회 이벤트
 	function reservation_check() {
@@ -96,29 +117,7 @@
 		alert(count + "개씩 보기로 변경되었습니다.");
 	}
 
-	// 검색기능
-	function search() {
-		var textbox = document.getElementById("input_todo");
-		if (textbox != null) {
-			alert(textbox.value + " ");
-		}
-	}
-
-	// 엔터 이벤트
-	function enterkey() {
-		if (window.event.keyCode == 13) {
-			// 엔터키가 눌렸을 때 실행하는 반응
-			search();
-		}
-	}
-
-	// 이름 클릭 시 
-	function member_list() {
-		// alert("회원 정보:")
-		// // 회원목록이름 클릭 시 회원번호 가져오기
-		// let name = document.getElementById(name);
-	}
-
+	// 주석해놔서 지금 실행 안됨
 	// 검색 옵션과 검색 텍스트박스에 입력된 값을 처리하는 함수
 	function handleSearchOption() {
 		// 검색 옵션과 검색 텍스트박스의 DOM 요소 가져오기
