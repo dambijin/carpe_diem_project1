@@ -52,6 +52,14 @@
     //비동기를 사용하기 위해
     async function get_isbn(isbn) {
         let book = await get_isbn_info_googleAPI(isbn);
+
+        if (book == null) {
+            book = await get_isbn_naver_crawling(isbn);
+            if (book == null) {
+                book = await get_isbn_google_crawling(isbn);
+            }
+        }
+
         if (book != null) {
             console.log(book);
             document.querySelector('input[name="bookname"]').value = book.title;
