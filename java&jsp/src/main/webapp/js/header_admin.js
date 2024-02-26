@@ -3,7 +3,7 @@ document.querySelector('header').innerHTML = `
 
     <div class="headerbox" onclick="location.href='main.jsp';">
     <img class="logo" width="30px"
-    src="../resource/logo.png">
+    src="./resource/logo.png">
         도서관리시스템
     </div>
     <div class="sign_up_in">

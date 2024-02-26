@@ -7,11 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지(희망도서목록)</title>
-    <link href="./css/layout.css" rel="stylesheet">
+    <link href="../css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="./js/admin_library.js"></script>
+<script src="../js/admin_library.js"></script>
 <script>
     window.addEventListener("load", function () {
         bind();
@@ -269,7 +269,7 @@
 
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="./js/header_admin.js"></script>
+    <script src="../js/header_admin.js"></script>
 </body>
 
 </html>

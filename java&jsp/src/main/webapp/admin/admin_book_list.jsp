@@ -7,11 +7,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>관리자페이지(재고)</title>
-	<link href="./css/layout.css" rel="stylesheet">
+	<link href="../css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script defer src="./js/admin_library.js"></script>
+<script defer src="../js/admin_library.js"></script>
 <script>
 	// admin_book_list 등록 팝업창열기
 	function bookadd_popup() {
@@ -38,7 +38,6 @@
 			book_html += '<td>java초급</td>';
 			book_html += '<td>최민수강사님</td>';
 			book_html += '<td>2023-05-01</td>';
-			book_html += '<td>12215</td>';
 			book_html += '<td>천안도서관</td>';
 			book_html += '<td>2024-02-02</td>';
 			book_html += '<td>예약</td>';
@@ -129,7 +128,7 @@
 		};
 
 		//검색옵션 기본세팅
-		let search_opt_list = ["책이름", "저자", "청구기호", "등록번호", "소장기관"];
+		let search_opt_list = ["등록번호", "책이름", "저자", "발행년", "소장기관", "등록날짜"];
 
 		for (let i = 0; i < search_opt_list.length; i++) {
 			let search_opt = document.querySelector("#search_option");
@@ -361,7 +360,6 @@
 						<th width="100">책이름</th>
 						<th width="100">저자</th>
 						<th width="100">발행년</th>
-						<th width="100">청구기호</th>
 						<th width="100">소장기관</th>
 						<th width="100">등록날짜</th>
 						<th width="100">예약</th>
@@ -395,7 +393,7 @@
 
 	</div>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="./js/header_admin.js"></script>
+	<script src="../js/header_admin.js"></script>
 
 </body>
 
