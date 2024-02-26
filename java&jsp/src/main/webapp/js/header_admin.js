@@ -1,19 +1,19 @@
 document.querySelector('header').innerHTML = `
     <div class="blank_space"> </div>
 
-    <div class="headerbox" onclick="location.href='main.jsp';">
+    <div class="headerbox" onclick="location.href='/carpedm/mainpages/main.jsp';">
     <img class="logo" width="30px"
-    src="./resource/logo.png">
+    src="../resource/logo.png">
         도서관리시스템
     </div>
     <div class="sign_up_in">
         <div class="sign_in">
-            <a href="sign_in.jsp">
+            <a href="/carpedm/sign/sign_in.jsp">
                 로그인&nbsp;
             </a>
         </div>
         <div class="sign_up">
-            <a href="sign_up.jsp">
+            <a href="/carpedm/sign/sign_up.jsp">
                 회원가입
             </a>
         </div>
