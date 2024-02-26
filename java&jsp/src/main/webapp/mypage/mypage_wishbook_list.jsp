@@ -1,17 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%><!DOCTYPE html>
+	pageEncoding="UTF-8"%><!DOCTYPE html>
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지 희망도서 신청목록</title>
-    <link href="../css/layout.css" rel="stylesheet">
-    <link href="../css/mypage.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이페이지 희망도서 신청목록</title>
+<link href="../css/layout.css" rel="stylesheet">
+<link href="../css/mypage.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous">
         </script>
-    <script>
+<script>
         window.addEventListener("load", function () {
             bind();
         })
@@ -152,100 +153,92 @@
 
             let options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
 
-            window.open("wishbook_detail.jsp", "_blank", options);
+            window.open("../wishbook_detail.jsp", "_blank", options);
         }
     </script>
-    <style>
-
-    </style>
+<style>
+</style>
 </head>
 
 <body>
-    <header></header>
+	<header></header>
 
-    <section>
-        <!-- 여기부터 본문작성해주세요 -->
-        <div class="s_section2">
-            <div class="left_section">
-                <a href="mypage_loan_status.jsp"><button type="button" class="sub_but">대출 현황</button></a><br>
-                <a href="mypage_loan_history.jsp"><button type="button" class="sub_but">대출 내역</button></a><br>
-                <a href="mypage_reservation_list.jsp"><button type="button" class="sub_but">예약</button></a>
-                <a href="mypage_wishbook_list.jsp"><button type="button" class="sub_but">희망도서<br>신청목록</button></a>
-            </div>
-            <div class="right_section">
-                <div class="notice_subject">
-                    마이페이지 희망도서 신청목록
-                </div>
-                <div>
-                    <!-- 내정보 -->
-                    <div class="div1">
-                        <table class="div1_table">
-                            
-                            <tr>
-                              
-                                <td class="info1">
+	<section>
+		<!-- 여기부터 본문작성해주세요 -->
+		<div class="s_section2">
+			<div class="left_section">
+				<a href="mypage_loan_status.jsp"><button type="button"
+						class="sub_but">대출 현황</button></a><br> <a
+					href="mypage_loan_history.jsp"><button type="button"
+						class="sub_but">대출 내역</button></a><br> <a
+					href="mypage_reservation_list.jsp"><button type="button"
+						class="sub_but">예약</button></a> <a href="mypage_wishbook_list.jsp"><button
+						type="button" class="sub_but">
+						희망도서<br>신청목록
+					</button></a>
+			</div>
+			<div class="right_section">
+				<div class="notice_subject">마이페이지 희망도서 신청목록</div>
+				<div>
+				
+					<!-- 내정보 -->
+					<div class="div1">
+						<table class="div1_table">
+							<tr>
+								<td class="info1"></td>
+								<td>
+									<button type="button" id="chginfo">정보수정</button>
+								</td>
+							</tr>
+						</table>
+						
+						<!-- 분류 -->
+						<div>
+							<div id="select">
+								<div>
+									<select id="case">
+										<option disabled selected>출력 건수</option>
+									</select>
+								</div>
+							</div>
+							<div id="select1">
+								<div>
+									<select id="library">
+										<option disabled selected>- 도서관 전체</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						
+						<!-- 보드 -->
+					</div>
+					<table id="page1">
+						<tr id="page1_tr">
+							<th>번호</th>
+							<th>희망소장처</th>
+							<th>자료명</th>
+							<th>저자</th>
+							<th>발행년도</th>
+							<th>ISBN/ISSN 번호</th>
+							<th>신청사유</th>
+							<th>출판사</th>
+							<th>휴대폰번호</th>
+							<th>신청일자</th>
+							<th>처리상태</th>
+							<th>취소 <input type="checkbox" id="selectAll">
+							</th>
+					</table>
+				</div>
+				<div id="button_cancle">
+					<button id="cancle">취소</button>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
 
-                                </td>
-                                <td> <button type="button" id="chginfo">정보수정</button></td>
-                            </tr>
-
-
-                        </table>
-                        <!-- 분류 -->
-                        <div>
-                            <div id="select">
-                                <div>
-
-                                    <select id="case">
-                                        <option disabled selected>출력 건수</option>
-
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="select1">
-                                <div>
-                                    <select id="library">
-                                            <option disabled selected> - 도서관 전체</option>
-
-                                        </select>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 보드 -->
-                    </div>
-                    <table id="page1">
-                        <tr id="page1_tr">                        	
-                            <th>번호</th>
-                            <th>희망소장처</th>
-                            <th>자료명</th>
-                            <th>저자</th>
-                            <th>발행년도</th>
-                            <th>ISBN/ISSN 번호</th>
-                            <th>신청사유</th>
-                            <th>출판사</th>
-                            <th>휴대폰번호</th>
-                            <th>신청일자</th>
-                            <th>처리상태</th>
-                            <th>취소
-                                <input type="checkbox" id="selectAll">
-                            </th>
-
-                    </table>
-
-                </div>
-                <div id="button_cancle">
-                    <button id="cancle">취소</button>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
-
-    <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+	<!-- 헤더를 덮어씌우는 자바스크립트 -->
+	<script src="../js/header.js"></script>
 </body>
 
 </html>
