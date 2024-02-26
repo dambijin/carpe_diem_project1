@@ -7,11 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지(회원정보수정)</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="../js/admin_library.js"></script>
+<script src="./js/admin_library.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     // window load했을 때
@@ -93,7 +93,7 @@
 
             // 변경된 정보 메시지를 알림창으로 표시
             alert(changed_Message);
-            location.href = "admin_member_list.html";
+            location.href = "admin_member_list.jsp";
         }
         else {  //내용이 있을때
             if (password === password1) {   //비밀번호칸과 비밀번호 확인칸이 동일할 때
@@ -107,7 +107,7 @@
 
                 // 변경된 정보 메시지를 알림창으로 표시
                 alert(changed_Message);
-                location.href = "admin_member_list.html";
+                location.href = "admin_member_list.jsp";
 
             } else {   //비밀번호칸과 비밀번호 확인칸이 동일하지 않을 때
                 // 비밀번호 불일치 시 알림
@@ -394,11 +394,11 @@
     <!-- 수정 취소 -->
     <div class="input">
         <input type="button" value="수정" class="button" onclick="chgInfo()">
-        <input type="reset" value="취소" class="button" onclick="location.href='admin_member_list.html';">
+        <input type="reset" value="취소" class="button" onclick="location.href='admin_member_list.jsp';">
     </div>
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header_admin.js"></script>
+    <script src="./js/header_admin.js"></script>
 </body>
 
 </html>

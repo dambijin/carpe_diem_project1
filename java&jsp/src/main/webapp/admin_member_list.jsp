@@ -7,16 +7,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>관리자페이지(회원목록)</title>
-	<link href="../css/layout.css" rel="stylesheet">
+	<link href="./css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script defer src="../js/admin_library.js"></script>
+<script defer src="./js/admin_library.js"></script>
 <script>
 	// 연체상태 popup창
 	function overdue_popup() {
 		window.open
-			("admin_book_overdue.html", "팝업", "width=1000, height=700, left=100, top=100");
+			("admin_book_overdue.jsp", "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	// 연체해제 누르면 확인 후 닫기
 	function overdue_close() {
@@ -45,7 +45,7 @@
 			html += '<td><div class="overdue_name" onclick="overdue_popup()">3일</div></td>';
 			html += '<td><input type="button" value="조회" onclick=\'alert("예약목록 조회")\'></td>';
 			html += '<td><input type="button" value="조회" onclick=\'alert("대출내역 조회")\'></td>';
-			html += '<td><input type="button" value="수정" onclick="location.href=\'admin_member_chginfo.html\';"></td>';
+			html += '<td><input type="button" value="수정" onclick="location.href=\'admin_member_chginfo.jsp\';"></td>';
 
 			// 새로운 tr 추가
 			let tr = document.createElement("tr"); // <tr></tr>
@@ -354,7 +354,7 @@
 
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="../js/header_admin.js"></script>
+	<script src="./js/header_admin.js"></script>
 </body>
 
 </html>
