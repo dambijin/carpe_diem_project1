@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호찾기</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
 </head>
 <script>
     function btn(sample) {
@@ -85,7 +85,7 @@
                 document.querySelector('#Certification').focus();
             } else {
                 alert("해당 정보의 비밀번호는 " + username + "입니다");
-                onclick(location.href = 'sign_in.html')
+                onclick(location.href = 'sign_in.jsp')
             }
         })
         let textbox1 = document.getElementById("Certification");
@@ -241,7 +241,7 @@
 
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 </body>
 
 </html>

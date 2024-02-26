@@ -7,12 +7,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이메일로 아이디 찾기</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
     <style>
         .email_find {
             width: 80%;
             text-align: center;
             margin: auto;
+        }
+        .abc {
+        	text-align: center;
         }
 
         .email_find .main {
@@ -154,7 +157,7 @@
                     document.querySelector('#text_email2').focus();
                 } else {
                     alert("해당 정보의 아이디는 " + username + "입니다");
-                    onclick(location.href = 'sign_in.html')
+                    onclick(location.href = 'sign_in.jsp')
                 }
             });
             let textbox1 = document.getElementById("text_email1");
@@ -236,13 +239,13 @@
         <div class="email_find">
             <div class="main">아이디 찾기</div>
             <div class="search">
-                <div class='search_title' onclick="location.href='find_id_email.html'" style="cursor:pointer">
+                <div class='search_title' onclick="location.href='find_id_email.jsp'" style="cursor:pointer">
                     이메일로 찾기
                 </div>
-                <div class="search_title" onclick="location.href='find_id_tel.html'" style="cursor:pointer">
+                <div class="search_title" onclick="location.href='find_id_tel.jsp'" style="cursor:pointer">
                     전화번호로 찾기
                 </div>
-
+				<div class="abc">
                 <table class="search_text" cellpadding="5">
                     <tr>
                         <td width="30%" class="sub">이름</td>
@@ -257,7 +260,7 @@
                         </td>
                     </tr>
                 </table>
-
+				</div>
 
                 <div class="btnSearch">
                     <input type="button" name="enter" value="확인" id="button">
@@ -266,7 +269,7 @@
 
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 </body>
 
 </html>

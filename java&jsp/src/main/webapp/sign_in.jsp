@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         /* 헤더 아래 모두 */
@@ -134,7 +134,7 @@
                     alert("비밀번호를 입력해주세요.");
                     document.querySelector('.textbox2').focus();
                 } else {
-                    onclick(location.href='main.html')
+                    onclick(location.href='main.jsp')
                     
                 }
             });
@@ -247,16 +247,16 @@
                 </div>
                 <div class="log_but"><button type="button" id="log_button">로그인</button></div>
                 <div class="find_button">
-                    <button type="button" class="find_button but" onclick="location.href='find_id_email.html';">아이디 찾기</button>
-                    <button type="button" class="find_password but" onclick="location.href='find_pw.html';">비밀번호 찾기</button>
-                    <button type="button" class="sign_up but" onclick="location.href='sign_up.html';">회원가입</button>
+                    <button type="button" class="find_button but" onclick="location.href='find_id_email.jsp';">아이디 찾기</button>
+                    <button type="button" class="find_password but" onclick="location.href='find_pw.jsp';">비밀번호 찾기</button>
+                    <button type="button" class="sign_up but" onclick="location.href='sign_up.jsp';">회원가입</button>
 
                 </div>
             </div>
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 </body>
 
 </html>

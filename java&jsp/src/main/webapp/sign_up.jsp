@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
         .sign_up_nav {
@@ -159,7 +159,7 @@
                     alert("개인정보에 동의해주세요.");
                 } else {
                     alert("회원가입 되었습니다");
-                    location.href = 'sign_in.html';
+                    location.href = 'sign_in.jsp';
                 }
             });
         };
@@ -320,7 +320,7 @@
         <input type="button" class="sub" id="button" value="회원가입">
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 </body>
 
 
