@@ -180,7 +180,7 @@
 			<div class="right_section">
 				<div class="notice_subject">마이페이지 희망도서 신청목록</div>
 				<div>
-				
+
 					<!-- 내정보 -->
 					<div class="div1">
 						<table class="div1_table">
@@ -191,7 +191,7 @@
 								</td>
 							</tr>
 						</table>
-						
+
 						<!-- 분류 -->
 						<div>
 							<div id="select">
@@ -209,7 +209,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<!-- 보드 -->
 					</div>
 					<table id="page1">
@@ -233,7 +233,6 @@
 					<button id="cancle">취소</button>
 				</div>
 			</div>
-		</div>
 		</div>
 	</section>
 

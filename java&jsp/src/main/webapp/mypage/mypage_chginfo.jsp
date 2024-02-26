@@ -73,9 +73,9 @@
             document.querySelector("#tel1").value = "041";
             document.querySelector("#tel2").value = "331";
             document.querySelector("#tel3").value = "1234";
-            document.querySelector("#sample6_postcode").value = "33176";
-            document.querySelector("#sample6_address").value = "충남 부여군 석성면 연화로 50-8";
-            document.querySelector("#sample6_address2").value = "204동 6051호";
+            document.querySelector("#sample6_postcode").value = "";
+            document.querySelector("#sample6_address").value = "";
+            document.querySelector("#sample6_address2").value = "";
             document.getElementsByName("sms")[0].checked = true;
             document.getElementsByName("email")[0].checked = true;
 
@@ -367,15 +367,6 @@
                         </font>
                     </td>
                 </tr>
-                <tr>
-                    <th>집전화번호</th>
-                    <td>
-
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="tel1"> -
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="tel2"> -
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="tel3">
-                    </td>
-                <tr>
                     <th>주소</th>
                     <td> <input class="input_width" type="text" placeholder="우편 번호" id="sample6_postcode">
                         <button id="place_button" onclick="sample6_execDaumPostcode()">

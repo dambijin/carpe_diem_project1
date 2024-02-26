@@ -44,7 +44,7 @@
                 let html = '';
                 html += '<tr class="tr">';
                 html += '      <td>' + i + '</td>';
-                html += '      <td><a href="book_detail.jsp" class="bookname">아몰랑</a></td>';
+                html += '      <td><a href="../book_detail.jsp" class="bookname">아몰랑</a></td>';
                 html += '      <td>아몰랑</td>';
                 html += '     <td>아몰랑</td>';
                 html += '     <td>2024.01.20</td>';
