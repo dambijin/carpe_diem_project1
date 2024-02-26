@@ -1,25 +1,27 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%><!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지 대출 현황</title>
+    <title>마이페이지 대출 내역</title>
     <link href="../css/layout.css" rel="stylesheet">
     <link href="../css/mypage.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
     <script>
+
         window.addEventListener("load", function () {
             bind();
-
-        })
+        });
 
         function bind() {
-            let button1 = document.getElementById('chginfo');
+            // 정보수정 버튼
+            let button1 = document.querySelector('#chginfo');
+            //  보드
             let table = document.querySelector("#page1")
-            
             // 내정보 
             let myInfo = `
                     <strong>내정보</strong><br>
@@ -31,15 +33,16 @@
             let info1 = document.querySelector(".info1")
             info1.innerHTML = myInfo;
 
-            // 정보수정 클릭시 페이지 이동
+
+            // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
                 window.open('mypage_chginfo.html', '_self')
 
             });
-
-            // 임시 게시판 생성
+            // 임시 보드 내용 추가
             for (let i = 1; i <= 10; i++) {
                 let html = '';
+                html += '<tr class="tr">';
                 html += '      <td>' + i + '</td>';
                 html += '      <td><a href="book_detail.html" class="bookname">아몰랑</a></td>';
                 html += '      <td>아몰랑</td>';
@@ -47,23 +50,10 @@
                 html += '     <td>2024.01.20</td>';
                 html += '     <td>정상</td>';
                 html += '       <td>중앙</td>';
-                html += '  <td><button type="button" class="extension">연장</button></td>';
+                html += '</tr>';
 
-
-                let tr = document.createElement("tr");
-               
-                tr.classList.add("tr")
-                tr.innerHTML = html;
-
-
-                // 연장버튼 클릭 이벤트
-                tr.querySelector(".extension").addEventListener("click", function () {
-                    alert("연장되었습니다.")
-                })
-
-                table.append(tr);
+                table.innerHTML += html;
             }
-
             // 출력 개수
             let case_list = ["10개", "20개", "30개"]
             for (let i = 0; i < case_list.length; i++) {
@@ -78,8 +68,9 @@
                 result_email_list.append(opt)
 
             }
-            // 도서관 분류
-            let library_list = ["두정도서관", "천안도서관", "아우내도서관"]
+
+             // 도서관 분류
+             let library_list = ["두정도서관", "천안도서관", "아우내도서관"]
             for (let i = 0; i < library_list.length; i++) {
                 let html = "";
                 let result_library_list = document.querySelector("#library")
@@ -92,10 +83,13 @@
                 result_library_list.append(opt)
 
             }
+
+
+
+
         };
 
     </script>
-
     <style>
 
     </style>
@@ -115,24 +109,26 @@
             </div>
             <div class="right_section">
                 <div class="notice_subject">
-                    마이페이지 대출 현황
+                    마이페이지 대출 내역
                 </div>
                 <div>
                     <!-- 내정보 -->
+                    
                     <div class="div1">
                         <table class="div1_table">
-                           
+                          
                             <tr>
-                              
+                                
                                 <td class="info1">
-
+                                  
                                 </td>
-
-                                <td> <button type="button" id="chginfo">정보수정</button></td>
+                                <td><button type="button" id="chginfo">정보수정</button></td>
                             </tr>
 
 
                         </table>
+
+
                         <!-- 분류 -->
                         <div>
                             <div id="select">
@@ -140,18 +136,19 @@
 
                                     <select id="case">
                                         <option disabled selected>출력 건수</option>
-
+                                      
 
                                     </select>
                                 </div>
                             </div>
                             <div id="select1">
                                 <div>
-                                    <td><select id="library">
+                                    <td>
+                                        <select id="library">
                                             <option disabled selected> - 도서관 전체</option>
-
-                                        </select></td>
-
+                                          
+                                        </select>
+                                    </td>
 
                                 </div>
                             </div>
@@ -160,26 +157,33 @@
                         <table id="page1">
                             <tr id="page1_tr">
                                 <th>번호</th>
-                                <th>책이름</th>
+                                <th>자료명/등록번호</th>
                                 <th>저자</th>
                                 <th>출판사</th>
-                                <th>대출일/반납예정일</th>
-                                <th>대출상태</th>
+                                <th>대출일</th>
+                                <th>반납일</th>
                                 <th>소장기관</th>
-                                <th>반납연기</th>
                             </tr>
 
-                        </table>
-                    </div>
 
+
+                        </table>
+                        <div class="paging">
+                            <a href="" class="pre underline_remove">◀</a>
+                            <strong class="underline_remove">1</strong>
+                            <a href="" class="num underline_remove">2</a>
+                            <a href="" class="num underline_remove">3</a>
+                            <a href="" class="num underline_remove">4</a>
+                            <a href="" class="num underline_remove">5</a>
+                            <a href="" class="next underline_remove">▶</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="../js/header.js"></script>
 </body>
-
 
 </html>

@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%><!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지 희망도서 신청목록</title>
+    <title>마이페이지 예약 목록</title>
     <link href="../css/layout.css" rel="stylesheet">
     <link href="../css/mypage.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -15,11 +16,14 @@
             bind();
         })
 
+
+
+
         function bind() {
             let button1 = document.getElementById('chginfo');
             let button3 = document.getElementById('button_cancle');
-            let table = document.getElementById('page1')
-
+            let table = document.getElementById('page1');
+           
             // 내정보 
             let myInfo = `
                     <strong>내정보</strong><br>
@@ -31,6 +35,7 @@
             let info1 = document.querySelector(".info1")
             info1.innerHTML = myInfo;
 
+
             // 취소버튼 클릭시 팝업 알림
             button3.addEventListener('click', function () {
                 alert('취소 완')
@@ -41,52 +46,18 @@
                 window.open('mypage_chginfo.html', '_self')
 
             });
-
-            // 출력 개수
-            let case_list = ["10개", "20개", "30개"]
-            for (let i = 0; i < case_list.length; i++) {
-                let html = "";
-                let result_email_list = document.querySelector("#case")
-
-                html += case_list[i];
-
-                let opt = document.createElement("option");
-                opt.innerHTML = html;
-
-                result_email_list.append(opt)
-
-            }
-            // 도서관 분류
-            let library_list = ["두정도서관", "천안도서관", "아우내도서관"]
-            for (let i = 0; i < library_list.length; i++) {
-                let html = "";
-                let result_library_list = document.querySelector("#library")
-
-                html += library_list[i];
-
-                let opt = document.createElement("option");
-                opt.innerHTML = html;
-
-                result_library_list.append(opt)
-
-            }
-
-
-
             // 임시 보드 작성
-            for (let i = 1; i <= 10; i++) {
+          
+                for(let i=1; i <= 10; i++){
                 let html = '';
 
-                html += '            <td>' + '천안' + i + '</td>';
-                html += '           <td><a href="" onclick=popup() class="bookname">책이름</a></td>';
-                html += '           <td>박상민</td>';
-                html += '          <td>1998</td>';
-                html += '          <td>?</td>';
+                html += '           <td>' + i + '</td>';
+                html += '      <td><a href="book_detail.html" class="bookname">아몰랑</a></td>';
+                html += '           <td>아몰랑</td>';
+                html += '          <td>아몰랑</td>';
+                html += '          <td>2024.01.20</td>';
                 html += '          <td>정상</td>';
                 html += '         <td>중앙</td>';
-                html += '        <td>010-0000-0000</td>';
-                html += '      <td>2024.03.03</td>';
-                html += '      <td>정상</td>';
                 html += '       <td><input type="checkbox" class="checkbox"></td>';
 
 
@@ -140,18 +111,37 @@
                 })
                 table.append(tr)
             }
+            
+            // 출력 개수
+            let case_list = ["10개", "20개", "30개"]
+            for (let i = 0; i < case_list.length; i++) {
+                let html = "";
+                let result_email_list = document.querySelector("#case")
+
+                html += case_list[i];
+
+                let opt = document.createElement("option");
+                opt.innerHTML = html;
+
+                result_email_list.append(opt)
+
+            }
+             // 도서관 분류
+             let library_list = ["두정도서관", "천안도서관", "아우내도서관"]
+            for (let i = 0; i < library_list.length; i++) {
+                let html = "";
+                let result_library_list = document.querySelector("#library")
+
+                html += library_list[i];
+
+                let opt = document.createElement("option");
+                opt.innerHTML = html;
+
+                result_library_list.append(opt)
+
+            }
         };
-        function popup() {
 
-            let width = 600;
-            let height = 800;
-            let left = (window.innerWidth - width) / 2;
-            let top = (window.innerHeight - height) / 2;
-
-            let options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
-
-            window.open("wishbook_detail.html", "_blank", options);
-        }
     </script>
     <style>
 
@@ -160,7 +150,6 @@
 
 <body>
     <header></header>
-
     <section>
         <!-- 여기부터 본문작성해주세요 -->
         <div class="s_section2">
@@ -172,13 +161,13 @@
             </div>
             <div class="right_section">
                 <div class="notice_subject">
-                    마이페이지 희망도서 신청목록
+                    마이페이지 예약 목록
                 </div>
                 <div>
                     <!-- 내정보 -->
                     <div class="div1">
                         <table class="div1_table">
-                            
+                          
                             <tr>
                               
                                 <td class="info1">
@@ -196,18 +185,18 @@
 
                                     <select id="case">
                                         <option disabled selected>출력 건수</option>
-
+                                       
 
                                     </select>
                                 </div>
                             </div>
                             <div id="select1">
                                 <div>
-                                    <td><select id="library">
-                                            <option disabled selected> - 도서관 전체</option>
-
-                                        </select></td>
-
+                                    <select id="library">
+                                        <option disabled selected> - 도서관 전체</option>
+                                      
+                                    </select>
+                                  
 
                                 </div>
                             </div>
@@ -216,31 +205,36 @@
                     </div>
                     <table id="page1">
                         <tr id="page1_tr">
-                            <th>희망소장처</th>
-                            <th>자료명</th>
+                            <th>번호</th>
+                            <th>책제목</th>
                             <th>저자</th>
-                            <th>발행년도</th>
-                            <th>ISBN/ISSN 번호</th>
-                            <th>신청사유</th>
                             <th>출판사</th>
-                            <th>휴대폰번호</th>
-                            <th>신청일자</th>
-                            <th>처리상태</th>
+                            <th>신청일자/반납예정일</th>
+                            <th>반납일/예약가능일</th>
+                            <th>소장기관</th>
                             <th>취소
                                 <input type="checkbox" id="selectAll">
                             </th>
+                        </tr>
 
                     </table>
-
                 </div>
                 <div id="button_cancle">
                     <button id="cancle">취소</button>
+                </div>
+                <div class="paging">
+                    <a href="" class="pre underline_remove">◀</a>
+                    <strong class="underline_remove">1</strong>
+                    <a href="" class="num underline_remove">2</a>
+                    <a href="" class="num underline_remove">3</a>
+                    <a href="" class="num underline_remove">4</a>
+                    <a href="" class="num underline_remove">5</a>
+                    <a href="" class="next underline_remove">▶</a>
                 </div>
             </div>
         </div>
         </div>
     </section>
-
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="../js/header.js"></script>
 </body>

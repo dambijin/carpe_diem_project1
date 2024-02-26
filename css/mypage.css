@@ -47,7 +47,13 @@ section{
   
     
 }
-
+#select2 {
+    width : 100%;
+    margin-top: 10px;
+    margin-bottom: 10px; 
+    text-align: right;
+    display: inline-block;
+}
 #page1 {
     border: 1px solid black;
     text-align: center;
@@ -62,6 +68,13 @@ section{
     height: 30px;
     font-family: "Wanted Sans Variable";
     font-size: 18px;
+}
+.paging {
+    
+    text-align: center;
+    margin: 20px auto;
+    text-decoration: none;
+    font-size: 20px;
 }
 
 #chginfo {
