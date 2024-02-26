@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항 글쓰기</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
 
     <style>
         /* section */
@@ -152,7 +152,7 @@
 
                 if (title.value != "" && writer != "" && lib_text != "" && cont_text.value != "") {
                     alert(title.value + "\n" + writer + "\n" + lib_text + "\n" + attach.value + "\n" + cont_text.value + "\n등록이 완료되었습니다.");
-                    location.href = "notice_board.html";
+                    location.href = "notice_board.jsp";
                 }
                 else {
                     alert("첨부파일을 제외한 모든 내용을 작성해주세요.")
@@ -184,11 +184,10 @@
             <!-- 여기부터 본문작성해주세요 -->
             <div class="s_section">
                 <div class="left_section">
-                    <button type="button" class="sub_but" onclick="location.href='notice_board.html';">공지사항</button><br>
-                    <button type="button" class="sub_but" onclick="location.href='QnA_board.html';">Q&A</button><br>
-                    <button type="button" class="sub_but" onclick="location.href='wishbook_add.html';">희망도서신청</button>
-
-                </div>
+                <button type="button" class="sub_but" onclick="location.href='notice_board.jsp';">공지사항</button><br>
+                <button type="button" class="sub_but" onclick="location.href='QnA_board.jsp';">Q&A</button><br>
+                <button type="button" class="sub_but" onclick="location.href='wishbook_add.jsp';">희망도서신청</button>
+            </div>
                 <div class="right_section">
                     <div class="notice_update_name">공지사항 글쓰기</div>
                     <div class="notice_table">
@@ -232,7 +231,7 @@
         </section>
     </div>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 </body>
 
 </html>

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항 상세페이지</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
 
     <style>
         /* 글쓴 내용 테이블의 제목, 작성자, 등록일, 조회, 도서관 ,첨부 */
@@ -66,12 +66,12 @@
             window.addEventListener("load", function () {
                 // 등록 버튼
                 document.querySelector("#notice_update").addEventListener('click', function () {
-                    location.href="notice_update.html";
+                    location.href="notice_update.jsp";
                 });
 
                 document.querySelector("#notice_delete").addEventListener('click', function () {
                     alert("삭제했습니다.");
-                    location.href="notice_board.html";
+                    location.href="notice_board.jsp";
                 });
 
                 document.querySelector("#subject_title").innerHTML="tttt";
@@ -91,10 +91,9 @@
     <section>
         <div class="s_section">
             <div class="left_section">
-                <button type="button" class="sub_but" onclick="location.href='notice_board.html';">공지사항</button><br>
-                <button type="button" class="sub_but" onclick="location.href='QnA_board.html';">Q&A</button><br>
-                <button type="button" class="sub_but" onclick="location.href='wishbook_add.html';">희망도서신청</button>
-
+                <button type="button" class="sub_but" onclick="location.href='notice_board.jsp';">공지사항</button><br>
+                <button type="button" class="sub_but" onclick="location.href='QnA_board.jsp';">Q&A</button><br>
+                <button type="button" class="sub_but" onclick="location.href='wishbook_add.jsp';">희망도서신청</button>
             </div>
 
             <div class="right_section">
@@ -131,7 +130,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 </body>
 
 </html>

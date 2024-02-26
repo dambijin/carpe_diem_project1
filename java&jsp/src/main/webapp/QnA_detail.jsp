@@ -7,8 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QnA상세페이지</title>
-    <link href="../css/layout.css" rel="stylesheet">
-    <script src="../js/QnA_detail.js"></script>
+    <link href="./css/layout.css" rel="stylesheet">
+    <script src="./js/QnA_detail.js"></script>
     
     <style>
         /* 글쓴 내용 테이블의 제목, 작성자, 등록일, 조회, 도서관 ,첨부 */
@@ -132,9 +132,10 @@
     <section>
         <div class="s_section">
             <div class="left_section">
-                <button type="button" class="sub_but" onclick="location.href='notice_board.html';">공지사항</button><br>
-                <button type="button" class="sub_but" onclick="location.href='QnA_board.html';">Q&A</button><br>
-                <button type="button" class="sub_but" onclick="location.href='wishbook_add.html';">희망도서신청</button>
+                <button type="button" class="sub_but" onclick="location.href='notice_board.jsp';">공지사항</button><br>
+                <button type="button" class="sub_but" onclick="location.href='QnA_board.jsp';">Q&A</button><br>
+                <button type="button" class="sub_but" onclick="location.href='wishbook_add.jsp';">희망도서신청</button>
+
 
             </div>
             <div class="right_section" id="rs">
@@ -165,7 +166,7 @@
                         </tr>
                     </table>
                     <button type="button" class="notice_but completion">답글</button>
-                    <button type="button" class="notice_but" onclick="location.href='QnA_update.html';">수정</button>
+                    <button type="button" class="notice_but" onclick="location.href='QnA_update.jsp';">수정</button>
                     <button type="button" class="notice_but" id="QnA_delete">삭제</button>
 
                     <hr class="detail_hr">
@@ -208,7 +209,7 @@
                             </td>
                         </tr>
                     </table>
-                    <!-- <button type="button" class="notice_but" onclick="location.href='QnA_update.html';">수정</button> -->
+                    <!-- <button type="button" class="notice_but" onclick="location.href='QnA_update.jsp';">수정</button> -->
                     <button type="button" class="notice_but" id="registration">등록</button>
                     <button type="button" class="notice_but" id="answer_delete">삭제</button>
                 </div>
@@ -216,7 +217,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 
 </body>
 

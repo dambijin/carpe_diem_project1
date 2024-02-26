@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QnA 게시판 글쓰기(수정)</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
@@ -73,7 +73,7 @@
                             document.querySelector('#textarea').focus();
                         } else {
                             alert(textarea.value + "등록 되었습니다");
-                            location.href = 'QnA_board.html';
+                            location.href = 'QnA_board.jsp';
                         }
                     }
                 } else {
@@ -82,7 +82,7 @@
                         document.querySelector('#textarea').focus();
                     } else {
                         alert(textarea.value + "등록 되었습니다");
-                        location.href = 'QnA_board.html';
+                        location.href = 'QnA_board.jsp';
                     }
                 }
 
@@ -314,10 +314,9 @@
     <section>
         <div class="s_section">
             <div class="left_section">
-                <button type="button" class="sub_but" onclick="location.href='notice_board.html';">공지사항</button><br>
-                <button type="button" class="sub_but" onclick="location.href='QnA_board.html';">Q&A</button><br>
-                <button type="button" class="sub_but" onclick="location.href='wishbook_add.html';">희망도서신청</button>
-
+                <button type="button" class="sub_but" onclick="location.href='notice_board.jsp';">공지사항</button><br>
+                <button type="button" class="sub_but" onclick="location.href='QnA_board.jsp';">Q&A</button><br>
+                <button type="button" class="sub_but" onclick="location.href='wishbook_add.jsp';">희망도서신청</button>
             </div>
             <div class="right_section">
                 <div>
@@ -399,7 +398,7 @@
                     <div class="div_buttonAll">
                         <div class="div_button">
                             <button class="button" type="submit" id="save">등록</button> &nbsp;
-                            <a href="QnA_board.html"><button type="button">목록</button></a> &nbsp;
+                            <a href="QnA_board.jsp"><button type="button">목록</button></a> &nbsp;
                         </div>
 
                     </div>
@@ -408,7 +407,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 </body>
 
 </html>

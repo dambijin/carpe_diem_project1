@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QnA 게시판</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
     <script>
         window.addEventListener("load", function () {
             select();
@@ -54,7 +54,7 @@
                 html += '<td></td>';
                 html += '<td></td>';
                 html += '<td>'
-                html += '<a href="notice_detail.html" class="table_a">';
+                html += '<a href="notice_detail.jsp" class="table_a">';
                 html += title;
                 html += '</a>';
                 html += '</td>';
@@ -73,7 +73,7 @@
                 html += '<td>' + i + '</td>';
                 html += '<td></td>';
                 html += '<td>'
-                html += '<a href="QnA_detail.html" class="table_a">';
+                html += '<a href="QnA_detail.jsp" class="table_a">';
                 html += title;
                 html += '</a>';
                 html += '</td>';
@@ -238,9 +238,9 @@
     <section>
         <div class="s_section">
             <div class="left_section">
-                <button type="button" class="sub_but" onclick="location.href='notice_board.html';">공지사항</button><br>
-                <button type="button" class="sub_but" onclick="location.href='QnA_board.html';">Q&A</button><br>
-                <button type="button" class="sub_but" onclick="location.href='wishbook_add.html';">희망도서신청</button>
+                <button type="button" class="sub_but" onclick="location.href='notice_board.jsp';">공지사항</button><br>
+                <button type="button" class="sub_but" onclick="location.href='QnA_board.jsp';">Q&A</button><br>
+                <button type="button" class="sub_but" onclick="location.href='wishbook_add.jsp';">희망도서신청</button>
 
 
             </div>
@@ -275,7 +275,7 @@
 
                         <div class="writing">
                             <button class="change_handwriting request"
-                                onclick="location.href='QnA_write.html';">글쓰기</button>
+                                onclick="location.href='QnA_write.jsp';">글쓰기</button>
 
                         </div>
 
@@ -298,7 +298,7 @@
     </section>
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 </body>
 
 </html>
