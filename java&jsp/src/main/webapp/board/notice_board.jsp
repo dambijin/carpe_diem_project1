@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
-    <link href="./css/layout.css" rel="stylesheet">
+    <link href="../css/layout.css" rel="stylesheet">
     <script>
         window.addEventListener("load", function () {
             select();
@@ -294,7 +294,7 @@
     </section>
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="./js/header.js"></script>
+    <script src="../js/header.js"></script>
 </body>
 
 </html>

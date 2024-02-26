@@ -7,8 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QnA상세페이지</title>
-    <link href="./css/layout.css" rel="stylesheet">
-    <script src="./js/QnA_detail.js"></script>
+    <link href="../css/layout.css" rel="stylesheet">
+    <script src="../js/QnA_detail.js"></script>
     
     <style>
         /* 글쓴 내용 테이블의 제목, 작성자, 등록일, 조회, 도서관 ,첨부 */
@@ -217,7 +217,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="./js/header.js"></script>
+    <script src="../js/header.js"></script>
 
 </body>
 
