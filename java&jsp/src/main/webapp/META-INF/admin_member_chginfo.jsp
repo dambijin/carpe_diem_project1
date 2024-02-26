@@ -1,0 +1,404 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자페이지(회원정보수정)</title>
+    <link href="../css/layout.css" rel="stylesheet">
+</head>
+
+<!-- function 스크립트 -->
+<script src="../js/admin_library.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    // window load했을 때
+    window.addEventListener("load", function () {
+        //검색옵션 기본세팅
+        let search_opt_list = ["직접입력", "naver.com", "google.com"];
+
+        for (let i = 0; i < search_opt_list.length; i++) {
+            let search_opt = document.querySelector("#select_email");
+            let html = '';
+            html += search_opt_list[i];
+
+            let opt = document.createElement("option");//<option></option>
+            opt.innerHTML = html;//<option>serach_opt_list[i]</option>
+
+            search_opt.append(opt);
+        }
+
+        // 자바스크립트화
+        document.querySelector("#name").innerHTML = "홍길동";
+        document.querySelector("#yymmdd").value = "2001-01-01";
+        document.querySelector("#userid").value = "userid123";
+        document.querySelector("#phone").value = "01012345678";
+        document.querySelector("#emailId1").value = "abc123";
+        document.querySelector("#emailId2").value = "naver.com";
+        document.querySelector("#home1num").value = "043";
+        document.querySelector("#home2num").value = "273";
+        document.querySelector("#home3num").value = "6789";
+        document.querySelector("#zipcodenum").value = "31472";
+        document.querySelector("#adr1").value = "충북 청주시 흥덕구";
+        document.querySelector("#adr2").value = "1순환로 456번지 101호";
+
+
+
+    });
+
+    // 이메일 자동완성
+    function selectWebsite() {
+        var selectBox = document.getElementById("select_email");
+        var emailInput = document.getElementById("emailId2");
+
+        var selectedValue = selectBox.value;
+
+        if (selectedValue === "직접입력") {
+            // 직접입력 옵션 선택 시 텍스트 입력 상자를 활성화합니다.
+            emailInput.removeAttribute("disabled");
+            emailInput.value = ""; // 기존 값 비우기
+        } else {
+            // 다른 옵션 선택 시 해당 값을 텍스트 입력 상자에 자동 완성합니다.
+            emailInput.value = selectedValue;
+            emailInput.setAttribute("disabled", "disabled"); // 텍스트 입력 상자 비활성화
+        }
+    }
+
+    // 회원정보 수정
+    // 수정버튼 누르면 알림창 띄우기 (내용도 같이)
+    function chgInfo() {
+        // 회원 정보 수정 로직 추가
+        var name = document.querySelector("td:nth-child(2)").textContent;
+        var password = document.querySelector("#password").value;
+        var password1 = document.querySelector("#password1").value;
+        var phoneNumber = document.querySelector("input[name='phone_number']").value;
+
+        var smsCheck = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
+        var emailInput1_text = document.getElementById("emailId1").value;
+        var emailInput2_text = document.getElementById("emailId2").value;
+        var emailSelection = document.getElementById("select_email").value;
+        var emailReception = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
+
+        // 비밀번호 확인 다르면 수정 안됨
+        if (password == "") {   //비밀번호칸에 내용에 없을 때
+            // 변경된 정보 메시지 생성
+            var changed_Message = name + "님의 정보가 변경되었습니다.\n" +
+                "비밀번호 : " + password + "\n" +
+                "휴대폰 번호 : " + phoneNumber + "\n" +
+                "SMS 수신 동의 여부 : " + smsCheck + "\n" +
+                "이메일 : " + emailInput1_text + "@" + emailInput2_text + "\n" +
+                "이메일 수신 동의 여부 : " + emailReception;
+
+            // 변경된 정보 메시지를 알림창으로 표시
+            alert(changed_Message);
+            location.href = "admin_member_list.html";
+        }
+        else {  //내용이 있을때
+            if (password === password1) {   //비밀번호칸과 비밀번호 확인칸이 동일할 때
+                // 변경된 정보 메시지 생성
+                var changed_Message = name + "님의 정보가 변경되었습니다.\n" +
+                    "비밀번호 : " + password + "\n" +
+                    "휴대폰 번호 : " + phoneNumber + "\n" +
+                    "SMS 수신 동의 여부 : " + smsCheck + "\n" +
+                    "이메일 : " + emailInput1_text + "@" + emailInput2_text + "\n" +
+                    "이메일 수신 동의 여부 : " + emailReception;
+
+                // 변경된 정보 메시지를 알림창으로 표시
+                alert(changed_Message);
+                location.href = "admin_member_list.html";
+
+            } else {   //비밀번호칸과 비밀번호 확인칸이 동일하지 않을 때
+                // 비밀번호 불일치 시 알림
+                document.querySelector("#password").value = "";
+                document.querySelector("#password1").value = "";
+                alert("비밀번호를 다시 확인해주세요.");
+            }
+
+        }
+
+    }
+
+
+    // 주소찾기
+    function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullAddr = ''; // 최종 주소 변수
+                var extraAddr = ''; // 조합형 주소 변수
+
+                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    fullAddr = data.roadAddress;
+
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    fullAddr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                if (data.userSelectedType === 'R') {
+                    //법정동명이 있을 경우 추가한다.
+                    if (data.bname !== '') {
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있을 경우 추가한다.
+                    if (data.buildingName !== '') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                    fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('zipcodenum').value = data.zonecode; //5자리 새우편번호 사용
+
+                document.getElementById('adr1').value = fullAddr;
+
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById('adr2').focus();
+            }
+        }).open();
+    }
+</script>
+
+<style>
+    header .nav .member_list {
+        background-color: rgba(168, 156, 200, 0.6);
+        color: #000000;
+        height: 45px;
+        line-height: 40px;
+        display: inline-block;
+        border-radius: 5px;
+        width: 150px;
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    /* 회원 정보 수정 글씨 */
+    .admin_chginfo {
+        font-family: "Wanted Sans Variable";
+    }
+
+    /* 테이블 */
+    .chtable table {
+        width: 50%;
+        height: 600px;
+        border-collapse: collapse;
+        font-family: "Wanted Sans Variable";
+    }
+
+    .chtable table tr {
+        background-color: #fff;
+    }
+
+    .chtable table tr th,
+    .chtable table tr td {
+        border: 1px solid #000000;
+        padding: 3px;
+    }
+
+    /* 테이블 인풋 */
+    .chtable table input {
+        font-family: "Wanted Sans Variable";
+        font-size: 17px;
+    }
+
+    .chtable table tr td .colspan {
+        font-size: 13px;
+        color: red;
+        font-weight: bold;
+    }
+
+    /* 주소찾기 버튼 */
+    .chtable table tr td .add {
+        font-family: "Wanted Sans Variable";
+        font-size: 17px;
+        background-color: rgb(36, 116, 190);
+        width: 80px;
+        height: 30px;
+        border: 0;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+    }
+
+
+
+    /* 이메일 인풋 이메일 셀렉 */
+    .chtable table .temail {
+        font-family: "Wanted Sans Variable";
+        font-size: 17px;
+        width: 150px;
+    }
+
+    /* 수정 취소 버튼 div */
+    .input {
+        border: 1px;
+        width: 20%;
+        margin: auto;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    /* 수정 취소 버튼 */
+    .input .button {
+        font-family: "Wanted Sans Variable";
+        font-size: 18px;
+        background-color: rgba(71, 125, 231, 0.973);
+        width: 70px;
+        height: 30px;
+        border: 0;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+    }
+
+
+
+    /* 테이블 th */
+    .chtable th {
+        background-color: rgba(163, 163, 163, 0.6);
+    }
+
+    .home_num {
+        width: 50px;
+    }
+
+    /* 우편번호 인풋 */
+    .chtable table .zipcode {
+        width: 100px;
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
+
+    /* 기본주소 상세주소 인풋 */
+    .chtable table .adr {
+        width: 90%;
+        margin-bottom: 5px;
+    }
+
+    #emailId1,
+    #emailId2 {
+        width: 200px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+
+
+<body>
+    <!-- header -->
+    <header></header>
+
+    <div>
+        <h2 align="center" class="admin_chginfo">회원 정보수정</h2>
+    </div>
+
+    <div class="chtable">
+        <table border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc">
+            <tr>
+                <th width="20%" height="40px">항목</th>
+                <th width="80%">정보</th>
+            </tr>
+            <tr>
+                <th height="40px">이름</th>
+                <td id="name"></td>
+            </tr>
+            <tr>
+                <th height="40px">생년월일</th>
+                <td><input type="text" id="yymmdd"></td>
+            </tr>
+            <tr>
+                <th height="40px">아이디</th>
+                <td><input type="text" id="userid"></td>
+            </tr>
+            <tr>
+                <th height="40px">비밀번호</th>
+                <td><input type="password" name="password" id="password" maxlength="20" placeholder=" 비밀번호를 입력해주세요.">
+                </td>
+            </tr>
+
+            <tr>
+                <th height="40px">비밀번호확인</th>
+
+                <td>
+                    <input type="password" id="password1" name="password_check" maxlength="16"
+                        placeholder=" 비밀번호를 확인해주세요.">
+                </td>
+            </tr>
+            <tr>
+                <th height="40px">휴대폰번호</th>
+                <td>
+                    <input type="number" name="phone_number" id="phone" placeholder="-를 빼고 작성해주세요.">
+                    SMS수신
+                    <input type="radio" name="sms1" checked>예
+                    <input type="radio" name="sms1">아니오
+                </td>
+            </tr>
+            <tr height="100px">
+                <td colspan="2" align="center" height="40px">
+                    <div class="colspan">
+                        고객님께 물어봐주세요<br><br>
+                        마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
+                        동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th height="40px">이메일</th>
+                <td>
+                    <input type="text" id="emailId1" placeholder="이메일 입력">
+
+                    <span>@</span>
+
+                    <input type="text" name="email_com" placeholder="이메일을 선택하세요." id="emailId2">
+
+                    <select class="temail" onchange="selectWebsite()" id="select_email">
+                        <!-- 자바스크립트화 -->
+                    </select>
+
+                    이메일수신
+                    <input type="radio" name="sms2" checked>예
+                    <input type="radio" name="sms2">아니오
+                </td>
+            </tr>
+            <tr>
+                <th height="40px">집전화번호</th>
+                <td>
+                    <input type="number" class="home_num" id="home1num"> -
+                    <input type="number" class="home_num" id="home2num"> -
+                    <input type="number" class="home_num" id="home3num">
+                </td>
+            </tr>
+            <tr>
+                <th height="40px">주소</th>
+                <td>
+                    <input type="text" class="zipcode" id="zipcodenum" placeholder="우편번호">
+                    <input type="button" value="주소찾기" class="add" onclick="sample6_execDaumPostcode()"><br>
+                    <input type="text" class="adr" id="adr1" placeholder="기본주소"><br>
+                    <input type="text" class="adr" id="adr2" placeholder="상세주소">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 수정 취소 -->
+    <div class="input">
+        <input type="button" value="수정" class="button" onclick="chgInfo()">
+        <input type="reset" value="취소" class="button" onclick="location.href='admin_member_list.html';">
+    </div>
+
+    <!-- 헤더를 덮어씌우는 자바스크립트 -->
+    <script src="../js/header_admin.js"></script>
+</body>
+
+</html>
