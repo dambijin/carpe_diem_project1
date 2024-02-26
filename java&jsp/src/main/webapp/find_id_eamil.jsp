@@ -1,0 +1,272 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이메일로 아이디 찾기</title>
+    <link href="../css/layout.css" rel="stylesheet">
+    <style>
+        .email_find {
+            width: 80%;
+            text-align: center;
+            margin: auto;
+        }
+
+        .email_find .main {
+            font-family: "Wanted Sans Variable";
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .email_find .search {
+            border: 2px solid rgba(168, 156, 200, 0.5);
+            border-radius: 20px;
+            width: 600px;
+            margin: auto;
+            height: 220px;
+            text-align: center;
+            font-family: "Wanted Sans Variable";
+        }
+
+        .search_title {
+            background-color: rgba(155, 178, 225, 0.6);
+            color: #000000;
+            line-height: 40px;
+            display: inline-block;
+            border-radius: 5px;
+            width: 160px;
+            font-size: 18px;
+            margin-top: 10px;
+            text-align: center;
+            font-family: "Wanted Sans Variable";
+            font-weight: bold;
+        }
+
+        .search_text {
+            width: 70%;
+            text-align: left;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        .search_text tr th {
+            background-color: rgba(168, 156, 200, 0.6);
+            text-align: center;
+            width: 30%;
+        }
+
+
+        input {
+            font-family: "Wanted Sans Variable";
+        }
+
+        .search_text .text_name,
+        .search_text #text_email1,
+        .search_text #text_email2 {
+            height: 25px;
+            font-size: 15px;
+        }
+
+        .search_text tr .sub {
+            text-align: center;
+            width: 25%;
+            background-color: rgba(168, 156, 200, 0.6);
+        }
+
+        .search_text th {
+            background-color: rgb(212, 212, 212);
+        }
+
+        .btnSearch {
+            border: 1px;
+            width: 10%;
+            margin: auto;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btnSearch #button {
+            font-family: "Wanted Sans Variable";
+            font-size: 19px;
+            background-color: rgba(155, 178, 225, 0.6);
+            width: 100px;
+            height: 30px;
+            border: 0;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+
+        .email_find {
+            width: 80%;
+            margin: auto;
+        }
+
+        .btnSearch #button:hover {
+            background-color: rgba(205, 155, 225, 0.6);
+        }
+
+        /* 이메일로찾기, 휴대폰번호로찾기 div */
+        .email_find .search {
+            display: inline-block;
+            text-align: center;
+            width: 65%;
+        }
+
+        .email_find .search .search_title:hover {
+            background-color: rgba(140, 201, 240, 0.6);
+        }
+
+        #text_email1,
+        #text_email2 {
+            width: 25%;
+            height: 25px;
+        }
+
+        /* 이메일 select */
+        #email_domain {
+            height: 32px;
+            font-family: "Wanted Sans Variable";
+        }
+    </style>
+    <script>
+
+        window.onload = function () {
+            let button = document.getElementById('button');
+
+            button.addEventListener('click', function () {
+                let username = document.querySelector('.text_name').value;
+                let useremail1 = document.querySelector('#text_email1').value;
+                let useremail2 = document.querySelector('#text_email2').value;
+
+
+                if (username == "") {
+                    alert("이름을 입력해주세요.");
+                    document.querySelector('.text_name').focus();
+                } else if (useremail1 == "") {
+                    alert("이메일를 입력해주세요.");
+                    document.querySelector('#text_email1').focus();
+                } else if (useremail2 == "") {
+                    alert("이메일주소를 입력해주세요.");
+                    document.querySelector('#text_email2').focus();
+                } else {
+                    alert("해당 정보의 아이디는 " + username + "입니다");
+                    onclick(location.href = 'sign_in.html')
+                }
+            });
+            let textbox1 = document.getElementById("text_email1");
+            // Enter 키 이벤트 리스너 추가
+            textbox1.addEventListener("keydown", function (event) {
+                // keyCode 13은 Enter 키를 나타냅니다
+                if (event.keyCode === 13) {
+                    
+                    button.click();
+                    
+                }
+            });
+
+            // 도서검색 버튼 엔터이벤트
+            let textbox2 = document.getElementById("text_email2");
+            // Enter 키 이벤트 리스너 추가
+            textbox2.addEventListener("keydown", function (event) {
+                // keyCode 13은 Enter 키를 나타냅니다
+                if (event.keyCode === 13) {
+                    
+                    button.click();
+                   
+                }
+            });
+        };
+
+
+        window.addEventListener("load", function () {
+            email();
+
+        })
+        // 이메일 선택시 따라붙기
+        function email() {
+            let email1 = document.querySelector("#email_domain")
+            let email2 = document.querySelector("#text_email2")
+            let name = document.querySelector("#name")
+
+
+
+            email1.addEventListener("change", function () {
+                let selectedIndex = email1.selectedIndex;
+                email2.value = email1.options[email1.selectedIndex].value;  //동기화
+                if (email1.selectedIndex > 0) //직접입력 차단
+                {
+                    email2.readOnly = true;
+                }
+                else                            //직접입력 허용
+                {
+                    email2.value = "";
+                    email2.readOnly = false;
+                }
+            })
+
+
+
+            // 이메일 리스트 스크립트
+            let email_list = ["직접입력", "naver.com", "daum.net", "google.com"];
+
+
+            for (let i = 0; i < email_list.length; i++) {
+                let result_email_list = document.querySelector("#email_domain")
+                let html = '';
+                html += email_list[i];
+
+                let opt = document.createElement("option");
+                opt.innerHTML = html;
+
+                result_email_list.append(opt)
+            }
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <header></header>
+    <section>
+        <div class="email_find">
+            <div class="main">아이디 찾기</div>
+            <div class="search">
+                <div class='search_title' onclick="location.href='find_id_email.html'" style="cursor:pointer">
+                    이메일로 찾기
+                </div>
+                <div class="search_title" onclick="location.href='find_id_tel.html'" style="cursor:pointer">
+                    전화번호로 찾기
+                </div>
+
+                <table class="search_text" cellpadding="5">
+                    <tr>
+                        <td width="30%" class="sub">이름</td>
+                        <td width="*"><input type="text" class="text_name" placeholder="이름을 입력해주세요." autofocus></td>
+                    </tr>
+                    <tr>
+                        <td class="sub">이메일</td>
+                        <td><input type="text" id="text_email1" placeholder="이메일을 입력해주세요."> @
+                            <input type="text" id="text_email2" placeholder="직접입력">
+                            <select id="email_domain" value="직접입력">
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+
+                <div class="btnSearch">
+                    <input type="button" name="enter" value="확인" id="button">
+                </div>
+            </div>
+
+    </section>
+    <!-- 헤더를 덮어씌우는 자바스크립트 -->
+    <script src="../js/header.js"></script>
+</body>
+
+</html>
