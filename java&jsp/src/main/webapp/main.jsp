@@ -242,7 +242,7 @@
         </div>
         <br>
         <nav>
-            <img class="banner" src="../resource/banner.png">
+            <img class="banner" src="./resource/banner.png">
         </nav>
 
         <section class="library_information_content">

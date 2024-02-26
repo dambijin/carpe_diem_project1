@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서관 안내</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
     <style>
         .library-guide {
             display: flex;
@@ -79,7 +79,7 @@
             });
 
             //이미지
-            document.querySelector(".library-image").setAttribute("src","../resource/"+libname+".png");
+            document.querySelector(".library-image").setAttribute("src","./resource/"+libname+".png");
         };
     </script>
 </head>
@@ -96,7 +96,7 @@
             </div>
             <div class="right_section">
                 <div class="library-guide">
-                    <img src="../resource/logo.png"
+                    <img src="./resource/logo.png"
                         alt="Library Image" class="library-image">
                     <div class="library-text">
                         <h1 class="lib_name" style="margin-bottom: 0;">○○도서관</h1>
@@ -107,7 +107,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="./js/header.js"></script>
 </body>
 
 </html>
