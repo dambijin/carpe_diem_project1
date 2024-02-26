@@ -101,10 +101,10 @@
         <!-- 여기부터 본문작성해주세요 -->
         <div class="s_section2">
             <div class="left_section">
-                <a href="mypage_loan_status.html"><button type="button" class="sub_but">대출 현황</button></a><br>
-                <a href="mypage_loan_history.html"><button type="button" class="sub_but">대출 내역</button></a><br>
-                <a href="mypage_reservation_list.html"><button type="button" class="sub_but">예약</button></a>
-                <a href="mypage_wishbook_list.html"><button type="button" class="sub_but">희망도서<br>신청목록</button></a>
+                <a href="mypage_loan_status.jsp"><button type="button" class="sub_but">대출 현황</button></a><br>
+                <a href="mypage_loan_history.jsp"><button type="button" class="sub_but">대출 내역</button></a><br>
+                <a href="mypage_reservation_list.jsp"><button type="button" class="sub_but">예약</button></a>
+                <a href="mypage_wishbook_list.jsp"><button type="button" class="sub_but">희망도서<br>신청목록</button></a>
 
             </div>
             <div class="right_section">

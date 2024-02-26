@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
     <script>
         window.addEventListener("load", function () {
             bind();
