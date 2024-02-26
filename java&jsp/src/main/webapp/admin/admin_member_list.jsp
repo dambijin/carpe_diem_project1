@@ -39,6 +39,7 @@
 
 			html += '<td class="member_no">' + i + '</td>';
 			html += '<td><div class="member_name">임우혁</div></td>';
+			html += '<td>abc123</td>';
 			html += '<td>2001-05-24</td>';
 			html += '<td>010-1234-5678</td>';
 			html += '<td>청주</td>';
@@ -72,7 +73,7 @@
 			inputTodo.addEventListener("keydown", enterkey); /* enterkey함수 이벤트 */
 		}
 
-		//검색옵션 기본세팅
+		// 검색옵션 기본세팅
 		// select 옵션 가져와서 변수에담고
 		// html 변수에 배열의 값을 추가해서 for문 돌림
 		let search_opt_list = ["회원번호", "이름", "생년월일", "전화번호", "주소"];
@@ -329,6 +330,7 @@
 			<tr id="page1_tr">
 				<th width="100">회원번호</th>
 				<th width="100">이름</th>
+				<th width="100">회원id</th>
 				<th width="100">생년월일</th>
 				<th width="100">전화번호</th>
 				<th width="100">주소</th>
