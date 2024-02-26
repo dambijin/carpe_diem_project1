@@ -48,8 +48,8 @@
 	window.addEventListener("load", function() {
 		announcement();
 		libsinfolist();
-// 		chg_text_detail(0);
-
+  		chg_text_detail(0);
+  		silde_bannersetting();
 		// 도서검색 버튼 엔터이벤트
 		let textbox = document.getElementById("searchWord");
 		// Enter 키 이벤트 리스너 추가
@@ -60,8 +60,60 @@
 				search(); // 검색 함수 호출
 			}
 		});
+	
 	});
 
+	
+	//슬라이드배너 생성
+	function silde_bannersetting()
+	{
+		/*div사이즈 동적으로 구하기*/
+		const outer = document.querySelector('.outer');
+		const innerList = document.querySelector('.inner-list');
+		const inners = document.querySelectorAll('.inner');
+		let currentIndex = 0; // 현재 슬라이드 화면 인덱스
+		
+		inners.forEach((inner) => {
+		  inner.style.width = `${"${outer.clientWidth}px"}`; // inner의 width를 모두 outer의 width로 만들기
+		})
+		
+		innerList.style.width = `${"${outer.clientWidth * inners.length}px"}`; // innerList의 width를 inner의 width * inner의 개수로 만들기
+		
+		/*
+		  버튼에 이벤트 등록하기
+		*/
+		const buttonLeft = document.querySelector('.button-left');
+		const buttonRight = document.querySelector('.button-right');
+		
+		buttonLeft.addEventListener('click', () => {
+		  currentIndex--;
+		  currentIndex = currentIndex < 0 ? 0 : currentIndex; // index값이 0보다 작아질 경우 0으로 변경
+		  innerList.style.marginLeft = `-${"${outer.clientWidth * currentIndex}px"}`; // index만큼 margin을 주어 옆으로 밀기
+		  clearInterval(interval); // 기존 동작되던 interval 제거
+		  interval = getInterval(); // 새로운 interval 등록
+		});
+		
+		buttonRight.addEventListener('click', () => {
+		  currentIndex++;
+		  currentIndex = currentIndex >= inners.length ? inners.length - 1 : currentIndex; // index값이 inner의 총 개수보다 많아질 경우 마지막 인덱스값으로 변경
+		  innerList.style.marginLeft = `-${"${outer.clientWidth * currentIndex}px"}`; // index만큼 margin을 주어 옆으로 밀기
+		  clearInterval(interval); // 기존 동작되던 interval 제거
+		  interval = getInterval(); // 새로운 interval 등록
+		});
+		
+		/*
+		  주기적으로 화면 넘기기
+		*/
+		const getInterval = () => {
+		  return setInterval(() => {
+		    currentIndex++;
+		    currentIndex = currentIndex >= inners.length ? 0 : currentIndex;
+		    innerList.style.marginLeft = `-${"${outer.clientWidth * currentIndex}px"}`;
+		  }, 2000);
+		}
+		
+		let interval = getInterval(); // interval 등록
+	}
 	// 도서검색 버튼 클릭
 	function search() {
 		let textbox = document.getElementById("searchWord");
@@ -70,38 +122,44 @@
 			document.querySelector('#searchWord').focus();
 		} else {
 			alert(textbox.value + "을 검색했습니다");
-			window.location.href = 'book_search.html';
+			window.location.href = 'book_search.jsp';
 		}
 
 	};
 
 	function chg_text_detail(sel) {
-		<% 
-			ArrayList<String> result_list2 = DBConn.getSelectQueryAll("select * from library");
-		%>
+<%-- 		<%  --%>
+// 			ArrayList<String> result_list2 = DBConn.getSelectQueryAll("select lb_content from library");
+<%-- 		%> --%>
 	
-		let data = "<%=result_list2.get(0).toString() %>";
+// 		console.log(sel);
+		let data = <%=DBConn.getSelectQueryAll("select lb_content from library")%>[sel];
 		data = data.replace(/\n/g, '<br>'); // 텍스트 파일 내의 줄바꿈('\n')을 HTML의 줄바꿈('<br>')으로 변환합니다.
 		data = data.replace('이용시간', '<b>이용시간</b>');
 		data = data.replace('휴관일', '<b>휴관일</b>');
 
-		console.log(data);
+// 		console.log(data);
 		// 변환된 데이터를 웹 페이지에 추가
 		document.querySelector('.text_detail').innerHTML = data;
 
 	};
 
 	function announcement() {
-		// 공지사항
-		for (let i = 0; i < 5; i++) {
-			let announ = document.querySelector("#announcement_table")
-
+		// 공지사항		
+		let data_list = <%=DBConn.getSelectQueryAll("select n_id,n_title,n_date from notice")%>
+		
+		console.log(data_list[0]);
+		for (let i = 0; i < data_list.length; i++) {
+			let announ = document.querySelector("#announcement_table");
 			let html = '';
 			html += '<td class="ann_title">';
-			html += '독서토론대회' + (i + 1);
+			html += data_list[i*3];
+			html += '</td>';
+			html += '<td class="ann_title">';
+			html += data_list[i*3+1];
 			html += '</td>';
 			html += '<td class="ann_day">';
-			html += '2023-01-06';
+			html += data_list[i*3+2];
 			html += '</td>';
 
 			let tr = document.createElement("tr");
@@ -109,7 +167,7 @@
 
 			tr.querySelector(".ann_title").addEventListener("click",
 					function() {
-						location.href = "notice_detail.html";
+						location.href = "notice_detail.jsp";
 					})
 			announ.append(tr);
 			// 만약에 5개의 공지사항이 모두 있을 경우 맨아래 tr 필요
@@ -136,7 +194,7 @@
 					.addEventListener(
 							"click",
 							function() {
-								let href_text = "book_detail.html?title=(%EC%9E%90%EB%B0%94%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%8F%84%20%EC%89%BD%EA%B3%A0%20%EC%A6%90%EA%B2%81%EA%B2%8C%20%EB%B0%B0%EC%9A%B0%EB%8A%94)%20%ED%85%8C%EC%8A%A4%ED%8C%85%20%EC%9D%B4%EC%95%BC%EA%B8%B0&topic=%EA%B0%9C%EB%B0%9C&author=%EC%9D%B4%EC%83%81%EB%AF%BC%20%EC%A7%80%EC%9D%8C&publisher=%ED%95%9C%EB%B9%9B%EB%AF%B8%EB%94%94%EC%96%B4&year=2009&callNumber=005.115-%EC%9D%B4%EC%83%81%EB%AF%BC&registerNumber=NG0000002167&library=%EC%84%B1%EB%82%A8%EB%A9%B4%EC%9E%91%EC%9D%80%EB%8F%84%EC%84%9C%EA%B4%80&loan_state=false&reservation_state=true"
+								let href_text = "book_detail.jsp?title=(%EC%9E%90%EB%B0%94%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%8F%84%20%EC%89%BD%EA%B3%A0%20%EC%A6%90%EA%B2%81%EA%B2%8C%20%EB%B0%B0%EC%9A%B0%EB%8A%94)%20%ED%85%8C%EC%8A%A4%ED%8C%85%20%EC%9D%B4%EC%95%BC%EA%B8%B0&topic=%EA%B0%9C%EB%B0%9C&author=%EC%9D%B4%EC%83%81%EB%AF%BC%20%EC%A7%80%EC%9D%8C&publisher=%ED%95%9C%EB%B9%9B%EB%AF%B8%EB%94%94%EC%96%B4&year=2009&callNumber=005.115-%EC%9D%B4%EC%83%81%EB%AF%BC&registerNumber=NG0000002167&library=%EC%84%B1%EB%82%A8%EB%A9%B4%EC%9E%91%EC%9D%80%EB%8F%84%EC%84%9C%EA%B4%80&loan_state=false&reservation_state=true"
 								window.open(href_text, '_blank',
 										'width=900,height=600');
 							})
@@ -146,13 +204,13 @@
 	};
 
 	function libsinfolist() {		
-		<% 
-			ArrayList<String> result_list = DBConn.getlibraryAll();
-		%>
+<%-- 		<%  --%>
+// 			ArrayList<String> result_list = DBConn.getlibraryAll();
+<%-- 		%> --%>
 		
 		// 도서관 select
 // 		let libs_list = [ "천안도서관", "두정도서관", "아우내도서관" ];
-		let libs_list = <%=result_list%>;
+		let libs_list = <%=DBConn.getlibraryNameAll()%>;
 		let libs_list_box = document.querySelector("#libs_info");
 
 		for (let i = 0; i < libs_list.length; i++) {
@@ -172,8 +230,8 @@
 		// 이용정보 select 변경될때
 		let select = document.querySelector("#libs_info");
 		select.addEventListener("change", function() {
-			let sel = select.value;
-			chg_text_detail(sel);
+			let sel = select.selectedIndex;
+ 			chg_text_detail(sel);
 
 		});
 	};
@@ -381,6 +439,31 @@ nav .banner {
 	font-family: 'Wanted Sans Variable';
 	font-size: 18px;
 }
+
+//
+슬라이드배너 테스트
+.outer {
+	border: 6px solid royalblue;
+	width: 300px;
+	height: 200px;
+	margin: 0 auto;
+	overflow-x: hidden;
+}
+
+.inner-list {
+	display: flex;
+	transition: .3s ease-out;
+	height: 100%;
+}
+
+.inner {
+	border: 6px solid olive;
+	padding: 0 16px;
+}
+
+.button-list {
+	text-align: center;
+}
 </style>
 </head>
 
@@ -405,7 +488,25 @@ nav .banner {
 		</div>
 		<br>
 		<nav>
-			<img class="banner" src="../resource/banner.png">
+			<img class="banner" src="../resource/banner2.png">
+			<div class="outer">
+				<div class="inner-list">
+					<div class="inner">
+						<h2>first...</h2>
+					</div>
+					<div class="inner">
+						<h2>second...</h2>
+					</div>
+					<div class="inner">
+						<h2>third...</h2>
+					</div>
+				</div>
+			</div>
+
+			<div class="button-list">
+				<button class="button-left">← Left</button>
+				<button class="button-right">Right →</button>
+			</div>
 		</nav>
 
 		<section class="library_information_content">

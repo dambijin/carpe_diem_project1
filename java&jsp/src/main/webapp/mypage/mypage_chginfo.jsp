@@ -23,8 +23,6 @@
             let email2 = document.querySelector("#email_domain")
             let name = document.querySelector("#name")
 
-
-
             email1.addEventListener("change", function () {
                 let selectedIndex = email1.selectedIndex;
                 email2.value = email1.options[email1.selectedIndex].value;  //동기화

@@ -17,14 +17,14 @@ public class DBConn {
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            conn = DriverManager.getConnection(URL, USER, PASSWORD);
-	            System.out.println("db접속성공");
+//	            System.out.println("db접속성공");
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
 	        return conn;
 	    }
 	    
-	    //도서관이름가져오기
+	    //쿼리를 직접 작성하여 가져오기(Select만 가능)
 	    public static ArrayList<String> getSelectQueryAll(String query) {
 	    	ArrayList<String> result_list = new ArrayList<String>();
 	    	try {
@@ -38,14 +38,14 @@ public class DBConn {
 	    		
 	    		while (rs.next()) {
 	    		    int columnCount = rsmd.getColumnCount(); // 열의 수를 가져옵니다.
-	    		    System.out.println(columnCount);
+//	    		    System.out.println(columnCount);
 	    		    for (int i = 1; i <= columnCount; i++) {
-	    		        // 열의 인덱스는 1부터 시작합니다.
+	    		        // 열의 인덱스는 1부터 시작
 	    		        String value = rs.getString(i);
 	    		        result_list.add("\"" + value + "\"");
 	    		    }
 	    		}
-	    		result_list.get(0).toString();
+//	    		result_list.get(0).toString();
 
 	    		rs.close();
 	    		ps.close();
@@ -56,8 +56,8 @@ public class DBConn {
 	    	return result_list;
 	    }
 	    
-	    //도서관이름가져오기
-	    public static ArrayList<String> getlibraryAll() {
+	    //도서관이름들가져오기
+	    public static ArrayList<String> getlibraryNameAll() {
 	    	ArrayList<String> result_list = new ArrayList<String>();
 	    	try {
 
@@ -76,7 +76,7 @@ public class DBConn {
 	    		while (rs.next()) {
 	    			// 전달인자로 컬럼명,대소문자 구분 X		
 	    			result_list.add("\""+rs.getString("lb_name")+"\"");
-	    			System.out.println(rs.getString("lb_name"));
+//	    			System.out.println(rs.getString("lb_name"));
 	    		}
 
 	    		rs.close();
