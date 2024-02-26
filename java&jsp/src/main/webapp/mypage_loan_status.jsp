@@ -34,7 +34,7 @@
 
             // 정보수정 클릭시 페이지 이동
             button1.addEventListener('click', function () {
-                window.open('mypage_chginfo.html', '_self')
+                window.open('mypage_chginfo.jsp', '_self')
 
             });
 
@@ -42,7 +42,7 @@
             for (let i = 1; i <= 10; i++) {
                 let html = '';
                 html += '      <td>' + i + '</td>';
-                html += '      <td><a href="book_detail.html" class="bookname">아몰랑</a></td>';
+                html += '      <td><a href="book_detail.jsp" class="bookname">아몰랑</a></td>';
                 html += '      <td>아몰랑</td>';
                 html += '     <td>아몰랑</td>';
                 html += '     <td>2024.01.20</td>';
