@@ -288,10 +288,6 @@
                     <td><input type="text" name="year"></td>
                 </tr>
                 <tr>
-                    <th>청구기호</th>
-                    <td><input type="text" name="call_number"></td>
-                </tr>
-                <tr>
                     <th>등록번호</th>
                     <td><input type="number" name="regi_number"></td>
                 </tr>

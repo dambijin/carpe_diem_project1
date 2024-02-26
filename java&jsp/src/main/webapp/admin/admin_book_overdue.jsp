@@ -199,7 +199,7 @@
 
     <!-- 등록 취소 -->
     <div class="input">
-        <button type="button" value="연체해제" class="button" id="button_cancle" onclick="overdue_close()">연체해제</button>
+        <button type="button" value="연체해제" class="button" id="button_cancle" onclick="closeOverduePopup()">연체해제</button>
         <input type="reset" value="닫기" class="button" onclick="closePopup()">
     </div>
 

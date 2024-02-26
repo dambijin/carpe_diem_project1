@@ -34,9 +34,10 @@
 
 			// html += '</tr>';
 			// 추가한다
-			book_html += '<td>' + i + '</td>';
-			book_html += '<td>java초급</td>';
+			book_html += '<td class="member_no">' + i + '</td>';
+			book_html += '<td><div class="book_name">java초급</div></td>';			
 			book_html += '<td>최민수강사님</td>';
+			book_html += '<td>1368478165</td>';
 			book_html += '<td>2023-05-01</td>';
 			book_html += '<td>천안도서관</td>';
 			book_html += '<td>2024-02-02</td>';
@@ -47,7 +48,17 @@
 
 			let tr = document.createElement("tr"); // <tr></tr>
 			tr.innerHTML = book_html;
-
+			
+			
+			// 이름에 클릭이벤트
+			// tr 엘리먼트 내에서 book_name을 찾아 이벤트 리스너 추가
+			// tr 엘리먼트 내에서 member_no 찾아 그 내용(innerHTML)을 변수에 담음
+			tr.querySelector(".book_name").addEventListener("click", function () {
+				let member_no = tr.querySelector(".member_no").innerHTML;
+				alert("등록번호 : " + member_no);
+			})
+			
+			
 			// 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
 			tr.querySelector(".checkbox").addEventListener("click", function (event) {
 				// 만약 현재 클릭된 체크박스가 체크 해제되었다면
@@ -128,7 +139,7 @@
 		};
 
 		//검색옵션 기본세팅
-		let search_opt_list = ["등록번호", "책이름", "저자", "발행년", "소장기관", "등록날짜"];
+		let search_opt_list = ["등록번호", "책이름", "저자", "ISBN", "발행년", "소장기관", "등록날짜"];
 
 		for (let i = 0; i < search_opt_list.length; i++) {
 			let search_opt = document.querySelector("#search_option");
@@ -294,6 +305,16 @@
 		background-color: rgb(36, 116, 190);
 	}
 
+
+	/* 이름 링크 */
+	.book_name {
+		color: blue;
+		font-family: bold;
+		text-decoration: underline;
+		font-weight: bold;
+		cursor: pointer;
+	}
+	
 	/* 등록 폐기 버튼 */
 	.input1 .button {
 		font-family: "Wanted Sans Variable";
@@ -359,6 +380,7 @@
 						<th width="100">등록번호</th>
 						<th width="100">책이름</th>
 						<th width="100">저자</th>
+						<th width="100">ISBN</th>
 						<th width="100">발행년</th>
 						<th width="100">소장기관</th>
 						<th width="100">등록날짜</th>

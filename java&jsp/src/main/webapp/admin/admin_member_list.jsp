@@ -14,12 +14,12 @@
 <script defer src="../js/admin_library.js"></script>
 <script>
 	// 연체상태 popup창
-	function overdue_popup() {
+	function openOverduePopup() {
 		window.open
 			("admin_book_overdue.jsp", "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	// 연체해제 누르면 확인 후 닫기
-	function overdue_close() {
+	function closeOverduePopup() {
 		alert("연체해제 되었습니다");
 		window.close();
 	}
@@ -31,10 +31,10 @@
 	function bind() {
 
 		// 테이블을 가져와서 todolist변수에 담아둠
-		let todolist = document.querySelector("#page1");
+		let todolist = document.querySelector("#memberListTable");
 
 		// 임시 게시판 생성
-		for (let i = 1; i <= 10; i++) {
+		for (let i = 1; i <= 50; i++) {
 			let html = '';
 
 			html += '<td class="member_no">' + i + '</td>';
@@ -43,7 +43,7 @@
 			html += '<td>2001-05-24</td>';
 			html += '<td>010-1234-5678</td>';
 			html += '<td>청주</td>';
-			html += '<td><div class="overdue_name" onclick="overdue_popup()">3일</div></td>';
+			html += '<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>';
 			html += '<td><input type="button" value="조회" onclick=\'alert("예약목록 조회")\'></td>';
 			html += '<td><input type="button" value="조회" onclick=\'alert("대출내역 조회")\'></td>';
 			html += '<td><input type="button" value="수정" onclick="location.href=\'admin_member_chginfo.jsp\';"></td>';
@@ -144,6 +144,37 @@
 		}
 	}
 
+	
+	
+	
+// 	// 검색 및 페이징 기능을 위한 함수들 추가
+//     let currentPage = 1;
+//     let itemsPerPage = 10;
+
+//     function changeViewCount(count) {
+//         itemsPerPage = parseInt(count);
+//         currentPage = 1;
+//         // 실제로는 서버에 해당 페이지의 데이터를 요청하고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
+//         // 여기서는 간단히 현재 페이지를 알림창으로 표시하는 예시를 보여줍니다.
+//         alert(`한 페이지에 표시할 개수: ${itemsPerPage}`);
+//     }
+
+//     function search() {
+//         // 검색 기능 구현
+//         let searchOption = document.getElementById("search_option").value;
+//         let searchTextbox = document.getElementById("input_todo").value;
+//         // 실제로는 서버에 검색 요청을 보내고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
+//         // 여기서는 간단히 검색어를 알림창으로 표시하는 예시를 보여줍니다.
+//         alert(`검색 옵션: ${searchOption}, 검색어: ${searchTextbox}`);
+//     }
+
+//     function changePage(offset) {
+//         // 페이징 기능 구현
+//         currentPage += offset;
+//         // 실제로는 서버에 해당 페이지의 데이터를 요청하고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
+//         // 여기서는 간단히 현재 페이지를 알림창으로 표시하는 예시를 보여줍니다.
+//         alert(`현재 페이지: ${currentPage}`);
+//     }
 </script>
 
 
@@ -225,19 +256,25 @@
 		background-color: rgba(163, 163, 163, 0.6);
 	}
 
-	/* 테이블 안에 input */
+	/* 예약목록, 대출내역, 정보수정 버튼 스타일 */
 	.member_table tr td input {
-		font-family: "Wanted Sans Variable";
-		font-size: 16px;
-		background-color: rgba(71, 125, 231, 0.973);
-		color: white;
-		width: 50px;
-		height: 20px;
-		border: 0;
-		border-radius: 5px;
-		cursor: pointer;
+	    font-family: "Wanted Sans Variable";
+	    font-size: 14px;
+	    background-color: #4CAF50; /* 버튼 색상 변경 */
+	    color: white;
+	    width: 50px;
+	    height: 20px;
+	    border: 0;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    transition: background-color 0.3s ease; /* hover 효과를 위한 전환 효과 */
 	}
-
+	
+	/* 예약목록, 대출내역, 정보수정 버튼에 hover 효과 */
+	.member_table tr td input[type="button"]:hover {
+	    background-color: #45a049; /* hover 효과 색상 변경 */
+	}
+	
 	/* 쪽이동 */
 	.nextpage {
 		font-family: "Wanted Sans Variable";
@@ -306,14 +343,13 @@
 
 	<!-- 검색창   -->
 	<div class="search">
-		<!-- <select class="view_count" onchange="changeViewCount(this.value)"> -->
-		<select class="view_count">
+		<select id="viewCount" class="view_count" onchange="changeViewCount(this.value)">
 			<option value="10">10개씩</option>
 			<option value="20">20개씩</option>
 			<option value="30">30개씩</option>
 		</select>
 
-		<!-- <select class="range" id="search_option" onchange="handleSearchOption()"> -->
+
 		<select class="range" id="search_option">
 			<!-- 자바스크립트로 가져오기 -->
 		</select>
@@ -326,33 +362,37 @@
 
 	<!-- table 보드 -->
 	<div class="table_div">
-		<table class="member_table" id="page1">
-			<tr id="page1_tr">
-				<th width="100">회원번호</th>
-				<th width="100">이름</th>
-				<th width="100">회원id</th>
-				<th width="100">생년월일</th>
-				<th width="100">전화번호</th>
-				<th width="100">주소</th>
-				<th width="100">연체상태</th>
-				<th width="100">예약목록</th>
-				<th width="100">대출내역</th>
-				<th width="100">정보수정</th>
-			</tr>
-
+		<table class="member_table" id="memberListTable">
+			<thead>
+				<tr id="memberListTable_tr">
+					<th width="100">회원번호</th>
+					<th width="100">이름</th>
+					<th width="100">회원id</th>
+					<th width="100">생년월일</th>
+					<th width="100">전화번호</th>
+					<th width="100">주소</th>
+					<th width="100">연체상태</th>
+					<th width="100">예약목록</th>
+					<th width="100">대출내역</th>
+					<th width="100">정보수정</th>
+				</tr>
+			</thead>
+			<tbody id="memberListBody">
+                <!-- 동적으로 추가될 테이블 내용 -->
+            </tbody>
 		</table>
 	</div>
 
 	<!-- 쪽이동 -->
 	<div class="paging nextpage">
-		<a href="" class="pre underline_remove">◀</a>
-		<strong class="underline_remove">1</strong>
-		<a href="" class="num underline_remove">2</a>
-		<a href="" class="num underline_remove">3</a>
-		<a href="" class="num underline_remove">4</a>
-		<a href="" class="num underline_remove">5</a>
-		<a href="" class="next underline_remove">▶</a>
-	</div>
+        <a href="#" class="pre underline_remove" onclick="changePage(-1)">◀</a>
+        <span id="currentPage" class="underline_remove">1</span>
+        <a href="#" class="num underline_remove" onclick="changePage(1)">2</a>
+        <a href="#" class="num underline_remove" onclick="changePage(2)">3</a>
+        <a href="#" class="num underline_remove" onclick="changePage(3)">4</a>
+        <a href="#" class="num underline_remove" onclick="changePage(4)">5</a>
+        <a href="#" class="next underline_remove" onclick="changePage(1)">▶</a>
+    </div>
 
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
