@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이메일로 아이디 찾기</title>
-    <link href="./css/layout.css" rel="stylesheet">
+    <link href="../css/layout.css" rel="stylesheet">
     <style>
         .email_find {
             width: 80%;
@@ -50,32 +50,44 @@
 
         .search_text {
             width: 70%;
-            text-align: left;
+            text-align: center;
             margin: auto;
             margin-top: 20px;
+        }
+        .search_text tr .sub {
+            text-align: center;
+            background-color: rgba(168, 156, 200, 0.6);
+            width: 35%;
+
         }
 
         .search_text tr th {
             background-color: rgba(168, 156, 200, 0.6);
             text-align: center;
-            width: 30%;
+            
         }
 
 
         input {
             font-family: "Wanted Sans Variable";
         }
-
-        .search_text .text_name,
+		.search_text .text_name {
+			width: 95%; /* 변경된 부분 */
+            height: 25px;
+            font-size: 15px;
+            font-family: "Wanted Sans Variable";
+		}
+        
         .search_text #text_email1,
         .search_text #text_email2 {
+        	width: 70px;
             height: 25px;
             font-size: 15px;
         }
 
         .search_text tr .sub {
             text-align: center;
-            width: 25%;
+            width: 30%;
             background-color: rgba(168, 156, 200, 0.6);
         }
 
@@ -103,31 +115,17 @@
         }
 
 
-        .email_find {
-            width: 80%;
-            margin: auto;
-        }
-
         .btnSearch #button:hover {
             background-color: rgba(205, 155, 225, 0.6);
         }
 
         /* 이메일로찾기, 휴대폰번호로찾기 div */
-        .email_find .search {
-            display: inline-block;
-            text-align: center;
-            width: 65%;
-        }
-
+   
         .email_find .search .search_title:hover {
             background-color: rgba(140, 201, 240, 0.6);
         }
 
-        #text_email1,
-        #text_email2 {
-            width: 25%;
-            height: 25px;
-        }
+        
 
         /* 이메일 select */
         #email_domain {
@@ -245,11 +243,10 @@
                 <div class="search_title" onclick="location.href='find_id_tel.jsp'" style="cursor:pointer">
                     전화번호로 찾기
                 </div>
-				<div class="abc">
-                <table class="search_text" cellpadding="5">
+                <table class="search_text" cellpadding="5" cellspacing="1">
                     <tr>
-                        <td width="30%" class="sub">이름</td>
-                        <td width="*"><input type="text" class="text_name" placeholder="이름을 입력해주세요." autofocus></td>
+                        <td class="sub">이름</td>
+                        <td><input type="text" class="text_name" placeholder="이름을 입력해주세요." autofocus></td>
                     </tr>
                     <tr>
                         <td class="sub">이메일</td>
@@ -260,7 +257,7 @@
                         </td>
                     </tr>
                 </table>
-				</div>
+				
 
                 <div class="btnSearch">
                     <input type="button" name="enter" value="확인" id="button">
@@ -269,7 +266,7 @@
 
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="./js/header.js"></script>
+    <script src="../js/header.js"></script>
 </body>
 
 </html>
