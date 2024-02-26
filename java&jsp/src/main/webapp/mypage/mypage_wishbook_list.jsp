@@ -77,7 +77,8 @@
             // 임시 보드 작성
             for (let i = 1; i <= 10; i++) {
                 let html = '';
-
+				
+                html += '            <td>' + i ;
                 html += '            <td>' + '천안' + i + '</td>';
                 html += '           <td><a href="" onclick=popup() class="bookname">책이름</a></td>';
                 html += '           <td>박상민</td>';
@@ -216,7 +217,8 @@
                         <!-- 보드 -->
                     </div>
                     <table id="page1">
-                        <tr id="page1_tr">
+                        <tr id="page1_tr">                        	
+                            <th>번호</th>
                             <th>희망소장처</th>
                             <th>자료명</th>
                             <th>저자</th>
