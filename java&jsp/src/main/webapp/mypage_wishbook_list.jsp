@@ -39,7 +39,7 @@
             });
             // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
-                window.open('mypage_chginfo.html', '_self')
+                window.open('mypage_chginfo.jsp', '_self')
 
             });
 
@@ -151,7 +151,7 @@
 
             let options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
 
-            window.open("wishbook_detail.html", "_blank", options);
+            window.open("wishbook_detail.jsp", "_blank", options);
         }
     </script>
     <style>
