@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>도서관 안내</title>
-<link href="../css/layout.css" rel="stylesheet">
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -50,11 +50,13 @@ h3 {
 </style>
 <script>
         window.onload = function () {
+            // 이후 list를 사용한 코드 작성
             let left_section = document.querySelector(".left_section");
-    		let libs_list = <%=DBConn.getlibraryNameAll()%>;
+    		let libs_list = JSON.parse('<%= request.getAttribute("list") %>');  // JSON 문자열을 JavaScript 객체로 변환
+    		console.log(libs_list);
 //             let libs_list = ["천안도서관", "두정도서관", "아우내도서관"];
             for (let i = 0; i < libs_list.length; i++) {
-                let lib_text = libs_list[i];
+                let lib_text = libs_list[i].lb_name;
                 let plushtml = "";
                 plushtml += "<button type='button' class='sub_but' onclick='chg_text_detail(\"" + i + "\")'>" + lib_text + "</button><br>";
                 
@@ -70,20 +72,22 @@ h3 {
         };
 
         function chg_text_detail(libidx) {
-        	let data_list =<%=DBConn.getSelectQueryAll("select lb_name,lb_content from library")%>;
-    		let data = data_list[libidx*2+1];
+<%--         	let data_list =<%=DBConn.getSelectQueryAll("select lb_name,lb_content from library")%>; --%>
+			let libs_list = JSON.parse('<%= request.getAttribute("list") %>');  // JSON 문자열을 JavaScript 객체로 변환
+    		let data = "";
+            data = data+'<h3>이용시간</h3><br>'+libs_list[libidx].lb_openTime;
+            data = data+'<h3>위치</h3><br>'+libs_list[libidx].lb_address;
+            data = data+'<h3>연락처</h3><br>'+libs_list[libidx].lb_tel;
+            data = data+'<h3>특이사항</h3><br>'+libs_list[libidx].lb_content;
             data = data.replace(/\n/g, '<br>');   // 텍스트 파일 내의 줄바꿈('\n')을 HTML의 줄바꿈('<br>')으로 변환합니다.
-            data = data.replace('이용시간', '<h3>이용시간</h3>');
-            data = data.replace('위치', '<h3>위치</h3>');
-            data = data.replace('연락처', '<h3>연락처</h3>');
-            data = data.replace('특이사항', '<h3>특이사항</h3>');
             // 변환된 데이터를 웹 페이지에 추가
             document.getElementsByClassName('text_detail')[0].innerHTML = data;
             // 도서관 이름을 웹 페이지의 특정 요소에 추가합니다.
             var h1 = document.getElementsByClassName('lib_name')[0];
-            h1.innerHTML = data_list[libidx*2];
+            h1.innerHTML = libs_list[libidx].lb_name;
             //이미지
-            document.querySelector(".library-image").setAttribute("src","../resource/logo.png");
+            document.querySelector(".library-image").setAttribute("src",libs_list[libidx].lb_imgUrl);
+//             document.querySelector(".library-image").setAttribute("src","/carpedm/resource/logo.png");
         };
     </script>
 </head>
@@ -100,7 +104,7 @@ h3 {
 			</div>
 			<div class="right_section">
 				<div class="library-guide">
-					<img src="../resource/logo.png" alt="Library Image"
+					<img src="/carpedm/resource/logo.png" alt="이미지 오류"
 						class="library-image">
 					<div class="library-text">
 						<h1 class="lib_name" style="margin-bottom: 0;">○○도서관</h1>
@@ -111,7 +115,7 @@ h3 {
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="../js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

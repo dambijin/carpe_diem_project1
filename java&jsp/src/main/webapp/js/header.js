@@ -3,7 +3,7 @@ document.querySelector('header').innerHTML = `
 
     <div class="headerbox" onclick="location.href='/carpedm/mainpages/main.jsp';">
         <img class="logo" width="30px"
-            src="../resource/logo.png">
+            src="/carpedm/resource/logo.png">
         도서관리시스템
     </div>
     <div class="sign_up_in">
@@ -30,7 +30,7 @@ document.querySelector('header').innerHTML = `
         </div>
         <div class="flex-header dropdown">도서관 안내
         <div class="dropdown-content">
-            <a href="/carpedm/mainpages/libs_infolist.jsp">이용안내</a>
+            <a href="/carpedm/libs_infolist">이용안내</a>
             </div>
         </div>
         <div class="flex-header dropdown">정보광장
