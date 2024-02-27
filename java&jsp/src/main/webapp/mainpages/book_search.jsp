@@ -399,9 +399,19 @@ section {
         <%
 			String searchWord = request.getParameter("search");  // 검색어 가져오기
 			System.out.println(searchWord);
+		    if (searchWord == null) {
+		        response.sendRedirect("book_search.jsp?search=");
+		        return;  // 리다이렉트 후에는 더 이상 코드를 실행하지 않도록 return문을 넣습니다.
+		    }
 			Connection conn = DBConn.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE b_title LIKE '%" + searchWord + "%'");
+// 		    ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE b_title LIKE '%" + searchWord + "%'");
+			String query = "";
+			query += "SELECT b.b_id,b.lb_id,b.b_title,b.b_author,b.b_pubyear,b.b_isbn,b.b_publisher,b_kywd,b_imgurl,b_loanstate,b_resstate, l.lb_name";
+			query += " FROM book b";
+			query += " JOIN library l ON b.lb_id = l.lb_id";
+			query += " WHERE b.b_title LIKE '%" + searchWord + "%';";
+		    ResultSet rs = stmt.executeQuery(query);
 		
 		    ArrayList<String> result_list = new ArrayList<String>();
 		    while (rs.next()) {
@@ -418,6 +428,9 @@ section {
 		        result_list.add("\""+rs.getString("b_loanstate")+"\"");
 		        result_list.add("\""+rs.getString("b_resstate")+"\"");
   		  }
+			rs.close();
+			stmt.close();
+			conn.close();
 
 		%>
         let data_list =<%=result_list%>;
@@ -425,7 +438,7 @@ section {
         //불러온 제목값들을 출력해보기
         for(let i = 0; i<data_list.length; i+=11) {
         	   let book = {
-        	       b_id: data_list[i],
+        	       	b_id: data_list[i],
         	        library: data_list[i+1],
         	        title: data_list[i+2],
         	        author: data_list[i+3],
@@ -440,7 +453,11 @@ section {
         	    books.push(book);
         }
         
-    	
+     // 불러온 값들
+        for(let i = 0; i<data_list.length;i++)
+        {
+            console.log(data_list[i]);
+        }
 //         let books = [
 //             {
 //                 title: "(자바)자료구조론",
@@ -487,12 +504,12 @@ section {
 
             let loan_stat = " class=\"_fail\">대출불가<";
             let reservation_stat = " class=\"_fail\">예약불가<";
-            if (book.loan_state) {
+            if (book.loan_state==="Y") {
                 loan_stat = " class=\"loan_success\">대출가능<";
             }
 
-            if (book.reservation_state) {
-                reservation_stat = " class=\"reservation_success\" onclick=\"reservation('" + book.registerNumber + "')\">예약가능<";
+            if (book.reservation_state==="Y") {
+                reservation_stat = " class=\"reservation_success\" onclick=\"reservation('" +book.b_id + "')\">예약가능<";
             }
 
             let html = '';
@@ -500,13 +517,13 @@ section {
             <dl>
                 <dt>
                     <em class="label label-bk"><img
-                            src="https://media.discordapp.net/attachments/1201759040427012107/1211486540799410236/CarpeDM.png?ex=65ee5fc3&is=65dbeac3&hm=4e24ebfddfb46ceb44d3dff0c57253027bd1d2be9630afdc68ef6279364093bb&=&format=webp&quality=lossless&width=881&height=499"
-                            alt="KDC : 005.73"></em>
+                            src=${"${book.imgurl}"}
+                            alt="사진불러오기실패"></em>
                 </dt>
                 <dd>
                     <div class="ico ico-bk">
 <%--                    <a href="javascript:void(0);" onclick="openBookDetail('${encodeURIComponent(JSON.stringify(book))}')">${book.title}</a>--%>
-                        <a href="javascript:void(0);" onclick="">${"${book.title}"}</a>
+                        <a href="javascript:void(0);" onclick="openBookDetail(${"${book.b_id}"})">${"${book.title}"}</a>
                     </div>
                     <ul>
                         <li class="label_no"><strong>주제 : </strong> ${"${book.topic}"}</li>
@@ -516,7 +533,7 @@ section {
                         </li>
                         <li>
                             <strong>발행년 : </strong> ${"${book.year}"} <em>|</em>
-                            <strong>ISBN : </strong> 1112233344555
+                            <strong>ISBN : </strong> ${"${book.isbn}"}
                         </li>
                         <li class="so">
                             <strong>소장기관 : </strong> <span class="blue">${"${book.library}"}</span>
@@ -533,7 +550,6 @@ section {
             result_booklist.innerHTML += html;
         }
 
-
         paging();
     })
 
@@ -549,15 +565,15 @@ section {
         }
     }
 
-    function openBookDetail(bookString) {
+    function openBookDetail(b_id) {
         // book 객체의 모든 속성을 쿼리 문자열로 변환
-<%--         let book = JSON.parse(decodeURIComponent(bookString));
+//         let book = JSON.parse(decodeURIComponent(bookString));
 //         var queryString = Object.keys(book).map(function (key) {
 //             return encodeURIComponent(key) + '=' + encodeURIComponent(book[key]);
 //         }).join('&');
 
 //         // 쿼리 문자열을 URL에 추가하여 새 창을 열기
-//         window.open('book_detail.jsp?' + queryString, '_blank', 'width=900,height=600');--%>
+        window.open('book_detail.jsp?b_id='+b_id ,"", "width=900,height=600");
     }
 
     //검색결과 총 개수 표기 및 페이징관련
@@ -596,10 +612,17 @@ section {
         alert(RN + " 예약되었습니다.");
     }
 
-    function search() {
-        let search_text = document.getElementById("searchWord").value;
-        alert(search_text+" 검색되었습니다.")
-    }
+	function search() {
+		let textbox = document.getElementById("searchWord");
+		if (textbox.value == "") {
+			alert("내용을 입력해주세요");
+			document.querySelector('#searchWord').focus();
+		} else {
+			alert(textbox.value + "을 검색했습니다");
+// 			window.location.href = 'book_search.jsp';
+			window.location.href = 'book_search.jsp?search=' + encodeURIComponent(textbox.value);
+		}
+	};
 </script>
 
 <body>

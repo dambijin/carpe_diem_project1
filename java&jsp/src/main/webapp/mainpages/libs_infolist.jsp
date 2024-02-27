@@ -56,7 +56,7 @@ h3 {
             for (let i = 0; i < libs_list.length; i++) {
                 let lib_text = libs_list[i];
                 let plushtml = "";
-                plushtml += "<button type='submit' class='sub_but' onclick='chg_text_detail(\"" + i + "\")'>" + lib_text + "</button><br>";
+                plushtml += "<button type='button' class='sub_but' onclick='chg_text_detail(\"" + i + "\")'>" + lib_text + "</button><br>";
                 
                 left_section.innerHTML += plushtml;
             }

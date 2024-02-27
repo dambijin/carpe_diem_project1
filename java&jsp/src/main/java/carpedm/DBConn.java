@@ -42,7 +42,7 @@ public class DBConn {
 //	    		    System.out.println(columnCount);
 				for (int i = 1; i <= columnCount; i++) {
 					// 열의 인덱스는 1부터 시작
-					String value = rs.getString(i);
+					String value = rs.getString(i).replace("\n", "<br>");
 					//문자열로 집어넣기 위해서 앞뒤로 큰따옴표 추가
 					result_list.add("\"" + value + "\"");
 				}
