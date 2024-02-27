@@ -84,14 +84,14 @@ public class BoardServlet extends HttpServlet {
             
 //            	map 객체를 list에 추가하는 작업을 수행
             	list.add(map);   
-            	System.out.println(map.get("num")); 
+            	
             }
         } catch (Exception e) {
             e.printStackTrace();
         } 
   	   
       
-        
+       request.setAttribute("list", list);
 		
 		request.getRequestDispatcher("notice_board.jsp").forward(request, response);
 	

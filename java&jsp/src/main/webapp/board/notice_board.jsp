@@ -210,9 +210,7 @@
 </head>
 
 <body>
-<%
-	String num = request.getParameter("num");
-%>
+
 	<header></header>
 	<section>
 		<div class="s_section">
@@ -248,6 +246,9 @@
 								<th class="board_subject">조회</th>
 							</tr>
 							<tr>
+							<%
+	String num = (String) request.getAttribute("num");
+%>
 								<td><%= num %></td>
 								<td></td>
 								<td></td>
