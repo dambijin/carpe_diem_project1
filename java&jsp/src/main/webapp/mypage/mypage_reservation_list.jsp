@@ -1,17 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%><!DOCTYPE html>
+	pageEncoding="UTF-8"%><!DOCTYPE html>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="carpedm.DBConn"%>
+<%@ page import="carpedm.MypageDBConn"%>
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지 예약 목록</title>
-    <link href="../css/layout.css" rel="stylesheet">
-    <link href="../css/mypage.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이페이지 예약 목록</title>
+<link href="../css/layout.css" rel="stylesheet">
+<link href="../css/mypage.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous">
         </script>
-    <script>
+<script>
         window.addEventListener("load", function () {
             bind();
         })
@@ -21,7 +28,7 @@
 
         function bind() {
             let button1 = document.getElementById('chginfo');
-            let button3 = document.getElementById('button_cancle');
+            let button3 = document.getElementById('cancle');
             let table = document.getElementById('page1');
            
             // 내정보 
@@ -47,16 +54,16 @@
 
             });
             // 임시 보드 작성
-          
-                for(let i=1; i <= 10; i++){
+            let data = <%=DBConn.getSelectQueryAll("select b_title, b_author,b_publisher, r_resdate from reservation inner join book on reservation.b_id = book.b_id")%>    
+            for(let i=0; i < data.length/4; i++){
                 let html = '';
 
-                html += '           <td>' + i + '</td>';
-                html += '      <td><a href="../mainpages/book_detail.jsp" class="bookname">아몰랑</a></td>';
-                html += '           <td>아몰랑</td>';
-                html += '          <td>아몰랑</td>';
-                html += '          <td>2024.01.20</td>';
-                html += '          <td>정상</td>';
+                html += '           <td>' + (i+1) + '</td>';
+                html += '      <td><a href="../mainpages/book_detail.jsp" class="bookname">'+ data[(i*4)] +'</a></td>';
+                html += '           <td>'+ data[(i*4)+1] +'</td>';
+                html += '          <td>'+ data[(i*4)+2] +'</td>';
+                html += '          <td>'+ data[(i*4)+3] +'</td>';
+                html += '          <td></td>';
                 html += '         <td>중앙</td>';
                 html += '       <td><input type="checkbox" class="checkbox"></td>';
 
@@ -64,6 +71,7 @@
                 let tr = document.createElement("tr");
                 tr.classList.add("tr")
                 tr.innerHTML = html;
+                console.log(data)
 
                 // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
                 tr.querySelector(".checkbox")
@@ -143,100 +151,101 @@
         };
 
     </script>
-    <style>
-
-    </style>
+<style>
+</style>
 </head>
 
 <body>
-    <header></header>
-    <section>
-        <!-- 여기부터 본문작성해주세요 -->
-        <div class="s_section2">
-            <div class="left_section">
-                <a href="mypage_loan_status.jsp"><button type="button" class="sub_but">대출 현황</button></a><br>
-                <a href="mypage_loan_history.jsp"><button type="button" class="sub_but">대출 내역</button></a><br>
-                <a href="mypage_reservation_list.jsp"><button type="button" class="sub_but">예약</button></a>
-                <a href="mypage_wishbook_list.jsp"><button type="button" class="sub_but">희망도서<br>신청목록</button></a>
-            </div>
-            <div class="right_section">
-                <div class="notice_subject">
-                    마이페이지 예약 목록
-                </div>
-                <div>
-                    <!-- 내정보 -->
-                    <div class="div1">
-                        <table class="div1_table">
-                          
-                            <tr>
-                              
-                                <td class="info1">
+	<header></header>
+	<section>
+		<!-- 여기부터 본문작성해주세요 -->
+		<div class="s_section2">
+			<div class="left_section">
+				<a href="mypage_loan_status.jsp"><button type="button"
+						class="sub_but">대출 현황</button></a><br> <a
+					href="mypage_loan_history.jsp"><button type="button"
+						class="sub_but">대출 내역</button></a><br> <a
+					href="mypage_reservation_list.jsp"><button type="button"
+						class="sub_but">예약</button></a> <a href="mypage_wishbook_list.jsp"><button
+						type="button" class="sub_but">
+						희망도서<br>신청목록
+					</button></a>
+			</div>
+			<div class="right_section">
+				<div class="notice_subject">마이페이지 예약 목록</div>
+				<div>
+					<!-- 내정보 -->
+					<div class="div1">
+						<table class="div1_table">
 
-                                </td>
-                                <td> <button type="button" id="chginfo">정보수정</button></td>
-                            </tr>
+							<tr>
+
+								<td class="info1"></td>
+								<td>
+									<button type="button" id="chginfo">정보수정</button>
+								</td>
+							</tr>
 
 
-                        </table>
-                        <!-- 분류 -->
-                        <div>
-                            <div id="select">
-                                <div>
+						</table>
+						<!-- 분류 -->
+						<div>
+							<div id="select">
+								<div>
 
-                                    <select id="case">
-                                        <option disabled selected>출력 건수</option>
-                                       
+									<select id="case">
+										<option disabled selected>출력 건수</option>
 
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="select1">
-                                <div>
-                                    <select id="library">
-                                        <option disabled selected> - 도서관 전체</option>
-                                      
-                                    </select>
-                                  
 
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 보드 -->
-                    </div>
-                    <table id="page1">
-                        <tr id="page1_tr">
-                            <th>번호</th>
-                            <th>책제목</th>
-                            <th>저자</th>
-                            <th>출판사</th>
-                            <th>신청일자/반납예정일</th>
-                            <th>반납일/예약가능일</th>
-                            <th>소장기관</th>
-                            <th>취소
-                                <input type="checkbox" id="selectAll">
-                            </th>
-                        </tr>
+									</select>
+								</div>
+							</div>
+							<div id="select1">
+								<div>
+									<select id="library">
+										<option disabled selected>- 도서관 전체</option>
 
-                    </table>
-                </div>
-                <div id="button_cancle">
-                    <button id="cancle">취소</button>
-                </div>
-                <div class="paging">
-                    <a href="" class="pre underline_remove">◀</a>
-                    <strong class="underline_remove">1</strong>
-                    <a href="" class="num underline_remove">2</a>
-                    <a href="" class="num underline_remove">3</a>
-                    <a href="" class="num underline_remove">4</a>
-                    <a href="" class="num underline_remove">5</a>
-                    <a href="" class="next underline_remove">▶</a>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
-    <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+									</select>
+
+
+								</div>
+							</div>
+						</div>
+						<!-- 보드 -->
+					</div>
+					<table id="page1">
+						<tr id="page1_tr">
+							<th>번호</th>
+							<th>책제목</th>
+							<th>저자</th>
+							<th>출판사</th>
+							<th>신청일자/반납예정일</th>
+							<th>반납일/예약가능일</th>
+							<th>소장기관</th>
+							<th>취소 <input type="checkbox" id="selectAll">
+							</th>
+						</tr>
+
+					</table>
+				</div>
+				<div id="button_cancle">
+					<button id="cancle">취소</button>
+				</div>
+				<div class="paging">
+					<a href="" class="pre underline_remove">◀</a> <strong
+						class="underline_remove">1</strong> <a href=""
+						class="num underline_remove">2</a> <a href=""
+						class="num underline_remove">3</a> <a href=""
+						class="num underline_remove">4</a> <a href=""
+						class="num underline_remove">5</a> <a href=""
+						class="next underline_remove">▶</a>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	<!-- 헤더를 덮어씌우는 자바스크립트 -->
+	<script src="../js/header.js"></script>
 </body>
 
 </html>
