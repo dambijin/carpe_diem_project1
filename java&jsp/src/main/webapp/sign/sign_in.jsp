@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="carpedm.DBConn"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -119,14 +124,29 @@
             margin-bottom: 10px;
         }
     </style>
+
+   
     <script>
         window.onload = function() {
             let button = document.getElementById('log_button')
-
             button.addEventListener('click', function() {
                 let userid = document.querySelector('.textbox1').value;
                 let userpw = document.querySelector('.textbox2').value;
 
+
+                let data_list = <%=DBConn.getSelectQueryAll("select m_id from member")%>;
+                
+               
+                
+                for (let i = 0; i < data_list.length; i++) {
+                    console.log(data_list[i]);
+                }
+                
+                console.log(userid);
+                
+                let textBox = document.getElementById(".textbox1"); // 텍스트 상자의 ID를 찾아서 textBox에 할당
+
+                
                 if(userid == "") {
                     alert("아이디를 입력해주세요.");
                     document.querySelector('.textbox1').focus();
@@ -134,7 +154,7 @@
                     alert("비밀번호를 입력해주세요.");
                     document.querySelector('.textbox2').focus();
                 } else {
-                    onclick(location.href='main.jsp')
+                    onclick(location.href='../mainpages/main.jsp')
                     
                 }
             });
