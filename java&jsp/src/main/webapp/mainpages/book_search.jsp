@@ -312,6 +312,7 @@ section {
 
         //필터 기본세팅
 //         let libs_list = ["아우내도서관", "성거도서관", "두정도서관", "도솔도서관"];
+        //도서관세팅
 		let libs_list = <%=DBConn.getlibraryNameAll()%>;
         for (let i = 0; i < libs_list.length; i++) {
             let libs_chk_list = document.querySelector("#_multiChk1");
@@ -395,44 +396,89 @@ section {
 
         // 검색결과 기본세팅
         // 책 정보를 저장하는 배열
-        let books = [
-            {
-                title: "(자바)자료구조론",
-                topic: "개발",
-                author: "송주석 ; 서성훈 [공]저",
-                publisher: "사이텍미디어",
-                year: "2006",
-                callNumber: "005.73-송주석",
-                registerNumber: "YM0000007237",
-                library: "아우내도서관",
-                loan_state: true,
-                reservation_state: false
-            },
-            {
-                title: "(자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기",
-                topic: "개발",
-                author: "이상민 지음",
-                publisher: "한빛미디어",
-                year: "2009",
-                callNumber: "005.115-이상민",
-                registerNumber: "NG0000002167",
-                library: "성남면작은도서관",
-                loan_state: false,
-                reservation_state: true
-            },
-            {
-                title: "(자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기2222",
-                topic: "개발222",
-                author: "이상민 지음22",
-                publisher: "한빛미디어22",
-                year: "2010",
-                callNumber: "005.115-이상민",
-                registerNumber: "NG0000002168",
-                library: "성남면작은도서관222",
-                loan_state: true,
-                reservation_state: true
-            }
-        ];
+        <%
+			String searchWord = request.getParameter("search");  // 검색어 가져오기
+			System.out.println(searchWord);
+			Connection conn = DBConn.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE b_title LIKE '%" + searchWord + "%'");
+		
+		    ArrayList<String> result_list = new ArrayList<String>();
+		    while (rs.next()) {
+// 		    	System.out.println(rs.getString("b_title"));
+		        result_list.add("\""+rs.getString("b_id")+"\"");
+		        result_list.add("\""+rs.getString("lb_id")+"\"");
+		        result_list.add("\""+rs.getString("b_title")+"\"");
+		        result_list.add("\""+rs.getString("b_author")+"\"");
+		        result_list.add("\""+rs.getString("b_pubyear")+"\"");
+		        result_list.add("\""+rs.getString("b_isbn")+"\"");
+		        result_list.add("\""+rs.getString("b_publisher")+"\"");
+		        result_list.add("\""+rs.getString("b_kywd")+"\"");
+		        result_list.add("\""+rs.getString("b_imgurl")+"\"");
+		        result_list.add("\""+rs.getString("b_loanstate")+"\"");
+		        result_list.add("\""+rs.getString("b_resstate")+"\"");
+  		  }
+
+		%>
+        let data_list =<%=result_list%>;
+        let books = [];
+        //불러온 제목값들을 출력해보기
+        for(let i = 0; i<data_list.length; i+=11) {
+        	   let book = {
+        	       b_id: data_list[i],
+        	        library: data_list[i+1],
+        	        title: data_list[i+2],
+        	        author: data_list[i+3],
+        	        year: data_list[i+4],
+        	        isbn: data_list[i+5],
+        	        publisher: data_list[i+6],
+        	        topic: data_list[i+7],
+        	        imgurl: data_list[i+8],
+        	        loan_state: data_list[i+9],
+        	        reservation_state: data_list[i+10],
+        	    };
+        	    books.push(book);
+        }
+        
+    	
+//         let books = [
+//             {
+//                 title: "(자바)자료구조론",
+//                 topic: "개발",
+//                 author: "송주석 ; 서성훈 [공]저",
+//                 publisher: "사이텍미디어",
+//                 year: "2006",
+//                 callNumber: "005.73-송주석",
+//                 registerNumber: "YM0000007237",
+//                 library: "아우내도서관",
+//                 loan_state: true,
+//                 reservation_state: false
+//             },
+//             {
+//                 title: "(자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기",
+//                 topic: "개발",
+//                 author: "이상민 지음",
+//                 publisher: "한빛미디어",
+//                 year: "2009",
+//                 callNumber: "005.115-이상민",
+//                 registerNumber: "NG0000002167",
+//                 library: "성남면작은도서관",
+//                 loan_state: false,
+//                 reservation_state: true
+//             },
+//             {
+//                 title: "(자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기2222",
+//                 topic: "개발222",
+//                 author: "이상민 지음22",
+//                 publisher: "한빛미디어22",
+//                 year: "2010",
+//                 callNumber: "005.115-이상민",
+//                 registerNumber: "NG0000002168",
+//                 library: "성남면작은도서관222",
+//                 loan_state: true,
+//                 reservation_state: true
+//             }
+//         ];
 
         // 책 정보를 바탕으로 HTML을 생성
         for (let i = 0; i < books.length; i++) {

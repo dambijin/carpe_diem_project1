@@ -122,9 +122,9 @@
 			document.querySelector('#searchWord').focus();
 		} else {
 			alert(textbox.value + "을 검색했습니다");
-			window.location.href = 'book_search.jsp';
+// 			window.location.href = 'book_search.jsp';
+			window.location.href = 'book_search.jsp?search=' + encodeURIComponent(textbox.value);
 		}
-
 	};
 
 	function chg_text_detail(sel) {
@@ -141,18 +141,17 @@
 // 		console.log(data);
 		// 변환된 데이터를 웹 페이지에 추가
 		document.querySelector('.text_detail').innerHTML = data;
-
 	};
 
 	function announcement() {
 		// 공지사항		
 		let data_list = <%=DBConn.getSelectQueryAll("select n_id,n_title,n_date from notice")%>
 		
-		console.log(data_list[0]);
+// 		console.log(data_list[0]);
 		for (let i = 0; i < data_list.length; i++) {
 			let announ = document.querySelector("#announcement_table");
 			let html = '';
-			html += '<td class="ann_title">';
+			html += '<td class="ann_id">';
 			html += data_list[i*3];
 			html += '</td>';
 			html += '<td class="ann_title">';
@@ -170,7 +169,9 @@
 						location.href = "notice_detail.jsp";
 					})
 			announ.append(tr);
-			// 만약에 5개의 공지사항이 모두 있을 경우 맨아래 tr 필요
+			if(i>=4){
+				break;
+			}
 		}
 
 		// 신착도서
@@ -189,8 +190,7 @@
 			let td = document.createElement("td");
 			td.innerHTML = html;
 
-			td
-					.querySelector(".newbook_div")
+			td.querySelector(".newbook_div")
 					.addEventListener(
 							"click",
 							function() {
@@ -214,7 +214,7 @@
 		let libs_list_box = document.querySelector("#libs_info");
 
 		for (let i = 0; i < libs_list.length; i++) {
-			console.log(libs_list[i]);
+// 			console.log(libs_list[i]);
 			libs_list_box.innerHTML += "<option>" + libs_list[i] + "</option>";
 		}
 
@@ -242,12 +242,6 @@
 .bodysize {
 	text-align: center;
 	font-family: "Wanted Sans Variable";
-}
-
-/* 배너 */
-nav .banner {
-	width: 70%;
-	margin-bottom: 10px;
 }
 
 /* 섹션 */
@@ -438,26 +432,30 @@ nav .banner {
 	height: 45px;
 	font-family: 'Wanted Sans Variable';
 	font-size: 18px;
+	text-align:center;
 }
 
-//
-슬라이드배너 테스트
-.outer {
-	border: 6px solid royalblue;
-	width: 300px;
-	height: 200px;
+/*슬라이드배너 테스트*/
+/* 배너 */
+nav .banner {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+nav .outer {
+	height: 500px;
 	margin: 0 auto;
 	overflow-x: hidden;
+	text-align: center;
 }
 
-.inner-list {
+nav .inner-list {
 	display: flex;
 	transition: .3s ease-out;
 	height: 100%;
 }
 
-.inner {
-	border: 6px solid olive;
+nav .inner {
 	padding: 0 16px;
 }
 
@@ -478,34 +476,34 @@ nav .banner {
 						<strong> <select name="item" id="libsear">
 
 						</select>
-						</strong> <input type="text" name="word" autocomplete="off" id="searchWord"
-							style="ime-mode: active" placeholder="검색어를 적어주세요">
+						</strong> <input type="text" name="searchWord" autocomplete="off"
+							id="searchWord" style="ime-mode: active" placeholder="검색어를 적어주세요">
 						<!-- input type="hidden" name="item" value="title" id="item" -->
 					</div>
 					<input type="button" class="btn btn-search" value="도서검색"
-						id="libsearch" onclick="search()">
+						id="libsearch" onclick="search();">
+				</div>
 			</fieldset>
 		</div>
 		<br>
 		<nav>
-			<img class="banner" src="../resource/banner2.png">
 			<div class="outer">
 				<div class="inner-list">
 					<div class="inner">
-						<h2>first...</h2>
+						<img class="banner" src="../resource/banner.png">
 					</div>
 					<div class="inner">
-						<h2>second...</h2>
+						<img class="banner" src="../resource/banner2.png">
 					</div>
 					<div class="inner">
-						<h2>third...</h2>
+						<img class="banner" src="../resource/banner3.png">
 					</div>
 				</div>
 			</div>
 
 			<div class="button-list">
-				<button class="button-left">← Left</button>
-				<button class="button-right">Right →</button>
+				<button class="button-left">←</button>
+				<button class="button-right">→</button>
 			</div>
 		</nav>
 
