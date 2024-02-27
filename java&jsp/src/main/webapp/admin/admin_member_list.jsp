@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%@ page import="carpedm.DBConn"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +15,13 @@
 <!-- function 스크립트 -->
 <script defer src="../js/admin_library.js"></script>
 <script>
+	// 추가할 것들
+	// 연체상태도 불러와야함 수정해야함
+	// 조회버튼 2개 현황 불러와야함
+	// 수정버튼 
+
+
+
 	// 연체상태 popup창
 	function openOverduePopup() {
 		window.open
@@ -30,19 +39,46 @@
 
 	function bind() {
 
+		// 회원목록 가져옴		
+		let data_list = <%=DBConn.getSelectQueryAll("select m_pid, m_name, m_id, m_birthday, m_tel, m_address,  lb_id from member")%>
+		
+		
 		// 테이블을 가져와서 todolist변수에 담아둠
-		let todolist = document.querySelector("#memberListTable");
-
-		// 임시 게시판 생성
-		for (let i = 1; i <= 50; i++) {
+		console.log(data_list.length);
+		for (let i = 0; i < data_list.length; i=i+7) {
+			let todolist = document.querySelector("#memberListTable");		
 			let html = '';
+			
+			// 회원목록 순번 1부터 만들기
+// 			html += '<td>';
+// 			html += data_list[i];		
+// 			html += '</td>';
+			
+			// 생년월일 부분은 시간까지 출력되어서 변수에 담고
+			let birthdate = data_list[i + 3];
+			// substring으로 10번째까지만 추출한 뒤 변수에 담아서 datePart 출력함
+			let datePart = birthdate.substring(0, 10);
 
-			html += '<td class="member_no">' + i + '</td>';
-			html += '<td><div class="member_name">임우혁</div></td>';
-			html += '<td>abc123</td>';
-			html += '<td>2001-05-24</td>';
-			html += '<td>010-1234-5678</td>';
-			html += '<td>청주</td>';
+			
+			html += '<td class="member_no">' + data_list[i] + '</td>';
+			html += '<td><div class="member_name">';
+			html += data_list[i + 1];
+			html += '</div></td>';
+			html += '<td>';
+			html += data_list[i + 2];
+			html += '</td>';
+			html += '<td>';
+			html += datePart;
+			html += '</td>';
+			html += '<td>';
+			html += data_list[i + 4];
+			html += '</td>';
+			html += '<td>';
+			html += data_list[i + 5];
+			html += '</td>';
+			html += '<td>';
+			html += data_list[i + 6];
+			html += '</td>';
 			html += '<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>';
 			html += '<td><input type="button" value="조회" onclick=\'alert("예약목록 조회")\'></td>';
 			html += '<td><input type="button" value="조회" onclick=\'alert("대출내역 조회")\'></td>';
@@ -55,10 +91,14 @@
 			//이름에 클릭이벤트
 			// tr 엘리먼트 내에서 member_name을 찾아 이벤트 리스너 추가
 			// tr 엘리먼트 내에서 member_no 찾아 그 내용(innerHTML)을 변수에 담음
-			tr.querySelector(".member_name").addEventListener("click", function () {
-				let member_no = tr.querySelector(".member_no").innerHTML;
-				alert("회원번호 : " + member_no);
-			})
+			tr
+					.querySelector(".member_name")
+					.addEventListener(
+							"click",
+							function() {
+								let member_no = tr.querySelector(".member_no").innerHTML;
+								alert("회원번호 : " + member_no);
+							})
 
 			// 테이블의 tr 엘리먼트를 추가
 			todolist.append(tr);
@@ -76,7 +116,7 @@
 		// 검색옵션 기본세팅
 		// select 옵션 가져와서 변수에담고
 		// html 변수에 배열의 값을 추가해서 for문 돌림
-		let search_opt_list = ["회원번호", "이름", "생년월일", "전화번호", "주소"];
+		let search_opt_list = [ "회원번호", "이름", "회원ID", "생년월일", "전화번호", "주소", "회원ID", "연체상태"];
 
 		for (let i = 0; i < search_opt_list.length; i++) {
 			let search_opt = document.querySelector("#search_option");
@@ -126,55 +166,52 @@
 		// 검색 옵션과 검색 텍스트박스의 DOM 요소 가져오기
 		var searchOption = document.getElementById("search_option").value;
 		var searchTextbox = document.getElementById("input_todo");
-		
+
 		// 선택된 옵션에 따라 다르게 동작
 		switch (searchOption) {
-			case "회원번호":
-				alert("회원번호: " + searchTextbox.value);
-				break;
-			case "이름":
-				alert("이름: " + searchTextbox.value);
-				break;
-			case "연체상태":
-				alert("연체상태: " + searchTextbox.value);
-				break;
-			default:
-				// 기타 옵션의 경우 아무 동작도 수행하지 않음
-				break;
+		case "회원번호":
+			alert("회원번호: " + searchTextbox.value);
+			break;
+		case "이름":
+			alert("이름: " + searchTextbox.value);
+			break;
+		case "연체상태":
+			alert("연체상태: " + searchTextbox.value);
+			break;
+		default:
+			// 기타 옵션의 경우 아무 동작도 수행하지 않음
+			break;
 		}
 	}
 
-	
-	
-	
-// 	// 검색 및 페이징 기능을 위한 함수들 추가
-//     let currentPage = 1;
-//     let itemsPerPage = 10;
+	// 	// 검색 및 페이징 기능을 위한 함수들 추가
+	//     let currentPage = 1;
+	//     let itemsPerPage = 10;
 
-//     function changeViewCount(count) {
-//         itemsPerPage = parseInt(count);
-//         currentPage = 1;
-//         // 실제로는 서버에 해당 페이지의 데이터를 요청하고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
-//         // 여기서는 간단히 현재 페이지를 알림창으로 표시하는 예시를 보여줍니다.
-//         alert(`한 페이지에 표시할 개수: ${itemsPerPage}`);
-//     }
+	//     function changeViewCount(count) {
+	//         itemsPerPage = parseInt(count);
+	//         currentPage = 1;
+	//         // 실제로는 서버에 해당 페이지의 데이터를 요청하고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
+	//         // 여기서는 간단히 현재 페이지를 알림창으로 표시하는 예시를 보여줍니다.
+	//         alert(`한 페이지에 표시할 개수: ${itemsPerPage}`);
+	//     }
 
-//     function search() {
-//         // 검색 기능 구현
-//         let searchOption = document.getElementById("search_option").value;
-//         let searchTextbox = document.getElementById("input_todo").value;
-//         // 실제로는 서버에 검색 요청을 보내고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
-//         // 여기서는 간단히 검색어를 알림창으로 표시하는 예시를 보여줍니다.
-//         alert(`검색 옵션: ${searchOption}, 검색어: ${searchTextbox}`);
-//     }
+	//     function search() {
+	//         // 검색 기능 구현
+	//         let searchOption = document.getElementById("search_option").value;
+	//         let searchTextbox = document.getElementById("input_todo").value;
+	//         // 실제로는 서버에 검색 요청을 보내고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
+	//         // 여기서는 간단히 검색어를 알림창으로 표시하는 예시를 보여줍니다.
+	//         alert(`검색 옵션: ${searchOption}, 검색어: ${searchTextbox}`);
+	//     }
 
-//     function changePage(offset) {
-//         // 페이징 기능 구현
-//         currentPage += offset;
-//         // 실제로는 서버에 해당 페이지의 데이터를 요청하고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
-//         // 여기서는 간단히 현재 페이지를 알림창으로 표시하는 예시를 보여줍니다.
-//         alert(`현재 페이지: ${currentPage}`);
-//     }
+	//     function changePage(offset) {
+	//         // 페이징 기능 구현
+	//         currentPage += offset;
+	//         // 실제로는 서버에 해당 페이지의 데이터를 요청하고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
+	//         // 여기서는 간단히 현재 페이지를 알림창으로 표시하는 예시를 보여줍니다.
+	//         alert(`현재 페이지: ${currentPage}`);
+	//     }
 </script>
 
 
@@ -365,13 +402,14 @@
 		<table class="member_table" id="memberListTable">
 			<thead>
 				<tr id="memberListTable_tr">
-					<th width="100">회원번호</th>
+					<th width="80px">회원번호</th>
 					<th width="100">이름</th>
-					<th width="100">회원id</th>
-					<th width="100">생년월일</th>
-					<th width="100">전화번호</th>
-					<th width="100">주소</th>
-					<th width="100">연체상태</th>
+					<th width="100">회원ID</th>
+					<th width="130px">생년월일</th>
+					<th width="150px">전화번호</th>
+					<th width="200">주소</th>
+					<th width="80px">도서관ID</th>
+					<th width="80px">연체상태</th>
 					<th width="100">예약목록</th>
 					<th width="100">대출내역</th>
 					<th width="100">정보수정</th>

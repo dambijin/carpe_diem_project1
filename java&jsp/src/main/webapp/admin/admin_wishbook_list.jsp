@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%@ page import="carpedm.DBConn"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,18 +20,26 @@
     });
 
     function bind() {
-        let todolist = document.querySelector("#page1");
+    	// 회원목록 가져옴		
+		let data_list = <%=DBConn.getSelectQueryAll("select lb_id, w_title, w_author, w_isbn, w_pubyear, m_pid, w_name, w_pubyear, w_content from wishlist")%>
+		
 
-        for (let i = 1; i <= 10; i++) {
+        for (let i = 0; i <= data_list.length; i=i+9) {
+        	// 테이블을 가져와서 todolist변수에 담아둠
+        	let todolist = document.querySelector("#page1");
             let html = '';
 
             // html += '</tr>';
             // 추가한다
-            html += '<td>' + i + '</td>';
-            html += '<td>10</td>';
-            html += '<td>자바의 기초</td>';
-            html += '<td>진태님</td>';
-            html += '<td>2024-02-02</td>';
+            html += '<td>' + data_list[i] + '</td>';
+            html += '<td>' + data_list[i+1] + '</td>';
+            html += '<td>' + data_list[i+2] + '</td>';
+            html += '<td>' + data_list[i+3] + '</td>';
+            html += '<td>' + data_list[i+4] + '</td>';
+            html += '<td>' + data_list[i+5] + '</td>';
+            html += '<td>' + data_list[i+6] + '</td>';
+            html += '<td>' + data_list[i+7] + '</td>';
+            html += '<td>' + data_list[i+8] + '</td>';
             html += '<td width="150px"><input type="button" value="완료" class="complete" onclick="complete()"> <input type = "button" value = "반려" class="companion" onclick = "companion()" ></td>';
             // html +=	'</tr>'
 
@@ -40,7 +50,7 @@
         }
 
         //검색옵션 기본세팅
-        let search_opt_list = ["신청번호", "회원번호", "책이름", "저자", "신청날짜"];
+        let search_opt_list = ["회원번호", "책이름", "저자", "출판사", "ISBN", "발행년", "신청날짜", "회원ID"];
 
         for (let i = 0; i < search_opt_list.length; i++) {
             let search_opt = document.querySelector("#search_option");
@@ -244,10 +254,14 @@
             <table class="wish_table" width="1100px" id="page1">
                 <tr id="page1_tr">
                     <th width="80px">회원번호</th>
-                    <th width="80px">신청번호</th>
-                    <th>책이름</th>
-                    <th>저자</th>
-                    <th>신청날짜</th>
+                    <th width="80px">책이름</th>
+                    <th width="80px">저자</th>
+                    <th>ISBN</th>
+                    <th>발행년</th>
+                    <th width="100px">회원ID</th>
+                    <th width="100px">신청자이름</th>
+                    <th width="100px">신청날짜</th>
+                    <th width="100px">신청사유</th>
                     <th width="100px">처리</th>
                 </tr>
             </table>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%@ page import="carpedm.DBConn"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,23 +28,45 @@
 
 	function bind() {
 
-		// 테이블을 todlist 에 담아둠
-		let todolist = document.querySelector("#todo_booktable");
+		// 회원목록 가져옴		
+		let data_list = <%=DBConn.getSelectQueryAll("select b_id, b_title, b_author, b_publisher, b_isbn, b_pubyear, lb_id, b_pubyear, b_resstate, b_loanstate from book")%>
+		
 
-		for (let i = 1; i <= 10; i++) {
+		for (let i = 0; i < data_list.length; i=i+10) {
+			// 테이블을 가져와서 todolist변수에 담아둠
+			let todolist = document.querySelector("#todo_booktable");		
 			let book_html = '';
 
 			// html += '</tr>';
 			// 추가한다
-			book_html += '<td class="member_no">' + i + '</td>';
-			book_html += '<td><div class="book_name">java초급</div></td>';			
-			book_html += '<td>최민수강사님</td>';
-			book_html += '<td>1368478165</td>';
-			book_html += '<td>2023-05-01</td>';
-			book_html += '<td>천안도서관</td>';
-			book_html += '<td>2024-02-02</td>';
-			book_html += '<td>예약</td>';
-			book_html += '<td>대출중</td>';
+			book_html += '<td class="member_no">' + data_list[i] + '</td>';
+			book_html += '<td><div class="book_name">';			
+			book_html += data_list[i+1];			
+			book_html += '</div></td>';			
+			book_html += '<td>';
+			book_html += data_list[i+2];
+			book_html += '</td>';
+			book_html += '<td>';
+			book_html += data_list[i+3];
+			book_html += '</td>';
+			book_html += '<td>';
+			book_html += data_list[i+4];
+			book_html += '</td>';
+			book_html += '<td>';
+			book_html += data_list[i+5];
+			book_html += '</td>';
+			book_html += '<td>';
+			book_html += data_list[i+6];
+			book_html += '</td>';
+			book_html += '<td>';
+			book_html += data_list[i+7];
+			book_html += '</td>';
+			book_html += '<td>';
+			book_html += data_list[i+8];
+			book_html += '</td>';
+			book_html += '<td>';
+			book_html += data_list[i+9];
+			book_html += '</td>';
 			book_html += '<td><input type="checkbox" name="check" class="checkbox"></td>';
 			// html +=	'</tr>'
 
@@ -377,9 +401,10 @@
 				<table border="0" width="1200" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc"
 					id="todo_booktable">
 					<tr>
-						<th width="100">등록번호</th>
+						<th width="100">도서ID</th>
 						<th width="100">책이름</th>
 						<th width="100">저자</th>
+						<th width="100">출판사</th>
 						<th width="100">ISBN</th>
 						<th width="100">발행년</th>
 						<th width="100">소장기관</th>
