@@ -407,10 +407,12 @@ section {
 		    Statement stmt = conn.createStatement();
 // 		    ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE b_title LIKE '%" + searchWord + "%'");
 			String query = "";
-			query += "SELECT b.b_id,b.lb_id,b.b_title,b.b_author,b.b_pubyear,b.b_isbn,b.b_publisher,b_kywd,b_imgurl,b_loanstate,b_resstate, l.lb_name";
+			query += "SELECT b.b_id,b.lb_id,b.b_title,b.b_author,b.b_pubyear,b.b_isbn,b.b_publisher,b.b_kywd,b.b_imgurl,b.b_loanstate,b.b_resstate,l.lb_name";
 			query += " FROM book b";
 			query += " JOIN library l ON b.lb_id = l.lb_id";
-			query += " WHERE b.b_title LIKE '%" + searchWord + "%';";
+			query += " WHERE b.b_title LIKE '%" + searchWord + "%'";
+			
+			System.out.println(query);
 		    ResultSet rs = stmt.executeQuery(query);
 		
 		    ArrayList<String> result_list = new ArrayList<String>();
@@ -427,6 +429,7 @@ section {
 		        result_list.add("\""+rs.getString("b_imgurl")+"\"");
 		        result_list.add("\""+rs.getString("b_loanstate")+"\"");
 		        result_list.add("\""+rs.getString("b_resstate")+"\"");
+		        result_list.add("\""+rs.getString("lb_name")+"\"");
   		  }
 			rs.close();
 			stmt.close();

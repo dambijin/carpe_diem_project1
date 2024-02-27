@@ -148,17 +148,17 @@
 		let data_list = <%=DBConn.getSelectQueryAll("select n_id,n_title,n_date from notice")%>
 		
 // 		console.log(data_list[0]);
-		for (let i = 0; i < data_list.length; i++) {
+		for (let i = 0; i < data_list.length; i+=3) {
 			let announ = document.querySelector("#announcement_table");
 			let html = '';
 			html += '<td class="ann_id">';
-			html += data_list[i*3];
+			html += data_list[i];
 			html += '</td>';
 			html += '<td class="ann_title">';
-			html += data_list[i*3+1];
+			html += data_list[i+1];
 			html += '</td>';
 			html += '<td class="ann_day">';
-			html += data_list[i*3+2];
+			html += data_list[i+2];
 			html += '</td>';
 
 			let tr = document.createElement("tr");
@@ -169,7 +169,7 @@
 						location.href = "notice_detail.jsp";
 					})
 			announ.append(tr);
-			if(i>=4){
+			if(i>=12){
 				break;
 			}
 		}
