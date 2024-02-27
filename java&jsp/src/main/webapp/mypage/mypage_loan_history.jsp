@@ -23,22 +23,24 @@
         window.addEventListener("load", function () {
             bind();
         });
-
+        
         function bind() {
             // 정보수정 버튼
             let button1 = document.querySelector('#chginfo');
             //  보드
             let table = document.querySelector("#page1")
             // 내정보 
+           
             let myInfo = `
                     <strong>내정보</strong><br>
-                    이름 : 홍길동<br>
+                    이름 :  홍길동<br>
                     번호 : 010-0000-0000<br>
                     주소 : 천안시 아산동 병천읍<br>
                     회원번호 : --<br>
                     대출가능여부 : --`;
             let info1 = document.querySelector(".info1")
             info1.innerHTML = myInfo;
+           
 
 
             // 정보수정 창으로 이동
@@ -47,23 +49,24 @@
 
             });
             // 임시 보드 내용 추가
-            let data = <%=DBConn.getSelectQueryAll("select loan.l_id,b_title from loan inner join book on loan.b_id = book.b_id")%>
+            let data = <%=DBConn.getSelectQueryAll("select l_id, b_title, b_author, b_publisher, l_loandate, l_returnrealdate from loan inner join book on loan.b_id = book.b_id")%>
             for (let i = 0; i < 10; i++) {            	            	
                 let html = '';
                 html += '<tr class="tr">';
                 html += '      <td>' + (i+1) + '</td>';
-                html += '      <td>' + data[i*2] + '</td>';
-                html += '      <td><a href="../mainpages/book_detail.jsp" class="bookname">' + data[i*2+1] + '</a></td>';
-                html += '      <td>아몰랑</td>';
-                html += '     <td>아몰랑</td>';
-                html += '     <td>2024.01.20</td>';
-                html += '     <td>정상</td>';
+                html += '      <td>' + data[(i*6)] + '</td>';
+                html += '      <td><a href="../mainpages/book_detail.jsp" class="bookname">' + data[(i*6)+1] + '</a></td>';
+                html += '      <td>'+ data[(i*6)+2] + '</td>';
+                html += '     <td>' + data[(i*6)+3] +'</td>';
+                html += '     <td>'+ data[(i*6)+4]+'</td>';
+                html += '     <td>'+data[(i*6)+5]+'</td>';
                 html += '       <td>중앙</td>';
                 html += '</tr>';
 
                 table.innerHTML += html;
             	
-            }
+              
+            }  console.log(data)
             // 출력 개수
             let case_list = ["10개", "20개", "30개"]
             for (let i = 0; i < case_list.length; i++) {

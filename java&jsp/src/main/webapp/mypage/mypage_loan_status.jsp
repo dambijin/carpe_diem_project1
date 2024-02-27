@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%><!DOCTYPE html>
+    <%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="carpedm.DBConn"%>
+<%@ page import="carpedm.MypageDBConn"%>
 <html lang="ko">
 
 <head>
@@ -39,11 +45,12 @@
             });
 
             // 임시 게시판 생성
-            for (let i = 1; i <= 10; i++) {
+             let data = <%=DBConn.getSelectQueryAll("select l_id,b_title,b_author,b_publisher,l_loandate,l_returnrealdate from loan INNER join book on loan.b_id = book.b_id where loan.l_returnrealdate is null")%>
+            for (let i = 0; i <= 10; i++) {
                 let html = '';
-                html += '      <td>' + i + '</td>';
-                html += '      <td><a href="../mainpages/book_detail.jsp" class="bookname">아몰랑</a></td>';
-                html += '      <td>아몰랑</td>';
+                html += '      <td>' + (i+1) + '</td>';
+                html += '      <td><a href="../mainpages/book_detail.jsp" class="bookname">'+ data[i] +'</a></td>';
+                html += '      <td></td>';
                 html += '     <td>아몰랑</td>';
                 html += '     <td>2024.01.20</td>';
                 html += '     <td>정상</td>';
@@ -55,7 +62,7 @@
                
                 tr.classList.add("tr")
                 tr.innerHTML = html;
-
+                console.log(data)
 
                 // 연장버튼 클릭 이벤트
                 tr.querySelector(".extension").addEventListener("click", function () {

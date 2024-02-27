@@ -41,10 +41,15 @@ public class DBConn {
 				int columnCount = rsmd.getColumnCount(); // 열의 수를 가져옵니다.
 //	    		    System.out.println(columnCount);
 				for (int i = 1; i <= columnCount; i++) {
+					String value = rs.getString(i);
+					if (value == null) {
+					    value = "";
+					}
+				
 					// 열의 인덱스는 1부터 시작
-					String value = rs.getString(i).replace("\n", "<br>");
+					
 					//문자열로 집어넣기 위해서 앞뒤로 큰따옴표 추가
-					result_list.add("\"" + value + "\"");
+					result_list.add("\"" + value.replace("\n", "<br>") + "\"");
 				}
 			}
 //	    		result_list.get(0).toString();
@@ -76,6 +81,7 @@ public class DBConn {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
+				
 				// 전달인자로 컬럼명,대소문자 구분 X
 				result_list.add("\"" + rs.getString("lb_name") + "\"");
 //	    			System.out.println(rs.getString("lb_name"));
