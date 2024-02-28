@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.io.PrintWriter;
 
-public class DBConn {
+public class DBConnNotUse {
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
 
 	// 기본적인 접속메소드
-	public static Connection getConnection() {
+	private Connection getConnection() {
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -26,11 +26,11 @@ public class DBConn {
 	}
 
 	// 쿼리를 직접 작성하여 가져오기(Select만 가능)
-	public static ArrayList<String> getSelectQueryAll(String query) {
+	private ArrayList<String> getSelectQueryAll(String query) {
 		ArrayList<String> result_list = new ArrayList<String>();
 		try {
 
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			System.out.println("query:" + query);
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -64,11 +64,11 @@ public class DBConn {
 	}
 
 	// 도서관이름들가져오기
-	public static ArrayList<String> getlibraryNameAll() {
+	private ArrayList<String> getlibraryNameAll() {
 		ArrayList<String> result_list = new ArrayList<String>();
 		try {
 
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
 			query += "select";

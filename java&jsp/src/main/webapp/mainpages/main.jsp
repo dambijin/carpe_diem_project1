@@ -4,7 +4,6 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="carpedm.DBConn"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
 <!DOCTYPE html>
@@ -49,7 +48,7 @@
 
 	window.addEventListener("load", function() {
   		silde_bannersetting();
-//   	chg_text_detail(0);
+	   	chg_text_detail(0);
 
 		// 도서검색 버튼 엔터이벤트
 		let textbox = document.getElementById("searchWord");
@@ -119,16 +118,20 @@
 	// 도서검색 버튼 클릭
 	function search() {
 		let textbox = document.getElementById("searchWord");
+		let selectbox = document.getElementById("libsear");
 		if (textbox.value == "") {
 			alert("내용을 입력해주세요");
 			document.querySelector('#searchWord').focus();
 		} else {
 			alert(textbox.value + "을 검색했습니다");
-			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value);
+			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;
 		}
 	};
 
+	let library_list_js = [];
 	function chg_text_detail(sel) {
+	    let content = library_list_js[sel].lb_content;
+	    document.querySelector('.text_detail').innerHTML = content;
 <%-- 		<%  --%>
 // 			ArrayList<String> result_list2 = DBConn.getSelectQueryAll("select lb_content from library");
 <%-- 		%> --%>
@@ -386,7 +389,7 @@ nav .inner {
 							<option>전체</option>
 							<option>제목</option>
 							<option>저자</option>
-							<option>발행처</option>
+							<option>출판사</option>
 							<option>키워드</option>
 						</select>
 						</strong> <input type="text" name="searchWord" autocomplete="off"
@@ -481,8 +484,18 @@ nav .inner {
 				<div class="calendar">
 
 					<div class="text_detail">
-					<%= library_list.get(0).get("LB_CONTENT") %>
+<%-- 					<%= library_list.get(0).get("LB_CONTENT") %> --%>
 					</div>
+					<script>
+					library_list_js = [
+					<% for (int i = 0; i < library_list.size(); i++) { %>
+					    {
+					        lb_name: '<%= library_list.get(i).get("LB_NAME") %>',
+					        lb_content: '<%= library_list.get(i).get("LB_CONTENT").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r") %>'
+					    }<%= (i < library_list.size() - 1) ? "," : "" %>
+					<% } %>
+					];
+					</script>
 				</div>
 
 			</div>

@@ -4,7 +4,7 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="carpedm.DBConn"%>
+<%@ page import="carpedm.DBConnNotUse"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
 <!DOCTYPE html>
@@ -348,20 +348,6 @@ section {
             }
         });
     });
-        //검색옵션 기본세팅
-        let search_opt_list = ["전체", "제목", "저자", "발행처", "키워드"];
-
-        for (let i = 0; i < search_opt_list.length; i++) {
-            let search_opt = document.querySelector("#search_opt_list");
-            let html = '';
-            html += search_opt_list[i];
-
-            let opt = document.createElement("option");
-            opt.innerHTML = html;
-
-            search_opt.append(opt);
-        }
-
 
         // 도서검색 버튼
         // Enter 키 이벤트 리스너 추가
@@ -470,13 +456,13 @@ section {
 
 	function search() {
 		let textbox = document.getElementById("searchWord");
+		let selectbox = document.getElementById("search_opt_list");
 		if (textbox.value == "") {
 			alert("내용을 입력해주세요");
 			document.querySelector('#searchWord').focus();
 		} else {
 			alert(textbox.value + "을 검색했습니다");
-// 			window.location.href = 'book_search.jsp';
-			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value);
+			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;
 		}
 	};
 </script>
@@ -498,7 +484,8 @@ section {
 							ArrayList<Map<String, String>> libs_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
 							for (int i = 0; i < libs_list.size(); i++) {
 							%>
-							<li><input class="chk" type="checkbox" value="<%=libs_list.get(i).get("LB_ID")%>"> &nbsp;&nbsp;<%=libs_list.get(i).get("LB_NAME")%>
+							<li><input class="chk" type="checkbox"
+								value="<%=libs_list.get(i).get("LB_ID")%>"> &nbsp;&nbsp;<%=libs_list.get(i).get("LB_NAME")%>
 							</li>
 							<%
 							}
@@ -518,7 +505,11 @@ section {
 						<div class="search">
 							<div class="input">
 								<strong> <select name="item" id="search_opt_list">
-										<!-- 자바스크립트로 검색옵션가져오기 -->
+										<option>전체</option>
+										<option>제목</option>
+										<option>저자</option>
+										<option>출판사</option>
+										<option>키워드</option>
 								</select>
 								</strong> <input type="text" name="word" autocomplete="off"
 									id="searchWord" style="ime-mode: active"

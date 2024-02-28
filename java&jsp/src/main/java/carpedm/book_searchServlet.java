@@ -19,18 +19,34 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/book_search")
 public class book_searchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String search = request.getParameter("search");
-		if(search == null || "".equals(search))
+		String searchWord = request.getParameter("search");
+		if(searchWord == null || "".equals(searchWord))
 		{
-			search="";
+			searchWord="";
 		}
-		request.setAttribute("search", search);
+		request.setAttribute("search", searchWord);
 		
+		String item = request.getParameter("item");
+		if(item == null || "".equals(item))
+		{
+			item="";
+		}
+		request.setAttribute("search", searchWord);
 		String query = "";
 		query += "SELECT b.b_id,b.lb_id,b.b_title,b.b_author,b.b_pubyear,b.b_isbn,b.b_publisher,b.b_kywd,b.b_imgurl,b.b_loanstate,b.b_resstate,l.lb_name";
 		query += " FROM book b";
 		query += " JOIN library l ON b.lb_id = l.lb_id";
-		query += " WHERE b.b_title LIKE '%" + search + "%'";
+		if (item.equals("전체")) {
+			query += " WHERE b.b_title LIKE '%" + searchWord + "%' OR b.b_author LIKE '%" + searchWord + "%' OR b.b_publisher LIKE '%" + searchWord + "%' OR b.b_kywd LIKE '%" + searchWord + "%'";
+		} else if (item.equals("제목")) {
+			query += " WHERE b.b_title LIKE '%" + searchWord + "%'";
+		} else if (item.equals("저자")) {
+			query += " WHERE b.b_author LIKE '%" + searchWord + "%'";
+		} else if (item.equals("출판사")) {
+			query += " WHERE b.b_publisher LIKE '%" + searchWord + "%'";
+		} else if (item.equals("키워드")) {
+			query += " WHERE b.b_kywd LIKE '%" + searchWord + "%'";
+		}
 		ArrayList<Map<String,String>> book_list = getDBList(query);
 		ArrayList<Map<String,String>> library_list = getDBList("select lb_id,lb_name from library");
 
@@ -58,7 +74,7 @@ public class book_searchServlet extends HttpServlet {
 	public static ArrayList<Map<String, String>> getDBList(String query) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			// SQL준비
 
 			System.out.println("query:" + query);
