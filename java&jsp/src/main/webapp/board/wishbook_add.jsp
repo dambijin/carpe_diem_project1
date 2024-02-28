@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 신청</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <style>
         /* table 왼쪽 */
         .right_section .subject {
@@ -285,7 +285,8 @@
                         </tr>
                         <tr>
                             <td class="subject">신청자 이름</td>
-                            <td><input type="text" class="textbox" placeholder="이름" id="user_name"></td>
+                            <td><input type="text" class="textbox" placeholder="이름" id="user_name">
+                            <% %></td>
                         </tr>
                         <tr>
                             <td class="subject">* 휴대폰 번호</td>
@@ -312,7 +313,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>
