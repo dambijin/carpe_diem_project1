@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="carpedm.DBConn"%>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,11 +12,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지(희망도서목록)</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="../js/admin_library.js"></script>
+<script src="/carpedm/js/admin_library.js"></script>
 <script>
     window.addEventListener("load", function () {
         bind();
@@ -21,7 +24,7 @@
 
     function bind() {
     	// 회원목록 가져옴		
-		let data_list = <%=DBConn.getSelectQueryAll("select lb_id, w_title, w_author, w_isbn, w_pubyear, m_pid, w_name, w_pubyear, w_content from wishlist")%>
+		let data_list = <%=DBConn.getSelectQueryAll("select lb_id, w_title, w_author, w_isbn, w_pubyear, m_pid, w_name, w_pubyear, w_content from wishlist;")%>
 		
 
         for (let i = 0; i <= data_list.length; i=i+9) {
@@ -31,22 +34,22 @@
 
             // html += '</tr>';
             // 추가한다
-            html += '<td>' + data_list[i] + '</td>';
-            html += '<td>' + data_list[i+1] + '</td>';
-            html += '<td>' + data_list[i+2] + '</td>';
-            html += '<td>' + data_list[i+3] + '</td>';
-            html += '<td>' + data_list[i+4] + '</td>';
-            html += '<td>' + data_list[i+5] + '</td>';
-            html += '<td>' + data_list[i+6] + '</td>';
-            html += '<td>' + data_list[i+7] + '</td>';
-            html += '<td>' + data_list[i+8] + '</td>';
-            html += '<td width="150px"><input type="button" value="완료" class="complete" onclick="complete()"> <input type = "button" value = "반려" class="companion" onclick = "companion()" ></td>';
-            // html +=	'</tr>'
+//             html += '<td>' + data_list[i] + '</td>';
+//             html += '<td>' + data_list[i+1] + '</td>';
+//             html += '<td>' + data_list[i+2] + '</td>';
+//             html += '<td>' + data_list[i+3] + '</td>';
+//             html += '<td>' + data_list[i+4] + '</td>';
+//             html += '<td>' + data_list[i+5] + '</td>';
+//             html += '<td>' + data_list[i+6] + '</td>';
+//             html += '<td>' + data_list[i+7] + '</td>';
+//             html += '<td>' + data_list[i+8] + '</td>';
+//             html += '<td width="150px"><input type="button" value="완료" class="complete" onclick="complete()"> <input type = "button" value = "반려" class="companion" onclick = "companion()" ></td>';
+//             // html +=	'</tr>'
 
-            let tr = document.createElement("tr"); // <tr></tr>
-            tr.innerHTML = html;
+//             let tr = document.createElement("tr"); // <tr></tr>
+//             tr.innerHTML = html;
 
-            todolist.append(tr);
+//             todolist.append(tr);
         }
 
         //검색옵션 기본세팅
@@ -252,18 +255,47 @@
 
         <div class="table_div">
             <table class="wish_table" width="1100px" id="page1">
-                <tr id="page1_tr">
-                    <th width="80px">회원번호</th>
-                    <th width="80px">책이름</th>
-                    <th width="80px">저자</th>
-                    <th>ISBN</th>
-                    <th>발행년</th>
-                    <th width="100px">회원ID</th>
-                    <th width="100px">신청자이름</th>
-                    <th width="100px">신청날짜</th>
-                    <th width="100px">신청사유</th>
-                    <th width="100px">처리</th>
-                </tr>
+            	<thead>
+	                <tr id="page1_tr">
+	                    <th width="80px">회원번호</th>
+	                    <th width="80px">책이름</th>
+	                    <th width="80px">저자</th>
+	                    <th>ISBN</th>
+	                    <th>발행년</th>
+	                    <th width="100px">회원ID</th>
+	                    <th width="100px">신청자이름</th>
+	                    <th width="100px">신청날짜</th>
+	                    <th width="100px">신청사유</th>
+	                    <th width="100px">처리</th>
+	                </tr>
+                </thead>
+                <tbody>
+					<%
+					ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("wishbook_list");
+					%>
+
+					<%
+					for (int i = 0; i < data_list.size(); i++) {
+					%>
+					<tr>
+						<td><%=data_list.get(i).get("lb_id")%></td>
+						<td><%=data_list.get(i).get("w_title")%></td>
+						<td><%=data_list.get(i).get("w_author")%></td>
+						<td><%=data_list.get(i).get("w_isbn")%></td>
+						<td><%=data_list.get(i).get("w_pubyear")%></td>
+						<td><%=data_list.get(i).get("m_pid")%></td>
+						<td><%=data_list.get(i).get("w_name")%></td>
+						<td><%=data_list.get(i).get("w_pubyear")%></td>
+						<td><%=data_list.get(i).get("w_content")%></td>
+						<td width="150px"><input type="button" value="완료"
+							class="complete" onclick="complete()"> <input
+							type="button" value="반려" class="companion" onclick="companion()">
+						</td>
+					</tr>
+					<%
+					}
+					%>
+				</tbody>
             </table>
         </div>
 
@@ -284,7 +316,7 @@
 
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header_admin.js"></script>
+    <script src="/carpedm/js/header_admin.js"></script>
 </body>
 
 </html>

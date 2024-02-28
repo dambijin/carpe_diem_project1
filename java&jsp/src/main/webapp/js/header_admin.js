@@ -1,9 +1,9 @@
 document.querySelector('header').innerHTML = `
     <div class="blank_space"> </div>
 
-    <div class="headerbox" onclick="location.href='/carpedm/mainpages/main.jsp';">
+    <div class="headerbox" onclick="location.href='/carpedm/main';">
     <img class="logo" width="30px"
-    src="../resource/logo.png">
+    src="/carpedm/resource/logo.png">
         도서관리시스템
     </div>
     <div class="sign_up_in">
@@ -22,9 +22,9 @@ document.querySelector('header').innerHTML = `
 
     <div class="nav">
         <hr class="custom-hr">
-        <div class="flex-header" onclick="location.href='admin_member_list.jsp';">회원목록</div>
-        <div class="flex-header" onclick="location.href='admin_book_list.jsp';">재고</div>
-        <div class="flex-header" onclick="location.href='admin_wishbook_list.jsp';">희망도서목록</div>
+        <div class="flex-header" onclick="location.href='/carpedm/admin_member_list';">회원목록</div>
+        <div class="flex-header" onclick="location.href='/carpedm/admin_book_list';">재고</div>
+        <div class="flex-header" onclick="location.href='/carpedm/admin_wishbook_list';">희망도서목록</div>
         <hr class="custom-hr">
     </div>
 `;

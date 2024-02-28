@@ -124,8 +124,7 @@
 			document.querySelector('#searchWord').focus();
 		} else {
 			alert(textbox.value + "을 검색했습니다");
-// 			window.location.href = 'book_search.jsp';
-			window.location.href = 'book_search.jsp?search=' + encodeURIComponent(textbox.value);
+			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value);
 		}
 	};
 

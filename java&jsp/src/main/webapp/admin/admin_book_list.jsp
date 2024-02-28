@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="carpedm.DBConn"%>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,11 +12,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>관리자페이지(재고)</title>
-	<link href="../css/layout.css" rel="stylesheet">
+	<link href="/carpedm/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script defer src="../js/admin_library.js"></script>
+<script defer src="/carpedm/js/admin_library.js"></script>
 <script>
 	// admin_book_list 등록 팝업창열기
 	function bookadd_popup() {
@@ -39,39 +42,39 @@
 
 			// html += '</tr>';
 			// 추가한다
-			book_html += '<td class="member_no">' + data_list[i] + '</td>';
-			book_html += '<td><div class="book_name">';			
-			book_html += data_list[i+1];			
-			book_html += '</div></td>';			
-			book_html += '<td>';
-			book_html += data_list[i+2];
-			book_html += '</td>';
-			book_html += '<td>';
-			book_html += data_list[i+3];
-			book_html += '</td>';
-			book_html += '<td>';
-			book_html += data_list[i+4];
-			book_html += '</td>';
-			book_html += '<td>';
-			book_html += data_list[i+5];
-			book_html += '</td>';
-			book_html += '<td>';
-			book_html += data_list[i+6];
-			book_html += '</td>';
-			book_html += '<td>';
-			book_html += data_list[i+7];
-			book_html += '</td>';
-			book_html += '<td>';
-			book_html += data_list[i+8];
-			book_html += '</td>';
-			book_html += '<td>';
-			book_html += data_list[i+9];
-			book_html += '</td>';
-			book_html += '<td><input type="checkbox" name="check" class="checkbox"></td>';
-			// html +=	'</tr>'
+// 			book_html += '<td class="member_no">' + data_list[i] + '</td>';
+// 			book_html += '<td><div class="book_name">';			
+// 			book_html += data_list[i+1];			
+// 			book_html += '</div></td>';			
+// 			book_html += '<td>';
+// 			book_html += data_list[i+2];
+// 			book_html += '</td>';
+// 			book_html += '<td>';
+// 			book_html += data_list[i+3];
+// 			book_html += '</td>';
+// 			book_html += '<td>';
+// 			book_html += data_list[i+4];
+// 			book_html += '</td>';
+// 			book_html += '<td>';
+// 			book_html += data_list[i+5];
+// 			book_html += '</td>';
+// 			book_html += '<td>';
+// 			book_html += data_list[i+6];
+// 			book_html += '</td>';
+// 			book_html += '<td>';
+// 			book_html += data_list[i+7];
+// 			book_html += '</td>';
+// 			book_html += '<td>';
+// 			book_html += data_list[i+8];
+// 			book_html += '</td>';
+// 			book_html += '<td>';
+// 			book_html += data_list[i+9];
+// 			book_html += '</td>';
+// 			book_html += '<td><input type="checkbox" name="check" class="checkbox"></td>';
+// 			// html +=	'</tr>'
 
-			let tr = document.createElement("tr"); // <tr></tr>
-			tr.innerHTML = book_html;
+// 			let tr = document.createElement("tr"); // <tr></tr>
+// 			tr.innerHTML = book_html;
 			
 			
 			// 이름에 클릭이벤트
@@ -79,7 +82,7 @@
 			// tr 엘리먼트 내에서 member_no 찾아 그 내용(innerHTML)을 변수에 담음
 			tr.querySelector(".book_name").addEventListener("click", function () {
 				let member_no = tr.querySelector(".member_no").innerHTML;
-				alert("등록번호 : " + member_no);
+				alert("도서ID : " + member_no);
 			})
 			
 			
@@ -400,22 +403,51 @@
 			<div class="detail_tabel">
 				<table border="0" width="1200" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc"
 					id="todo_booktable">
-					<tr>
-						<th width="100">도서ID</th>
-						<th width="100">책이름</th>
-						<th width="100">저자</th>
-						<th width="100">출판사</th>
-						<th width="100">ISBN</th>
-						<th width="100">발행년</th>
-						<th width="100">소장기관</th>
-						<th width="100">등록날짜</th>
-						<th width="100">예약</th>
-						<th width="100">대출상태</th>
-						<th width="100">
-							도서폐기
-							<input type="checkbox" id="select_all">
-						</th>
-					</tr>
+					<thead>
+						<tr>
+							<th width="100">도서ID</th>
+							<th width="100">책이름</th>
+							<th width="100">저자</th>
+							<th width="100">출판사</th>
+							<th width="100">ISBN</th>
+							<th width="100">발행년</th>
+							<th width="100">소장기관</th>
+							<th width="100">등록날짜</th>
+							<th width="100">예약</th>
+							<th width="100">대출상태</th>
+							<th width="100">
+								도서폐기
+								<input type="checkbox" id="select_all">
+							</th>
+						</tr>
+					</thead>
+					<tbody id="memberListBody">
+                	<!-- 동적으로 추가될 테이블 내용 -->
+						<%
+						// 예시 데이터
+							ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
+						%>
+
+						<%
+						for (int i = 0; i < data_list.size(); i++) {
+						%>
+						<tr>
+							<td class="book_no"><%=data_list.get(i).get("b_id")%></td>
+							<td><div class="book_name"><%=data_list.get(i).get("b_title")%></div></td>
+							<td><%=data_list.get(i).get("b_author")%></td>
+							<td><%=data_list.get(i).get("b_publisher")%></td>
+							<td><%=data_list.get(i).get("b_isbn")%></td>
+							<td><%=data_list.get(i).get("b_pubyear")%></td>
+							<td><%=data_list.get(i).get("lb_id")%></td>
+							<td><%=data_list.get(i).get("b_pubyear")%></td>
+							<td><%=data_list.get(i).get("b_resstate")%></td>
+							<td><%=data_list.get(i).get("b_loanstate")%></td>
+							<td><input type="checkbox" name="check" class="checkbox"></td>
+						</tr>
+						<%
+						}
+						%>
+					</tbody>
 				</table>
 		</form>
 
@@ -440,7 +472,7 @@
 
 	</div>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="../js/header_admin.js"></script>
+	<script src="/carpedm/js/header_admin.js"></script>
 
 </body>
 
