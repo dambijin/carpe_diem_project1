@@ -46,7 +46,6 @@
 		let data_list = <%=DBConn.getSelectQueryAll("select m_pid, m_name, m_id, m_birthday, m_tel, m_address, lb_id from member")%>
 		
 		
-		// 테이블을 가져와서 todolist변수에 담아둠
 		console.log(data_list.length);
 		for (let i = 0; i < data_list.length; i=i+7) {
 			let todolist = document.querySelector("#memberListTable");		
@@ -106,19 +105,10 @@
 // 			todolist.append(tr);
 		}
 
-		// 검색 textbox를 가져와서 inputTodo 변수에 담고
-		// 값이 null이 아니면
-		// textbox의 엔터키를 눌렀을 때 
-		// 밑에 함수가 있어서 검색됨
-		var inputTodo = document.getElementById("input_todo");
-		if (inputTodo != null) {
-			inputTodo.addEventListener("keydown", enterkey); /* enterkey함수 이벤트 */
-		}
-
 		// 검색옵션 기본세팅
 		// select 옵션 가져와서 변수에담고
 		// html 변수에 배열의 값을 추가해서 for문 돌림
-		let search_opt_list = [ "회원번호", "이름", "회원ID", "생년월일", "전화번호", "주소", "회원ID", "연체상태"];
+		let search_opt_list = [ "전체", "회원번호", "이름", "회원ID", "생년월일", "전화번호", "주소", "회원ID", "연체상태"];
 
 		for (let i = 0; i < search_opt_list.length; i++) {
 			let search_opt = document.querySelector("#search_option");
@@ -130,6 +120,21 @@
 
 			search_opt.append(opt);
 		}
+		
+		// 검색 textbox를 가져와서 inputTodo 변수에 담고
+		// 값이 null이 아니면
+		// textbox의 엔터키를 눌렀을 때 
+		// 밑에 함수가 있어서 검색됨
+		// 도서검색 버튼 클릭
+		var textbox = document.getElementById("input_todo");
+		if (textbox.value == "") {
+			document.querySelector('#input_todo').focus();
+			inputTodo.addEventListener("keydown", enterkey); /* enterkey함수 이벤트 */
+		} else {
+			alert(textbox.value + "을 검색했습니다");
+			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value);
+		}
+		
 	};
 
 	// 엔터눌렀을 때 search() 실행
