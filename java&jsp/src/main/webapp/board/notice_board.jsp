@@ -5,7 +5,8 @@
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="carpedm.BoardDBConn"%>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -13,7 +14,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>공지사항</title>
-<link href="../css/layout.css" rel="stylesheet">
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 <script>
 	window.addEventListener("load", function() {
 		select();
@@ -49,8 +50,7 @@
 
 		// 게시판 테이블
 		let board_sub = document.querySelector(".board_sub")
-		
-	
+
 		for (let i = 1; i < ntitle.length; i++) {
 			let html = '';
 			html += '<td>' + i + '</td>';
@@ -245,17 +245,25 @@
 								<th class="board_subject day">등록일</th>
 								<th class="board_subject">조회</th>
 							</tr>
-							<tr>
+
 							<%
-	String num = (String) request.getAttribute("num");
-%>
-								<td><%= num %></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+							List<Map<String, String>> list = (List<Map<String, String>>) request.getAttribute("list");
+							
+							
+							for (int i=0; i<list.size(); i++){
+								Map map = (Map) list.get(i);
+								//System.out.println(map.toString());
+								//System.out.println(list.get(i).get("num"));
+							%>
+							<tr>
+								<td><%=list.get(i).get("num")%></td>
+								<td><%=list.get(i).get("lb")%></td>
+								<td><%=list.get(i).get("title")%></td>
+								<td><%=list.get(i).get("write")%></td>
+								<td><%=list.get(i).get("date").substring(0,10)%></td>
+								<td><%=list.get(i).get("view")%></td>
 							</tr>
+							<%} %>
 						</table>
 					</div>
 					<div class="paging_writing">
@@ -285,7 +293,7 @@
 	</section>
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="../js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>
