@@ -5,6 +5,8 @@
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="carpedm.DBConn"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -12,7 +14,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         /* 헤더 아래 모두 */
@@ -133,20 +135,23 @@
                 let userid = document.querySelector('.textbox1').value;
                 let userpw = document.querySelector('.textbox2').value;
 
+                
+                <%		
+                List<Map<String, String>> idpw_list = (List<Map<String, String>>) request.getAttribute("idpw_list");
+                
+                
+				%>
+        		console.log("<%= idpw_list.get(0).get("id")%>");
 
-                let data_list = <%=DBConn.getSelectQueryAll("select m_id from member")%>;
-                
-               
-                
-                for (let i = 0; i < data_list.length; i++) {
-                    console.log(data_list[i]);
-                }
-                
-                console.log(userid);
-                
-                let textBox = document.getElementById(".textbox1"); // 텍스트 상자의 ID를 찾아서 textBox에 할당
+        		if(userid=="<%= idpw_list.get(0).get("id")%>")
+        			{
+        			console.log("성공");
+        			}
+        		else
+        			{
+        			console.log("실패");
+        			}
 
-                
                 if(userid == "") {
                     alert("아이디를 입력해주세요.");
                     document.querySelector('.textbox1').focus();
@@ -154,8 +159,10 @@
                     alert("비밀번호를 입력해주세요.");
                     document.querySelector('.textbox2').focus();
                 } else {
-                    onclick(location.href='../mainpages/main.jsp')
-                    
+                    console.log("아이디:", userid);
+                    console.log("비밀번호:", userpw);
+                    // 로그인 처리 또는 다른 작업 수행
+                    // onclick(location.href='../mainpages/main.jsp')
                 }
             });
             let textbox1 = document.getElementById("text_id");
@@ -276,7 +283,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>
