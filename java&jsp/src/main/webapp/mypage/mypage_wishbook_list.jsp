@@ -1,13 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><!DOCTYPE html>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="carpedm.DBConn"%>
+<%@ page import="java.util.Map"%>
+
+
 <html lang="ko">
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지 희망도서 신청목록</title>
-<link href="../css/layout.css" rel="stylesheet">
-<link href="../css/mypage.css" rel="stylesheet">
+<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm/css/mypage.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous">
@@ -19,19 +27,19 @@
 
         function bind() {
             let button1 = document.getElementById('chginfo');
-            let button3 = document.getElementById('button_cancle');
+            let button3 = document.getElementById('cancle');
             let table = document.getElementById('page1')
 
             // 내정보 
-            let myInfo = `
-                    <strong>내정보</strong><br>
-                    이름 : 홍길동<br>
-                    번호 : 010-0000-0000<br>
-                    주소 : 천안시 아산동 병천읍<br>
-                    회원번호 : --<br>
-                    대출가능여부 : --`;
-            let info1 = document.querySelector(".info1")
-            info1.innerHTML = myInfo;
+//             let myInfo = `
+//                     <strong>내정보</strong><br>
+//                     이름 : 홍길동<br>
+//                     번호 : 010-0000-0000<br>
+//                     주소 : 천안시 아산동 병천읍<br>
+//                     회원번호 : --<br>
+//                     대출가능여부 : --`;
+//             let info1 = document.querySelector(".info1")
+//             info1.innerHTML = myInfo;
 
             // 취소버튼 클릭시 팝업 알림
             button3.addEventListener('click', function () {
@@ -40,7 +48,7 @@
             });
             // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
-                window.open('mypage_chginfo.jsp', '_self')
+                window.open('http://localhost:8080/carpedm/mypage_chginfo', '_self')
 
             });
 
@@ -59,12 +67,12 @@
 
             }
             // 도서관 분류
-            let library_list = ["두정도서관", "천안도서관", "아우내도서관"]
-            for (let i = 0; i < library_list.length; i++) {
+           let libs_list = <%=DBConn.getlibraryNameAll()%>;
+            for (let i = 0; i < libs_list.length; i++) {
                 let html = "";
                 let result_library_list = document.querySelector("#library")
 
-                html += library_list[i];
+                html += libs_list[i];
 
                 let opt = document.createElement("option");
                 opt.innerHTML = html;
@@ -76,29 +84,30 @@
 
 
             // 임시 보드 작성
-            for (let i = 1; i <= 10; i++) {
-                let html = '';
+<%--             let data = <%=DBConn.getSelectQueryAll("select w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date from wishlist;")%> --%>
+//             for (let i = 1; i <= 10; i++) {
+//                 let html = '';
 				
-                html += '            <td>' + i ;
-                html += '            <td>' + '천안' + i + '</td>';
-                html += '           <td><a href="" onclick=popup() class="bookname">책이름</a></td>';
-                html += '           <td>박상민</td>';
-                html += '          <td>1998</td>';
-                html += '          <td>?</td>';
-                html += '          <td>정상</td>';
-                html += '         <td>중앙</td>';
-                html += '        <td>010-0000-0000</td>';
-                html += '      <td>2024.03.03</td>';
-                html += '      <td>정상</td>';
-                html += '       <td><input type="checkbox" class="checkbox"></td>';
+//                 html += '            <td>' + i ;
+//                 html += '            <td>천안</td>';
+//                 html += '           <td><a href="" onclick=popup() class="bookname">'+ data[i] +'</a></td>';
+//                 html += '           <td>'+ data[i] +'</td>';
+//                 html += '          <td>1998</td>';
+//                 html += '          <td>?</td>';
+//                 html += '          <td>정상</td>';
+//                 html += '         <td>중앙</td>';
+//                 html += '        <td>010-0000-0000</td>';
+//                 html += '      <td>2024.03.03</td>';
+//                 html += '      <td>정상</td>';
+//                 html += '       <td><input type="checkbox" class="checkbox"></td>';
 
 
-                let tr = document.createElement("tr");
-                tr.classList.add("tr")
-                tr.innerHTML = html;
+//                 let tr = document.createElement("tr");
+//                 tr.classList.add("tr")
+//                 tr.innerHTML = html;
 
                 // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
-                tr.querySelector(".checkbox")
+                document.querySelector(".checkbox")
                     .addEventListener("click", function (event) {
 
                         if (!event.target.checked) {
@@ -142,7 +151,8 @@
                     }
                 })
                 table.append(tr)
-            }
+            
+        
         };
         function popup() {
 
@@ -167,12 +177,13 @@
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-				<a href="mypage_loan_status.jsp"><button type="button"
-						class="sub_but">대출 현황</button></a><br> <a
-					href="mypage_loan_history.jsp"><button type="button"
-						class="sub_but">대출 내역</button></a><br> <a
-					href="mypage_reservation_list.jsp"><button type="button"
-						class="sub_but">예약</button></a> <a href="mypage_wishbook_list.jsp"><button
+				<a href="http://localhost:8080/carpedm/mypage_loan_status"><button type="button"
+						class="sub_but">대출 현황</button></a><br> 
+				<a href="http://localhost:8080/carpedm/mypage_loan_history"><button type="button"
+						class="sub_but">대출 내역</button></a><br> 
+				<a href="http://localhost:8080/carpedm/mypage_reservation_list"><button type="button"
+						class="sub_but">예약</button></a> 
+				<a href="http://localhost:8080/carpedm/mypage_wishbook_list"><button
 						type="button" class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
@@ -185,7 +196,23 @@
 					<div class="div1">
 						<table class="div1_table">
 							<tr>
-								<td class="info1"></td>
+								<td class="info1">
+								<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
+							System.out.println(myInfo.size());
+							
+							%><Strong>내정보</Strong><br>
+								이름 : <%=myInfo.get(0).get("M_NAME") %><br>
+								번호 : <%=myInfo.get(0).get("M_TEL") %><br>
+								주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
+								회원번호 : <%=myInfo.get(0).get("M_PID") %><br>
+								<% String loanstate_text = "대출가능";
+								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
+								{
+									loanstate_text = "대출불가";
+								}
+								%>
+								대출가능여부 : <%=loanstate_text%>
+                         </td>
 								<td>
 									<button type="button" id="chginfo">정보수정</button>
 								</td>
@@ -223,10 +250,32 @@
 							<th>신청사유</th>
 							<th>출판사</th>
 							<th>휴대폰번호</th>
-							<th>신청일자</th>
 							<th>처리상태</th>
-							<th>취소 <input type="checkbox" id="selectAll">
-							</th>
+							<th>취소 <input type="checkbox" id="selectAll"></th>
+							</tr>
+							
+							<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 
+							System.out.println(list.size());
+							
+							for(int i = 0; i< list.size(); i++)
+                         {%>
+                         <tr class="tr">
+							<td><%=i+1 %></td>
+							<td><%=list.get(i).get("lb_name") %></td>
+							<td><a href="/carpedm/wishbook_detail.jsp"><%=list.get(i).get("w_title") %></a></a></td>
+							<td><%=list.get(i).get("w_author") %></td>
+							<td><%=list.get(i).get("w_pubyear") %></td>
+							<td><%=list.get(i).get("w_isbn") %></td>
+							<td><%=list.get(i).get("w_content") %></td>
+							<td><%=list.get(i).get("w_publisher") %></td>
+							<td><%=list.get(i).get("w_tel") %></td>
+							 <td>정상</td>
+							 <td><input type="checkbox" class="checkbox"></td>
+						</tr>
+
+						<%}
+                         %>
+
 					</table>
 				</div>
 				<div id="button_cancle">
@@ -237,7 +286,7 @@
 	</section>
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="../js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

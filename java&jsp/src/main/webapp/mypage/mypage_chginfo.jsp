@@ -1,12 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%><!DOCTYPE html>
+    <%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="carpedm.DBConn"%>
+<%@ page import="java.util.Map"%>
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js">
     </script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -55,9 +61,9 @@
             }
 
             // 본문 내용 스크립트화
-            name.textContent = "박상민";
-            birth.textContent = "1995.06.15";
-            id.textContent = "sdfsdf";
+//             name.textContent = "박상민";
+//             birth.textContent = "1995.06.15";
+//             id.textContent = "sdfsdf";
 
             //    수신동의 체크
             let mod = document.querySelector("#mod")
@@ -65,17 +71,17 @@
             // 정보 임의 지정
            
             
-            document.querySelector("#phonenumber").value = "010-0000-0000";
-            document.querySelector("#email_id").value = "doseo";
-            document.querySelector("#email_domain").value = "human.com";
-            document.querySelector("#tel1").value = "041";
-            document.querySelector("#tel2").value = "331";
-            document.querySelector("#tel3").value = "1234";
-            document.querySelector("#sample6_postcode").value = "";
-            document.querySelector("#sample6_address").value = "";
-            document.querySelector("#sample6_address2").value = "";
-            document.getElementsByName("sms")[0].checked = true;
-            document.getElementsByName("email")[0].checked = true;
+//             document.querySelector("#phonenumber").value = "010-0000-0000";
+//             document.querySelector("#email_id").value = "doseo";
+//             document.querySelector("#email_domain").value = "human.com";
+//             document.querySelector("#tel1").value = "041";
+//             document.querySelector("#tel2").value = "331";
+//             document.querySelector("#tel3").value = "1234";
+//             document.querySelector("#sample6_postcode").value = "";
+//             document.querySelector("#sample6_address").value = "";
+//             document.querySelector("#sample6_address2").value = "";
+//             document.getElementsByName("sms")[0].checked = true;
+//             document.getElementsByName("email")[0].checked = true;
 
 
 
@@ -308,15 +314,24 @@
                 </tr>
                 <tr>
                     <th>이름</th>
-                    <td class="padding" id="name"></td>
+                    <td class="padding" id="name">
+                    <% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
+							System.out.println(myInfo.size());
+							%>		
+							<%=myInfo.get(0).get("M_NAME") %>
+                    </td>
                 </tr>
                 <tr>
                     <th>생년월일</th>
-                    <td class="padding" id="birth"></td>
+                    <td class="padding" id="birth">
+                    <%= myInfo.get(0).get("M_BIRTHDAY").substring(0,10) %>
+                    </td>
                 </tr>
                 <tr>
                     <th>아이디</th>
-                    <td class="padding" id="id"></td>
+                    <td class="padding" id="id">
+                     <%=myInfo.get(0).get("M_ID") %>
+                    </td>
                 </tr>
                 <tr>
                     <th>비밀번호</th>
@@ -388,7 +403,7 @@
     </section>
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="carpedm/js/header.js"></script>
 </body>
 
 </html>
