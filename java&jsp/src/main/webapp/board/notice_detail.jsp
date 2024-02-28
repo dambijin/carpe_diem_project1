@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><!DOCTYPE html>
-
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>공지사항 상세페이지</title>
-<link href="../css/layout.css" rel="stylesheet">
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 
 <style>
 /* 글쓴 내용 테이블의 제목, 작성자, 등록일, 조회, 도서관 ,첨부 */
@@ -63,30 +64,30 @@
 }
 </style>
 <script>
-	window
-			.addEventListener(
-					"load",
-					function() {
-						// 등록 버튼
-						document.querySelector("#notice_update")
-								.addEventListener('click', function() {
-									location.href = "notice_update.jsp";
-								});
+// 	window
+// 			.addEventListener(
+// 					"load",
+// 					function() {
+// 						// 등록 버튼
+// 						document.querySelector("#notice_update")
+// 								.addEventListener('click', function() {
+// 									location.href = "notice_update.jsp";
+// 								});
 
-						document.querySelector("#notice_delete")
-								.addEventListener('click', function() {
-									alert("삭제했습니다.");
-									location.href = "notice_board.jsp";
-								});
+// 						document.querySelector("#notice_delete")
+// 								.addEventListener('click', function() {
+// 									alert("삭제했습니다.");
+// 									location.href = "notice_board.jsp";
+// 								});
 
-						document.querySelector("#subject_title").innerHTML = "tttt";
-						document.querySelector("#subject_writer").innerHTML = "wwww";
-						document.querySelector("#subject_date").innerHTML = "2024-02-05";
-						document.querySelector("#subject_view").innerHTML = "10000000000";
-						document.querySelector("#subject_lib").innerHTML = "llll";
-						document.querySelector("#subject_file").innerHTML = '<a href="/path/to/your/file.pdf" download>첨부파일 다운로드</a>';
-						document.querySelector("#subject_cont").innerHTML = "cccc";
-					})
+// 						document.querySelector("#subject_title").innerHTML = "tttt";
+// 						document.querySelector("#subject_writer").innerHTML = "wwww";
+// 						document.querySelector("#subject_date").innerHTML = "2024-02-05";
+// 						document.querySelector("#subject_view").innerHTML = "10000000000";
+// 						document.querySelector("#subject_lib").innerHTML = "llll";
+// 						document.querySelector("#subject_file").innerHTML = '<a href="/path/to/your/file.pdf" download>첨부파일 다운로드</a>';
+// 						document.querySelector("#subject_cont").innerHTML = "cccc";
+// 					})
 </script>
 </head>
 
@@ -96,6 +97,7 @@
 	<section>
 		<div class="s_section">
 			<div class="left_section">
+				
 				<button type="button" class="sub_but"
 					onclick="location.href='notice_board';">공지사항</button>
 				<br>
@@ -140,7 +142,7 @@
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="../js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

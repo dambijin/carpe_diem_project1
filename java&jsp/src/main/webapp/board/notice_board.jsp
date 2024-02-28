@@ -4,7 +4,6 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="carpedm.BoardDBConn"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 

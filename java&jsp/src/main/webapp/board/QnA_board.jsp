@@ -277,9 +277,9 @@
 								
 							%>
 							<tr>
-								<td><%=list.get(i).get("num")%></td>
+								<td><%=list.get(i).get("N_ID")%></td>
 								<td>
-								<% if(list.get(i).get("opt").equals(a)){%>
+								<% if(list.get(i).get("N_OPT").equals(a)){%>
 									공개					
 								<%} else{%>		
 									비공개
@@ -287,10 +287,10 @@
 									%>								
 								</td>
 								<td>
-								<a href="notice_detail.jsp?QnA_title=<%=list.get(i).get("id")%>" class="table_a" name="QnA_title"><%=list.get(i).get("title")%></a></td>
-								<td><%=list.get(i).get("write")%></td>
-								<td><%=list.get(i).get("date").substring(0, 10)%></td>
-								<td><%=list.get(i).get("view")%></td>
+								<a href="notice_detail.jsp?QnA_title=<%=list.get(i).get("N_ID")%>" class="table_a" name="QnA_title" "><%=list.get(i).get("N_TITLE")%></a></td>
+								<td><%=list.get(i).get("M_PID")%></td>
+								<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
+								<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
 							</tr>
 							<%
 							}

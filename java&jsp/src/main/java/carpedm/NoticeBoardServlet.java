@@ -18,14 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @WebServlet("/notice_board")
-public class BoardServlet extends HttpServlet {
+public class NoticeBoardServlet extends HttpServlet {
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
 	
 	
 //	DB접속 메소드
-	public static Connection getConnection() {
+	private Connection getConnection() {
 		Connection conn= null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -95,6 +95,9 @@ public class BoardServlet extends HttpServlet {
 //            	ArrayList al= new ArrayList();
 //            	al.add(list.get(0).get("num"));
             }
+        	rs.close();
+			ps.close();
+			conn.close();
 //            System.out.println(al);
         } catch (Exception e) {
             e.printStackTrace();
