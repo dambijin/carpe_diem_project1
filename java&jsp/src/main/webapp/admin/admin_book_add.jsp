@@ -7,11 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지 책등록 popup</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="../js/admin_library.js"></script>
+<script src="/carpedm/js/admin_library.js"></script>
 <script>
     // admin_book_add 책 등록           미완성
     function bookAdd() {

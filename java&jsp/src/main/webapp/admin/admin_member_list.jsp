@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="carpedm.DBConn"%>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,11 +12,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>관리자페이지(회원목록)</title>
-	<link href="../css/layout.css" rel="stylesheet">
+	<link href="/carpedm/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script defer src="../js/admin_library.js"></script>
+<script defer src="/carpedm/js/admin_library.js"></script>
 <script>
 	// 추가할 것들
 	// 연체상태도 불러와야함 수정해야함
@@ -25,7 +28,7 @@
 	// 연체상태 popup창
 	function openOverduePopup() {
 		window.open
-			("admin_book_overdue.jsp", "팝업", "width=1000, height=700, left=100, top=100");
+			("admin/admin_book_overdue.jsp", "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	// 연체해제 누르면 확인 후 닫기
 	function closeOverduePopup() {
@@ -40,7 +43,7 @@
 	function bind() {
 
 		// 회원목록 가져옴		
-		let data_list = <%=DBConn.getSelectQueryAll("select m_pid, m_name, m_id, m_birthday, m_tel, m_address,  lb_id from member")%>
+		let data_list = <%=DBConn.getSelectQueryAll("select m_pid, m_name, m_id, m_birthday, m_tel, m_address, lb_id from member")%>
 		
 		
 		// 테이블을 가져와서 todolist변수에 담아둠
@@ -55,53 +58,52 @@
 // 			html += '</td>';
 			
 			// 생년월일 부분은 시간까지 출력되어서 변수에 담고
-			let birthdate = data_list[i + 3];
-			// substring으로 10번째까지만 추출한 뒤 변수에 담아서 datePart 출력함
-			let datePart = birthdate.substring(0, 10);
+// 			let birthdate = data_list[i + 3];
+// 			// substring으로 10번째까지만 추출한 뒤 변수에 담아서 datePart 출력함
+// 			let datePart = birthdate.substring(0, 10);
 
 			
-			html += '<td class="member_no">' + data_list[i] + '</td>';
-			html += '<td><div class="member_name">';
-			html += data_list[i + 1];
-			html += '</div></td>';
-			html += '<td>';
-			html += data_list[i + 2];
-			html += '</td>';
-			html += '<td>';
-			html += datePart;
-			html += '</td>';
-			html += '<td>';
-			html += data_list[i + 4];
-			html += '</td>';
-			html += '<td>';
-			html += data_list[i + 5];
-			html += '</td>';
-			html += '<td>';
-			html += data_list[i + 6];
-			html += '</td>';
-			html += '<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>';
-			html += '<td><input type="button" value="조회" onclick=\'alert("예약목록 조회")\'></td>';
-			html += '<td><input type="button" value="조회" onclick=\'alert("대출내역 조회")\'></td>';
-			html += '<td><input type="button" value="수정" onclick="location.href=\'admin_member_chginfo.jsp\';"></td>';
+// 			html += '<td class="member_no">' + data_list[i] + '</td>';
+// 			html += '<td><div class="member_name">';
+// 			html += data_list[i + 1];
+// 			html += '</div></td>';
+// 			html += '<td>';
+// 			html += data_list[i + 2];
+// 			html += '</td>';
+// 			html += '<td>';
+// 			html += datePart;
+// 			html += '</td>';
+// 			html += '<td>';
+// 			html += data_list[i + 4];
+// 			html += '</td>';
+// 			html += '<td>';
+// 			html += data_list[i + 5];
+// 			html += '</td>';
+// 			html += '<td>';
+// 			html += data_list[i + 6];
+// 			html += '</td>';
+// 			html += '<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>';
+// 			html += '<td><input type="button" value="조회" onclick=\'alert("예약목록 조회")\'></td>';
+// 			html += '<td><input type="button" value="조회" onclick=\'alert("대출내역 조회")\'></td>';
+// 			html += '<td><input type="button" value="수정" onclick="location.href=\'admin_member_chginfo.jsp\';"></td>';
 
-			// 새로운 tr 추가
-			let tr = document.createElement("tr"); // <tr></tr>
-			tr.innerHTML = html;
+// 			// 새로운 tr 추가
+// 			let tr = document.createElement("tr"); // <tr></tr>
+// 			tr.innerHTML = html;
 
 			//이름에 클릭이벤트
 			// tr 엘리먼트 내에서 member_name을 찾아 이벤트 리스너 추가
 			// tr 엘리먼트 내에서 member_no 찾아 그 내용(innerHTML)을 변수에 담음
-			tr
-					.querySelector(".member_name")
-					.addEventListener(
-							"click",
-							function() {
-								let member_no = tr.querySelector(".member_no").innerHTML;
-								alert("회원번호 : " + member_no);
-							})
+// 					tr.querySelector(".member_name")
+// 					.addEventListener(
+// 							"click",
+// 							function() {
+// 								let member_no = tr.querySelector(".member_no").innerHTML;
+// 								alert("회원번호 : " + member_no);
+// 							})
 
-			// 테이블의 tr 엘리먼트를 추가
-			todolist.append(tr);
+// 			// 테이블의 tr 엘리먼트를 추가
+// 			todolist.append(tr);
 		}
 
 		// 검색 textbox를 가져와서 inputTodo 변수에 담고
@@ -417,7 +419,32 @@
 			</thead>
 			<tbody id="memberListBody">
                 <!-- 동적으로 추가될 테이블 내용 -->
-            </tbody>
+
+				<%
+				ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("member_list");
+				%>
+
+				<%
+				for (int i = 0; i < data_list.size(); i++) {
+				%>
+				<tr>
+					<td class="member_no"><%=data_list.get(i).get("m_pid")%></td>
+					<td><div class="member_name"><%=data_list.get(i).get("m_name")%></div></td>
+					<td><%=data_list.get(i).get("m_id")%></td>
+					<td><%=data_list.get(i).get("m_birthday")%></td>
+					<td><%=data_list.get(i).get("m_tel")%></td>
+					<td><%=data_list.get(i).get("m_address")%></td>
+					<td><%=data_list.get(i).get("lb_id")%></td>
+					<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>
+					<td><input type="button" value="조회" onclick="alert('예약목록 조회')"></td>
+					<td><input type="button" value="조회" onclick="alert('대출내역 조회')"></td>
+					<td><input type="button" value="수정"
+						onclick="location.href='admin/admin_member_chginfo.jsp';"></td>
+				</tr>
+				<%
+				}
+				%>
+			</tbody>
 		</table>
 	</div>
 
@@ -434,7 +461,7 @@
 
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="../js/header_admin.js"></script>
+	<script src="/carpedm/js/header_admin.js"></script>
 </body>
 
 </html>
