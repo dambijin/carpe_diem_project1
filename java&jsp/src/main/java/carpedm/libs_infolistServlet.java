@@ -43,7 +43,7 @@ public class libs_infolistServlet extends HttpServlet {
 	}
 
 	// 기본적인 접속메소드
-	public static Connection getConnection() {
+	private Connection getConnection() {
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -56,10 +56,10 @@ public class libs_infolistServlet extends HttpServlet {
 	}
 
 	// 도서관가져오기
-	public static ArrayList<Map<String,String>> getlibraryAll() {
+	private ArrayList<Map<String,String>> getlibraryAll() {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
 			query += "select";

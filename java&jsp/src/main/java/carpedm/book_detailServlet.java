@@ -16,19 +16,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/main")
-public class mainServlet extends HttpServlet {
+/**
+ * Servlet implementation class book_detailServlet
+ */
+@WebServlet("/book_detail")
+public class book_detailServlet extends HttpServlet {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String b_id = request.getParameter("id");
+		if(b_id == null || "".equals(b_id))
+		{
+			b_id="";
+		}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		ArrayList<Map<String, String>> notice_list = getDBList("select n_id,n_title,n_date from notice order by n_id desc");
-		ArrayList<Map<String, String>> book_list = getDBList("select b_id,b_title,b_author,b_imgurl from book order by b_id desc");
-		ArrayList<Map<String, String>> library_list = getDBList("select lb_name,lb_opentime,lb_content from library");
-		request.setAttribute("notice_list", notice_list);
-		request.setAttribute("book_list", book_list);
-		request.setAttribute("library_list", library_list);
-//		System.out.println(notice_list);
-		request.getRequestDispatcher("/mainpages/main.jsp").forward(request, response);
+		String query = "";
+		query += "SELECT *";
+		query += " FROM book";
+		query += " WHERE b_id = '" + b_id + "'";
+
+		ArrayList<Map<String,String>> bookdetail_list = getDBList(query);
+
+		request.setAttribute("bookdetail_list", bookdetail_list);
+		request.getRequestDispatcher("/mainpages/book_detail.jsp").forward(request, response);
 	}
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";

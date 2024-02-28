@@ -127,24 +127,15 @@
 			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;
 		}
 	};
+	
+    function openBookDetail(b_id) {
+        window.open('book_detail?id='+b_id ,"", "width=900,height=600");
+    }
 
 	let library_list_js = [];
 	function chg_text_detail(sel) {
 	    let content = library_list_js[sel].lb_content;
 	    document.querySelector('.text_detail').innerHTML = content;
-<%-- 		<%  --%>
-// 			ArrayList<String> result_list2 = DBConn.getSelectQueryAll("select lb_content from library");
-<%-- 		%> --%>
-	
-// 		console.log(sel);
-<%-- 		let data = <%=DBConn.getSelectQueryAll("select lb_content from library")%>[sel]; --%>
-// 		data = data.replace(/\n/g, '<br>'); // 텍스트 파일 내의 줄바꿈('\n')을 HTML의 줄바꿈('<br>')으로 변환합니다.
-// 		data = data.replace('이용시간', '<b>이용시간</b>');
-// 		data = data.replace('휴관일', '<b>휴관일</b>');
-
-// // 		console.log(data);
-// 		// 변환된 데이터를 웹 페이지에 추가
-// 		document.querySelector('.text_detail').innerHTML = data;
 	};
 </script>
 
@@ -435,7 +426,7 @@ nav .inner {
 						%>
 						<tr>
 							<td class="ann_id"><%=notice_list.get(i).get("N_ID")%></td>
-							<td class="ann_title"><a href="notice_detail.jsp"><%=notice_list.get(i).get("N_TITLE")%></a>
+							<td class="ann_title"><a href="notice_detail?N_ID=<%=notice_list.get(i).get("N_ID")%>"><%=notice_list.get(i).get("N_TITLE")%></a>
 							</td>
 							<td class="ann_day"><%=notice_list.get(i).get("N_DATE").substring(0, 10)%></td>
 						</tr>
@@ -455,7 +446,7 @@ nav .inner {
 							for (int i = 0; i < 3; i++) {
 							%>
 							<td>
-								<div class="newbook_div">
+								<div class="newbook_div" onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
 									<img class="newbook_img"
 										src="<%=book_list.get(i).get("B_IMGURL")%>">
 								</div>

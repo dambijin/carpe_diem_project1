@@ -4,8 +4,6 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="carpedm.DBConnNotUse"%>
-<%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -415,7 +413,7 @@ section {
 //         }).join('&');
 
 //         // 쿼리 문자열을 URL에 추가하여 새 창을 열기
-        window.open('book_detail.jsp?b_id='+b_id ,"", "width=900,height=600");
+        window.open('book_detail?id='+b_id ,"", "width=900,height=600");
     }
 
     //검색결과 총 개수 표기 및 페이징관련

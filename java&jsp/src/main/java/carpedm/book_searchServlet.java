@@ -24,14 +24,14 @@ public class book_searchServlet extends HttpServlet {
 		{
 			searchWord="";
 		}
-		request.setAttribute("search", searchWord);
+//		request.setAttribute("search", searchWord);
 		
 		String item = request.getParameter("item");
 		if(item == null || "".equals(item))
 		{
 			item="";
 		}
-		request.setAttribute("search", searchWord);
+//		request.setAttribute("search", searchWord);
 		String query = "";
 		query += "SELECT b.b_id,b.lb_id,b.b_title,b.b_author,b.b_pubyear,b.b_isbn,b.b_publisher,b.b_kywd,b.b_imgurl,b.b_loanstate,b.b_resstate,l.lb_name";
 		query += " FROM book b";
@@ -59,7 +59,7 @@ public class book_searchServlet extends HttpServlet {
 	private static final String PASSWORD = "dm1113@";
 
 	// 기본적인 접속메소드
-	public static Connection getConnection() {
+	private Connection getConnection() {
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -71,7 +71,7 @@ public class book_searchServlet extends HttpServlet {
 		return conn;
 	}
 
-	public static ArrayList<Map<String, String>> getDBList(String query) {
+	private ArrayList<Map<String, String>> getDBList(String query) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
 			Connection conn = getConnection();
