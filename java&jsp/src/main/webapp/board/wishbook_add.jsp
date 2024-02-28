@@ -208,11 +208,15 @@
     <section>
         <div class="s_section">
             <div class="left_section">
-                <button type="button" class="sub_but" onclick="location.href='notice_board.html';">공지사항</button><br>
-                <button type="button" class="sub_but" onclick="location.href='QnA_board.html';">Q&A</button><br>
-                <button type="button" class="sub_but" onclick="location.href='wishbook_add.html';">희망도서신청</button>
-
-            </div>
+				<button type="button" class="sub_but"
+					onclick="location.href='notice_board';">공지사항</button>
+				<br>
+				<button type="button" class="sub_but"
+					onclick="location.href='QnA_board';">Q&A</button>
+				<br>
+				<button type="button" class="sub_but"
+					onclick="location.href='wishbook_add';">희망도서신청</button>
+			</div>
             <div class="right_section">
                 <div class="wish_book">희망도서신청</div>
                 <details class="details_summary">

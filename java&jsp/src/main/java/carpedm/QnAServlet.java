@@ -84,37 +84,48 @@ public class QnAServlet extends HttpServlet {
 		request.getRequestDispatcher("board/QnA_board.jsp").forward(request, response);
 	
 		
-		
-		String title = request.getParameter("title");
-		if(title == null || "".equals(title))
+//		getParameter : name = "QnA_title" 값 가져올 때 사용
+//		QnA_board.jsp에 있는 
+//		<a href="notice_detail.jsp?QnA_title=<%=list.get(i).get("title")%>" class="table_a" name="QnA_title"><%=list.get(i).get("title")%></a></td>
+//		이 코드의 name 값이 들어간 것
+		String QnA_title = request.getParameter("QnA_title");
+//		만약 QnA_titler값이 null 그리고 비어있다면
+//		비어있는 상태이다
+		if(QnA_title == null || "".equals(QnA_title))
 		{
-			title="";
+			QnA_title="";
 		}
-		request.setAttribute("title", title);
 		
+//		QnA_board.jsp에 있는 
+//		<%=list.get(i).get("title")%>이 값을 가져옴
+		request.setAttribute("QnA_title", QnA_title);
+		
+//		가져올 쿼리문
 		String titlequery = "";
-		titlequery += "SELECT n.n_id, n.nb_id, n.n_opt, n.n_title, n.n_content, n.n_date, n.n_viewcount,n.n_file, n.n_chgdate, n.m_pid";
+		titlequery += "SELECT n_id, n_opt, n_title, m_pid, n_date, n_chgdate, n_viewcount, lb_id,n_file";
 		titlequery += " FROM notice n";
-		titlequery += " WHERE n.n_title LIKE '%" + title + "%'";
+		titlequery += " WHERE n.n_title LIKE '%" + QnA_title + "%'";
 		
 		ArrayList<Map<String,String>> title_list = getDBList(titlequery);
-		ArrayList<Map<String,String>> notice_list = getDBList("select lb_id,lb_name from library");
+//		ArrayList<Map<String,String>> notice_list = getDBList("select n_id,n_title from notice");
 
 		request.setAttribute("title_list", title_list);
-		request.setAttribute("notice_list", notice_list);
+//		request.setAttribute("notice_list", notice_list);
 	}
 
 	private ArrayList<Map<String, String>> getDBList(String titlequery) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
-			Connection conn = DBConn.getConnection();
+			Connection conn = BoardDBConn.getConnection();
 			// SQL준비
 
 			System.out.println("titlequery:" + titlequery);
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(titlequery);
 			ResultSet rs = ps.executeQuery();
+//			ResultSetMetaData : 
 			ResultSetMetaData rsmd = rs.getMetaData();
+//			getColumnCount() : 컬럼의 개수를 반환해줌
 			int columnCount = rsmd.getColumnCount();
 
 			while (rs.next()) {

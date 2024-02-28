@@ -213,15 +213,15 @@
 			<!-- 여기부터 본문작성해주세요 -->
 			<div class="s_section">
 				<div class="left_section">
-					<button type="button" class="sub_but"
-						onclick="location.href='notice_board.jsp';">공지사항</button>
-					<br>
-					<button type="button" class="sub_but"
-						onclick="location.href='QnA_board.jsp';">Q&A</button>
-					<br>
-					<button type="button" class="sub_but"
-						onclick="location.href='wishbook_add.jsp';">희망도서신청</button>
-				</div>
+				<button type="button" class="sub_but"
+					onclick="location.href='notice_board';">공지사항</button>
+				<br>
+				<button type="button" class="sub_but"
+					onclick="location.href='QnA_board';">Q&A</button>
+				<br>
+				<button type="button" class="sub_but"
+					onclick="location.href='wishbook_add';">희망도서신청</button>
+			</div>
 				<div class="right_section">
 					<div class="notice_update_name">공지사항 수정</div>
 					<div class="notice_table">

@@ -234,17 +234,16 @@
 	<header></header>
 	<section>
 		<div class="s_section">
-			<div class="left_section">
+			
+            <div class="left_section">
 				<button type="button" class="sub_but"
-					onclick="location.href='notice_board.jsp';">공지사항</button>
+					onclick="location.href='notice_board';">공지사항</button>
 				<br>
 				<button type="button" class="sub_but"
-					onclick="location.href='QnA_board.jsp';">Q&A</button>
+					onclick="location.href='QnA_board';">Q&A</button>
 				<br>
 				<button type="button" class="sub_but"
-					onclick="location.href='wishbook_add.jsp';">희망도서신청</button>
-
-
+					onclick="location.href='wishbook_add';">희망도서신청</button>
 			</div>
 			<div class="right_section">
 				<div class="notice_subject">Q & A</div>
@@ -287,7 +286,8 @@
 								<%}
 									%>								
 								</td>
-								<td><a href="notice_detail.jsp" class="table_a"><%=list.get(i).get("title")%></a></td>
+								<td>
+								<a href="notice_detail.jsp?QnA_title=<%=list.get(i).get("id")%>" class="table_a" name="QnA_title"><%=list.get(i).get("title")%></a></td>
 								<td><%=list.get(i).get("write")%></td>
 								<td><%=list.get(i).get("date").substring(0, 10)%></td>
 								<td><%=list.get(i).get("view")%></td>
