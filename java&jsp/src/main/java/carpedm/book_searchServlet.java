@@ -16,19 +16,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/main")
-public class mainServlet extends HttpServlet {
+@WebServlet("/book_search")
+public class book_searchServlet extends HttpServlet {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String search = request.getParameter("search");
+		if(search == null || "".equals(search))
+		{
+			search="";
+		}
+		request.setAttribute("search", search);
+		
+		String query = "";
+		query += "SELECT b.b_id,b.lb_id,b.b_title,b.b_author,b.b_pubyear,b.b_isbn,b.b_publisher,b.b_kywd,b.b_imgurl,b.b_loanstate,b.b_resstate,l.lb_name";
+		query += " FROM book b";
+		query += " JOIN library l ON b.lb_id = l.lb_id";
+		query += " WHERE b.b_title LIKE '%" + search + "%'";
+		ArrayList<Map<String,String>> book_list = getDBList(query);
+		ArrayList<Map<String,String>> library_list = getDBList("select lb_id,lb_name from library");
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		ArrayList<Map<String, String>> notice_list = getDBList("select n_id,n_title,n_date from notice");
-		ArrayList<Map<String, String>> book_list = getDBList("select b_id,b_title,b_author,b_imgurl from book");
-		ArrayList<Map<String, String>> library_list = getDBList("select lb_name,lb_opentime,lb_content from library");
-		request.setAttribute("notice_list", notice_list);
 		request.setAttribute("book_list", book_list);
 		request.setAttribute("library_list", library_list);
-//		System.out.println(notice_list);
-		request.getRequestDispatcher("/mainpages/main.jsp").forward(request, response);
+		request.getRequestDispatcher("/mainpages/book_search.jsp").forward(request, response);
 	}
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
@@ -79,4 +87,5 @@ public class mainServlet extends HttpServlet {
 		}
 		return result_list;
 	}
+
 }

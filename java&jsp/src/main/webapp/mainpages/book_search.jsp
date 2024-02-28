@@ -5,6 +5,8 @@
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="carpedm.DBConn"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -12,7 +14,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자료검색</title>
-<link href="../css/layout.css" rel="stylesheet">
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 
 
 <style>
@@ -312,30 +314,40 @@ section {
 
         //필터 기본세팅
 //         let libs_list = ["아우내도서관", "성거도서관", "두정도서관", "도솔도서관"];
-        //도서관세팅
-		let libs_list = <%=DBConn.getlibraryNameAll()%>;
-        for (let i = 0; i < libs_list.length; i++) {
-            let libs_chk_list = document.querySelector("#_multiChk1");
-            let html = '';
-            html += '<input class="chk" type="checkbox">&nbsp;&nbsp;' + libs_list[i];
+//         도서관세팅
+<%-- 		let libs_list = <%=DBConn.getlibraryNameAll()%>; --%>
+//         for (let i = 0; i < libs_list.length; i++) {
+//             let libs_chk_list = document.querySelector("#_multiChk1");
+//             let html = '';
+//             html += '<input class="chk" type="checkbox">&nbsp;&nbsp;' + libs_list[i];
 
-            let li = document.createElement("li"); // <li></li>
-            li.innerHTML = html;
+//             let li = document.createElement("li"); // <li></li>
+//             li.innerHTML = html;
 
-            li.querySelector(".chk")
-                .addEventListener("click", function (event) {
-                    let allCount = document.querySelectorAll(".chk").length;
-                    let checkedCount = document.querySelectorAll(".chk:checked").length;
-                    if (allCount == checkedCount) {
-                        document.querySelector("#multiChk1").checked = true;
-                    } else {
-                        document.querySelector("#multiChk1").checked = false;
-                    }
-                })
+//             li.querySelector(".chk")
+//                 .addEventListener("click", function (event) {
+//                     let allCount = document.querySelectorAll(".chk").length;
+//                     let checkedCount = document.querySelectorAll(".chk:checked").length;
+//                     if (allCount == checkedCount) {
+//                         document.querySelector("#multiChk1").checked = true;
+//                     } else {
+//                         document.querySelector("#multiChk1").checked = false;
+//                     }
+//                 })
 
-            libs_chk_list.append(li);
-        }
-
+//             libs_chk_list.append(li);
+//         }
+    document.querySelectorAll(".chk").forEach(chk => {
+        chk.addEventListener("click", function (event) {
+            let allCount = document.querySelectorAll(".chk").length;
+            let checkedCount = document.querySelectorAll(".chk:checked").length;
+            if (allCount == checkedCount) {
+                document.querySelector("#multiChk1").checked = true;
+            } else {
+                document.querySelector("#multiChk1").checked = false;
+            }
+        });
+    });
         //검색옵션 기본세팅
         let search_opt_list = ["전체", "제목", "저자", "발행처", "키워드"];
 
@@ -393,166 +405,7 @@ section {
 
             result_filter2.append(opt);
         }
-
-        // 검색결과 기본세팅
-        // 책 정보를 저장하는 배열
-        <%
-			String searchWord = request.getParameter("search");  // 검색어 가져오기
-			System.out.println(searchWord);
-		    if (searchWord == null) {
-		        response.sendRedirect("book_search.jsp?search=");
-		        return;  // 리다이렉트 후에는 더 이상 코드를 실행하지 않도록 return문을 넣습니다.
-		    }
-			Connection conn = DBConn.getConnection();
-		    Statement stmt = conn.createStatement();
-// 		    ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE b_title LIKE '%" + searchWord + "%'");
-			String query = "";
-			query += "SELECT b.b_id,b.lb_id,b.b_title,b.b_author,b.b_pubyear,b.b_isbn,b.b_publisher,b.b_kywd,b.b_imgurl,b.b_loanstate,b.b_resstate,l.lb_name";
-			query += " FROM book b";
-			query += " JOIN library l ON b.lb_id = l.lb_id";
-			query += " WHERE b.b_title LIKE '%" + searchWord + "%'";
-			
-			System.out.println(query);
-		    ResultSet rs = stmt.executeQuery(query);
-		
-		    ArrayList<String> result_list = new ArrayList<String>();
-		    while (rs.next()) {
-// 		    	System.out.println(rs.getString("b_title"));
-		        result_list.add("\""+rs.getString("b_id")+"\"");
-		        result_list.add("\""+rs.getString("lb_id")+"\"");
-		        result_list.add("\""+rs.getString("b_title")+"\"");
-		        result_list.add("\""+rs.getString("b_author")+"\"");
-		        result_list.add("\""+rs.getString("b_pubyear")+"\"");
-		        result_list.add("\""+rs.getString("b_isbn")+"\"");
-		        result_list.add("\""+rs.getString("b_publisher")+"\"");
-		        result_list.add("\""+rs.getString("b_kywd")+"\"");
-		        result_list.add("\""+rs.getString("b_imgurl")+"\"");
-		        result_list.add("\""+rs.getString("b_loanstate")+"\"");
-		        result_list.add("\""+rs.getString("b_resstate")+"\"");
-		        result_list.add("\""+rs.getString("lb_name")+"\"");
-  		  }
-			rs.close();
-			stmt.close();
-			conn.close();
-
-		%>
-        let data_list =<%=result_list%>;
-        let books = [];
-        //불러온 제목값들을 출력해보기
-        for(let i = 0; i<data_list.length; i+=11) {
-        	   let book = {
-        	       	b_id: data_list[i],
-        	        library: data_list[i+1],
-        	        title: data_list[i+2],
-        	        author: data_list[i+3],
-        	        year: data_list[i+4],
-        	        isbn: data_list[i+5],
-        	        publisher: data_list[i+6],
-        	        topic: data_list[i+7],
-        	        imgurl: data_list[i+8],
-        	        loan_state: data_list[i+9],
-        	        reservation_state: data_list[i+10],
-        	    };
-        	    books.push(book);
-        }
         
-     // 불러온 값들
-        for(let i = 0; i<data_list.length;i++)
-        {
-            console.log(data_list[i]);
-        }
-//         let books = [
-//             {
-//                 title: "(자바)자료구조론",
-//                 topic: "개발",
-//                 author: "송주석 ; 서성훈 [공]저",
-//                 publisher: "사이텍미디어",
-//                 year: "2006",
-//                 callNumber: "005.73-송주석",
-//                 registerNumber: "YM0000007237",
-//                 library: "아우내도서관",
-//                 loan_state: true,
-//                 reservation_state: false
-//             },
-//             {
-//                 title: "(자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기",
-//                 topic: "개발",
-//                 author: "이상민 지음",
-//                 publisher: "한빛미디어",
-//                 year: "2009",
-//                 callNumber: "005.115-이상민",
-//                 registerNumber: "NG0000002167",
-//                 library: "성남면작은도서관",
-//                 loan_state: false,
-//                 reservation_state: true
-//             },
-//             {
-//                 title: "(자바개발자도 쉽고 즐겁게 배우는) 테스팅 이야기2222",
-//                 topic: "개발222",
-//                 author: "이상민 지음22",
-//                 publisher: "한빛미디어22",
-//                 year: "2010",
-//                 callNumber: "005.115-이상민",
-//                 registerNumber: "NG0000002168",
-//                 library: "성남면작은도서관222",
-//                 loan_state: true,
-//                 reservation_state: true
-//             }
-//         ];
-
-        // 책 정보를 바탕으로 HTML을 생성
-        for (let i = 0; i < books.length; i++) {
-            let result_booklist = document.querySelector("#result_booklist");
-            var book = books[i];
-
-            let loan_stat = " class=\"_fail\">대출불가<";
-            let reservation_stat = " class=\"_fail\">예약불가<";
-            if (book.loan_state==="Y") {
-                loan_stat = " class=\"loan_success\">대출가능<";
-            }
-
-            if (book.reservation_state==="Y") {
-                reservation_stat = " class=\"reservation_success\" onclick=\"reservation('" +book.b_id + "')\">예약가능<";
-            }
-
-            let html = '';
-            html += `
-            <dl>
-                <dt>
-                    <em class="label label-bk"><img
-                            src=${"${book.imgurl}"}
-                            alt="사진불러오기실패"></em>
-                </dt>
-                <dd>
-                    <div class="ico ico-bk">
-<%--                    <a href="javascript:void(0);" onclick="openBookDetail('${encodeURIComponent(JSON.stringify(book))}')">${book.title}</a>--%>
-                        <a href="javascript:void(0);" onclick="openBookDetail(${"${book.b_id}"})">${"${book.title}"}</a>
-                    </div>
-                    <ul>
-                        <li class="label_no"><strong>주제 : </strong> ${"${book.topic}"}</li>
-                        <li>
-                            <strong>저자 : </strong> ${"${book.author}"} <em>|</em>
-                            <strong>발행처 : </strong> ${"${book.publisher}"}
-                        </li>
-                        <li>
-                            <strong>발행년 : </strong> ${"${book.year}"} <em>|</em>
-                            <strong>ISBN : </strong> ${"${book.isbn}"}
-                        </li>
-                        <li class="so">
-                            <strong>소장기관 : </strong> <span class="blue">${"${book.library}"}</span>
-                        </li>
-                    </ul>
-                    <ol>
-                        <li${"${loan_stat}"}/li>
-                        <li${"${reservation_stat}"}/li>
-                    </ol>
-                </dd>
-            </dl>
-        `;
-
-            result_booklist.innerHTML += html;
-        }
-
         paging();
     })
 
@@ -623,7 +476,7 @@ section {
 		} else {
 			alert(textbox.value + "을 검색했습니다");
 // 			window.location.href = 'book_search.jsp';
-			window.location.href = 'book_search.jsp?search=' + encodeURIComponent(textbox.value);
+			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value);
 		}
 	};
 </script>
@@ -641,7 +494,15 @@ section {
 							type="checkbox" name="multiChk1" value="1" title="전체선택"
 							onclick="selboxAllChecked(this.id);"> 전체선택</label>
 						<ul id="_multiChk1">
-							<!-- 자바스크립트로 도서관목록가져오기 -->
+							<%
+							ArrayList<Map<String, String>> libs_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
+							for (int i = 0; i < libs_list.size(); i++) {
+							%>
+							<li><input class="chk" type="checkbox" value="<%=libs_list.get(i).get("LB_ID")%>"> &nbsp;&nbsp;<%=libs_list.get(i).get("LB_NAME")%>
+							</li>
+							<%
+							}
+							%>
 						</ul>
 					</dd>
 				</dl>
@@ -685,7 +546,48 @@ section {
 
 		<!-- 책 리스트 -->
 		<div id="result_booklist">
-			<!-- 자바스크립트로 검색결과리스트 가져오기 -->
+			<%
+			ArrayList<Map<String, String>> books = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
+			for (int i = 0; i < books.size(); i++) {
+				Map<String, String> book = books.get(i);
+				String loan_stat = "<li class=\"_fail\">대출불가</li>";
+				String reservation_stat = "<li class=\"_fail\">예약불가</li>";
+				if ("Y".equals(book.get("B_LOANSTATE"))) {
+					loan_stat = "<li class=\"loan_success\">대출가능</li>";
+				}
+				if ("Y".equals(book.get("B_RESSTATE"))) {
+					reservation_stat = "<li class=\"reservation_success\" onclick=\"reservation('" + book.get("B_ID")
+					+ "')\">예약가능</li>";
+				}
+			%>
+			<dl>
+				<dt>
+					<em class="label label-bk"><img
+						src="<%=book.get("B_IMGURL")%>" alt="사진불러오기실패"></em>
+				</dt>
+				<dd>
+					<div class="ico ico-bk">
+						<a href="javascript:void(0);"
+							onclick="openBookDetail('<%=book.get("B_ID")%>')"><%=book.get("B_TITLE")%></a>
+					</div>
+					<ul>
+						<li class="label_no"><strong>주제 : </strong> <%=book.get("B_KYWD")%></li>
+						<li><strong>저자 : </strong> <%=book.get("B_AUTHOR")%> <em>|</em>
+							<strong>발행처 : </strong> <%=book.get("B_PUBLISHER")%></li>
+						<li><strong>발행년 : </strong> <%=book.get("B_PUBYEAR")%> <em>|</em>
+							<strong>ISBN : </strong> <%=book.get("B_ISBN")%></li>
+						<li class="so"><strong>소장기관 : </strong> <span class="blue"><%=book.get("LB_NAME")%></span>
+						</li>
+					</ul>
+					<ol>
+						<%=loan_stat%>
+						<%=reservation_stat%>
+					</ol>
+				</dd>
+			</dl>
+			<%
+			}
+			%>
 		</div>
 
 
@@ -694,7 +596,7 @@ section {
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="../js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>
