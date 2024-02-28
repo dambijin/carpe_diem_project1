@@ -248,8 +248,9 @@
 <b>6. 신청 및 처리결과 보기</b> : 내서재 → 자료 신청내역 → 비치희망도서
                  </pre>
                 </details>
-                <hr>
-                <div>
+                <h3>* 표시는 필수항목입니다.</h3>
+                <hr>                
+                <div>                
                     <table class="hope_subscribe">
                         <tr>
                             <td class="subject">* 희망소장처</td>

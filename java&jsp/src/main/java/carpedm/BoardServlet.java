@@ -100,6 +100,8 @@ public class BoardServlet extends HttpServlet {
             e.printStackTrace();
         }
         
+        
+//      리스트 값이 정확히 왔는지 보기
 //        System.out.println(list.toString());
         request.setAttribute("list", list);
    

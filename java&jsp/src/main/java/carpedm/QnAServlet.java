@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -82,6 +83,60 @@ public class QnAServlet extends HttpServlet {
    
 		request.getRequestDispatcher("board/QnA_board.jsp").forward(request, response);
 	
+		
+		
+		String title = request.getParameter("title");
+		if(title == null || "".equals(title))
+		{
+			title="";
+		}
+		request.setAttribute("title", title);
+		
+		String titlequery = "";
+		titlequery += "SELECT n.n_id, n.nb_id, n.n_opt, n.n_title, n.n_content, n.n_date, n.n_viewcount,n.n_file, n.n_chgdate, n.m_pid";
+		titlequery += " FROM notice n";
+		titlequery += " WHERE n.n_title LIKE '%" + title + "%'";
+		
+		ArrayList<Map<String,String>> title_list = getDBList(titlequery);
+		ArrayList<Map<String,String>> notice_list = getDBList("select lb_id,lb_name from library");
+
+		request.setAttribute("title_list", title_list);
+		request.setAttribute("notice_list", notice_list);
 	}
 
-}
+	private ArrayList<Map<String, String>> getDBList(String titlequery) {
+		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
+		try {
+			Connection conn = DBConn.getConnection();
+			// SQL준비
+
+			System.out.println("titlequery:" + titlequery);
+			// SQL 실행준비
+			PreparedStatement ps = conn.prepareStatement(titlequery);
+			ResultSet rs = ps.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnCount = rsmd.getColumnCount();
+
+			while (rs.next()) {
+			    Map<String, String> map = new HashMap<String, String>();
+
+			    for (int i = 1; i <= columnCount; i++) {
+			        String columnName = rsmd.getColumnName(i);
+			        map.put(columnName, rs.getString(columnName));
+			    }
+
+			    result_list.add(map);
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result_list;
+	}
+	
+	}
+
+
