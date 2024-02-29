@@ -5,6 +5,10 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -158,10 +162,8 @@
 
 					if (title.value != "" && writer != "" && lib_text != ""
 							&& cont_text.value != "") {
-						alert(title.value + "\n" + writer + "\n" + lib_text
-								+ "\n" + attach.value + "\n" + cont_text.value
-								+ "\n등록이 완료되었습니다.");
-						location.href = "notice_board.jsp";
+						alert("등록이 완료되었습니다.");
+						location.href = "notice_board";
 					} else {
 						alert("첨부파일을 제외한 모든 내용을 작성해주세요.")
 					}
@@ -188,7 +190,10 @@
 
 <body>
 	<header></header>
-
+<%
+	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
+	 Map<String, String> map = new HashMap<String, String>();
+%>
 	<div class="notice_update">
 		<section>
 			<!-- 여기부터 본문작성해주세요 -->
@@ -213,7 +218,7 @@
 							</tr>
 							<tr>
 								<td class="sub">작성자</td>
-								<td class="text">admin</td>
+								<td class="text"></td>
 							</tr>
 							<tr>
 								<td class="sub">소속도서관</td>

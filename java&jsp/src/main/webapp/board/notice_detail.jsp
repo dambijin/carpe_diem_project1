@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><!DOCTYPE html>
-<%@ page import="java.util.List"%>
+
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.List"%>
 
 <head>
 <meta charset="UTF-8">
@@ -93,7 +99,11 @@
 
 <body>
 	<header></header>
-	
+	<%
+	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
+	 Map<String, String> map = new HashMap<String, String>();
+%>
+							
 	<section>
 		<div class="s_section">
 			<div class="left_section">
@@ -113,26 +123,31 @@
 					<table>
 						<tr>
 							<td class="subject">제목</td>
-							<td colspan="5" id="subject_title"></td>
+							<td colspan="5" id="subject_title"><%=result_list.get(0).get("N_TITLE")%></td>
 						</tr>
 						<tr>
 							<td class="subject">작성자</td>
-							<td id="subject_writer"></td>
+							<td id="subject_writer"><%=result_list.get(0).get("M_PID")%></td>
 							<td class="subject">등록일</td>
-							<td id="subject_date"></td>
+							<td id="subject_date"><%=result_list.get(0).get("N_DATE").substring(0,10)%></td>
 							<td class="subject">조회</td>
-							<td id="subject_view"></td>
+							<td id="subject_view"><%=result_list.get(0).get("N_VIEWCOUNT")%></td>
 						</tr>
 						<tr>
 							<td class="subject">도서관</td>
-							<td colspan="5" id="subject_lib"></td>
+							<td colspan="5" id="subject_lib"><%=result_list.get(0).get("LB_ID")%></td>
 						</tr>
 						<tr>
 							<td class="subject">첨부</td>
-							<td colspan="5" id="subject_file"></td>
+							<td colspan="5" id="subject_file"><%
+							if (result_list.get(0).get("N_FILE") == null){
+								out.print(" ");
+							} else {
+								out.print(result_list.get(0).get("N_FILE"));
+								}%></td>
 						</tr>
 						<tr>
-							<td class="content" colspan="6" id="subject_cont"></td>
+							<td class="content" colspan="6" id="subject_cont"><%=result_list.get(0).get("N_CONTENT")%></td>
 						</tr>
 					</table>
 					<button type="button" id="notice_update">수정</button>

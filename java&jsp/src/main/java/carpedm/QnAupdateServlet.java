@@ -1,7 +1,6 @@
 package carpedm;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,8 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/notice_detail")
-public class NoticeDetailServlet extends HttpServlet {
+@WebServlet("/QnA_update")
+public class QnAupdateServlet extends HttpServlet {
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
@@ -37,63 +36,60 @@ public class NoticeDetailServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		한글 깨짐 방지
-		try {
-			request.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=utf-8;");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
 
-		// 현재 URL 가져오기
-		String url = request.getRequestURL().toString();
-		// 쿼리 문자열 가져오기
-		String queryString = request.getQueryString();
+		String url = request.getRequestURL().toString(); // 현재 URL 가져오기
+		String queryString = request.getQueryString(); // 쿼리 문자열 가져오기
 
 		int nid = 0;
 		if (queryString != null) {
-//			쿼리 파라미터 분리
-//			queryString이 "N_ID=14&name=John&age=25"와 같은 문자열을 가지고 있다면
-//			이 문자열을 & 기준으로 분리하고 싶어서 split("&")을 사용
-//			params : N_ID=14/name=John/age=25 
-//			3개가 배열로 나옴
-//			향상된 for문을 위해 사용
-			String[] params = queryString.split("&");
+			String[] params = queryString.split("&"); // 쿼리 파라미터 분리
+
 			for (String param : params) {
-				// 예시 : N_ID=14 을 = 기준으로 분리
-				String[] keyValue = param.split("=");
-				// 예시 : N_ID
-				String paramName = keyValue[0];
-				// 예시 : 14를 넣기 위해 만든 변수
-				String paramValue = "";
-//				만약 14가 1보다 크다면
-				if (keyValue.length > 1) {
-					paramValue = keyValue[1];
-				}
+				String[] keyValue = param.split("="); // 파라미터 이름과 값 분리
+				String paramName = keyValue[0]; // 파라미터 이름
+				String paramValue = keyValue.length > 1 ? keyValue[1] : ""; // 파라미터 값
 
 				if (paramName.equals("N_ID")) {
-					try {
-		                nid = Integer.parseInt(paramValue);
-		            } catch (NumberFormatException e) {
-		                e.printStackTrace();
-		            }
+					nid = Integer.parseInt(paramValue);
 				}
 			}
 		}
 
-//			실행할 쿼리문
+//		실행할 쿼리문
 		String nid_query = "";
-		nid_query += "SELECT * FROM notice where n_opt=0";
-		nid_query += "and n_id=";
+		nid_query += "SELECT * FROM notice where";
+		nid_query += " n_id=";
 		nid_query += nid;
-		nid_query += " order by n_id desc";
 
-		System.out.println("N_ID 값: " + nid_query);
+//		System.out.println("N_ID 값: " + nid_query);
 		ArrayList<Map<String, String>> notice = getDBList(nid_query);
 
 		request.setAttribute("notice", notice);
 
-		request.getRequestDispatcher("board/notice_detail.jsp").forward(request, response);
+		String mPid = "";
+//		M_PID 컬럼 데이터 가져오기
+		if (notice != null && !notice.isEmpty()) {
+			for (int i = 0; i < notice.size(); i++) {
+//				notice의 ArrayList를 실행해서 
+//				row는 변수를 사용해 map한테 넣어줌 
+				Map<String, String> row = notice.get(i);
+				mPid = row.get("M_PID");
+//				System.out.println("M_PID 값: " + mPid);
+			}
+		}
+
+//		실행할 쿼리문
+		String member_query = "";
+		member_query += "SELECT * FROM MEMBER where";
+		member_query += " M_PID=";
+		member_query += mPid;
+		System.out.println(member_query);
+		ArrayList<Map<String, String>> member = getDBList(member_query);
+
+		request.setAttribute("member", member);
+
+		request.getRequestDispatcher("board/QnA_update.jsp").forward(request, response);
+
 	}
 
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
@@ -101,7 +97,8 @@ public class NoticeDetailServlet extends HttpServlet {
 		try {
 			Connection conn = getConnection();
 			// SQL준비
-//			System.out.println("notice:" + notice);
+
+//			System.out.println("nidquery:" + notice);
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(notice);
 			ResultSet rs = ps.executeQuery();
@@ -117,8 +114,7 @@ public class NoticeDetailServlet extends HttpServlet {
 				}
 
 				result_list.add(map);
-//			    값 잘 나오는지 확인
-//			    System.out.println(result_list.get(0).get("N_TITLE"));
+//			    System.out.println(map.get("N_ID"));
 			}
 
 			rs.close();
@@ -128,6 +124,11 @@ public class NoticeDetailServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		return result_list;
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
 	}
 
 }

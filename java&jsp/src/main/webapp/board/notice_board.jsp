@@ -258,12 +258,12 @@
 								//System.out.println(list.get(i).get("num"));
 							%>
 							<tr>
-								<td><%=list.get(i).get("num")%></td>
-								<td><%=list.get(i).get("lb")%></td>
-								<td><a href="notice_detail.jsp" class="table_a"><%=list.get(i).get("title")%></a></td>
-								<td><%=list.get(i).get("write")%></td>
-								<td><%=list.get(i).get("date").substring(0,10)%></td>
-								<td><%=list.get(i).get("view")%></td>
+								<td><%=list.get(i).get("N_ID")%></td>
+								<td><%=list.get(i).get("LB_ID")%></td>
+								<td><a href="notice_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"><%=list.get(i).get("N_TITLE")%></a></td>
+								<td><%=list.get(i).get("M_PID")%></td>
+								<td><%=list.get(i).get("N_DATE").substring(0,10)%></td>
+								<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
 							</tr>
 							<%} %>
 						</table>
@@ -272,7 +272,7 @@
 
 						<div class="writing">
 							<button class="change_handwriting request"
-								onclick="location.href='board/notice_write.jsp';">글쓰기</button>
+								onclick="location.href='notice_write';">글쓰기</button>
 							<!-- <button class="btn">임시버튼</button> -->
 						</div>
 

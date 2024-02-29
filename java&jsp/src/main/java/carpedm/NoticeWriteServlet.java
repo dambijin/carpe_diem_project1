@@ -1,7 +1,6 @@
 package carpedm;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,15 +16,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/QnA_board")
-public class QnABoardServlet extends HttpServlet {
+@WebServlet("/notice_write")
+public class NoticeWriteServlet extends HttpServlet {
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
-
+	
 //	DB접속 메소드
 	private static Connection getConnection() {
-		Connection conn = null;
+		Connection conn= null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -34,39 +33,58 @@ public class QnABoardServlet extends HttpServlet {
 		}
 		return conn;
 	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String url = request.getRequestURL().toString(); // 현재 URL 가져오기
+		String queryString = request.getQueryString(); // 쿼리 문자열 가져오기
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-//		한글 깨짐 방지
-		try {
-			request.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=utf-8;");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		int nid = 0;
+		if (queryString != null) {
+			String[] params = queryString.split("&"); // 쿼리 파라미터 분리
+
+			for (String param : params) {
+				String[] keyValue = param.split("="); // 파라미터 이름과 값 분리
+				String paramName = keyValue[0]; // 파라미터 이름
+				String paramValue = keyValue.length > 1 ? keyValue[1] : ""; // 파라미터 값
+
+				if (paramName.equals("N_ID")) {
+					nid = Integer.parseInt(paramValue);
+				}
+			}
 		}
 
-		
-		
-//		---------------------------------------------------------------------
-//		제목을 눌렀을때 QnA_detail.jsp로 넘어가기
-		String nid_list = request.getParameter("N_ID");
-		if(nid_list == null || "".equals(nid_list))
-		{
-			nid_list="";
-		}
-		request.setAttribute("N_ID", nid_list);
-		
 //		실행할 쿼리문
-		String notice = "";
-		notice += "SELECT * FROM notice where n_opt=1 or n_opt=2 order by n_id desc";
-		
-		ArrayList<Map<String,String>> list = getDBList(notice);
+		String nid_query = "";
+		nid_query += "SELECT * FROM notice where";
+		nid_query += " n_id=";
+		nid_query += nid;
 
-		request.setAttribute("list", list);
+		ArrayList<Map<String, String>> notice = getDBList(nid_query);
 
+		request.setAttribute("notice", notice);
+
+		String mPid = "";
+		if (notice != null && !notice.isEmpty()) {
+			for (int i = 0; i < notice.size(); i++) {
+				Map<String, String> row = notice.get(i);
+				mPid = row.get("M_PID");
+			}
+		}
+
+//		실행할 쿼리문
+		String member_query = "";
+		member_query += "SELECT * FROM MEMBER where";
+		member_query += " M_PID=";
+		member_query += mPid;
+		System.out.println(member_query);
+		ArrayList<Map<String, String>> member = getDBList(member_query);
+
+		request.setAttribute("member", member);
+
+			
+		request.getRequestDispatcher("board/notice_write.jsp").forward(request, response);
 		
-//		board/QnA_board.jsp와 이어줌
-		request.getRequestDispatcher("board/QnA_board.jsp").forward(request, response);
+	
 	}
 	
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
@@ -91,7 +109,7 @@ public class QnABoardServlet extends HttpServlet {
 
 			    result_list.add(map);
 //			    값 잘 나오는지 확인
-//			    System.out.println(map.get("N_ID"));
+//			    System.out.println(result_list.get(0).get("N_TITLE"));
 			}
 			
 			rs.close();
@@ -101,6 +119,9 @@ public class QnABoardServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		return result_list;
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }
