@@ -32,8 +32,15 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 //		String id = request.getParameter("id");
 //		request.setAttribute("id2", id);
 		ArrayList<Map<String,String>> list = getLoan();
-		ArrayList<Map<String, String>> myInfo = getDBList("select * from member");
+//		ArrayList<Map<String, String>> myInfo = getDBList("select * from member");
+		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
+		request.setAttribute("library", library);
+//		request.setAttribute("myInfo", myInfo);
+
+		String m_pid = "4";
+		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + m_pid);
 		request.setAttribute("myInfo", myInfo);
+		
 //		Gson gson = new Gson();
 //		String json = gson.toJson(list);
 //		request.setAttribute("list", json);
@@ -42,7 +49,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 	}
 
 	// 기본적인 접속메소드
-	public static Connection getConnection() {
+	private Connection getConnection() {
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -53,14 +60,14 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		}
 		return conn;
 	}
-	public static ArrayList<Map<String,String>> getLoan() {
+	private ArrayList<Map<String,String>> getLoan() {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
 			query += "select";
-			query += " lb_name, w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date";
+			query += " w_id, lb_name, w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date";
 			query += " from";
 			query += " wishlist";
 			query += " inner join library";
@@ -74,14 +81,14 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			while (rs.next()) {
 				Map<String,String> map = new HashMap<String, String>();
 
+				map.put("w_id", rs.getString("w_id"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
 				map.put("lb_name", rs.getString("lb_name"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
 				map.put("w_title", rs.getString("w_title"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
 				map.put("w_author", rs.getString("w_author"));
 				map.put("w_pubyear", rs.getString("w_pubyear"));
-				map.put("w_isbn", rs.getString("w_isbn"));
 				map.put("w_content", rs.getString("w_content"));
 				map.put("w_publisher", rs.getString("w_publisher"));
-				map.put("w_tel", rs.getString("w_tel"));
+				
 				map.put("w_date", rs.getString("w_date"));
 //				map.put("lb_name", rs.getString("lb_name"));
 //				map.put("lb_content", rs.getString("lb_content").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
@@ -97,10 +104,10 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		}
 		return result_list;
 	}
-	public static ArrayList<Map<String, String>> getDBList(String query) {
+	private ArrayList<Map<String, String>> getDBList(String query) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			// SQL준비
 
 			System.out.println("query:" + query);
@@ -131,6 +138,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		}
 		return result_list;
 	}
+	
 	
 
 	

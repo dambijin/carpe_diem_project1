@@ -29,6 +29,9 @@ public class mypage_loan_historyServlet extends HttpServlet {
 //	request.setAttribute("id2", id);
 		ArrayList<Map<String, String>> list = getLoan();
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member");
+		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
+		request.setAttribute("library", library);
+		
 		request.setAttribute("myInfo", myInfo);
 //	Gson gson = new Gson();
 //	String json = gson.toJson(list);
@@ -38,7 +41,7 @@ public class mypage_loan_historyServlet extends HttpServlet {
 	}
 
 // 기본적인 접속메소드
-	public static Connection getConnection() {
+	private Connection getConnection() {
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -50,10 +53,10 @@ public class mypage_loan_historyServlet extends HttpServlet {
 		return conn;
 	}
 
-	public static ArrayList<Map<String, String>> getLoan() {
+	private ArrayList<Map<String, String>> getLoan() {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
 			query += "select";
@@ -95,10 +98,10 @@ public class mypage_loan_historyServlet extends HttpServlet {
 		}
 		return result_list;
 	}
-	public static ArrayList<Map<String, String>> getDBList(String query) {
+	private ArrayList<Map<String, String>> getDBList(String query) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			// SQL준비
 
 			System.out.println("query:" + query);

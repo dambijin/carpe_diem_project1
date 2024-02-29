@@ -4,7 +4,7 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="carpedm.DBConn"%>
+
 <%@ page import="java.util.Map"%>
 <html lang="ko">
 
@@ -138,20 +138,20 @@
             
            
              // 도서관 분류
-             let libs_list = <%=DBConn.getlibraryNameAll()%>;
-            for (let i = 0; i < libs_list.length; i++) {
-                let html = "";
-                let result_library_list = document.querySelector("#library")
+<%--              let libs_list = <%=DBConn.getlibraryNameAll()%>; --%>
+//             for (let i = 0; i < libs_list.length; i++) {
+//                 let html = "";
+//                 let result_library_list = document.querySelector("#library")
 
-                html += libs_list[i];
+//                 html += libs_list[i];
 
-                let opt = document.createElement("option");
-                opt.innerHTML = html;
+//                 let opt = document.createElement("option");
+//                 opt.innerHTML = html;
 
-                result_library_list.append(opt)
+//                 result_library_list.append(opt)
 
             
-}
+// }
         }
 
     </script>
@@ -224,7 +224,12 @@
 								<div>
 									<select id="library">
 										<option disabled selected>- 도서관 전체</option>
-
+												<% ArrayList<Map<String,String>> library = (ArrayList<Map<String,String>>)request.getAttribute("library"); 
+							System.out.println(myInfo.size());
+								for(int i=0; i < library.size(); i++){
+							%>
+							<option><%=library.get(i).get("LB_NAME") %></option>
+							<%} %>
 									</select>
 
 

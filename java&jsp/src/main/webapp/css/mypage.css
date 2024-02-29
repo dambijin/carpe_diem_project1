@@ -59,7 +59,7 @@ section{
     text-align: center;
     /* width: 800px; */
     width: 100%;
-    font-size: 12px;
+    font-size: 18px;
     border-collapse: collapse;
 }
 
@@ -67,7 +67,7 @@ section{
     background-color: rgba(168, 156, 200, 0.6);
     height: 30px;
     font-family: "Wanted Sans Variable";
-    font-size: 18px;
+    font-size: 10px;
 }
 .paging {
     

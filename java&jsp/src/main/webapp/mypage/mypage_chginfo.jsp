@@ -4,7 +4,7 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="carpedm.DBConn"%>
+
 <%@ page import="java.util.Map"%>
 <html lang="ko">
 
@@ -306,6 +306,7 @@
             <h1>정보 수정</h1>
         </div>
         <!-- 수정항목 -->
+        <form method="post" action="mypage_chginfo">
         <div>
             <table id="table">
                 <tr>
@@ -314,7 +315,7 @@
                 </tr>
                 <tr>
                     <th>이름</th>
-                    <td class="padding" id="name">
+                    <td class="padding" id="name" name="name">
                     <% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
 							System.out.println(myInfo.size());
 							%>		
@@ -335,7 +336,7 @@
                 </tr>
                 <tr>
                     <th>비밀번호</th>
-                    <td class="padding"><input type="text" placeholder="비밀번호" id="password"></td>
+                    <td class="padding"><input type="text" placeholder="비밀번호" id="password" name="password"></td>
                 </tr>
                 <tr>
 
@@ -349,12 +350,12 @@
                 </tr>
                 <tr>
                     <th>비밀번호 확인</th>
-                    <td class="padding"><input type="text" placeholder="비밀번호 확인" id="password1"></td>
+                    <td class="padding"><input type="text" placeholder="비밀번호 확인" id="password1" name="password1"></td>
                 </tr>
                 <tr>
                     <th>휴대폰 번호</th>
                     <td class="padding">
-                        <input type="text" placeholder="휴대폰 번호" id="phonenumber">
+                        <input type="text" placeholder="휴대폰 번호" id="phonenumber" name="phonenumber">
                         <font>SMS수신<input type="radio" value="Y" name="sms">예<input type="radio" value="N"
                                 name="sms">아니오</font>
                     </td>
@@ -370,8 +371,8 @@
                 <tr>
                     <th>이메일</th>
                     <td class="padding">
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_id"> @
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_domain">
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_id" name="email_id"> @
+                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_domain" name="email_domain">
                         <select id="email_domain1" value="직접입력">
 
                         </select>
@@ -399,11 +400,11 @@
             <button value="reset" class="button" id="cancle">취소</button>
 
         </div>
-
+</form>
     </section>
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="carpedm/js/header.js"></script>
+    <script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

@@ -4,7 +4,7 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="carpedm.DBConn"%>
+
 <%@ page import="java.util.Map"%>
 
 
@@ -67,19 +67,19 @@
 
             }
             // 도서관 분류
-           let libs_list = <%=DBConn.getlibraryNameAll()%>;
-            for (let i = 0; i < libs_list.length; i++) {
-                let html = "";
-                let result_library_list = document.querySelector("#library")
+<%--            let libs_list = <%=DBConn.getlibraryNameAll()%>; --%>
+//             for (let i = 0; i < libs_list.length; i++) {
+//                 let html = "";
+//                 let result_library_list = document.querySelector("#library")
 
-                html += libs_list[i];
+//                 html += libs_list[i];
 
-                let opt = document.createElement("option");
-                opt.innerHTML = html;
+//                 let opt = document.createElement("option");
+//                 opt.innerHTML = html;
 
-                result_library_list.append(opt)
+//                 result_library_list.append(opt)
 
-            }
+//             }
 
 
 
@@ -150,20 +150,18 @@
                         list_checked[i].parentNode.parentNode.remove();
                     }
                 })
-                table.append(tr)
+//                 table.append(tr)
             
         
         };
-        function popup() {
-
+        function popup(w_id) {
             let width = 600;
             let height = 800;
             let left = (window.innerWidth - width) / 2;
             let top = (window.innerHeight - height) / 2;
-
             let options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
-
-            window.open("../wishbook_detail.jsp", "_blank", options);
+            let url = "http://localhost:8080/carpedm/wishbook_detail?w_id=" + w_id;
+            window.open(url, "_blank", options);
         }
     </script>
 <style>
@@ -177,13 +175,13 @@
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-				<a href="http://localhost:8080/carpedm/mypage_loan_status"><button type="button"
-						class="sub_but">대출 현황</button></a><br> 
-				<a href="http://localhost:8080/carpedm/mypage_loan_history"><button type="button"
-						class="sub_but">대출 내역</button></a><br> 
-				<a href="http://localhost:8080/carpedm/mypage_reservation_list"><button type="button"
-						class="sub_but">예약</button></a> 
-				<a href="http://localhost:8080/carpedm/mypage_wishbook_list"><button
+				<a href="http://localhost:8080/carpedm/mypage_loan_status"><button
+						type="button" class="sub_but">대출 현황</button></a><br> <a
+					href="http://localhost:8080/carpedm/mypage_loan_history"><button
+						type="button" class="sub_but">대출 내역</button></a><br> <a
+					href="http://localhost:8080/carpedm/mypage_reservation_list"><button
+						type="button" class="sub_but">예약</button></a> <a
+					href="http://localhost:8080/carpedm/mypage_wishbook_list"><button
 						type="button" class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
@@ -197,22 +195,18 @@
 						<table class="div1_table">
 							<tr>
 								<td class="info1">
-								<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
+									<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
 							System.out.println(myInfo.size());
 							
-							%><Strong>내정보</Strong><br>
-								이름 : <%=myInfo.get(0).get("M_NAME") %><br>
-								번호 : <%=myInfo.get(0).get("M_TEL") %><br>
-								주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
-								회원번호 : <%=myInfo.get(0).get("M_PID") %><br>
-								<% String loanstate_text = "대출가능";
+							%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME") %><br>
+									번호 : <%=myInfo.get(0).get("M_TEL") %><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
+									회원번호 : <%=myInfo.get(0).get("M_PID") %><br> <% String loanstate_text = "대출가능";
 								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
 								{
 									loanstate_text = "대출불가";
 								}
-								%>
-								대출가능여부 : <%=loanstate_text%>
-                         </td>
+								%> 대출가능여부 : <%=loanstate_text%>
+								</td>
 								<td>
 									<button type="button" id="chginfo">정보수정</button>
 								</td>
@@ -232,6 +226,12 @@
 								<div>
 									<select id="library">
 										<option disabled selected>- 도서관 전체</option>
+										<% ArrayList<Map<String,String>> library = (ArrayList<Map<String,String>>)request.getAttribute("library"); 
+							System.out.println(myInfo.size());
+								for(int i=0; i < library.size(); i++){
+							%>
+										<option><%=library.get(i).get("LB_NAME") %></option>
+										<%} %>
 									</select>
 								</div>
 							</div>
@@ -246,34 +246,37 @@
 							<th>자료명</th>
 							<th>저자</th>
 							<th>발행년도</th>
-							<th>ISBN/ISSN 번호</th>
+
 							<th>신청사유</th>
 							<th>출판사</th>
-							<th>휴대폰번호</th>
+
 							<th>처리상태</th>
 							<th>취소 <input type="checkbox" id="selectAll"></th>
-							</tr>
-							
-							<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 
+						</tr>
+
+						<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 
 							System.out.println(list.size());
 							
 							for(int i = 0; i< list.size(); i++)
                          {%>
-                         <tr class="tr">
+						<tr class="tr">
 							<td><%=i+1 %></td>
 							<td><%=list.get(i).get("lb_name") %></td>
-							<td><a href="/carpedm/wishbook_detail.jsp"><%=list.get(i).get("w_title") %></a></a></td>
+							<td><a href=""
+								onclick="popup('<%=list.get(i).get("w_id") %>')"> <%=list.get(i).get("w_title") %>
+							</a></td>
 							<td><%=list.get(i).get("w_author") %></td>
 							<td><%=list.get(i).get("w_pubyear") %></td>
-							<td><%=list.get(i).get("w_isbn") %></td>
+
 							<td><%=list.get(i).get("w_content") %></td>
 							<td><%=list.get(i).get("w_publisher") %></td>
-							<td><%=list.get(i).get("w_tel") %></td>
-							 <td>정상</td>
-							 <td><input type="checkbox" class="checkbox"></td>
+
+							<td>정상</td>
+							<td><input type="checkbox" class="checkbox"></td>
 						</tr>
 
 						<%}
+							
                          %>
 
 					</table>
