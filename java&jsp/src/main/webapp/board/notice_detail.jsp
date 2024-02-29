@@ -70,30 +70,22 @@
 }
 </style>
 <script>
-// 	window
-// 			.addEventListener(
-// 					"load",
-// 					function() {
-// 						// 등록 버튼
-// 						document.querySelector("#notice_update")
-// 								.addEventListener('click', function() {
-// 									location.href = "notice_update.jsp";
-// 								});
+	window
+			.addEventListener("load",
+					function() {
+						// 수정 버튼
+						document.querySelector("#notice_update")
+								.addEventListener('click', function() {
+									location.href = "notice_update";
+								});
 
-// 						document.querySelector("#notice_delete")
-// 								.addEventListener('click', function() {
-// 									alert("삭제했습니다.");
-// 									location.href = "notice_board.jsp";
-// 								});
+						document.querySelector("#notice_delete")
+								.addEventListener('click', function() {
+									alert("삭제했습니다.");
+									location.href = "notice_board";
+								});
 
-// 						document.querySelector("#subject_title").innerHTML = "tttt";
-// 						document.querySelector("#subject_writer").innerHTML = "wwww";
-// 						document.querySelector("#subject_date").innerHTML = "2024-02-05";
-// 						document.querySelector("#subject_view").innerHTML = "10000000000";
-// 						document.querySelector("#subject_lib").innerHTML = "llll";
-// 						document.querySelector("#subject_file").innerHTML = '<a href="/path/to/your/file.pdf" download>첨부파일 다운로드</a>';
-// 						document.querySelector("#subject_cont").innerHTML = "cccc";
-// 					})
+					})
 </script>
 </head>
 

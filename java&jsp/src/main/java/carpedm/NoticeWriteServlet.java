@@ -35,56 +35,9 @@ public class NoticeWriteServlet extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = request.getRequestURL().toString(); // 현재 URL 가져오기
-		String queryString = request.getQueryString(); // 쿼리 문자열 가져오기
-
-		int nid = 0;
-		if (queryString != null) {
-			String[] params = queryString.split("&"); // 쿼리 파라미터 분리
-
-			for (String param : params) {
-				String[] keyValue = param.split("="); // 파라미터 이름과 값 분리
-				String paramName = keyValue[0]; // 파라미터 이름
-				String paramValue = keyValue.length > 1 ? keyValue[1] : ""; // 파라미터 값
-
-				if (paramName.equals("N_ID")) {
-					nid = Integer.parseInt(paramValue);
-				}
-			}
-		}
-
-//		실행할 쿼리문
-		String nid_query = "";
-		nid_query += "SELECT * FROM notice where";
-		nid_query += " n_id=";
-		nid_query += nid;
-
-		ArrayList<Map<String, String>> notice = getDBList(nid_query);
-
-		request.setAttribute("notice", notice);
-
-		String mPid = "";
-		if (notice != null && !notice.isEmpty()) {
-			for (int i = 0; i < notice.size(); i++) {
-				Map<String, String> row = notice.get(i);
-				mPid = row.get("M_PID");
-			}
-		}
-
-//		실행할 쿼리문
-		String member_query = "";
-		member_query += "SELECT * FROM MEMBER where";
-		member_query += " M_PID=";
-		member_query += mPid;
-		System.out.println(member_query);
-		ArrayList<Map<String, String>> member = getDBList(member_query);
-
-		request.setAttribute("member", member);
-
+		
 			
 		request.getRequestDispatcher("board/notice_write.jsp").forward(request, response);
-		
-	
 	}
 	
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
