@@ -19,6 +19,11 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
+section {
+	width: 90%;
+	margin-left: 10%;
+}
+
 .library-guide {
 	display: flex;
 	gap: 20px;
@@ -26,8 +31,9 @@
 }
 
 .library-image {
-	width: 300px;
+	width: 400px;
 	height: 300px;
+	object_fit: contain;
 }
 
 .library-text {
@@ -101,7 +107,6 @@ h3 {
 		<div class="s_section">
 			<div class="left_section">
 				<%
-				
 				ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) request.getAttribute("list");
 				for (int i = 0; i < list.size(); i++) {
 				%>
@@ -114,9 +119,11 @@ h3 {
 			</div>
 			<div class="right_section">
 				<div class="library-guide">
-				<%int lb_id = Integer.parseInt((String)request.getAttribute("lb")) ; %>
-					<img class="library-image" src="<%=list.get(lb_id).get("lb_imgUrl")%>" alt="이미지 오류"
-						class="library-image">
+					<%
+					int lb_id = Integer.parseInt((String) request.getAttribute("lb"));
+					%>
+					<img class="library-image"
+						src="<%=list.get(lb_id).get("lb_imgUrl")%>" alt="이미지 오류">
 					<div class="library-text">
 						<h1 class="lib_name" style="margin-bottom: 0;"><%=list.get(lb_id).get("lb_name")%></h1>
 

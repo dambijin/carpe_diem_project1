@@ -125,7 +125,11 @@ public class book_searchServlet extends HttpServlet {
 		  String b_id = request.getParameter("b_id");
 		  System.out.println(b_id);		
 		  String query = "UPDATE book SET b_resstate = 'N' WHERE b_id = "+b_id;
-		  System.out.println(setDBList(query));
+		  System.out.println("변경된 행 수:"+setDBList(query));
+		  response.setContentType("application/json");
+		  response.setCharacterEncoding("UTF-8");
+		  //완료하고 결과값을 보내기 위해
+		  response.getWriter().write("{\"message\": \"success\"}");  
 	}
 	
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";

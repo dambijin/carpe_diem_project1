@@ -418,23 +418,25 @@ section {
     }
 
     //예약기능
-function reservation(b_id) {
-    alert(b_id + " 예약되었습니다.");
-    let url = '/carpedm/book_search';
-    let data = 'b_id=' + encodeURIComponent(b_id);
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: data,
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch((error) => console.error('Error:', error));   
-    search();
-}
+	function reservation(b_id) {
+	    alert(b_id + " 예약되었습니다.");
+	    let url = '/carpedm/book_search';
+	    let data = 'b_id=' + encodeURIComponent(b_id);
+		//dopost로 보내기위한 코드
+	    fetch(url, {
+	      method: 'POST',
+	      headers: {
+	        'Content-Type': 'application/x-www-form-urlencoded',
+	      },
+	      body: data,
+	    })
+	    .then(response => response.json())
+	    .then(data => {
+	      console.log(data);
+	      search();  // fetch가 완료된 후에 search 함수를 실행
+	    })
+	    .catch((error) => console.error('Error:', error));   
+	}
 
 	function search() {
 		let textbox = document.getElementById("searchWord");

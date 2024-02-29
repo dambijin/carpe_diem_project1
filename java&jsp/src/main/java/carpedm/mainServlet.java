@@ -21,9 +21,9 @@ public class mainServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ArrayList<Map<String, String>> notice_list = getDBList("select n_id,n_title,n_date from notice order by n_id desc");
+		ArrayList<Map<String, String>> notice_list = getDBList("select n_id,n_title,n_date from notice where n_opt = 0 order by n_id desc");
 		ArrayList<Map<String, String>> book_list = getDBList("select b_id,b_title,b_author,b_imgurl from book order by b_id desc");
-		ArrayList<Map<String, String>> library_list = getDBList("select lb_name,lb_opentime,lb_content from library");
+		ArrayList<Map<String, String>> library_list = getDBList("select lb_name,lb_opentime,lb_address,lb_tel,lb_content from library");
 		request.setAttribute("notice_list", notice_list);
 		request.setAttribute("book_list", book_list);
 		request.setAttribute("library_list", library_list);

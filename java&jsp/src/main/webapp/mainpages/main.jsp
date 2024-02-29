@@ -19,126 +19,6 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script>
-	// 이용정보 달력
-	$(function() {
-		$("#datepicker").datepicker(
-				{
-					nextText : '다음달',
-					prevText : '이전달'
-					// 요일 표기 바꾸기
-					,
-					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ]
-					// 영어month 한글로 바꾸기
-					,
-					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
-							'8월', '9월', '10월', '11월', '12월' ]
-					// 월 년 으로 표기되던거 년 월로 바꾸기
-					,
-					showMonthAfterYear : true
-					// 앞 뒤 월의 날짜 표기
-					,
-					showOtherMonths : true
-					// year년으로 붙이기
-					,
-					yearSuffix : "년"
-				});
-
-	});
-
-	window.addEventListener("load", function() {
-  		silde_bannersetting();
-	   	chg_text_detail(0);
-
-		// 도서검색 버튼 엔터이벤트
-		let textbox = document.getElementById("searchWord");
-		// Enter 키 이벤트 리스너 추가
-		textbox.addEventListener("keyup", function(event) {
-			// keyCode 13은 Enter 키를 나타냅니다
-			if (event.keyCode === 13) {
-				event.preventDefault(); // 기본 동작인 폼 제출 방지
-				search(); // 검색 함수 호출
-			}
-		});	
-	});
-
-	
-	//슬라이드배너 생성
-	function silde_bannersetting()
-	{
-		/*div사이즈 동적으로 구하기*/
-		const outer = document.querySelector('.outer');
-		const innerList = document.querySelector('.inner-list');
-		const inners = document.querySelectorAll('.inner');
-		let currentIndex = 0; // 현재 슬라이드 화면 인덱스
-		
-		inners.forEach((inner) => {
-		  inner.style.width = `${"${outer.clientWidth}px"}`; // inner의 width를 모두 outer의 width로 만들기
-		})
-		
-		innerList.style.width = `${"${outer.clientWidth * inners.length}px"}`; // innerList의 width를 inner의 width * inner의 개수로 만들기
-		
-		/*
-		  버튼에 이벤트 등록하기
-		*/
-		const buttonLeft = document.querySelector('.button-left');
-		const buttonRight = document.querySelector('.button-right');
-		
-		buttonLeft.addEventListener('click', () => {
-		  currentIndex--;
-		  currentIndex = currentIndex < 0 ? 0 : currentIndex; // index값이 0보다 작아질 경우 0으로 변경
-		  innerList.style.marginLeft = `-${"${outer.clientWidth * currentIndex}px"}`; // index만큼 margin을 주어 옆으로 밀기
-		  clearInterval(interval); // 기존 동작되던 interval 제거
-		  interval = getInterval(); // 새로운 interval 등록
-		});
-		
-		buttonRight.addEventListener('click', () => {
-		  currentIndex++;
-		  currentIndex = currentIndex >= inners.length ? inners.length - 1 : currentIndex; // index값이 inner의 총 개수보다 많아질 경우 마지막 인덱스값으로 변경
-		  innerList.style.marginLeft = `-${"${outer.clientWidth * currentIndex}px"}`; // index만큼 margin을 주어 옆으로 밀기
-		  clearInterval(interval); // 기존 동작되던 interval 제거
-		  interval = getInterval(); // 새로운 interval 등록
-		});
-		
-		/*
-		  주기적으로 화면 넘기기
-		*/
-		const getInterval = () => {
-		  return setInterval(() => {
-		    currentIndex++;
-		    currentIndex = currentIndex >= inners.length ? 0 : currentIndex;
-		    innerList.style.marginLeft = `-${"${outer.clientWidth * currentIndex}px"}`;
-		  }, 2000);
-		}
-		
-		let interval = getInterval(); // interval 등록
-	}
-	
-	
-	// 도서검색 버튼 클릭
-	function search() {
-		let textbox = document.getElementById("searchWord");
-		let selectbox = document.getElementById("libsear");
-		if (textbox.value == "") {
-			alert("내용을 입력해주세요");
-			document.querySelector('#searchWord').focus();
-		} else {
-			alert(textbox.value + "을 검색했습니다");
-			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;
-		}
-	};
-	
-    function openBookDetail(b_id) {
-        window.open('book_detail?id='+b_id ,"", "width=900,height=600");
-    }
-
-	let library_list_js = [];
-	function chg_text_detail(sel) {
-	    let content = library_list_js[sel].lb_content;
-	    document.querySelector('.text_detail').innerHTML = content;
-	};
-</script>
-
 <style>
 /* 바디사이즈 */
 .bodysize {
@@ -340,12 +220,16 @@
 /*슬라이드배너 테스트*/
 /* 배너 */
 nav .banner {
-	width: 100%;
+	width: 100%; /* 이미지의 너비를 조절합니다. */
+	height: 350px; /* 이미지의 높이를 조절합니다. */
+	object-fit: contain;
+	/* 이미지의 비율을 유지하면서 너비와 높이에 맞게 이미지를 조절합니다. */
 	margin-bottom: 10px;
+	object-fit: contain;
 }
 
 nav .outer {
-	height: 490px;
+	/* 	height: 490px; */
 	margin: 0 auto;
 	overflow-x: hidden;
 	text-align: center;
@@ -362,10 +246,167 @@ nav .inner {
 	padding: 0 16px;
 }
 
+nav .inner .inner-list img {
+	object_fit: contain;
+}
+/* 배너버튼 */
 .button-list {
-	text-align: center;
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	pointer-events: none;
+}
+
+.button-list button {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: none;
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.5);
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	pointer-events: all;
+}
+
+.button-list button:hover {
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.button-left {
+	left: 15px;
+}
+
+.button-right {
+	right: 15px;
 }
 </style>
+
+<script>
+	// 이용정보 달력
+	$(function() {
+		$("#datepicker").datepicker(
+				{
+					nextText : '다음달',
+					prevText : '이전달'
+					// 요일 표기 바꾸기
+					,
+					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ]
+					// 영어month 한글로 바꾸기
+					,
+					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
+							'8월', '9월', '10월', '11월', '12월' ]
+					// 월 년 으로 표기되던거 년 월로 바꾸기
+					,
+					showMonthAfterYear : true
+					// 앞 뒤 월의 날짜 표기
+					,
+					showOtherMonths : true
+					// year년으로 붙이기
+					,
+					yearSuffix : "년"
+				});
+
+	});
+
+	window.addEventListener("load", function() {
+  		silde_bannersetting();
+	   	chg_text_detail(0);
+
+		// 도서검색 버튼 엔터이벤트
+		let textbox = document.getElementById("searchWord");
+		// Enter 키 이벤트 리스너 추가
+		textbox.addEventListener("keyup", function(event) {
+			// keyCode 13은 Enter 키를 나타냅니다
+			if (event.keyCode === 13) {
+				event.preventDefault(); // 기본 동작인 폼 제출 방지
+				search(); // 검색 함수 호출
+			}
+		});	
+	});
+
+	
+	//슬라이드배너 생성
+	function silde_bannersetting()
+	{
+		/*div사이즈 동적으로 구하기*/
+		const outer = document.querySelector('.outer');
+		const innerList = document.querySelector('.inner-list');
+		const inners = document.querySelectorAll('.inner');
+		let currentIndex = 0; // 현재 슬라이드 화면 인덱스
+		
+		inners.forEach((inner) => {
+		  inner.style.width = `${"${outer.clientWidth}px"}`; // inner의 width를 모두 outer의 width로 만들기
+		})
+		
+		innerList.style.width = `${"${outer.clientWidth * inners.length}px"}`; // innerList의 width를 inner의 width * inner의 개수로 만들기
+		
+		/*
+		  버튼에 이벤트 등록하기
+		*/
+		const buttonLeft = document.querySelector('.button-left');
+		const buttonRight = document.querySelector('.button-right');
+		
+		buttonLeft.addEventListener('click', () => {
+		  currentIndex--;
+		  currentIndex = currentIndex < 0 ? 0 : currentIndex; // index값이 0보다 작아질 경우 0으로 변경
+		  innerList.style.marginLeft = `-${"${outer.clientWidth * currentIndex}px"}`; // index만큼 margin을 주어 옆으로 밀기
+		  clearInterval(interval); // 기존 동작되던 interval 제거
+		  interval = getInterval(); // 새로운 interval 등록
+		});
+		
+		buttonRight.addEventListener('click', () => {
+		  currentIndex++;
+		  currentIndex = currentIndex >= inners.length ? inners.length - 1 : currentIndex; // index값이 inner의 총 개수보다 많아질 경우 마지막 인덱스값으로 변경
+		  innerList.style.marginLeft = `-${"${outer.clientWidth * currentIndex}px"}`; // index만큼 margin을 주어 옆으로 밀기
+		  clearInterval(interval); // 기존 동작되던 interval 제거
+		  interval = getInterval(); // 새로운 interval 등록
+		});
+		
+		/*
+		  주기적으로 화면 넘기기
+		*/
+		const getInterval = () => {
+		  return setInterval(() => {
+		    currentIndex++;
+		    currentIndex = currentIndex >= inners.length ? 0 : currentIndex;
+		    innerList.style.marginLeft = `-${"${outer.clientWidth * currentIndex}px"}`;
+		  }, 2000);
+		}
+		
+		let interval = getInterval(); // interval 등록
+	}
+	
+	
+	// 도서검색 버튼 클릭
+	function search() {
+		let textbox = document.getElementById("searchWord");
+		let selectbox = document.getElementById("libsear");
+		if (textbox.value == "") {
+			alert("내용을 입력해주세요");
+			document.querySelector('#searchWord').focus();
+		} else {
+			alert(textbox.value + "을 검색했습니다");
+			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;
+		}
+	};
+	
+    function openBookDetail(b_id) {
+        window.open('book_detail?id='+b_id ,"", "width=900,height=600");
+    }
+
+	let library_list_js = [];
+	function chg_text_detail(sel) {
+	    let content = "<h2>"+library_list_js[sel].lb_name+"</h2>";
+	    content += "<h3>이용시간</h3>"+library_list_js[sel].lb_opentime+"<br><br>";
+	    content += "<h3>주소</h3>"+library_list_js[sel].lb_address+"<br><br>";
+	    content += "<h3>전화번호</h3>"+library_list_js[sel].lb_tel+"<br><br>";
+	    document.querySelector('.text_detail').innerHTML = content;
+	};
+</script>
 </head>
 
 <body>
@@ -377,11 +418,11 @@ nav .inner {
 				<div class="search">
 					<div class="input">
 						<strong> <select name="item" id="libsear">
-							<option>전체</option>
-							<option>제목</option>
-							<option>저자</option>
-							<option>출판사</option>
-							<option>키워드</option>
+								<option>전체</option>
+								<option>제목</option>
+								<option>저자</option>
+								<option>출판사</option>
+								<option>키워드</option>
 						</select>
 						</strong> <input type="text" name="searchWord" autocomplete="off"
 							id="searchWord" style="ime-mode: active" placeholder="검색어를 적어주세요">
@@ -406,91 +447,99 @@ nav .inner {
 						<img class="banner" src="/carpedm/resource/banner3.png">
 					</div>
 				</div>
+				<div class="button-list">
+					<button class="button-left">←</button>
+					<button class="button-right">→</button>
+				</div>
+			</div>
+	</div>
+	</nav>
+
+	<section class="library_information_content">
+		<div class="announcement_library_information">
+			<div class="announcement">
+				공지사항
+				<table class="announcement_table" id="announcement_table">
+					<%
+					ArrayList<Map<String, String>> notice_list = (ArrayList<Map<String, String>>) request.getAttribute("notice_list");
+
+					for (int i = 0; i < notice_list.size(); i++) {
+					%>
+					<tr>
+						<td class="ann_id"><%=notice_list.get(i).get("N_ID")%></td>
+						<td class="ann_title"><a
+							href="notice_detail?N_ID=<%=notice_list.get(i).get("N_ID")%>"><%=notice_list.get(i).get("N_TITLE")%></a>
+						</td>
+						<td class="ann_day"><%=notice_list.get(i).get("N_DATE").substring(0, 10)%></td>
+					</tr>
+					<%
+					}
+					%>
+				</table>
 			</div>
 
-			<div class="button-list">
-				<button class="button-left">←</button>
-				<button class="button-right">→</button>
-			</div>
-		</nav>
-
-		<section class="library_information_content">
-			<div class="announcement_library_information">
-				<div class="announcement">
-					공지사항
-					<table class="announcement_table" id="announcement_table">
+			<div class="newbook">
+				신착도서
+				<table class="newbook_table">
+					<tr id="nb">
 						<%
-						ArrayList<Map<String, String>> notice_list = (ArrayList<Map<String, String>>) request.getAttribute("notice_list");
+						ArrayList<Map<String, String>> book_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
 
-						for (int i = 0; i < notice_list.size(); i++) {
+						for (int i = 0; i < 3; i++) {
 						%>
-						<tr>
-							<td class="ann_id"><%=notice_list.get(i).get("N_ID")%></td>
-							<td class="ann_title"><a href="notice_detail?N_ID=<%=notice_list.get(i).get("N_ID")%>"><%=notice_list.get(i).get("N_TITLE")%></a>
-							</td>
-							<td class="ann_day"><%=notice_list.get(i).get("N_DATE").substring(0, 10)%></td>
-						</tr>
+						<td>
+							<div class="newbook_div"
+								onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
+								<img class="newbook_img"
+									src="<%=book_list.get(i).get("B_IMGURL")%>">
+							</div>
+							<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
+							<div class="newbook_author"><%=book_list.get(i).get("B_AUTHOR")%></div>
+						</td>
 						<%
 						}
 						%>
-					</table>
-				</div>
-
-				<div class="newbook">
-					신착도서
-					<table class="newbook_table">
-						<tr id="nb">
-							<%
-							ArrayList<Map<String, String>> book_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
-
-							for (int i = 0; i < 3; i++) {
-							%>
-							<td>
-								<div class="newbook_div" onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
-									<img class="newbook_img"
-										src="<%=book_list.get(i).get("B_IMGURL")%>">
-								</div>
-								<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
-								<div class="newbook_author"><%=book_list.get(i).get("B_AUTHOR")%></div>
-							</td>
-							<%
-							}
-							%>
-						</tr>
-					</table>
-				</div>
+					</tr>
+				</table>
 			</div>
+		</div>
 
-			<div class="library_information">
-				이용 정보 <select id="libs_info" onchange="chg_text_detail(this.selectedIndex);">
+		<div class="library_information">
+			이용 정보 <select id="libs_info"
+				onchange="chg_text_detail(this.selectedIndex);">
 				<%
 				ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
 
 				for (int i = 0; i < library_list.size(); i++) {
 				%>
-    				<option><%= library_list.get(i).get("LB_NAME") %></option>
-				<% } %>
-				</select>
-				<div id="libs_time" class="calendar"></div>
-				<div class="calendar">
+				<option><%=library_list.get(i).get("LB_NAME")%></option>
+				<%
+				}
+				%>
+			</select>
+			<div id="libs_time" class="calendar"></div>
+			<div class="calendar">
 
-					<div class="text_detail">
-<%-- 					<%= library_list.get(0).get("LB_CONTENT") %> --%>
-					</div>
-					<script>
+				<div class="text_detail">
+					<%-- 					<%= library_list.get(0).get("LB_CONTENT") %> --%>
+				</div>
+				<script>
 					library_list_js = [
-					<% for (int i = 0; i < library_list.size(); i++) { %>
+					<%for (int i = 0; i < library_list.size(); i++) {%>
 					    {
-					        lb_name: '<%= library_list.get(i).get("LB_NAME") %>',
-					        lb_content: '<%= library_list.get(i).get("LB_CONTENT").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r") %>'
-					    }<%= (i < library_list.size() - 1) ? "," : "" %>
-					<% } %>
+					        lb_name: '<%=library_list.get(i).get("LB_NAME")%>',
+					        lb_address: '<%=library_list.get(i).get("LB_ADDRESS")%>',
+					        lb_opentime: '<%=library_list.get(i).get("LB_OPENTIME")%>',
+					        lb_tel: '<%=library_list.get(i).get("LB_TEL")%>',
+					        lb_content: '<%=library_list.get(i).get("LB_CONTENT").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r")%>'
+					    }<%=(i < library_list.size() - 1) ? "," : ""%>
+					<%}%>
 					];
 					</script>
-				</div>
-
 			</div>
-		</section>
+
+		</div>
+	</section>
 	</div>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header.js"></script>
