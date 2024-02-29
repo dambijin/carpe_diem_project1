@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -7,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>전화번호로 아이디 찾기</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <style>
         /* 헤더 가운데 정렬 */
         .tel_find {
@@ -129,17 +135,42 @@
                 if (username == "") {
                     alert("이름을 입력해주세요.");
                     document.querySelector('#text_name').focus();
+                    return;
                 } else if (usertel == "") {
                     alert("전화번호를 입력해주세요.");
                     document.querySelector('#text_tel').focus();
+                    return;
                 } else {
-                    alert("해당 정보의 아이디는 " + username + "입니다");
-                    onclick(location.href = 'sign_in.jsp')
-                }
+                	console.log("이름:", username);
+                    console.log("전화번호:", usertel);
 
 
                 // 아이디 찾는 기능 추가
-            });
+            };
+            
+            <%		
+            List<Map<String, String>> nametel_list = (List<Map<String, String>>) request.getAttribute("nametel_list");
+            %>
+			
+            let found = false;
+            <% for (Map<String, String> nametel : nametel_list) { %> // JSP 코드의 Java 코드 영역을 그대로 가져옵니다.
+                if ("<%= nametel.get("name") %>" === username && "<%= nametel.get("tel") %>" === (usertel)) { // 이름과 이메일이 일치하는 경우
+                    console.log("일치하는 아이디를 찾았습니다.");
+                    alert("해당 정보의 아이디는 " + "<%= nametel.get("id") %>" + "입니다"); // 해당 아이디를 알려주는 알림창 표시
+                    found = true;
+                    // 원하는 작업을 수행하거나 다른 페이지로 이동할 수 있습니다.
+                    onclick(location.href='find_pw')
+                   
+                }
+            <% } %>
+
+            if (!found) {
+                console.log("일치하는 정보를 찾을 수 없습니다."); // 일치하는 정보가 없는 경우 알림창 표시
+            	alert("일치하는 정보를 찾을 수 없습니다.");
+            }
+        
+            
+        
             let textbox1 = document.getElementById("text_tel");
             // Enter 키 이벤트 리스너 추가
             textbox1.addEventListener("keydown", function (event) {
@@ -149,8 +180,9 @@
                     button.click();
 
                 }
-            });
-        };
+            })
+        })
+            };
 
     </script>
 </head>
@@ -161,10 +193,10 @@
         <div class="tel_find">
             <div class="main">아이디 찾기</div>
             <div class="search">
-                <div class="search_title" onclick="location.href='find_id_email.jsp'" style="cursor:pointer">
+                <div class="search_title" onclick="location.href='find_id_email'" style="cursor:pointer">
                     이메일로 찾기
                 </div>
-                <div class="search_title" onclick="location.href='find_id_tel.jsp'" style="cursor:pointer">
+                <div class="search_title" onclick="location.href='find_id_tel'" style="cursor:pointer">
                     전화번호로 찾기
                 </div>
                     <table class="search_text" cellpadding="5" cellspacing="1">
@@ -189,7 +221,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

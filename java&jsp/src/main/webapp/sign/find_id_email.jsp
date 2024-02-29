@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -7,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이메일로 아이디 찾기</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <style>
         .email_find {
             width: 80%;
@@ -136,28 +142,85 @@
     <script>
 
         window.onload = function () {
+        	
+        	email();
+        	
             let button = document.getElementById('button');
+            
+         // 이메일 선택시 따라붙기
+            function email() {
+                let email1 = document.querySelector("#email_domain");
+                let email2 = document.querySelector("#text_email2");
+                let name = document.querySelector("#name");
+
+                // 이메일 리스트 생성 및 옵션 추가
+                let email_list = ["직접입력", "naver.com", "daum.net", "google.com"];
+                for (let i = 0; i < email_list.length; i++) {
+                    let html = email_list[i];
+                    let opt = document.createElement("option");
+                    opt.innerHTML = html;
+                    email1.append(opt);
+                }
+
+                email1.addEventListener("change", function () {
+                    let selectedIndex = email1.selectedIndex;
+                    email2.value = email1.options[email1.selectedIndex].value;  //동기화
+                    if (email1.selectedIndex > 0) //직접입력 차단
+                    {
+                        email2.readOnly = true;
+                    }
+                    else                            //직접입력 허용
+                    {
+                        email2.value = "";
+                        email2.readOnly = false;
+                    }
+                });
+            }
+            
 
             button.addEventListener('click', function () {
                 let username = document.querySelector('.text_name').value;
                 let useremail1 = document.querySelector('#text_email1').value;
                 let useremail2 = document.querySelector('#text_email2').value;
-
-
+                
                 if (username == "") {
                     alert("이름을 입력해주세요.");
                     document.querySelector('.text_name').focus();
+                    return;
                 } else if (useremail1 == "") {
                     alert("이메일를 입력해주세요.");
                     document.querySelector('#text_email1').focus();
+                    return;
                 } else if (useremail2 == "") {
                     alert("이메일주소를 입력해주세요.");
                     document.querySelector('#text_email2').focus();
                 } else {
-                    alert("해당 정보의 아이디는 " + username + "입니다");
-                    onclick(location.href = 'sign_in.jsp')
+                	console.log("이름:", username);
+                    console.log("이메일:", useremail1 + "@" + useremail2);
+                    
+                <%		
+                List<Map<String, String>> nameemail_list = (List<Map<String, String>>) request.getAttribute("nameemail_list");
+                %>
+				
+                let found = false;
+                <% for (Map<String, String> nameemail : nameemail_list) { %> // JSP 코드의 Java 코드 영역을 그대로 가져옵니다.
+                    if ("<%= nameemail.get("name") %>" === username && "<%= nameemail.get("email") %>" === (useremail1 + "@" + useremail2)) { // 이름과 이메일이 일치하는 경우
+                        console.log("일치하는 아이디를 찾았습니다.");
+                        alert("해당 정보의 아이디는 " + "<%= nameemail.get("id") %>" + "입니다"); // 해당 아이디를 알려주는 알림창 표시
+                        found = true;
+                        // 원하는 작업을 수행하거나 다른 페이지로 이동할 수 있습니다.
+                        onclick(location.href='find_pw')
+                    }
+                <% } %>
+
+                if (!found) {
+                    console.log("일치하는 정보를 찾을 수 없습니다."); // 일치하는 정보가 없는 경우 알림창 표시
+                	alert("일치하는 정보를 찾을 수 없습니다.");
                 }
-            });
+            
+                }
+            
+            
             let textbox1 = document.getElementById("text_email1");
             // Enter 키 이벤트 리스너 추가
             textbox1.addEventListener("keydown", function (event) {
@@ -180,54 +243,14 @@
                    
                 }
             });
+        
+
+        
+            })
         };
 
-
-        window.addEventListener("load", function () {
-            email();
-
-        })
-        // 이메일 선택시 따라붙기
-        function email() {
-            let email1 = document.querySelector("#email_domain")
-            let email2 = document.querySelector("#text_email2")
-            let name = document.querySelector("#name")
-
-
-
-            email1.addEventListener("change", function () {
-                let selectedIndex = email1.selectedIndex;
-                email2.value = email1.options[email1.selectedIndex].value;  //동기화
-                if (email1.selectedIndex > 0) //직접입력 차단
-                {
-                    email2.readOnly = true;
-                }
-                else                            //직접입력 허용
-                {
-                    email2.value = "";
-                    email2.readOnly = false;
-                }
-            })
-
-
-
-            // 이메일 리스트 스크립트
-            let email_list = ["직접입력", "naver.com", "daum.net", "google.com"];
-
-
-            for (let i = 0; i < email_list.length; i++) {
-                let result_email_list = document.querySelector("#email_domain")
-                let html = '';
-                html += email_list[i];
-
-                let opt = document.createElement("option");
-                opt.innerHTML = html;
-
-                result_email_list.append(opt)
-            }
-        }
-
-
+             
+        
     </script>
 </head>
 
@@ -237,10 +260,10 @@
         <div class="email_find">
             <div class="main">아이디 찾기</div>
             <div class="search">
-                <div class='search_title' onclick="location.href='find_id_email.jsp'" style="cursor:pointer">
+                <div class='search_title' onclick="location.href='find_id_email'" style="cursor:pointer">
                     이메일로 찾기
                 </div>
-                <div class="search_title" onclick="location.href='find_id_tel.jsp'" style="cursor:pointer">
+                <div class="search_title" onclick="location.href='find_id_tel'" style="cursor:pointer">
                     전화번호로 찾기
                 </div>
                 <table class="search_text" cellpadding="5" cellspacing="1">
@@ -266,7 +289,7 @@
 
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

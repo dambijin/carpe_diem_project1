@@ -4,7 +4,6 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="carpedm.DBConn"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <!DOCTYPE html>
@@ -129,28 +128,11 @@
 
    
     <script>
-        window.onload = function() {
-            let button = document.getElementById('log_button')
-            button.addEventListener('click', function() {
-                let userid = document.querySelector('.textbox1').value;
-                let userpw = document.querySelector('.textbox2').value;
-
-                
-                <%		
-                List<Map<String, String>> idpw_list = (List<Map<String, String>>) request.getAttribute("idpw_list");
-                
-                
-				%>
-        		console.log("<%= idpw_list.get(0).get("id")%>");
-
-        		if(userid=="<%= idpw_list.get(0).get("id")%>")
-        			{
-        			console.log("성공");
-        			}
-        		else
-        			{
-        			console.log("실패");
-        			}
+    window.onload = function() {
+        let button = document.getElementById('log_button');
+        button.addEventListener('click', function() {
+            let userid = document.querySelector('.textbox1').value;
+            let userpw = document.querySelector('.textbox2').value;
 
                 if(userid == "") {
                     alert("아이디를 입력해주세요.");
@@ -161,10 +143,31 @@
                 } else {
                     console.log("아이디:", userid);
                     console.log("비밀번호:", userpw);
+                    <%		
+                    List<Map<String, String>> idpw_list = (List<Map<String, String>>) request.getAttribute("idpw_list");
+                    %>
+
+                    let found = false;
+                    <% for (Map<String, String> idpw : idpw_list) { %>
+                        if ("<%= idpw.get("id") %>" === userid && "<%= idpw.get("pw") %>" === userpw) {
+                            console.log("로그인 성공");
+                            alert("로그인 성공")
+                            found = true;
+                            onclick(location.href='main')
+                        
+                        }
+                            
+                    <% } %>
+
+                    if (!found) {
+                    	console.log("아이디 또는 비밀번호가 잘못되었습니다.")
+                        alert("아이디 또는 비밀번호가 잘못되었습니다.");
+                    	
+                    }
                     // 로그인 처리 또는 다른 작업 수행
                     // onclick(location.href='../mainpages/main.jsp')
                 }
-            });
+        
             let textbox1 = document.getElementById("text_id");
             // Enter 키 이벤트 리스너 추가
             textbox1.addEventListener("keydown", function (event) {
@@ -185,7 +188,7 @@
                     
                 }
             });
-        }
+        });
         $(document).ready(function(){
             // 페이지 로드 시 쿠키에 저장된 아이디 값을 가져와서 입력칸에 표시
             var key = getCookie("key");
@@ -245,6 +248,8 @@
             }
             return unescape(cookieValue);
         }
+        
+    };
     </script>
 </head>
 
@@ -274,9 +279,9 @@
                 </div>
                 <div class="log_but"><button type="button" id="log_button">로그인</button></div>
                 <div class="find_button">
-                    <button type="button" class="find_button but" onclick="location.href='find_id_email.jsp';">아이디 찾기</button>
-                    <button type="button" class="find_password but" onclick="location.href='find_pw.jsp';">비밀번호 찾기</button>
-                    <button type="button" class="sign_up but" onclick="location.href='sign_up.jsp';">회원가입</button>
+                    <button type="button" class="find_button but" onclick="location.href='find_id_email';">아이디 찾기</button>
+                    <button type="button" class="find_password but" onclick="location.href='find_pw';">비밀번호 찾기</button>
+                    <button type="button" class="sign_up but" onclick="location.href='sign_up';">회원가입</button>
 
                 </div>
             </div>

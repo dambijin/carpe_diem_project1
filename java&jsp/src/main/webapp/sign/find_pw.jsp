@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호찾기</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
 </head>
 <script>
     function btn(sample) {
@@ -80,12 +86,35 @@
             } else if (useremail2 == "") {
                 alert("이메일주소를 입력해주세요.");
                 document.querySelector('#text_email2').focus();
-            } else if (userCertification == "") {
+            /*  } else if (userCertification == "") {
                 alert("인증번호를 입력해주세요.")
-                document.querySelector('#Certification').focus();
+                document.querySelector('#Certification').focus(); */
             } else {
-                alert("해당 정보의 비밀번호는 " + username + "입니다");
-                onclick(location.href = 'sign_in.jsp')
+            	console.log("아이디:", userid);
+            	console.log("이름:", username);
+                console.log("이메일:", useremail1 + "@" + useremail2);
+            
+        
+        
+        <%		
+                List<Map<String, String>> pw_list = (List<Map<String, String>>) request.getAttribute("pw_list");
+                %>
+				
+                let found = false;
+                <% for (Map<String, String> pw : pw_list) { %> // JSP 코드의 Java 코드 영역을 그대로 가져옵니다.
+                    if ("<%= pw.get("id") %>" === userid && "<%= pw.get("name") %>" === username && "<%= pw.get("email") %>" === (useremail1 + "@" + useremail2)) { // 이름과 이메일이 일치하는 경우
+                        console.log("일치하는 아이디를 찾았습니다.");
+                        alert("해당 정보의 아이디는 " + "<%= pw.get("pw") %>" + "입니다"); // 해당 아이디를 알려주는 알림창 표시
+                        found = true;
+                        // 원하는 작업을 수행하거나 다른 페이지로 이동할 수 있습니다.
+                        onclick(location.href='sign_in')
+                    }
+                <% } %>
+
+                if (!found) {
+                    console.log("일치하는 정보를 찾을 수 없습니다."); // 일치하는 정보가 없는 경우 알림창 표시
+                	alert("일치하는 정보를 찾을 수 없습니다.");
+                }
             }
         })
         let textbox1 = document.getElementById("Certification");
@@ -241,7 +270,7 @@
 
 
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

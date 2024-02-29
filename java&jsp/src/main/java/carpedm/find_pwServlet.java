@@ -16,12 +16,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/sign_in")
-public class sign_inServlet extends HttpServlet {
+@WebServlet("/find_pw")
+public class find_pwServlet extends HttpServlet {
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
-	
 	
 //	DB접속 메소드
 	private static Connection getConnection() {
@@ -68,7 +67,9 @@ public class sign_inServlet extends HttpServlet {
             	// HashMap() 중복된 key값과 1개의 value값을 입력 받을수 있다
             	Map map= new HashMap();
             	map.put("id", rs.getString("m_id")); // 아이디
-            	map.put("pw", rs.getString("m_pw")); // 비밀번호 
+            	map.put("pw", rs.getString("m_pw")); // 비밀번호
+            	map.put("name", rs.getString("m_name")); // 이름 
+            	map.put("email", rs.getString("m_email")); // 이메일
           
             
 //            	map 객체를 list에 추가하는 작업을 수행
@@ -92,9 +93,9 @@ public class sign_inServlet extends HttpServlet {
     	   System.out.println(list.get(i).get("id"));
        }
        
-        request.setAttribute("idpw_list", list);
+        request.setAttribute("pw_list", list);
    
-		request.getRequestDispatcher("sign/sign_in.jsp").forward(request, response);
+		request.getRequestDispatcher("sign/find_pw.jsp").forward(request, response);
 	
 	}
 
