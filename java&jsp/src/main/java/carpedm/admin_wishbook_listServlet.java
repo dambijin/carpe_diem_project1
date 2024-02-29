@@ -31,7 +31,7 @@ public class admin_wishbook_listServlet extends HttpServlet {
 	}
 
 	// 기본적인 접속메소드
-	public static Connection getConnection() {
+	private static Connection getConnection() {
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -45,14 +45,14 @@ public class admin_wishbook_listServlet extends HttpServlet {
 
 		
 	// 희망도서 가져오기
-	public static ArrayList<Map<String,String>> getwishbook() {
+	private static ArrayList<Map<String,String>> getwishbook() {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
 			query += " select";
-			query += " lb_id, w_title, w_author, w_isbn, w_pubyear, m_pid, w_name, w_pubyear, w_content";
+			query += " w_id, w_title, w_author, w_isbn, w_pubyear, m_pid, w_name, w_pubyear, w_content";
 			query += " from";
 			query += " wishlist";
 
@@ -76,7 +76,7 @@ public class admin_wishbook_listServlet extends HttpServlet {
 				 * map.put("lb_content", rs.getString("lb_content").replace("\n",
 				 * "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
 				 */
-				map.put("lb_id", rs.getString("lb_id"));
+				map.put("w_id", rs.getString("w_id"));
 				map.put("w_title", rs.getString("w_title"));
 				map.put("w_author", rs.getString("w_author"));
 				map.put("w_isbn", rs.getString("w_isbn"));

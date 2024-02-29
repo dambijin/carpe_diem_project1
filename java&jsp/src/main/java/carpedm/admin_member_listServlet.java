@@ -48,9 +48,9 @@ public class admin_member_listServlet extends HttpServlet {
         request.getRequestDispatcher("/admin/admin_member_list.jsp").forward(request, response);
 	}
 	
-
+	
 	// 기본적인 접속메소드
-	public static Connection getConnection() {
+	private static Connection getConnection() {
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -63,15 +63,22 @@ public class admin_member_listServlet extends HttpServlet {
 	}
 
 	// 맴버가져오기
-	public static ArrayList<Map<String,String>> getmember(String search) {
+	private static ArrayList<Map<String,String>> getmember(String search) {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
-			Connection conn = DBConn.getConnection();
+			Connection conn = getConnection();
 			
 			// SQL준비
-			String query = "SELECT m.m_pid, m.m_name, m.m_id, m.m_birthday, m.m_tel, m.m_address, m.lb_id";
+	        String query = "SELECT m.m_pid, m.m_name, m.m_id, m.m_birthday, m.m_tel, m.m_address, m.lb_id";
 	        query += " FROM member m";
+	        
+	        // Add conditions for various columns based on the search input
 	        query += " WHERE m.m_name LIKE '%" + search + "%'";  // 검색어가 이름에 포함되어 있는 경우 검색
+	        query += " OR m.m_id LIKE '%" + search + "%'";      // 검색어가 회원ID에 포함되어 있는 경우 검색
+	        query += " OR m.m_birthday LIKE '%" + search + "%'"; // 검색어가 생년월일에 포함되어 있는 경우 검색
+	        query += " OR m.m_tel LIKE '%" + search + "%'";       // 검색어가 전화번호에 포함되어 있는 경우 검색
+	        query += " OR m.m_address LIKE '%" + search + "%'";   // 검색어가 주소에 포함되어 있는 경우 검색
+	        query += " OR m.lb_id LIKE '%" + search + "%'";       // 검색어가 도서관ID에 포함되어 있는 경우 검색
 
 	        System.out.println("query:" + query);
 			

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +25,11 @@
 
 
     function bind() {
+    	
+    	<%
+		ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
+		%>
+		
         // 테이블 가져오기
         let add = document.querySelector("#todo_booktable");
 
@@ -32,6 +41,8 @@
 
             // html += '</tr>';
             // 추가한다
+            book_html += '<td>1</td>';
+            book_html += '<td>홍길동</td>';
             book_html += '<td>aaaaaaaaaaa</td>';
             book_html += '<td>홍길동</td>';
             book_html += '<td>천안도서관</td>';
@@ -182,6 +193,8 @@
             <table class="add_table" border="0" width="900px" align="center" cellpadding="5" cellspacing="1"
                 bgcolor="cccccc" id="todo_booktable">
                 <tr>
+                    <th>회원번호</th>
+                    <th>회원이름</th>
                     <th>책제목</th>
                     <th>저자</th>
                     <th>소장기관</th>

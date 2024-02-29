@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
-<%@ page import="carpedm.DBConn"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map"%>
@@ -24,16 +23,16 @@
 
     function bind() {
     	// 회원목록 가져옴		
-		let data_list = <%=DBConn.getSelectQueryAll("select lb_id, w_title, w_author, w_isbn, w_pubyear, m_pid, w_name, w_pubyear, w_content from wishlist;")%>
+<%-- 		let data_list = <%=getSelectQueryAll("select lb_id, w_title, w_author, w_isbn, w_pubyear, m_pid, w_name, w_pubyear, w_content from wishlist;")%> --%>
 		
 
-        for (let i = 0; i <= data_list.length; i=i+9) {
-        	// 테이블을 가져와서 todolist변수에 담아둠
-        	let todolist = document.querySelector("#page1");
-            let html = '';
+//         for (let i = 0; i <= data_list.length; i=i+9) {
+//         	// 테이블을 가져와서 todolist변수에 담아둠
+//         	let todolist = document.querySelector("#page1");
+//             let html = '';
 
-            // html += '</tr>';
-            // 추가한다
+//             html += '</tr>';
+//             추가한다
 //             html += '<td>' + data_list[i] + '</td>';
 //             html += '<td>' + data_list[i+1] + '</td>';
 //             html += '<td>' + data_list[i+2] + '</td>';
@@ -50,7 +49,7 @@
 //             tr.innerHTML = html;
 
 //             todolist.append(tr);
-        }
+//         }
 
         //검색옵션 기본세팅
         let search_opt_list = ["회원번호", "책이름", "저자", "출판사", "ISBN", "발행년", "신청날짜", "회원ID"];
@@ -89,13 +88,13 @@
     }
 
 
-    function complete() {
-        alert("완료되었습니다.")
+    function complete(w_id) {
+    	alert("완료되었습니다 회망도서 ID: " + w_id);
     }
 
 
-    function companion() {
-        alert("반려되었습니다.")
+    function companion(w_id) {
+    	alert("완료되었습니다 회망도서 ID: " + w_id);
     }
 
     // 책이름 클릭 시 팝업창 띄우기
@@ -180,7 +179,7 @@
         height: 35px;
         background-color: rgba(163, 163, 163, 0.6);
     }
-
+    
     /* 테이블 안에 input */
     .wish_table tr td input {
         font-family: "Wanted Sans Variable";
@@ -257,7 +256,7 @@
             <table class="wish_table" width="1100px" id="page1">
             	<thead>
 	                <tr id="page1_tr">
-	                    <th width="80px">회원번호</th>
+	                    <th width="80px">희망도서ID</th>
 	                    <th width="80px">책이름</th>
 	                    <th width="80px">저자</th>
 	                    <th>ISBN</th>
@@ -278,7 +277,7 @@
 					for (int i = 0; i < data_list.size(); i++) {
 					%>
 					<tr>
-						<td><%=data_list.get(i).get("lb_id")%></td>
+						<td><%=data_list.get(i).get("w_id")%></td>
 						<td><%=data_list.get(i).get("w_title")%></td>
 						<td><%=data_list.get(i).get("w_author")%></td>
 						<td><%=data_list.get(i).get("w_isbn")%></td>
@@ -288,8 +287,8 @@
 						<td><%=data_list.get(i).get("w_pubyear")%></td>
 						<td><%=data_list.get(i).get("w_content")%></td>
 						<td width="150px"><input type="button" value="완료"
-							class="complete" onclick="complete()"> <input
-							type="button" value="반려" class="companion" onclick="companion()">
+							class="complete" onclick="complete('<%=data_list.get(i).get("w_id")%>')"> <input
+							type="button" value="반려" class="companion" onclick="companion('<%=data_list.get(i).get("w_id")%>')">
 						</td>
 					</tr>
 					<%

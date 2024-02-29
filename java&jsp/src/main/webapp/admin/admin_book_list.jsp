@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
-<%@ page import="carpedm.DBConn"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map"%>
@@ -21,7 +20,7 @@
 	// admin_book_list 등록 팝업창열기
 	function bookadd_popup() {
 		window.open
-			("admin_book_add.jsp", "책 등록", "width=1000, height=800, left=100, top=100");
+			("/carpedm/admin/admin_book_add.jsp", "책 등록", "width=1000, height=800, left=100, top=100");
 	}
 	// todo 이벤트
 	// 책 추가버튼 가져오기
@@ -30,18 +29,17 @@
 	});
 
 	function bind() {
+		<%
+		ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
+		%>
 
-		// 회원목록 가져옴		
-		let data_list = <%=DBConn.getSelectQueryAll("select b_id, b_title, b_author, b_publisher, b_isbn, b_pubyear, lb_id, b_pubyear, b_resstate, b_loanstate from book")%>
-		
+// 		for (let i = 0; i < data_list.length; i=i+10) {
+// 			// 테이블을 가져와서 todolist변수에 담아둠
+// 			let todolist = document.querySelector("#todo_booktable");		
+// 			let book_html = '';
 
-		for (let i = 0; i < data_list.length; i=i+10) {
-			// 테이블을 가져와서 todolist변수에 담아둠
-			let todolist = document.querySelector("#todo_booktable");		
-			let book_html = '';
-
-			// html += '</tr>';
-			// 추가한다
+// 			html += '</tr>';
+// 			추가한다
 // 			book_html += '<td class="member_no">' + data_list[i] + '</td>';
 // 			book_html += '<td><div class="book_name">';			
 // 			book_html += data_list[i+1];			
@@ -77,42 +75,6 @@
 // 			tr.innerHTML = book_html;
 			
 			
-			// 이름에 클릭이벤트
-			// tr 엘리먼트 내에서 book_name을 찾아 이벤트 리스너 추가
-			// tr 엘리먼트 내에서 member_no 찾아 그 내용(innerHTML)을 변수에 담음
-			tr.querySelector(".book_name").addEventListener("click", function () {
-				let member_no = tr.querySelector(".member_no").innerHTML;
-				alert("도서ID : " + member_no);
-			})
-			
-			
-			// 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
-			tr.querySelector(".checkbox").addEventListener("click", function (event) {
-				// 만약 현재 클릭된 체크박스가 체크 해제되었다면
-				if (!event.target.checked) {
-					// 전체선택 체크박스도 체크 해제
-					document.querySelector("#select_all").checked = false;
-				} else {
-					// 전체 체크박스 개수와 현재 체크된 체크박스 개수를 세어서 비교
-					let allCount = document.querySelectorAll(".checkbox").length;
-					let checkedCount = document.querySelectorAll(".checkbox:checked").length;
-
-					// 만약 모든 체크박스가 체크 되어있다면
-					if (allCount == checkedCount) {
-						// 전체선택 체크박스를 체크
-						document.querySelector("#select_all").checked = true;
-					} else {
-						// else 전체선택 체크박스를 체크 해제
-						document.querySelector("#select_all").checked = false;
-					}
-				}
-			});
-
-			// todolist에 tr을 추가함
-			todolist.append(tr);
-
-		}
-
 		// 전체선택 체크 해제
 		document.querySelector("#select_all").addEventListener("click", function (event) {
 			// 클릭된 요소가 check 상태라면
@@ -132,7 +94,31 @@
 				}
 			}
 		});
+		
+		// 각 체크박스에 대한 이벤트 리스너 등록
+		let checkboxes = document.querySelectorAll(".checkbox");
+		for (let i = 0; i < checkboxes.length; i++) {
+		    checkboxes[i].addEventListener("click", function (event) {
+		        // 만약 현재 클릭된 체크박스가 체크 해제되었다면
+		        if (!event.target.checked) {
+		            // 전체선택 체크박스도 체크 해제
+		            document.querySelector("#select_all").checked = false;
+		        } else {
+		            // 전체 체크박스 개수와 현재 체크된 체크박스 개수를 세어서 비교
+		            let allCount = checkboxes.length;
+		            let checkedCount = document.querySelectorAll(".checkbox:checked").length;
 
+		            // 만약 모든 체크박스가 체크 되어있다면
+		            if (allCount == checkedCount) {
+		                // 전체선택 체크박스를 체크
+		                document.querySelector("#select_all").checked = true;
+		            } else {
+		                // 그렇지 않다면 전체선택 체크박스를 체크 해제
+		                document.querySelector("#select_all").checked = false;
+		            }
+		        }
+		    });
+		}
 
 		//폐기버튼 알림창 및 폐기 클릭 시 remove()
 		document.getElementById('button_cancle').addEventListener('click', function () {
@@ -166,7 +152,7 @@
 		};
 
 		//검색옵션 기본세팅
-		let search_opt_list = ["등록번호", "책이름", "저자", "ISBN", "발행년", "소장기관", "등록날짜"];
+		let search_opt_list = ["전체", "순번", "도서ID", "책이름", "저자", "출판사", "ISBN", "발행년", "소장기관", "등록날짜"];
 
 		for (let i = 0; i < search_opt_list.length; i++) {
 			let search_opt = document.querySelector("#search_option");
@@ -179,8 +165,8 @@
 			search_opt.append(opt);
 		}
 
-
-	};
+	}
+	
 
 
 	// 10개씩 누를 때 change 이벤트 : 변동이 있을 때 발생
@@ -221,8 +207,13 @@
 				// 기타 옵션의 경우 아무 동작도 수행하지 않음
 				break;
 		}
+	};
+	
+	
+	function openBookPopup(b_id){
+		window.open
+		("/carpedm/book_detail?id="+b_id, "팝업", "width=1000, height=700, left=100, top=100");
 	}
-
 
 </script>
 
@@ -405,17 +396,18 @@
 					id="todo_booktable">
 					<thead>
 						<tr>
-							<th width="100">도서ID</th>
-							<th width="100">책이름</th>
+							<th width="50px">순번</th>
+							<th width="50px">도서ID</th>
+							<th width="*">책이름</th>
 							<th width="100">저자</th>
 							<th width="100">출판사</th>
 							<th width="100">ISBN</th>
 							<th width="100">발행년</th>
 							<th width="100">소장기관</th>
 							<th width="100">등록날짜</th>
-							<th width="100">예약</th>
-							<th width="100">대출상태</th>
-							<th width="100">
+							<th width="50px">예약</th>
+							<th width="50px">대출상태</th>
+							<th width="80px">
 								도서폐기
 								<input type="checkbox" id="select_all">
 							</th>
@@ -423,30 +415,26 @@
 					</thead>
 					<tbody id="memberListBody">
                 	<!-- 동적으로 추가될 테이블 내용 -->
-						<%
-						// 예시 데이터
-							ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
-						%>
-
-						<%
-						for (int i = 0; i < data_list.size(); i++) {
-						%>
-						<tr>
-							<td class="book_no"><%=data_list.get(i).get("b_id")%></td>
-							<td><div class="book_name"><%=data_list.get(i).get("b_title")%></div></td>
-							<td><%=data_list.get(i).get("b_author")%></td>
-							<td><%=data_list.get(i).get("b_publisher")%></td>
-							<td><%=data_list.get(i).get("b_isbn")%></td>
-							<td><%=data_list.get(i).get("b_pubyear")%></td>
-							<td><%=data_list.get(i).get("lb_id")%></td>
-							<td><%=data_list.get(i).get("b_pubyear")%></td>
-							<td><%=data_list.get(i).get("b_resstate")%></td>
-							<td><%=data_list.get(i).get("b_loanstate")%></td>
-							<td><input type="checkbox" name="check" class="checkbox"></td>
-						</tr>
-						<%
-						}
-						%>
+					<%
+					for (int i = 0; i < data_list.size(); i++) {
+					%>
+					<tr>
+						<td><%= i+1 %></td>
+						<td class="book_no"><%=data_list.get(i).get("b_id")%></td>
+						<td><div class="book_name" onclick="openBookPopup('<%=data_list.get(i).get("b_id")%>')"><%=data_list.get(i).get("b_title")%></div></td>
+						<td><%=data_list.get(i).get("b_author")%></td>
+						<td><%=data_list.get(i).get("b_publisher")%></td>
+						<td><%=data_list.get(i).get("b_isbn")%></td>
+						<td><%=data_list.get(i).get("b_pubyear")%></td>
+						<td><%=data_list.get(i).get("lb_id")%></td>
+						<td><%=data_list.get(i).get("b_pubyear")%></td>
+						<td><%=data_list.get(i).get("b_resstate")%></td>
+						<td><%=data_list.get(i).get("b_loanstate")%></td>
+						<td><input type="checkbox" name="check" class="checkbox"></td>
+					</tr>
+					<%
+					}
+					%>
 					</tbody>
 				</table>
 		</form>

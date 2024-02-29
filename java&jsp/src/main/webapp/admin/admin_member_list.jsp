@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
-<%@ page import="carpedm.DBConn"%>
+<%-- <%@ page import="carpedm.DBConn"%> --%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map"%>
@@ -43,20 +43,20 @@
 	function bind() {
 
 		// 회원목록 가져옴		
-		let data_list = <%=DBConn.getSelectQueryAll("select m_pid, m_name, m_id, m_birthday, m_tel, m_address, lb_id from member")%>
-		
-		
-		console.log(data_list.length);
-		for (let i = 0; i < data_list.length; i=i+7) {
-			let todolist = document.querySelector("#memberListTable");		
-			let html = '';
+
+<%-- 		let data_list = <%=getSelectQueryAll("select m_pid, m_name, m_id, m_birthday, m_tel, m_address, lb_id from member")%> --%>
+
+// 		console.log(data_list.length);
+// 		for (let i = 0; i < data_list.length; i=i+7) {
+// 			let todolist = document.querySelector("#memberListTable");		
+// 			let html = '';
 			
-			// 회원목록 순번 1부터 만들기
+// 			회원목록 순번 1부터 만들기
 // 			html += '<td>';
 // 			html += data_list[i];		
 // 			html += '</td>';
 			
-			// 생년월일 부분은 시간까지 출력되어서 변수에 담고
+// 			생년월일 부분은 시간까지 출력되어서 변수에 담고
 // 			let birthdate = data_list[i + 3];
 // 			// substring으로 10번째까지만 추출한 뒤 변수에 담아서 datePart 출력함
 // 			let datePart = birthdate.substring(0, 10);
@@ -90,9 +90,9 @@
 // 			let tr = document.createElement("tr"); // <tr></tr>
 // 			tr.innerHTML = html;
 
-			//이름에 클릭이벤트
-			// tr 엘리먼트 내에서 member_name을 찾아 이벤트 리스너 추가
-			// tr 엘리먼트 내에서 member_no 찾아 그 내용(innerHTML)을 변수에 담음
+// 			이름에 클릭이벤트
+// 			tr 엘리먼트 내에서 member_name을 찾아 이벤트 리스너 추가
+// 			tr 엘리먼트 내에서 member_no 찾아 그 내용(innerHTML)을 변수에 담음
 // 					tr.querySelector(".member_name")
 // 					.addEventListener(
 // 							"click",
@@ -103,12 +103,12 @@
 
 // 			// 테이블의 tr 엘리먼트를 추가
 // 			todolist.append(tr);
-		}
+// 		}
 
 		// 검색옵션 기본세팅
 		// select 옵션 가져와서 변수에담고
 		// html 변수에 배열의 값을 추가해서 for문 돌림
-		let search_opt_list = [ "전체", "회원번호", "이름", "회원ID", "생년월일", "전화번호", "주소", "회원ID", "연체상태"];
+		let search_opt_list = [ "전체", "회원번호", "이름", "회원ID", "생년월일", "전화번호", "주소", "도서관ID", "연체상태"];
 
 		for (let i = 0; i < search_opt_list.length; i++) {
 			let search_opt = document.querySelector("#search_option");
@@ -127,9 +127,10 @@
 		// 밑에 함수가 있어서 검색됨
 		// 도서검색 버튼 클릭
 		var textbox = document.getElementById("input_todo");
+		 /* enterkey함수 이벤트 */
+		textbox.addEventListener("keydown", enterkey);
 		if (textbox.value == "") {
-			document.querySelector('#input_todo').focus();
-			inputTodo.addEventListener("keydown", enterkey); /* enterkey함수 이벤트 */
+			document.querySelector('#input_todo').focus();		
 		} else {
 			alert(textbox.value + "을 검색했습니다");
 			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value);
@@ -219,6 +220,17 @@
 	//         // 여기서는 간단히 현재 페이지를 알림창으로 표시하는 예시를 보여줍니다.
 	//         alert(`현재 페이지: ${currentPage}`);
 	//     }
+	
+	// 예약목록 조회 클릭 시 동작하는 함수
+    function getReservationInfo(memberId) {
+    	// 회원 ID를 알림창에 표시
+        alert("예약목록 조회 - 회원 ID: " + memberId);
+    }
+	
+    function loans(memberId) {
+    	// 회원 ID를 알림창에 표시
+        alert("대출내역 조회 - 회원 ID: " + memberId);
+    }
 </script>
 
 
@@ -354,13 +366,13 @@
 	}
 
 	/* 이름 링크 */
-	.member_name {
-		color: blue;
-		font-family: bold;
-		text-decoration: underline;
-		font-weight: bold;
-		cursor: pointer;
-	}
+/* 	.member_name { */
+/* 		color: blue; */
+/* 		font-family: bold; */
+/* 		text-decoration: underline; */
+/* 		font-weight: bold; */
+/* 		cursor: pointer; */
+/* 	} */
 
 	/* 연체상태 링크 */
 	.overdue_name {
@@ -409,6 +421,7 @@
 		<table class="member_table" id="memberListTable">
 			<thead>
 				<tr id="memberListTable_tr">
+					<th width="80px">순번</th>
 					<th width="80px">회원번호</th>
 					<th width="100">이름</th>
 					<th width="100">회원ID</th>
@@ -432,7 +445,8 @@
 				<%
 				for (int i = 0; i < data_list.size(); i++) {
 				%>
-				<tr>
+				<tr>				
+					<td><%=i+1 %></td>
 					<td class="member_no"><%=data_list.get(i).get("m_pid")%></td>
 					<td><div class="member_name"><%=data_list.get(i).get("m_name")%></div></td>
 					<td><%=data_list.get(i).get("m_id")%></td>
@@ -441,10 +455,10 @@
 					<td><%=data_list.get(i).get("m_address")%></td>
 					<td><%=data_list.get(i).get("lb_id")%></td>
 					<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>
-					<td><input type="button" value="조회" onclick="alert('예약목록 조회')"></td>
-					<td><input type="button" value="조회" onclick="alert('대출내역 조회')"></td>
+					<td><input type="button" value="조회" onclick="getReservationInfo('<%=data_list.get(i).get("m_id")%>')"></td>
+					<td><input type="button" value="조회" onclick="loans('<%=data_list.get(i).get("m_id")%>')"></td>
 					<td><input type="button" value="수정"
-						onclick="location.href='admin/admin_member_chginfo.jsp';"></td>
+						onclick="location.href='/carpedm/admin_member_chginfo?m_pid=<%=data_list.get(i).get("m_pid")%>';"></td>
 				</tr>
 				<%
 				}

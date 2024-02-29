@@ -288,7 +288,7 @@
                     <td><input type="text" name="year"></td>
                 </tr>
                 <tr>
-                    <th>등록번호</th>
+                    <th>도서ID</th>
                     <td><input type="number" name="regi_number"></td>
                 </tr>
                 <tr>

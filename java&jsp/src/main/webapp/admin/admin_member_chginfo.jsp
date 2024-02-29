@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="javax.servlet.RequestDispatcher" %>
+<%@ page import="javax.servlet.ServletException" %>
+<%@ page import="javax.servlet.http.HttpServletRequest" %>
+<%@ page import="javax.servlet.http.HttpServletResponse" %>
+<%@ page import = "java.util.ArrayList" %>
+<%@ page import = "java.util.HashMap" %>
+<%@ page import = "java.util.Map" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,22 +36,6 @@
 
             search_opt.append(opt);
         }
-
-        // 자바스크립트화
-        document.querySelector("#name").innerHTML = "홍길동";
-        document.querySelector("#yymmdd").value = "2001-01-01";
-        document.querySelector("#userid").value = "userid123";
-        document.querySelector("#phone").value = "01012345678";
-        document.querySelector("#emailId1").value = "abc123";
-        document.querySelector("#emailId2").value = "naver.com";
-        document.querySelector("#home1num").value = "043";
-        document.querySelector("#home2num").value = "273";
-        document.querySelector("#home3num").value = "6789";
-        document.querySelector("#zipcodenum").value = "31472";
-        document.querySelector("#adr1").value = "충북 청주시 흥덕구";
-        document.querySelector("#adr2").value = "1순환로 456번지 101호";
-
-
 
     });
 
@@ -164,6 +155,7 @@
             }
         }).open();
     }
+//     console.log(data_list);
 </script>
 
 <style>
@@ -305,89 +297,97 @@
 
     <div class="chtable">
         <table border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc">
-            <tr>
-                <th width="20%" height="40px">항목</th>
-                <th width="80%">정보</th>
-            </tr>
-            <tr>
-                <th height="40px">이름</th>
-                <td id="name"></td>
-            </tr>
-            <tr>
-                <th height="40px">생년월일</th>
-                <td><input type="text" id="yymmdd"></td>
-            </tr>
-            <tr>
-                <th height="40px">아이디</th>
-                <td><input type="text" id="userid"></td>
-            </tr>
-            <tr>
-                <th height="40px">비밀번호</th>
-                <td><input type="password" name="password" id="password" maxlength="20" placeholder=" 비밀번호를 입력해주세요.">
-                </td>
-            </tr>
+            <thead>
+            <%
+            ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("list");
+        	
+            // data_list가 비어 있거나 null이면 초기화
+            if (data_list == null || data_list.isEmpty()) {
+                data_list = new ArrayList<>();
+            }
 
-            <tr>
-                <th height="40px">비밀번호확인</th>
-
-                <td>
-                    <input type="password" id="password1" name="password_check" maxlength="16"
-                        placeholder=" 비밀번호를 확인해주세요.">
-                </td>
-            </tr>
-            <tr>
-                <th height="40px">휴대폰번호</th>
-                <td>
-                    <input type="number" name="phone_number" id="phone" placeholder="-를 빼고 작성해주세요.">
-                    SMS수신
-                    <input type="radio" name="sms1" checked>예
-                    <input type="radio" name="sms1">아니오
-                </td>
-            </tr>
-            <tr height="100px">
-                <td colspan="2" align="center" height="40px">
-                    <div class="colspan">
-                        고객님께 물어봐주세요<br><br>
-                        마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
-                        동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th height="40px">이메일</th>
-                <td>
-                    <input type="text" id="emailId1" placeholder="이메일 입력">
-
-                    <span>@</span>
-
-                    <input type="text" name="email_com" placeholder="이메일을 선택하세요." id="emailId2">
-
-                    <select class="temail" onchange="selectWebsite()" id="select_email">
-                        <!-- 자바스크립트화 -->
-                    </select>
-
-                    이메일수신
-                    <input type="radio" name="sms2" checked>예
-                    <input type="radio" name="sms2">아니오
-                </td>
-            </tr>
-            <tr>
-                <th height="40px">집전화번호</th>
-                <td>
-                    <input type="number" class="home_num" id="home1num"> -
-                    <input type="number" class="home_num" id="home2num"> -
-                    <input type="number" class="home_num" id="home3num">
-                </td>
-            </tr>
-            <tr>
-                <th height="40px">주소</th>
-                <td>
-                    <input type="text" class="zipcode" id="zipcodenum" placeholder="우편번호">
-                    <input type="button" value="주소찾기" class="add" onclick="sample6_execDaumPostcode()"><br>
-                    <input type="text" class="adr" id="adr1" placeholder="기본주소"><br>
-                    <input type="text" class="adr" id="adr2" placeholder="상세주소">
-                </td>
-            </tr>
+            
+			%>
+	        	<tr>
+	                <th width="20%" height="40px">항목</th>
+	                <th width="80%">정보</th>
+	            </tr>
+	            <tr>
+	                <th height="40px">이름</th>
+	                <td id="name"><%=data_list.get(0).get("m_name")%></td>
+	            </tr>
+	            <tr>
+	                <th height="40px">생년월일</th>
+	                <td>
+	                <input type="text" id="yymmdd" value="<%=data_list.get(0).get("m_birthday")%>">
+	                </td>
+	            </tr>
+	            <tr>
+	                <th height="40px">아이디</th>
+	                <td>
+	                	<input type="text" id="userid" value="<%=data_list.get(0).get("m_id")%>">
+	                </td>
+	            </tr>
+	            <tr>
+	                <th height="40px">비밀번호</th>
+	                <td><input type="text" name="text" id="password" maxlength="20" 
+	                		placeholder=" 비밀번호를 입력해주세요." value="<%=data_list.get(0).get("m_pw")%>">
+	                </td>
+	            </tr>
+	
+	            <tr>
+	                <th height="40px">비밀번호확인</th>
+	
+	                <td>
+	                    <input type="text" id="text" name="password_check" maxlength="16"
+	                        placeholder=" 비밀번호를 확인해주세요." value="<%=data_list.get(0).get("m_pw")%>">
+	                </td>
+	            </tr>
+	            <tr>
+	                <th height="40px">휴대폰번호</th>
+	                <td>
+	                    <input type="number" name="phone_number" id="phone" placeholder="-를 빼고 작성해주세요." value="<%=data_list.get(0).get("m_tel")%>">
+	                    SMS수신
+	                    <input type="radio" name="sms1" checked>예
+	                    <input type="radio" name="sms1">아니오
+	                </td>
+	            </tr>
+	            <tr height="100px">
+	                <td colspan="2" align="center" height="40px">
+	                    <div class="colspan">
+	                        고객님께 물어봐주세요<br><br>
+	                        마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
+	                        동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.
+	                    </div>
+	                </td>
+	            </tr>
+	            <tr>
+	                <th height="40px">이메일</th>
+	                <td>
+	                    <input type="text" id="emailId1" placeholder="이메일 입력" value="<%=data_list.get(0).get("m_email")%>">
+	
+	                    <span>@</span>
+	
+	                    <input type="text" name="email_com" placeholder="이메일을 선택하세요." id="emailId2">
+	
+	                    <select class="temail" onchange="selectWebsite()" id="select_email">
+	                        <!-- 자바스크립트화 -->
+	                    </select>
+	
+	                    이메일수신
+	                    <input type="radio" name="sms2" checked>예
+	                    <input type="radio" name="sms2">아니오
+	                </td>
+	            </tr>
+	            <tr>
+	                <th height="40px">주소</th>
+	                <td>
+	                    <input type="text" class="zipcode" id="zipcodenum" placeholder="우편번호">
+	                    <input type="button" value="주소찾기" class="add" onclick="sample6_execDaumPostcode()"><br>
+	                    <input type="text" class="adr" id="adr1" placeholder="기본주소" value="<%=data_list.get(0).get("m_address")%>"><br>
+	                </td>
+	            </tr>
+            </thead>
         </table>
     </div>
 

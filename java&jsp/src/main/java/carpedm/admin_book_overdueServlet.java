@@ -15,22 +15,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/admin_book_list")
-public class admin_book_listServlet extends HttpServlet {
+@WebServlet("/admin_book_overdue")
+public class admin_book_overdueServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		ArrayList<Map<String, String>> list = getbook();
-
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<Map<String, String>> list = getoverdue();
 		
 		System.out.println(list);
-		request.setAttribute("book_list", list);
-		request.getRequestDispatcher("/admin/admin_book_list.jsp").forward(request, response);
+		request.setAttribute("list", list);
+		request.getRequestDispatcher("/admin/admin_book_overdue.jsp").forward(request, response);
 	}
 
 	// 기본적인 접속메소드
@@ -46,9 +44,8 @@ public class admin_book_listServlet extends HttpServlet {
 		return conn;
 	}
 	
-	
 	// 맴버가져오기
-	private static ArrayList<Map<String,String>> getbook() {
+	private static ArrayList<Map<String,String>> getoverdue() {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
 			Connection conn = getConnection();
@@ -65,15 +62,7 @@ public class admin_book_listServlet extends HttpServlet {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Map<String,String> map = new HashMap<String, String>();
-				/* 폐기처분행(자바스크립트에서 사용할때 필요할 수 있음)
-				map.put("lb_name", StringEscapeUtils.escapeJson(rs.getString("lb_name")));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
-				map.put("lb_address", StringEscapeUtils.escapeJson(rs.getString("lb_address")));
-				map.put("lb_tel", StringEscapeUtils.escapeJson(rs.getString("lb_tel")));
-				map.put("lb_openTime", StringEscapeUtils.escapeJson(rs.getString("lb_openTime")));
-				map.put("lb_content", StringEscapeUtils.escapeJson(rs.getString("lb_content")));
-				map.put("lb_imgUrl", StringEscapeUtils.escapeJson(rs.getString("lb_imgUrl")));
-				map.put("lb_content", rs.getString("lb_content").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
-				*/				
+					
 				map.put("b_id", rs.getString("b_id"));
 				map.put("b_title", rs.getString("b_title"));
 				map.put("b_author", rs.getString("b_author"));
@@ -97,5 +86,4 @@ public class admin_book_listServlet extends HttpServlet {
 		}
 		return result_list;
 	}
-
 }
