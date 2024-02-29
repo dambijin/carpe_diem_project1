@@ -30,7 +30,7 @@ public class mypage_chginfoServlet extends HttpServlet {
 
 //		ArrayList<Map<String, String>> myInfo = getDBList("select * from member");
 //		request.setAttribute("myInfo", myInfo);
-		
+		String m_pid = "12";
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + m_pid);
 		request.setAttribute("myInfo", myInfo);
 //	Gson gson = new Gson();
@@ -51,10 +51,8 @@ public class mypage_chginfoServlet extends HttpServlet {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		String m_pid = "4";
-		String m_pw = request.getParameter("password");
-		String m_tel = request.getParameter("phonenumber");
-		String email = request.getParameter("email_id" + "email_domain");
+	
+		System.out.println(getDBUpdate(request));
 		
 	}
 	
@@ -109,38 +107,40 @@ public class mypage_chginfoServlet extends HttpServlet {
 
 	// 업에트
 	
-	private ArrayList<Map<String, String>> getDBUpdate(String query) {
-		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
+	private int getDBUpdate(HttpServletRequest request) {
+		int result = -1;
 		try {
 			Connection conn = getConnection();
 			// SQL준비
 			String m_pid = "4";
-			
-			ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + m_pid);
+			String m_pw = request.getParameter("password");
+			String m_tel = request.getParameter("phonenumber");
+			String email = request.getParameter("email_id")+"@"+request.getParameter("email_domain");
+
 			String sql = "";
 			sql += " UPDATE member";
-			sql += " SET m_pw = ?";
-			sql += " SET m_tel = ?";
-			sql += " SET m_email = ?";
+			sql += " SET m_pw = ?,";
+			sql += " m_tel = ?,";
+			sql += " m_email = ?";
 			sql += " WHERE m_pid = ?";
 			
-			
+			System.out.println(sql);
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, m_pw);
-			ps.setString(2, query);
-			ps.setString(2, query + query);
-			ps.setString(2, m_pid);
+			ps.setString(2, m_tel);
+			ps.setString(3, email);
+			ps.setString(4, m_pid);
 			
-			int rs = ps.executeUpdate();
+			result = ps.executeUpdate();
 			
-			System.out.println("바뀐 행 수:" + rs);
+			System.out.println("바뀐 행 수:" + result);
 
 			ps.close();
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return result_list;
+		return result;
 	}
 }
