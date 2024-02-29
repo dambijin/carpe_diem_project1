@@ -36,6 +36,21 @@ public class NoticeWriteServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
+
+//		실행할 쿼리문
+		String library = "";
+		library += "SELECT *";
+		library += " FROM LIBRARY ";
+//		library += " where LB_ID=";
+//		library += lb_id;
+		System.out.println(library);
+		ArrayList<Map<String, String>> library_list = getDBList(library);
+
+		
+		request.setAttribute("library_list", library_list);
+		
+		
 			
 		request.getRequestDispatcher("board/notice_write.jsp").forward(request, response);
 	}

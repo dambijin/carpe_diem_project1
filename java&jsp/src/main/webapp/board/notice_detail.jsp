@@ -74,10 +74,10 @@
 			.addEventListener("load",
 					function() {
 						// 수정 버튼
-						document.querySelector("#notice_update")
-								.addEventListener('click', function() {
-									location.href = "notice_update";
-								});
+// 						document.querySelector("#notice_update")
+// 								.addEventListener('click', function() {
+// 									location.href = "notice_update";
+// 								});
 
 						document.querySelector("#notice_delete")
 								.addEventListener('click', function() {
@@ -93,6 +93,8 @@
 	<header></header>
 	<%
 	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
+	List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
+	List<Map<String, String>> library = (List<Map<String, String>>) request.getAttribute("library_list");
 	 Map<String, String> map = new HashMap<String, String>();
 %>
 							
@@ -119,7 +121,7 @@
 						</tr>
 						<tr>
 							<td class="subject">작성자</td>
-							<td id="subject_writer"><%=result_list.get(0).get("M_PID")%></td>
+							<td id="subject_writer"><%=member.get(0).get("M_NAME")%></td>
 							<td class="subject">등록일</td>
 							<td id="subject_date"><%=result_list.get(0).get("N_DATE").substring(0,10)%></td>
 							<td class="subject">조회</td>
@@ -127,7 +129,7 @@
 						</tr>
 						<tr>
 							<td class="subject">도서관</td>
-							<td colspan="5" id="subject_lib"><%=result_list.get(0).get("LB_ID")%></td>
+							<td colspan="5" id="subject_lib"><%=library.get(0).get("LB_NAME")%></td>
 						</tr>
 						<tr>
 							<td class="subject">첨부</td>
@@ -142,7 +144,7 @@
 							<td class="content" colspan="6" id="subject_cont"><%=result_list.get(0).get("N_CONTENT")%></td>
 						</tr>
 					</table>
-					<button type="button" id="notice_update">수정</button>
+					<button type="button" id="notice_update" onclick="location.href='notice_update?N_ID=<%=result_list.get(0).get("N_ID")%>';">수정</button>
 					<button type="button" id="notice_delete">삭제</button>
 				</div>
 			</div>

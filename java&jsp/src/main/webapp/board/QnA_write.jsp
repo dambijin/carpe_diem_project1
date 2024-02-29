@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QnA 게시판 글쓰기</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
@@ -81,8 +81,8 @@
                                     alert("내용을 입력해주세요.");
                                     document.querySelector('#textarea').focus();
                                 } else {
-                                    alert(textarea.value + "등록 되었습니다");
-                                    location.href = 'QnA_board.jsp';
+                                    alert("등록 되었습니다");
+                                    location.href = 'QnA_board';
                                 }
                             }
 
@@ -91,8 +91,8 @@
                                 alert("내용을 입력해주세요.");
                                 document.querySelector('#textarea').focus();
                             } else {
-                                alert(textarea.value + "등록 되었습니다");
-                                location.href = 'QnA_board.jsp';
+                                alert("등록 되었습니다");
+                                location.href = 'QnA_board';
                             }
                         }
                     }
@@ -447,12 +447,7 @@
 
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th>안내</th>
-                                    <td>
-                                        일정시간(20)분이 지나면 로그아웃됩니다.
-                                    </td>
-                                </tr>
+                                
                                 <tr>
                                     <th>첨부파일</th>
                                     <td><input type="text" id="file_route" disabled="disabled" value="">
@@ -478,8 +473,8 @@
                     <div class="div_buttonAll">
 
                         <div class="div_button">
-                            <button class="button" type="submit" id="save">등록</button> &nbsp;
-                            <a href="QnA_board.jsp"><button type="button">목록</button></a> &nbsp;
+                            <button class="button" type="submit" id="save">등록</button>
+                            
                         </div>
 
                     </div>
@@ -488,7 +483,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%><!DOCTYPE html>
+	pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.List"%>
+	
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -126,30 +135,27 @@
 </style>
 
 <script>
+
 	window
 			.addEventListener(
 					"load",
-					function() {
+// 					function() {
 
-						let libs_list = [ "천안도서관", "두정도서관", "아우내도서관" ];
-						let libs_list_box = document.querySelector("#library");
+<%-- 						let libs_list = ["<%=library.get(0).get("LB_NAME")%>", "두정도서관", "아우내도서관" ]; --%>
+// 						let libs_list_box = document.querySelector("#library");
 
-						for (let i = 0; i < libs_list.length; i++) {
-							libs_list_box.innerHTML += "<option>"
-									+ libs_list[i] + "</option>";
-						}
+// 						for (let i = 0; i < libs_list.length; i++) {
+// 							libs_list_box.innerHTML += "<option>"
+// 									+ libs_list[i] + "</option>";
+// 						}
 
 						//내용 임의로 채워넣기
-						document.querySelector("#notice_write_title").value = "제에목입니다.";
-						document.querySelector("#writer").innerHTML = "admin";
-						document.querySelector(".td1 textarea").innerHTML = "내애용입니다";
+// 						document.querySelector("#notice_write_title").value = "제에목입니다.";
+// 						document.querySelector("#writer").innerHTML = "";
+// 						document.querySelector(".td1 textarea").innerHTML = "내애용입니다";
 
 						// 등록 버튼
-						document
-								.querySelector("#completion")
-								.addEventListener(
-										'click',
-										function() {
+						document.querySelector("#completion").addEventListener('click',function() {
 											//제목
 											let title = document
 													.querySelector("#notice_write_title");
@@ -171,14 +177,8 @@
 													&& writer.innerHTML != ""
 													&& lib_text != ""
 													&& cont_text.value != "") {
-												alert(title.value + "\n"
-														+ writer.innerHTML
-														+ "\n" + lib_text
-														+ "\n" + attach.value
-														+ "\n"
-														+ cont_text.value
-														+ "\n등록이 완료되었습니다.");
-												location.href = "notice_board.jsp";
+												alert("등록이 완료되었습니다.");
+												location.href = "notice_board";
 											} else {
 												alert("첨부파일을 제외한 모든 내용을 작성해주세요.")
 											}
@@ -207,6 +207,11 @@
 </head>
 
 <body>
+<%
+	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
+	List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
+	Map<String, String> map = new HashMap<String, String>();
+	%>
 	<header></header>
 	<div class="notice_update">
 		<section>
@@ -228,20 +233,28 @@
 						<table class="table_table">
 							<tr>
 								<td class="sub">제목</td>
-								<td class="text"><input type="text" id="notice_write_title"></td>
+								<td class="text"><input type="text" id="notice_write_title" value="<%=result_list.get(0).get("N_TITLE")%>"></td>
 							</tr>
 							<tr>
 								<td class="sub">작성자</td>
-								<td class="text" id="writer"></td>
+								<td class="text" id="writer"><%=member.get(0).get("M_NAME")%></td>
 							</tr>
 							<tr>
 								<td class="sub">소속도서관</td>
 								<td class="text"><select class="textbox" id="library">
+								<%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
+								ArrayList<Map<String, String>> library_id = (ArrayList<Map<String, String>>) request.getAttribute("library_id");
+								%>
+								<option selected><%=library_list.get(0).get("LB_NAME")%></option>
+				<%for (int i = 0; i < library_id.size(); i++) {	%>
+    				<option><%= library_id.get(i).get("LB_NAME") %></option>
+				<% } %>
 								</select></td>
 							</tr>
 							<tr>
 								<td class="sub">첨부파일</td>
-								<td class="text"><input type="text" id="file_route"
+								<td class="text">
+								<input type="text" id="file_route"
 									disabled="disabled" value=""> <label for="upload_file"
 									id="file_upload">파일첨부</label> <input type="file"
 									id="upload_file" required=true
@@ -249,11 +262,9 @@
 							</tr>
 						</table>
 
-
-
 					</div>
 					<div class="td1">
-						<textarea></textarea>
+						<textarea><%=result_list.get(0).get("N_CONTENT")%></textarea>
 					</div>
 
 					<div class="div_buttonAll">

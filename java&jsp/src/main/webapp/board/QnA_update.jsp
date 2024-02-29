@@ -297,6 +297,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	<%
 	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
 	List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
+	List<Map<String, String>> member_tel = (List<Map<String, String>>) request.getAttribute("membertel");
 	Map<String, String> map = new HashMap<String, String>();
 	%>
 	<header> </header>
@@ -348,13 +349,13 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<th>휴대폰번호</th>
 									<td><input class="input_phone phonenumber" type="number"
 										id="pnumber1"
-										value="<%=member.get(0).get("M_TEL").substring(0, 3)%>">
+										value="<%=member_tel.get(0).get("M_TEL").substring(0, 3)%>">
 										- <input class="input_phone phonenumber" type="number"
 										id="pnumber2"
-										value="<%=member.get(0).get("M_TEL").substring(4, 8)%>">
+										value="<%=member_tel.get(0).get("M_TEL").substring(3, 7)%>">
 										- <input class="input_phone phonenumber" type="number"
 										id="pnumber3"
-										value="<%=member.get(0).get("M_TEL").substring(9, 13)%>">
+										value="<%=member_tel.get(0).get("M_TEL").substring(7, 11)%>">
 									</td>
 								</tr>
 								<tr>
@@ -393,7 +394,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					<!-- 버튼 -->
 					<div class="div_buttonAll">
 						<div class="div_button">
-							<button class="button" type="submit" id="save">등록</button>							
+							<button class="button" type="submit" id="save">수정</button>							
 						</div>
 
 					</div>

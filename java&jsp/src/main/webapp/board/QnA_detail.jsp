@@ -245,7 +245,10 @@
     
     <%
 	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
-	 Map<String, String> map = new HashMap<String, String>();
+    List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
+	List<Map<String, String>> library = (List<Map<String, String>>) request.getAttribute("library_list");
+    
+    Map<String, String> map = new HashMap<String, String>();
 %>
     	
         <div class="s_section">
@@ -268,7 +271,7 @@
                         </tr>
                         <tr>
                             <td class="subject">작성자</td>
-                            <td class="writer"><%=result_list.get(0).get("M_PID")%></td>
+                            <td class="writer"><%=member.get(0).get("M_NAME")%></td>
                             <td class="subject">등록일</td>
                             <td><%=result_list.get(0).get("N_DATE").substring(0,10)%></td>
                             <td class="subject">조회</td>
@@ -276,7 +279,7 @@
                         </tr>
                         <tr>
                             <td class="subject">도서관</td>
-                            <td colspan="5"><%=result_list.get(0).get("LB_ID")%></td>
+                            <td colspan="5"><%=library.get(0).get("LB_NAME")%></td>
                         </tr>
                         <tr>
                             <td class="subject">첨부</td>

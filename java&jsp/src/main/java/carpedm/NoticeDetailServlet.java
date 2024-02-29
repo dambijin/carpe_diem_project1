@@ -92,6 +92,50 @@ public class NoticeDetailServlet extends HttpServlet {
 		ArrayList<Map<String, String>> notice = getDBList(nid_query);
 
 		request.setAttribute("notice", notice);
+		
+		
+//		멤버 가져오기
+		String mPid = "";
+		if (notice != null && !notice.isEmpty()) {
+			for (int i = 0; i < notice.size(); i++) {
+				Map<String, String> row = notice.get(i);
+				mPid = row.get("M_PID");
+				System.out.println("mPid 값: " + mPid);
+			}
+		}
+
+//		멤버 쿼리문
+		String member_query = "";
+		member_query += "SELECT *";
+		member_query += " FROM MEMBER where";
+		member_query += " M_PID=";
+		member_query += mPid;
+		ArrayList<Map<String, String>> member = getDBList(member_query);
+
+		
+		request.setAttribute("member", member);
+		
+		
+//		도서관 가져오기
+		String lb_id = "";
+		if (notice != null && !notice.isEmpty()) {
+			for (int i = 0; i < notice.size(); i++) {
+				Map<String, String> row = notice.get(i);
+				lb_id = row.get("LB_ID");
+				System.out.println("lb_id 값: " + lb_id);
+			}
+		}
+
+//		도서관 쿼리문
+		String library = "";
+		library += "SELECT *";
+		library += " FROM LIBRARY ";
+		library += " where LB_ID=";
+		library += lb_id;
+		ArrayList<Map<String, String>> library_list = getDBList(library);
+
+		
+		request.setAttribute("library_list", library_list);
 
 		request.getRequestDispatcher("board/notice_detail.jsp").forward(request, response);
 	}

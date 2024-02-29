@@ -78,15 +78,27 @@ public class QnAupdateServlet extends HttpServlet {
 			}
 		}
 
-//		실행할 쿼리문
+//		멤버 쿼리문
 		String member_query = "";
-		member_query += "SELECT * FROM MEMBER where";
+		member_query += "SELECT *";
+		member_query += " FROM MEMBER where";
 		member_query += " M_PID=";
 		member_query += mPid;
-		System.out.println(member_query);
 		ArrayList<Map<String, String>> member = getDBList(member_query);
 
+		
 		request.setAttribute("member", member);
+		
+		
+//		멤버 안에 tel을 실행할 쿼리문
+		String mtel_query = "";
+		mtel_query += "SELECT REPLACE(M_TEL, '-', '') AS M_TEL";
+		mtel_query += " FROM MEMBER where";
+		mtel_query += " M_PID=";
+		mtel_query += mPid;
+		ArrayList<Map<String, String>> membertel = getDBList(mtel_query);
+
+		request.setAttribute("membertel", membertel);
 
 		request.getRequestDispatcher("board/QnA_update.jsp").forward(request, response);
 
