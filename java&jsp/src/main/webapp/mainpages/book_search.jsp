@@ -266,8 +266,9 @@ section {
 }
 
 #result_booklist dt img {
-	width: 100px;
-	height: 100px;
+	width: 180px;
+	height: 200px;
+	object_fit: contain;
 }
 
 /* 페이지 */
@@ -310,31 +311,7 @@ section {
 <script>
     window.addEventListener("load", function () {
 
-        //필터 기본세팅
-//         let libs_list = ["아우내도서관", "성거도서관", "두정도서관", "도솔도서관"];
-//         도서관세팅
-<%-- 		let libs_list = <%=DBConn.getlibraryNameAll()%>; --%>
-//         for (let i = 0; i < libs_list.length; i++) {
-//             let libs_chk_list = document.querySelector("#_multiChk1");
-//             let html = '';
-//             html += '<input class="chk" type="checkbox">&nbsp;&nbsp;' + libs_list[i];
-
-//             let li = document.createElement("li"); // <li></li>
-//             li.innerHTML = html;
-
-//             li.querySelector(".chk")
-//                 .addEventListener("click", function (event) {
-//                     let allCount = document.querySelectorAll(".chk").length;
-//                     let checkedCount = document.querySelectorAll(".chk:checked").length;
-//                     if (allCount == checkedCount) {
-//                         document.querySelector("#multiChk1").checked = true;
-//                     } else {
-//                         document.querySelector("#multiChk1").checked = false;
-//                     }
-//                 })
-
-//             libs_chk_list.append(li);
-//         }
+        //도서관체크박스 처리
     document.querySelectorAll(".chk").forEach(chk => {
         chk.addEventListener("click", function (event) {
             let allCount = document.querySelectorAll(".chk").length;
@@ -360,37 +337,35 @@ section {
             }
         });
 
-        // 결과옵션 기본세팅
-        let result_filter_list = ["10", "20", "30", "40", "50"];
-
-        for (let i = 0; i < result_filter_list.length; i++) {
-            let result_filter1 = document.querySelector("#result_filter1");
-            let html = '';
-            html += result_filter_list[i] + "개씩";
-
-            let opt = document.createElement("option");
-            opt.value = result_filter_list[i];  // value 속성 설정
-
-            opt.innerHTML = html;
-
-            result_filter1.append(opt);
+        //리다이렉트로 받아온 값을 재설정(ajax쓸껄...)
+        document.getElementById("searchWord").value = "<%=request.getAttribute("searchWord")%>";
+        let search_opt_list_values = document.getElementById("search_opt_list").options;
+        for(let i = 0; i< search_opt_list_values.length;i++)
+        {   
+            if(search_opt_list.options[i].value == '<%=request.getAttribute("item")%>') {
+                search_opt_list.selectedIndex = i;
+                break;
+            }
         }
-
-        // 결과옵션2 기본세팅
-        let result_filter_list2 = ["제목 오름차순", "제목 내림차순", "발행년 오름차순", "발행년 내림차순"];
-
-        for (let i = 0; i < result_filter_list2.length; i++) {
-            let result_filter1 = document.querySelector("#result_filter2");
-            let html = '';
-            html += result_filter_list2[i];
-
-            let opt = document.createElement("option");
-            opt.innerHTML = html;
-
-            result_filter2.append(opt);
+        let result_filter1_values = document.getElementById("result_filter1").options;
+        for(let i = 0; i< result_filter1_values.length;i++)
+        {   
+            if(result_filter1.options[i].value == '<%=request.getAttribute("perPage")%>') {
+            	result_filter1.selectedIndex = i;
+                break;
+            }
         }
         
-        paging();
+        console.log('<%=request.getAttribute("okywd")%>');
+        let result_filter2_values = document.getElementById("result_filter2").options;
+        for(let i = 0; i< result_filter2_values.length;i++)
+        {   
+            if(result_filter2.options[i].value == '<%=request.getAttribute("okywd")%>') {
+            	result_filter2.selectedIndex = i;
+                break;
+            }
+        }
+//         paging();
     })
 
     //모두 체크기능
@@ -406,13 +381,8 @@ section {
     }
 
     function openBookDetail(b_id) {
-        // book 객체의 모든 속성을 쿼리 문자열로 변환
-//         let book = JSON.parse(decodeURIComponent(bookString));
-//         var queryString = Object.keys(book).map(function (key) {
-//             return encodeURIComponent(key) + '=' + encodeURIComponent(book[key]);
-//         }).join('&');
 
-//         // 쿼리 문자열을 URL에 추가하여 새 창을 열기
+        // 쿼리 문자열을 URL에 추가하여 새 창을 열기
         window.open('book_detail?id='+b_id ,"", "width=900,height=600");
     }
 
@@ -448,20 +418,30 @@ section {
     }
 
     //예약기능
-    function reservation(RN) {
-        alert(RN + " 예약되었습니다.");
-    }
+function reservation(b_id) {
+    alert(b_id + " 예약되었습니다.");
+    let url = '/carpedm/book_search';
+    let data = 'b_id=' + encodeURIComponent(b_id);
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: data,
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch((error) => console.error('Error:', error));   
+    search();
+}
 
 	function search() {
 		let textbox = document.getElementById("searchWord");
 		let selectbox = document.getElementById("search_opt_list");
-		if (textbox.value == "") {
-			alert("내용을 입력해주세요");
-			document.querySelector('#searchWord').focus();
-		} else {
-			alert(textbox.value + "을 검색했습니다");
-			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;
-		}
+		let rf_box1 = document.getElementById("result_filter1");
+		let rf_box2 = document.getElementById("result_filter2");
+		window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value+'&page='+"1"+'&perPage='+rf_box1.value+'&okywd='+rf_box2.value;		
 	};
 </script>
 
@@ -524,10 +504,24 @@ section {
 				<div class="result_text">검색결과</div>
 				<div class="result_filter_all">
 					<select class="result_filter" id="result_filter1"
-						onchange="paging()">
-						<!-- 자바스크립트로 검색결과옵션가져오기 -->
-					</select> &nbsp; <select class="result_filter" id="result_filter2">
-						<!-- 자바스크립트로 검색결과옵션2가져오기 -->
+						onchange="search()">
+						<option value=10>10개씩</option>
+						<option value=20>20개씩</option>
+						<option value=30>30개씩</option>
+						<option value=40>40개씩</option>
+						<option value=50>50개씩</option>
+					</select> &nbsp; <select class="result_filter" id="result_filter2"
+						onchange="search()">
+						<option>제목 오름차순</option>
+						<option>제목 내림차순</option>
+						<option>키워드 오름차순</option>
+						<option>키워드 내림차순</option>
+						<option>저자 오름차순</option>
+						<option>저자 내림차순</option>
+						<option>발행년도 오름차순</option>
+						<option>발행년도 내림차순</option>
+						<option>소장기관 오름차순</option>
+						<option>소장기관 내림차순</option>
 					</select>
 				</div>
 			</div>
@@ -560,7 +554,7 @@ section {
 							onclick="openBookDetail('<%=book.get("B_ID")%>')"><%=book.get("B_TITLE")%></a>
 					</div>
 					<ul>
-						<li class="label_no"><strong>주제 : </strong> <%=book.get("B_KYWD")%></li>
+						<li class="label_no"><strong>키워드 : </strong> <%=book.get("B_KYWD")%></li>
 						<li><strong>저자 : </strong> <%=book.get("B_AUTHOR")%> <em>|</em>
 							<strong>발행처 : </strong> <%=book.get("B_PUBLISHER")%></li>
 						<li><strong>발행년 : </strong> <%=book.get("B_PUBYEAR")%> <em>|</em>
