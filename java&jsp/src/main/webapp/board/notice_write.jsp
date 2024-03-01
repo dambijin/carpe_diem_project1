@@ -249,7 +249,8 @@
 					</div>
 					<div class="div_buttonAll">
 						<div class="div_button">
-							<button type="submit" class="but" id="completion" value="submit">등록</button>
+							<button type="submit" class="but" id="completion" value="submit"
+							>등록</button>
 						</div>
 </form>
 					</div>

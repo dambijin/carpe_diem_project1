@@ -139,7 +139,7 @@
 	window
 			.addEventListener(
 					"load",
-// 					function() {
+					function() {
 
 <%-- 						let libs_list = ["<%=library.get(0).get("LB_NAME")%>", "두정도서관", "아우내도서관" ]; --%>
 // 						let libs_list_box = document.querySelector("#library");
@@ -149,40 +149,40 @@
 // 									+ libs_list[i] + "</option>";
 // 						}
 
-						//내용 임의로 채워넣기
+// 						내용 임의로 채워넣기
 // 						document.querySelector("#notice_write_title").value = "제에목입니다.";
 // 						document.querySelector("#writer").innerHTML = "";
 // 						document.querySelector(".td1 textarea").innerHTML = "내애용입니다";
 
 						// 등록 버튼
-						document.querySelector("#completion").addEventListener('click',function() {
-											//제목
-											let title = document
-													.querySelector("#notice_write_title");
-											//작성자
-											let writer = document
-													.querySelector("#writer");
-											//소속도서관
-											let lib = document
-													.querySelector("#library");
-											let lib_text = lib.options[lib.selectedIndex].value;
-											//첨부파일
-											let attach = document
-													.querySelector("#file_route");
-											//내용
-											let cont_text = document
-													.querySelector(".td1 textarea");
+// 						document.querySelector("#completion").addEventListener('click',function() {
+// 											//제목
+// 											let title = document
+// 													.querySelector("#notice_write_title");
+// 											//작성자
+// 											let writer = document
+// 													.querySelector("#writer");
+// 											//소속도서관
+// 											let lib = document
+// 													.querySelector("#library");
+// 											let lib_text = lib.options[lib.selectedIndex].value;
+// 											//첨부파일
+// 											let attach = document
+// 													.querySelector("#file_route");
+// 											//내용
+// 											let cont_text = document
+// 													.querySelector(".td1 textarea");
 
-											if (title.value != ""
-													&& writer.innerHTML != ""
-													&& lib_text != ""
-													&& cont_text.value != "") {
-												alert("등록이 완료되었습니다.");
-												location.href = "notice_board";
-											} else {
-												alert("첨부파일을 제외한 모든 내용을 작성해주세요.")
-											}
-										});
+// 											if (title.value != ""
+// 													&& writer.innerHTML != ""
+// 													&& lib_text != ""
+// 													&& cont_text.value != "") {
+// 												alert("등록이 완료되었습니다.");
+// 												location.href = "notice_board";
+// 											} else {
+// 												alert("첨부파일을 제외한 모든 내용을 작성해주세요.");
+// 											}
+// 										});
 
 						document
 								.querySelector("#upload_file")
@@ -215,6 +215,7 @@
 	<header></header>
 	<div class="notice_update">
 		<section>
+		
 			<!-- 여기부터 본문작성해주세요 -->
 			<div class="s_section">
 				<div class="left_section">
@@ -227,13 +228,15 @@
 				<button type="button" class="sub_but"
 					onclick="location.href='wishbook_add';">희망도서신청</button>
 			</div>
+			
 				<div class="right_section">
 					<div class="notice_update_name">공지사항 수정</div>
+					<form method="post" action="notice_update">
 					<div class="notice_table">
 						<table class="table_table">
 							<tr>
-								<td class="sub">제목</td>
-								<td class="text"><input type="text" id="notice_write_title" value="<%=result_list.get(0).get("N_TITLE")%>"></td>
+								<td class="sub">제목<input type="hidden" name="n_id" value="<%=result_list.get(0).get("N_ID")%>"></td>
+								<td class="text"><input type="text" id="notice_write_title" value="<%=result_list.get(0).get("N_TITLE")%>" name="notice_subject"></td>
 							</tr>
 							<tr>
 								<td class="sub">작성자</td>
@@ -241,13 +244,13 @@
 							</tr>
 							<tr>
 								<td class="sub">소속도서관</td>
-								<td class="text"><select class="textbox" id="library">
+								<td class="text"><select class="textbox" id="library" name="library">
 								<%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
 								ArrayList<Map<String, String>> library_id = (ArrayList<Map<String, String>>) request.getAttribute("library_id");
 								%>
-								<option selected><%=library_list.get(0).get("LB_NAME")%></option>
+								<option selected value="<%=library_list.get(0).get("LB_ID")%>"><%=library_list.get(0).get("LB_NAME")%></option>
 				<%for (int i = 0; i < library_id.size(); i++) {	%>
-    				<option><%= library_id.get(i).get("LB_NAME") %></option>
+    				<option value="<%=library_id.get(i).get("LB_ID")%>"><%= library_id.get(i).get("LB_NAME") %></option>
 				<% } %>
 								</select></td>
 							</tr>
@@ -255,7 +258,7 @@
 								<td class="sub">첨부파일</td>
 								<td class="text">
 								<input type="text" id="file_route"
-									disabled="disabled" value=""> <label for="upload_file"
+									disabled="disabled" value="" name="n_file"> <label for="upload_file"
 									id="file_upload">파일첨부</label> <input type="file"
 									id="upload_file" required=true
 									style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
@@ -264,17 +267,18 @@
 
 					</div>
 					<div class="td1">
-						<textarea><%=result_list.get(0).get("N_CONTENT")%></textarea>
+						<textarea name="n_textarea"><%=result_list.get(0).get("N_CONTENT")%></textarea>
 					</div>
 
 					<div class="div_buttonAll">
 						<div class="div_button">
-							<button type="button" class="but" id="completion">수정</button>
+							<button type="submit" class="but" id="completion">수정</button>
 						</div>
-
 					</div>
 				</div>
+				</form>
 			</div>
+			
 		</section>
 	</div>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->

@@ -62,7 +62,7 @@ public class NoticeWriteServlet extends HttpServlet {
 		}
 	
 		System.out.println(getDBUpdate(request, response));
-	
+		response.sendRedirect("notice_board");
 	}
 	
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
@@ -151,7 +151,6 @@ public class NoticeWriteServlet extends HttpServlet {
 				ps.setString(3, n_fi);
 				
 				result = ps.executeUpdate();
-				
 				System.out.println("바뀐 행 수:" + result);
 
 				ps.close();

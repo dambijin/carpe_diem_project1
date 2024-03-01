@@ -423,19 +423,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>작성자</th>
-                                    <td><input type="text" class="inputbox" placeholder="이름을 작성해주세요." id="user_name">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>휴대폰번호</th>
-                                    <td>
-                                        <input class="input_phone phonenumber" type="number" id="pnumber1"> -
-                                        <input class="input_phone phonenumber" type="number" id="pnumber2"> -
-                                        <input class="input_phone phonenumber" type="number" id="pnumber3">
-                                    </td>
-                                </tr>
+<!--                                 <tr> -->
+<!--                                     <th>작성자</th> -->
+<!--                                     <td><input type="text" class="inputbox" placeholder="이름을 작성해주세요." id="user_name"> -->
+<!--                                     </td> -->
+<!--                                 </tr> -->
+<!--                                 <tr> -->
+<!--                                     <th>휴대폰번호</th> -->
+<!--                                     <td> -->
+<!--                                         <input class="input_phone phonenumber" type="number" id="pnumber1"> - -->
+<!--                                         <input class="input_phone phonenumber" type="number" id="pnumber2"> - -->
+<!--                                         <input class="input_phone phonenumber" type="number" id="pnumber3"> -->
+<!--                                     </td> -->
+<!--                                 </tr> -->
                                 <tr>
                                     <th>공개</th>
                                     <td class="private">
@@ -457,11 +457,11 @@
                                     </td>
 
                                 </tr>
-                                <tr>
-                                    <th>비밀번호(비회원)</th>
-                                    <td><input type="password" class="inputbox" placeholder="비밀번호(4~10자로 입력해주세요)"
-                                            id="user_pw"></td>
-                                </tr>
+<!--                                 <tr> -->
+<!--                                     <th>비밀번호(비회원)</th> -->
+<!--                                     <td><input type="password" class="inputbox" placeholder="비밀번호(4~10자로 입력해주세요)" -->
+<!--                                             id="user_pw"></td> -->
+<!--                                 </tr> -->
                             </tbody>
                         </table>
                         <!-- 글쓰기 -->
