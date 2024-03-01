@@ -133,7 +133,7 @@
 			document.querySelector('#input_todo').focus();		
 		} else {
 			alert(textbox.value + "을 검색했습니다");
-			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value);
+			window.location.href = '/carpedm/admin_member_list?search=' + encodeURIComponent(textbox.value);
 		}
 		
 	};
@@ -146,13 +146,62 @@
 		}
 	}
 	// 검색기능
-	// 텍스트박스가 null이 아니면 textbox 입력값을 alert띄움
+	// 검색 함수
 	function search() {
-		var textbox = document.getElementById("input_todo");
-		if (textbox != null) {
-			alert(textbox.value + " ");
-		}
+	    // 검색어 입력란과 검색 옵션의 DOM 요소 가져오기
+	    var textbox = document.getElementById("input_todo");
+	    var searchOption = document.getElementById("search_option").value;
+	
+	    // AJAX 요청을 서블릿으로 전송
+	    var xhr = new XMLHttpRequest();
+	    xhr.onreadystatechange = function () {
+	        // 서블릿 응답이 도착하면 실행
+	        if (xhr.readyState == 4 && xhr.status == 200) {
+	            // 서블릿에서 받은 JSON 데이터를 파싱
+	            var responseData = JSON.parse(xhr.responseText);
+	            // 테이블을 새 데이터로 업데이트하는 함수 호출
+	            updateTable(responseData);
+	        }
+	    };	
+	
+	    // 검색어와 검색 옵션을 포함한 URL 생성
+	    var url = "/carpedm/admin_member_list?search=" + encodeURIComponent(textbox.value) + "&searchOption=" + encodeURIComponent(searchOption);
+	
+	    // AJAX 요청 열기 및 전송
+	    xhr.open("GET", url, true);
+	    xhr.send();
 	}
+	
+	// 테이블 업데이트 함수
+	function updateTable(data) {
+	    // 테이블의 tbody 요소 가져오기
+	    var memberListBody = document.getElementById("memberListBody");
+	    memberListBody.innerHTML = ""; // 기존 테이블 행 삭제
+	
+	 // 새로운 데이터를 순회하며 테이블 행 추가
+	    for (var i = 0; i < data.length; i++) { 
+	        var tr=document.createElement("tr"); 
+	        
+	        // 새로운 행을 테이블에 추가
+	        memberListBody.appendChild(tr); 
+	        
+	        // Add the necessary cells and data to the new row 
+	        var cells=[ 
+	        	(i +1),data[i].m_pid, data[i].m_name, data[i].m_id, data[i].m_birthday, data[i].m_tel, data[i].m_address, data[i].lb_id, 
+	        	'<div class="overdue_name" onclick="openOverduePopup()">3일</div>' , 
+	        	'<input type="button" value="조회" onclick="getReservationInfo(\'' + data[i].m_id + ' \')">',
+	        	'<input type="button" value="조회" onclick="loans(\'' + data[i].m_id + '\')">',
+	        	'<input type="button" value="수정"onclick="location.href=\'/carpedm/admin_member_chginfo?m_pid=' + data[i].m_pid + '\'">'
+	        ];
+
+	        // Add cells to the row
+	        for (var j = 0; j < cells.length; j++) { 
+	            var td=document.createElement("td"); td.innerHTML=cells[j];
+	            tr.appendChild(td); 
+	        } 
+	    } 
+	}
+
 
 	// 예약목록 조회 이벤트
 	function reservation_check() {
@@ -167,30 +216,7 @@
 	function changeViewCount(count) {
 		alert(count + "개씩 보기로 변경되었습니다.");
 	}
-
-	// 주석해놔서 지금 실행 안됨
-	// 검색 옵션과 검색 텍스트박스에 입력된 값을 처리하는 함수
-	function handleSearchOption() {
-		// 검색 옵션과 검색 텍스트박스의 DOM 요소 가져오기
-		var searchOption = document.getElementById("search_option").value;
-		var searchTextbox = document.getElementById("input_todo");
-
-		// 선택된 옵션에 따라 다르게 동작
-		switch (searchOption) {
-		case "회원번호":
-			alert("회원번호: " + searchTextbox.value);
-			break;
-		case "이름":
-			alert("이름: " + searchTextbox.value);
-			break;
-		case "연체상태":
-			alert("연체상태: " + searchTextbox.value);
-			break;
-		default:
-			// 기타 옵션의 경우 아무 동작도 수행하지 않음
-			break;
-		}
-	}
+	
 
 	// 	// 검색 및 페이징 기능을 위한 함수들 추가
 	//     let currentPage = 1;
@@ -418,53 +444,56 @@
 
 	<!-- table 보드 -->
 	<div class="table_div">
+		<form action="/carpedm/admin_member_list" method="get">
 		<table class="member_table" id="memberListTable">
-			<thead>
-				<tr id="memberListTable_tr">
-					<th width="80px">순번</th>
-					<th width="80px">회원번호</th>
-					<th width="100">이름</th>
-					<th width="100">회원ID</th>
-					<th width="130px">생년월일</th>
-					<th width="150px">전화번호</th>
-					<th width="200">주소</th>
-					<th width="80px">도서관ID</th>
-					<th width="80px">연체상태</th>
-					<th width="100">예약목록</th>
-					<th width="100">대출내역</th>
-					<th width="100">정보수정</th>
-				</tr>
-			</thead>
-			<tbody id="memberListBody">
-                <!-- 동적으로 추가될 테이블 내용 -->
-
-				<%
-				ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("member_list");
-				%>
-
-				<%
-				for (int i = 0; i < data_list.size(); i++) {
-				%>
-				<tr>				
-					<td><%=i+1 %></td>
-					<td class="member_no"><%=data_list.get(i).get("m_pid")%></td>
-					<td><div class="member_name"><%=data_list.get(i).get("m_name")%></div></td>
-					<td><%=data_list.get(i).get("m_id")%></td>
-					<td><%=data_list.get(i).get("m_birthday")%></td>
-					<td><%=data_list.get(i).get("m_tel")%></td>
-					<td><%=data_list.get(i).get("m_address")%></td>
-					<td><%=data_list.get(i).get("lb_id")%></td>
-					<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>
-					<td><input type="button" value="조회" onclick="getReservationInfo('<%=data_list.get(i).get("m_id")%>')"></td>
-					<td><input type="button" value="조회" onclick="loans('<%=data_list.get(i).get("m_id")%>')"></td>
-					<td><input type="button" value="수정"
-						onclick="location.href='/carpedm/admin_member_chginfo?m_pid=<%=data_list.get(i).get("m_pid")%>';"></td>
-				</tr>
-				<%
-				}
-				%>
-			</tbody>
-		</table>
+				<thead>
+					<tr id="memberListTable_tr">
+						<th width="80px">순번</th>
+						<th width="80px">회원번호</th>
+						<th width="100">이름</th>
+						<th width="100">회원ID</th>
+						<th width="130px">생년월일</th>
+						<th width="150px">전화번호</th>
+						<th width="200">주소</th>
+						<th width="80px">도서관ID</th>
+						<th width="80px">연체상태</th>
+						<th width="100">예약목록</th>
+						<th width="100">대출내역</th>
+						<th width="100">정보수정</th>
+					</tr>
+				</thead>
+				<tbody id="memberListBody">
+	                <!-- 동적으로 추가될 테이블 내용 -->
+	
+					<%
+					ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("member_list");
+					%>
+	
+					<%
+					for (int i = 0; i < data_list.size(); i++) {
+					%>
+					<tr>				
+						<td><%=i+1 %></td>
+						<td class="member_no"><%=data_list.get(i).get("m_pid")%></td>
+						<td><div class="member_name"><%=data_list.get(i).get("m_name")%></div></td>
+						<td><%=data_list.get(i).get("m_id")%></td>
+						<td><%=data_list.get(i).get("m_birthday")%></td>
+						<td><%=data_list.get(i).get("m_tel")%></td>
+						<td><%=data_list.get(i).get("m_address")%></td>
+						<td><%=data_list.get(i).get("lb_id")%></td>
+						<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>
+						<td><input type="button" value="조회" onclick="getReservationInfo('<%=data_list.get(i).get("m_id")%>')"></td>
+						<td><input type="button" value="조회" onclick="loans('<%=data_list.get(i).get("m_id")%>')"></td>
+						<td><input type="button" value="수정"
+							onclick="location.href='/carpedm/admin_member_chginfo?m_pid=<%=data_list.get(i).get("m_pid")%>';"></td>
+					</tr>
+					<%
+					}
+					%>
+				</tbody>
+			</table>
+	</form>
+		
 	</div>
 
 	<!-- 쪽이동 -->

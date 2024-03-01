@@ -67,24 +67,27 @@ public class admin_member_listServlet extends HttpServlet {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
 			Connection conn = getConnection();
-			
-			// SQL준비
-	        String query = "SELECT m.m_pid, m.m_name, m.m_id, m.m_birthday, m.m_tel, m.m_address, m.lb_id";
-	        query += " FROM member m";
 	        
-	        // Add conditions for various columns based on the search input
-	        query += " WHERE m.m_name LIKE '%" + search + "%'";  // 검색어가 이름에 포함되어 있는 경우 검색
-	        query += " OR m.m_id LIKE '%" + search + "%'";      // 검색어가 회원ID에 포함되어 있는 경우 검색
-	        query += " OR m.m_birthday LIKE '%" + search + "%'"; // 검색어가 생년월일에 포함되어 있는 경우 검색
-	        query += " OR m.m_tel LIKE '%" + search + "%'";       // 검색어가 전화번호에 포함되어 있는 경우 검색
-	        query += " OR m.m_address LIKE '%" + search + "%'";   // 검색어가 주소에 포함되어 있는 경우 검색
-	        query += " OR m.lb_id LIKE '%" + search + "%'";       // 검색어가 도서관ID에 포함되어 있는 경우 검색
+	        // SQL 실행준비
+	        String query = "SELECT m.m_pid, m.m_name, m.m_id, m.m_birthday, m.m_tel, m.m_address, m.lb_id FROM member m";
 
-	        System.out.println("query:" + query);
-			
-			// SQL 실행준비
-			PreparedStatement ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
+	        // 검색 조건이 존재할 때만 WHERE 절 추가
+	        if (!search.trim().isEmpty()) {
+	            query += " WHERE m.m_pid LIKE ? OR m.m_name LIKE ? OR m.m_id LIKE ? OR m.m_birthday LIKE ? OR m.m_tel LIKE ? OR m.m_address LIKE ? OR m.lb_id LIKE ?";
+	        }
+
+	        // SQL 실행준비
+	        PreparedStatement ps = conn.prepareStatement(query);
+
+	        // 검색 입력에 따라 다양한 열을 추가
+	        if (!search.trim().isEmpty()) {
+	            String[] columns = {"m.m_pid", "m.m_name", "m.m_id", "m.m_birthday", "m.m_tel", "m.m_address", "m.lb_id"};
+	            for (int i = 0; i < columns.length; i++) {
+	                ps.setString(i + 1, "%" + search + "%");
+	            }
+	        }
+	        
+	        ResultSet rs = ps.executeQuery();
 			
 			while (rs.next()) {
 				Map<String,String> map = new HashMap<String, String>();
@@ -98,12 +101,12 @@ public class admin_member_listServlet extends HttpServlet {
 				map.put("lb_content", rs.getString("lb_content").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
 				*/				
 				map.put("m_pid", rs.getString("m_pid"));
-				map.put("m_name", rs.getString("m_name"));
-				map.put("m_id", rs.getString("m_id"));
-				map.put("m_birthday", rs.getString("m_birthday"));
-				map.put("m_tel", rs.getString("m_tel"));
-				map.put("m_address", rs.getString("m_address"));
-				map.put("lb_id", rs.getString("lb_id"));
+			    map.put("m_name", rs.getString("m_name"));
+			    map.put("m_id", rs.getString("m_id"));
+			    map.put("m_birthday", rs.getString("m_birthday"));
+			    map.put("m_tel", rs.getString("m_tel"));
+			    map.put("m_address", rs.getString("m_address"));
+			    map.put("lb_id", rs.getString("lb_id"));
 
 				result_list.add(map);
 //			   	System.out.println(rs.getString("lb_name"));
