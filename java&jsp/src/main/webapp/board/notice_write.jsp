@@ -208,10 +208,12 @@
 					<button type="button" class="sub_but"
 						onclick="location.href='wishbook_add';">희망도서신청</button>
 				</div>
+				<form method="post" action="notice_write">
 				<div class="right_section">
+				
 					<div class="notice_update_name">공지사항 글쓰기</div>
 					<div class="notice_table">
-					<form method="post" action="notice_write">
+					
 						<table class="table_table">
 							<tr>
 								<td class="sub">제목</td>
@@ -252,9 +254,12 @@
 							<button type="submit" class="but" id="completion" value="submit"
 							>등록</button>
 						</div>
-</form>
+					
+
 					</div>
+
 				</div>
+			</form>
 			</div>
 		</section>
 	</div>

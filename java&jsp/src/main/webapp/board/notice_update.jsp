@@ -275,8 +275,9 @@
 							<button type="submit" class="but" id="completion">수정</button>
 						</div>
 					</div>
-				</div>
 				</form>
+				</div>
+				
 			</div>
 			
 		</section>
