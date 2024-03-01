@@ -12,7 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>책 이름</title>
+<title></title>
 <link href="./css/layout.css" rel="stylesheet">
 
 <style>
@@ -34,18 +34,12 @@ section {
 }
 
 .view dl {
-	width: 95%;
+	width: 100%;
 	display: flex;
-}
-
-.view dt {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
 }
 
 .view dd {
-	flex: 2;
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	padding-left: 20px;
@@ -76,6 +70,12 @@ section {
 .view ul li a {
 	color: #007bff;
 	text-decoration: none;
+}
+
+.view .label img {
+	width: 180px;
+	height: 220px;
+	object_fit: contain;
 }
 
 /* 소장정보 */
@@ -142,110 +142,28 @@ section {
 }
 </style>
 </head>
-
+<%
+ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>) request.getAttribute("bookdetail_list");
+%>
 <script>
-    window.addEventListener("load", function () {
+	window.addEventListener("load",function() {
+		document.title ='<%=bookdetail_list.get(0).get("B_TITLE")%>';
+	});
+	// 생성한 HTML을 DOM에 삽입
 
-        // 현재 페이지의 URL
-        let url = window.location.href;
+	function selboxAllChecked(id) {
+		var allCheck = document.getElementById(id);
+		var selbox = document.getElementsByClassName("selbox")[0];
+		var checkboxes = selbox.querySelectorAll('input[type="checkbox"]');
 
-        // URL의 쿼리 문자열을 파싱
-        let params = new URLSearchParams(url.split('?')[1]);
-
-        let title = decodeURI(params.get('title'));
-        let topic = decodeURI(params.get('topic'));
-        let author = decodeURI(params.get('author'));
-        let publisher = decodeURI(params.get('publisher'));
-        let year = decodeURI(params.get('year'));
-        let callNumber = decodeURI(params.get('callNumber'));
-        let registerNumber = decodeURI(params.get('registerNumber'));
-        let library = decodeURI(params.get('library'));
-        let loan_state = params.get('loan_state') == 'true';
-        let reservation_state = params.get('reservation_state') == 'true';
-
-        //가져온값에 없어서 일단 임시로...나중에 db를 붙이면 해결될 듯
-        let isbn = "8955501609";
-        let pages = "554p";
-        let detail_text= "상세내용 주저리주저리"
-
-        //타이틀변경
-        document.title = title;
-
-        //메인정보
-        let html = `
-        <dl>
-            <dt>
-                <em class="label">
-                    <img src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
-                        alt="KDC : 005.73" width="50px" />
-                </em>
-            </dt>
-            <dd>
-                <div class="ico ico-bk"><span>${title}</span></div>
-                <ul>
-                    <li class="label_no"><strong>ㆍ주제</strong>&nbsp;&nbsp;&nbsp;&nbsp;${topic}</li>
-                    <li><strong>ㆍ저자사항</strong>&nbsp;&nbsp;&nbsp;&nbsp;${author}</li>
-                    <li><strong>ㆍ발행사항</strong>&nbsp;&nbsp;&nbsp;&nbsp;${publisher}, ${year}</li>
-                    <li><strong>ㆍ페이지</strong>&nbsp;&nbsp;&nbsp;&nbsp;${pages}</li>
-                    <li><strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;${isbn}</li>
-                    <li><strong>ㆍ주제어/키워드</strong>&nbsp;&nbsp;&nbsp;&nbsp;${topic}</li>
-                    <li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;${library}</li>
-                </ul>
-            </dd>
-        </dl>
-    `;
-
-        // 생성한 HTML을 DOM에 삽입
-//         document.querySelector(".view").innerHTML += html;
-
-        let loan_stat = " class=\"_fail\">대출불가<";
-        let reservation_stat = " class=\"_fail\">예약불가<";
-        if (loan_state) {
-            loan_stat = " class=\"_success\">대출가능<"
-        }
-
-        if (reservation_state) {
-            reservation_stat = " class=\"reservation_success\" onclick=\"reservation('" + registerNumber + "')\">예약가능<";
-        }
-        //소장정보
-        html = `
-        <tr>
-            <td>${registerNumber}</td>
-            <td></td>
-            <td>
-                <strong>${callNumber}</strong><br>
-                <strong>${isbn}</strong>
-            </td>
-            <td>
-                <strong${loan_stat}/strong><br>
-            </td>
-            <td>-</td>
-            <td>
-                <strong${reservation_stat}/strong><br>
-            </td>
-        </tr>
-    `;
-//         document.querySelector(".responsive").querySelector("tbody").innerHTML += html;
-
-//         document.querySelector(".content_text").innerHTML += detail_text;
-    });
-    // 생성한 HTML을 DOM에 삽입
-
-
-
-    function selboxAllChecked(id) {
-        var allCheck = document.getElementById(id);
-        var selbox = document.getElementsByClassName("selbox")[0];
-        var checkboxes = selbox.querySelectorAll('input[type="checkbox"]');
-
-        for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = allCheck.checked;
-        }
-    }
-    //예약기능
-    function reservation(RN) {
-        alert(RN + " 예약되었습니다.");
-    }
+		for (var i = 0; i < checkboxes.length; i++) {
+			checkboxes[i].checked = allCheck.checked;
+		}
+	}
+	//예약기능
+	function reservation(RN) {
+		alert(RN + " 예약되었습니다.");
+	}
 </script>
 
 <body>
@@ -253,35 +171,28 @@ section {
 	<section>
 		<!-- 여기부터 본문작성해주세요 -->
 		<!-- 책 상세페이지 -->
-		<%
-		ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>) request.getAttribute("bookdetail_list");
-		%>
 		<div id="searchDetailInfo">
 			<div class="view">
-				//메인정보
 				<dl>
-					<dt>
-						<em class="label"> <img
-							src="https://cdn.discordapp.com/attachments/1200354574037434461/1201422289519005766/reading.png"
-							alt="KDC : 005.73" width="50px" />
-						</em>
-					</dt>
+					<em class="label"> <img
+						src="<%=bookdetail_list.get(0).get("B_IMGURL")%>" alt="사진불러오기 실패" />
+					</em>
 					<dd>
 						<div class="ico ico-bk">
-							<span>${title}</span>
+							<span><%=bookdetail_list.get(0).get("B_TITLE")%></span>
 						</div>
 						<ul>
-							<li class="label_no"><strong>ㆍ주제</strong>&nbsp;&nbsp;&nbsp;&nbsp;${topic}</li>
-							<li><strong>ㆍ저자사항</strong>&nbsp;&nbsp;&nbsp;&nbsp;${author}</li>
-							<li><strong>ㆍ발행사항</strong>&nbsp;&nbsp;&nbsp;&nbsp;${publisher},
-								${year}</li>
-							<li><strong>ㆍ페이지</strong>&nbsp;&nbsp;&nbsp;&nbsp;${pages}</li>
-							<li><strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;${isbn}</li>
-							<li><strong>ㆍ주제어/키워드</strong>&nbsp;&nbsp;&nbsp;&nbsp;${topic}</li>
-							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;${library}</li>
+							<li class="label_no"><strong>ㆍ키워드</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_KYWD")%></li>
+							<li><strong>ㆍ저자</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_AUTHOR")%></li>
+							<li><strong>ㆍ발행년도</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_PUBYEAR")%></li>
+							<li><strong>ㆍ출판사</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_PUBLISHER")%></li>
+							<li><strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_ISBN")%></li>
+							<li><strong>ㆍ장르</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("BG_ID")%></li>
+							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("LB_ID")%></li>
 						</ul>
 					</dd>
 				</dl>
+
 			</div>
 			<div class="table">
 				<h3>소장정보</h3>
@@ -300,7 +211,7 @@ section {
 						<tr>
 							<th scope="col">등록번호</th>
 							<th scope="col">낱권정보</th>
-							<th scope="col">청구기호 / ISBN</th>
+							<th scope="col">ISBN</th>
 							<th scope="col">자료상태</th>
 							<th scope="col">반납예정일</th>
 							<th scope="col">예약</th>
@@ -308,13 +219,20 @@ section {
 					</thead>
 					<tbody>
 						<tr>
-							<td>${registerNumber}</td>
+							<td><%=bookdetail_list.get(0).get("B_ID")%></td>
 							<td></td>
-							<td><strong>${callNumber}</strong><br> <strong>${isbn}</strong>
-							</td>
-							<td><strong ${loan_stat}/strong><br></td>
+							<td><strong><%=bookdetail_list.get(0).get("B_ISBN")%></strong></td>
+							<td><strong
+								class="<%=bookdetail_list.get(0).get("B_LOANSTATE").equals("Y") ? "_success" : "_fail"%>">
+									<%=bookdetail_list.get(0).get("B_LOANSTATE").equals("Y") ? "대출가능" : "대출불가"%>
+							</strong><br></td>
 							<td>-</td>
-							<td><strong ${reservation_stat}/strong><br></td>
+							<td><strong
+								class="<%=bookdetail_list.get(0).get("B_RESSTATE").equals("Y") ? "reservation_success" : "_fail"%>"
+								<%if (bookdetail_list.get(0).get("B_RESSTATE").equals("Y")) {%>
+								onclick="reservation('<%=bookdetail_list.get(0).get("B_ID")%>')"
+								<%}%>> <%=bookdetail_list.get(0).get("B_RESSTATE").equals("Y") ? "예약가능" : "예약불가"%>
+							</strong><br></td>
 						</tr>
 					</tbody>
 				</table>
@@ -322,7 +240,7 @@ section {
 				<div class="info">
 					<h3>상세정보</h3>
 					<div>
-						<div class="content_text"><%=bookdetail_list.get(0) %></div>
+						<div class="content_text"><%=bookdetail_list.get(0)%></div>
 					</div>
 				</div>
 			</div>
