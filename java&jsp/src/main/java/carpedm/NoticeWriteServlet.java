@@ -134,7 +134,7 @@ public class NoticeWriteServlet extends HttpServlet {
 				notice_in += " values(";
 				notice_in += " notice_seq.NEXTVAL";
 				// 도서관 로그인하면 불러오기 사용 필요
-				notice_in += " , 3"; // 임의의 libarary 사용하기
+				notice_in += " , ?"; // 임의의 libarary 사용하기
 				notice_in += " , 0"; // 공지사항은 N_OPT = 0
 				notice_in += " , ?";
 				notice_in += " , ?";
@@ -146,9 +146,10 @@ public class NoticeWriteServlet extends HttpServlet {
 				System.out.println(notice_in);
 				// SQL 실행준비
 				PreparedStatement ps = conn.prepareStatement(notice_in);
-				ps.setString(1, n_subject);
-				ps.setString(2, n_write);
-				ps.setString(3, n_fi);
+				ps.setString(1, n_lb);
+				ps.setString(2, n_subject);
+				ps.setString(3, n_write);
+				ps.setString(4, n_fi);
 				
 				result = ps.executeUpdate();
 				System.out.println("바뀐 행 수:" + result);

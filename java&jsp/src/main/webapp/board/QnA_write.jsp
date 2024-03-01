@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -276,7 +284,8 @@
 
         /* 인풋박스 통합 폰트 지정 */
         .input_phone,
-        .inputbox {
+        .inputbox,
+        .table_table .textbox{
             font-size: 18px;
             font-family: "Wanted Sans Variable";
             width: 50%;
@@ -300,7 +309,6 @@
         /* 전화번호 인풋 */
         .phonenumber {
             width: 70px;
-
         }
 
         /* 전화번호 인풋 화살표 없애기 */
@@ -411,15 +419,16 @@
                         </div>
                     </div>
                     <!-- 글쓰기 정보 -->
+                    <form method="post" action="QnA_write">
                     <div class="div_table">
                         <table class="table_table">
-                            <colgroup>
+                            <colgroup>  
                                 <col>
                             </colgroup>
                             <thead>
                                 <tr>
                                     <th>제목</th>
-                                    <td><input type="text" class="inputbox" placeholder="제목" id="sject"></td>
+                                    <td><input type="text" class="inputbox" placeholder="제목" id="sject" name="title"></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -436,13 +445,24 @@
 <!--                                         <input class="input_phone phonenumber" type="number" id="pnumber3"> -->
 <!--                                     </td> -->
 <!--                                 </tr> -->
+<tr>
+								<th class="sub">소속도서관</th>
+								<td class="text"><select class="textbox" id="library" name="library">
+								<%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
+
+				for (int i = 0; i < library_list.size(); i++) {
+				%>
+    				<option value="<%= library_list.get(i).get("LB_ID")%>"><%= library_list.get(i).get("LB_NAME") %></option>
+				<% } %>
+								</select></td>
+							</tr>
                                 <tr>
                                     <th>공개</th>
                                     <td class="private">
 
-                                        <input type="radio" name="pub" checked>
+                                        <input type="radio" name="pub" checked value="1">
                                         공개
-                                        <input type="radio" name="pub">
+                                        <input type="radio" name="pub" value="2">
                                         비공개
 
                                     </td>
@@ -453,7 +473,7 @@
                                     <td><input type="text" id="file_route" disabled="disabled" value="">
                                         <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
                                         <input type="file" id="upload_file" required=true
-                                            style="position:absolute; clip:rect(0, 0, 0, 0);">
+                                            style="position:absolute; clip:rect(0, 0, 0, 0);" name="n_file">
                                     </td>
 
                                 </tr>
@@ -467,7 +487,7 @@
                         <!-- 글쓰기 -->
                     </div>
                     <div class="td1">
-                        <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요."></textarea>
+                        <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_textarea"></textarea>
                     </div>
                     <!-- 버튼 -->
                     <div class="div_buttonAll">
@@ -478,6 +498,7 @@
                         </div>
 
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

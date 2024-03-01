@@ -223,12 +223,12 @@
 							</tr>
 							<tr>
 								<td class="sub">소속도서관</td>
-								<td class="text"><select class="textbox" id="library">
+								<td class="text"><select class="textbox" id="library"  name="library">
 								<%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
 
 				for (int i = 0; i < library_list.size(); i++) {
 				%>
-    				<option><%= library_list.get(i).get("LB_NAME") %></option>
+    				<option value="<%= library_list.get(i).get("LB_ID")%>"><%= library_list.get(i).get("LB_NAME") %></option>
 				<% } %>
 								</select></td>
 							</tr>
