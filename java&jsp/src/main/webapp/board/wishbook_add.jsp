@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -127,12 +136,12 @@
     </style>
     <script>
         window.addEventListener("load", function () {
-            let libs_list = ["천안도서관", "두정도서관", "아우내도서관"];
-            let libs_list_box = document.querySelector("#library");
+//             let libs_list = ["천안도서관", "두정도서관", "아우내도서관"];
+//             let libs_list_box = document.querySelector("#library");
 
-            for (let i = 0; i < libs_list.length; i++) {
-                libs_list_box.innerHTML += "<option>" + libs_list[i] + "</option>";
-            }
+//             for (let i = 0; i < libs_list.length; i++) {
+//                 libs_list_box.innerHTML += "<option>" + libs_list[i] + "</option>";
+//             }
 
             document.getElementById('request_but').addEventListener('click', function () {
                 // 모든 입력 필드의 id를 배열로 저장
@@ -175,27 +184,31 @@
             // 신청 버튼
             let reqbut = document.querySelector("#request_but");
 
-            reqbut.addEventListener('click', function () {
-                // select (천안도서관, 두정도서관, 아우내도서관)
-                let lib = document.querySelector("#library");
-                // 자료명 input
-                let mrial = document.querySelector("#material");
-                // 저자
-                let writer = document.querySelector("#writer");
-                // 발행연도
-                let year = document.querySelector("#year");
-                // ISBN번호 ISSN번호
-                let is = document.querySelector("#is");
-                // 사유
-                let reason = document.querySelector("#reason");
-                // 출판사
-                let publisher = document.querySelector("#publisher");
-                // 신청자이름
-                let user = document.querySelector("#user_name");
-                // 전화번호
-                let handphone = document.querySelector("#handphone");
+            
+            // select (천안도서관, 두정도서관, 아우내도서관)
+            let lib = document.querySelector("#library");
+            // 자료명 input
+            let mrial = document.querySelector("#material");
+            // 저자
+            let writer = document.querySelector("#writer");
+            // 발행연도
+            let year = document.querySelector("#year");
+            // ISBN번호 ISSN번호
+            let is = document.querySelector("#is");
+            // 사유
+            let reason = document.querySelector("#reason");
+            // 출판사
+            let publisher = document.querySelector("#publisher");
+            // 신청자이름
+            let user = document.querySelector("#user_name");
+            // 전화번호
+            let handphone = document.querySelector("#handphone");
+//             alert(lib.value + "\n" + mrial.value + "\n" + writer.value + "\n" + year.value + "\n" + is.value + "\n" + reason.value + "\n" + publisher.value + "\n" + user.value + "\n" + handphone.value + "\n신청이 완료되었습니다.");
 
-                alert(lib.value + "\n" + mrial.value + "\n" + writer.value + "\n" + year.value + "\n" + is.value + "\n" + reason.value + "\n" + publisher.value + "\n" + user.value + "\n" + handphone.value + "\n신청이 완료되었습니다.");
+            reqbut.addEventListener('click', function () {
+
+
+                alert("신청이 완료되었습니다.");
 
             });
         };
@@ -253,13 +266,23 @@
                  </pre>
                 </details>
                 <h3>* 표시는 필수항목입니다.</h3>
-                <hr>                
+                <hr> 
+                <%
+	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
+	 Map<String, String> map = new HashMap<String, String>();
+%>               
                 <div>                
                     <table class="hope_subscribe">
                         <tr>
                             <td class="subject">* 희망소장처</td>
                             <td><select class="textbox" id="library">
-                                    <!-- 자바스크립트로 옵션가져오기 -->
+                                    <%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
+
+				for (int i = 0; i < library_list.size(); i++) {
+				%>
+    				<option><%= library_list.get(i).get("LB_NAME") %></option>
+				<% } %>
+								
                                 </select>
                             </td>
                         </tr>

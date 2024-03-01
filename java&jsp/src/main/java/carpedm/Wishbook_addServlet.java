@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,55 +36,63 @@ public class Wishbook_addServlet extends HttpServlet {
 		}
 		return conn;
 	}
+	
+	
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		한글 깨짐 방지
+
+
+//		실행할 쿼리문
+		String library = "";
+		library += "SELECT *";
+		library += " FROM LIBRARY ";
+//		library += " where LB_ID=";
+//		library += lb_id;
+		System.out.println(library);
+		ArrayList<Map<String, String>> library_list = getDBList(library);
+
+		request.setAttribute("library_list", library_list);
+		
+		request.getRequestDispatcher("board/wishbook_add.jsp").forward(request, response);	
+	}
+	
+	
+	
+
+	public static ArrayList<Map<String, String>> getDBList(String notice) {
+		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
-			request.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=utf-8;");
-		} catch (UnsupportedEncodingException e) {
+			Connection conn = getConnection();
+			// SQL준비
+//			System.out.println("notice:" + notice);
+			// SQL 실행준비
+			PreparedStatement ps = conn.prepareStatement(notice);
+			ResultSet rs = ps.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnCount = rsmd.getColumnCount();
+
+			while (rs.next()) {
+			    Map<String, String> map = new HashMap<String, String>();
+
+			    for (int i = 1; i <= columnCount; i++) {
+			        String columnName = rsmd.getColumnName(i);
+			        map.put(columnName, rs.getString(columnName));
+			    }
+
+			    result_list.add(map);
+//			    값 잘 나오는지 확인
+//			    System.out.println(result_list.get(0).get("N_TITLE"));
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-
-		ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        
-//      실행하려고 하는 쿼리
-        String query = "SELECT * FROM member "; 
-        try {
-            conn = getConnection();
-            ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
-           
-            // 결과 처리
-            while (rs.next()) {
-            	Map map= new HashMap();
-            	map.put("id", rs.getString("m_id")); // 아이디
-            	map.put("name", rs.getString("m_name")); // 이름
-            	map.put("tel", rs.getString("m_tel")); // 전화번호
-            
-            	list.add(map);                        	
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-//      만약 로그인을 했다면
-//      로그인한 아이디가 데이터값의 아이디가 같다면
-//      list.get(i).get("id") : 아이디값
-//      같은 아이디의 이름(list.get(i).get("name"))과
-//      같은 아이디의 전화번호(list.get(i).get("tel"))를 불러오겠어
-        
-        request.setAttribute("list", list);
-   
-
-	
-		request.getRequestDispatcher("board/wishbook_add.jsp").forward(request, response);
-		
+		return result_list;
 	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
