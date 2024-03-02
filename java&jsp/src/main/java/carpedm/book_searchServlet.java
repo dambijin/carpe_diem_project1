@@ -21,11 +21,12 @@ public class book_searchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// ajax로 할껄 급 후회중...
+		//검색어
 		String searchWord = request.getParameter("search");
 		if (searchWord == null || "".equals(searchWord)) {
 			searchWord = "";
 		}
-
+		//검색필터(제목,저자 등등)
 		String item = request.getParameter("item");
 		String item_query = "b.b_title";
 		if (item == null || "".equals(item)) {
@@ -49,7 +50,7 @@ public class book_searchServlet extends HttpServlet {
 		}
 		int currentPage = Integer.parseInt(page);
 
-		// perPage 처리 부분
+		// perPage(표시 개수) 처리 부분
 		String perPage = request.getParameter("perPage");
 		if (perPage == null || "".equals(perPage)) {
 			perPage = "10";
@@ -59,7 +60,7 @@ public class book_searchServlet extends HttpServlet {
 		// 페이지 처리를 위한 계산
 		int startRow = (currentPage - 1) * itemsPerPage + 1;
 		int endRow = currentPage * itemsPerPage;
-
+		//오름차순 내림차순 계산
 		String okywd = request.getParameter("okywd");
 
 		if (okywd == null || "".equals(okywd)) {
@@ -87,51 +88,87 @@ public class book_searchServlet extends HttpServlet {
 			okywd_kywd = "b.b_title";
 			okywd_order = "ASC";
 		}
-
-		// SQL 쿼리
-		String query = "";
-		query += "SELECT * FROM (";
-		query += "  SELECT rownum rnum, a.* FROM (";
-		query += "    SELECT b.b_id, b.lb_id, b.b_title, b.b_author, b.b_pubyear, b.b_isbn, b.b_publisher, b.b_kywd, b.b_imgurl, b.b_loanstate, b.b_resstate, l.lb_name";
-		query += "    FROM book b";
-		query += "    JOIN library l ON b.lb_id = l.lb_id";
-		if (item.equals("전체")) {
-			query += "    WHERE b.b_title LIKE '%" + searchWord + "%' OR b.b_author LIKE '%" + searchWord
-					+ "%' OR b.b_publisher LIKE '%" + searchWord + "%' OR b.b_kywd LIKE '%" + searchWord + "%'";
-		} else {
-			query += "    WHERE " + item_query + " LIKE '%" + searchWord + "%'";
-		}
-		query += "    ORDER BY " + okywd_kywd + " " + okywd_order;
-		query += "  ) a";
-		query += "  WHERE rownum <= " + endRow;
-		query += ")";
-		query += "WHERE rnum >= " + startRow;
-
-		ArrayList<Map<String, String>> book_list = getDBList(query);
+		//도서관필터
 		ArrayList<Map<String, String>> library_list = getDBList("select lb_id,lb_name from library");
+		String[] libraryIds = request.getParameterValues("libraryIds");
+		if (libraryIds == null || libraryIds.length == 0) {
+		    libraryIds = new String[library_list.size()];
+		    for (int i = 0; i < library_list.size(); i++) {
+		        libraryIds[i] = library_list.get(i).get("LB_ID");
+		    }
+		}
+		
+		// SQL 쿼리(쿼리가 너무 복잡해서 2개로 나눠서 보겠음..)
+		// 원하는 조건에 맞는 책들을 가져옴(페이지계산X)
+		String baseQuery = " SELECT b.*, l.lb_name" + " FROM book b" + " JOIN library l ON b.lb_id = l.lb_id";
+
+		if (item.equals("전체")) {
+			baseQuery += " WHERE (b.b_title LIKE '%" + searchWord + "%'" + " OR b.b_author LIKE '%" + searchWord + "%'"
+					+ " OR b.b_publisher LIKE '%" + searchWord + "%'" + " OR b.b_kywd LIKE '%" + searchWord + "%')";
+		} else {
+			baseQuery += " WHERE " + item_query + " LIKE '%" + searchWord + "%'";
+		}
+		baseQuery += " AND l.lb_id IN (";
+		for (int i = 0; i < libraryIds.length; i++) {
+		    if (i > 0) {
+		        baseQuery += ", ";
+		    }
+		    baseQuery += "'" + libraryIds[i] + "'";
+		}
+		baseQuery += ")";
+
+		baseQuery += " ORDER BY " + okywd_kywd + " " + okywd_order;
+		// 위 쿼리에 페이지별 계산까지 들어가서 최종완성시킴
+		String query = "SELECT *" + " FROM (SELECT rownum rnum, a.* FROM (" + baseQuery + ") a" + " WHERE rownum <= "
+				+ endRow + ")" + " WHERE rnum >= " + startRow;
+		// 이건 그냥 조건에 맞는 책들의 개수를 알기 위해 따로 만듬(합치려니 너무 복잡해져서 쿼리를 2번날림)
+		String countQuery = "";
+		countQuery += "SELECT COUNT(*)";
+		countQuery += " FROM book b";
+		countQuery += " JOIN library l ON b.lb_id = l.lb_id";
+		if (item.equals("전체")) {
+			countQuery += " WHERE (b.b_title LIKE '%" + searchWord + "%' OR b.b_author LIKE '%" + searchWord
+					+ "%' OR b.b_publisher LIKE '%" + searchWord + "%' OR b.b_kywd LIKE '%" + searchWord + "%')";
+		} else {
+			countQuery += " WHERE " + item_query + " LIKE '%" + searchWord + "%'";
+		}
+		countQuery += " AND l.lb_id IN (";
+		for (int i = 0; i < libraryIds.length; i++) {
+		    if (i > 0) {
+		    	countQuery += ", ";
+		    }
+		    countQuery += "'" + libraryIds[i] + "'";
+		}
+		countQuery += ")";
+		ArrayList<Map<String, String>> book_list = getDBList(query);
+		String book_count = getDBList(countQuery).get(0).get("COUNT(*)");
+//		System.out.println(book_count);
 
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("item", item);
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
 		request.setAttribute("okywd", okywd);
+		request.setAttribute("book_count", book_count);
+		request.setAttribute("libraryIds", libraryIds);
 
 		request.setAttribute("book_list", book_list);
 		request.setAttribute("library_list", library_list);
 		request.getRequestDispatcher("/mainpages/book_search.jsp").forward(request, response);
 	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException{
-		  String b_id = request.getParameter("b_id");
-		  System.out.println(b_id);		
-		  String query = "UPDATE book SET b_resstate = 'N' WHERE b_id = "+b_id;
-		  System.out.println("변경된 행 수:"+setDBList(query));
-		  response.setContentType("application/json");
-		  response.setCharacterEncoding("UTF-8");
-		  //완료하고 결과값을 보내기 위해
-		  response.getWriter().write("{\"message\": \"success\"}");  
+			throws ServletException, IOException {
+		String b_id = request.getParameter("b_id");
+		System.out.println(b_id);
+		String query = "UPDATE book SET b_resstate = 'N' WHERE b_id = " + b_id;
+		System.out.println("변경된 행 수:" + setDBList(query));
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		// 완료하고 결과값을 보내기 위해
+		response.getWriter().write("{\"message\": \"success\"}");
 	}
-	
+
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
@@ -181,8 +218,7 @@ public class book_searchServlet extends HttpServlet {
 		}
 		return result_list;
 	}
-	
-	
+
 	private int setDBList(String query) {
 		int result = -1;
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
@@ -194,7 +230,7 @@ public class book_searchServlet extends HttpServlet {
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(query);
 			result = ps.executeUpdate();
-			
+
 			ps.close();
 			conn.close();
 		} catch (Exception e) {

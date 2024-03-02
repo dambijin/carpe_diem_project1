@@ -5,6 +5,7 @@
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="java.util.Arrays"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -301,6 +302,12 @@ section {
 	background-color: #f8f8f8;
 }
 
+#paging .paging a.num.active {
+    color: blue;
+    font-size: 20px;
+    font-style: bold;
+}
+
 #paging .paging strong {
 	background-color: #007bff;
 	color: #fff;
@@ -355,8 +362,7 @@ section {
                 break;
             }
         }
-        
-        console.log('<%=request.getAttribute("okywd")%>');
+
         let result_filter2_values = document.getElementById("result_filter2").options;
         for(let i = 0; i< result_filter2_values.length;i++)
         {   
@@ -365,15 +371,34 @@ section {
                 break;
             }
         }
-//         paging();
+        
+        <%
+        // 서버에서 전달받은 libraryIds 값
+        String[] libraryIds = (String[])request.getAttribute("libraryIds");
+    	%>
+    	 let libraryIds = <%= Arrays.toString(libraryIds) %>; // libraryIds 값을 자바스크립트 변수로 변환
+    	 libraryIds = libraryIds.map(String); // 모든 원소를 문자열로 변환
+        let libs_filter_values = document.querySelectorAll('#_multiChk1 input[type="checkbox"]');
+    	 	 
+        for(let i = 0; i < libs_filter_values.length;i++)
+        {
+            if(libraryIds.includes(libs_filter_values[i].value)) {//포함되어있으면 체크!
+                libs_filter_values[i].click();
+                console.log("외안댐?");
+            }
+            else{
+            	console.log("외");
+            }
+        }
+
     })
 
     //모두 체크기능
     function selboxAllChecked(id) {
-        var allCheck = document.getElementById(id);
+        let allCheck = document.getElementById(id);
         // var selbox = document.getElementsByClassName("selbox")[0];
         // var checkboxes = selbox.querySelectorAll('.selbox input[type="checkbox"]');
-        var checkboxes = document.querySelectorAll('.selbox input[type="checkbox"]');
+        let checkboxes = document.querySelectorAll('.selbox input[type="checkbox"]');
 
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = allCheck.checked;
@@ -386,36 +411,6 @@ section {
         window.open('book_detail?id='+b_id ,"", "width=900,height=600");
     }
 
-    //검색결과 총 개수 표기 및 페이징관련
-    function paging() {
-        let total_count = 521;  //임시
-
-        let result_filter1 = document.querySelector("#result_filter1");
-        let view_count = result_filter1.options[result_filter1.selectedIndex].value;
-
-        document.querySelector(".total_count").innerHTML = "전체 : 총&nbsp;" + total_count + "&nbsp권";
-        html = `
-                    <div class="total"><strong>1</strong>페이지 / 총 <strong>${Math.ceil(total_count / view_count)}</strong>페이지</div>
-                        <div class="paging">
-                            <a href="" class="pre">
-                                ◀</a>
-
-                            <strong>1</strong>
-
-                            <a href="" class="num">2</a>
-
-                            <a href="" class="num">3</a>
-
-                            <a href="" class="num">4</a>
-
-                            <a href="" class="num">5</a>
-
-
-                            <a href="" class="next">▶</a>
-                        </div>        
-`
-        document.querySelector("#paging").innerHTML = html;
-    }
 
     //예약기능
 	function reservation(b_id) {
@@ -432,18 +427,31 @@ section {
 	    })
 	    .then(response => response.json())
 	    .then(data => {
-	      console.log(data);
+// 	      console.log(data);
 	      search();  // fetch가 완료된 후에 search 함수를 실행
 	    })
 	    .catch((error) => console.error('Error:', error));   
 	}
 
 	function search() {
-		let textbox = document.getElementById("searchWord");
-		let selectbox = document.getElementById("search_opt_list");
-		let rf_box1 = document.getElementById("result_filter1");
-		let rf_box2 = document.getElementById("result_filter2");
-		window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value+'&page='+"1"+'&perPage='+rf_box1.value+'&okywd='+rf_box2.value;		
+	    let textbox = document.getElementById("searchWord");
+	    let selectbox = document.getElementById("search_opt_list");
+	    let rf_box1 = document.getElementById("result_filter1");
+	    let rf_box2 = document.getElementById("result_filter2");
+
+	    let checkboxes = document.querySelectorAll('input[name="libraryIds"]:checked');
+	    let libraryIdsParam = '';
+	    for (let i = 0; i < checkboxes.length; i++) {
+	        libraryIdsParam += '&libraryIds='+ checkboxes[i].value;
+	    }
+	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
+
+	    window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)
+	    + '&item=' + selectbox.value
+	    + '&page=' + currentPage
+	    + '&perPage=' + rf_box1.value
+	    + '&okywd=' + rf_box2.value
+	    + libraryIdsParam;
 	};
 </script>
 
@@ -464,7 +472,7 @@ section {
 							ArrayList<Map<String, String>> libs_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
 							for (int i = 0; i < libs_list.size(); i++) {
 							%>
-							<li><input class="chk" type="checkbox"
+							<li><input class="chk" type="checkbox" name="libraryIds"
 								value="<%=libs_list.get(i).get("LB_ID")%>"> &nbsp;&nbsp;<%=libs_list.get(i).get("LB_NAME")%>
 							</li>
 							<%
@@ -478,7 +486,7 @@ section {
 				<div class="allbox">
 					<fieldset class="search_fieldset">
 						<!-- <legend>통합검색</legend> -->
-						<span class="result"> <input type="checkbox" id="reSearch"
+						<span class="result" style="display: none;"> <input type="checkbox" id="reSearch"
 							name="reSearch" value="1" title="결과내 검색"> <label
 							for="reSearch">&nbsp;&nbsp;결과 내 검색</label>
 						</span>
@@ -502,7 +510,7 @@ section {
 				</div>
 			</div>
 			<div class="result_filter_div">
-				<div class="blank_space total_count">전체 수 :</div>
+				<div class="blank_space total_count">전체 : 총&nbsp;<%=(String) request.getAttribute("book_count")%>&nbsp;권</div>
 				<div class="result_text">검색결과</div>
 				<div class="result_filter_all">
 					<select class="result_filter" id="result_filter1"
@@ -577,7 +585,49 @@ section {
 
 
 		<div id="paging">
-			<!-- 자바스크립트로 페이지 가져오기 및 갱신 -->
+			<%
+			// 서블릿에서 불러온 페이징 정보
+			int total_count = Integer.parseInt((String) request.getAttribute("book_count"));// 임시로 설정한 값
+			int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
+			int current_page = Integer.parseInt((String) request.getAttribute("page"));
+			int total_pages = (int) Math.ceil((double) total_count / perPage);
+
+			// 표시할 페이지의 범위 계산
+			int start_page = Math.max(current_page - 2, 1);
+			int end_page = Math.min(start_page + 4, total_pages);
+			start_page = Math.max(1, end_page - 4);
+			%>
+
+			<div class="total_count">
+				전체 : 총&nbsp;<%=total_count%>&nbsp;권
+			</div>
+			<div class="total">
+				<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
+			</div>
+			<div class="paging">
+				<%
+				if (current_page > 1) {
+				%>
+				<a href="?page=<%=current_page - 1%>" class="pre">◀</a>
+				<%
+				}
+				%>
+				<%
+				for (int i = start_page; i <= end_page; i++) {
+				%>
+				<a href="?page=<%=i%>"
+					class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
+				<%
+				}
+				%>
+				<%
+				if (current_page < total_pages) {
+				%>
+				<a href="?page=<%=current_page + 1%>" class="next">▶</a>
+				<%
+				}
+				%>
+			</div>
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->

@@ -29,10 +29,12 @@ public class book_detailServlet extends HttpServlet {
 		}
 
 		String query = "";
-		query += "SELECT *";
-		query += " FROM book";
-		query += " WHERE b_id = '" + b_id + "'";
-
+		query += "SELECT b.*, bg.bg_name, l.lb_name";
+		query += " FROM book b";
+		query += " JOIN bookgenre bg ON b.bg_id = bg.bg_id";
+		query += " JOIN library l ON b.lb_id = l.lb_id";
+		query += " WHERE b.b_id = '" + b_id + "'";
+		
 		ArrayList<Map<String,String>> bookdetail_list = getDBList(query);
 
 		request.setAttribute("bookdetail_list", bookdetail_list);

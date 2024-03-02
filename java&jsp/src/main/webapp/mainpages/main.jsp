@@ -46,6 +46,7 @@
 	border: 2px solid rgba(168, 156, 200, 0.6);
 	border-bottom: 0px;
 	background-color: rgba(168, 156, 200, 0.6);
+	text-align: center;
 }
 
 /* 공지사항테이블 */
@@ -75,6 +76,7 @@
 	border-bottom: 0px;
 	font-size: 20px;
 	font-weight: bold;
+	text-align: center;
 }
 
 /* 신착도서 테이블 */
@@ -104,6 +106,7 @@
 	font-size: 22px;
 	padding-top: 8px;
 	font-weight: bold;
+	text-align: center;
 }
 
 /* 이용시간, 휴관일 */
@@ -338,12 +341,20 @@ nav .inner .inner-list img {
 		const inners = document.querySelectorAll('.inner');
 		let currentIndex = 0; // 현재 슬라이드 화면 인덱스
 		
-		inners.forEach((inner) => {
-		  inner.style.width = `${"${outer.clientWidth}px"}`; // inner의 width를 모두 outer의 width로 만들기
-		})
-		
-		innerList.style.width = `${"${outer.clientWidth * inners.length}px"}`; // innerList의 width를 inner의 width * inner의 개수로 만들기
-		
+	    // 슬라이드배너 크기 설정 함수
+	    function setSize() {
+	        inners.forEach((inner) => {
+	            inner.style.width = `${"${outer.clientWidth}px"}`;
+	        })
+	        innerList.style.width = `${"${outer.clientWidth * inners.length}px"}`;
+	    }
+
+	    setSize();  // 처음 로딩시에도 크기 설정
+
+	    // 창 크기 변경시 슬라이드배너 크기 재설정
+	    window.addEventListener('resize', () => {
+	        setSize();
+	    });
 		/*
 		  버튼에 이벤트 등록하기
 		*/
@@ -385,13 +396,7 @@ nav .inner .inner-list img {
 	function search() {
 		let textbox = document.getElementById("searchWord");
 		let selectbox = document.getElementById("libsear");
-		if (textbox.value == "") {
-			alert("내용을 입력해주세요");
-			document.querySelector('#searchWord').focus();
-		} else {
-			alert(textbox.value + "을 검색했습니다");
-			window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;
-		}
+		window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;		
 	};
 	
     function openBookDetail(b_id) {
@@ -452,8 +457,8 @@ nav .inner .inner-list img {
 					<button class="button-right">→</button>
 				</div>
 			</div>
+		</nav>
 	</div>
-	</nav>
 
 	<section class="library_information_content">
 		<div class="announcement_library_information">
@@ -519,7 +524,6 @@ nav .inner .inner-list img {
 			</select>
 			<div id="libs_time" class="calendar"></div>
 			<div class="calendar">
-
 				<div class="text_detail">
 					<%-- 					<%= library_list.get(0).get("LB_CONTENT") %> --%>
 				</div>
@@ -537,10 +541,8 @@ nav .inner .inner-list img {
 					];
 					</script>
 			</div>
-
 		</div>
 	</section>
-	</div>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header.js"></script>
 </body>

@@ -21,6 +21,7 @@ section {
 	margin: auto;
 	/* font-family: 'KNUTRUTHTTF'; */
 	font-family: 'Wanted Sans Variable';
+	margin-top:20px;
 }
 
 /* 상세정보관련 */
@@ -187,8 +188,8 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 							<li><strong>ㆍ발행년도</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_PUBYEAR")%></li>
 							<li><strong>ㆍ출판사</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_PUBLISHER")%></li>
 							<li><strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_ISBN")%></li>
-							<li><strong>ㆍ장르</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("BG_ID")%></li>
-							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("LB_ID")%></li>
+							<li><strong>ㆍ장르</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("BG_NAME")%></li>
+							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("LB_NAME")%></li>
 						</ul>
 					</dd>
 				</dl>
@@ -238,9 +239,9 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 				</table>
 
 				<div class="info">
-					<h3>상세정보</h3>
+					<h3>특이사항</h3>
 					<div>
-						<div class="content_text"><%=bookdetail_list.get(0)%></div>
+						<div class="content_text">특이사항 없음</div>
 					</div>
 				</div>
 			</div>
