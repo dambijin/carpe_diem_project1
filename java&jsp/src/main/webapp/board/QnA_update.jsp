@@ -314,6 +314,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					onclick="location.href='wishbook_add';">희망도서신청</button>
 			</div>
 			<div class="right_section">
+			<form method="post" action="QnA_update">
 				<div>
 					<!-- 여기부터 본문작성해주세요 -->
 					<!-- 상단 배너 -->
@@ -335,49 +336,57 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 								<tr>
 									<th>제목</th>
 									<td><input type="text" class="inputbox" placeholder="제목"
-										id="sject" value="<%=result_list.get(0).get("N_TITLE")%>"></td>
+										id="sject" name="notice_subject" value="<%=result_list.get(0).get("N_TITLE")%>"></td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<th>작성자</th>
-									<td><input type="text" class="inputbox"
-										placeholder="이름을 작성해주세요." id="user_name"
-										value="<%=member.get(0).get("M_NAME")%>"></td>
-								</tr>
-								<tr>
-									<th>휴대폰번호</th>
-									<td><input class="input_phone phonenumber" type="number"
-										id="pnumber1"
-										value="<%=member_tel.get(0).get("M_TEL").substring(0, 3)%>">
-										- <input class="input_phone phonenumber" type="number"
-										id="pnumber2"
-										value="<%=member_tel.get(0).get("M_TEL").substring(3, 7)%>">
-										- <input class="input_phone phonenumber" type="number"
-										id="pnumber3"
-										value="<%=member_tel.get(0).get("M_TEL").substring(7, 11)%>">
-									</td>
-								</tr>
-								<tr>
-									<th>공개</th>
-									<td class="private">
-										<%
-										if (result_list.get(0).get("N_OPT").equals("1")) {
-										%> <input type="radio" name="pub" checked> 공개 <input
-										type="radio" name="pub"> 비공개 <%
- } else {
- %> <input type="radio" name="pub"> 공개 <input type="radio"
-										name="pub" checked> 비공개 <%
- }
- %>
+<!-- 								<tr> -->
+<!-- 									<th>작성자</th> -->
+<!-- 									<td><input type="text" class="inputbox" -->
+<!-- 										placeholder="이름을 작성해주세요." id="user_name" -->
+<%-- 										value="<%=member.get(0).get("M_NAME")%>"></td> --%>
+<!-- 								</tr> -->
+<!-- 								<tr> -->
+<!-- 									<th>휴대폰번호</th> -->
+<!-- 									<td><input class="input_phone phonenumber" type="number" -->
+<!-- 										id="pnumber1" -->
+<%-- 										value="<%=member_tel.get(0).get("M_TEL").substring(0, 3)%>"> --%>
+<!-- 										- <input class="input_phone phonenumber" type="number" -->
+<!-- 										id="pnumber2" -->
+<%-- 										value="<%=member_tel.get(0).get("M_TEL").substring(3, 7)%>"> --%>
+<!-- 										- <input class="input_phone phonenumber" type="number" -->
+<!-- 										id="pnumber3" -->
+<%-- 										value="<%=member_tel.get(0).get("M_TEL").substring(7, 11)%>"> --%>
+<!-- 									</td> -->
+<!-- 								</tr> -->
+<!-- 								<tr> -->
+<!-- 									<th>공개</th> -->
+<!-- 									<td class="private"> -->
+<%-- 										<%if (result_list.get(0).get("N_OPT").equals("1")) {%>  --%>
+<!-- 										<input type="radio" name="pub" checked> 공개 <input -->
+<%-- 										type="radio" name="pub"> 비공개 <% } else { %>  --%>
+<!-- 										<input type="radio" name="pub"> 공개 <input type="radio" -->
+<%-- 										name="pub" checked> 비공개 <% } %> --%>
 
-									</td>
-								</tr>
+<!-- 									</td> -->
+<!-- 								</tr> -->
+								<tr>
+								<th>소속도서관<input type="hidden" name="n_id" value="<%=result_list.get(0).get("N_ID")%>"></th>
+								<td ><select class="inputbox" id="library" name="library">
+								<%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
+								ArrayList<Map<String, String>> library_id = (ArrayList<Map<String, String>>) request.getAttribute("library_id");
+								%>
+								<option selected value="<%=library_list.get(0).get("LB_ID")%>"><%=library_list.get(0).get("LB_NAME")%></option>
+				<%for (int i = 0; i < library_id.size(); i++) {	%>
+    				<option value="<%=library_id.get(i).get("LB_ID")%>"><%= library_id.get(i).get("LB_NAME") %></option>
+				<% } %>
+								</select></td>
+							</tr>
 
 								<tr>
 									<th>첨부파일</th>
 									<td><input type="text" id="file_route" disabled="disabled"
-										value=""> <label for="upload_file" class="btn"
+										value="" name="n_file"> <label for="upload_file" class="btn"
 										id="file_upload">파일첨부</label> <input type="file"
 										id="upload_file" required=true
 										style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
@@ -389,7 +398,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					</div>
 					<div class="td1">
 						<textarea id="textarea" class="inputbox inputbox_subject"
-							placeholder="내용을 입력해주세요." ><%=result_list.get(0).get("N_CONTENT")%></textarea>
+							placeholder="내용을 입력해주세요." name="n_textarea" ><%=result_list.get(0).get("N_CONTENT")%></textarea>
 					</div>
 					<!-- 버튼 -->
 					<div class="div_buttonAll">
@@ -399,6 +408,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 					</div>
 				</div>
+			</form>
 			</div>
 		</div>
 	</section>

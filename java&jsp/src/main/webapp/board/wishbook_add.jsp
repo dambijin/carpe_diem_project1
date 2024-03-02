@@ -271,16 +271,17 @@
 	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
 	 Map<String, String> map = new HashMap<String, String>();
 %>               
-                <div>                
+                <div>   
+                <form method="post" action="wishbook_add">             
                     <table class="hope_subscribe">
                         <tr>
                             <td class="subject">* 희망소장처</td>
-                            <td><select class="textbox" id="library">
+                            <td><select class="textbox" id="library" name="library">
                                     <%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
 
 				for (int i = 0; i < library_list.size(); i++) {
 				%>
-    				<option><%= library_list.get(i).get("LB_NAME") %></option>
+    				<option value="<%= library_list.get(i).get("LB_ID") %>"><%= library_list.get(i).get("LB_NAME") %></option>
 				<% } %>
 								
                                 </select>
@@ -288,37 +289,37 @@
                         </tr>
                         <tr>
                             <td class="subject"> * 자료명 </td>
-                            <td><input type="text" class="textbox" placeholder="자료명" id="material"></td>
+                            <td><input type="text" name="w_title" class="textbox" placeholder="자료명" id="material"></td>
                         </tr>
                         <tr>
                             <td class="subject"> * 저자 </td>
-                            <td><input type="text" class="textbox" placeholder="저자" id="writer"></td>
+                            <td><input type="text" name="author" class="textbox" placeholder="저자" id="writer"></td>
                         </tr>
                         <tr>
                             <td class="subject"> * 발행연도 </td>
-                            <td><input type="text" class="textbox" placeholder="발행연도" id="year"></td>
+                            <td><input type="text" name="w_date" class="textbox" placeholder="발행연도" id="year"></td>
                         </tr>
                         <tr>
                             <td class="subject">ISBN번호<br> ISSN번호</td>
-                            <td><input type="text" class="textbox" placeholder="ISBN/ISSN 번호" id="is"></td>
+                            <td><input type="text" name="isbn" class="textbox" placeholder="ISBN/ISSN 번호" id="is"></td>
                         </tr>
                         <tr>
                             <td class="subject">* 신청사유</td>
-                            <td><textarea class="textbox reason" placeholder="신청사유를 입력해주세요." id="reason"></textarea>
+                            <td><textarea name="w_content" class="textbox reason" placeholder="신청사유를 입력해주세요." id="reason"></textarea>
                             </td>
                         </tr>
                         <tr>
                             <td class="subject">* 출판사</td>
-                            <td><input type="text" class="textbox" placeholder="출판사" id="publisher"></td>
+                            <td><input type="text" name="pbs" class="textbox" placeholder="출판사" id="publisher"></td>
                         </tr>
                         <tr>
                             <td class="subject">신청자 이름</td>
-                            <td><input type="text" class="textbox" placeholder="이름" id="user_name">
+                            <td><input type="text" name="w_name" class="textbox" placeholder="이름" id="user_name">
                             <% %></td>
                         </tr>
                         <tr>
                             <td class="subject">* 휴대폰 번호</td>
-                            <td><input type="text" class="textbox" placeholder="-없이 입력해주세요" id="handphone"></td>
+                            <td><input type="text" name="w_tel" class="textbox" placeholder="-없이 입력해주세요" id="handphone"></td>
                         </tr>
                         <tr>
                             <td class="subject">* 개인정보 수집 동의</td>
@@ -327,10 +328,11 @@
 
                         <tr class="request_but">
 
-                            <td colspan="2"><button type="button" class="request" id="request_but">신청</button></td>
+                            <td colspan="2"><button type="submit" class="request" id="request_but">신청</button></td>
                         </tr>
 
                     </table>
+                    </form>
 
 
 

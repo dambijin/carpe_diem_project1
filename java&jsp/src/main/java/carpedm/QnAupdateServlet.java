@@ -1,6 +1,7 @@
 package carpedm;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -54,18 +55,58 @@ public class QnAupdateServlet extends HttpServlet {
 				}
 			}
 		}
+		
+		
+		
 
 //		실행할 쿼리문
 		String nid_query = "";
 		nid_query += "SELECT * FROM notice where";
 		nid_query += " n_id=";
 		nid_query += nid;
-
-//		System.out.println("N_ID 값: " + nid_query);
+		
 		ArrayList<Map<String, String>> notice = getDBList(nid_query);
 
 		request.setAttribute("notice", notice);
 
+		
+		String lb_id = "";
+		if (notice != null && !notice.isEmpty()) {
+			for (int i = 0; i < notice.size(); i++) {
+				Map<String, String> row = notice.get(i);
+				lb_id = row.get("LB_ID");
+				System.out.println("lb_id 값: " + lb_id);
+			}
+		}
+
+		
+		
+//		실행할 쿼리문
+		String l_id = "";
+		l_id += "SELECT *";
+		l_id += " FROM LIBRARY";
+		l_id += " WHERE LB_ID <> ";
+		l_id += lb_id;
+		System.out.println("l_id :"+l_id);
+		ArrayList<Map<String, String>> library_id = getDBList(l_id);
+
+		
+		request.setAttribute("library_id", library_id);
+		
+
+//		도서관 쿼리문
+		String library = "";
+		library += "SELECT *";
+		library += " FROM LIBRARY ";
+		library += " WHERE LB_ID = ";
+		library += lb_id;
+		System.out.println(library);
+		ArrayList<Map<String, String>> library_list = getDBList(library);
+
+		
+		request.setAttribute("library_list", library_list);
+
+		
 		String mPid = "";
 //		M_PID 컬럼 데이터 가져오기
 		if (notice != null && !notice.isEmpty()) {
@@ -140,7 +181,66 @@ public class QnAupdateServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+
+		try {
+			request.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=utf-8;");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	
+		System.out.println(getDBUpdate(request, response));
+		response.sendRedirect("QnA_board");
 	}
+	
+	private int getDBUpdate(HttpServletRequest request , HttpServletResponse response) {
+		int result = -1;
+		try {
+			Connection conn = getConnection();
+			
+			// SQL준비
+			String n_subject = request.getParameter("notice_subject"); // 제목
+			String n_lb= request.getParameter("library"); // 소속 도서관
+			String n_fi= request.getParameter("n_file"); // 파일
+			String n_write= request.getParameter("n_textarea"); // 글 내용(textarea)
+			String nid= request.getParameter("n_id");
+//			trim() : 앞뒤 공백 제거, 스페이스바 적을 수 있으니까 필요
+			
+			if(n_subject==null || n_subject.trim().equals("")
+					|| n_write == null || n_write.trim().equals("")) {
+				response.sendRedirect("notice_update");
+			}else {
+//				UPDATE [테이블] SET [열] = '변경할값' WHERE [조건]
+				String notice_in = "";
+				notice_in += " update notice set";
+				notice_in += " N_TITLE = ?";
+				notice_in += ", LB_ID = ?";
+				notice_in += ", N_CONTENT = ?";
+				notice_in += " where N_ID = ";
+				notice_in += nid;
+				
+				// SQL 실행준비
+				PreparedStatement ps = conn.prepareStatement(notice_in);
+				ps.setString(1, n_subject);
+				ps.setString(2, n_lb);
+				ps.setString(3, n_write);
+				System.out.println("n_lb : "+n_lb);
+				System.out.println("update문 : "+notice_in);
+				
+				result = ps.executeUpdate();
+				
+				System.out.println("바뀐 행 수:" + result);
+				ps.close();
+				conn.close();
+			}
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 
 }
