@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -120,9 +121,53 @@ public class QnADetailServlet extends HttpServlet {
 		library += " where LB_ID=";
 		library += lb_id;
 		ArrayList<Map<String, String>> library_list = getDBList(library);
-
-		
 		request.setAttribute("library_list", library_list);
+		
+		
+		String notice_id= "";
+		if (notice != null && !notice.isEmpty()) {
+			for (int i = 0; i < notice.size(); i++) {
+				Map<String, String> row = notice.get(i);
+				notice_id = row.get("N_ID");
+			}
+		}
+		
+		try {
+	        // 데이터 베이스 연결
+	        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+	        
+	        String sql = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
+	        
+	        PreparedStatement pst = conn.prepareStatement(sql);
+	        pst.setString(1, notice_id);
+	        System.out.println("--------------------------");
+	        System.out.println("공지사항번호: "+notice_id);
+	        System.out.println("카운트업데이트 값: "+sql);
+//	        executeUpdate : 업데이트 하는 sql문 작성됨
+	        int rowCount = pst.executeUpdate();
+	        System.out.println("--------------------------");
+	        System.out.println("pst:"+pst);
+	        System.out.println("rowCount :"+rowCount);
+	        if (rowCount > 0) {
+//	        	가져올 쿼리문
+	        	
+	        } else {
+	        	System.out.println("조회수 증가 실패");
+	        }
+	        
+	        String UPDATE = "select * from notice where N_ID=";
+        	UPDATE += notice_id;
+        	ArrayList<Map<String, String>> update = getDBList(UPDATE);
+    		request.setAttribute("update", update);
+	        
+    		
+	        // 리소스 닫기
+	        pst.close();
+	        conn.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace(); 
+	    }
+		
 
 			
 		request.getRequestDispatcher("board/QnA_detail.jsp").forward(request, response);

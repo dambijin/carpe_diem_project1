@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -114,6 +115,46 @@ public class NoticeBoardServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		return result_list;
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			request.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=utf-8;");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	
+		TitleClick(request, response);
+	}
+	
+	private void TitleClick(HttpServletRequest request , HttpServletResponse response) {
+		String title_id = request.getParameter("title");
+		try {
+	        // 데이터 베이스 연결
+	        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+	        
+	        String sql = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
+	        
+	        PreparedStatement pst = conn.prepareStatement(sql);
+	        pst.setString(1, title_id);
+	        System.out.println("title_id 값: "+title_id);
+	        System.out.println("카운트업데이트 값: "+sql);
+//	        executeUpdate : 업데이트 하는 sql문 작성됨
+	        int rowCount = pst.executeUpdate();
+	        
+	        if (rowCount > 0) {
+	            System.out.println("조회수 증가 성공");
+	        } else {
+	        	System.out.println("조회수 증가 실패");
+	        }
+	        
+	        // 리소스 닫기
+	        pst.close();
+	        conn.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace(); 
+	    }
 	}
 
 }

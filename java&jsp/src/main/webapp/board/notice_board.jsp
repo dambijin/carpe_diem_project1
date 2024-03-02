@@ -238,6 +238,7 @@
 								class="change_handwriting request search_button" value="검색"
 								onclick="search_box()">
 						</div>
+						<form method="post" action="notice_board">
 						<table class="board_sub">
 							<tr>
 								<th class="board_subject">순번</th>
@@ -260,15 +261,18 @@
 							<tr>
 								<td><%=list.get(i).get("N_ID")%></td>
 								<td><%=list.get(i).get("LB_ID")%></td>
-								<td><a href="notice_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"><%=list.get(i).get("N_TITLE")%></a></td>
+								<td><a href="notice_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"><%=list.get(i).get("N_TITLE")%>
+								 <input type="hidden" name="title" value="<%=list.get(i).get("N_ID")%>"></a></td>
 								<td><%=list.get(i).get("M_PID")%></td>
 								<td><%=list.get(i).get("N_DATE").substring(0,10)%></td>
 								<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
 							</tr>
 							<%} %>
 						</table>
+						</form>
 					</div>
 					<div class="paging_writing">
+
 
 						<div class="writing">
 							<button class="change_handwriting request"

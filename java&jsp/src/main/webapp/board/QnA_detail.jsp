@@ -247,6 +247,7 @@
 	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
     List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
 	List<Map<String, String>> library = (List<Map<String, String>>) request.getAttribute("library_list");
+	List<Map<String, String>> update = (List<Map<String, String>>) request.getAttribute("update");
     
     Map<String, String> map = new HashMap<String, String>();
 %>
@@ -275,7 +276,7 @@
                             <td class="subject">등록일</td>
                             <td><%=result_list.get(0).get("N_DATE").substring(0,10)%></td>
                             <td class="subject">조회</td>
-                            <td class="inquiry"><%=result_list.get(0).get("N_VIEWCOUNT")%></td>
+                            <td class="inquiry"><%=update.get(0).get("N_VIEWCOUNT")%></td>
                         </tr>
                         <tr>
                             <td class="subject">도서관</td>
