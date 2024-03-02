@@ -28,6 +28,7 @@ public class mypage_loan_statusServlet extends HttpServlet {
 			throws ServletException, IOException {
 //		String id = request.getParameter("id");
 //		request.setAttribute("id2", id);
+
 		ArrayList<Map<String,String>> list = getLoan();
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member");
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");

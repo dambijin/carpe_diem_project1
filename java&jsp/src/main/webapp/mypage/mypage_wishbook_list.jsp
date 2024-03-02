@@ -29,7 +29,15 @@
             let button1 = document.getElementById('chginfo');
             let button3 = document.getElementById('cancle');
             let table = document.getElementById('page1')
-
+            
+        let case_value_opts = document.getElementById("case").options;
+        for(let i = 0; i< case_value_opts.length;i++)
+        {   
+            if(case_value_opts[i].value == '<%=request.getAttribute("perPage")%>') {
+            	case_value_opts.selectedIndex = i;
+                break;
+            }
+        }
             // 내정보 
 //             let myInfo = `
 //                     <strong>내정보</strong><br>
@@ -53,19 +61,19 @@
             });
 
             // 출력 개수
-            let case_list = ["10개", "20개", "30개"]
-            for (let i = 0; i < case_list.length; i++) {
-                let html = "";
-                let result_email_list = document.querySelector("#case")
+//             let case_list = ["10개", "20개", "30개"]
+//             for (let i = 0; i < case_list.length; i++) {
+//                 let html = "";
+//                 let result_email_list = document.querySelector("#case")
 
-                html += case_list[i];
+//                 html += case_list[i];
 
-                let opt = document.createElement("option");
-                opt.innerHTML = html;
+//                 let opt = document.createElement("option");
+//                 opt.innerHTML = html;
 
-                result_email_list.append(opt)
+//                 result_email_list.append(opt)
 
-            }
+//             }
             // 도서관 분류
 <%--            let libs_list = <%=DBConn.getlibraryNameAll()%>; --%>
 //             for (let i = 0; i < libs_list.length; i++) {
@@ -163,8 +171,101 @@
             let url = "http://localhost:8080/carpedm/wishbook_detail?w_id=" + w_id;
             window.open(url, "_blank", options);
         }
+        
+        //true일때 숫자, false일때 문자 테이블정렬함수
+		function sortTable(n, isNumeric) {
+		    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+		    table = document.getElementById("page1");
+		    switching = true;
+		    dir = "asc";
+		
+		    while (switching) {
+		        switching = false;
+		        rows = table.getElementsByTagName("tr");
+		
+		        for (i = 1; i < (rows.length - 1); i++) {
+		            shouldSwitch = false;
+		            x = rows[i].getElementsByTagName("td")[n];
+		            y = rows[i + 1].getElementsByTagName("td")[n];
+		
+		            var xContent = isNumeric ? Number(x.textContent.trim()) : x.textContent.trim();
+		            var yContent = isNumeric ? Number(y.textContent.trim()) : y.textContent.trim();
+		
+		            if (dir == "asc") {
+		                if (xContent > yContent) {
+		                    shouldSwitch = true;
+		                    break;
+		                }
+		            } else if (dir == "desc") {
+		                if (xContent < yContent) {
+		                    shouldSwitch = true;
+		                    break;
+		                }
+		            }
+		        }
+		        if (shouldSwitch) {
+		            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		            switching = true;
+		            switchcount++;
+		        } else {
+		            if (switchcount == 0 && dir == "asc") {
+		                dir = "desc";
+		                switching = true;
+		            }
+		        }
+		    }
+		}
+        
+        function redirectPage()
+        {
+			let perPage = document.getElementById("case").value;  
+//     	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
+
+    	    window.location.href = '/carpedm/mypage_wishbook_list?'
+    	    + '&page=' + "1"
+    	    + '&perPage=' + perPage;
+        }
     </script>
 <style>
+/* 페이지 */
+#paging {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+#paging .total {
+	font-weight: bold;
+}
+
+#paging .paging {
+	display: flex;
+}
+
+#paging .paging a, #paging .paging strong {
+	margin: 0 5px;
+	padding: 5px 10px;
+	border-radius: 5px;
+	text-decoration: none;
+	color: #333;
+}
+
+#paging .paging a {
+	background-color: #f8f8f8;
+}
+
+#paging .paging a.num.active {
+    color: blue;
+    font-size: 20px;
+    font-style: bold;
+}
+
+#paging .paging strong {
+	background-color: #007bff;
+	color: #fff;
 </style>
 </head>
 
@@ -217,22 +318,26 @@
 						<div>
 							<div id="select">
 								<div>
-									<select id="case">
-										<option disabled selected>출력 건수</option>
+									<select id="case" onchange="redirectPage()">
+										<option value=10>10개</option>
+										<option value=20>20개</option>
+										<option value=30>30개</option>
+										<option value=40>40개</option>
+										<option value=50>50개</option>
 									</select>
 								</div>
 							</div>
 							<div id="select1">
 								<div>
-									<select id="library">
-										<option disabled selected>- 도서관 전체</option>
-										<% ArrayList<Map<String,String>> library = (ArrayList<Map<String,String>>)request.getAttribute("library"); 
-							System.out.println(myInfo.size());
-								for(int i=0; i < library.size(); i++){
-							%>
-										<option><%=library.get(i).get("LB_NAME") %></option>
-										<%} %>
-									</select>
+<!-- 									<select id="library"> -->
+<!-- 										<option disabled selected>- 도서관 전체</option> -->
+<%-- 										<% ArrayList<Map<String,String>> library = (ArrayList<Map<String,String>>)request.getAttribute("library");  --%>
+<!-- // 							System.out.println(myInfo.size()); -->
+<!-- // 								for(int i=0; i < library.size(); i++){ -->
+<%-- 							%> --%>
+<%-- 										<option><%=library.get(i).get("LB_NAME") %></option> --%>
+<%-- 										<%} %> --%>
+<!-- 									</select> -->
 								</div>
 							</div>
 						</div>
@@ -241,16 +346,14 @@
 					</div>
 					<table id="page1">
 						<tr id="page1_tr">
-							<th>번호</th>
-							<th>희망소장처</th>
-							<th>자료명</th>
-							<th>저자</th>
-							<th>발행년도</th>
-
-							<th>신청사유</th>
-							<th>출판사</th>
-
-							<th>처리상태</th>
+							<th style="cursor:pointer;" onclick="sortTable(0,true)">번호</th>
+							<th style="cursor:pointer;" onclick="sortTable(1,false)">희망소장처</th>
+							<th style="cursor:pointer;" onclick="sortTable(2,false)">자료명</th>
+							<th style="cursor:pointer;" onclick="sortTable(3,false)">저자</th>
+							<th style="cursor:pointer;" onclick="sortTable(4,true)">발행년도</th>
+							<th style="cursor:pointer;" onclick="sortTable(5,false)">신청사유</th>
+							<th style="cursor:pointer;" onclick="sortTable(6,false)">출판사</th>
+							<th style="cursor:pointer;" onclick="sortTable(7,false)">처리상태</th>
 							<th>취소 <input type="checkbox" id="selectAll"></th>
 						</tr>
 
@@ -280,6 +383,51 @@
                          %>
 
 					</table>
+				</div>
+				<div id="paging">
+					<%
+					// 서블릿에서 불러온 페이징 정보
+					int total_count = (int)request.getAttribute("allcount");// 임시로 설정한 값
+					int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
+					int current_page = Integer.parseInt((String) request.getAttribute("page"));
+				    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
+
+					// 표시할 페이지의 범위 계산
+					int start_page = Math.max(current_page - 2, 1);
+					int end_page = Math.min(start_page + 4, total_pages);
+					start_page = Math.max(1, end_page - 4);
+					%>
+
+					<div class="total_count">
+						전체 : 총&nbsp;<%=total_count%>&nbsp;권
+					</div>
+					<div class="total">
+						<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
+					</div>
+					<div class="paging">
+						<%
+						if (current_page > 1) {
+						%>
+						<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" class="pre">◀</a>
+						<%
+						}
+						%>
+						<%
+						for (int i = start_page; i <= end_page; i++) {
+						%>
+						<a href="?page=<%=i%>&perPage=<%=perPage%>"
+							class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
+						<%
+						}
+						%>
+						<%
+						if (current_page < total_pages) {
+						%>
+						<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" class="next">▶</a>
+						<%
+						}
+						%>
+					</div>
 				</div>
 				<div id="button_cancle">
 					<button id="cancle">취소</button>

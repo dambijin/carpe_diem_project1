@@ -349,16 +349,16 @@ section {
         let search_opt_list_values = document.getElementById("search_opt_list").options;
         for(let i = 0; i< search_opt_list_values.length;i++)
         {   
-            if(search_opt_list.options[i].value == '<%=request.getAttribute("item")%>') {
-                search_opt_list.selectedIndex = i;
+            if(search_opt_list_values[i].value == '<%=request.getAttribute("item")%>') {
+            	search_opt_list_values.selectedIndex = i;
                 break;
             }
         }
         let result_filter1_values = document.getElementById("result_filter1").options;
         for(let i = 0; i< result_filter1_values.length;i++)
         {   
-            if(result_filter1.options[i].value == '<%=request.getAttribute("perPage")%>') {
-            	result_filter1.selectedIndex = i;
+            if(result_filter1_values[i].value == '<%=request.getAttribute("perPage")%>') {
+            	result_filter1_values.selectedIndex = i;
                 break;
             }
         }
@@ -366,8 +366,8 @@ section {
         let result_filter2_values = document.getElementById("result_filter2").options;
         for(let i = 0; i< result_filter2_values.length;i++)
         {   
-            if(result_filter2.options[i].value == '<%=request.getAttribute("okywd")%>') {
-            	result_filter2.selectedIndex = i;
+            if(result_filter2_values[i].value == '<%=request.getAttribute("okywd")%>') {
+            	result_filter2_values.selectedIndex = i;
                 break;
             }
         }
@@ -444,7 +444,8 @@ section {
 	    for (let i = 0; i < checkboxes.length; i++) {
 	        libraryIdsParam += '&libraryIds='+ checkboxes[i].value;
 	    }
-	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
+// 	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
+	    let currentPage = "1";
 
 	    window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)
 	    + '&item=' + selectbox.value
@@ -590,7 +591,7 @@ section {
 			int total_count = Integer.parseInt((String) request.getAttribute("book_count"));// 임시로 설정한 값
 			int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
 			int current_page = Integer.parseInt((String) request.getAttribute("page"));
-			int total_pages = (int) Math.ceil((double) total_count / perPage);
+		    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
 
 			// 표시할 페이지의 범위 계산
 			int start_page = Math.max(current_page - 2, 1);
@@ -608,14 +609,14 @@ section {
 				<%
 				if (current_page > 1) {
 				%>
-				<a href="?page=<%=current_page - 1%>" class="pre">◀</a>
+				<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" class="pre">◀</a>
 				<%
 				}
 				%>
 				<%
 				for (int i = start_page; i <= end_page; i++) {
 				%>
-				<a href="?page=<%=i%>"
+				<a href="?page=<%=i%>&perPage=<%=perPage%>"
 					class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
 				<%
 				}
@@ -623,7 +624,7 @@ section {
 				<%
 				if (current_page < total_pages) {
 				%>
-				<a href="?page=<%=current_page + 1%>" class="next">▶</a>
+				<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" class="next">▶</a>
 				<%
 				}
 				%>

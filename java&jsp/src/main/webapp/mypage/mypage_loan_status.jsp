@@ -41,7 +41,7 @@
 
             // 정보수정 클릭시 페이지 이동
             button1.addEventListener('click', function () {
-                window.open('http://localhost:8080/carpedm/mypage_chginfo', '_self')
+                window.open('/carpedm/mypage_chginfo', '_self')
 
             });
 
@@ -134,9 +134,7 @@
 					<!-- 내정보 -->
 					<div class="div1">
 						<table class="div1_table">
-
 							<tr>
-
 								<td class="info1">
 								<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
 							System.out.println(myInfo.size());
@@ -149,7 +147,7 @@
 								<% String loanstate_text = "대출가능";
 								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
 								{
-									loanstate_text = "대출불가";
+									loanstate_text = myInfo.get(0).get("M_LOANSTATE")+"일 연체상태";
 								}
 								%>
 								대출가능여부 : <%=loanstate_text%>

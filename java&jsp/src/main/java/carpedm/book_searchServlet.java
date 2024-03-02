@@ -143,7 +143,7 @@ public class book_searchServlet extends HttpServlet {
 		ArrayList<Map<String, String>> book_list = getDBList(query);
 		String book_count = getDBList(countQuery).get(0).get("COUNT(*)");
 //		System.out.println(book_count);
-
+		
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("item", item);
 		request.setAttribute("page", page);
