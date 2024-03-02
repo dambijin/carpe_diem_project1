@@ -18,6 +18,27 @@
 <title>공지사항 글쓰기</title>
 <link href="/carpedm/css/layout.css" rel="stylesheet">
 
+<script>
+	window.addEventListener("load", function() {
+
+		// 파일첨부
+		document.querySelector("#upload_file").addEventListener("change",
+				function(changeEvent) {
+					// 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
+					// 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
+					// 여기서는 첫 번째 파일만 사용하므로 'files[0]'을 선택합니다.
+					var imgFile = changeEvent.target.files[0];
+
+					// 파일 경로를 표시할 요소를 선택합니다.
+					var fileName = document.getElementById("file_route");
+
+					// 선택한 요소의 값에 파일 이름을 설정합니다.
+					// 이렇게 하면 사용자가 선택한 파일의 이름이 웹 페이지에 표시됩니다.
+					fileName.value = imgFile.name;
+				});
+	});
+</script>
+
 <style>
 /* section */
 .notice_update section {
@@ -133,135 +154,88 @@
 	font-size: 18px;
 }
 </style>
-
-<script>
-	window.addEventListener("load", function() {
-
-// 		let libs_list = [ "천안도서관", "두정도서관", "아우내도서관" ];
-// 		let libs_list_box = document.querySelector("#library");
-
-// 		for (let i = 0; i < libs_list.length; i++) {
-// 			libs_list_box.innerHTML += "<option>" + libs_list[i] + "</option>";
-// 		}
-
-		// 등록 버튼
-// 		document.querySelector("#completion").addEventListener(
-// 				'click',
-// 				function() {
-// 					//제목
-// 					let title = document.querySelector("#notice_write_title");
-// 					//작성자
-// // 					let writer = "admin";
-// 					//소속도서관
-// 					let lib = document.querySelector("#library");
-// 					let lib_text = lib.options[lib.selectedIndex].value;
-// 					//첨부파일
-// 					let attach = document.querySelector("#file_route");
-// 					//내용
-// 					let cont_text = document.querySelector(".td1 textarea");
-
-// 					if (title.value != "" && lib_text != ""
-// 							&& cont_text.value != "") {
-// 						alert("등록이 완료되었습니다.");
-// 						location.href = "notice_board";
-// 					} else {
-// 						alert("첨부파일을 제외한 모든 내용을 작성해주세요.")
-// 					}
-
-// 				});
-		// 파일첨부
-		document.querySelector("#upload_file").addEventListener("change",
-				function(changeEvent) {
-					// 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
-					// 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
-					// 여기서는 첫 번째 파일만 사용하므로 'files[0]'을 선택합니다.
-					var imgFile = changeEvent.target.files[0];
-
-					// 파일 경로를 표시할 요소를 선택합니다.
-					var fileName = document.getElementById("file_route");
-
-					// 선택한 요소의 값에 파일 이름을 설정합니다.
-					// 이렇게 하면 사용자가 선택한 파일의 이름이 웹 페이지에 표시됩니다.
-					fileName.value = imgFile.name;
-				});
-	});
-</script>
 </head>
 
 <body>
 	<header></header>
-<%
+	<%
 	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
-	 Map<String, String> map = new HashMap<String, String>();
-%>
+	Map<String, String> map = new HashMap<String, String>();
+	%>
 	<div class="notice_update">
+
 		<section>
 			<!-- 여기부터 본문작성해주세요 -->
-			<div class="s_section">
-				<div class="left_section">
-					<button type="button" class="sub_but"
-						onclick="location.href='notice_board';">공지사항</button>
-					<br>
-					<button type="button" class="sub_but"
-						onclick="location.href='QnA_board';">Q&A</button>
-					<br>
-					<button type="button" class="sub_but"
-						onclick="location.href='wishbook_add';">희망도서신청</button>
-				</div>
-				<form method="post" action="notice_write">
-				<div class="right_section">
-				
-					<div class="notice_update_name">공지사항 글쓰기</div>
-					<div class="notice_table">
-					
-						<table class="table_table">
-							<tr>
-								<td class="sub">제목</td>
-								<td class="text"><input type="text" id="notice_write_title" name="title"></td>
-							</tr>
-							<tr>
-								<td class="sub">작성자</td>
-								<td class="text"></td>
-							</tr>
-							<tr>
-								<td class="sub">소속도서관</td>
-								<td class="text"><select class="textbox" id="library"  name="library">
-								<%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
-
-				for (int i = 0; i < library_list.size(); i++) {
-				%>
-    				<option value="<%= library_list.get(i).get("LB_ID")%>"><%= library_list.get(i).get("LB_NAME") %></option>
-				<% } %>
-								</select></td>
-							</tr>
-							<tr>
-								<td class="sub">첨부파일</td>
-								<td class="text"><input type="text" id="file_route"
-									disabled="disabled" value="" name="n_file"> <label for="upload_file"
-									class="btn" id="file_upload">파일첨부</label> <input type="file"
-									id="upload_file" required=true
-									style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
-							</tr>
-						</table>
-						
-
+			<form method="post" action="notice_write">
+				<div class="s_section">
+					<div class="left_section">
+						<button type="button" class="sub_but"
+							onclick="location.href='notice_board';">공지사항</button>
+						<br>
+						<button type="button" class="sub_but"
+							onclick="location.href='QnA_board';">Q&A</button>
+						<br>
+						<button type="button" class="sub_but"
+							onclick="location.href='wishbook_add';">희망도서신청</button>
 					</div>
-					<div class="td1">
-						<textarea name="n_textarea"></textarea>
-					</div>
-					<div class="div_buttonAll">
-						<div class="div_button">
-							<button type="submit" class="but" id="completion" value="submit"
-							>등록</button>
+
+					<div class="right_section">
+
+						<div class="notice_update_name">공지사항 글쓰기</div>
+						<div class="notice_table">
+
+							<table class="table_table">
+								<tr>
+									<td class="sub">제목</td>
+									<td class="text"><input type="text"
+										id="notice_write_title" name="title"></td>
+								</tr>
+								<tr>
+									<td class="sub">작성자</td>
+									<td class="text"></td>
+								</tr>
+								<tr>
+									<td class="sub">소속도서관</td>
+									<td class="text"><select class="textbox" id="library"
+										name="library">
+											<%
+											ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
+
+											for (int i = 0; i < library_list.size(); i++) {
+											%>
+											<option value="<%=library_list.get(i).get("LB_ID")%>"><%=library_list.get(i).get("LB_NAME")%></option>
+											<%
+											}
+											%>
+									</select></td>
+								</tr>
+								<tr>
+									<td class="sub">첨부파일</td>
+									<td class="text"><input type="text" id="file_route"
+										disabled="disabled" value="" name="n_file"> <label
+										for="upload_file" class="btn" id="file_upload">파일첨부</label> <input
+										type="file" id="upload_file" required=true
+										style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
+								</tr>
+							</table>
 						</div>
-					
+						<div class="td1">
+							<textarea name="n_textarea"></textarea>
+						</div>
+						<div class="div_buttonAll">
+							<div class="div_button">
+								<button type="submit" class="but" id="completion" value="submit">등록</button>
+							</div>
+
+
+						</div>
 
 					</div>
 
 				</div>
 			</form>
-			</div>
 		</section>
+
 	</div>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header.js"></script>

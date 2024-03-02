@@ -70,11 +70,40 @@ public class NoticeBoardServlet extends HttpServlet {
 //		가져올 데이터 값의 쿼리문
 		String notice = "";
 		notice += "SELECT * FROM notice where n_opt=0 order by n_id desc";
-		
 		ArrayList<Map<String,String>> list = getDBList(notice);
-
 		request.setAttribute("list", list);
 
+		
+		
+//		관리자 Y인지 N인지 설정하기
+		String M_PID = "10"; // 8 : 관리자아님, 10 : 관리자
+		String query = "";
+		query += "SELECT * FROM member where ";
+		query += "M_PID = ";
+		query += M_PID;
+		
+		System.out.println("MEMBER테이블 쿼리: " + query);
+		ArrayList<Map<String, String>> mem = getDBList(query);
+
+		request.setAttribute("mem", mem);
+		
+		
+//		멤버 가져오기
+		String manager = "";
+		if (mem != null && !mem.isEmpty()) {
+			for (int i = 0; i < mem.size(); i++) {
+				Map<String, String> row = mem.get(i);
+				manager = row.get("M_MANAGERCHK");
+				System.out.println("manager 값: " + manager);
+			}
+		}
+		
+		request.setAttribute("manager", manager);
+		
+        response.setContentType("text/plain");
+        response.setCharacterEncoding("UTF-8");
+
+        
         
         
 //      board/notice_board.jsp 파일을 이어줌
@@ -117,44 +146,7 @@ public class NoticeBoardServlet extends HttpServlet {
 		return result_list;
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			request.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=utf-8;");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	
-		TitleClick(request, response);
-	}
-	
-	private void TitleClick(HttpServletRequest request , HttpServletResponse response) {
-		String title_id = request.getParameter("title");
-		try {
-	        // 데이터 베이스 연결
-	        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-	        
-	        String sql = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
-	        
-	        PreparedStatement pst = conn.prepareStatement(sql);
-	        pst.setString(1, title_id);
-	        System.out.println("title_id 값: "+title_id);
-	        System.out.println("카운트업데이트 값: "+sql);
-//	        executeUpdate : 업데이트 하는 sql문 작성됨
-	        int rowCount = pst.executeUpdate();
-	        
-	        if (rowCount > 0) {
-	            System.out.println("조회수 증가 성공");
-	        } else {
-	        	System.out.println("조회수 증가 실패");
-	        }
-	        
-	        // 리소스 닫기
-	        pst.close();
-	        conn.close();
-	    } catch (SQLException e) {
-	        e.printStackTrace(); 
-	    }
-	}
-
 }
+	
+	
+	

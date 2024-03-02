@@ -137,7 +137,7 @@ public class NoticeDetailServlet extends HttpServlet {
 		request.setAttribute("library_list", library_list);
 		
 		
-		
+//		VIEWCONT 늘리기 코드
 		String notice_id= "";
 		if (notice != null && !notice.isEmpty()) {
 			for (int i = 0; i < notice.size(); i++) {

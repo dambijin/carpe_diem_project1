@@ -16,10 +16,24 @@
 <title>공지사항</title>
 <link href="/carpedm/css/layout.css" rel="stylesheet">
 <script>
+window.onload = function() {
+    // 서버에서 받은 M_MANAGERCHK 값
+    var mManagerChk = "<%=request.getAttribute("manager")%>"; 
+//     console.log(mManagerChk);
+    var wbut = document.querySelector("#writebut");
+    // M_MANAGERCHK 값이 "Y"인 경우 버튼을 표시, 그 외의 경우에는 버튼을 숨김
+    if (mManagerChk == "Y") {
+        wbut.style.display = "block";
+    } else {
+        wbut.style.display = "none";
+    }
+
+    };
+	
 	window.addEventListener("load", function() {
 		select();
-		search();
-
+		
+		  
 		// 도서검색 버튼 엔터이벤트
 		let textbox = document.getElementById("searchbox");
 		// Enter 키 이벤트 리스너 추가
@@ -30,7 +44,15 @@
 				search_box(); // 검색 함수 호출
 			}
 		});
+		
+		
+		
+		
+	
+
+
 	});
+
 
 	function search_box() {
 		let textbox = document.getElementById("searchbox");
@@ -42,32 +64,6 @@
 
 		}
 
-	};
-
-	function search() {
-		// 검색 input
-		let input = document.querySelector(".search_input")
-
-		// 게시판 테이블
-		let board_sub = document.querySelector(".board_sub")
-
-		for (let i = 1; i < ntitle.length; i++) {
-			let html = '';
-			html += '<td>' + i + '</td>';
-			html += '<td></td>';
-			html += '<td>'
-			html += '<a href="notice_detail.jsp" class="table_a">';
-			html += ntitle[i];
-			html += '</a>';
-			html += '</td>';
-			html += '<td></td>';
-			html += '<td></td>';
-			html += '<td></td>';
-
-			let tr = document.createElement("tr");
-			tr.innerHTML = html;
-			board_sub.append(tr);
-		}
 	};
 
 	function select() {
@@ -274,8 +270,8 @@
 					<div class="paging_writing">
 
 
-						<div class="writing">
-							<button class="change_handwriting request"
+						<div class="writing" id="writebut">
+							<button class="change_handwriting request" 
 								onclick="location.href='notice_write';">글쓰기</button>
 							<!-- <button class="btn">임시버튼</button> -->
 						</div>
