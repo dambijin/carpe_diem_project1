@@ -315,6 +315,7 @@ section {
 </style>
 </head>
 
+
 <script>
     window.addEventListener("load", function () {
 
@@ -384,11 +385,7 @@ section {
         {
             if(libraryIds.includes(libs_filter_values[i].value)) {//포함되어있으면 체크!
                 libs_filter_values[i].click();
-                console.log("외안댐?");
-            }
-            else{
-            	console.log("외");
-            }
+            }            
         }
 
     })
@@ -406,7 +403,6 @@ section {
     }
 
     function openBookDetail(b_id) {
-
         // 쿼리 문자열을 URL에 추가하여 새 창을 열기
         window.open('book_detail?id='+b_id ,"", "width=900,height=600");
     }
@@ -414,9 +410,13 @@ section {
 
     //예약기능
 	function reservation(b_id) {
+		<%		  // 세션에서 현재 아이디값 가져오기
+		HttpSession getSession = request.getSession();
+		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		%>
 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
-	    let data = 'b_id=' + encodeURIComponent(b_id);
+	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
 		//dopost로 보내기위한 코드
 	    fetch(url, {
 	      method: 'POST',

@@ -6,6 +6,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -411,6 +412,11 @@ nav .inner .inner-list img {
 	    content += "<h3>전화번호</h3>"+library_list_js[sel].lb_tel+"<br><br>";
 	    document.querySelector('.text_detail').innerHTML = content;
 	};
+	
+	<%		  // 세션에서 현재 아이디값 가져오기
+	HttpSession getSession = request.getSession();
+	String m_pid = (String) getSession.getAttribute("m_pid");
+	%>
 </script>
 </head>
 
@@ -542,6 +548,8 @@ nav .inner .inner-list img {
 					</script>
 			</div>
 		</div>
+
+
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header.js"></script>

@@ -140,54 +140,74 @@
                 } else if(userpw == "") {
                     alert("비밀번호를 입력해주세요.");
                     document.querySelector('.textbox2').focus();
-                } else {
-                    console.log("아이디:", userid);
-                    console.log("비밀번호:", userpw);
-                    <%		
-                    List<Map<String, String>> idpw_list = (List<Map<String, String>>) request.getAttribute("idpw_list");
-                    %>
-
-                    let found = false;
-                    <% for (Map<String, String> idpw : idpw_list) { %>
-                        if ("<%= idpw.get("id") %>" === userid && "<%= idpw.get("pw") %>" === userpw) {
-                            console.log("로그인 성공");
-                            alert("로그인 성공")
-                            found = true;
-                            onclick(location.href='main')
-                        
+                 }else {
+                    // 로그인 요청 보내기
+                    fetch('/carpedm/sign_in', {
+                        method: 'POST',
+                        headers: {
+                        	'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `userid=${"${encodeURIComponent(userid)}"}&userpw=${"${encodeURIComponent(userpw)}"}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("로그인 성공");
+                            location.href = 'main'; // 메인 페이지로 이동
+                        } else {
+                            alert("아이디 또는 비밀번호가 잘못되었습니다.");
                         }
-                            
-                    <% } %>
+                    });
+                }
+                //else {
+//                     console.log("아이디:", userid);
+//                     console.log("비밀번호:", userpw);
+<%--                     <%		 --%>
+//                     List<Map<String, String>> idpw_list = (List<Map<String, String>>) request.getAttribute("idpw_list");
+<%--                     %> --%>
 
-                    if (!found) {
-                    	console.log("아이디 또는 비밀번호가 잘못되었습니다.")
-                        alert("아이디 또는 비밀번호가 잘못되었습니다.");
+//                     let found = false;
+<%--                     <% for (Map<String, String> idpw : idpw_list) { %> --%>
+<%--                         if ("<%= idpw.get("id") %>" === userid && "<%= idpw.get("pw") %>" === userpw) { --%>
+//                             console.log("로그인 성공");
+//                             alert("로그인 성공")
+//                             found = true;
+//                             onclick(location.href='main')
+                        
+//                         }
+                            
+<%--                     <% } %> --%>
+
+//                     if (!found) {
+//                     	console.log("아이디 또는 비밀번호가 잘못되었습니다.")
+//                         alert("아이디 또는 비밀번호가 잘못되었습니다.");
                     	
-                    }
-                    // 로그인 처리 또는 다른 작업 수행
-                    // onclick(location.href='../mainpages/main.jsp')
-                }
+//                     }
+//                     // 로그인 처리 또는 다른 작업 수행
+//                     // onclick(location.href='../mainpages/main.jsp')
+//                 }
         
-            let textbox1 = document.getElementById("text_id");
-            // Enter 키 이벤트 리스너 추가
-            textbox1.addEventListener("keydown", function (event) {
-                // keyCode 13은 Enter 키를 나타냅니다
-                if (event.keyCode === 13) {
-                    
-                    button.click();
-                    
-                }
-            });
-            let textbox2 = document.getElementById("text_pass");
-            // Enter 키 이벤트 리스너 추가
-            textbox2.addEventListener("keydown", function (event) {
-                // keyCode 13은 Enter 키를 나타냅니다
-                if (event.keyCode === 13) {
-                    
-                    button.click();
-                    
-                }
-            });
+
+        });        
+        let textbox1 = document.getElementById("text_id");
+        // Enter 키 이벤트 리스너 추가
+        textbox1.addEventListener("keydown", function (event) {
+            // keyCode 13은 Enter 키를 나타냅니다
+            if (event.keyCode === 13) {
+                
+                button.click();
+                
+            }
+        });
+        let textbox2 = document.getElementById("text_pass");
+        // Enter 키 이벤트 리스너 추가
+        textbox2.addEventListener("keydown", function (event) {
+            // keyCode 13은 Enter 키를 나타냅니다
+            if (event.keyCode === 13) {
+                
+                button.click();
+                
+            }
         });
         $(document).ready(function(){
             // 페이지 로드 시 쿠키에 저장된 아이디 값을 가져와서 입력칸에 표시

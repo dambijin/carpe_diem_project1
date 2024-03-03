@@ -232,7 +232,6 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 10px;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 }
@@ -350,11 +349,11 @@
 							<th style="cursor:pointer;" onclick="sortTable(1,false)">희망소장처</th>
 							<th style="cursor:pointer;" onclick="sortTable(2,false)">자료명</th>
 							<th style="cursor:pointer;" onclick="sortTable(3,false)">저자</th>
-							<th style="cursor:pointer;" onclick="sortTable(4,true)">발행년도</th>
-							<th style="cursor:pointer;" onclick="sortTable(5,false)">신청사유</th>
-							<th style="cursor:pointer;" onclick="sortTable(6,false)">출판사</th>
-							<th style="cursor:pointer;" onclick="sortTable(7,false)">처리상태</th>
-							<th>취소 <input type="checkbox" id="selectAll"></th>
+<!-- 							<th style="cursor:pointer;" onclick="sortTable(4,true)">발행년도</th> -->
+<!-- 							<th style="cursor:pointer;" onclick="sortTable(5,false)">신청사유</th> -->
+							<th style="cursor:pointer;" onclick="sortTable(4,false)">출판사</th>
+							<th style="cursor:pointer;" onclick="sortTable(5,false)">처리상태</th>
+							<th>전체선택<input type="checkbox" id="selectAll"></th>
 						</tr>
 
 						<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 
@@ -365,13 +364,11 @@
 						<tr class="tr">
 							<td><%=i+1 %></td>
 							<td><%=list.get(i).get("lb_name") %></td>
-							<td><a href=""
-								onclick="popup('<%=list.get(i).get("w_id") %>')"> <%=list.get(i).get("w_title") %>
+							<td><a href="javacsript:void(0);" onclick="popup('<%=list.get(i).get("w_id") %>')"> <%=list.get(i).get("w_title") %>
 							</a></td>
 							<td><%=list.get(i).get("w_author") %></td>
-							<td><%=list.get(i).get("w_pubyear") %></td>
-
-							<td><%=list.get(i).get("w_content") %></td>
+<%-- 							<td><%=list.get(i).get("w_pubyear") %></td> --%>
+<%-- 							<td><%=list.get(i).get("w_content") %></td> --%>
 							<td><%=list.get(i).get("w_publisher") %></td>
 
 							<td>정상</td>
@@ -383,7 +380,11 @@
                          %>
 
 					</table>
+					<div id="button_cancle">
+						<button id="cancle">취소</button>
+					</div>
 				</div>
+
 				<div id="paging">
 					<%
 					// 서블릿에서 불러온 페이징 정보
@@ -401,9 +402,7 @@
 					<div class="total_count">
 						전체 : 총&nbsp;<%=total_count%>&nbsp;권
 					</div>
-					<div class="total">
-						<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
-					</div>
+
 					<div class="paging">
 						<%
 						if (current_page > 1) {
@@ -428,10 +427,11 @@
 						}
 						%>
 					</div>
+					<div class="total">
+						<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
+					</div>
 				</div>
-				<div id="button_cancle">
-					<button id="cancle">취소</button>
-				</div>
+		
 			</div>
 		</div>
 	</section>

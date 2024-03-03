@@ -1,139 +1,139 @@
-section{
-    width: 100%;
-    margin: auto;
-    font-family: "Wanted Sans Variable";
+section {
+	width: 100%;
+	margin: auto;
+	font-family: "Wanted Sans Variable";
 }
 
 .div1 {
-    /* width: 800px; */
-    margin: auto;
-    width: 100%;
-   
-}
-.div1_table{
-    margin: auto;
-    width: 100%;
-    margin : 0px 0px 0px 0px;
-    display: inline-block;
+	/* width: 800px; */
+	margin: auto;
+	width: 100%;
 }
 
+.div1_table {
+	margin: auto;
+	width: 100%;
+	margin: 0px 0px 0px 0px;
+	display: inline-block;
+}
 
 .info1 {
-    border: 1px solid rgb(190, 187, 187);
-    border-radius: 10px;
-    width : 100%;
+	border: 1px solid rgb(190, 187, 187);
+	border-radius: 10px;
+	width: 100%;
 }
 
 #button {
-    border: 1px solid white;
-    font-family: "Wanted Sans Variable";
+	border: 1px solid white;
+	font-family: "Wanted Sans Variable";
 }
 
 #select {
-    width : 49%;
-    margin-top: 10px;
-    margin-bottom: 10px; 
-    display: inline-block;
-    position: relative;
-   
-   
+	width: 49%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	display: inline-block;
+	position: relative;
 }
+
 #select1 {
-    width : 49%;
-    margin-top: 10px;
-    margin-bottom: 10px; 
-    text-align: right;
-    display: inline-block;
-  
-    
+	width: 49%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: right;
+	display: inline-block;
 }
+
 #select2 {
-    width : 100%;
-    margin-top: 10px;
-    margin-bottom: 10px; 
-    text-align: right;
-    display: inline-block;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: right;
+	display: inline-block;
 }
+
 #page1 {
-    border: 1px solid black;
-    text-align: center;
-    /* width: 800px; */
-    width: 100%;
-    font-size: 18px;
-    border-collapse: collapse;
+	border: 1px solid black;
+	text-align: center;
+	/* width: 800px; */
+	width: 100%;
+	font-size: 18px;
+	border-collapse: collapse;
 }
 
 #page1_tr {
-    background-color: rgba(168, 156, 200, 0.6);
-    height: 30px;
-    font-family: "Wanted Sans Variable";
-    font-size: 10px;
+	background-color: rgba(168, 156, 200, 0.6);
+	height: 30px;
+	font-family: "Wanted Sans Variable";
+	font-size: 10px;
 }
+
 .paging {
-    
-    text-align: center;
-    margin: 20px auto;
-    text-decoration: none;
-    font-size: 20px;
+	text-align: center;
+	margin: 20px auto;
+	text-decoration: none;
+	font-size: 20px;
 }
 
 #chginfo {
-    padding: 20px 10px;
-    
+	padding: 20px 10px;
 }
 
 .extention {
-    padding: 2px 20px;
+	padding: 2px 20px;
 }
 
 .right_section button {
-    font-family: "Wanted Sans Variable";
-    background-color: rgba(155, 178, 225, 0.6);
-    border-radius: 6px;
-    border: 0px; 
-    font-weight: bold;
-    border-radius: 5px;
-
+	font-family: "Wanted Sans Variable";
+	background-color: rgba(155, 178, 225, 0.6);
+	border-radius: 6px;
+	border: 0px;
+	font-weight: bold;
+	border-radius: 5px;
 }
+
 #button_cancle {
-    
-    text-align: right;
-    width: 100%;
-   
-
+	text-align: right;
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
+
 .tr {
-    border-bottom : 1px solid black;
-    border-top : 1px solid black;
-    height : 40px;
-    font-family: "Wanted Sans Variable";
-    font-size: 15px;
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+	height: 40px;
+	font-family: "Wanted Sans Variable";
+	font-size: 15px;
 }
-select{
-    font-family: "Wanted Sans Variable";
-    font-size: 15px;
+
+select {
+	font-family: "Wanted Sans Variable";
+	font-size: 15px;
 }
+
 .notice_subject {
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-    margin : 10px auto;
+	font-size: 30px;
+	font-weight: bold;
+	text-align: center;
+	margin: 10px auto;
 }
-.s_section2{
-    text-align: center;
-    width: 85%;
-    margin: auto;
+
+.s_section2 {
+	text-align: center;
+	width: 85%;
+	margin: auto;
 }
-button:hover{
-    background-color: rgba(205, 155, 225, 0.6);
+
+button:hover {
+	background-color: rgba(205, 155, 225, 0.6);
 }
-#cancle{
-    margin-top: 20px;
-    width: 100px;
-    height: 30px;
+
+#cancle {
+	width: 100px;
+	height: 30px;
 }
+
 .bookname {
-    text-decoration: none;
+	text-decoration: none;
 }
-
-

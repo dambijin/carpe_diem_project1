@@ -1,3 +1,35 @@
+function isLoggedIn() {
+    // 예를 들어, 쿠키에 'login'이라는 이름의 값이 있는지 확인합니다.
+    return document.cookie.includes('lc=');
+// return true;
+}
+let loginSection;
+if(isLoggedIn()) {
+	loginSection = `
+	<div class="sign_up_in">
+		<div class="sign_up">
+			<a href="/carpedm/logout">
+				로그아웃&nbsp;
+			</a>
+		</div>
+	</div>`;
+}
+else {
+	loginSection = `
+	<div class="sign_up_in">
+		<div class="sign_in">
+			<a href="/carpedm/sign_in">
+				로그인&nbsp;
+			</a>
+		</div>
+		<div class="sign_up">
+			<a href="/carpedm/sign_up">
+				회원가입
+			</a>
+		</div>
+	</div>`;
+}
+
 document.querySelector('header').innerHTML = `
     <div class="blank_space"> </div>
 
@@ -6,18 +38,7 @@ document.querySelector('header').innerHTML = `
     src="/carpedm/resource/logo.png">
         도서관리시스템
     </div>
-    <div class="sign_up_in">
-        <div class="sign_in">
-            <a href="/carpedm/sign/sign_in.jsp">
-                로그인&nbsp;
-            </a>
-        </div>
-        <div class="sign_up">
-            <a href="/carpedm/sign/sign_up.jsp">
-                회원가입
-            </a>
-        </div>
-    </div>
+	${loginSection}
 
 
     <div class="nav">

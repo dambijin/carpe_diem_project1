@@ -162,7 +162,17 @@ public class book_searchServlet extends HttpServlet {
 		String b_id = request.getParameter("b_id");
 		System.out.println(b_id);
 		String query = "UPDATE book SET b_resstate = 'N' WHERE b_id = " + b_id;
-		System.out.println("변경된 행 수:" + setDBList(query));
+		
+		int successRow = setDBList(query);
+		System.out.println("변경된 행 수:" + successRow);
+		if(successRow > 0)
+		{
+			String m_pid = request.getParameter("m_pid");
+			System.out.println(m_pid);
+			System.out.println("추가된 행 수:"+setDBList("INSERT INTO reservation (r_id, b_id, r_resdate, r_resstate, m_pid)"
+					+ " VALUES (reservation_seq.NEXTVAL,"+b_id+",SYSDATE, 0,"+m_pid+")"));
+		}
+
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		// 완료하고 결과값을 보내기 위해
