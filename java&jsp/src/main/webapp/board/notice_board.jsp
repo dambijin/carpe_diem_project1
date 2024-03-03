@@ -67,7 +67,7 @@ window.onload = function() {
 	};
 
 	function select() {
-		let search = [ "제목", "관할도서관" ];
+		let search = [ "제목", "제목+내용","관할도서관" ];
 		let search_box = document.querySelector("#searchselect");
 
 		for (let i = 0; i < search.length; i++) {
@@ -228,9 +228,9 @@ window.onload = function() {
 
 					<div class="board">
 						<div id="select">
-							<select class="change_handwriting" id="searchselect">
+							<select class="change_handwriting" id="searchselect" name="n_search">
 							</select> <input type="text" class="change_handwriting search_input"
-								id="searchbox"> <input type="button"
+								id="searchbox"> <input type="button" name="s_box"
 								class="change_handwriting request search_button" value="검색"
 								onclick="search_box()">
 						</div>
@@ -256,10 +256,10 @@ window.onload = function() {
 							%>
 							<tr>
 								<td><%=list.get(i).get("N_ID")%></td>
-								<td><%=list.get(i).get("LB_ID")%></td>
+								<td name="lb_name"><%=list.get(i).get("LB_NAME")%></td>
 								<td><a href="notice_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"><%=list.get(i).get("N_TITLE")%>
 								 <input type="hidden" name="title" value="<%=list.get(i).get("N_ID")%>"></a></td>
-								<td><%=list.get(i).get("M_PID")%></td>
+								<td><%=list.get(i).get("M_NAME")%></td>
 								<td><%=list.get(i).get("N_DATE").substring(0,10)%></td>
 								<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
 							</tr>

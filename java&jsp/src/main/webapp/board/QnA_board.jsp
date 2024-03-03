@@ -288,7 +288,7 @@
 								</td>
 								<td>
 								<a href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"><%=list.get(i).get("N_TITLE")%></a></td>
-								<td><%=list.get(i).get("M_PID")%></td>
+								<td><%=list.get(i).get("M_NAME")%></td>
 								<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
 								<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
 							</tr>

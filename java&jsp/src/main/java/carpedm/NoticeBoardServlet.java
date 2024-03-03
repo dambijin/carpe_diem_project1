@@ -53,15 +53,9 @@ public class NoticeBoardServlet extends HttpServlet {
 //		---------------------------------------------------------------------
 //		제목을 눌렀을때 QnA_detail.jsp로 넘어가기 만들기
 		
-//		notice_board.jsp의 
-//		<a href="notice_detail?N_ID=<%=list.get(i).get("N_ID")%>" 
-//		class="table_a"><%=list.get(i).get("N_TITLE")%></a>
-//		이 a태그에서 notice_detail?N_ID  << N_ID를 넣기위해 만듬
-//		? 다음 들어올 이름이 "N_ID"인것
 		String nid_list = request.getParameter("N_ID");
 //		만약 N_ID가 null이거나 비어있다면
-		if(nid_list == null || "".equals(nid_list))
-		{
+		if(nid_list == null || "".equals(nid_list)){
 			nid_list="";
 		}
 		request.setAttribute("N_ID", nid_list);
@@ -69,10 +63,56 @@ public class NoticeBoardServlet extends HttpServlet {
 		
 //		가져올 데이터 값의 쿼리문
 		String notice = "";
-		notice += "SELECT * FROM notice where n_opt=0 order by n_id desc";
+		notice += " SELECT notice.*, library.LB_NAME, member.M_NAME";
+		notice += " FROM notice";
+		notice += " INNER JOIN LIBRARY ON notice.LB_ID = library.LB_ID";
+		notice += " INNER JOIN MEMBER ON notice.M_PID = member.M_PID";
+		notice += " WHERE n_opt = 0";
+		notice += " ORDER BY n_id DESC";
+
+
 		ArrayList<Map<String,String>> list = getDBList(notice);
 		request.setAttribute("list", list);
-
+		
+		String search_select=request.getParameter("n_search"); // 셀렉트문 선택될때
+		String search_box=request.getParameter("s_box"); // 인풋내용
+		Connection conn = getConnection();
+		if(search_select.equals("제목")) {
+			String select_sql ="";
+			select_sql += "SELECT * FROM notice";
+			select_sql += " WHERE N_TITLE LIKE '%?%'";
+			PreparedStatement ps;
+			try {
+				ps = conn.prepareStatement(select_sql);
+				ps.setString(1, search_box);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else if(search_select.equals("제목+내용")) {
+			String select_sql ="";
+			select_sql += " SELECT * FROM notice";
+			select_sql += " WHERE N_TITLE LIKE '%?%' OR N_CONTENT LIKE '%?%'";
+			PreparedStatement ps;
+			try {
+				ps = conn.prepareStatement(select_sql);
+				ps.setString(1, search_box);
+				ps.setString(2, search_box);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else if(search_select.equals("관할도서관")) {
+			String select_sql ="";
+			select_sql += "SELECT * FROM LIBRARY";
+			select_sql += " WHERE LB_NAME LIKE '%?%'";
+			PreparedStatement ps;
+			try {
+				ps = conn.prepareStatement(select_sql);
+				ps.setString(1, search_box);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		
 		
 //		관리자 Y인지 N인지 설정하기
@@ -82,7 +122,7 @@ public class NoticeBoardServlet extends HttpServlet {
 		query += "M_PID = ";
 		query += M_PID;
 		
-		System.out.println("MEMBER테이블 쿼리: " + query);
+//		System.out.println("MEMBER테이블 쿼리: " + query);
 		ArrayList<Map<String, String>> mem = getDBList(query);
 
 		request.setAttribute("mem", mem);
@@ -94,7 +134,7 @@ public class NoticeBoardServlet extends HttpServlet {
 			for (int i = 0; i < mem.size(); i++) {
 				Map<String, String> row = mem.get(i);
 				manager = row.get("M_MANAGERCHK");
-				System.out.println("manager 값: " + manager);
+//				System.out.println("manager 값: " + manager);
 			}
 		}
 		
@@ -118,7 +158,7 @@ public class NoticeBoardServlet extends HttpServlet {
 			Connection conn = getConnection();
 			// SQL준비
 
-			System.out.println("nidquery:" + notice);
+//			System.out.println("nidquery:" + notice);
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(notice);
 			ResultSet rs = ps.executeQuery();
@@ -134,7 +174,7 @@ public class NoticeBoardServlet extends HttpServlet {
 			    }
 
 			    result_list.add(map);
-			    System.out.println(map.get("N_ID"));
+//			    System.out.println(map.get("N_ID"));
 			}
 			
 			rs.close();

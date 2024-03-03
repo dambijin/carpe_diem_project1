@@ -58,7 +58,11 @@ public class QnABoardServlet extends HttpServlet {
 		
 //		실행할 쿼리문
 		String notice = "";
-		notice += "SELECT * FROM notice where n_opt=1 or n_opt=2 order by n_id desc";
+		notice += "SELECT notice.*,  member.M_NAME";
+		notice += "	FROM notice";
+		notice += "	INNER JOIN MEMBER ON notice.M_PID = member.M_PID";
+		notice += "	WHERE n_opt = 1 or n_opt=2";
+		notice += "	ORDER BY n_id DESC";
 		
 		ArrayList<Map<String,String>> list = getDBList(notice);
 
