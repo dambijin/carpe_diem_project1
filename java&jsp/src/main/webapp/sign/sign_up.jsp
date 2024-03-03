@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -13,7 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
         .sign_up_nav {
@@ -261,6 +264,10 @@
 
 <body>
     <header></header>
+    <%
+	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("member");
+	Map<String, String> map = new HashMap<String, String>();
+	%>
     <nav class="sign_up_nav">
         회원가입
     </nav>
@@ -326,7 +333,7 @@
         <input type="button" class="sub" id="button" value="회원가입">
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="../js/header.js"></script>
+    <script src="/carpedm/js/header.js"></script>
 </body>
 
 
