@@ -74,45 +74,45 @@ public class NoticeBoardServlet extends HttpServlet {
 		ArrayList<Map<String,String>> list = getDBList(notice);
 		request.setAttribute("list", list);
 		
-		String search_select=request.getParameter("n_search"); // 셀렉트문 선택될때
-		String search_box=request.getParameter("s_box"); // 인풋내용
-		Connection conn = getConnection();
-		if(search_select.equals("제목")) {
-			String select_sql ="";
-			select_sql += "SELECT * FROM notice";
-			select_sql += " WHERE N_TITLE LIKE '%?%'";
-			PreparedStatement ps;
-			try {
-				ps = conn.prepareStatement(select_sql);
-				ps.setString(1, search_box);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else if(search_select.equals("제목+내용")) {
-			String select_sql ="";
-			select_sql += " SELECT * FROM notice";
-			select_sql += " WHERE N_TITLE LIKE '%?%' OR N_CONTENT LIKE '%?%'";
-			PreparedStatement ps;
-			try {
-				ps = conn.prepareStatement(select_sql);
-				ps.setString(1, search_box);
-				ps.setString(2, search_box);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else if(search_select.equals("관할도서관")) {
-			String select_sql ="";
-			select_sql += "SELECT * FROM LIBRARY";
-			select_sql += " WHERE LB_NAME LIKE '%?%'";
-			PreparedStatement ps;
-			try {
-				ps = conn.prepareStatement(select_sql);
-				ps.setString(1, search_box);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
+//		String search_select=request.getParameter("n_search"); // 셀렉트문 선택될때
+//		String search_box=request.getParameter("s_box"); // 인풋내용
+//		Connection conn = getConnection();
+//		if(search_select.equals("제목")) {
+//			String select_sql ="";
+//			select_sql += "SELECT * FROM notice";
+//			select_sql += " WHERE N_TITLE LIKE '%?%'";
+//			PreparedStatement ps;
+//			try {
+//				ps = conn.prepareStatement(select_sql);
+//				ps.setString(1, search_box);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}else if(search_select.equals("제목+내용")) {
+//			String select_sql ="";
+//			select_sql += " SELECT * FROM notice";
+//			select_sql += " WHERE N_TITLE LIKE '%?%' OR N_CONTENT LIKE '%?%'";
+//			PreparedStatement ps;
+//			try {
+//				ps = conn.prepareStatement(select_sql);
+//				ps.setString(1, search_box);
+//				ps.setString(2, search_box);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}else if(search_select.equals("관할도서관")) {
+//			String select_sql ="";
+//			select_sql += "SELECT * FROM LIBRARY";
+//			select_sql += " WHERE LB_NAME LIKE '%?%'";
+//			PreparedStatement ps;
+//			try {
+//				ps = conn.prepareStatement(select_sql);
+//				ps.setString(1, search_box);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
 		
 		
 //		관리자 Y인지 N인지 설정하기
