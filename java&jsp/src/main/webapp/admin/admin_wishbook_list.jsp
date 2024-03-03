@@ -16,6 +16,7 @@
 
 <!-- function 스크립트 -->
 <script src="/carpedm/js/admin_library.js"></script>
+
 <script>
     window.addEventListener("load", function () {
         bind();
@@ -102,7 +103,26 @@
         window.open('wishbook_detail.jsp', '팝업', 'width=900,height=900');
     }
 
-
+//     var request = new XMLHttpRequest();
+// 	function searchFunction(){
+// 		request.open("get", "./admin_wishbook_listServlet?input_todo=" + encodeURIComponent(document.getElementById("input_todo").value,true);
+// 		request.onreadystatechange = searchProcess;
+// 		request.send(null);
+// 	}
+// 	function searchProcess(){
+// 		var table = document.getElementById("ajaxTable");
+// 		table.innerHTML = "";
+// 		if(request.readyState == 4 && request.status == 200){
+// 			var object = eval('(' + request.responseText + ')');
+// 			var result = object.result;
+// 			for(var i = 0; i< result.length; i++){
+// 				var row = table.insertRow(0);
+// 				for(var j = 0; j< result[i].length; j++){
+// 					cell.innerHTML = result[i][j].value;					
+// 				}
+// 			}
+// 		}
+// 	}
 
 </script>
 
@@ -249,7 +269,9 @@
                 <!-- 자바스크립트화 -->
             </select>
             <input type="text" class="textbox" id="input_todo">
-            <button type=button class="button" onclick="search()" onkeyup="enterkey()">검색</button>
+            <button type="button" class="button"  onkeyup="enterkey()">검색</button>
+<!--  input text 에 들어갈 것    onkeyup="searchFunction()" 
+   	  button에 들어 갈 것		 onclick="searchFunction()" -->
         </div>
 
         <div class="table_div">
@@ -268,7 +290,7 @@
 	                    <th width="100px">처리</th>
 	                </tr>
                 </thead>
-                <tbody>
+                <tbody id ="ajaxTable">
 					<%
 					ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("wishbook_list");
 					%>
@@ -286,9 +308,9 @@
 						<td><%=data_list.get(i).get("w_name")%></td>
 						<td><%=data_list.get(i).get("w_pubyear")%></td>
 						<td><%=data_list.get(i).get("w_content")%></td>
-						<td width="150px"><input type="button" value="완료"
-							class="complete" onclick="complete('<%=data_list.get(i).get("w_id")%>')"> <input
-							type="button" value="반려" class="companion" onclick="companion('<%=data_list.get(i).get("w_id")%>')">
+						<td width="150px">
+							<input type="button" value="완료" class="complete" onclick="complete('<%=data_list.get(i).get("w_id")%>')"> 
+							<input type="button" value="반려" class="companion" onclick="companion('<%=data_list.get(i).get("w_id")%>')">
 						</td>
 					</tr>
 					<%

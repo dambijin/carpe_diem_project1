@@ -1,6 +1,7 @@
 package carpedm;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -36,7 +37,7 @@ public class admin_wishbook_listServlet extends HttpServlet {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-//		    System.out.println("db접속성공");
+		    System.out.println("db접속성공");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,25 +58,26 @@ public class admin_wishbook_listServlet extends HttpServlet {
 			query += " wishlist";
 
 			System.out.println("query:" + query);
+			
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Map<String,String> map = new HashMap<String, String>();
-				/*
-				 * 폐기처분행(자바스크립트에서 사용할때 필요할 수 있음) map.put("lb_name",
-				 * StringEscapeUtils.escapeJson(rs.getString("lb_name")));//이걸 쓸 줄 알아야 덜 지저분해질 것
-				 * 같다... map.put("lb_address",
-				 * StringEscapeUtils.escapeJson(rs.getString("lb_address"))); map.put("lb_tel",
-				 * StringEscapeUtils.escapeJson(rs.getString("lb_tel"))); map.put("lb_openTime",
-				 * StringEscapeUtils.escapeJson(rs.getString("lb_openTime")));
-				 * map.put("lb_content",
-				 * StringEscapeUtils.escapeJson(rs.getString("lb_content")));
-				 * map.put("lb_imgUrl",
-				 * StringEscapeUtils.escapeJson(rs.getString("lb_imgUrl")));
-				 * map.put("lb_content", rs.getString("lb_content").replace("\n",
-				 * "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
-				 */
+//				/*
+//				 * 폐기처분행(자바스크립트에서 사용할때 필요할 수 있음) map.put("lb_name",
+//				 * StringEscapeUtils.escapeJson(rs.getString("lb_name")));//이걸 쓸 줄 알아야 덜 지저분해질 것
+//				 * 같다... map.put("lb_address",
+//				 * StringEscapeUtils.escapeJson(rs.getString("lb_address"))); map.put("lb_tel",
+//				 * StringEscapeUtils.escapeJson(rs.getString("lb_tel"))); map.put("lb_openTime",
+//				 * StringEscapeUtils.escapeJson(rs.getString("lb_openTime")));
+//				 * map.put("lb_content",
+//				 * StringEscapeUtils.escapeJson(rs.getString("lb_content")));
+//				 * map.put("lb_imgUrl",
+//				 * StringEscapeUtils.escapeJson(rs.getString("lb_imgUrl")));
+//				 * map.put("lb_content", rs.getString("lb_content").replace("\n",
+//				 * "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
+//				 */
 				map.put("w_id", rs.getString("w_id"));
 				map.put("w_title", rs.getString("w_title"));
 				map.put("w_author", rs.getString("w_author"));
@@ -87,7 +89,7 @@ public class admin_wishbook_listServlet extends HttpServlet {
 				map.put("w_content", rs.getString("w_content"));
 
 				result_list.add(map);
-//				System.out.println(rs.getString("lb_name"));
+				System.out.println(rs.getString("lb_name"));
 			}
 
 			rs.close();
@@ -99,4 +101,45 @@ public class admin_wishbook_listServlet extends HttpServlet {
 		}
 		return result_list;
 	}
+	
+//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//	    request.setCharacterEncoding("UTF-8");
+//	    response.setContentType("text/html; charset=UTF-8;");
+//	    // 클라이언트에서 전달된 input_todo 매개변수를 가져오기
+//	    String w_id = request.getParameter("input_todo");
+//	    // JSON 형식의 결과를 응답으로 전송
+//	    response.getWriter().write(getJSON(w_id));
+//	}
+	
+//	public String getJSON(String input_todo) {
+//		if(input_todo == null) input_todo = "";
+//		StringBuffer result = new StringBuffer("");
+//		result.append("{\"result\" :[");
+//		AdminWishbookDAO bookDAO = new AdminWishbookDAO();
+//		ArrayList<Wishlist> list = bookDAO.search(input_todo);
+//		for(int i = 0; i< list.size(); i++) {
+//			result.append("[{\"value\": \"" + list.get(i).getW_id() + "\"},");
+//			result.append("{\"value\": \"" + list.get(i).getW_title() + "\"},");
+//			result.append("{\"value\": \"" + list.get(i).getW_author() + "\"},");
+//			result.append("{\"value\": \"" + list.get(i).getW_isbn() + "\"},");
+//			result.append("{\"value\": \"" + list.get(i).getW_pubyear() + "\"},");
+//			result.append("{\"value\": \"" + list.get(i).getM_pid() + "\"},");
+//			result.append("{\"value\": \"" + list.get(i).getW_name() + "\"},");
+//			result.append("{\"value\": \"" + list.get(i).getW_content() + "\"}],");
+//		}
+//		result.append("]}");
+//		return result.toString();
+//	}
+	
+	// controller 메서드: 요청에 대한 처리를 담당하는 메서드
+//	protected void controller(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+//		try {
+//			// 한글 깨짐 방지
+//			request.setCharacterEncoding("UTF-8");
+//			response.setContentType("text/html; charset=utf-8;");
+//			
+//		} catch(UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }
