@@ -162,8 +162,28 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 		}
 	}
 	//예약기능
-	function reservation(RN) {
-		alert(RN + " 예약되었습니다.");
+	function reservation(b_id) {
+		<%		  // 세션에서 현재 아이디값 가져오기
+		HttpSession getSession = request.getSession();
+		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		%>
+	    alert(b_id + " 예약되었습니다.");
+	    let url = '/carpedm/book_search';
+	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
+		//dopost로 보내기위한 코드
+	    fetch(url, {
+	      method: 'POST',
+	      headers: {
+	        'Content-Type': 'application/x-www-form-urlencoded',
+	      },
+	      body: data,
+	    })
+	    .then(response => response.json())
+	    .then(data => {
+// 	      console.log(data);
+	      location.reload();
+	    })
+	    .catch((error) => console.error('Error:', error));   
 	}
 </script>
 
@@ -211,7 +231,7 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 					<thead>
 						<tr>
 							<th scope="col">등록번호</th>
-							<th scope="col">낱권정보</th>
+<!-- 							<th scope="col">낱권정보</th> -->
 							<th scope="col">ISBN</th>
 							<th scope="col">자료상태</th>
 							<th scope="col">반납예정일</th>
@@ -221,7 +241,7 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 					<tbody>
 						<tr>
 							<td><%=bookdetail_list.get(0).get("B_ID")%></td>
-							<td></td>
+<!-- 							<td></td> -->
 							<td><strong><%=bookdetail_list.get(0).get("B_ISBN")%></strong></td>
 							<td><strong
 								class="<%=bookdetail_list.get(0).get("B_LOANSTATE").equals("Y") ? "_success" : "_fail"%>">

@@ -30,6 +30,7 @@
             let button3 = document.getElementById('cancle');
             let table = document.getElementById('page1')
             
+            //기존에 선택되어있는 표기개수를 재설정하기 위해 추가
         let case_value_opts = document.getElementById("case").options;
         for(let i = 0; i< case_value_opts.length;i++)
         {   
@@ -56,7 +57,7 @@
             });
             // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
-                window.open('http://localhost:8080/carpedm/mypage_chginfo', '_self')
+                window.open('/carpedm/mypage_chginfo', '_self')
 
             });
 
@@ -168,7 +169,7 @@
             let left = (window.innerWidth - width) / 2;
             let top = (window.innerHeight - height) / 2;
             let options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
-            let url = "http://localhost:8080/carpedm/wishbook_detail?w_id=" + w_id;
+            let url = "/carpedm/wishbook_detail?w_id=" + w_id;
             window.open(url, "_blank", options);
         }
         
@@ -275,13 +276,13 @@
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-				<a href="http://localhost:8080/carpedm/mypage_loan_status"><button
+				<a href="/carpedm/mypage_loan_status"><button
 						type="button" class="sub_but">대출 현황</button></a><br> <a
-					href="http://localhost:8080/carpedm/mypage_loan_history"><button
+					href="/carpedm/mypage_loan_history"><button
 						type="button" class="sub_but">대출 내역</button></a><br> <a
-					href="http://localhost:8080/carpedm/mypage_reservation_list"><button
+					href="/carpedm/mypage_reservation_list"><button
 						type="button" class="sub_but">예약</button></a> <a
-					href="http://localhost:8080/carpedm/mypage_wishbook_list"><button
+					href="/carpedm/mypage_wishbook_list"><button
 						type="button" class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
@@ -300,12 +301,13 @@
 							
 							%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME") %><br>
 									번호 : <%=myInfo.get(0).get("M_TEL") %><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
-									회원번호 : <%=myInfo.get(0).get("M_PID") %><br> <% String loanstate_text = "대출가능";
+									회원번호 : <%=myInfo.get(0).get("M_PID") %><br> 		<% String loanstate_text = "대출가능";
 								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
 								{
-									loanstate_text = "대출불가";
+									loanstate_text = myInfo.get(0).get("M_LOANSTATE")+"일 연체상태";
 								}
-								%> 대출가능여부 : <%=loanstate_text%>
+								%>
+								대출가능여부 : <%=loanstate_text%>
 								</td>
 								<td>
 									<button type="button" id="chginfo">정보수정</button>

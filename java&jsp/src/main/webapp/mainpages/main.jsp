@@ -484,6 +484,7 @@ nav .inner .inner-list img {
 						<td class="ann_day"><%=notice_list.get(i).get("N_DATE").substring(0, 10)%></td>
 					</tr>
 					<%
+					if(i>=4){break;}
 					}
 					%>
 				</table>

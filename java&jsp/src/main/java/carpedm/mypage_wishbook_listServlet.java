@@ -15,10 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.text.StringEscapeUtils;
-
-import com.google.gson.Gson;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/mypage_wishbook_list")
@@ -36,9 +33,15 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
 		request.setAttribute("library", library);
 //		request.setAttribute("myInfo", myInfo);
-
-		String m_pid = "4";
-		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + m_pid);
+		
+        HttpSession getSession = request.getSession();
+        String login_m_pid = (String) getSession.getAttribute("m_pid");
+        if(login_m_pid == null || login_m_pid.equals(""))
+        {
+        	login_m_pid = "4";
+        }
+//		String login_m_pid = "4";
+		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
 		
 //		Gson gson = new Gson();
@@ -63,7 +66,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
 		
-		ArrayList<Map<String,String>> list = getWishList();
+		ArrayList<Map<String,String>> list = getWishList(login_m_pid);
 		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 
 		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
@@ -95,18 +98,19 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		}
 		return conn;
 	}
-	private ArrayList<Map<String,String>> getWishList() {
+	private ArrayList<Map<String,String>> getWishList(String m_pid) {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
 			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
 			query += "select";
-			query += " w_id, lb_name, w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date";
+			query += " w_id, lb_name, w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid";
 			query += " from";
 			query += " wishlist";
 			query += " inner join library";
 			query += " on library.lb_id = wishlist.lb_id";
+			query += " where wishlist.m_pid = "+m_pid;
 			
 
 			System.out.println("query:" + query);

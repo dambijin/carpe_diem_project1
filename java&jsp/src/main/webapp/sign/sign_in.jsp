@@ -131,8 +131,8 @@
     window.onload = function() {
         let button = document.getElementById('log_button');
         button.addEventListener('click', function() {
-            let userid = document.querySelector('.textbox1').value;
-            let userpw = document.querySelector('.textbox2').value;
+            let userid = document.querySelector('.textbox1').value.trim();
+            let userpw = document.querySelector('.textbox2').value.trim();
 
                 if(userid == "") {
                     alert("아이디를 입력해주세요.");

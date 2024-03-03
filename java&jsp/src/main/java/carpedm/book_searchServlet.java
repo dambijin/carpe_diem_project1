@@ -21,12 +21,12 @@ public class book_searchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// ajax로 할껄 급 후회중...
-		//검색어
+		// 검색어
 		String searchWord = request.getParameter("search");
 		if (searchWord == null || "".equals(searchWord)) {
 			searchWord = "";
 		}
-		//검색필터(제목,저자 등등)
+		// 검색필터(제목,저자 등등)
 		String item = request.getParameter("item");
 		String item_query = "b.b_title";
 		if (item == null || "".equals(item)) {
@@ -60,7 +60,7 @@ public class book_searchServlet extends HttpServlet {
 		// 페이지 처리를 위한 계산
 		int startRow = (currentPage - 1) * itemsPerPage + 1;
 		int endRow = currentPage * itemsPerPage;
-		//오름차순 내림차순 계산
+		// 오름차순 내림차순 계산
 		String okywd = request.getParameter("okywd");
 
 		if (okywd == null || "".equals(okywd)) {
@@ -88,16 +88,16 @@ public class book_searchServlet extends HttpServlet {
 			okywd_kywd = "b.b_title";
 			okywd_order = "ASC";
 		}
-		//도서관필터
+		// 도서관필터
 		ArrayList<Map<String, String>> library_list = getDBList("select lb_id,lb_name from library");
 		String[] libraryIds = request.getParameterValues("libraryIds");
 		if (libraryIds == null || libraryIds.length == 0) {
-		    libraryIds = new String[library_list.size()];
-		    for (int i = 0; i < library_list.size(); i++) {
-		        libraryIds[i] = library_list.get(i).get("LB_ID");
-		    }
+			libraryIds = new String[library_list.size()];
+			for (int i = 0; i < library_list.size(); i++) {
+				libraryIds[i] = library_list.get(i).get("LB_ID");
+			}
 		}
-		
+
 		// SQL 쿼리(쿼리가 너무 복잡해서 2개로 나눠서 보겠음..)
 		// 원하는 조건에 맞는 책들을 가져옴(페이지계산X)
 		String baseQuery = " SELECT b.*, l.lb_name" + " FROM book b" + " JOIN library l ON b.lb_id = l.lb_id";
@@ -110,10 +110,10 @@ public class book_searchServlet extends HttpServlet {
 		}
 		baseQuery += " AND l.lb_id IN (";
 		for (int i = 0; i < libraryIds.length; i++) {
-		    if (i > 0) {
-		        baseQuery += ", ";
-		    }
-		    baseQuery += "'" + libraryIds[i] + "'";
+			if (i > 0) {
+				baseQuery += ", ";
+			}
+			baseQuery += "'" + libraryIds[i] + "'";
 		}
 		baseQuery += ")";
 
@@ -134,16 +134,16 @@ public class book_searchServlet extends HttpServlet {
 		}
 		countQuery += " AND l.lb_id IN (";
 		for (int i = 0; i < libraryIds.length; i++) {
-		    if (i > 0) {
-		    	countQuery += ", ";
-		    }
-		    countQuery += "'" + libraryIds[i] + "'";
+			if (i > 0) {
+				countQuery += ", ";
+			}
+			countQuery += "'" + libraryIds[i] + "'";
 		}
 		countQuery += ")";
 		ArrayList<Map<String, String>> book_list = getDBList(query);
 		String book_count = getDBList(countQuery).get(0).get("COUNT(*)");
 //		System.out.println(book_count);
-		
+
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("item", item);
 		request.setAttribute("page", page);
@@ -162,15 +162,13 @@ public class book_searchServlet extends HttpServlet {
 		String b_id = request.getParameter("b_id");
 		System.out.println(b_id);
 		String query = "UPDATE book SET b_resstate = 'N' WHERE b_id = " + b_id;
-		
-		int successRow = setDBList(query);
-		System.out.println("변경된 행 수:" + successRow);
-		if(successRow > 0)
-		{
-			String m_pid = request.getParameter("m_pid");
-			System.out.println(m_pid);
-			System.out.println("추가된 행 수:"+setDBList("INSERT INTO reservation (r_id, b_id, r_resdate, r_resstate, m_pid)"
-					+ " VALUES (reservation_seq.NEXTVAL,"+b_id+",SYSDATE, 0,"+m_pid+")"));
+
+		String m_pid = request.getParameter("m_pid");
+		int successRow = setDBList("INSERT INTO reservation (r_id, b_id, r_resdate, r_resstate, m_pid)"
+				+ " VALUES (reservation_seq.NEXTVAL," + b_id + ",SYSDATE, 0," + m_pid + ")");
+		System.out.println("추가된 행 수:" + successRow);
+		if (successRow > 0) {
+			System.out.println("변경된 행 수:" + setDBList(query));
 		}
 
 		response.setContentType("application/json");
