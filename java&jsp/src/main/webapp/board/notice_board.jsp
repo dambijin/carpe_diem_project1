@@ -31,9 +31,7 @@ window.onload = function() {
     };
 	
 	window.addEventListener("load", function() {
-		select();
-		search_box();
-		  
+				  
 		// 도서검색 버튼 엔터이벤트
 		let textbox = document.getElementById("searchbox");
 		// Enter 키 이벤트 리스너 추가
@@ -55,7 +53,7 @@ window.onload = function() {
 			document.querySelector('#searchbox').focus();
 		} else {
 			alert(textbox.value + "검색했습니다");
-			window.location.href = '/carpedm/notice_board?search=' + encodeURIComponent(textbox.value);		
+			window.location.href = '/carpedm/notice_board?search=' + encodeURIComponent(textbox.value)+'&n_search='+document.querySelector("#searchselect").value;		
 			}
 
 	};
@@ -95,15 +93,26 @@ window.onload = function() {
 	margin-top: 10px;
 }
 
+/* 테이블 도서관 */
+.board_sub .lb{
+width:86px;
+}
+
 /* 테이블 제목 td */
 .board_notice .board_sub .sub {
-	width: 60%;
+	width: 50%;
+}
+
+/* 작성자 */
+.board_sub .writer{
+	width:60px;
 }
 
 /* 테이블 등록일 td */
 .board_notice .board_sub .day {
-	width: 13%;
+	width: 100px;
 }
+
 
 /* 글씨체 변경 */
 .paging_writing .writing .change_handwriting, .board_notice .search .change_handwriting,
@@ -195,6 +204,10 @@ window.onload = function() {
 	font-size: 16px;
 	color: black;
 }
+/* 제목 호버시 밑줄 */
+#title_st:hover{
+text-decoration: underline;
+}
 
 #select {
 	text-align: right;
@@ -240,9 +253,9 @@ window.onload = function() {
 						<table class="board_sub">
 							<tr>
 								<th class="board_subject">순번</th>
-								<th class="board_subject">도서관</th>
+								<th class="board_subject lb">도서관</th>
 								<th class="board_subject sub">제목</th>
-								<th class="board_subject">작성자</th>
+								<th class="board_subject writer">작성자</th>
 								<th class="board_subject day">등록일</th>
 								<th class="board_subject">조회</th>
 							</tr>
@@ -259,7 +272,7 @@ window.onload = function() {
 							<tr>
 								<td><%=list.get(i).get("N_ID")%></td>
 								<td name="lb_name"><%=list.get(i).get("LB_NAME")%></td>
-								<td><a href="notice_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"><%=list.get(i).get("N_TITLE")%>
+								<td id="title_st"><a href="notice_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"><%=list.get(i).get("N_TITLE")%>
 								 <input type="hidden" name="title" value="<%=list.get(i).get("N_ID")%>"></a></td>
 								<td><%=list.get(i).get("M_NAME")%></td>
 								<td><%=list.get(i).get("N_DATE").substring(0,10)%></td>

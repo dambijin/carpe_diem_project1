@@ -260,7 +260,7 @@
 								<input type="text" id="file_route"
 									disabled="disabled" value="" name="n_file"> <label for="upload_file"
 									id="file_upload">파일첨부</label> <input type="file"
-									id="upload_file" required=true
+									id="upload_file" 
 									style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
 							</tr>
 						</table>

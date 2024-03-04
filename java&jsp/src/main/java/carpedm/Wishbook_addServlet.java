@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/wishbook_add")
 public class Wishbook_addServlet extends HttpServlet {
@@ -52,6 +53,23 @@ public class Wishbook_addServlet extends HttpServlet {
 		ArrayList<Map<String, String>> library_list = getDBList(library);
 
 		request.setAttribute("library_list", library_list);
+		
+//		로그인한 id값 가져오기
+		HttpSession getSession = request.getSession();
+        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
+
+        String query = "";
+		query += "SELECT M_PID, REPLACE(M_TEL, '-', '') as M_TEL, M_NAME FROM member where ";
+		query += "M_PID = ";
+		query += login_m_pid;
+		
+
+		System.out.println("MEMBER테이블 쿼리: " + query);
+		ArrayList<Map<String, String>> mem = getDBList(query);
+		request.setAttribute("mem", mem);
+		
+		System.out.println("M_NAME 이름: " + mem.get(0).get("M_NAME"));
+		
 		
 		request.getRequestDispatcher("board/wishbook_add.jsp").forward(request, response);	
 	}

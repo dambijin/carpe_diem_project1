@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/notice_write")
 public class NoticeWriteServlet extends HttpServlet {
@@ -44,9 +45,18 @@ public class NoticeWriteServlet extends HttpServlet {
 //		library += lb_id;
 //		System.out.println(library);
 		ArrayList<Map<String, String>> library_list = getDBList(library);
-
-		
 		request.setAttribute("library_list", library_list);
+		
+		HttpSession getSession = request.getSession();
+        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
+
+        String member_qr = "";
+        member_qr += "SELECT * FROM member where ";
+        member_qr += "M_PID = ";
+        member_qr += login_m_pid;
+		ArrayList<Map<String, String>> member = getDBList(member_qr);
+		request.setAttribute("member", member);
+		
 		
 		request.getRequestDispatcher("board/notice_write.jsp").forward(request, response);
 	}
@@ -105,7 +115,12 @@ public class NoticeWriteServlet extends HttpServlet {
 	private int inSert(HttpServletRequest request , HttpServletResponse response) {
 		int result = -1;
 		try {
+			
 			Connection conn = getConnection();
+			
+			HttpSession getSession = request.getSession();
+	        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
+
 			// SQL준비
 			String n_subject = request.getParameter("title"); // 제목
 			String n_admin = request.getParameter("writer"); // 작성자
@@ -141,7 +156,7 @@ public class NoticeWriteServlet extends HttpServlet {
 				notice_in += " , sysdate";
 				notice_in += " , 0";
 				notice_in += " , ?";
-				notice_in += " , 7)";
+				notice_in += " , "+login_m_pid+")";
 				
 				System.out.println(notice_in);
 				// SQL 실행준비

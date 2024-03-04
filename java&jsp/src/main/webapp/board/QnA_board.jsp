@@ -13,9 +13,6 @@
 <link href="/carpedm/css/layout.css" rel="stylesheet">
 <script>
 	window.addEventListener("load", function() {
-		select();
-		search();
-
 		// 도서검색 버튼 엔터이벤트
 		let textbox = document.getElementById("searchbox");
 		// Enter 키 이벤트 리스너 추가
@@ -28,6 +25,7 @@
 		});
 	});
 
+// 	검색 버튼 클릭
 	function search_box() {
 		let textbox = document.getElementById("searchbox");
 		if (textbox.value == "") {
@@ -35,70 +33,12 @@
 			document.querySelector('#searchbox').focus();
 		} else {
 			alert(textbox.value + "검색했습니다");
-
-		}
-
+			window.location.href = '/carpedm/QnA_board?search=' + encodeURIComponent(textbox.value)+'&n_search='+document.querySelector("#searchselect").value;		
+			}
 	};
+	
 
-	//         function search() {
-	//             // 검색 input
-	//             let input = document.querySelector(".search_input")
 
-	//             // 게시판 테이블
-	//             let board_sub = document.querySelector(".board_sub")
-	//             let title = "제목입니다";
-	//             // 임시버튼
-	//             let btn = document.querySelector(".btn");
-
-	//             // 임시버튼을 클릭
-	//             /*
-	//             btn.addEventListener("click", function () {
-	//                 let html = '';
-	//                 html += '<td></td>';
-	//                 html += '<td></td>';
-	//                 html += '<td>'
-	//                 html += '<a href="notice_detail.jsp" class="table_a">';
-	//                 html += title;
-	//                 html += '</a>';
-	//                 html += '</td>';
-	//                 html += '<td></td>';
-	//                 html += '<td></td>';
-	//                 html += '<td></td>';
-
-	//                 let tr = document.createElement("tr");
-	//                 tr.innerHTML = html;
-	//                 board_sub.append(tr);
-
-	//             });*/
-
-	//             for (let i = 1; i <= 10; i++) {
-	//                 let html = '';
-	//                 html += '<td>' + i + '</td>';
-	//                 html += '<td></td>';
-	//                 html += '<td>'
-	//                 html += '<a href="QnA_detail.jsp" class="table_a">';
-	//                 html += title;
-	//                 html += '</a>';
-	//                 html += '</td>';
-	//                 html += '<td></td>';
-	//                 html += '<td></td>';
-	//                 html += '<td></td>';
-
-	//                 let tr = document.createElement("tr");
-	//                 tr.innerHTML = html;
-	//                 board_sub.append(tr);
-	//             }
-
-	//         };
-
-	function select() {
-		let search = [ "제목", "관할도서관" ];
-		let search_box = document.querySelector("#searchselect");
-
-		for (let i = 0; i < search.length; i++) {
-			search_box.innerHTML += "<option>" + search[i] + "</option>";
-		}
-	};
 </script>
 <style>
 /* 헤더 아래 */
@@ -125,12 +65,16 @@
 
 /* 테이블 제목 td */
 .board_notice .board_sub .sub {
-	width: 60%;
+	width: 50%;
 }
 
 /* 테이블 등록일 td */
 .board_notice .board_sub .day {
-	width: 13%;
+	width: 100px;
+}
+/* 분류(공개, 비공개) */
+.board_sub .open{
+	width : 50px;
 }
 
 /* 글씨체 변경 */
@@ -227,6 +171,11 @@
 #select {
 	text-align: right;
 }
+
+/* 제목 호버시 밑줄 */
+#title_st:hover{
+text-decoration: underline;
+}
 </style>
 </head>
 
@@ -250,9 +199,13 @@
 				<div class="board_notice">
 
 					<div class="board">
-						<div id="select">
-							<select class="change_handwriting" id="searchselect">
-							</select> <input type="text" class="change_handwriting search_input"
+						<div id="select" name="search">
+							<select class="change_handwriting" id="searchselect" name="n_search">
+							<option>제목</option>
+							<option>제목+내용</option>
+							<option>작성자</option>
+							</select> 
+							<input type="text" class="change_handwriting search_input"
 								id="searchbox"> <input type="button"
 								class="change_handwriting request search_button" value="검색"
 								onclick="search_box()">
@@ -260,7 +213,7 @@
 						<table class="board_sub">
 							<tr>
 								<th class="board_subject">순번</th>
-								<th class="board_subject">분류</th>
+								<th class="board_subject open">분류</th>
 								<th class="board_subject sub">제목</th>
 								<th class="board_subject">작성자</th>
 								<th class="board_subject day">등록일</th>
@@ -287,7 +240,7 @@
 									%>								
 								</td>
 								<td>
-								<a href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"><%=list.get(i).get("N_TITLE")%></a></td>
+								<a href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a" id="title_st"><%=list.get(i).get("N_TITLE")%></a></td>
 								<td><%=list.get(i).get("M_NAME")%></td>
 								<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
 								<td><%=list.get(i).get("N_VIEWCOUNT")%></td>

@@ -55,18 +55,44 @@ public class QnABoardServlet extends HttpServlet {
 			nid_list="";
 		}
 		request.setAttribute("N_ID", nid_list);
+	
+		
+		//검색어가져오기
+		String searchWord = request.getParameter("search");
+		if (searchWord == null || "".equals(searchWord)) {
+			searchWord = "";
+		}
+		
+		String select = request.getParameter("n_search");
+		String select_sql = "";
+		System.out.println(select);
+		
+
+		if (select == null || "".equals(select)) {
+			select="제목";
+		}
+		if (select.equals("제목")) {
+			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%'";
+		} else if (select.equals("제목 내용")) {
+			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%' OR N_CONTENT LIKE '%"+searchWord+"%'";
+		} else if (select.equals("작성자")) {
+			select_sql = " AND M_NAME LIKE '%"+searchWord+"%'";
+		} 
+		
 		
 //		실행할 쿼리문
 		String notice = "";
 		notice += "SELECT notice.*,  member.M_NAME";
 		notice += "	FROM notice";
 		notice += "	INNER JOIN MEMBER ON notice.M_PID = member.M_PID";
-		notice += "	WHERE n_opt = 1 or n_opt=2";
+		notice += "	WHERE  N_OPT IN (1, 2)";
+		notice += select_sql;
 		notice += "	ORDER BY n_id DESC";
-		
+		System.out.println("notice쿼리 : "+notice);
 		ArrayList<Map<String,String>> list = getDBList(notice);
 
 		request.setAttribute("list", list);
+		
 
 		
 //		board/QnA_board.jsp와 이어줌

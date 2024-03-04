@@ -172,7 +172,7 @@ public class NoticeUpdateServlet extends HttpServlet {
 		}
 	
 		System.out.println(getDBUpdate(request, response));
-//		response.sendRedirect("notice_board");
+		response.sendRedirect("notice_board");
 	}
 	
 

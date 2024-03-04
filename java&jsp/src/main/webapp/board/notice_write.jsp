@@ -191,8 +191,11 @@
 										id="notice_write_title" name="title"></td>
 								</tr>
 								<tr>
+								<%
+									ArrayList<Map<String, String>> member = (ArrayList<Map<String, String>>) request.getAttribute("member");
+								%>
 									<td class="sub">작성자</td>
-									<td class="text"></td>
+									<td class="text" name="writer"><%=member.get(0).get("M_NAME")%></td>
 								</tr>
 								<tr>
 									<td class="sub">소속도서관</td>
@@ -214,7 +217,7 @@
 									<td class="text"><input type="text" id="file_route"
 										disabled="disabled" value="" name="n_file"> <label
 										for="upload_file" class="btn" id="file_upload">파일첨부</label> <input
-										type="file" id="upload_file" required=true
+										type="file" id="upload_file" 
 										style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
 								</tr>
 							</table>

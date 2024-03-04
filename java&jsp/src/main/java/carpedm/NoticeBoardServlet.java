@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/notice_board")
 public class NoticeBoardServlet extends HttpServlet {
@@ -63,19 +64,21 @@ public class NoticeBoardServlet extends HttpServlet {
 		
 		String select = request.getParameter("n_search");
 		String select_sql = "";
+		System.out.println(select);
 		
 
 		if (select == null || "".equals(select)) {
 			select="제목";
-		} else {
-			if (select.equals("제목")) {
-				select_sql = "AND N_TITLE LIKE '%"+searchWord+"%'";
-			} else if (select.equals("제목+내용")) {
-				select_sql = "AND N_TITLE LIKE '%"+searchWord+"%' OR N_CONTENT LIKE '%"+searchWord+"%";
-			} else if (select.equals("도서관")) {
-				select_sql = "AND LB_NAME LIKE '%"+searchWord+"%'";
-			} 
 		}
+		
+		if (select.equals("제목")) {
+			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%'";
+		} else if (select.equals("제목 내용")) {
+			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%' OR N_CONTENT LIKE '%"+searchWord+"%'";
+		} else if (select.equals("도서관")) {
+			select_sql = " AND LB_NAME LIKE '%"+searchWord+"%'";
+		} 
+		
 
 //		가져올 데이터 값의 쿼리문
 		String notice = "";
@@ -92,50 +95,14 @@ public class NoticeBoardServlet extends HttpServlet {
 		ArrayList<Map<String, String>> list = getDBList(notice);
 		request.setAttribute("list", list);
 
-//		if(search_select.equals("제목")) {
-//			String select_sql ="";
-//			select_sql += "SELECT * FROM notice";
-//			select_sql += " WHERE N_TITLE LIKE '%?%'";
-//			PreparedStatement ps;
-//			try {
-//				ps = conn.prepareStatement(select_sql);
-//				ps.setString(1, search_box);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}else if(search_select.equals("제목+내용")) {
-//			String select_sql ="";
-//			select_sql += " SELECT * FROM notice";
-//			select_sql += " WHERE N_TITLE LIKE '%?%' OR N_CONTENT LIKE '%?%'";
-//			PreparedStatement ps;
-//			try {
-//				ps = conn.prepareStatement(select_sql);
-//				ps.setString(1, search_box);
-//				ps.setString(2, search_box);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}else if(search_select.equals("도서관")) {
-//			String select_sql ="";
-//			select_sql += "SELECT * FROM LIBRARY";
-//			select_sql += " WHERE LB_NAME LIKE '%?%'";
-//			PreparedStatement ps;
-//			try {
-//				ps = conn.prepareStatement(select_sql);
-//				ps.setString(1, search_box);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		} else if(search_select== null) {
-//			
-//		}
 
-//		관리자 Y인지 N인지 설정하기
-		String M_PID = "10"; // 8 : 관리자아님, 10 : 관리자
-		String query = "";
+		HttpSession getSession = request.getSession();
+        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
+
+        String query = "";
 		query += "SELECT * FROM member where ";
 		query += "M_PID = ";
-		query += M_PID;
+		query += login_m_pid;
 
 //		System.out.println("MEMBER테이블 쿼리: " + query);
 		ArrayList<Map<String, String>> mem = getDBList(query);
@@ -156,6 +123,9 @@ public class NoticeBoardServlet extends HttpServlet {
 
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("UTF-8");
+		
+		
+		
 
 //      board/notice_board.jsp 파일을 이어줌
 		request.getRequestDispatcher("board/notice_board.jsp").forward(request, response);

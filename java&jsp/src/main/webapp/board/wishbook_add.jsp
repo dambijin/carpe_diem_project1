@@ -133,6 +133,12 @@
             border-bottom: 1px solid #aaa;
             margin-bottom: .5em;
         }
+        #handphone::-webkit-inner-spin-button,
+        #handphone::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+        
     </style>
     <script>
         window.addEventListener("load", function () {
@@ -278,7 +284,7 @@
                             <td class="subject">* 희망소장처</td>
                             <td><select class="textbox" id="library" name="library">
                                     <%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
-
+                                    	ArrayList<Map<String, String>> mem = (ArrayList<Map<String, String>>) request.getAttribute("mem");
 				for (int i = 0; i < library_list.size(); i++) {
 				%>
     				<option value="<%= library_list.get(i).get("LB_ID") %>"><%= library_list.get(i).get("LB_NAME") %></option>
@@ -314,12 +320,12 @@
                         </tr>
                         <tr>
                             <td class="subject">신청자 이름</td>
-                            <td><input type="text" name="w_name" class="textbox" placeholder="이름" id="user_name">
+                            <td><input type="text" value="<%=mem.get(0).get("M_NAME")%>" name="w_name" class="textbox" placeholder="이름" id="user_name">
                             <% %></td>
                         </tr>
                         <tr>
                             <td class="subject">* 휴대폰 번호</td>
-                            <td><input type="text" name="w_tel" class="textbox" placeholder="-없이 입력해주세요" id="handphone"></td>
+                            <td><input type="number" value="<%=mem.get(0).get("M_TEL")%>" name="w_tel" class="textbox" placeholder="-없이 입력해주세요" id="handphone"></td>
                         </tr>
                         <tr>
                             <td class="subject">* 개인정보 수집 동의</td>

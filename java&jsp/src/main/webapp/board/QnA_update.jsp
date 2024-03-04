@@ -14,7 +14,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QnA 게시판 글쓰기(수정)</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous">
@@ -388,7 +387,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<td><input type="text" id="file_route" disabled="disabled"
 										value="" name="n_file"> <label for="upload_file" class="btn"
 										id="file_upload">파일첨부</label> <input type="file"
-										id="upload_file" required=true
+										id="upload_file" 
 										style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
 								</tr>
 								

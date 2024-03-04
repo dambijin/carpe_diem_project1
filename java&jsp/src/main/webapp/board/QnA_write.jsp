@@ -472,7 +472,7 @@
                                     <th>첨부파일</th>
                                     <td><input type="text" id="file_route" disabled="disabled" value="">
                                         <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
-                                        <input type="file" id="upload_file" required=true
+                                        <input type="file" id="upload_file" 
                                             style="position:absolute; clip:rect(0, 0, 0, 0);" name="n_file">
                                     </td>
 
