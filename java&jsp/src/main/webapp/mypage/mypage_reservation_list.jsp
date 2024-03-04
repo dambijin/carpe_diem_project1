@@ -121,20 +121,20 @@
 //                 table.append(tr)
                 
                  // 출력 개수
-            let case_list = ["10개", "20개", "30개"]
-            for (let i = 0; i < case_list.length; i++) {
-                let html = "";
-                let result_email_list = document.querySelector("#case")
+//             let case_list = ["10개", "20개", "30개"]
+//             for (let i = 0; i < case_list.length; i++) {
+//                 let html = "";
+//                 let result_email_list = document.querySelector("#case")
 
-                html += case_list[i];
+//                 html += case_list[i];
 
-                let opt = document.createElement("option");
-                opt.innerHTML = html;
+//                 let opt = document.createElement("option");
+//                 opt.innerHTML = html;
 
-                result_email_list.append(opt)
+//                 result_email_list.append(opt)
 
              
-            }
+//             }
             
            
              // 도서관 분류
@@ -196,6 +196,15 @@
 		        }
 		    }
 		}
+		function redirectPage()
+        {
+			let perPage = document.getElementById("case").value;  
+//     	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
+
+    	    window.location.href = '/carpedm/mypage_reservation_list?'
+    	    + '&page=' + "1"
+    	    + '&perPage=' + perPage;
+        }
 
     </script>
 <style>
@@ -208,13 +217,13 @@
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-				<a href="http://localhost:8080/carpedm/mypage_loan_status"><button
+				<a href="/carpedm/mypage_loan_status"><button
 						type="button" class="sub_but">대출 현황</button></a><br> <a
-					href="http://localhost:8080/carpedm/mypage_loan_history"><button
+					href="/carpedm/mypage_loan_history"><button
 						type="button" class="sub_but">대출 내역</button></a><br> <a
-					href="http://localhost:8080/carpedm/mypage_reservation_list"><button
+					href="/carpedm/mypage_reservation_list"><button
 						type="button" class="sub_but">예약</button></a> <a
-					href="http://localhost:8080/carpedm/mypage_wishbook_list"><button
+					href="/carpedm/mypage_wishbook_list"><button
 						type="button" class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
@@ -254,11 +263,12 @@
 						<div>
 							<div id="select">
 								<div>
-
-									<select id="case">
-										<option disabled selected>출력 건수</option>
-
-
+									<select id="case" onchange="redirectPage()">
+										<option value=10>10개</option>
+										<option value=20>20개</option>
+										<option value=30>30개</option>
+										<option value=40>40개</option>
+										<option value=50>50개</option>
 									</select>
 								</div>
 							</div>

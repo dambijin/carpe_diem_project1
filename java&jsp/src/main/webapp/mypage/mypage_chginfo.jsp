@@ -316,7 +316,7 @@ input {
 						<th>이름</th>
 						<td class="padding" id="name" name="name">
 							<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
-							System.out.println(myInfo.size());
+							System.out.println("가져옴:"+myInfo);
 							%> <%=myInfo.get(0).get("M_NAME") %>
 						</td>
 					</tr>
@@ -331,7 +331,7 @@ input {
 					</tr>
 					<tr>
 						<th>비밀번호</th>
-						<td class="padding"><input type="text" placeholder="비밀번호"
+						<td class="padding"><input type="password" placeholder="비밀번호"
 							id="password" name="password"></td>
 					</tr>
 					<tr>
@@ -345,16 +345,17 @@ input {
 					</tr>
 					<tr>
 						<th>비밀번호 확인</th>
-						<td class="padding"><input type="text" placeholder="비밀번호 확인"
+						<td class="padding"><input type="password" placeholder="비밀번호 확인"
 							id="password1" name="password1"></td>
 					</tr>
 					<tr>
 						<th>휴대폰 번호</th>
+						<% String selectedOption1 =  myInfo.get(0).get("M_EMAIL_AGREE");	%>
 						<td class="padding"><input type="text" placeholder="휴대폰 번호"
 							id="phonenumber" name="phonenumber"
 							value="<%=myInfo.get(0).get("M_TEL") %>"> <font>SMS수신<input
-								type="radio" value="Y" name="sms">예<input type="radio"
-								value="N" name="sms">아니오
+								type="radio" value="Y" name="sms" <% if (selectedOption1.equals("Y")) out.print("checked"); %>>예<input type="radio"
+								value="N" name="sms" <% if (selectedOption1.equals("N")) out.print("checked"); %>>아니오
 						</font></td>
 					</tr>
 					<tr>
@@ -391,12 +392,16 @@ input {
 						<button id="place_button" onclick="sample6_execDaumPostcode(); return false;">
 							주소 찾기</button>
 							<% String text1 = myInfo.get(0).get("M_ADDRESS");
-                    String[] address = text1.split("%$");
+                    String[] address = text1.split("%");
+                    String address_detail = "";
+                    if(address.length > 1){
+                    	address_detail = address[1];
+                    }
                    %> 
 						<br> <input class="place_input_width" id="sample6_address" name="sample6_address"
-						type="text" placeholder="도로명 주소" value=<%=address[0] %>><br> 
+						type="text" placeholder="도로명 주소" value="<%=address[0] %>"><br> 
 						<input class="place_input_width" id="sample6_address2" name="sample6_address2" type="text"
-						placeholder="상세 주소" value=<%=address[1]%>></td>
+						placeholder="상세 주소" value="<%=address_detail %>"></td>
 				</table>
 			</div>
 			<!-- 버튼 -->

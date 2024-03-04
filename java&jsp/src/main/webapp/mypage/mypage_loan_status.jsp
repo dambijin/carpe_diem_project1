@@ -103,6 +103,49 @@
 
 //             }
         };
+        //true일때 숫자, false일때 문자 테이블정렬함수
+		function sortTable(n, isNumeric) {
+		    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+		    table = document.getElementById("page1");
+		    switching = true;
+		    dir = "asc";
+		
+		    while (switching) {
+		        switching = false;
+		        rows = table.getElementsByTagName("tr");
+		
+		        for (i = 1; i < (rows.length - 1); i++) {
+		            shouldSwitch = false;
+		            x = rows[i].getElementsByTagName("td")[n];
+		            y = rows[i + 1].getElementsByTagName("td")[n];
+		
+		            var xContent = isNumeric ? Number(x.textContent.trim()) : x.textContent.trim();
+		            var yContent = isNumeric ? Number(y.textContent.trim()) : y.textContent.trim();
+		
+		            if (dir == "asc") {
+		                if (xContent > yContent) {
+		                    shouldSwitch = true;
+		                    break;
+		                }
+		            } else if (dir == "desc") {
+		                if (xContent < yContent) {
+		                    shouldSwitch = true;
+		                    break;
+		                }
+		            }
+		        }
+		        if (shouldSwitch) {
+		            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		            switching = true;
+		            switchcount++;
+		        } else {
+		            if (switchcount == 0 && dir == "asc") {
+		                dir = "desc";
+		                switching = true;
+		            }
+		        }
+		    }
+		}
 
     </script>
 
@@ -116,13 +159,13 @@
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-				<a href="http://localhost:8080/carpedm/mypage_loan_status"><button type="button"
+				<a href="/carpedm/mypage_loan_status"><button type="button"
 						class="sub_but">대출 현황</button></a><br> 
-				<a href="http://localhost:8080/carpedm/mypage_loan_history"><button type="button"
+				<a href="/carpedm/mypage_loan_history"><button type="button"
 						class="sub_but">대출 내역</button></a><br> 
-				<a href="http://localhost:8080/carpedm/mypage_reservation_list"><button type="button"
+				<a href="/carpedm/mypage_reservation_list"><button type="button"
 						class="sub_but">예약</button></a> 
-				<a href="http://localhost:8080/carpedm/mypage_wishbook_list"><button
+				<a href="/carpedm/mypage_wishbook_list"><button
 						type="button" class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
@@ -162,15 +205,7 @@
 						<div></div>
 						<div id="select2">
 							<div>
-								<select id="library">
-									<option disabled selected>- 도서관 전체</option>
-									<% ArrayList<Map<String,String>> library = (ArrayList<Map<String,String>>)request.getAttribute("library"); 
-							System.out.println(myInfo.size());
-								for(int i=0; i < library.size(); i++){
-							%>
-							<option><%=library.get(i).get("LB_NAME") %></option>
-							<%} %>
-								</select>
+								
 
 
 							</div>
@@ -179,14 +214,14 @@
 					<!-- 보드 -->
 					<table id="page1">
 						<tr id="page1_tr">
-							<th>번호</th>
-							<th>관리번호</th>
-							<th>책이름</th>
-							<th>저자</th>
-							<th>출판사</th>
-							<th>대출일</th>
-							<th>반납예정일</th>
-							<th>소장기관</th>
+							<th style="cursor:pointer;" onclick="sortTable(0,true)">번호</th>
+<!-- 							<th style="cursor:pointer;" onclick="sortTable(0,true)">관리번호</th> -->
+							<th style="cursor:pointer;" onclick="sortTable(1,false)">책이름</th>
+							<th style="cursor:pointer;" onclick="sortTable(2,false)">저자</th>
+							<th style="cursor:pointer;" onclick="sortTable(3,false)">출판사</th>
+							<th style="cursor:pointer;" onclick="sortTable(4,true)">대출일</th>
+							<th style="cursor:pointer;" onclick="sortTable(5,true)">반납예정일</th>
+							<th style="cursor:pointer;" onclick="sortTable(6,false)">소장기관</th>
 							<th>반납연기</th>
 						</tr>
 						<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 
@@ -196,7 +231,7 @@
                          {%>
                          <tr class="tr">
 							<td><%=i+1 %></td>
-							<td><%=list.get(i).get("l_id") %></td>
+<%-- 							<td><%=list.get(i).get("l_id") %></td> --%>
 							<td><%=list.get(i).get("b_title") %></td>
 							<td><%=list.get(i).get("b_author") %></td>
 							<td><%=list.get(i).get("b_publisher") %></td>

@@ -29,6 +29,18 @@
             let button1 = document.querySelector('#chginfo');
             //  보드
             let table = document.querySelector("#page1")
+            
+             //기존에 선택되어있는 표기개수를 재설정하기 위해 추가
+        let case_value_opts = document.getElementById("case").options;
+        for(let i = 0; i< case_value_opts.length;i++)
+        {   
+            if(case_value_opts[i].value == '<%=request.getAttribute("perPage")%>') {
+            	case_value_opts.selectedIndex = i;
+                break;
+            }
+        }
+            
+            
             // 내정보 
            
 //             let myInfo = `
@@ -45,7 +57,7 @@
 
             // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
-                window.open('http://localhost:8080/carpedm/mypage_chginfo', '_self')
+                window.open('/carpedm/mypage_chginfo', '_self')
 
             });
 //             // 임시 보드 내용 추가
@@ -68,19 +80,19 @@
               
 //             }  console.log(data)
             // 출력 개수
-            let case_list = ["10개", "20개", "30개"]
-            for (let i = 0; i < case_list.length; i++) {
-                let html = "";
-                let result_email_list = document.querySelector("#case")
+//             let case_list = ["10개", "20개", "30개"]
+//             for (let i = 0; i < case_list.length; i++) {
+//                 let html = "";
+//                 let result_email_list = document.querySelector("#case")
 
-                html += case_list[i];
+//                 html += case_list[i];
 
-                let opt = document.createElement("option");
-                opt.innerHTML = html;
+//                 let opt = document.createElement("option");
+//                 opt.innerHTML = html;
 
-                result_email_list.append(opt)
+//                 result_email_list.append(opt)
 
-            }
+//             }
             
 
 
@@ -147,6 +159,15 @@
 		        }
 		    }
 		}
+		function redirectPage()
+        {
+			let perPage = document.getElementById("case").value;  
+//     	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
+
+    	    window.location.href = '/carpedm/mypage_loan_history?'
+    	    + '&page=' + "1"
+    	    + '&perPage=' + perPage;
+        }
     </script>
 <style>
 </style>
@@ -158,13 +179,13 @@
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-				<a href="http://localhost:8080/carpedm/mypage_loan_status"><button type="button"
+				<a href="/carpedm/mypage_loan_status"><button type="button"
 						class="sub_but">대출 현황</button></a><br> 
-				<a href="http://localhost:8080/carpedm/mypage_loan_history"><button type="button"
+				<a href="/carpedm/mypage_loan_history"><button type="button"
 						class="sub_but">대출 내역</button></a><br> 
-				<a href="http://localhost:8080/carpedm/mypage_reservation_list"><button type="button"
+				<a href="/carpedm/mypage_reservation_list"><button type="button"
 						class="sub_but">예약</button></a> 
-				<a href="http://localhost:8080/carpedm/mypage_wishbook_list"><button
+				<a href="/carpedm/mypage_wishbook_list"><button
 						type="button" class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
@@ -211,10 +232,12 @@
 							<div id="select">
 								<div>
 
-									<select id="case">
-										<option disabled selected>출력 건수</option>
-
-
+								<select id="case" onchange="redirectPage()">
+										<option value=10>10개</option>
+										<option value=20>20개</option>
+										<option value=30>30개</option>
+										<option value=40>40개</option>
+										<option value=50>50개</option>
 									</select>
 								</div>
 							</div>
@@ -232,7 +255,7 @@
 								<th style="cursor:pointer;" onclick="sortTable(1,false)">자료명/등록번호</th>
 								<th style="cursor:pointer;" onclick="sortTable(2,false)">저자</th>
 								<th style="cursor:pointer;" onclick="sortTable(3,true)">대출일</th>
-								<th style="cursor:pointer;" onclick="sortTable(4,true)">반납일</th>
+								<th style="cursor:pointer;" onclick="sortTable(4,true)">실반납일</th>
 								<th style="cursor:pointer;" onclick="sortTable(5,false)">소장기관</th>
 							</tr>
 							<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 

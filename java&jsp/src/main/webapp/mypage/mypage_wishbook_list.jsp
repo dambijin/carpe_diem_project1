@@ -156,7 +156,7 @@
                 document.querySelector("#cancle").addEventListener("click", function () {
                     let list_checked = document.querySelectorAll(".checkbox:checked")
                     for (let i = 0; i < list_checked.length; i++) {
-                        list_checked[i].parentNode.parentNode.remove();
+                      
                     }
                 })
 //                 table.append(tr)

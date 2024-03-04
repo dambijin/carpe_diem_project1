@@ -33,10 +33,10 @@ public class mypage_chginfoServlet extends HttpServlet {
 //		request.setAttribute("myInfo", myInfo);
 		
 		  HttpSession getSession = request.getSession();
-	        String login_m_pid = (String) getSession.getAttribute("m_pid");
+	      String login_m_pid = (String) getSession.getAttribute("m_pid");
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
-//	Gson gson = new Gson();
+		//	Gson gson = new Gson();
 //	String json = gson.toJson(list);
 //	request.setAttribute("list", json);
 
@@ -47,16 +47,18 @@ public class mypage_chginfoServlet extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("포스트접근성공");
 	
+
 //		request.getRequestDispatcher("/mypage/mypage_chginfo.jsp").forward(request, response);
 		try {
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=utf-8;");
+			getDBUpdate(request);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 	
-		System.out.println(getDBUpdate(request));
 		
+		response.sendRedirect("mypage_loan_status");
 	}
 	
 
@@ -98,7 +100,6 @@ public class mypage_chginfoServlet extends HttpServlet {
 
 				result_list.add(map);
 			}
-
 			rs.close();
 			ps.close();
 			conn.close();
@@ -110,49 +111,56 @@ public class mypage_chginfoServlet extends HttpServlet {
 
 	// 업에트
 	
-	private int getDBUpdate(HttpServletRequest request) {
-		int result = -1;
-		try {
-			HttpSession getSession = request.getSession();
-		    String login_m_pid = (String) getSession.getAttribute("m_pid");
-			Connection conn = getConnection();
-			// SQL준비
-			String m_pid = login_m_pid;
-			String m_pw = request.getParameter("password");
-			String m_tel = request.getParameter("phonenumber");
-			String email = request.getParameter("email_id")+"@"+request.getParameter("email_domain");
-			String address = request.getParameter("sample6_address") + "%$" + request.getParameter("sample6_address2");
-			String emailChk = request.getParameter("email");
+	    
+	    private int getDBUpdate(HttpServletRequest request) {
+			int result = -1;
+			try {
+				HttpSession getSession = request.getSession();
+			    String login_m_pid = (String) getSession.getAttribute("m_pid");
+				Connection conn = getConnection();
+				// SQL준비
+				String m_pid = login_m_pid;
+				String m_pw = request.getParameter("password");
+				String m_tel = request.getParameter("phonenumber");
+				String email = request.getParameter("email_id")+"@"+request.getParameter("email_domain");
+				String address = request.getParameter("sample6_address") + "%" + request.getParameter("sample6_address2");
+				String emailChk = request.getParameter("email");
 
-			String sql = "";
-			sql += " UPDATE member";
-			sql += " SET m_pw = '"+ m_pw +"',";
-			sql += " m_tel = '"+ m_tel +"',";
-			sql += " m_email = '"+ email +"',";
-			sql += " m_email_agree = '" + emailChk + "',";
-			sql += " m_address = '" + address + "'";
-			sql += " WHERE m_pid = "+ m_pid;
-			
-			System.out.println(sql);
-			// SQL 실행준비
-			PreparedStatement ps = conn.prepareStatement(sql);
-//			ps.setString(1, m_pw);
-//			ps.setString(2, m_tel);
-//			ps.setString(3, email);
-//			ps.setString(4, emailChk);
-//			ps.setString(5, adress);
-//			ps.setString(6, m_pid);
-			
+				String sql = "";
+				sql += " UPDATE member";
+				sql += " SET m_pw = '"+ m_pw +"',";
+				sql += " m_tel = '"+ m_tel +"',";
+				sql += " m_email = '"+ email +"',";
+				sql += " m_email_agree = '" + emailChk + "',";
+				sql += " m_address = '" + address + "'";
+				sql += " WHERE m_pid = "+ m_pid;
+				
+				System.out.println(sql);
+				// SQL 실행준비
+				PreparedStatement ps = conn.prepareStatement(sql);
+//				ps.setString(1, m_pw);
+//				ps.setString(2, m_tel);
+//				ps.setString(3, email);
+//				ps.setString(4, emailChk);
+//				ps.setString(5, adress);
+//				ps.setString(6, m_pid);
+				
 
-			result = ps.executeUpdate();
-			
-			System.out.println("바뀐 행 수:" + result);
+				result = ps.executeUpdate();
+				
+				System.out.println("바뀐 행 수:" + result);
+				
 
-			ps.close();
-			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+				ps.close();
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return result;
 		}
-		return result;
+	   
 	}
-}
+	
+	
+	
+
