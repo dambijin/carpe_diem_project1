@@ -168,7 +168,7 @@
                     alert("개인정보에 동의해주세요.");
                 } else {
                     alert("회원가입 되었습니다");
-                    location.href = 'sign_in.jsp';
+                    location.href = 'sign_in';
                 }
             });
         };
@@ -273,6 +273,7 @@
     </nav>
     <section class="sign_up_form">
         <!-- 회원가입form -->
+        <from method="post" action="/sign_up">
         <table>
             <tr>
                 <td class="r_border">아이디</td>
@@ -300,7 +301,7 @@
             <tr>
                 <!-- 숫자만 입력할 수 있게 설정하기 -->
                 <td class="r_border">휴대폰번호</td>
-                <td> <input type="tel" name="pw" placeholder="-없이 입력해주세요" class="textbox" id="tel_text"> </td>
+                <td> <input type="tel" name="tel" placeholder="-없이 입력해주세요" class="textbox" id="tel_text"> </td>
             </tr>
             <tr>
                 <td class="r_border">이메일</td>
@@ -313,12 +314,12 @@
             </tr>
             <tr>
                 <td class="r_border">주소</td>
-                <td><input type="text" name="pw" placeholder="우편번호" class="zip_code" id="add_text">
+                <td><input type="text" name="address" placeholder="우편번호" class="zip_code" id="add_text">
                     <button id="place_button" onclick="sample6_execDaumPostcode()">
                         주소 찾기
                     </button>
-                    <input type="text" name="pw" placeholder="기본주소" class="textbox" id="add1_text">
-                    <input type="text" name="pw" placeholder="나머지주소" class="textbox" id="add2_text">
+                    <input type="text" name="address" placeholder="기본주소" class="textbox" id="add1_text">
+                    <input type="text" name="address" placeholder="나머지주소" class="textbox" id="add2_text">
                 </td>
             </tr>
             <tr>
@@ -331,6 +332,7 @@
         <br>
         <!-- 회원가입완료 -->
         <input type="button" class="sub" id="button" value="회원가입">
+        </from>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="/carpedm/js/header.js"></script>
