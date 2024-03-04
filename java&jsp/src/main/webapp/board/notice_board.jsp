@@ -32,7 +32,7 @@ window.onload = function() {
 	
 	window.addEventListener("load", function() {
 		select();
-		
+		search_box();
 		  
 		// 도서검색 버튼 엔터이벤트
 		let textbox = document.getElementById("searchbox");
@@ -44,16 +44,10 @@ window.onload = function() {
 				search_box(); // 검색 함수 호출
 			}
 		});
-		
-		
-		
-		
-	
-
-
 	});
 
 
+// 	검색 버튼 클릭
 	function search_box() {
 		let textbox = document.getElementById("searchbox");
 		if (textbox.value == "") {
@@ -61,19 +55,22 @@ window.onload = function() {
 			document.querySelector('#searchbox').focus();
 		} else {
 			alert(textbox.value + "검색했습니다");
-
-		}
+			window.location.href = '/carpedm/notice_board?search=' + encodeURIComponent(textbox.value);		
+			}
 
 	};
+	
+	
+	
 
-	function select() {
-		let search = [ "제목", "제목+내용","관할도서관" ];
-		let search_box = document.querySelector("#searchselect");
+// 	function select() {
+// 		let search = [ "제목", "제목+내용","관할도서관" ];
+// 		let search_box = document.querySelector("#searchselect");
 
-		for (let i = 0; i < search.length; i++) {
-			search_box.innerHTML += "<option>" + search[i] + "</option>";
-		}
-	};
+// 		for (let i = 0; i < search.length; i++) {
+// 			search_box.innerHTML += "<option>" + search[i] + "</option>";
+// 		}
+// 	};
 </script>
 <style>
 /* 헤더 아래 */
@@ -227,15 +224,17 @@ window.onload = function() {
 				<div class="board_notice">
 
 					<div class="board">
-						<div id="select">
+						<div id="select" name="search">
 							<select class="change_handwriting" id="searchselect" name="n_search">
-							
+							<option>제목</option>
+							<option>제목+내용</option>
+							<option>도서관</option>
 							</select>
 							<input type="text" class="change_handwriting search_input"
 								id="searchbox" name="s_box">
 								<input type="button" name="s_box"
 								class="change_handwriting request search_button" value="검색"
-								onclick="location.href='notice_board?<%String search_box=request.getParameter("s_box");%>';">
+								onclick="search_box();">
 						</div>
 						<form method="post" action="notice_board">
 						<table class="board_sub">
