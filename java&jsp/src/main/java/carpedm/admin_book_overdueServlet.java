@@ -26,8 +26,7 @@ public class admin_book_overdueServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Map<String, String>> list = getoverdue();
 		
-		System.out.println(list);
-		request.setAttribute("list", list);
+		request.setAttribute("overdue", list);
 		request.getRequestDispatcher("/admin/admin_book_overdue.jsp").forward(request, response);
 	}
 
@@ -52,9 +51,11 @@ public class admin_book_overdueServlet extends HttpServlet {
 			// SQL준비
 			String query = "";
 			query += " select";
-			query += " b_id, b_title, b_author, b_publisher, b_isbn, b_pubyear, lb_id, b_pubyear, b_resstate, b_loanstate";
-			query += " from";
-			query += " book";
+			query += " m.m_pid, m.m_name, b.b_title, b.b_author, l.lb_name, o.l_loanDate, o.l_returnDate, b.b_resstate, b.b_loanstate";
+			query += " from member m";
+			query += " join library l on (m.lb_id = l.lb_id)";
+			query += " join loan o on(m.m_pid = o.m_pid)";
+			query += " join book b on(o.b_id = b.b_id)";
 
 			System.out.println("query:" + query);
 			// SQL 실행준비
@@ -63,19 +64,17 @@ public class admin_book_overdueServlet extends HttpServlet {
 			while (rs.next()) {
 				Map<String,String> map = new HashMap<String, String>();
 					
-				map.put("b_id", rs.getString("b_id"));
+				map.put("m_pid", rs.getString("m_pid"));
+				map.put("m_name", rs.getString("m_name"));
 				map.put("b_title", rs.getString("b_title"));
 				map.put("b_author", rs.getString("b_author"));
-				map.put("b_publisher", rs.getString("b_publisher"));
-				map.put("b_isbn", rs.getString("b_isbn"));
-				map.put("b_pubyear", rs.getString("b_pubyear"));
-				map.put("lb_id", rs.getString("lb_id"));
-				map.put("b_pubyear", rs.getString("b_pubyear"));
+				map.put("lb_name", rs.getString("lb_name"));
+				map.put("l_loanDate", rs.getString("l_loanDate"));
+				map.put("l_returnDate", rs.getString("l_returnDate"));
 				map.put("b_resstate", rs.getString("b_resstate"));
 				map.put("b_loanstate", rs.getString("b_loanstate"));
 
 				result_list.add(map);
-//		    	System.out.println(rs.getString("lb_name"));
 			}
 
 			rs.close();

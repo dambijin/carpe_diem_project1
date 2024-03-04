@@ -15,8 +15,7 @@
 </head>
 
 <!-- function 스크립트 -->
-<script src="
-../js/admin_library.js"></script>
+<script src="/carpedm/js/admin_library.js"></script>
 <script>
 
     window.addEventListener("load", function () {
@@ -27,36 +26,61 @@
     function bind() {
     	
     	<%
-		ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
+		ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("overdue");
 		%>
-		
+		console.log(<%=data_list%>);
         // 테이블 가져오기
-        let add = document.querySelector("#todo_booktable");
+//         let add = document.querySelector("#todo_booktable");
 
-        for (let i = 1; i <= 10; i++) {
+//         for (let i = 1; i <= 10; i++) {
             // 테이블을 todlist 에 담아둠
-            let todolist = document.querySelector("#todo_booktable");
+//             let todolist = document.querySelector("#todo_booktable");
 
-            let book_html = '';
+//             let book_html = '';
 
-            // html += '</tr>';
-            // 추가한다
-            book_html += '<td>1</td>';
-            book_html += '<td>홍길동</td>';
-            book_html += '<td>aaaaaaaaaaa</td>';
-            book_html += '<td>홍길동</td>';
-            book_html += '<td>천안도서관</td>';
-            book_html += '<td>yyyy/mm/dd</td>';
-            book_html += '<td>yyyy/mm/dd</td>';
-            book_html += '<td>3일</td>';
-            book_html += '<td><input type="checkbox" class="checkbox"></td>';
-            // html +=	'</tr>'
+//             // html += '</tr>';
+//             // 추가한다
+//             book_html += '<td>1</td>';
+//             book_html += '<td>홍길동</td>';
+//             book_html += '<td>aaaaaaaaaaa</td>';
+//             book_html += '<td>홍길동</td>';
+//             book_html += '<td>천안도서관</td>';
+//             book_html += '<td>yyyy/mm/dd</td>';
+//             book_html += '<td>yyyy/mm/dd</td>';
+//             book_html += '<td>3일</td>';
+//             book_html += '<td><input type="checkbox" class="checkbox"></td>';
+//             // html +=	'</tr>'
 
-            let tr = document.createElement("tr"); // <tr></tr>
-            tr.innerHTML = book_html;
+//             let tr = document.createElement("tr"); // <tr></tr>
+//             tr.innerHTML = book_html;
 
             // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
-            tr.querySelector(".checkbox").addEventListener("click", function (event) {
+//             tr.querySelector(".checkbox").addEventListener("click", function (event) {
+//                 // 만약 현재 클릭된 체크박스가 체크 해제되었다면
+//                 if (!event.target.checked) {
+//                     // 전체선택 체크박스도 체크 해제
+//                     document.querySelector("#select_all").checked = false;
+//                 } else {
+//                     // 전체 체크박스 개수와 현재 체크된 체크박스 개수를 세어서 비교
+//                     let allCount = document.querySelectorAll(".checkbox").length;
+//                     let checkedCount = document.querySelectorAll(".checkbox:checked").length;
+
+//                     // 만약 모든 체크박스가 체크 되어있다면
+//                     if (allCount == checkedCount) {
+//                         // 전체선택 체크박스를 체크
+//                         document.querySelector("#select_all").checked = true;
+//                     } else {
+//                         // else 전체선택 체크박스를 체크 해제
+//                         document.querySelector("#select_all").checked = false;
+//                     }
+//                 }
+//             });
+
+//             todolist.append(tr);
+//         }
+
+			//체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
+            document.querySelector(".checkbox").addEventListener("click", function (event) {
                 // 만약 현재 클릭된 체크박스가 체크 해제되었다면
                 if (!event.target.checked) {
                     // 전체선택 체크박스도 체크 해제
@@ -76,10 +100,7 @@
                     }
                 }
             });
-
-            todolist.append(tr);
-        }
-
+			
         // 전체선택 이벤트
         document.querySelector("#select_all").addEventListener("click", function (event) {
             let list_check = document.querySelectorAll(".checkbox");
@@ -106,11 +127,22 @@
             } else {
                 alert("선택된 항목이 없습니다.");
             }
-        });
+        })
 
-    };
+    }
 
+ 	// 닫기
+    function closePopup() {
+        window.open('', '_self', '');
+        window.close();
+    }
 
+ 	// 연체해제 누르면 확인 후 닫기
+	function closeOverduePopup() {
+		alert("연체해제 되었습니다");
+		window.close();
+	}
+ 	
 </script>
 
 <style>
@@ -190,29 +222,54 @@
         </div>
 
         <div>
-            <table class="add_table" border="0" width="900px" align="center" cellpadding="5" cellspacing="1"
+            <table class="add_table" border="0" width="1000px" align="center" cellpadding="5" cellspacing="1"
                 bgcolor="cccccc" id="todo_booktable">
-                <tr>
-                    <th>회원번호</th>
-                    <th>회원이름</th>
-                    <th>책제목</th>
-                    <th>저자</th>
-                    <th>소장기관</th>
-                    <th>대출일자</th>
-                    <th>반납일자</th>
-                    <th>연체일자</th>
-                    <th width="100px">
-                        연체상태
-                        <input type="checkbox" name="check" id="select_all">
-                    </th>
+                <thead>
+                	<tr>
+	                    <th>회원번호</th>
+	                    <th>회원이름</th>
+	                    <th>책제목</th>
+	                    <th>저자</th>
+	                    <th>소장기관</th>
+	                    <th>대출일자</th>
+	                    <th>반납일자</th>
+	                    <th>연체일자</th>
+	                    <th>연체상태</th>
+	                    <th>
+	                    	<input type="checkbox" name="check" id="select_all">
+	                    </th>
                 </tr>
+                </thead>
+                <tbody>
+
+					<%
+					for (int i = 0; i < data_list.size(); i++) {
+					%>
+					<tr>
+						<td><%=data_list.get(i).get("m_pid")%></td>
+						<td><%=data_list.get(i).get("m_name")%></td>
+						<td><%=data_list.get(i).get("b_title")%></td>
+						<td><%=data_list.get(i).get("b_author")%></td>
+						<td><%=data_list.get(i).get("lb_name")%></td>
+						<td><%=data_list.get(i).get("l_loanDate").substring(0,10)%></td>
+						<td><%=data_list.get(i).get("l_returnDate").substring(0,10)%></td>
+						<td><%=data_list.get(i).get("b_resstate")%></td>
+						<td><%=data_list.get(i).get("b_loanstate")%></td>
+						<td><input type="checkbox" class="checkbox"></td>
+					</tr>
+					<%
+					}
+					%>
+                </tbody>
             </table>
         </div>
     </section>
 
     <!-- 등록 취소 -->
     <div class="input">
-        <button type="button" value="연체해제" class="button" id="button_cancle" onclick="closeOverduePopup()">연체해제</button>
+        <button type="button" value="연체해제" class="button" id="button_cancle" onclick="closeOverduePopup()">
+        	연체해제
+        </button>
         <input type="reset" value="닫기" class="button" onclick="closePopup()">
     </div>
 

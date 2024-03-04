@@ -53,7 +53,7 @@ public class admin_wishbook_listServlet extends HttpServlet {
 			// SQL준비
 			String query = "";
 			query += " select";
-			query += " w.w_id, l.lb_id, w.w_title, w.w_author, w.w_publisher, w.m_pid, w.w_pubyear, w.w_content, w.w_state";
+			query += " l.lb_name, w.w_id, l.lb_id, w.w_title, w.w_author, w.w_publisher, w.m_pid, w.w_pubyear, w.w_content, w.w_state";
 			query += " from";
 			query += " wishlist w";
 			query += " join library l on w.lb_id = l.lb_id";
@@ -80,11 +80,11 @@ public class admin_wishbook_listServlet extends HttpServlet {
 //				 * "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
 //				 */
 				map.put("w_id", rs.getString("w_id"));
-				map.put("lb_id", rs.getString("lb_id"));
 				map.put("w_title", rs.getString("w_title"));
 				map.put("w_author", rs.getString("w_author"));
 				map.put("w_publisher", rs.getString("w_publisher"));
 				map.put("m_pid", rs.getString("m_pid"));
+				map.put("lb_name", rs.getString("lb_name"));
 				map.put("w_pubyear", rs.getString("w_pubyear"));
 				map.put("w_content", rs.getString("w_content"));
 				map.put("w_state", rs.getString("w_state"));

@@ -22,25 +22,21 @@
 	// 연체상태 popup창
 	function openOverduePopup() {
 		window.open
-			("admin/admin_book_overdue.jsp", "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm/admin_book_overdue", "팝업", "width=1200, height=900, left=200, top=200");
 	}
-	// 연체해제 누르면 확인 후 닫기
-	function closeOverduePopup() {
-		alert("연체해제 되었습니다");
-		window.close();
-	}
+	
 	// 예약목록 popup창
 	function openReservation() {
 		window.open
-		("admin/admin_reservation_list.jsp", "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm/admin_reservation_list", "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	// 대출내역 popup창
 	function openLoan() {
 		window.open
-		("admin/admin_loan.jsp", "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm/admin_loan", "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	
-	//  윈도우가 로드됐을 때 bind함수 작동
+	// 윈도우가 로드됐을 때 bind함수 작동
 	window.addEventListener("load", function () {
 		bind();
 	});

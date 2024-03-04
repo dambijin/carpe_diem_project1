@@ -99,9 +99,15 @@
     }
 
     // 책이름 클릭 시 팝업창 띄우기
-    function popup() {
-        window.open('wishbook_detail.jsp', '팝업', 'width=900,height=900');
-    }
+    function popup(w_id) {
+            let width = 600;
+            let height = 800;
+            let left = (window.innerWidth - width) / 2;
+            let top = (window.innerHeight - height) / 2;
+            let options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
+            let url = "/carpedm/wishbook_detail?w_id=" + w_id;
+            window.open(url, "_blank", options);
+     }
 
 //     var request = new XMLHttpRequest();
 // 	function searchFunction(){
@@ -283,11 +289,11 @@
             	<thead>
 	                <tr id="page1_tr">
 	                    <th width="80px">희망도서ID</th>
-	                    <th width="80px">도서관ID</th>
 	                    <th width="80px">책이름</th>
 	                    <th width="80px">저자</th>
 	                    <th width="80px">출판사</th>
 	                    <th width="100px">회원ID</th>
+	                    <th width="80px">소장기관</th>
 	                    <th width="100px">신청날짜</th>
 	                    <th width="100px">신청사유</th>
 	                    <th width="100px">처리상태</th>
@@ -302,13 +308,14 @@
 					<%
 					for (int i = 0; i < data_list.size(); i++) {
 					%>
+					
 					<tr>
 						<td><%=data_list.get(i).get("w_id")%></td>
-						<td><%=data_list.get(i).get("lb_id")%></td>
-						<td><%=data_list.get(i).get("w_title")%></td>
+						<td><a href="javacsript:void(0);" onclick="popup('<%=data_list.get(i).get("w_id") %>')"><%=data_list.get(i).get("w_title")%></a></td>
 						<td><%=data_list.get(i).get("w_author")%></td>
 						<td><%=data_list.get(i).get("w_publisher")%></td>
 						<td><%=data_list.get(i).get("m_pid")%></td>
+						<td><%=data_list.get(i).get("lb_name")%></td>
 						<td><%=data_list.get(i).get("w_pubyear")%></td>
 						<td><%=data_list.get(i).get("w_content")%></td>
 						<td><%=data_list.get(i).get("w_state")%></td>
