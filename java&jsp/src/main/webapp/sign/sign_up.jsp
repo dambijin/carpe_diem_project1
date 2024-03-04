@@ -264,10 +264,6 @@
 
 <body>
     <header></header>
-    <%
-	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("member");
-	Map<String, String> map = new HashMap<String, String>();
-	%>
     <nav class="sign_up_nav">
         회원가입
     </nav>

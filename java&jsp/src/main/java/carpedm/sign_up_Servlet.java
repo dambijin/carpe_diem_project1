@@ -100,62 +100,54 @@ public class sign_up_Servlet extends HttpServlet {
 	}
 
 	private int getDBUpdate(HttpServletRequest request, HttpServletResponse response) {
-		int result = -1;
-		try {
-			Connection conn = getConnection();
-			// SQL준비
-			String m_id = request.getParameter("id");
-			String m_pw = request.getParameter("pw");
-			String m_pw2 = request.getParameter("pw_check");
-			String m_name = request.getParameter("name");
-			String m_birthday = request.getParameter("birthday");
-			String m_tel = request.getParameter("tel");
-			String m_email = request.getParameter("email");
-			String m_address = request.getParameter("address");
+	    int result = -1;
+	    try {
+	        Connection conn = getConnection();
+	        // SQL준비
+	        String m_id = request.getParameter("id");
+	        String m_pw = request.getParameter("pw");
+	        String m_pw2 = request.getParameter("pw_check");
+	        String m_name = request.getParameter("name");
+	        String m_birthday = request.getParameter("birthday");
+	        String m_tel = request.getParameter("tel");
+	        String m_email = request.getParameter("email");
+	        String m_address = request.getParameter("address");
 
-			// 유효성 검사 및 비밀번호 확인
-			if (m_id == null || m_id.trim().isEmpty() || m_pw == null || m_pw.trim().isEmpty() || m_pw2 == null
-					|| m_pw2.trim().isEmpty() || m_name == null || m_name.trim().isEmpty() || m_birthday == null
-					|| m_birthday.trim().isEmpty() || m_tel == null || m_tel.trim().isEmpty() || m_email == null
-					|| m_email.trim().isEmpty() || m_address == null || m_address.trim().isEmpty()) {
-			} else {
-				String member_in = "";
-				member_in += " insert into member";
-				member_in += " (";
-				member_in += "M_PID";
-				member_in += " , M_ID";
-				member_in += " , M_PW";
-				member_in += " , M_NAME";
-				member_in += " , M_TEL";
-				member_in += " , M_EMAIL";
-				member_in += " , M_BIRTHDAY";
-				member_in += " , M_ADDRESS";
-				member_in += " , M_EMAIL_AGREE";
-				member_in += " , M_LOANSTATE";
-				member_in += " , M_MANAGERCHK";
-				member_in += " , LB_ID)";
+	        // 유효성 검사 및 비밀번호 확인
+	        if (m_id == null || m_id.trim().isEmpty() ||
+	            m_pw == null || m_pw.trim().isEmpty() ||
+	            m_pw2 == null || m_pw2.trim().isEmpty() ||
+	            m_name == null || m_name.trim().isEmpty() ||
+	            m_birthday == null || m_birthday.trim().isEmpty() ||
+	            m_tel == null || m_tel.trim().isEmpty() ||
+	            m_email == null || m_email.trim().isEmpty() ||
+	            m_address == null || m_address.trim().isEmpty()) {
+	            response.sendRedirect("sign_up.jsp"); // 회원가입 페이지로 다시 이동
+	        
+	        } else {
+	            String member_in = "INSERT INTO member (M_ID, M_PW, M_NAME, M_BIRTHDAY, M_TEL, M_EMAIL, M_ADDRESS, M_EMAIL_AGREE, M_LOANSTATE, M_MANAGERCHK, LB_ID) " +
+	                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	            // SQL 실행준비
+	            PreparedStatement ps = conn.prepareStatement(member_in);
+	            ps.setString(1, m_id);
+	            ps.setString(2, m_pw);
+	            ps.setString(3, m_name);
+	            ps.setString(4, m_birthday);
+	            ps.setString(5, m_tel);
+	            ps.setString(6, m_email);
+	            ps.setString(7, m_address);
 
-				System.out.println(member_in);
-				// SQL 실행준비
-				PreparedStatement ps = conn.prepareStatement(member_in);
-				ps.setString(1, m_id);
-				ps.setString(2, m_pw);
-				ps.setString(3, m_pw2);
-				ps.setString(4, m_name);
-				ps.setString(5, m_birthday);
-				ps.setString(6, m_tel);
-				ps.setString(7, m_email);
-				ps.setString(8, m_address);
 
-				result = ps.executeUpdate();
-				System.out.println("바뀐 행 수:" + result);
+	            // SQL 실행
+	            result = ps.executeUpdate();
+	            System.out.println("바뀐 행 수:" + result);
 
-				ps.close();
-				conn.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+	            ps.close();
+	            conn.close();
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return result;
 	}
 }
