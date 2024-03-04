@@ -85,14 +85,14 @@ public class admin_member_chginfoServlet extends HttpServlet {
 
 				result_list.add(map);
 			}
-
 			rs.close();
 			ps.close();
 			conn.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result_list;
 	}
-
+	
 }

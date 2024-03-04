@@ -55,9 +55,11 @@ public class admin_book_listServlet extends HttpServlet {
 			// SQL준비
 			String query = "";
 			query += " select";
-			query += " b_id, b_title, b_author, b_publisher, b_isbn, b_pubyear, lb_id, b_pubyear, b_resstate, b_loanstate";
-			query += " from";
-			query += " book";
+			query += " b.b_id,b.lb_id, b.b_title, b.b_author, b.b_publisher, b.b_isbn, l.lb_name, b.b_date, b.b_resstate, b.b_loanstate";
+			query += " from book b";
+			query += " join library l on b.lb_id = l.lb_id";
+			
+			
 
 			System.out.println("query:" + query);
 			// SQL 실행준비
@@ -75,13 +77,13 @@ public class admin_book_listServlet extends HttpServlet {
 				map.put("lb_content", rs.getString("lb_content").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
 				*/				
 				map.put("b_id", rs.getString("b_id"));
+				map.put("lb_id", rs.getString("lb_id"));
 				map.put("b_title", rs.getString("b_title"));
 				map.put("b_author", rs.getString("b_author"));
 				map.put("b_publisher", rs.getString("b_publisher"));
 				map.put("b_isbn", rs.getString("b_isbn"));
-				map.put("b_pubyear", rs.getString("b_pubyear"));
-				map.put("lb_id", rs.getString("lb_id"));
-				map.put("b_pubyear", rs.getString("b_pubyear"));
+				map.put("lb_name", rs.getString("lb_name"));
+				map.put("b_date", rs.getString("b_date"));
 				map.put("b_resstate", rs.getString("b_resstate"));
 				map.put("b_loanstate", rs.getString("b_loanstate"));
 

@@ -155,7 +155,7 @@
             }
         }).open();
     }
-//     console.log(data_list);
+    
 </script>
 
 <style>
@@ -305,8 +305,6 @@
             if (data_list == null || data_list.isEmpty()) {
                 data_list = new ArrayList<>();
             }
-
-            
 			%>
 	        	<tr>
 	                <th width="20%" height="40px">항목</th>
@@ -319,7 +317,7 @@
 	            <tr>
 	                <th height="40px">생년월일</th>
 	                <td>
-	                <input type="text" id="yymmdd" value="<%=data_list.get(0).get("m_birthday")%>">
+	                <input type="date" id="yymmdd" value="<%=data_list.get(0).get("m_birthday").substring(0,10)%>">
 	                </td>
 	            </tr>
 	            <tr>
@@ -330,7 +328,7 @@
 	            </tr>
 	            <tr>
 	                <th height="40px">비밀번호</th>
-	                <td><input type="text" name="text" id="password" maxlength="20" 
+	                <td><input type="password" name="text" id="password" maxlength="20" 
 	                		placeholder=" 비밀번호를 입력해주세요." value="<%=data_list.get(0).get("m_pw")%>">
 	                </td>
 	            </tr>
@@ -339,14 +337,15 @@
 	                <th height="40px">비밀번호확인</th>
 	
 	                <td>
-	                    <input type="text" id="text" name="password_check" maxlength="16"
-	                        placeholder=" 비밀번호를 확인해주세요." value="<%=data_list.get(0).get("m_pw")%>">
+	                    <input type="password" id="text" name="password_check" maxlength="16"
+	                        placeholder=" 비밀번호를 확인해주세요.">
 	                </td>
 	            </tr>
 	            <tr>
 	                <th height="40px">휴대폰번호</th>
 	                <td>
-	                    <input type="number" name="phone_number" id="phone" placeholder="-를 빼고 작성해주세요." value="<%=data_list.get(0).get("m_tel")%>">
+	                    <input type="number" name="phone_number" id="phone" placeholder="-를 빼고 작성해주세요." value="<%=data_list.get(0).get("m_tel").replace("-","")%>">
+	               
 	                    SMS수신
 	                    <input type="radio" name="sms1" checked>예
 	                    <input type="radio" name="sms1">아니오
@@ -364,11 +363,11 @@
 	            <tr>
 	                <th height="40px">이메일</th>
 	                <td>
-	                    <input type="text" id="emailId1" placeholder="이메일 입력" value="<%=data_list.get(0).get("m_email")%>">
+	                    <input type="text" id="emailId1" placeholder="이메일 입력" value="<%=data_list.get(0).get("m_email").split("@")[0]%>">
 	
 	                    <span>@</span>
 	
-	                    <input type="text" name="email_com" placeholder="이메일을 선택하세요." id="emailId2">
+	                    <input type="text" id="emailId2" placeholder="이메일을 선택하세요." value="<%=data_list.get(0).get("m_email").split("@")[1]%>">
 	
 	                    <select class="temail" onchange="selectWebsite()" id="select_email">
 	                        <!-- 자바스크립트화 -->

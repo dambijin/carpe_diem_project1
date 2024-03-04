@@ -266,6 +266,10 @@
 
 
 <style>
+	.flex-header{
+		cursor: pointer;
+	}
+	
 	header .nav .member_list {
 		background-color: rgba(168, 156, 200, 0.6);
 		color: #000000;
@@ -460,7 +464,6 @@
 						<th width="130px">생년월일</th>
 						<th width="150px">전화번호</th>
 						<th width="200">주소</th>
-						<th width="80px">도서관ID</th>
 						<th width="80px">연체상태</th>
 						<th width="100">예약목록</th>
 						<th width="100">대출내역</th>
@@ -482,10 +485,9 @@
 						<td class="member_no"><%=data_list.get(i).get("m_pid")%></td>
 						<td><div class="member_name"><%=data_list.get(i).get("m_name")%></div></td>
 						<td><%=data_list.get(i).get("m_id")%></td>
-						<td><%=data_list.get(i).get("m_birthday")%></td>
+						<td><%=data_list.get(i).get("m_birthday").substring(0,10)%></td>
 						<td><%=data_list.get(i).get("m_tel")%></td>
 						<td><%=data_list.get(i).get("m_address")%></td>
-						<td><%=data_list.get(i).get("lb_id")%></td>
 						<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>
 						<td><input type="button" value="조회" onclick="openReservation()"></td>
 <%-- 						getReservationInfo('<%=data_list.get(i).get("m_id")%>') --%>

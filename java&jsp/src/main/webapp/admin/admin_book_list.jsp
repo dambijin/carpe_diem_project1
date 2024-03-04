@@ -26,13 +26,14 @@
 	// 책 추가버튼 가져오기
 	window.addEventListener("load", function () {
 		bind();
+
 	});
 
 	function bind() {
 		<%
 		ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
 		%>
-
+<%--     	console.log(<%=data_list%>); --%>
 // 		for (let i = 0; i < data_list.length; i=i+10) {
 // 			// 테이블을 가져와서 todolist변수에 담아둠
 // 			let todolist = document.querySelector("#todo_booktable");		
@@ -218,6 +219,9 @@
 </script>
 
 <style>
+	.flex-header{
+		cursor: pointer;
+	}
 	/* 전체 */
 	.booklist_entire {
 		font-family: "Wanted Sans Variable";
@@ -390,19 +394,16 @@
 
 
 		<!-- table -->
-		<form name="myform" method="post" action="">
 			<div class="detail_tabel">
 				<table border="0" width="1200" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc"
 					id="todo_booktable">
 					<thead>
 						<tr>
 							<th width="50px">순번</th>
-							<th width="50px">도서ID</th>
 							<th width="*">책이름</th>
 							<th width="100">저자</th>
 							<th width="100">출판사</th>
 							<th width="100">ISBN</th>
-							<th width="100">발행년</th>
 							<th width="100">소장기관</th>
 							<th width="100">등록날짜</th>
 							<th width="50px">예약</th>
@@ -415,19 +416,19 @@
 					</thead>
 					<tbody id="memberListBody">
                 	<!-- 동적으로 추가될 테이블 내용 -->
+                	
+
 					<%
 					for (int i = 0; i < data_list.size(); i++) {
 					%>
 					<tr>
 						<td><%= i+1 %></td>
-						<td class="book_no"><%=data_list.get(i).get("b_id")%></td>
 						<td><div class="book_name" onclick="openBookPopup('<%=data_list.get(i).get("b_id")%>')"><%=data_list.get(i).get("b_title")%></div></td>
 						<td><%=data_list.get(i).get("b_author")%></td>
 						<td><%=data_list.get(i).get("b_publisher")%></td>
 						<td><%=data_list.get(i).get("b_isbn")%></td>
-						<td><%=data_list.get(i).get("b_pubyear")%></td>
-						<td><%=data_list.get(i).get("lb_id")%></td>
-						<td><%=data_list.get(i).get("b_pubyear")%></td>
+						<td><%=data_list.get(i).get("lb_name")%></td>
+						<td><%=data_list.get(i).get("b_date").substring(0,10)%></td>
 						<td><%=data_list.get(i).get("b_resstate")%></td>
 						<td><%=data_list.get(i).get("b_loanstate")%></td>
 						<td><input type="checkbox" name="check" class="checkbox"></td>
@@ -437,7 +438,8 @@
 					%>
 					</tbody>
 				</table>
-		</form>
+			</div>
+	
 
 		<!-- 등록 삭제 -->
 		<div class="input1">

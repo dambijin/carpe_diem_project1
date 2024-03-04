@@ -95,7 +95,7 @@
 
 
     function companion(w_id) {
-    	alert("완료되었습니다 회망도서 ID: " + w_id);
+    	alert("반려되었습니다 회망도서 ID: " + w_id);
     }
 
     // 책이름 클릭 시 팝업창 띄우기
@@ -127,6 +127,10 @@
 </script>
 
 <style>
+	.flex-header{
+		cursor: pointer;
+	}
+	
     header .nav .wish_list {
         background-color: rgba(168, 156, 200, 0.6);
         color: #000000;
@@ -279,14 +283,14 @@
             	<thead>
 	                <tr id="page1_tr">
 	                    <th width="80px">희망도서ID</th>
+	                    <th width="80px">도서관ID</th>
 	                    <th width="80px">책이름</th>
 	                    <th width="80px">저자</th>
-	                    <th>ISBN</th>
-	                    <th>발행년</th>
+	                    <th width="80px">출판사</th>
 	                    <th width="100px">회원ID</th>
-	                    <th width="100px">신청자이름</th>
 	                    <th width="100px">신청날짜</th>
 	                    <th width="100px">신청사유</th>
+	                    <th width="100px">처리상태</th>
 	                    <th width="100px">처리</th>
 	                </tr>
                 </thead>
@@ -300,14 +304,14 @@
 					%>
 					<tr>
 						<td><%=data_list.get(i).get("w_id")%></td>
+						<td><%=data_list.get(i).get("lb_id")%></td>
 						<td><%=data_list.get(i).get("w_title")%></td>
 						<td><%=data_list.get(i).get("w_author")%></td>
-						<td><%=data_list.get(i).get("w_isbn")%></td>
-						<td><%=data_list.get(i).get("w_pubyear")%></td>
+						<td><%=data_list.get(i).get("w_publisher")%></td>
 						<td><%=data_list.get(i).get("m_pid")%></td>
-						<td><%=data_list.get(i).get("w_name")%></td>
 						<td><%=data_list.get(i).get("w_pubyear")%></td>
 						<td><%=data_list.get(i).get("w_content")%></td>
+						<td><%=data_list.get(i).get("w_state")%></td>
 						<td width="150px">
 							<input type="button" value="완료" class="complete" onclick="complete('<%=data_list.get(i).get("w_id")%>')"> 
 							<input type="button" value="반려" class="companion" onclick="companion('<%=data_list.get(i).get("w_id")%>')">
