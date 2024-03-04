@@ -59,13 +59,15 @@
 	border-collapse: collapse;
 }
 
-.announcement_table .ann_title {
-	cursor: pointer;
-}
-
 /* 공지사항 td */
 .announcement_library_information .announcement_table td {
 	border-bottom: 2px solid rgba(168, 156, 200, 0.6);
+	cursor: pointer;
+}
+
+.announcement_library_information .announcement_table tr:hover{
+/* 	text-decoration: underline; */
+	color:blue;
 }
 
 /* 신착도서 */
@@ -476,11 +478,9 @@ nav .inner .inner-list img {
 
 					for (int i = 0; i < notice_list.size(); i++) {
 					%>
-					<tr>
+					<tr onclick="location.href='notice_detail?N_ID=<%=notice_list.get(i).get("N_ID")%>'">
 						<td class="ann_id"><%=notice_list.get(i).get("N_ID")%></td>
-						<td class="ann_title"><a
-							href="notice_detail?N_ID=<%=notice_list.get(i).get("N_ID")%>"><%=notice_list.get(i).get("N_TITLE")%></a>
-						</td>
+						<td class="ann_title"><%=notice_list.get(i).get("N_TITLE")%></td>
 						<td class="ann_day"><%=notice_list.get(i).get("N_DATE").substring(0, 10)%></td>
 					</tr>
 					<%

@@ -460,6 +460,26 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 	    + '&okywd=' + rf_box2.value
 	    + libraryIdsParam;
 	};
+	
+	function search2(currentPage) {
+	    let textbox = document.getElementById("searchWord");
+	    let selectbox = document.getElementById("search_opt_list");
+	    let rf_box1 = document.getElementById("result_filter1");
+	    let rf_box2 = document.getElementById("result_filter2");
+
+	    let checkboxes = document.querySelectorAll('input[name="libraryIds"]:checked');
+	    let libraryIdsParam = '';
+	    for (let i = 0; i < checkboxes.length; i++) {
+	        libraryIdsParam += '&libraryIds='+ checkboxes[i].value;
+	    }
+
+	    window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)
+	    + '&item=' + selectbox.value
+	    + '&page=' + currentPage
+	    + '&perPage=' + rf_box1.value
+	    + '&okywd=' + rf_box2.value
+	    + libraryIdsParam;
+	};
 </script>
 
 <body>
@@ -512,7 +532,7 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 									placeholder="검색어를 적어주세요">
 								<!-- input type="hidden" name="item" value="title" id="item" -->
 							</div>
-							<input type="submit" class="btn btn-search" value="도서검색">
+							<input type="button" class="btn btn-search" value="도서검색">
 						</div>
 					</fieldset>
 				</div>
@@ -618,7 +638,7 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 				<%
 				if (current_page > 1) {
 				%>
-				<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>"
+				<a href="javascript:void(0);" onclick="search2(<%=current_page - 1%>)"
 					class="pre">◀</a>
 				<%
 				}
@@ -626,7 +646,7 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 				<%
 				for (int i = start_page; i <= end_page; i++) {
 				%>
-				<a href="?page=<%=i%>&perPage=<%=perPage%>"
+				<a href="javascript:void(0);" onclick="search2(<%=i%>)"
 					class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
 				<%
 				}
@@ -634,7 +654,7 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 				<%
 				if (current_page < total_pages) {
 				%>
-				<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>"
+				<a href="javascript:void(0);" onclick="search2(<%=current_page + 1%>)"
 					class="next">▶</a>
 				<%
 				}
