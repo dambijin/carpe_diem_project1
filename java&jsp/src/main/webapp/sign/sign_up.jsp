@@ -39,7 +39,7 @@
         /* 테이블 왼쪽 td  */
         .sign_up_form .r_border {
             background-color: rgba(168, 156, 200, 0.6);
-            width: 30%;
+            width:25%;
             text-align: center;
         }
 
@@ -49,14 +49,16 @@
             border: 1px solid grey;
         }
 
-        .sign_up_form input {
+        .sign_up_form .inputbox {
             width: 100%;
             height: 23px;
+            font-size:18px;
+            font-family: "Wanted Sans Variable";
         }
 
         .sign_up_form table {
             margin: auto;
-            width: 40%;
+            width: 50%;
         }
 
         /* 회원가입 버튼 */
@@ -75,7 +77,14 @@
 
         /* 이메일 */
         .sign_up_form .email {
-            width: 25%;
+            width: 100px;
+            font-family: "Wanted Sans Variable";
+            font-size: 18px;
+            
+        }
+        #email_domain {
+        	font-family: "Wanted Sans Variable";
+        	height: 30px;
         }
 
         /* 개인정보동의에 있는 체크박스 */
@@ -87,8 +96,6 @@
 
         /* 테이블 오른쪽의 텍스트상자 */
         .sign_up_form .textbox {
-            font-family: "Wanted Sans Variable";
-            font-size: 18px;
             margin-bottom: 5px;
         }
 
@@ -106,6 +113,13 @@
             height: 30px;
             font-size: 18px;
         }
+        
+        #birthday_text::-webkit-inner-spin-button {
+        	-webkit-appearance: none;
+        	margin: 0;
+        }
+       
+
     </style>
     <script>
 
@@ -169,6 +183,7 @@
                 } else {
                     alert("회원가입 되었습니다");
                     location.href = 'sign_in';
+                    
                 }
             });
         };
@@ -269,53 +284,60 @@
     </nav>
     <section class="sign_up_form">
         <!-- 회원가입form -->
-        <from method="post" action="/sign_up">
+        <form method="post" action="sign_up">
         <table>
             <tr>
                 <td class="r_border">아이디</td>
-                <td><input type="text" name="id" placeholder="아이디를 입력(6~20자)" class="textbox" id="id_text"></td>
+                <td><input type="text" class="inputbox" name="id" placeholder="아이디를 입력(6~20자)" class="textbox" id="id_text"></td>
             </tr>
             <tr>
                 <td class="r_border">비밀번호</td>
-                <td><input type="password" name="pw" placeholder="비밀번호를 입력(8~20자)" class="textbox"
+                <td><input type="password" class="inputbox" name="pw" placeholder="비밀번호를 입력(8~20자)" class="textbox"
                         id="pw_text">
                 </td>
             </tr>
             <tr>
                 <td class="r_border">비밀번호 확인</td>
-                <td><input type="password" name="pw_check" placeholder="비밀번호 재입력" class="textbox" id="pw_check_text">
+                <td><input type="password" class="inputbox" name="pw_check" placeholder="비밀번호 재입력" class="textbox" id="pw_check_text">
                 </td>
             </tr>
             <tr>
                 <td class="r_border">이름</td>
-                <td><input type="text" name="name" placeholder="이름" class="textbox" id="name_text"></td>
+                <td><input type="text" class="inputbox" name="name" placeholder="이름" class="textbox" id="name_text"></td>
             </tr>
             <tr>
                 <td class="r_border">생년월일</td>
-                <td><input type="number" name="birthday" placeholder="생년월일 8자리" class="textbox" id="birthday_text"></td>
+                <td><input type="number" class="inputbox" name="birthday" placeholder="생년월일 8자리" class="textbox" id="birthday_text"></td>
             </tr>
             <tr>
                 <!-- 숫자만 입력할 수 있게 설정하기 -->
                 <td class="r_border">휴대폰번호</td>
-                <td> <input type="tel" name="tel" placeholder="-없이 입력해주세요" class="textbox" id="tel_text"> </td>
+                <td> <input type="tel" class="inputbox" name="tel" placeholder="-없이 입력해주세요" class="textbox" id="tel_text"> </td>
             </tr>
             <tr>
                 <td class="r_border">이메일</td>
-                <td><input type="text" name="email" placeholder="이메일" class="email textbox" id="email1_text"> @
-                    <input type="text" name="email" placeholder="직접입력" class="email textbox" id="email2_text">
-                    <select id="email_domain" value="직접입력">
-
+                <td><input type="text" name="email1" placeholder="이메일" class="email textbox" id="email1_text"> @
+                    <input type="text" name="email2" placeholder="직접입력" class="email textbox" id="email2_text">
+                    <select id="email_domain" value="직접입력" class="email">
                     </select>
                 </td>
             </tr>
+             <tr>
+                <td class="r_border">이메일 동의</td>
+                <td> 
+                	<input type="radio" class="chk_agree" name="agree" value="Y">동의함
+                	<input type="radio" class="chk_agree" name="agree" value="N">동의안함
+                </td>
+                
+            </tr>
             <tr>
                 <td class="r_border">주소</td>
-                <td><input type="text" name="address" placeholder="우편번호" class="zip_code" id="add_text">
-                    <button id="place_button" onclick="sample6_execDaumPostcode()">
+                <td><input type="text" name="address1" placeholder="우편번호" class="zip_code" id="add_text">
+                    <button id="place_button" onclick="sample6_execDaumPostcode(); return false;" >
                         주소 찾기
                     </button>
-                    <input type="text" name="address" placeholder="기본주소" class="textbox" id="add1_text">
-                    <input type="text" name="address" placeholder="나머지주소" class="textbox" id="add2_text">
+                    <input type="text" class="inputbox textbox" name="address2" placeholder="기본주소"  id="add1_text">
+                    <input type="text" class="inputbox textbox" name="address3" placeholder="나머지주소"  id="add2_text">
                 </td>
             </tr>
             <tr>
@@ -327,8 +349,8 @@
         </table>
         <br>
         <!-- 회원가입완료 -->
-        <input type="button" class="sub" id="button" value="회원가입">
-        </from>
+        <input type="submit" class="sub" id="button" value="회원가입">
+        </form>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="/carpedm/js/header.js"></script>

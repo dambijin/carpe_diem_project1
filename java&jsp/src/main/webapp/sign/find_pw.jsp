@@ -103,8 +103,8 @@
                 let found = false;
                 <% for (Map<String, String> pw : pw_list) { %> // JSP 코드의 Java 코드 영역을 그대로 가져옵니다.
                     if ("<%= pw.get("id") %>" === userid && "<%= pw.get("name") %>" === username && "<%= pw.get("email") %>" === (useremail1 + "@" + useremail2)) { // 이름과 이메일이 일치하는 경우
-                        console.log("일치하는 아이디를 찾았습니다.");
-                        alert("해당 정보의 아이디는 " + "<%= pw.get("pw") %>" + "입니다"); // 해당 아이디를 알려주는 알림창 표시
+                        console.log("일치하는 비밀번호를 찾았습니다.");
+                        alert("해당 정보의 비밀번호는 " + "<%= pw.get("pw") %>" + "입니다"); // 해당 아이디를 알려주는 알림창 표시
                         found = true;
                         // 원하는 작업을 수행하거나 다른 페이지로 이동할 수 있습니다.
                         onclick(location.href='sign_in')

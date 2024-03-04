@@ -154,7 +154,7 @@
 			
             let found = false;
             <% for (Map<String, String> nametel : nametel_list) { %> // JSP 코드의 Java 코드 영역을 그대로 가져옵니다.
-                if ("<%= nametel.get("name") %>" === username && "<%= nametel.get("tel") %>" === (usertel)) { // 이름과 이메일이 일치하는 경우
+                if ("<%= nametel.get("name") %>" === username && "<%= nametel.get("tel") %>" === usertel) { // 이름과 이메일이 일치하는 경우
                     console.log("일치하는 아이디를 찾았습니다.");
                     alert("해당 정보의 아이디는 " + "<%= nametel.get("id") %>" + "입니다"); // 해당 아이디를 알려주는 알림창 표시
                     found = true;

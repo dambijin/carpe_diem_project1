@@ -62,6 +62,7 @@ public class sign_up_Servlet extends HttpServlet {
 		}
 
 		System.out.println(getDBUpdate(request, response));
+		response.sendRedirect("sign_up");
 
 	}
 
@@ -100,54 +101,87 @@ public class sign_up_Servlet extends HttpServlet {
 	}
 
 	private int getDBUpdate(HttpServletRequest request, HttpServletResponse response) {
-	    int result = -1;
-	    try {
-	        Connection conn = getConnection();
-	        // SQL준비
-	        String m_id = request.getParameter("id");
-	        String m_pw = request.getParameter("pw");
-	        String m_pw2 = request.getParameter("pw_check");
-	        String m_name = request.getParameter("name");
-	        String m_birthday = request.getParameter("birthday");
-	        String m_tel = request.getParameter("tel");
-	        String m_email = request.getParameter("email");
-	        String m_address = request.getParameter("address");
+		int result = -1;
+		try {
+			Connection conn = getConnection();
+			// SQL준비
+			String m_id = request.getParameter("id");
+			String m_pw = request.getParameter("pw");
+			String m_pw2 = request.getParameter("pw_check");
+			String m_name = request.getParameter("name");
+			String m_birthday = request.getParameter("birthday");
+			String m_tel = request.getParameter("tel");
+			String m_email1 = request.getParameter("email1");
+			String m_email2 = request.getParameter("email2");
+			String m_agree = request.getParameter("agree");
+			String m_address1 = request.getParameter("address1");
+			String m_address2 = request.getParameter("address2");
+			String m_address3 = request.getParameter("address3");
 
-	        // 유효성 검사 및 비밀번호 확인
-	        if (m_id == null || m_id.trim().isEmpty() ||
-	            m_pw == null || m_pw.trim().isEmpty() ||
-	            m_pw2 == null || m_pw2.trim().isEmpty() ||
-	            m_name == null || m_name.trim().isEmpty() ||
-	            m_birthday == null || m_birthday.trim().isEmpty() ||
-	            m_tel == null || m_tel.trim().isEmpty() ||
-	            m_email == null || m_email.trim().isEmpty() ||
-	            m_address == null || m_address.trim().isEmpty()) {
-	            response.sendRedirect("sign_up"); // 회원가입 페이지로 다시 이동
-	        
-	        } else {
-	            String member_in = "INSERT INTO member (M_ID, M_PW, M_NAME, M_BIRTHDAY, M_TEL, M_EMAIL, M_ADDRESS, M_EMAIL_AGREE, M_LOANSTATE, M_MANAGERCHK) " +
-	                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	            // SQL 실행준비
-	            PreparedStatement ps = conn.prepareStatement(member_in);
-	            ps.setString(1, m_id);
-	            ps.setString(2, m_pw);
-	            ps.setString(3, m_name);
-	            ps.setString(4, m_birthday);
-	            ps.setString(5, m_tel);
-	            ps.setString(6, m_email);
-	            ps.setString(7, m_address);
+			// 유효성 검사 및 비밀번호 확인
+			if (m_id == null || m_id.trim().isEmpty() || 
+		            m_pw == null || m_pw.trim().isEmpty() || 
+		            m_pw2 == null || m_pw2.trim().isEmpty() || 
+		            m_name == null || m_name.trim().isEmpty() || 
+		            m_birthday == null || m_birthday.trim().isEmpty() || 
+		            m_tel == null || m_tel.trim().isEmpty() || 
+		            m_email1 == null || m_email1.trim().isEmpty() || 
+		            m_email2 == null || m_email2.trim().isEmpty() || 
+		            m_address1 == null || m_address1.trim().isEmpty() || 
+		            m_address2 == null || m_address2.trim().isEmpty() || 
+		            m_address3 == null || m_address3.trim().isEmpty()) {
+		            response.sendRedirect("sign_up"); // 회원가입 페이지로 다시 이동
+			
+			} else {
+				String member_in = "INSERT INTO member ";
+				member_in += " (M_PID"; // PID
+				member_in += ", M_ID"; // 아이디
+				member_in += ", M_PW"; // 패스워드
+				member_in += ", M_NAME"; // 이름
+				member_in += ", M_BIRTHDAY"; // 생년월일
+				member_in += ", M_TEL"; // 전화번호
+				member_in += ", M_EMAIL"; // 이메일
+				member_in += ", M_ADDRESS"; // 주소
+				member_in += ", M_EMAIL_AGREE"; // 이메일 동의
+				member_in += ", M_MANAGERCHK) "; // 관리자인지 아닌지
+				member_in += " VALUES (member_seq.nextval"; // pid
+				member_in += ", '"+m_id+"'"; // 아이디
+				member_in += ", '"+m_pw+"'"; // 패스워드
+				member_in += ", '"+m_name+"'"; // 이름
+				member_in += ", '"+m_birthday+"'"; // 생년월일
+				member_in += ", '"+m_tel+"'"; // 전화번호
+				member_in += ", '"+m_email1+"@"; // 이메일1
+				member_in += m_email2+"'"; // 이메일2
+				member_in += ", '"+m_address1 ; // 우편 번호
+				member_in += m_address2; // 주소1
+				member_in += m_address3+"'"; // 주소2
+				member_in += ", '"+m_agree+"'"; // 이메일 동의
+				member_in += ", 'N')"; // 관리자인지 아닌지
+				
+				System.out.println(member_in);
+				// SQL 실행준비
+				PreparedStatement ps = conn.prepareStatement(member_in);
+//				ps.setString(1, m_id);
+//				ps.setString(2, m_pw);
+//				ps.setString(3, m_name);
+//				ps.setString(4, m_birthday);
+//				ps.setString(5, m_tel);
+//				ps.setString(6, m_email);
+//				ps.setString(7, m_address);
+//				ps.setString(8, m_agree); // 이메일 동의
 
+				System.out.println("");
 
-	            // SQL 실행
-	            result = ps.executeUpdate();
-	            System.out.println("바뀐 행 수:" + result);
+				// SQL 실행
+				result = ps.executeUpdate();
+				System.out.println("인서트:" + result);
 
-	            ps.close();
-	            conn.close();
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return result;
+				ps.close();
+				conn.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

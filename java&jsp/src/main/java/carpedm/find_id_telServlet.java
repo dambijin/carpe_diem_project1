@@ -67,15 +67,23 @@ public class find_id_telServlet extends HttpServlet {
             while (rs.next()) {
             	// HashMap() 중복된 key값과 1개의 value값을 입력 받을수 있다
             	Map map= new HashMap();
-            	map.put("id", rs.getString("m_id")); // 아이디
-            	map.put("name", rs.getString("m_name")); // 이름
-            	map.put("tel", rs.getString("m_tel")); // 전화번호 
-          
+            	map.put("id", rs.getString("M_ID")); // 아이디
+            	map.put("name", rs.getString("M_NAME")); // 이름
+            	String tel = rs.getString("M_TEL");
+            	if(tel!= null)
+            	{                	
+                	map.put("tel", tel.replace("-", ""));
+            	}
+            	else
+            	{
+            		map.put("tel", "132654657984651");
+            	}
+    
             
 //            	map 객체를 list에 추가하는 작업을 수행
             	list.add(map); 
-            	
-            	
+            	System.out.println("tel : "+map.get("tel"));
+	
 //              list.get(0) : 리스트 첫번째에 있는 맵을 꺼내옴
 //            	뒤에 붙는 .get("num") : 그 맵에서 num이라는 키값을 갖는 밸류값을 가져온다
 //            	System.out.println(list.get(0).get("num"));
