@@ -15,12 +15,96 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>메인 페이지</title>
 <link href="/carpedm/css/layout.css" rel="stylesheet">
-<link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>
+  <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+  <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
 
 <style>
+.ui-widget.ui-widget-content{
+  /* 전체 박스 */
+  border:0px;
+  box-shadow: 5px 5px 10px #ccc;
+  padding:0;
+  
+}
+.ui-widget-header{
+  /* 헤더 (화살표/날짜표시 영역) */
+  background: #000;
+  border: 0px;
+  border-radius: 0px;
+}
+.ui-widget-header .ui-icon{
+  /* 이전,다음 화살표 */
+  background: none;
+}
+.ui-datepicker-prev{
+  /* 이전 화살표 */
+  text-align:center;
+  line-height: 2em;
+}
+.ui-datepicker-prev::before{
+  font: var(--fa-font-solid);
+  content:'\f0d9';
+  color:#fff;
+}
+.ui-datepicker-next{
+  /* 다음 화살표 */
+  text-align:center;
+  line-height: 2em;
+}
+/*font-awesome 이용해서 화살표 변경*/
+.ui-datepicker-next::before{
+  font: var(--fa-font-solid);
+  content:'\f0da';
+  color:#fff;
+}
+.ui-datepicker .ui-datepicker-title{
+  /* 년월 텍스트 묶음 */
+  color: #fff;
+}
+.ui-datepicker .ui-datepicker-title .ui-datepicker-year{
+  /* 년도 숫자만 */
+  color: gold;
+}
+.ui-datepicker .ui-datepicker-title .ui-datepicker-month{
+  /* *월 */
+  color: gold;
+}
+.ui-datepicker th{
+  /* 요일 영역 */
+  background : grey;
+}
+.ui-datepicker th span{
+  /* 요일 텍스트 */
+  font-size:18px;
+  color: #fff;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{
+  /* 일자 기본영역 */
+  border:0px;
+  background: none;
+  text-align: center;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 100%;
+  padding:0;
+  margin: 0 auto;
+}
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight{
+  /* 오늘일자 */
+  border:0px;
+  background:#ccc;
+  color: #fff;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
+  /* 선택 일자 */
+  background: gold;
+  color: #000;
+}
+
 /* 바디사이즈 */
 .bodysize {
 	text-align: center;
@@ -44,10 +128,12 @@
 	width: 100%;
 	font-size: 20px;
 	font-weight: bold;
-	border: 2px solid rgba(168, 156, 200, 0.6);
+	font-family: "Wanted Sans Variable";
+	border: 2px solid  rgba(205, 205, 205);
 	border-bottom: 0px;
-	background-color: rgba(168, 156, 200, 0.6);
+	background-color: rgba(220, 220, 220);
 	text-align: center;
+	margin-bottom : 2px;
 }
 
 /* 공지사항테이블 */
@@ -57,24 +143,24 @@
 	margin-top: 10px;
 	width: 100%;
 	border-collapse: collapse;
+	font-family: "Wanted Sans Variable";
+}
+
+.announcement_table .ann_title {
+	cursor: pointer;
 }
 
 /* 공지사항 td */
 .announcement_library_information .announcement_table td {
-	border-bottom: 2px solid rgba(168, 156, 200, 0.6);
-	cursor: pointer;
-}
-
-.announcement_library_information .announcement_table tr:hover{
-/* 	text-decoration: underline; */
-	color:blue;
+	border-bottom: 2px solid rgba(190, 190, 190);
+	font-family: "Wanted Sans Variable";
 }
 
 /* 신착도서 */
 .announcement_library_information .newbook {
 	height: 400px;
 	width: 100%;
-	background-color: rgba(140, 201, 240, 0.6);
+	background-color: rgba(140, 201, 240, 0.3);
 	border: 2px solid rgba(140, 201, 240, 0.6);
 	border-bottom: 0px;
 	font-size: 20px;
@@ -101,7 +187,7 @@
 
 /* 도서관별이용정보 */
 .library_information_content .library_information {
-	background-color: rgba(239, 168, 176, 0.6);
+	background-color: rgba(239, 168, 176, 0.5);
 	display: inline-block;
 	width: 30%;
 	height: 450px;
@@ -289,34 +375,24 @@ nav .inner .inner-list img {
 .button-right {
 	right: 15px;
 }
+/* a태그 밑줄삭제 */
+.title_a{
+	text-decoration: none;
+	font-family: 'Wanted Sans Variable';
+	color : black;
+}
+.title_a:hover{
+text-decoration: underline;
+}
 </style>
 
 <script>
 	// 이용정보 달력
-	$(function() {
-		$("#datepicker").datepicker(
-				{
-					nextText : '다음달',
-					prevText : '이전달'
-					// 요일 표기 바꾸기
-					,
-					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ]
-					// 영어month 한글로 바꾸기
-					,
-					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
-							'8월', '9월', '10월', '11월', '12월' ]
-					// 월 년 으로 표기되던거 년 월로 바꾸기
-					,
-					showMonthAfterYear : true
-					// 앞 뒤 월의 날짜 표기
-					,
-					showOtherMonths : true
-					// year년으로 붙이기
-					,
-					yearSuffix : "년"
-				});
-
-	});
+	 $(function() {
+      $('#datepicker').datepicker({
+        // 달력 설정 및 옵션
+      });
+    });
 
 	window.addEventListener("load", function() {
   		silde_bannersetting();
@@ -478,9 +554,12 @@ nav .inner .inner-list img {
 
 					for (int i = 0; i < notice_list.size(); i++) {
 					%>
-					<tr onclick="location.href='notice_detail?N_ID=<%=notice_list.get(i).get("N_ID")%>'">
+					<tr>
+					
 						<td class="ann_id"><%=notice_list.get(i).get("N_ID")%></td>
-						<td class="ann_title"><%=notice_list.get(i).get("N_TITLE")%></td>
+						<td class="ann_title"><a class="title_a"
+							href="notice_detail?N_ID=<%=notice_list.get(i).get("N_ID")%>"><%=notice_list.get(i).get("N_TITLE")%></a>
+						</td>
 						<td class="ann_day"><%=notice_list.get(i).get("N_DATE").substring(0, 10)%></td>
 					</tr>
 					<%
@@ -530,9 +609,9 @@ nav .inner .inner-list img {
 				%>
 			</select>
 			<div id="libs_time" class="calendar"></div>
+
 			<div class="calendar">
-				<div class="text_detail">
-					<%-- 					<%= library_list.get(0).get("LB_CONTENT") %> --%>
+				<div class="text_detail" id="datepicker">
 				</div>
 				<script>
 					library_list_js = [
@@ -547,6 +626,8 @@ nav .inner .inner-list img {
 					<%}%>
 					];
 					</script>
+					 <div id='datepicker'></div>
+					
 			</div>
 		</div>
 
