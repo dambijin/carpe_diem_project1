@@ -235,6 +235,7 @@
 	align-items: center;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
+	height: 50px;
 }
 
 #paging .total {
@@ -301,7 +302,7 @@
 							
 							%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME") %><br>
 									번호 : <%=myInfo.get(0).get("M_TEL") %><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
-									회원번호 : <%=myInfo.get(0).get("M_PID") %><br> 		<% String loanstate_text = "대출가능";
+											<% String loanstate_text = "대출가능";
 								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
 								{
 									loanstate_text = myInfo.get(0).get("M_LOANSTATE")+"일 연체상태";
@@ -361,8 +362,11 @@
 						<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 
 							System.out.println(list.size());
 							
-							for(int i = 0; i< list.size(); i++)
-                         {%>
+							for(int i = 0; i< list.size(); i++){
+								String state = list.get(i).get("w_state");
+								 String resStateString;
+							
+							%>
 						<tr class="tr">
 							<td><%=i+1 %></td>
 							<td><%=list.get(i).get("lb_name") %></td>
@@ -372,8 +376,22 @@
 <%-- 							<td><%=list.get(i).get("w_pubyear") %></td> --%>
 <%-- 							<td><%=list.get(i).get("w_content") %></td> --%>
 							<td><%=list.get(i).get("w_publisher") %></td>
+							<%    switch(state) {
+					        case "0":
+					            resStateString = "진행중";
+					            break;
+					        case "1":
+					            resStateString = "완료";
+					            break;
+					        case "2":
+					            resStateString = "취소";
+					            break;
+					        default:
+					            resStateString = "알 수 없음";
+					            break; }
+					    %>
 
-							<td>정상</td>
+							<td><%=resStateString %></td>
 							<td><input type="checkbox" class="checkbox"></td>
 						</tr>
 

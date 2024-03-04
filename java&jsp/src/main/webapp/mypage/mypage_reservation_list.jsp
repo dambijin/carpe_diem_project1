@@ -153,6 +153,49 @@
             
 // }
         }
+        //true일때 숫자, false일때 문자 테이블정렬함수
+		function sortTable(n, isNumeric) {
+		    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+		    table = document.getElementById("page1");
+		    switching = true;
+		    dir = "asc";
+		
+		    while (switching) {
+		        switching = false;
+		        rows = table.getElementsByTagName("tr");
+		
+		        for (i = 1; i < (rows.length - 1); i++) {
+		            shouldSwitch = false;
+		            x = rows[i].getElementsByTagName("td")[n];
+		            y = rows[i + 1].getElementsByTagName("td")[n];
+		
+		            var xContent = isNumeric ? Number(x.textContent.trim()) : x.textContent.trim();
+		            var yContent = isNumeric ? Number(y.textContent.trim()) : y.textContent.trim();
+		
+		            if (dir == "asc") {
+		                if (xContent > yContent) {
+		                    shouldSwitch = true;
+		                    break;
+		                }
+		            } else if (dir == "desc") {
+		                if (xContent < yContent) {
+		                    shouldSwitch = true;
+		                    break;
+		                }
+		            }
+		        }
+		        if (shouldSwitch) {
+		            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		            switching = true;
+		            switchcount++;
+		        } else {
+		            if (switchcount == 0 && dir == "asc") {
+		                dir = "desc";
+		                switching = true;
+		            }
+		        }
+		    }
+		}
 
     </script>
 <style>
@@ -193,7 +236,6 @@
 									이름 : <%=myInfo.get(0).get("M_NAME")%><br>
 									번호 : <%=myInfo.get(0).get("M_TEL")%><br> 
 									주소 : <%=myInfo.get(0).get("M_ADDRESS")%><br>
-									회원번호 : <%=myInfo.get(0).get("M_PID")%><br> 
 									<% String loanstate_text = "대출가능";
 								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
 								{
@@ -222,15 +264,7 @@
 							</div>
 							<div id="select1">
 								<div>
-									<select id="library">
-										<option disabled selected>- 도서관 전체</option>
-												<% ArrayList<Map<String,String>> library = (ArrayList<Map<String,String>>)request.getAttribute("library"); 
-							System.out.println(myInfo.size());
-								for(int i=0; i < library.size(); i++){
-							%>
-							<option><%=library.get(i).get("LB_NAME") %></option>
-							<%} %>
-									</select>
+									
 
 
 								</div>
@@ -240,13 +274,14 @@
 					</div>
 					<table id="page1">
 						<tr id="page1_tr">
-							<th>번호</th>
-							<th>책제목</th>
-							<th>저자</th>
-							<th>출판사</th>
-							<th>신청일자</th>
-							<th>반납예정일</th>
-							<th>소장기관</th>
+							<th style="cursor:pointer;" onclick="sortTable(0,true)">번호</th>
+							<th style="cursor:pointer;" onclick="sortTable(1,false)">책제목</th>
+							<th style="cursor:pointer;" onclick="sortTable(2,false)">저자</th>
+							<th style="cursor:pointer;" onclick="sortTable(3,false)">출판사</th>
+							<th style="cursor:pointer;" onclick="sortTable(4,true)">신청일자</th>
+							<th style="cursor:pointer;" onclick="sortTable(5,true)">대출가능일</th>
+							<th style="cursor:pointer;" onclick="sortTable(6,false)">대출상태</th>							
+							<th style="cursor:pointer;" onclick="sortTable(7,false)">소장기관</th>
 							<th>취소 <input type="checkbox" id="selectAll">
 							</th>
 						</tr>
@@ -256,6 +291,8 @@
 						System.out.println(list.size());
 
 						for (int i = 0; i < list.size(); i++) {
+							 String resState = list.get(i).get("r_resstate");
+							 String resStateString;
 						%>
 						<tr class="tr">
 							<td><%=i + 1%></td>
@@ -264,6 +301,22 @@
 							<td><%=list.get(i).get("b_publisher")%></td>
 							<td><%=list.get(i).get("r_resdate").substring(0,10)%></td>
 							<td><%=list.get(i).get("r_resdate").substring(0,10)%></td>
+							<%    switch(resState) {
+					        case "0":
+					            resStateString = "예약중";
+					            break;
+					        case "1":
+					            resStateString = "취소";
+					            break;
+					        case "2":
+					            resStateString = "대출완료";
+					            break;
+					        default:
+					            resStateString = "알 수 없음";
+					            break; }
+					    %>
+							<td><%=resStateString%></td>
+							
 							<td><%=list.get(i).get("lb_name")%></td>
 
 							<td><input type="checkbox" class="checkbox"></td>

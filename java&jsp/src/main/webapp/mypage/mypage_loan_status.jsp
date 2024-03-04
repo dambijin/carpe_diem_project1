@@ -143,7 +143,6 @@
 								이름 : <%=myInfo.get(0).get("M_NAME") %><br>
 								번호 : <%=myInfo.get(0).get("M_TEL") %><br>
 								주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
-								회원번호 : <%=myInfo.get(0).get("M_PID") %><br>
 								<% String loanstate_text = "대출가능";
 								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
 								{

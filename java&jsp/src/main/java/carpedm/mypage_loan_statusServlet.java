@@ -43,6 +43,7 @@ public class mypage_loan_statusServlet extends HttpServlet {
 
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
+		
 		ArrayList<Map<String,String>> list = getLoan(login_m_pid);
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/mypage/mypage_loan_status.jsp").forward(request, response);
@@ -71,9 +72,9 @@ public class mypage_loan_statusServlet extends HttpServlet {
 			query += " from";
 			query += " loan";
 			query += " INNER JOIN book ON loan.b_id = book.b_id INNER JOIN library ON book.lb_id = library.lb_id";	
-			query += " WHERE loan.l_returnrealdate IS NULL";
-			query += " where m_pid = " + m_pid;
-			 
+			query += " WHERE loan.l_returnrealdate IS NULL AND m_pid = " + m_pid;
+			
+			
 
 			System.out.println("query:" + query);
 			// SQL 실행준비

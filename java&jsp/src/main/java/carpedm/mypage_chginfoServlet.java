@@ -121,28 +121,29 @@ public class mypage_chginfoServlet extends HttpServlet {
 			String m_pw = request.getParameter("password");
 			String m_tel = request.getParameter("phonenumber");
 			String email = request.getParameter("email_id")+"@"+request.getParameter("email_domain");
-			String adress = request.getParameter("sample6_address") + request.getParameter("sample6_address2");
+			String address = request.getParameter("sample6_address") + "%$" + request.getParameter("sample6_address2");
 			String emailChk = request.getParameter("email");
 
 			String sql = "";
 			sql += " UPDATE member";
-			sql += " SET m_pw = ?,";
-			sql += " m_tel = ?,";
-			sql += " m_email = ?";
-			sql += " m_email_agree = ?";
-			sql += " m_adress = ?";
-			sql += " WHERE m_pid = ?";
+			sql += " SET m_pw = '"+ m_pw +"',";
+			sql += " m_tel = '"+ m_tel +"',";
+			sql += " m_email = '"+ email +"',";
+			sql += " m_email_agree = '" + emailChk + "',";
+			sql += " m_address = '" + address + "'";
+			sql += " WHERE m_pid = "+ m_pid;
 			
 			System.out.println(sql);
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, m_pw);
-			ps.setString(2, m_tel);
-			ps.setString(3, email);
-			ps.setString(4, emailChk);
-			ps.setString(5, adress);
-			ps.setString(6, m_pid);
+//			ps.setString(1, m_pw);
+//			ps.setString(2, m_tel);
+//			ps.setString(3, email);
+//			ps.setString(4, emailChk);
+//			ps.setString(5, adress);
+//			ps.setString(6, m_pid);
 			
+
 			result = ps.executeUpdate();
 			
 			System.out.println("바뀐 행 수:" + result);

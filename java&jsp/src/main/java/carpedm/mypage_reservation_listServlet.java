@@ -69,7 +69,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 			// SQL준비
 			String query = "";
 			query += " select";
-			query += " b_title, b_author,b_publisher, r_resdate, library.lb_name";
+			query += " b_title, b_author,b_publisher, r_resdate, library.lb_name, r_resstate ";
 			query += " from";
 			query += " reservation";
 			query += " inner join book";
@@ -90,6 +90,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 				map.put("b_publisher", rs.getString("b_publisher"));
 				map.put("r_resdate", rs.getString("r_resdate"));
 				map.put("lb_name", rs.getString("lb_name"));
+				map.put("r_resstate", rs.getString("r_resstate"));
 				
 //				
 				result_list.add(map);

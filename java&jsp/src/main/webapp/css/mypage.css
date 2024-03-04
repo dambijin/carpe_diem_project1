@@ -65,7 +65,7 @@ section {
 	background-color: rgba(168, 156, 200, 0.6);
 	height: 30px;
 	font-family: "Wanted Sans Variable";
-	font-size: 10px;
+	font-size: 18px;
 }
 
 .paging {
@@ -137,3 +137,4 @@ button:hover {
 .bookname {
 	text-decoration: none;
 }
+

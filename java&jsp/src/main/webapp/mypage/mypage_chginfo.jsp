@@ -252,6 +252,7 @@ td, th {
 #button_align {
 	text-align: center;
 	margin: auto;
+	padding : 20px;
 }
 
 .place_input_width {
@@ -387,16 +388,17 @@ input {
 					<th>주소</th>
 					<td><input class="input_width" type="text" placeholder="우편 번호"
 						id="sample6_postcode">
-						<button id="place_button" onclick="sample6_execDaumPostcode()">
+						<button id="place_button" onclick="sample6_execDaumPostcode(); return false;">
 							주소 찾기</button>
+							<% String text1 = myInfo.get(0).get("M_ADDRESS");
+                    String[] address = text1.split("%$");
+                   %> 
 						<br> <input class="place_input_width" id="sample6_address" name="sample6_address"
-						type="text" placeholder="도로명 주소"><br> 
+						type="text" placeholder="도로명 주소" value=<%=address[0] %>><br> 
 						<input class="place_input_width" id="sample6_address2" name="sample6_address2" type="text"
-						placeholder="상세 주소"></td>
+						placeholder="상세 주소" value=<%=address[1]%>></td>
 				</table>
 			</div>
-			<br>
-			<br>
 			<!-- 버튼 -->
 			<div id="button_align">
 

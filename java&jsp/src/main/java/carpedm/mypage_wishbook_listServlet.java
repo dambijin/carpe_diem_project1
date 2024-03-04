@@ -100,7 +100,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			// SQL준비
 			String query = "";
 			query += "select";
-			query += " w_id, lb_name, w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid";
+			query += " w_id, lb_name, w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid, w_state";
 			query += " from";
 			query += " wishlist";
 			query += " inner join library";
@@ -121,6 +121,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 				map.put("w_pubyear", rs.getString("w_pubyear"));
 				map.put("w_content", rs.getString("w_content"));
 				map.put("w_publisher", rs.getString("w_publisher"));
+				map.put("w_state", rs.getString("w_state"));
 
 				map.put("w_date", rs.getString("w_date"));
 //				map.put("lb_name", rs.getString("lb_name"));
