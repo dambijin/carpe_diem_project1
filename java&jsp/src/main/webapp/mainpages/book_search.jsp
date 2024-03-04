@@ -303,9 +303,9 @@ section {
 }
 
 #paging .paging a.num.active {
-    color: blue;
-    font-size: 20px;
-    font-style: bold;
+	color: blue;
+	font-size: 20px;
+	font-style: bold;
 }
 
 #paging .paging strong {
@@ -373,11 +373,9 @@ section {
             }
         }
         
-        <%
-        // 서버에서 전달받은 libraryIds 값
-        String[] libraryIds = (String[])request.getAttribute("libraryIds");
-    	%>
-    	 let libraryIds = <%= Arrays.toString(libraryIds) %>; // libraryIds 값을 자바스크립트 변수로 변환
+        <%// 서버에서 전달받은 libraryIds 값
+String[] libraryIds = (String[]) request.getAttribute("libraryIds");%>
+    	 let libraryIds = <%=Arrays.toString(libraryIds)%>; // libraryIds 값을 자바스크립트 변수로 변환
     	 libraryIds = libraryIds.map(String); // 모든 원소를 문자열로 변환
         let libs_filter_values = document.querySelectorAll('#_multiChk1 input[type="checkbox"]');
     	 	 
@@ -410,11 +408,10 @@ section {
 
     //예약기능
 	function reservation(b_id) {
-		<%		  // 세션에서 현재 아이디값 가져오기
-		HttpSession getSession = request.getSession();
-		String login_m_pid = (String) getSession.getAttribute("m_pid");
-		%>
-	    alert(b_id + " 예약되었습니다.");
+		<%// 세션에서 현재 아이디값 가져오기
+HttpSession getSession = request.getSession();
+String login_m_pid = (String) getSession.getAttribute("m_pid");%>
+// 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
 		//dopost로 보내기위한 코드
@@ -427,8 +424,17 @@ section {
 	    })
 	    .then(response => response.json())
 	    .then(data => {
-// 	      console.log(data);
-	      search();  // fetch가 완료된 후에 search 함수를 실행
+// 	    	console.log(data);
+    	  // 서버에서 전달한 결과 메시지에 따라 분기처리
+    	  if (data.message === 'success') {
+    	    alert(' 예약되었습니다.');
+    	    search();  // fetch가 완료된 후에 search 함수를 실행
+    	  } else if (data.message === 'fail') {
+    	    alert('비로그인상태입니다. 로그인해주세요.');
+    	    window.location.href = "/carpedm/sign_in";
+    	  } else {
+    	    alert('알 수 없는 오류가 발생하였습니다.');
+    	  }	      
 	    })
 	    .catch((error) => console.error('Error:', error));   
 	}
@@ -487,9 +493,10 @@ section {
 				<div class="allbox">
 					<fieldset class="search_fieldset">
 						<!-- <legend>통합검색</legend> -->
-						<span class="result" style="display: none;"> <input type="checkbox" id="reSearch"
-							name="reSearch" value="1" title="결과내 검색"> <label
-							for="reSearch">&nbsp;&nbsp;결과 내 검색</label>
+						<span class="result" style="display: none;"> <input
+							type="checkbox" id="reSearch" name="reSearch" value="1"
+							title="결과내 검색"> <label for="reSearch">&nbsp;&nbsp;결과
+								내 검색</label>
 						</span>
 						<div class="search">
 							<div class="input">
@@ -511,7 +518,9 @@ section {
 				</div>
 			</div>
 			<div class="result_filter_div">
-				<div class="blank_space total_count">전체 : 총&nbsp;<%=(String) request.getAttribute("book_count")%>&nbsp;권</div>
+				<div class="blank_space total_count">
+					전체 : 총&nbsp;<%=(String) request.getAttribute("book_count")%>&nbsp;권
+				</div>
 				<div class="result_text">검색결과</div>
 				<div class="result_filter_all">
 					<select class="result_filter" id="result_filter1"
@@ -591,7 +600,7 @@ section {
 			int total_count = Integer.parseInt((String) request.getAttribute("book_count"));// 임시로 설정한 값
 			int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
 			int current_page = Integer.parseInt((String) request.getAttribute("page"));
-		    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
+			int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
 
 			// 표시할 페이지의 범위 계산
 			int start_page = Math.max(current_page - 2, 1);
@@ -609,7 +618,8 @@ section {
 				<%
 				if (current_page > 1) {
 				%>
-				<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" class="pre">◀</a>
+				<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>"
+					class="pre">◀</a>
 				<%
 				}
 				%>
@@ -624,7 +634,8 @@ section {
 				<%
 				if (current_page < total_pages) {
 				%>
-				<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" class="next">▶</a>
+				<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>"
+					class="next">▶</a>
 				<%
 				}
 				%>

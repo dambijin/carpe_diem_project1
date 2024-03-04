@@ -122,10 +122,10 @@ public class sign_up_Servlet extends HttpServlet {
 	            m_tel == null || m_tel.trim().isEmpty() ||
 	            m_email == null || m_email.trim().isEmpty() ||
 	            m_address == null || m_address.trim().isEmpty()) {
-	            response.sendRedirect("sign_up.jsp"); // 회원가입 페이지로 다시 이동
+	            response.sendRedirect("sign_up"); // 회원가입 페이지로 다시 이동
 	        
 	        } else {
-	            String member_in = "INSERT INTO member (M_ID, M_PW, M_NAME, M_BIRTHDAY, M_TEL, M_EMAIL, M_ADDRESS, M_EMAIL_AGREE, M_LOANSTATE, M_MANAGERCHK, LB_ID) " +
+	            String member_in = "INSERT INTO member (M_ID, M_PW, M_NAME, M_BIRTHDAY, M_TEL, M_EMAIL, M_ADDRESS, M_EMAIL_AGREE, M_LOANSTATE, M_MANAGERCHK) " +
 	                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	            // SQL 실행준비
 	            PreparedStatement ps = conn.prepareStatement(member_in);

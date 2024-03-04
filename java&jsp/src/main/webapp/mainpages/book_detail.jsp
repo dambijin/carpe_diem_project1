@@ -21,7 +21,7 @@ section {
 	margin: auto;
 	/* font-family: 'KNUTRUTHTTF'; */
 	font-family: 'Wanted Sans Variable';
-	margin-top:20px;
+	margin-top: 20px;
 }
 
 /* 상세정보관련 */
@@ -144,7 +144,8 @@ section {
 </style>
 </head>
 <%
-ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>) request.getAttribute("bookdetail_list");
+ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>) request
+		.getAttribute("bookdetail_list");
 %>
 <script>
 	window.addEventListener("load",function() {
@@ -163,11 +164,10 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 	}
 	//예약기능
 	function reservation(b_id) {
-		<%		  // 세션에서 현재 아이디값 가져오기
-		HttpSession getSession = request.getSession();
-		String login_m_pid = (String) getSession.getAttribute("m_pid");
-		%>
-	    alert(b_id + " 예약되었습니다.");
+			<%// 세션에서 현재 아이디값 가져오기
+	HttpSession getSession = request.getSession();
+	String login_m_pid = (String) getSession.getAttribute("m_pid");%>
+// 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
 		//dopost로 보내기위한 코드
@@ -180,8 +180,17 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 	    })
 	    .then(response => response.json())
 	    .then(data => {
-// 	      console.log(data);
-	      location.reload();
+ 	    	console.log(data);
+    	  // 서버에서 전달한 결과 메시지에 따라 분기처리
+    	  if (data.message === 'success') {
+    	    alert(' 예약되었습니다.');
+    	    location.reload();  // fetch가 완료된 후에
+    	  } else if (data.message === 'fail') {
+    	    alert('비로그인상태입니다. 로그인해주세요.');
+    	    window.location.href = "/carpedm/sign_in";
+    	  } else {
+    	    alert('알 수 없는 오류가 발생하였습니다.');
+    	  }	      
 	    })
 	    .catch((error) => console.error('Error:', error));   
 	}
@@ -213,7 +222,6 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 						</ul>
 					</dd>
 				</dl>
-
 			</div>
 			<div class="table">
 				<h3>소장정보</h3>
@@ -231,7 +239,7 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 					<thead>
 						<tr>
 							<th scope="col">등록번호</th>
-<!-- 							<th scope="col">낱권정보</th> -->
+							<!-- 							<th scope="col">낱권정보</th> -->
 							<th scope="col">ISBN</th>
 							<th scope="col">자료상태</th>
 							<th scope="col">반납예정일</th>
@@ -241,7 +249,7 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 					<tbody>
 						<tr>
 							<td><%=bookdetail_list.get(0).get("B_ID")%></td>
-<!-- 							<td></td> -->
+							<!-- 							<td></td> -->
 							<td><strong><%=bookdetail_list.get(0).get("B_ISBN")%></strong></td>
 							<td><strong
 								class="<%=bookdetail_list.get(0).get("B_LOANSTATE").equals("Y") ? "_success" : "_fail"%>">

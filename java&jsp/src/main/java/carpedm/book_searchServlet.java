@@ -159,22 +159,35 @@ public class book_searchServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		String b_id = request.getParameter("b_id");
 		System.out.println(b_id);
 		String query = "UPDATE book SET b_resstate = 'N' WHERE b_id = " + b_id;
 
 		String m_pid = request.getParameter("m_pid");
-		int successRow = setDBList("INSERT INTO reservation (r_id, b_id, r_resdate, r_resstate, m_pid)"
-				+ " VALUES (reservation_seq.NEXTVAL," + b_id + ",SYSDATE, 0," + m_pid + ")");
-		System.out.println("추가된 행 수:" + successRow);
-		if (successRow > 0) {
-			System.out.println("변경된 행 수:" + setDBList(query));
+		System.out.println(m_pid);
+		if(m_pid != null && !m_pid.equals("null") && !m_pid.equals(""))
+		{
+			int successRow = setDBList("INSERT INTO reservation (r_id, b_id, r_resdate, r_resstate, m_pid)"
+					+ " VALUES (reservation_seq.NEXTVAL," + b_id + ",SYSDATE, 0," + m_pid + ")");
+			System.out.println("추가된 행 수:" + successRow);
+			if (successRow > 0) {
+				System.out.println("변경된 행 수:" + setDBList(query));
+				// 완료하고 결과값을 보내기 위해
+				response.getWriter().write("{\"message\": \"success\"}");
+			}
 		}
+		else
+		{
+			System.out.println("현재 로그인되어있지 않습니다.");
+			// 완료하고 결과값을 보내기 위해
+			response.getWriter().write("{\"message\": \"fail\"}");
+		}
+	
 
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		// 완료하고 결과값을 보내기 위해
-		response.getWriter().write("{\"message\": \"success\"}");
+
 	}
 
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
@@ -229,7 +242,6 @@ public class book_searchServlet extends HttpServlet {
 
 	private int setDBList(String query) {
 		int result = -1;
-		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
 			Connection conn = getConnection();
 			// SQL준비
