@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/mypage_loan_status")
@@ -29,14 +30,20 @@ public class mypage_loan_statusServlet extends HttpServlet {
 //		String id = request.getParameter("id");
 //		request.setAttribute("id2", id);
 
-		ArrayList<Map<String,String>> list = getLoan();
-		ArrayList<Map<String, String>> myInfo = getDBList("select * from member");
+	
+		
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
 		request.setAttribute("library", library);
+		
+		HttpSession getSession = request.getSession();
+		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		if (login_m_pid == null || login_m_pid.equals("")) {
+			login_m_pid = "4";
+		}
+
+		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
-//		Gson gson = new Gson();
-//		String json = gson.toJson(list);
-//		request.setAttribute("list", json);
+		ArrayList<Map<String,String>> list = getLoan(login_m_pid);
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/mypage/mypage_loan_status.jsp").forward(request, response);
 	}
@@ -53,7 +60,7 @@ public class mypage_loan_statusServlet extends HttpServlet {
 		}
 		return conn;
 	}
-	private ArrayList<Map<String,String>> getLoan() {
+	private ArrayList<Map<String,String>> getLoan(String m_pid) {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
 			Connection conn = getConnection();
@@ -65,7 +72,7 @@ public class mypage_loan_statusServlet extends HttpServlet {
 			query += " loan";
 			query += " INNER JOIN book ON loan.b_id = book.b_id INNER JOIN library ON book.lb_id = library.lb_id";	
 			query += " WHERE loan.l_returnrealdate IS NULL";
-				
+			query += " where m_pid = " + m_pid;
 			 
 
 			System.out.println("query:" + query);

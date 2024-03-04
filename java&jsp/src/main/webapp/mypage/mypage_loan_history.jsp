@@ -147,7 +147,7 @@
 								회원번호 : <%=myInfo.get(0).get("M_PID") %><br><% String loanstate_text = "대출가능";
 								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
 								{
-									loanstate_text = "대출불가";
+									loanstate_text = myInfo.get(0).get("M_LOANSTATE")+"일 연체상태";
 								}
 								%>
 								대출가능여부 : <%=loanstate_text%>

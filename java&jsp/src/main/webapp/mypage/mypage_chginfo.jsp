@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%><!DOCTYPE html>
-    <%@ page import="java.sql.*"%>
+	pageEncoding="UTF-8"%><!DOCTYPE html>
+<%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
@@ -9,16 +9,18 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도서 관리 시스템</title>
-    <link href="/carpedm/css/layout.css" rel="stylesheet">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>도서 관리 시스템</title>
+<link href="/carpedm/css/layout.css" rel="stylesheet">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-1.10.2.min.js">
     </script>
-    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script
+	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 
-    <script>
+<script>
         window.addEventListener("load", function () {
             email();
 
@@ -210,201 +212,204 @@
         }
 
     </script>
-    <style>
-        section {
-            font-family: "Wanted Sans Variable";
-        }
+<style>
+section {
+	font-family: "Wanted Sans Variable";
+}
 
-        td,
-        th {
-            border: 1px solid black;
-            padding: 7px;
-        }
+td, th {
+	border: 1px solid black;
+	padding: 7px;
+}
 
-        /* 설명창 정렬 */
-        .text {
-            text-align: center;
-            padding: 20px;
-        }
+/* 설명창 정렬 */
+.text {
+	text-align: center;
+	padding: 20px;
+}
 
-        /* 인풋박스 사이즈 */
-        .input_width {
-            width: 100px;
-            height: 20px;
-            
-        }
+/* 인풋박스 사이즈 */
+.input_width {
+	width: 100px;
+	height: 20px;
+}
 
-        /* 상단배너 사이즈 */
-        #head {
-            width: 800px;
-            text-align: center;
-            margin: auto;
-        }
+/* 상단배너 사이즈 */
+#head {
+	width: 800px;
+	text-align: center;
+	margin: auto;
+}
 
-        /* 테이블 사이즈 */
-        #table {
-            width: 800px;
-            margin: auto;
-            border-collapse: collapse;
+/* 테이블 사이즈 */
+#table {
+	width: 800px;
+	margin: auto;
+	border-collapse: collapse;
+}
 
-        }
+/* 하단 버튼 위치 조정 */
+#button_align {
+	text-align: center;
+	margin: auto;
+}
 
-        /* 하단 버튼 위치 조정 */
-        #button_align {
-            text-align: center;
-            margin: auto;
-        }
+.place_input_width {
+	width: 90%;
+	margin: 5px auto;
+	height: 20px;
+}
 
-        .place_input_width {
-            width: 90%;
-            margin: 5px auto;
-            height: 20px;
-        }
+/* 하단 버튼 css */
+.button {
+	font-family: "Wanted Sans Variable";
+	width: 100px;
+	background-color: rgba(155, 178, 225, 0.6);
+	font-size: 18px;
+	border: 0;
+	border-radius: 5px;
+}
 
-        /* 하단 버튼 css */
-        .button {
-            font-family: "Wanted Sans Variable";
-            width: 100px;
-            background-color: rgba(155, 178, 225, 0.6);
-            font-size: 18px;
-            border: 0;
-            border-radius: 5px;
-        }
+/* 주소찾기 버튼 */
+#place_button {
+	font-family: "Wanted Sans Variable";
+	width: 70px;
+	background-color: rgba(155, 178, 225, 0.6);
+	font-size: 13px;
+	border: 0;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
 
-        /* 주소찾기 버튼 */
-        #place_button {
-            font-family: "Wanted Sans Variable";
-            width: 70px;
-            background-color: rgba(155, 178, 225, 0.6);
-            font-size: 13px;
-            border: 0;
-            border-radius: 5px;
-            margin-bottom: 5px;
-        }
+font {
+	font-size: 13px;
+}
 
-        font {
-            font-size: 13px;
-        }
+::placeholder {
+	font-family: "Wanted Sans Variable";
+}
 
-        ::placeholder {
-            font-family: "Wanted Sans Variable";
-        }
-        
-        input {
-            font-family: "Wanted Sans Variable";
-        }
-       
-    </style>
+input {
+	font-family: "Wanted Sans Variable";
+}
+</style>
 </head>
 
 <body>
-    <header></header>
-    <section>
-        <!-- 여기부터 본문작성해주세요 -->
-        <!-- 상단배너 -->
-        <div id="head">
-            <h1>정보 수정</h1>
-        </div>
-        <!-- 수정항목 -->
-        <form method="post" action="mypage_chginfo">
-        <div>
-            <table id="table">
-                <tr>
-                    <th>항목</th>
-                    <th class="padding">정보</th>
-                </tr>
-                <tr>
-                    <th>이름</th>
-                    <td class="padding" id="name" name="name">
-                    <% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
+	<header></header>
+	<section>
+		<!-- 여기부터 본문작성해주세요 -->
+		<!-- 상단배너 -->
+		<div id="head">
+			<h1>정보 수정</h1>
+		</div>
+		<!-- 수정항목 -->
+		<form method="post" action="mypage_chginfo">
+			<div>
+				<table id="table">
+					<tr>
+						<th>항목</th>
+						<th class="padding">정보</th>
+					</tr>
+					<tr>
+						<th>이름</th>
+						<td class="padding" id="name" name="name">
+							<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
 							System.out.println(myInfo.size());
-							%>		
-							<%=myInfo.get(0).get("M_NAME") %>
-                    </td>
-                </tr>
-                <tr>
-                    <th>생년월일</th>
-                    <td class="padding" id="birth">
-                    <%= myInfo.get(0).get("M_BIRTHDAY").substring(0,10) %>
-                    </td>
-                </tr>
-                <tr>
-                    <th>아이디</th>
-                    <td class="padding" id="id">
-                     <%=myInfo.get(0).get("M_ID") %>
-                    </td>
-                </tr>
-                <tr>
-                    <th>비밀번호</th>
-                    <td class="padding"><input type="text" placeholder="비밀번호" id="password" name="password"></td>
-                </tr>
-                <tr>
+							%> <%=myInfo.get(0).get("M_NAME") %>
+						</td>
+					</tr>
+					<tr>
+						<th>생년월일</th>
+						<td class="padding" id="birth"><%= myInfo.get(0).get("M_BIRTHDAY").substring(0,10) %>
+						</td>
+					</tr>
+					<tr>
+						<th>아이디</th>
+						<td class="padding" id="id"><%=myInfo.get(0).get("M_ID") %></td>
+					</tr>
+					<tr>
+						<th>비밀번호</th>
+						<td class="padding"><input type="text" placeholder="비밀번호"
+							id="password" name="password"></td>
+					</tr>
+					<tr>
 
-                    <th class="text" colspan="2">
-                        <font>비밀번호를 입력하세요(8~20자로 숫자, 영문소, 영문대, 특수문자 중 3가지 이상 조합)<br>
-                            - 입력가능한 특수문자는 [<font color="red"> ! , @ , $ , % , ^ , * , ( , ) </font>] 입니다. (지정된 특수문자 외는
-                            입력이 불가능합니다.)<br>
-                            비밀번호 수정 시 적어주세요.</font>
-                    </th>
+						<th class="text" colspan="2"><font>비밀번호를 입력하세요(8~20자로
+								숫자, 영문소, 영문대, 특수문자 중 3가지 이상 조합)<br> - 입력가능한 특수문자는 [<font
+								color="red"> ! , @ , $ , % , ^ , * , ( , ) </font>] 입니다. (지정된
+								특수문자 외는 입력이 불가능합니다.)<br> 비밀번호 수정 시 적어주세요.
+						</font></th>
 
-                </tr>
-                <tr>
-                    <th>비밀번호 확인</th>
-                    <td class="padding"><input type="text" placeholder="비밀번호 확인" id="password1" name="password1"></td>
-                </tr>
-                <tr>
-                    <th>휴대폰 번호</th>
-                    <td class="padding">
-                        <input type="text" placeholder="휴대폰 번호" id="phonenumber" name="phonenumber">
-                        <font>SMS수신<input type="radio" value="Y" name="sms">예<input type="radio" value="N"
-                                name="sms">아니오</font>
-                    </td>
-                </tr>
-                <tr>
+					</tr>
+					<tr>
+						<th>비밀번호 확인</th>
+						<td class="padding"><input type="text" placeholder="비밀번호 확인"
+							id="password1" name="password1"></td>
+					</tr>
+					<tr>
+						<th>휴대폰 번호</th>
+						<td class="padding"><input type="text" placeholder="휴대폰 번호"
+							id="phonenumber" name="phonenumber"
+							value="<%=myInfo.get(0).get("M_TEL") %>"> <font>SMS수신<input
+								type="radio" value="Y" name="sms">예<input type="radio"
+								value="N" name="sms">아니오
+						</font></td>
+					</tr>
+					<tr>
 
-                    <th class="text" colspan="2">
-                        <font>마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br>
-                            <font color="red"> 동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.</font>
-                        </font>
-                    </th>
-                </tr>
-                <tr>
-                    <th>이메일</th>
-                    <td class="padding">
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_id" name="email_id"> @
-                        <input class="input_width" type="text" placeholder="내용을 입력해주세요." id="email_domain" name="email_domain">
-                        <select id="email_domain1" value="직접입력">
+						<th class="text" colspan="2"><font>마케팅 / 홍보를 위하여 귀하의
+								개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br> <font color="red">
+									동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.</font>
+						</font></th>
+					</tr>
+					<tr>
+						<th>이메일</th>
+						<td class="padding">
+							<% String text = myInfo.get(0).get("M_EMAIL");
+                    String[] email = text.split("@");
+                   %> 
+                   <input class="input_width" type="text"
+							placeholder="내용을 입력해주세요." id="email_id" name="email_id"
+							value=<%=email[0] %>> @ <input class="input_width"
+							type="text" placeholder="내용을 입력해주세요." id="email_domain"
+							name="email_domain" value=<%=email[1] %>> <select
+							id="email_domain1" value="직접입력">
 
-                        </select>
-                        <font>이메일 수신<input type="radio" value="Y" name="email">예
-                            <input type="radio" value="N" name="email">아니오
-                        </font>
-                    </td>
-                </tr>
-                    <th>주소</th>
-                    <td> <input class="input_width" type="text" placeholder="우편 번호" id="sample6_postcode">
-                        <button id="place_button" onclick="sample6_execDaumPostcode()">
-                            주소 찾기
-                        </button><br>
-                        <input class="place_input_width" id="sample6_address" type="text" placeholder="도로명 주소"><br>
-                        <input class="place_input_width" id="sample6_address2" type="text" placeholder="상세 주소">
-                    </td>
-            </table>
-        </div>
-        <br><br>
-        <!-- 버튼 -->
-        <div id="button_align">
+						</select> 
+						<font>이메일 수신
+						<% String selectedOption =  myInfo.get(0).get("M_EMAIL_AGREE");	%>
+						<input type="radio" value="Y" name="email" <% if (selectedOption.equals("Y")) out.print("checked"); %>>예
+						<input type="radio" value="N" name="email" <% if (selectedOption.equals("N")) out.print("checked"); %>>아니오
+						</font>
+						</td>
+					</tr>
+					<th>주소</th>
+					<td><input class="input_width" type="text" placeholder="우편 번호"
+						id="sample6_postcode">
+						<button id="place_button" onclick="sample6_execDaumPostcode()">
+							주소 찾기</button>
+						<br> <input class="place_input_width" id="sample6_address" name="sample6_address"
+						type="text" placeholder="도로명 주소"><br> 
+						<input class="place_input_width" id="sample6_address2" name="sample6_address2" type="text"
+						placeholder="상세 주소"></td>
+				</table>
+			</div>
+			<br>
+			<br>
+			<!-- 버튼 -->
+			<div id="button_align">
 
-            <button value="submit" class="button" id="mod">수정</button>
-            &nbsp;
-            <button value="reset" class="button" id="cancle">취소</button>
+				<button value="submit" class="button" id="mod">수정</button>
+				&nbsp;
+				<button value="reset" class="button" id="cancle">취소</button>
 
-        </div>
-</form>
-    </section>
+			</div>
+		</form>
+	</section>
 
-    <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="/carpedm/js/header.js"></script>
+	<!-- 헤더를 덮어씌우는 자바스크립트 -->
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

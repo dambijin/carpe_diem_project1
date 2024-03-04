@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/mypage_reservation_list")
@@ -28,17 +29,24 @@ public class mypage_reservation_listServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		String id = request.getParameter("id");
-//		request.setAttribute("id2", id);
-		ArrayList<Map<String,String>> list = getLoan();
-		ArrayList<Map<String, String>> myInfo = getDBList("select * from member");
+
+		HttpSession getSession = request.getSession();
+		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		if (login_m_pid == null || login_m_pid.equals("")) {
+			login_m_pid = "4";
+		}
+		
+		ArrayList<Map<String,String>> list = getLoan(login_m_pid);
+		request.setAttribute("list", list);
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
 		request.setAttribute("library", library);
+		
+
+		
+
+		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
-//		Gson gson = new Gson();
-//		String json = gson.toJson(list);
-//		request.setAttribute("list", json);
-		request.setAttribute("list", list);
+		
 		request.getRequestDispatcher("/mypage/mypage_reservation_list.jsp").forward(request, response);
 	}
 
@@ -54,7 +62,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 		}
 		return conn;
 	}
-	private ArrayList<Map<String,String>> getLoan() {
+	private ArrayList<Map<String,String>> getLoan(String m_pid) {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
 			Connection conn = getConnection();
@@ -68,6 +76,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 			query += " on reservation.b_id = book.b_id";
 			query += " inner join library";
 			query += " on book.lb_id = library.lb_id";
+			query += " where m_pid = " + m_pid;
 
 			System.out.println("query:" + query);
 			// SQL 실행준비

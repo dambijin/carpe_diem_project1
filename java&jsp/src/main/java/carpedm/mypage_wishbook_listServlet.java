@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 @WebServlet("/mypage_wishbook_list")
 public class mypage_wishbook_listServlet extends HttpServlet {
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
@@ -33,21 +32,16 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
 		request.setAttribute("library", library);
 //		request.setAttribute("myInfo", myInfo);
-		
-        HttpSession getSession = request.getSession();
-        String login_m_pid = (String) getSession.getAttribute("m_pid");
-        if(login_m_pid == null || login_m_pid.equals(""))
-        {
-        	login_m_pid = "4";
-        }
-//		String login_m_pid = "4";
+
+		HttpSession getSession = request.getSession();
+		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		if (login_m_pid == null || login_m_pid.equals("")) {
+			login_m_pid = "4";
+		}
+
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
-		
-//		Gson gson = new Gson();
-//		String json = gson.toJson(list);
-//		request.setAttribute("list", json);
-		
+
 		String page = request.getParameter("page");
 		if (page == null || "".equals(page)) {
 			page = "1";
@@ -65,8 +59,8 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		int endRow = currentPage * itemsPerPage;
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
-		
-		ArrayList<Map<String,String>> list = getWishList(login_m_pid);
+
+		ArrayList<Map<String, String>> list = getWishList(login_m_pid);
 		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 
 		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
@@ -74,11 +68,11 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		endRow--;
 
 		for (int i = startRow; i <= endRow; i++) {
-		    if (i < list.size()) {
-		        pageList.add(list.get(i));
-		    } else {
-		        break;
-		    }
+			if (i < list.size()) {
+				pageList.add(list.get(i));
+			} else {
+				break;
+			}
 		}
 
 		request.setAttribute("list", pageList);
@@ -98,8 +92,9 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		}
 		return conn;
 	}
-	private ArrayList<Map<String,String>> getWishList(String m_pid) {
-		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
+
+	private ArrayList<Map<String, String>> getWishList(String m_pid) {
+		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
 			Connection conn = getConnection();
 			// SQL준비
@@ -110,24 +105,23 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			query += " wishlist";
 			query += " inner join library";
 			query += " on library.lb_id = wishlist.lb_id";
-			query += " where wishlist.m_pid = "+m_pid;
-			
+			query += " where wishlist.m_pid = " + m_pid;
 
 			System.out.println("query:" + query);
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Map<String,String> map = new HashMap<String, String>();
+				Map<String, String> map = new HashMap<String, String>();
 
-				map.put("w_id", rs.getString("w_id"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
-				map.put("lb_name", rs.getString("lb_name"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
-				map.put("w_title", rs.getString("w_title"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
+				map.put("w_id", rs.getString("w_id"));// 이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
+				map.put("lb_name", rs.getString("lb_name"));// 이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
+				map.put("w_title", rs.getString("w_title"));// 이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
 				map.put("w_author", rs.getString("w_author"));
 				map.put("w_pubyear", rs.getString("w_pubyear"));
 				map.put("w_content", rs.getString("w_content"));
 				map.put("w_publisher", rs.getString("w_publisher"));
-				
+
 				map.put("w_date", rs.getString("w_date"));
 //				map.put("lb_name", rs.getString("lb_name"));
 //				map.put("lb_content", rs.getString("lb_content").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
@@ -143,6 +137,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		}
 		return result_list;
 	}
+
 	private ArrayList<Map<String, String>> getDBList(String query) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
@@ -150,8 +145,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			// SQL준비
 
 			System.out.println("query:" + query);
-			
-			
+
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
@@ -159,16 +153,16 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			int columnCount = rsmd.getColumnCount();
 
 			while (rs.next()) {
-			    Map<String, String> map = new HashMap<String, String>();
+				Map<String, String> map = new HashMap<String, String>();
 
-			    for (int i = 1; i <= columnCount; i++) {
-			        String columnName = rsmd.getColumnName(i);
-			        map.put(columnName, rs.getString(columnName));
-			    }
+				for (int i = 1; i <= columnCount; i++) {
+					String columnName = rsmd.getColumnName(i);
+					map.put(columnName, rs.getString(columnName));
+				}
 
-			    result_list.add(map);
+				result_list.add(map);
 			}
-			
+
 			rs.close();
 			ps.close();
 			conn.close();
@@ -177,8 +171,5 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		}
 		return result_list;
 	}
-	
-	
 
-	
 }

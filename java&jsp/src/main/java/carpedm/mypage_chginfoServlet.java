@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/mypage_chginfo")
 public class mypage_chginfoServlet extends HttpServlet {
@@ -30,8 +31,10 @@ public class mypage_chginfoServlet extends HttpServlet {
 
 //		ArrayList<Map<String, String>> myInfo = getDBList("select * from member");
 //		request.setAttribute("myInfo", myInfo);
-		String m_pid = "12";
-		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + m_pid);
+		
+		  HttpSession getSession = request.getSession();
+	        String login_m_pid = (String) getSession.getAttribute("m_pid");
+		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
 //	Gson gson = new Gson();
 //	String json = gson.toJson(list);
@@ -110,18 +113,24 @@ public class mypage_chginfoServlet extends HttpServlet {
 	private int getDBUpdate(HttpServletRequest request) {
 		int result = -1;
 		try {
+			HttpSession getSession = request.getSession();
+		    String login_m_pid = (String) getSession.getAttribute("m_pid");
 			Connection conn = getConnection();
 			// SQL준비
-			String m_pid = "4";
+			String m_pid = login_m_pid;
 			String m_pw = request.getParameter("password");
 			String m_tel = request.getParameter("phonenumber");
 			String email = request.getParameter("email_id")+"@"+request.getParameter("email_domain");
+			String adress = request.getParameter("sample6_address") + request.getParameter("sample6_address2");
+			String emailChk = request.getParameter("email");
 
 			String sql = "";
 			sql += " UPDATE member";
 			sql += " SET m_pw = ?,";
 			sql += " m_tel = ?,";
 			sql += " m_email = ?";
+			sql += " m_email_agree = ?";
+			sql += " m_adress = ?";
 			sql += " WHERE m_pid = ?";
 			
 			System.out.println(sql);
@@ -130,7 +139,9 @@ public class mypage_chginfoServlet extends HttpServlet {
 			ps.setString(1, m_pw);
 			ps.setString(2, m_tel);
 			ps.setString(3, email);
-			ps.setString(4, m_pid);
+			ps.setString(4, emailChk);
+			ps.setString(5, adress);
+			ps.setString(6, m_pid);
 			
 			result = ps.executeUpdate();
 			
