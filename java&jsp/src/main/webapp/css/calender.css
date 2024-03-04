@@ -372,10 +372,12 @@ button.ui-button::-moz-focus-inner {
 
 .ui-datepicker .ui-datepicker-prev {
 	left: 2px;
+	display: none;
 }
 
 .ui-datepicker .ui-datepicker-next {
 	right: 2px;
+	display: none;
 }
 
 .ui-datepicker .ui-datepicker-prev-hover {

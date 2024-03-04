@@ -15,8 +15,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>메인 페이지</title>
 <link href="/carpedm/css/layout.css" rel="stylesheet">
-
-  <link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>
+<link href="/carpedm/css/calender.css" rel="stylesheet">
+  
   <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
   <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
 
@@ -24,19 +24,21 @@
 .ui-widget.ui-widget-content{
   /* 전체 박스 */
   border:0px;
+  height : 267px;
   box-shadow: 5px 5px 10px #ccc;
   padding:0;
+  width : 100%;
+  margin-top:5px;
   
 }
 .ui-widget-header{
   /* 헤더 (화살표/날짜표시 영역) */
-  background: #000;
+  background: #f3882d9e;
   border: 0px;
   border-radius: 0px;
 }
 .ui-widget-header .ui-icon{
   /* 이전,다음 화살표 */
-  background: none;
 }
 .ui-datepicker-prev{
   /* 이전 화살표 */
@@ -45,7 +47,6 @@
 }
 .ui-datepicker-prev::before{
   font: var(--fa-font-solid);
-  content:'\f0d9';
   color:#fff;
 }
 .ui-datepicker-next{
@@ -56,29 +57,22 @@
 /*font-awesome 이용해서 화살표 변경*/
 .ui-datepicker-next::before{
   font: var(--fa-font-solid);
-  content:'\f0da';
   color:#fff;
 }
-.ui-datepicker .ui-datepicker-title{
-  /* 년월 텍스트 묶음 */
-  color: #fff;
-}
-.ui-datepicker .ui-datepicker-title .ui-datepicker-year{
-  /* 년도 숫자만 */
-  color: gold;
-}
+.ui-datepicker .ui-datepicker-title,
+.ui-datepicker .ui-datepicker-title .ui-datepicker-year,
 .ui-datepicker .ui-datepicker-title .ui-datepicker-month{
-  /* *월 */
-  color: gold;
+  /* 년월 텍스트 묶음 */
+  color: #4b4747;
 }
 .ui-datepicker th{
   /* 요일 영역 */
-  background : grey;
+  background : #fff083;
 }
 .ui-datepicker th span{
   /* 요일 텍스트 */
   font-size:18px;
-  color: #fff;
+  color: #5b5858;
 }
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{
@@ -166,36 +160,44 @@
 	font-size: 20px;
 	font-weight: bold;
 	text-align: center;
+	border-bottom : 2px solid rgba(140, 201, 240, 0.6);
+	font-family: "Wanted Sans Variable";
 }
+
 
 /* 신착도서 테이블 */
 .newbook_table {
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: normal;
+	
 }
 
 .newbook_table td {
 	border-right: 2px solid rgba(140, 201, 240, 0.6);
+	width : 300px;
 }
 
 /* 신착도서 div */
 .newbook_table .newbook_div {
 	margin-top: 8px;
 	cursor: pointer;
+	width : 100%;
 }
+
 
 /* 도서관별이용정보 */
 .library_information_content .library_information {
 	background-color: rgba(239, 168, 176, 0.5);
 	display: inline-block;
 	width: 30%;
-	height: 450px;
+	height: 300px;
 	vertical-align: top;
 	font-size: 22px;
 	padding-top: 8px;
 	font-weight: bold;
 	text-align: center;
+	font-family: "Wanted Sans Variable";
 }
 
 /* 이용시간, 휴관일 */
@@ -207,6 +209,14 @@
 	font-size: 18px;
 }
 
+/* 이용정보 select아래내용 */
+.text_detail h2,
+.text_detail h3,
+.text_detail {
+margin : 1px;
+}
+
+
 .library_information_content .announcement_library_information .announcement .ann_title
 	{
 	width: 80%;
@@ -216,6 +226,7 @@
 	.library_information_content .announcement_library_information .newbook table,
 	.library_information table {
 	width: 100%;
+	
 }
 
 .announcement .ann_day {
@@ -390,7 +401,16 @@ text-decoration: underline;
 	// 이용정보 달력
 	 $(function() {
       $('#datepicker').datepicker({
-        // 달력 설정 및 옵션
+    	  dateFormat: 'yy-mm-dd',
+    	  prevText: '이전 달',
+    	  nextText: '다음 달',
+    	  monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    	  monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    	  dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    	  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    	  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    	  showMonthAfterYear: true,
+    	  yearSuffix: '년'
       });
     });
 
@@ -577,7 +597,17 @@ text-decoration: underline;
 						ArrayList<Map<String, String>> book_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
 
 						for (int i = 0; i < 3; i++) {
-						%>
+							if(i==2){%>
+								<td style="border-right: 0px;">
+							<div class="newbook_div"
+								onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
+								<img class="newbook_img"
+									src="<%=book_list.get(i).get("B_IMGURL")%>">
+							</div>
+							<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
+							<div class="newbook_author" ><%=book_list.get(i).get("B_AUTHOR")%></div>
+						</td>
+							<%}else{%>
 						<td>
 							<div class="newbook_div"
 								onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
@@ -587,6 +617,8 @@ text-decoration: underline;
 							<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
 							<div class="newbook_author"><%=book_list.get(i).get("B_AUTHOR")%></div>
 						</td>
+						<%} %>
+						
 						<%
 						}
 						%>
@@ -611,7 +643,7 @@ text-decoration: underline;
 			<div id="libs_time" class="calendar"></div>
 
 			<div class="calendar">
-				<div class="text_detail" id="datepicker">
+				<div class="text_detail">
 				</div>
 				<script>
 					library_list_js = [
@@ -625,11 +657,11 @@ text-decoration: underline;
 					    }<%=(i < library_list.size() - 1) ? "," : ""%>
 					<%}%>
 					];
-					</script>
-					 <div id='datepicker'></div>
-					
+					</script>	
 			</div>
+		 <div id="datepicker"></div>
 		</div>
+		
 
 
 	</section>

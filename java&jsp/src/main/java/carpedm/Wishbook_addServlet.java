@@ -56,22 +56,24 @@ public class Wishbook_addServlet extends HttpServlet {
 		
 //		로그인한 id값 가져오기
 		HttpSession getSession = request.getSession();
-        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
-
+		String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
+		if(login_m_pid==null || login_m_pid.equals("")) {
+			response.sendRedirect("sign_in");
+		} else {
         String query = "";
 		query += "SELECT M_PID, REPLACE(M_TEL, '-', '') as M_TEL, M_NAME FROM member where ";
 		query += "M_PID = ";
 		query += login_m_pid;
 		
-
 		System.out.println("MEMBER테이블 쿼리: " + query);
 		ArrayList<Map<String, String>> mem = getDBList(query);
 		request.setAttribute("mem", mem);
 		
 		System.out.println("M_NAME 이름: " + mem.get(0).get("M_NAME"));
-		
-		
 		request.getRequestDispatcher("board/wishbook_add.jsp").forward(request, response);	
+		}
+		
+		
 	}
 	
 	
