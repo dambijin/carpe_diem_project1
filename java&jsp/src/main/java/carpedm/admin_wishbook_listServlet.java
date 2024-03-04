@@ -53,10 +53,11 @@ public class admin_wishbook_listServlet extends HttpServlet {
 			// SQL준비
 			String query = "";
 			query += " select";
-			query += " l.lb_name, w.w_id, l.lb_id, w.w_title, w.w_author, w.w_publisher, w.m_pid, w.w_pubyear, w.w_content, w.w_state";
+			query += " l.lb_name, w.w_id, l.lb_id, w.w_title, w.w_author, w.w_publisher, w.m_pid, w.w_pubyear, w.w_content, w.w_state,m.m_id";
 			query += " from";
 			query += " wishlist w";
 			query += " join library l on w.lb_id = l.lb_id";
+			query += " join member m on w.m_pid = m.m_pid";
 
 			System.out.println("query:" + query);
 			
@@ -87,7 +88,28 @@ public class admin_wishbook_listServlet extends HttpServlet {
 				map.put("lb_name", rs.getString("lb_name"));
 				map.put("w_pubyear", rs.getString("w_pubyear"));
 				map.put("w_content", rs.getString("w_content"));
-				map.put("w_state", rs.getString("w_state"));
+			    //jsp에 조건을 쓰면 보기 힘드니까 그냥 여기다가 넣자
+			    String w_state_text = "진행중";
+			    if(rs.getString("w_state") == null || rs.getString("w_state").equals("0"))
+			    {
+			    	w_state_text = "진행중";
+			    }
+			    else if(rs.getString("w_state").equals("1"))
+			    {
+			    	w_state_text = "완료";			    	
+			    }
+			    else if(rs.getString("w_state").equals("2"))
+			    {
+			    	w_state_text = "취소";
+			    }
+			    else if(rs.getString("w_state").equals("3"))
+			    {
+			    	w_state_text = "반려";
+			    }
+			    map.put("w_state", w_state_text);
+				
+//				map.put("w_state", rs.getString("w_state"));
+				map.put("m_id", rs.getString("m_id"));
 
 				result_list.add(map);
 //				System.out.println(rs.getString("w_id"));

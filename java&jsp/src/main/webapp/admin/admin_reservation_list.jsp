@@ -10,13 +10,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>연체상태 popup</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <title>예약내역 popup</title>
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
 <script src="
-../js/admin_library.js"></script>
+/carpedm/js/admin_library.js"></script>
 <script>
 
     window.addEventListener("load", function () {
@@ -195,28 +195,58 @@
 				cellpadding="5" cellspacing="1" bgcolor="cccccc"
 				id="todo_booktable">
 				<thead>
-					<tr>
-						<th>예약ID</th>
-						<th>도서ID</th>
-						<th>예약일</th>
-						<th>예약상태</th>
-						<th>회원번호</th>
-					</tr>
+					<tr id="page1_tr">
+							<th style="cursor:pointer;" onclick="sortTable(0,true)">번호</th>
+							<th style="cursor:pointer;" onclick="sortTable(1,false)">책제목</th>
+							<th style="cursor:pointer;" onclick="sortTable(2,false)">저자</th>
+							<th style="cursor:pointer;" onclick="sortTable(3,false)">출판사</th>
+							<th style="cursor:pointer;" onclick="sortTable(4,true)">신청일자</th>
+							<th style="cursor:pointer;" onclick="sortTable(5,true)">대출가능일</th>
+							<th style="cursor:pointer;" onclick="sortTable(6,false)">예약상태</th>							
+							<th style="cursor:pointer;" onclick="sortTable(7,false)">소장기관</th>
+							<th>취소 <input type="checkbox" id="selectAll">
+							</th>
+						</tr>
 				</thead>
 				<tbody>
 					<%
-					for (int i = 0; i < data_list.size(); i++) {
-					%>
-					<tr>
-						<td><%=data_list.get(i).get("r_id")%></td>
-						<td><%=data_list.get(i).get("b_id")%></td>
-						<td><%=data_list.get(i).get("r_resdate").substring(0,10)%></td>
-						<td><%=data_list.get(i).get("r_resstate")%></td>
-						<td><%=data_list.get(i).get("m_pid")%></td>
-					</tr>
-					<%
-					}
-					%>
+						ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) request.getAttribute("reserv_list");
+						System.out.println(list.size());
+
+						for (int i = 0; i < list.size(); i++) {
+							 String resState = list.get(i).get("r_resstate");
+							 String resStateString;
+						%>
+						<tr class="tr">
+							<td><%=i + 1%></td>
+							<td><%=list.get(i).get("b_title")%></td>
+							<td><%=list.get(i).get("b_author")%></td>
+							<td><%=list.get(i).get("b_publisher")%></td>
+							<td><%=list.get(i).get("r_resdate").substring(0,10)%></td>
+							<td><%=list.get(i).get("r_resdate").substring(0,10)%></td>
+							<%    switch(resState) {
+					        case "0":
+					            resStateString = "예약중";
+					            break;
+					        case "1":
+					            resStateString = "취소";
+					            break;
+					        case "2":
+					            resStateString = "대출완료";
+					            break;
+					        default:
+					            resStateString = "알 수 없음";
+					            break; }
+					    %>
+							<td><%=resStateString%></td>
+							
+							<td><%=list.get(i).get("lb_name")%></td>
+
+							<td><input type="checkbox" class="checkbox"></td>
+						</tr>
+						<%
+						}
+						%>
 				</tbody>
 			</table>
 		</div>
@@ -224,7 +254,7 @@
 
     <!-- 등록 취소 -->
     <div class="input">
-<!--         <button type="button" value="연체해제" class="button" id="button_cancle" onclick="closeOverduePopup()">연체해제</button> -->
+        <button type="button" value="취소" class="button" id="button_cancle" onclick="closeOverduePopup()">취소</button>
         <input type="reset" value="닫기" class="button" onclick="closePopup()">
     </div>
 

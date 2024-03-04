@@ -24,7 +24,8 @@ public class admin_book_overdueServlet extends HttpServlet {
 	private static final String PASSWORD = "dm1113@";
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Map<String, String>> list = getoverdue();
+		String m_pid = request.getParameter("m_pid");
+		ArrayList<Map<String, String>> list = getoverdue(m_pid);
 		
 		request.setAttribute("overdue", list);
 		request.getRequestDispatcher("/admin/admin_book_overdue.jsp").forward(request, response);
@@ -44,7 +45,7 @@ public class admin_book_overdueServlet extends HttpServlet {
 	}
 	
 	// 맴버가져오기
-	private static ArrayList<Map<String,String>> getoverdue() {
+	private static ArrayList<Map<String,String>> getoverdue(String m_pid) {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
 			Connection conn = getConnection();
@@ -56,6 +57,7 @@ public class admin_book_overdueServlet extends HttpServlet {
 			query += " join library l on (m.lb_id = l.lb_id)";
 			query += " join loan o on(m.m_pid = o.m_pid)";
 			query += " join book b on(o.b_id = b.b_id)";
+			query += " where m.m_pid ="+m_pid;
 
 			System.out.println("query:" + query);
 			// SQL 실행준비

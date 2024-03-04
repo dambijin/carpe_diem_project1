@@ -78,7 +78,7 @@ public class mypage_loan_historyServlet extends HttpServlet {
 			query += " on loan.b_id = book.b_id ";
 			query += " inner join library ";
 			query += " on book.lb_id = library.lb_id ";
-			query += " where m_pid = " + m_pid;
+			query += " where loan.l_returnrealdate IS NOT NULL AND m_pid = " + m_pid;
 			
 			 
 			System.out.println("query:" + query);

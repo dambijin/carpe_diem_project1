@@ -37,8 +37,7 @@ public class admin_member_listServlet extends HttpServlet {
         ArrayList<Map<String, String>> list = getmember(search);
               
         // 4. 검색 결과를 속성으로 설정하여 JSP 페이지로 전달
-        request.setAttribute("admin_member_list", list);
-
+//        request.setAttribute("admin_member_list", list); 필요없는 코드
         // 5. 검색어도 속성으로 설정하여 JSP 페이지로 전달
         request.setAttribute("search", search);
 
@@ -69,7 +68,7 @@ public class admin_member_listServlet extends HttpServlet {
 			Connection conn = getConnection();
 	        
 	        // SQL 실행준비
-	        String query = "SELECT m.m_pid, m.m_name, m.m_id, m.m_birthday, m.m_tel, m.m_address, m.lb_id FROM member m";
+	        String query = "SELECT m.m_pid, m.m_name, m.m_id, m.m_birthday, m.m_tel, m.m_address, m.lb_id, m.m_loanstate FROM member m";
 
 	        // 검색 조건이 존재할 때만 WHERE 절 추가
 	        if (!search.trim().isEmpty()) {
@@ -81,7 +80,7 @@ public class admin_member_listServlet extends HttpServlet {
 
 	        // 검색 입력에 따라 다양한 열을 추가
 	        if (!search.trim().isEmpty()) {
-	            String[] columns = {"m.m_pid", "m.m_name", "m.m_id", "m.m_birthday", "m.m_tel", "m.m_address", "m.lb_id"};
+	            String[] columns = {"m.m_pid", "m.m_name", "m.m_id", "m.m_birthday", "m.m_tel", "m.m_address", "m.lb_id","m.m_loanstate"};
 	            for (int i = 0; i < columns.length; i++) {
 	                ps.setString(i + 1, "%" + search + "%");
 	            }
@@ -107,6 +106,13 @@ public class admin_member_listServlet extends HttpServlet {
 			    map.put("m_tel", rs.getString("m_tel"));
 			    map.put("m_address", rs.getString("m_address"));
 			    map.put("lb_id", rs.getString("lb_id"));
+			    //jsp에 조건을 쓰면 보기 힘드니까 그냥 여기다가 넣자
+			    String m_loanstate_text = rs.getString("m_loanstate")+"일";
+			    if(rs.getString("m_loanstate") == null || rs.getString("m_loanstate").equals("0"))
+			    {
+			    	m_loanstate_text = "정상";
+			    }
+			    map.put("m_loanstate", m_loanstate_text);
 
 				result_list.add(map);
 //			   	System.out.println(rs.getString("lb_name"));

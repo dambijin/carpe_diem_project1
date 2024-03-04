@@ -386,6 +386,9 @@
 					        case "2":
 					            resStateString = "취소";
 					            break;
+					        case "3":
+					            resStateString = "반려";
+					            break;
 					        default:
 					            resStateString = "알 수 없음";
 					            break; }

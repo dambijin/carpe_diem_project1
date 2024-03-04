@@ -189,7 +189,7 @@
     /*  등록 취소 버튼 (맨 아래) */
     .input {
         border: 1px;
-        width: 20%;
+        width: 210px;
         margin: auto;
         text-align: center;
         margin-top: 20px;
@@ -200,7 +200,7 @@
         font-size: 18px;
         background-color: rgba(71, 125, 231, 0.973);
         border: 0;
-        width: 80px;
+        width: 100px;
         height: 30px;
         border-radius: 5px;
         color: white;

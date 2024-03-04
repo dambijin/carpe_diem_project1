@@ -151,6 +151,7 @@
 
     /* 검색창 */
     .search {
+    font-family: "Wanted Sans Variable";
         width: 80%;
         margin: auto;
         text-align: center;
@@ -275,11 +276,18 @@
     <!-- section   -->
     <section>
         <div class="search">
-            <select align="center" class="select" id="search_option">
-                <!-- 자바스크립트화 -->
-            </select>
-            <input type="text" class="textbox" id="input_todo">
-            <button type="button" class="button"  onkeyup="enterkey()">검색</button>
+           <select class="view_count" onchange="changeViewCount(this.value)">
+				<option value="10">10개씩</option>
+				<option value="20">20개씩</option>
+				<option value="30">30개씩</option>
+			</select>
+			<!-- <select class="search_opt_list" id="search_option" onchange="handleSearchOption()"> -->
+			<select class="search_opt_list" id="search_option">
+				<!-- 자바스크립트화 -->
+			</select>
+			<input type="text" name="search" class="textbox" id="input_todo">
+			<button type="button" class="button" id="todo_search" onclick="search()">검색
+			</button>
 <!--  input text 에 들어갈 것    onkeyup="searchFunction()" 
    	  button에 들어 갈 것		 onclick="searchFunction()" -->
         </div>
@@ -295,7 +303,7 @@
 	                    <th width="100px">회원ID</th>
 	                    <th width="80px">소장기관</th>
 	                    <th width="100px">신청날짜</th>
-	                    <th width="100px">신청사유</th>
+<!-- 	                    <th width="100px">신청사유</th> -->
 	                    <th width="100px">처리상태</th>
 	                    <th width="100px">처리</th>
 	                </tr>
@@ -314,10 +322,10 @@
 						<td><a href="javacsript:void(0);" onclick="popup('<%=data_list.get(i).get("w_id") %>')"><%=data_list.get(i).get("w_title")%></a></td>
 						<td><%=data_list.get(i).get("w_author")%></td>
 						<td><%=data_list.get(i).get("w_publisher")%></td>
-						<td><%=data_list.get(i).get("m_pid")%></td>
+						<td><%=data_list.get(i).get("m_id")%></td>
 						<td><%=data_list.get(i).get("lb_name")%></td>
 						<td><%=data_list.get(i).get("w_pubyear")%></td>
-						<td><%=data_list.get(i).get("w_content")%></td>
+<%-- 						<td><%=data_list.get(i).get("w_content")%></td> --%>
 						<td><%=data_list.get(i).get("w_state")%></td>
 						<td width="150px">
 							<input type="button" value="완료" class="complete" onclick="complete('<%=data_list.get(i).get("w_id")%>')"> 

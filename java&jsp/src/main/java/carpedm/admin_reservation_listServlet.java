@@ -25,10 +25,11 @@ public class admin_reservation_listServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ArrayList<Map<String, String>> list = getReserv();
+		String m_pid = request.getParameter("m_pid");
+		ArrayList<Map<String, String>> list = getReserv(m_pid);
 
 		System.out.println(list);
-		request.setAttribute("reser_list", list);
+		request.setAttribute("reserv_list", list);
 		request.getRequestDispatcher("/admin/admin_reservation_list.jsp").forward(request, response);
 	}
 
@@ -46,15 +47,21 @@ public class admin_reservation_listServlet extends HttpServlet {
 	}
 		
 	
-	private static ArrayList<Map<String,String>> getReserv() {
+	private static ArrayList<Map<String,String>> getReserv(String m_pid) {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
 			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
 			query += " select";
-			query += " r_id, b_id, r_resdate, r_resstate, m_pid";
-			query += " from reservation";
+			query += " b_title, b_author,b_publisher, r_resdate, library.lb_name, r_resstate ";
+			query += " from";
+			query += " reservation";
+			query += " inner join book";
+			query += " on reservation.b_id = book.b_id";
+			query += " inner join library";
+			query += " on book.lb_id = library.lb_id";
+			query += " where m_pid = " + m_pid;
 
 			System.out.println("query:" + query);
 			// SQL 실행준비
@@ -62,22 +69,17 @@ public class admin_reservation_listServlet extends HttpServlet {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Map<String,String> map = new HashMap<String, String>();
-				/* 폐기처분행(자바스크립트에서 사용할때 필요할 수 있음)
-				map.put("lb_name", StringEscapeUtils.escapeJson(rs.getString("lb_name")));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
-				map.put("lb_address", StringEscapeUtils.escapeJson(rs.getString("lb_address")));
-				map.put("lb_tel", StringEscapeUtils.escapeJson(rs.getString("lb_tel")));
-				map.put("lb_openTime", StringEscapeUtils.escapeJson(rs.getString("lb_openTime")));
-				map.put("lb_content", StringEscapeUtils.escapeJson(rs.getString("lb_content")));
-				map.put("lb_imgUrl", StringEscapeUtils.escapeJson(rs.getString("lb_imgUrl")));
-				map.put("lb_content", rs.getString("lb_content").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
-				*/				
-				map.put("r_id", rs.getString("r_id"));
-				map.put("b_id", rs.getString("b_id"));
-				map.put("r_resdate", rs.getString("r_resdate"));
-				map.put("r_resstate", rs.getString("r_resstate"));
-				map.put("m_pid", rs.getString("m_pid"));
 
+				map.put("b_title", rs.getString("b_title"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
+				map.put("b_author", rs.getString("b_author"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
+				map.put("b_publisher", rs.getString("b_publisher"));
+				map.put("r_resdate", rs.getString("r_resdate"));
+				map.put("lb_name", rs.getString("lb_name"));
+				map.put("r_resstate", rs.getString("r_resstate"));
+				
+//				
 				result_list.add(map);
+//		    	System.out.println(rs.getString("lb_name"));
 			}
 
 			rs.close();

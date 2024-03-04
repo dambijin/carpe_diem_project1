@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+	pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
 <%-- <%@ page import="carpedm.DBConn"%> --%>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>관리자페이지(회원목록)</title>
-	<link href="/carpedm/css/layout.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>관리자페이지(회원목록)</title>
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
@@ -20,20 +20,20 @@
 <script>
 
 	// 연체상태 popup창
-	function openOverduePopup() {
+	function openOverduePopup(m_pid) {
 		window.open
-		("/carpedm/admin_book_overdue", "팝업", "width=1200, height=900, left=200, top=200");
+		("/carpedm/admin_book_overdue?m_pid="+m_pid, "팝업", "width=1200, height=900, left=200, top=200");
 	}
 	
 	// 예약목록 popup창
-	function openReservation() {
+	function openReservation(m_pid) {
 		window.open
-		("/carpedm/admin_reservation_list", "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm/admin_reservation_list?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	// 대출내역 popup창
-	function openLoan() {
+	function openLoan(m_pid) {
 		window.open
-		("/carpedm/admin_loan", "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm/admin_loan?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	
 	// 윈도우가 로드됐을 때 bind함수 작동
@@ -262,141 +262,138 @@
 
 
 <style>
-	.flex-header{
-		cursor: pointer;
-	}
-	
-	header .nav .member_list {
-		background-color: rgba(168, 156, 200, 0.6);
-		color: #000000;
-		height: 45px;
-		line-height: 40px;
-		display: inline-block;
-		border-radius: 5px;
-		width: 150px;
-		font-size: 20px;
-		margin-top: 10px;
-	}
+.flex-header {
+	cursor: pointer;
+}
 
-	/* 검색창 */
-	.search {
-		width: 80%;
-		margin: auto;
-		text-align: center;
-		margin-bottom: 10px;
-	}
+header .nav .member_list {
+	background-color: rgba(168, 156, 200, 0.6);
+	color: #000000;
+	height: 45px;
+	line-height: 40px;
+	display: inline-block;
+	border-radius: 5px;
+	width: 150px;
+	font-size: 20px;
+	margin-top: 10px;
+}
 
-	.search .range {
-		width: 90px;
-		height: 30px;
-		font-family: "Wanted Sans Variable";
-		font-size: 17px;
-	}
+/* 검색창 */
+.search {
+	width: 80%;
+	margin: auto;
+	text-align: center;
+	margin-bottom: 10px;
+}
 
-	.search .textbox {
-		width: 350px;
-		height: 20px;
-		padding: 2px;
-		font-family: "Wanted Sans Variable";
-		font-size: 17px;
-	}
+.search .range {
+	width: 90px;
+	height: 30px;
+	font-family: "Wanted Sans Variable";
+	font-size: 17px;
+}
 
-	.search .button {
-		font-family: "Wanted Sans Variable";
-		font-size: 18px;
-		background-color: rgb(36, 116, 190);
-		color: white;
-		width: 50px;
-		height: 27px;
-		border: 0;
-		border-radius: 5px;
-		cursor: pointer;
-	}
+.search .textbox {
+	width: 350px;
+	height: 20px;
+	padding: 2px;
+	font-family: "Wanted Sans Variable";
+	font-size: 17px;
+}
 
+.search .button {
+	font-family: "Wanted Sans Variable";
+	font-size: 18px;
+	background-color: rgb(36, 116, 190);
+	color: white;
+	width: 50px;
+	height: 27px;
+	border: 0;
+	border-radius: 5px;
+	cursor: pointer;
+}
 
-	/* 테이블 div */
-	.table_div {
-		width: 80%;
-		margin: auto;
-	}
+/* 테이블 div */
+.table_div {
+	width: 80%;
+	margin: auto;
+}
 
-	/* 테이블 */
-	.member_table {
-		width: 100%;
-		border-collapse: collapse;
-		font-family: "Wanted Sans Variable";
-	}
+/* 테이블 */
+.member_table {
+	width: 100%;
+	border-collapse: collapse;
+	font-family: "Wanted Sans Variable";
+}
 
+/* 테이블 td th */
+.member_table td, .member_table th {
+	border: 1px solid #000000;
+	background-color: #fff;
+	text-align: center;
+	height: 30px;
+}
 
-	/* 테이블 td th */
-	.member_table td,
-	.member_table th {
-		border: 1px solid #000000;
-		background-color: #fff;
-		text-align: center;
-		height: 30px;
-	}
+/* 테이블 th */
+.member_table th {
+	height: 35px;
+	background-color: rgba(163, 163, 163, 0.6);
+}
 
-	/* 테이블 th */
-	.member_table th {
-		height: 35px;
-		background-color: rgba(163, 163, 163, 0.6);
-	}
+/* 예약목록, 대출내역, 정보수정 버튼 스타일 */
+.member_table tr td input {
+	font-family: "Wanted Sans Variable";
+	font-size: 14px;
+	background-color: #4CAF50; /* 버튼 색상 변경 */
+	color: white;
+	width: 50px;
+	height: 20px;
+	border: 0;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease; /* hover 효과를 위한 전환 효과 */
+}
 
-	/* 예약목록, 대출내역, 정보수정 버튼 스타일 */
-	.member_table tr td input {
-	    font-family: "Wanted Sans Variable";
-	    font-size: 14px;
-	    background-color: #4CAF50; /* 버튼 색상 변경 */
-	    color: white;
-	    width: 50px;
-	    height: 20px;
-	    border: 0;
-	    border-radius: 5px;
-	    cursor: pointer;
-	    transition: background-color 0.3s ease; /* hover 효과를 위한 전환 효과 */
-	}
-	
-	/* 예약목록, 대출내역, 정보수정 버튼에 hover 효과 */
-	.member_table tr td input[type="button"]:hover {
-	    background-color: #45a049; /* hover 효과 색상 변경 */
-	}
-	
-	/* 쪽이동 */
-	.nextpage {
-		font-family: "Wanted Sans Variable";
-		width: 80%;
-		margin: auto;
-		text-align: center;
-		margin-top: 30px;
-	}
+/* 예약목록, 대출내역, 정보수정 버튼에 hover 효과 */
+.member_table tr td input[type="button"]:hover {
+	background-color: #45a049; /* hover 효과 색상 변경 */
+}
 
-	/* 쪽이동 a 태그*/
-	.underline_remove {
-		text-decoration: none;
-		font-size: 20px;
-		color: black;
-	}
+/* 쪽이동 */
+.nextpage {
+	font-family: "Wanted Sans Variable";
+	width: 80%;
+	margin: auto;
+	text-align: center;
+	margin-top: 30px;
+}
 
-	.nextpage input {
-		height: 30px;
-	}
+/* 쪽이동 a 태그*/
+.underline_remove {
+	text-decoration: none;
+	font-size: 20px;
+	color: black;
+}
 
-	/* 연체상태 td 글씨 */
-	.table_div .member_table a {
-		font-family: "Wanted Sans Variable";
-		color: blue;
-		font-weight: bold;
-	}
+.nextpage input {
+	height: 30px;
+}
 
-	/* 출력 개수 */
-	.search .view_count {
-		font-family: "Wanted Sans Variable";
-		font-size: 16px;
-		height: 30px;
-	}
+/* 연체상태 td 글씨 */
+.table_div .member_table a {
+	font-family: "Wanted Sans Variable";
+	color: blue;
+	font-weight: bold;
+}
 
-	/* 이름 링크 */
+/* 출력 개수 */
+.search .view_count {
+	font-family: "Wanted Sans Variable";
+	font-size: 16px;
+	height: 30px;
+}
+
+/* 이름 링크 */
 /* 	.member_name { */
 /* 		color: blue; */
 /* 		font-family: bold; */
@@ -405,18 +402,17 @@
 /* 		cursor: pointer; */
 /* 	} */
 
-	/* 연체상태 링크 */
-	.overdue_name {
-		color: blue;
-		font-family: bold;
-		text-decoration: underline;
-		font-weight: bold;
-		cursor: pointer;
-	}
+/* 연체상태 링크 */
+.overdue_name {
+	 		color: blue; 
+	/* 		text-decoration: underline; */
+	font-weight: bold;
+	/* 		cursor: pointer; */
+}
 
-	h1 {
-		font-family: "Wanted Sans Variable";
-	}
+h1 {
+	font-family: "Wanted Sans Variable";
+}
 </style>
 
 <body>
@@ -430,18 +426,14 @@
 
 	<!-- 검색창   -->
 	<div class="search">
-		<select id="viewCount" class="view_count" onchange="changeViewCount(this.value)">
+		<select id="viewCount" class="view_count"
+			onchange="changeViewCount(this.value)">
 			<option value="10">10개씩</option>
 			<option value="20">20개씩</option>
 			<option value="30">30개씩</option>
-		</select>
-
-
-		<select class="range" id="search_option">
+		</select> <select class="range" id="search_option">
 			<!-- 자바스크립트로 가져오기 -->
-		</select>
-
-		<input type="text" name="search" class="textbox" id="input_todo">
+		</select> <input type="text" name="search" class="textbox" id="input_todo">
 		<button type=button class="button" onclick="search()">검색</button>
 	</div>
 
@@ -449,8 +441,8 @@
 
 	<!-- table 보드 -->
 	<div class="table_div">
-		<form method="get" action="/carpedm/admin_member_list" >
-		<table class="member_table" id="memberListTable">
+		<form method="get" action="/carpedm/admin_member_list">
+			<table class="member_table" id="memberListTable">
 				<thead>
 					<tr id="memberListTable_tr">
 						<th width="80px">순번</th>
@@ -467,27 +459,30 @@
 					</tr>
 				</thead>
 				<tbody id="memberListBody">
-	                <!-- 동적으로 추가될 테이블 내용 -->
-	
+					<!-- 동적으로 추가될 테이블 내용 -->
+
 					<%
 					ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("member_list");
 					%>
-	
+
 					<%
 					for (int i = 0; i < data_list.size(); i++) {
 					%>
-					<tr>				
-						<td><%=i+1 %></td>
+					<tr>
+						<td><%=i + 1%></td>
 						<td class="member_no"><%=data_list.get(i).get("m_pid")%></td>
 						<td><div class="member_name"><%=data_list.get(i).get("m_name")%></div></td>
 						<td><%=data_list.get(i).get("m_id")%></td>
-						<td><%=data_list.get(i).get("m_birthday").substring(0,10)%></td>
+						<td><%=data_list.get(i).get("m_birthday").substring(0, 10)%></td>
 						<td><%=data_list.get(i).get("m_tel")%></td>
 						<td><%=data_list.get(i).get("m_address")%></td>
-						<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>
-						<td><input type="button" value="조회" onclick="openReservation()"></td>
-<%-- 						getReservationInfo('<%=data_list.get(i).get("m_id")%>') --%>
-						<td><input type="button" value="조회" onclick="openLoan()"></td>
+						<%-- 						<td><div class="overdue_name" onclick="openOverduePopup('<%=data_list.get(i).get("m_pid")%>')"><%=data_list.get(i).get("m_loanstate") %></div></td> --%>
+						<td><div class="overdue_name"><%=data_list.get(i).get("m_loanstate")%></div></td>
+						<td><input type="button" value="조회"
+							onclick="openReservation('<%=data_list.get(i).get("m_pid")%>')"></td>
+						<%-- 						getReservationInfo('<%=data_list.get(i).get("m_id")%>') --%>
+						<td><input type="button" value="조회"
+							onclick="openLoan('<%=data_list.get(i).get("m_pid")%>')"></td>
 						<td><input type="button" value="수정"
 							onclick="location.href='/carpedm/admin_member_chginfo?m_pid=<%=data_list.get(i).get("m_pid")%>';"></td>
 					</tr>
@@ -496,20 +491,20 @@
 					%>
 				</tbody>
 			</table>
-	</form>
-		
+		</form>
+
 	</div>
 
 	<!-- 쪽이동 -->
 	<div class="paging nextpage">
-        <a href="#" class="pre underline_remove" onclick="changePage(-1)">◀</a>
-        <span id="currentPage" class="underline_remove">1</span>
-        <a href="#" class="num underline_remove" onclick="changePage(1)">2</a>
-        <a href="#" class="num underline_remove" onclick="changePage(2)">3</a>
-        <a href="#" class="num underline_remove" onclick="changePage(3)">4</a>
-        <a href="#" class="num underline_remove" onclick="changePage(4)">5</a>
-        <a href="#" class="next underline_remove" onclick="changePage(1)">▶</a>
-    </div>
+		<a href="#" class="pre underline_remove" onclick="changePage(-1)">◀</a>
+		<span id="currentPage" class="underline_remove">1</span> <a href="#"
+			class="num underline_remove" onclick="changePage(1)">2</a> <a
+			href="#" class="num underline_remove" onclick="changePage(2)">3</a> <a
+			href="#" class="num underline_remove" onclick="changePage(3)">4</a> <a
+			href="#" class="num underline_remove" onclick="changePage(4)">5</a> <a
+			href="#" class="next underline_remove" onclick="changePage(1)">▶</a>
+	</div>
 
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
