@@ -18,12 +18,6 @@
 <!-- function 스크립트 -->
 <script defer src="/carpedm/js/admin_library.js"></script>
 <script>
-	// 추가할 것들
-	// 연체상태도 불러와야함 수정해야함
-	// 조회버튼 2개 현황 불러와야함
-	// 수정버튼 
-
-
 
 	// 연체상태 popup창
 	function openOverduePopup() {
@@ -35,6 +29,17 @@
 		alert("연체해제 되었습니다");
 		window.close();
 	}
+	// 예약목록 popup창
+	function openReservation() {
+		window.open
+		("admin/admin_reservation_list.jsp", "팝업", "width=1000, height=700, left=100, top=100");
+	}
+	// 대출내역 popup창
+	function openLoan() {
+		window.open
+		("admin/admin_loan.jsp", "팝업", "width=1000, height=700, left=100, top=100");
+	}
+	
 	//  윈도우가 로드됐을 때 bind함수 작동
 	window.addEventListener("load", function () {
 		bind();
@@ -444,7 +449,7 @@
 
 	<!-- table 보드 -->
 	<div class="table_div">
-		<form action="/carpedm/admin_member_list" method="get">
+		<form method="get" action="/carpedm/admin_member_list" >
 		<table class="member_table" id="memberListTable">
 				<thead>
 					<tr id="memberListTable_tr">
@@ -482,8 +487,9 @@
 						<td><%=data_list.get(i).get("m_address")%></td>
 						<td><%=data_list.get(i).get("lb_id")%></td>
 						<td><div class="overdue_name" onclick="openOverduePopup()">3일</div></td>
-						<td><input type="button" value="조회" onclick="getReservationInfo('<%=data_list.get(i).get("m_id")%>')"></td>
-						<td><input type="button" value="조회" onclick="loans('<%=data_list.get(i).get("m_id")%>')"></td>
+						<td><input type="button" value="조회" onclick="openReservation()"></td>
+<%-- 						getReservationInfo('<%=data_list.get(i).get("m_id")%>') --%>
+						<td><input type="button" value="조회" onclick="openLoan()"></td>
 						<td><input type="button" value="수정"
 							onclick="location.href='/carpedm/admin_member_chginfo?m_pid=<%=data_list.get(i).get("m_pid")%>';"></td>
 					</tr>
