@@ -229,10 +229,13 @@ window.onload = function() {
 					<div class="board">
 						<div id="select">
 							<select class="change_handwriting" id="searchselect" name="n_search">
-							</select> <input type="text" class="change_handwriting search_input"
-								id="searchbox"> <input type="button" name="s_box"
+							
+							</select>
+							<input type="text" class="change_handwriting search_input"
+								id="searchbox" name="s_box">
+								<input type="button" name="s_box"
 								class="change_handwriting request search_button" value="검색"
-								onclick="search_box()">
+								onclick="location.href='notice_board?<%String search_box=request.getParameter("s_box");%>';">
 						</div>
 						<form method="post" action="notice_board">
 						<table class="board_sub">

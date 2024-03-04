@@ -139,6 +139,7 @@
         .QnA_detail table {
             border-collapse: collapse;
             text-align: left;
+            width:100%;
         }
 
         .QnA_detail td {

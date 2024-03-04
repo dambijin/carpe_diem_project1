@@ -61,7 +61,7 @@ public class NoticeWriteServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	
-		System.out.println(getDBUpdate(request, response));
+		System.out.println(inSert(request, response));
 		response.sendRedirect("notice_board");
 	}
 	
@@ -102,7 +102,7 @@ public class NoticeWriteServlet extends HttpServlet {
 
 	
 //	DB업데이트 or 인서트 등등을 할 수 있는 메소드
-	private int getDBUpdate(HttpServletRequest request , HttpServletResponse response) {
+	private int inSert(HttpServletRequest request , HttpServletResponse response) {
 		int result = -1;
 		try {
 			Connection conn = getConnection();

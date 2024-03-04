@@ -74,9 +74,12 @@ public class NoticeBoardServlet extends HttpServlet {
 		ArrayList<Map<String,String>> list = getDBList(notice);
 		request.setAttribute("list", list);
 		
-//		String search_select=request.getParameter("n_search"); // 셀렉트문 선택될때
-//		String search_box=request.getParameter("s_box"); // 인풋내용
-//		Connection conn = getConnection();
+		String search_select=request.getParameter("n_search"); // 셀렉트문 선택될때
+		String search_box=request.getParameter("s_box"); // 인풋내용
+		Connection conn = getConnection();
+		System.out.println(search_select);
+		System.out.println(search_box);
+		
 //		if(search_select.equals("제목")) {
 //			String select_sql ="";
 //			select_sql += "SELECT * FROM notice";
@@ -112,7 +115,7 @@ public class NoticeBoardServlet extends HttpServlet {
 //				e.printStackTrace();
 //			}
 //		}
-//		
+		
 		
 		
 //		관리자 Y인지 N인지 설정하기
