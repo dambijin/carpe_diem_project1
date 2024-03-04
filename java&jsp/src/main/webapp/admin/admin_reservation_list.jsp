@@ -46,7 +46,6 @@
             book_html += '<td>2024-03-04</td>';
             book_html += '<td>예약중</td>';
             book_html += '<td>53</td>';
-            book_html += '<td><input type="checkbox" class="checkbox"></td>';
             // html +=	'</tr>'
 
             let tr = document.createElement("tr"); // <tr></tr>
@@ -195,10 +194,6 @@
                     <th>예약일</th>
                     <th>예약상태</th>
                     <th>회원번호</th>
-                    <th width="100px">
-                        예약상
-                        <input type="checkbox" name="check" id="select_all">
-                    </th>
                 </tr>
             </table>
         </div>
