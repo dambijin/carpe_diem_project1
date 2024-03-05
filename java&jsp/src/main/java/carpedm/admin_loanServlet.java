@@ -50,14 +50,24 @@ public class admin_loanServlet extends HttpServlet {
 		try {
 			Connection conn = getConnection();
 			// SQL준비
+//			String query = "";
+//			query += " select";
+//			query += " m.m_pid, m.m_name, b.b_title, b.b_author, l.lb_name, o.l_loanDate, o.l_returnDate, b.b_resstate, b.b_loanstate";
+//			query += " from member m";
+//			query += " join library l on (m.lb_id = l.lb_id)";
+//			query += " join loan o on(m.m_pid = o.m_pid)";
+//			query += " join book b on(o.b_id = b.b_id)";
+//			query += " where m.m_pid ="+m_pid;
+			
 			String query = "";
-			query += " select";
-			query += " m.m_pid, m.m_name, b.b_title, b.b_author, l.lb_name, o.l_loanDate, o.l_returnDate, b.b_resstate, b.b_loanstate";
-			query += " from member m";
-			query += " join library l on (m.lb_id = l.lb_id)";
-			query += " join loan o on(m.m_pid = o.m_pid)";
-			query += " join book b on(o.b_id = b.b_id)";
-			query += " where m.m_pid ="+m_pid;
+			query += "select";
+			query += " l_id, b_title, b_author, b_publisher, l_loandate, l_returnrealdate, l_extendcount, library.lb_name,m_pid,book.b_resstate,book.b_loanstate";
+			query += " from";
+			query += " loan";
+			query += " INNER JOIN book ON loan.b_id = book.b_id INNER JOIN library ON book.lb_id = library.lb_id";	
+			query += " WHERE m_pid = " + m_pid;
+			query += " order by l_returnrealdate desc";
+			
 
 			System.out.println("query:" + query);
 			// SQL 실행준비
@@ -67,12 +77,12 @@ public class admin_loanServlet extends HttpServlet {
 				Map<String,String> map = new HashMap<String, String>();
 					
 				map.put("m_pid", rs.getString("m_pid"));
-				map.put("m_name", rs.getString("m_name"));
+//				map.put("m_name", rs.getString("m_name"));
 				map.put("b_title", rs.getString("b_title"));
 				map.put("b_author", rs.getString("b_author"));
 				map.put("lb_name", rs.getString("lb_name"));
 				map.put("l_loanDate", rs.getString("l_loanDate"));
-				map.put("l_returnDate", rs.getString("l_returnDate"));
+				map.put("l_returnrealdate", rs.getString("l_returnrealdate"));
 				map.put("b_resstate", rs.getString("b_resstate"));
 				map.put("b_loanstate", rs.getString("b_loanstate"));
 

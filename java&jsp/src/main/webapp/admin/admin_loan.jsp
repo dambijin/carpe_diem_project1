@@ -195,7 +195,7 @@ section {
 				<thead>
 					<tr>
 						<th>회원번호</th>
-						<th>회원이름</th>
+<!-- 						<th>회원이름</th> -->
 						<th>책제목</th>
 						<th>저자</th>
 						<th>소장기관</th>
@@ -212,12 +212,12 @@ section {
 					%>
 					<tr>
 						<td><%=data_list.get(i).get("m_pid")%></td>
-						<td><%=data_list.get(i).get("m_name")%></td>
+<%-- 						<td><%=data_list.get(i).get("m_name")%></td> --%>
 						<td><%=data_list.get(i).get("b_title")%></td>
 						<td><%=data_list.get(i).get("b_author")%></td>
 						<td><%=data_list.get(i).get("lb_name")%></td>
 						<td><%=data_list.get(i).get("l_loanDate").substring(0,10)%></td>
-						<td><%=data_list.get(i).get("l_returnDate").substring(0,10)%></td>
+						<td><%= data_list.get(i).get("l_returnrealdate") != null ? data_list.get(i).get("l_returnrealdate").substring(0,10) : "" %></td>
 						<td><%=data_list.get(i).get("b_resstate")%></td>
 						<td><%=data_list.get(i).get("b_loanstate")%></td>
 					</tr>
