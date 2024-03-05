@@ -34,6 +34,7 @@ public class mypage_chginfoServlet extends HttpServlet {
 		
 		  HttpSession getSession = request.getSession();
 	      String login_m_pid = (String) getSession.getAttribute("m_pid");
+	      
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
 		//	Gson gson = new Gson();

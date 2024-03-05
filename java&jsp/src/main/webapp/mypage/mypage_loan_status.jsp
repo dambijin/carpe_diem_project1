@@ -229,7 +229,7 @@
 							<td><%=list.get(i).get("b_author")%></td>
 							<td><%=list.get(i).get("b_publisher")%></td>
 							<td><%=list.get(i).get("l_loandate").substring(0, 10)%></td>
-							<td><%=list.get(i).get("l_returnrealdate") != null ? list.get(i).get("l_returnrealdate").substring(0, 10) : ""%></td>
+							<td><%=list.get(i).get("l_returndate").substring(0, 10)%></td>
 							<td><%=list.get(i).get("lb_name")%></td>
 							<td><button>연장</button></td>
 
