@@ -78,7 +78,6 @@ public class NoticeBoardServlet extends HttpServlet {
 		} else if (select.equals("도서관")) {
 			select_sql = " AND LB_NAME LIKE '%"+searchWord+"%'";
 		} 
-		
 
 //		가져올 데이터 값의 쿼리문
 		String notice = "";
@@ -93,9 +92,42 @@ public class NoticeBoardServlet extends HttpServlet {
 
 		System.out.println(notice);
 		ArrayList<Map<String, String>> list = getDBList(notice);
-		request.setAttribute("list", list);
+//		request.setAttribute("list", list);
+		
+		String page = request.getParameter("page");
+		if (page == null || "".equals(page)) {
+			page = "1";
+		}
+		int currentPage = Integer.parseInt(page);
 
+		// perPage(표시 개수) 처리 부분
+		String perPage = request.getParameter("perPage");
+		if (perPage == null || "".equals(perPage)) {
+			perPage = "10";
+		}
+		int itemsPerPage = Integer.parseInt(perPage);
+		// 페이지 처리를 위한 계산
+		int startRow = (currentPage - 1) * itemsPerPage + 1;
+		int endRow = currentPage * itemsPerPage;
+		request.setAttribute("page", page);
+		request.setAttribute("perPage", perPage);
+		
+		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 
+		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
+		startRow--;
+		endRow--;
+
+		for (int i = startRow; i <= endRow; i++) {
+			if (i < list.size()) {
+				pageList.add(list.get(i));
+			} else {
+				break;
+			}
+		}
+		request.setAttribute("list", pageList);
+		request.setAttribute("allcount", list.size());
+		
 		HttpSession getSession = request.getSession();
         String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 아이디
 
