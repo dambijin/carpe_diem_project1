@@ -53,7 +53,7 @@
 //         }
 
         //검색옵션 기본세팅
-        let search_opt_list = ["회원번호", "책이름", "저자", "출판사", "ISBN", "발행년", "신청날짜", "회원ID"];
+        let search_opt_list = ["전체", "희망도서ID", "책이름", "저자", "출판사", "회원ID", "소장기관"];
 
         for (let i = 0; i < search_opt_list.length; i++) {
             let search_opt = document.querySelector("#search_option");

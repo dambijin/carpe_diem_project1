@@ -384,6 +384,7 @@
 	                    <input type="text" class="zipcode" id="zipcodenum" placeholder="우편번호">
 	                    <input type="button" value="주소찾기" class="add" onclick="sample6_execDaumPostcode()"><br>
 	                    <input type="text" class="adr" id="adr1" placeholder="기본주소" value="<%=data_list.get(0).get("m_address")%>"><br>
+	                    <input type="text" class="adr" id="adr2" placeholder="상세주소">
 	                </td>
 	            </tr>
             </thead>

@@ -153,7 +153,7 @@
 		};
 
 		//검색옵션 기본세팅
-		let search_opt_list = ["전체", "순번", "도서ID", "책이름", "저자", "출판사", "ISBN", "발행년", "소장기관", "등록날짜"];
+		let search_opt_list = ["전체", "책이름", "저자", "출판사", "ISBN", "소장기관"];
 
 		for (let i = 0; i < search_opt_list.length; i++) {
 			let search_opt = document.querySelector("#search_option");

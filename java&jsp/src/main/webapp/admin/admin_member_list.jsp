@@ -109,7 +109,7 @@
 		// 검색옵션 기본세팅
 		// select 옵션 가져와서 변수에담고
 		// html 변수에 배열의 값을 추가해서 for문 돌림
-		let search_opt_list = [ "전체", "회원번호", "이름", "회원ID", "생년월일", "전화번호", "주소", "도서관ID", "연체상태"];
+		let search_opt_list = ["전체", "순번", "회원번호", "이름", "회원ID", "생년월일", "전화번호", "주소"];
 
 		for (let i = 0; i < search_opt_list.length; i++) {
 			let search_opt = document.querySelector("#search_option");
