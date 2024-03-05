@@ -26,10 +26,10 @@ public class QnADetailServlet extends HttpServlet {
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
-	
+
 //	DB접속 메소드
 	private static Connection getConnection() {
-		Connection conn= null;
+		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -38,8 +38,9 @@ public class QnADetailServlet extends HttpServlet {
 		}
 		return conn;
 	}
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 //		한글 깨짐 방지
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -47,41 +48,36 @@ public class QnADetailServlet extends HttpServlet {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+
 		String url = request.getRequestURL().toString(); // 현재 URL 가져오기
 		String queryString = request.getQueryString(); // 쿼리 문자열 가져오기
 
 		int nid = 0;
-		 if (queryString != null) {
-			    String[] params = queryString.split("&"); // 쿼리 파라미터 분리
+		if (queryString != null) {
+			String[] params = queryString.split("&"); // 쿼리 파라미터 분리
 
-			    for (String param : params) {
-			        String[] keyValue = param.split("="); // 파라미터 이름과 값 분리
-			        String paramName = keyValue[0]; // 파라미터 이름
-			        String paramValue = keyValue.length > 1 ? keyValue[1] : ""; // 파라미터 값
-			        
-			        if (paramName.equals("N_ID")) {
-			        	nid = Integer.parseInt(paramValue);
-			        }
-			    }
-		 }
-		 
+			for (String param : params) {
+				String[] keyValue = param.split("="); // 파라미터 이름과 값 분리
+				String paramName = keyValue[0]; // 파라미터 이름
+				String paramValue = keyValue.length > 1 ? keyValue[1] : ""; // 파라미터 값
+
+				if (paramName.equals("N_ID")) {
+					nid = Integer.parseInt(paramValue);
+				}
+			}
+		}
+
 //			실행할 쿼리문
-			String nid_query = "";
-			nid_query += "SELECT * FROM notice where" ;
-			nid_query += " n_id=";
-			nid_query += nid;
-			nid_query += " order by n_id desc";
-			
-			System.out.println("N_ID 값: " + nid_query);
-		ArrayList<Map<String,String>> notice = getDBList(nid_query);
+		String nid_query = "";
+		nid_query += "SELECT * FROM notice where";
+		nid_query += " n_id=";
+		nid_query += nid;
+		nid_query += " order by n_id desc";
+
+		System.out.println("N_ID 값: " + nid_query);
+		ArrayList<Map<String, String>> notice = getDBList(nid_query);
 
 		request.setAttribute("notice", notice);
-		
-		
 
 //		멤버 가져오기
 		String mPid = "";
@@ -101,10 +97,8 @@ public class QnADetailServlet extends HttpServlet {
 		member_query += mPid;
 		ArrayList<Map<String, String>> member = getDBList(member_query);
 
-		
 		request.setAttribute("member", member);
-		
-		
+
 //		도서관 가져오기
 		String lb_id = "";
 		if (notice != null && !notice.isEmpty()) {
@@ -123,86 +117,69 @@ public class QnADetailServlet extends HttpServlet {
 		library += lb_id;
 		ArrayList<Map<String, String>> library_list = getDBList(library);
 		request.setAttribute("library_list", library_list);
-		
-		
-		String notice_id= "";
+
+		String notice_id = "";
 		if (notice != null && !notice.isEmpty()) {
 			for (int i = 0; i < notice.size(); i++) {
 				Map<String, String> row = notice.get(i);
 				notice_id = row.get("N_ID");
 			}
 		}
-		
+
 		try {
-	        // 데이터 베이스 연결
-	        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-	        
-	        String sql = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
-	        
-	        PreparedStatement pst = conn.prepareStatement(sql);
-	        pst.setString(1, notice_id);
+			// 데이터 베이스 연결
+			Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+			String sql = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
+
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, notice_id);
 //	        executeUpdate : 업데이트 하는 sql문 작성됨
-	        int rowCount = pst.executeUpdate();
-	        if (rowCount > 0) {
+			int rowCount = pst.executeUpdate();
+			if (rowCount > 0) {
 //	        	가져올 쿼리문
-	        } else {
-	        	System.out.println("조회수 증가 실패");
-	        }
-	        
-	        String UPDATE = "select * from notice where N_ID=";
-        	UPDATE += notice_id;
-        	ArrayList<Map<String, String>> update = getDBList(UPDATE);
-    		request.setAttribute("update", update);
-	        
-    		
-	        // 리소스 닫기
-	        pst.close();
-	        conn.close();
-	    } catch (SQLException e) {
-	        e.printStackTrace(); 
-	    }
-		
-		
+			} else {
+				System.out.println("조회수 증가 실패");
+			}
+
+			String UPDATE = "select * from notice where N_ID=";
+			UPDATE += notice_id;
+			ArrayList<Map<String, String>> update = getDBList(UPDATE);
+			request.setAttribute("update", update);
+
+			// 리소스 닫기
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		HttpSession getSession = request.getSession();
-        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 아이디
+		String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 아이디
 
-        String query = "";
+		String query = "";
 		query += "SELECT * FROM member where ";
 		query += "M_PID = ";
 		query += login_m_pid;
 
-//		System.out.println("MEMBER테이블 쿼리: " + query);
-		ArrayList<Map<String, String>> mem = getDBList(query);
+		ArrayList<Map<String, String>> m_pid = getDBList(query);
 
-		request.setAttribute("mem", mem);
-
+		request.setAttribute("m_pid", m_pid);
+		
 		String manager = "";
-		if (mem != null && !mem.isEmpty()) {
-			for (int i = 0; i < mem.size(); i++) {
-				Map<String, String> row = mem.get(i);
+		if (m_pid != null && !m_pid.isEmpty()) {
+			for (int i = 0; i < m_pid.size(); i++) {
+				Map<String, String> row = m_pid.get(i);
 				manager = row.get("M_MANAGERCHK");
 //				System.out.println("manager 값: " + manager);
 			}
 		}
 
 		request.setAttribute("manager", manager);
-		
-		String sign_in_mpid = "";
-		if (mem != null && !mem.isEmpty()) {
-			for (int i = 0; i < mem.size(); i++) {
-				Map<String, String> row = mem.get(i);
-				sign_in_mpid = row.get("M_PID");
-//				System.out.println("manager 값: " + manager);
-			}
-		}
-
-		request.setAttribute("sign_in_mpid", sign_in_mpid);
-		
 		request.getRequestDispatcher("board/QnA_detail.jsp").forward(request, response);
-		
+
 	}
-	
+
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
@@ -216,18 +193,18 @@ public class QnADetailServlet extends HttpServlet {
 			int columnCount = rsmd.getColumnCount();
 
 			while (rs.next()) {
-			    Map<String, String> map = new HashMap<String, String>();
+				Map<String, String> map = new HashMap<String, String>();
 
-			    for (int i = 1; i <= columnCount; i++) {
-			        String columnName = rsmd.getColumnName(i);
-			        map.put(columnName, rs.getString(columnName));
-			    }
+				for (int i = 1; i <= columnCount; i++) {
+					String columnName = rsmd.getColumnName(i);
+					map.put(columnName, rs.getString(columnName));
+				}
 
-			    result_list.add(map);
+				result_list.add(map);
 //			    값 잘 나오는지 확인
 //			    System.out.println(result_list.get(0).get("N_TITLE"));
 			}
-			
+
 			rs.close();
 			ps.close();
 			conn.close();
