@@ -158,9 +158,23 @@
         margin-bottom: 10px;
     }
 
+	.search .view_count {
+		width: 90px;
+		height: 30px;
+		font-family: "Wanted Sans Variable";
+		font-size: 17px;
+	}
+	.search .search_opt_list {
+		width: 90px;
+		height: 30px;
+		font-family: "Wanted Sans Variable";
+		font-size: 17px;
+	}
+	
     .search select {
         width: 80px;
         height: 30px;
+        font-family: "Wanted Sans Variable";
     }
 
     .search .textbox {
