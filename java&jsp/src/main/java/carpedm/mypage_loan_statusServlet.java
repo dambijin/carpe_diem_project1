@@ -37,6 +37,7 @@ public class mypage_loan_statusServlet extends HttpServlet {
 		
 		HttpSession getSession = request.getSession();
 		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		
 		if (login_m_pid == null || login_m_pid.equals("")) {
 			request.getRequestDispatcher("/sign_in").forward(request, response);
 			return;
@@ -69,7 +70,7 @@ public class mypage_loan_statusServlet extends HttpServlet {
 			// SQL준비
 			String query = "";
 			query += "select";
-			query += " l_id, b_title, b_author, b_publisher, l_loandate, l_returnrealdate, l_extendcount, library.lb_name";
+			query += " l_id, b_title, b_author, b_publisher, l_loandate, l_returndate, l_returnrealdate, l_extendcount, library.lb_name";
 			query += " from";
 			query += " loan";
 			query += " INNER JOIN book ON loan.b_id = book.b_id INNER JOIN library ON book.lb_id = library.lb_id";	
@@ -89,7 +90,7 @@ public class mypage_loan_statusServlet extends HttpServlet {
 				map.put("b_author", rs.getString("b_author"));
 				map.put("b_publisher", rs.getString("b_publisher"));
 				map.put("l_loandate", rs.getString("l_loandate"));
-				map.put("l_returnrealdate", rs.getString("l_returnrealdate"));
+				map.put("l_returndate", rs.getString("l_returndate"));
 				map.put("l_extendcount", rs.getString("l_extendcount"));
 				map.put("lb_name", rs.getString("lb_name"));
 				

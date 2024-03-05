@@ -36,17 +36,53 @@ public class mypage_reservation_listServlet extends HttpServlet {
 			request.getRequestDispatcher("/sign_in").forward(request, response);
 			return;
 		}
+		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
+		request.setAttribute("myInfo", myInfo);
+		
+		String page = request.getParameter("page");
+		if (page == null || "".equals(page)) {
+			page = "1";
+		}
+		int currentPage = Integer.parseInt(page);
+
+		// perPage(표시 개수) 처리 부분
+		String perPage = request.getParameter("perPage");
+		if (perPage == null || "".equals(perPage)) {
+			perPage = "10";
+		}
+		int itemsPerPage = Integer.parseInt(perPage);
+		// 페이지 처리를 위한 계산
+		int startRow = (currentPage - 1) * itemsPerPage + 1;
+		int endRow = currentPage * itemsPerPage;
+		request.setAttribute("page", page);
+		request.setAttribute("perPage", perPage);
 		
 		ArrayList<Map<String,String>> list = getLoan(login_m_pid);
-		request.setAttribute("list", list);
+		ArrayList<Map<String, String>> pageList = new ArrayList<>();
+		
+		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
+				startRow--;
+				endRow--;
+
+				for (int i = startRow; i <= endRow; i++) {
+					if (i < list.size()) {
+						pageList.add(list.get(i));
+					} else {
+						break;
+					}
+				}
+
+				request.setAttribute("list", pageList);
+				request.setAttribute("allcount", list.size());
+//		request.setAttribute("list", list);
+		
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
 		request.setAttribute("library", library);
 		
 
 		
 
-		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
-		request.setAttribute("myInfo", myInfo);
+		
 		
 		request.getRequestDispatcher("/mypage/mypage_reservation_list.jsp").forward(request, response);
 	}
