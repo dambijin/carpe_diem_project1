@@ -160,13 +160,13 @@
 		<div class="s_section2">
 			<div class="left_section">
 				<a href="/carpedm/mypage_loan_status"><button type="button"
-						class="sub_but">대출 현황</button></a><br> 
-				<a href="/carpedm/mypage_loan_history"><button type="button"
-						class="sub_but">대출 내역</button></a><br> 
-				<a href="/carpedm/mypage_reservation_list"><button type="button"
-						class="sub_but">예약</button></a> 
-				<a href="/carpedm/mypage_wishbook_list"><button
-						type="button" class="sub_but">
+						class="sub_but">대출 현황</button></a><br> <a
+					href="/carpedm/mypage_loan_history"><button type="button"
+						class="sub_but">대출 내역</button></a><br> <a
+					href="/carpedm/mypage_reservation_list"><button type="button"
+						class="sub_but">예약</button></a> <a
+					href="/carpedm/mypage_wishbook_list"><button type="button"
+						class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
 
@@ -179,21 +179,17 @@
 						<table class="div1_table">
 							<tr>
 								<td class="info1">
-								<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
-							System.out.println(myInfo.size());
-							
-							%><Strong>내정보</Strong><br>
-								이름 : <%=myInfo.get(0).get("M_NAME") %><br>
-								번호 : <%=myInfo.get(0).get("M_TEL") %><br>
-								주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
-								<% String loanstate_text = "대출가능";
-								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
-								{
-									loanstate_text = myInfo.get(0).get("M_LOANSTATE")+"일 연체상태";
-								}
-								%>
-								대출가능여부 : <%=loanstate_text%>
-	
+									<%
+									ArrayList<Map<String, String>> myInfo = (ArrayList<Map<String, String>>) request.getAttribute("myInfo");
+									System.out.println(myInfo.size());
+									%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME")%><br>
+									번호 : <%=myInfo.get(0).get("M_TEL")%><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS")%><br>
+									<%
+									String loanstate_text = "대출가능";
+									if (myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0")) {
+										loanstate_text = myInfo.get(0).get("M_LOANSTATE") + "일 연체상태";
+									}
+									%> 대출가능여부 : <%=loanstate_text%>
 								<td>
 									<button type="button" id="chginfo">정보수정</button>
 								</td>
@@ -204,53 +200,49 @@
 						<!-- 분류 -->
 						<div></div>
 						<div id="select2">
-							<div>
-								
-
-
-							</div>
+							<div></div>
 						</div>
 					</div>
 					<!-- 보드 -->
 					<table id="page1">
 						<tr id="page1_tr">
-							<th style="cursor:pointer;" onclick="sortTable(0,true)">번호</th>
-<!-- 							<th style="cursor:pointer;" onclick="sortTable(0,true)">관리번호</th> -->
-							<th style="cursor:pointer;" onclick="sortTable(1,false)">책이름</th>
-							<th style="cursor:pointer;" onclick="sortTable(2,false)">저자</th>
-							<th style="cursor:pointer;" onclick="sortTable(3,false)">출판사</th>
-							<th style="cursor:pointer;" onclick="sortTable(4,true)">대출일</th>
-							<th style="cursor:pointer;" onclick="sortTable(5,true)">반납예정일</th>
-							<th style="cursor:pointer;" onclick="sortTable(6,false)">소장기관</th>
+							<th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
+							<!-- 							<th style="cursor:pointer;" onclick="sortTable(0,true)">관리번호</th> -->
+							<th style="cursor: pointer;" onclick="sortTable(1,false)">책이름</th>
+							<th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
+							<th style="cursor: pointer;" onclick="sortTable(3,false)">출판사</th>
+							<th style="cursor: pointer;" onclick="sortTable(4,true)">대출일</th>
+							<th style="cursor: pointer;" onclick="sortTable(5,true)">반납예정일</th>
+							<th style="cursor: pointer;" onclick="sortTable(6,false)">소장기관</th>
 							<th>반납연기</th>
 						</tr>
-						<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 
-							System.out.println(list.size());
-							
-							for(int i = 0; i< list.size(); i++)
-                         {%>
-                         <tr class="tr">
-							<td><%=i+1 %></td>
-<%-- 							<td><%=list.get(i).get("l_id") %></td> --%>
-							<td><%=list.get(i).get("b_title") %></td>
-							<td><%=list.get(i).get("b_author") %></td>
-							<td><%=list.get(i).get("b_publisher") %></td>
-							<td><%=list.get(i).get("l_loandate").substring(0,10) %></td>
-							 <td><%= list.get(i).get("l_returnrealdate") != null ? list.get(i).get("l_returnrealdate").substring(0,10) : "" %></td>
-							<td><%=list.get(i).get("lb_name") %></td>
-							 <td><button>연장</button></td>
-							
+						<%
+						ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) request.getAttribute("list");
+						System.out.println(list.size());
+
+						for (int i = 0; i < list.size(); i++) {
+						%>
+						<tr class="tr">
+							<td><%=i + 1%></td>
+							<%-- 							<td><%=list.get(i).get("l_id") %></td> --%>
+							<td><%=list.get(i).get("b_title")%></td>
+							<td><%=list.get(i).get("b_author")%></td>
+							<td><%=list.get(i).get("b_publisher")%></td>
+							<td><%=list.get(i).get("l_loandate").substring(0, 10)%></td>
+							<td><%=list.get(i).get("l_returnrealdate") != null ? list.get(i).get("l_returnrealdate").substring(0, 10) : ""%></td>
+							<td><%=list.get(i).get("lb_name")%></td>
+							<td><button>연장</button></td>
+
 						</tr>
-						<%}
-                         %>
+						<%
+						}
+						%>
 
 					</table>
 				</div>
 
 			</div>
 		</div>
-		</div>
-
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header.js"></script>

@@ -382,7 +382,7 @@
 				<div id="paging">
 					<%
 					// 서블릿에서 불러온 페이징 정보
-					int total_count = 5;// 임시로 설정한 값
+					int total_count = 0;// 임시로 설정한 값
 					int perPage = 10;
 					int current_page = 1;
 				    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
