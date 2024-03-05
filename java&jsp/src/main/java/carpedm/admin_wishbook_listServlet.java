@@ -27,7 +27,42 @@ public class admin_wishbook_listServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Map<String, String>> list = getwishbook();
 		
-		request.setAttribute("wishbook_list", list);
+		System.out.println(list);
+		System.out.println(list.size());
+		String page = request.getParameter("page");
+		if (page == null || "".equals(page)) {
+			page = "1";
+		}
+		int currentPage = Integer.parseInt(page);
+
+		// perPage(표시 개수) 처리 부분
+		String perPage = request.getParameter("perPage");
+		if (perPage == null || "".equals(perPage)) {
+			perPage = "10";
+		}
+		int itemsPerPage = Integer.parseInt(perPage);
+		// 페이지 처리를 위한 계산
+		int startRow = (currentPage - 1) * itemsPerPage + 1;
+		int endRow = currentPage * itemsPerPage;
+		request.setAttribute("page", page);
+		request.setAttribute("perPage", perPage);
+		ArrayList<Map<String, String>> pageList = new ArrayList<>();
+
+		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
+		startRow--;
+		endRow--;
+
+		for (int i = startRow; i <= endRow; i++) {
+			if (i < list.size()) {
+				pageList.add(list.get(i));
+			} else {
+				break;
+			}
+		}
+
+		request.setAttribute("wishbook_list", pageList);
+		request.setAttribute("allcount", list.size());
+//		request.setAttribute("wishbook_list", list);
 		request.getRequestDispatcher("/admin/admin_wishbook_list.jsp").forward(request, response);	
 	}
 

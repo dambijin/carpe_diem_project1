@@ -323,7 +323,7 @@
 							%>
 
 							<div class="total_count">
-								전체 : 총&nbsp;<%=total_count%>&nbsp;권
+								전체 : 총&nbsp;<%=total_count%>&nbsp;건
 							</div>
 
 							<div class="paging">

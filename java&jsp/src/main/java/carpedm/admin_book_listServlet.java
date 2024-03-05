@@ -27,9 +27,42 @@ public class admin_book_listServlet extends HttpServlet {
 			throws ServletException, IOException {
 		ArrayList<Map<String, String>> list = getbook();
 
+		String page = request.getParameter("page");
+		if (page == null || "".equals(page)) {
+			page = "1";
+		}
+		int currentPage = Integer.parseInt(page);
+
+		// perPage(표시 개수) 처리 부분
+		String perPage = request.getParameter("perPage");
+		if (perPage == null || "".equals(perPage)) {
+			perPage = "10";
+		}
+		int itemsPerPage = Integer.parseInt(perPage);
+		// 페이지 처리를 위한 계산
+		int startRow = (currentPage - 1) * itemsPerPage + 1;
+		int endRow = currentPage * itemsPerPage;
+		request.setAttribute("page", page);
+		request.setAttribute("perPage", perPage);
+		ArrayList<Map<String, String>> pageList = new ArrayList<>();
+
+		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
+		startRow--;
+		endRow--;
+
+		for (int i = startRow; i <= endRow; i++) {
+			if (i < list.size()) {
+				pageList.add(list.get(i));
+			} else {
+				break;
+			}
+		}
+
+		request.setAttribute("book_list", pageList);
+		request.setAttribute("allcount", list.size());
 		
 		System.out.println(list);
-		request.setAttribute("book_list", list);
+//		request.setAttribute("book_list", list);
 		request.getRequestDispatcher("/admin/admin_book_list.jsp").forward(request, response);
 	}
 

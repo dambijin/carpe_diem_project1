@@ -35,13 +35,47 @@ public class admin_member_listServlet extends HttpServlet {
         
         // 3. 검색 결과를 가져오기
         ArrayList<Map<String, String>> list = getmember(search);
-              
+		String page = request.getParameter("page");
+		if (page == null || "".equals(page)) {
+			page = "1";
+		}
+		int currentPage = Integer.parseInt(page);
+
+		// perPage(표시 개수) 처리 부분
+		String perPage = request.getParameter("perPage");
+		if (perPage == null || "".equals(perPage)) {
+			perPage = "10";
+		}
+		int itemsPerPage = Integer.parseInt(perPage);
+		// 페이지 처리를 위한 계산
+		int startRow = (currentPage - 1) * itemsPerPage + 1;
+		int endRow = currentPage * itemsPerPage;
+		request.setAttribute("page", page);
+		request.setAttribute("perPage", perPage);
+		ArrayList<Map<String, String>> pageList = new ArrayList<>();
+		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
+		startRow--;
+		endRow--;
+
+
+		for (int i = startRow; i <= endRow; i++) {
+			if (i < list.size()) {
+				pageList.add(list.get(i));
+			} else {
+				break;
+			}
+		}
+		
+		System.out.println(pageList);
+//		request.setAttribute("list", pageList);
+		request.setAttribute("allcount", list.size());
+
         // 4. 검색 결과를 속성으로 설정하여 JSP 페이지로 전달
 //        request.setAttribute("admin_member_list", list); 필요없는 코드
         // 5. 검색어도 속성으로 설정하여 JSP 페이지로 전달
         request.setAttribute("search", search);
 
-        request.setAttribute("member_list", list);
+        request.setAttribute("member_list", pageList);
         
         // 6. JSP 페이지로 포워딩
         request.getRequestDispatcher("/admin/admin_member_list.jsp").forward(request, response);
