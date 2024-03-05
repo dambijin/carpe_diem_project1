@@ -36,7 +36,8 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		HttpSession getSession = request.getSession();
 		String login_m_pid = (String) getSession.getAttribute("m_pid");
 		if (login_m_pid == null || login_m_pid.equals("")) {
-			login_m_pid = "4";
+			request.getRequestDispatcher("/sign_in").forward(request, response);
+			return;
 		}
 
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
