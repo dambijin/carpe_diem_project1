@@ -374,6 +374,9 @@
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	height: 50px;
+	width:1200px;
+	text-align : center;
+	margin:auto;
 }
 
 #paging .total {
