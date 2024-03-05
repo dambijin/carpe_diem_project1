@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/notice_detail")
 public class NoticeDetailServlet extends HttpServlet {
@@ -51,6 +52,31 @@ public class NoticeDetailServlet extends HttpServlet {
 		// 쿼리 문자열 가져오기
 		String queryString = request.getQueryString();
 
+		HttpSession getSession = request.getSession();
+		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		String query = "";
+		query += "SELECT * FROM member where ";
+		query += "M_PID = ";
+		query += login_m_pid;
+
+//			System.out.println("MEMBER테이블 쿼리: " + query);
+		ArrayList<Map<String, String>> mem = getDBList(query);
+
+		request.setAttribute("mem", mem);
+
+//			멤버 가져오기
+		String manager = "";
+		if (mem != null && !mem.isEmpty()) {
+			for (int i = 0; i < mem.size(); i++) {
+				Map<String, String> row = mem.get(i);
+				manager = row.get("M_MANAGERCHK");
+//					System.out.println("manager 값: " + manager);
+			}
+		}
+
+		request.setAttribute("manager", manager);
+		
+		
 		int nid = 0;
 		if (queryString != null) {
 //			쿼리 파라미터 분리
@@ -74,10 +100,10 @@ public class NoticeDetailServlet extends HttpServlet {
 
 				if (paramName.equals("N_ID")) {
 					try {
-		                nid = Integer.parseInt(paramValue);
-		            } catch (NumberFormatException e) {
-		                e.printStackTrace();
-		            }
+						nid = Integer.parseInt(paramValue);
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -93,8 +119,7 @@ public class NoticeDetailServlet extends HttpServlet {
 		ArrayList<Map<String, String>> notice = getDBList(nid_query);
 
 		request.setAttribute("notice", notice);
-		
-		
+
 //		멤버 가져오기
 		String mPid = "";
 		if (notice != null && !notice.isEmpty()) {
@@ -113,10 +138,8 @@ public class NoticeDetailServlet extends HttpServlet {
 		member_query += mPid;
 		ArrayList<Map<String, String>> member = getDBList(member_query);
 
-		
 		request.setAttribute("member", member);
-		
-		
+
 //		도서관 가져오기
 		String lb_id = "";
 		if (notice != null && !notice.isEmpty()) {
@@ -135,53 +158,50 @@ public class NoticeDetailServlet extends HttpServlet {
 		library += lb_id;
 		ArrayList<Map<String, String>> library_list = getDBList(library);
 		request.setAttribute("library_list", library_list);
-		
-		
+
 //		VIEWCONT 늘리기 코드
-		String notice_id= "";
+		String notice_id = "";
 		if (notice != null && !notice.isEmpty()) {
 			for (int i = 0; i < notice.size(); i++) {
 				Map<String, String> row = notice.get(i);
 				notice_id = row.get("N_ID");
 			}
 		}
-		
+
 		try {
-	        // 데이터 베이스 연결
-	        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-	        
-	        String sql = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
-	        
-	        PreparedStatement pst = conn.prepareStatement(sql);
-	        pst.setString(1, notice_id);
-	        System.out.println("--------------------------");
-	        System.out.println("공지사항번호: "+notice_id);
-	        System.out.println("카운트업데이트 값: "+sql);
+			// 데이터 베이스 연결
+			Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+			String sql = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
+
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, notice_id);
+			System.out.println("--------------------------");
+			System.out.println("공지사항번호: " + notice_id);
+			System.out.println("카운트업데이트 값: " + sql);
 //	        executeUpdate : 업데이트 하는 sql문 작성됨
-	        int rowCount = pst.executeUpdate();
-	        System.out.println("--------------------------");
-	        System.out.println("pst:"+pst);
-	        System.out.println("rowCount :"+rowCount);
-	        if (rowCount > 0) {
+			int rowCount = pst.executeUpdate();
+			System.out.println("--------------------------");
+			System.out.println("pst:" + pst);
+			System.out.println("rowCount :" + rowCount);
+			if (rowCount > 0) {
 //	        	가져올 쿼리문
-	        	
-	        } else {
-	        	System.out.println("조회수 증가 실패");
-	        }
-	        
-	        String UPDATE = "select * from notice where N_ID=";
-        	UPDATE += notice_id;
-        	ArrayList<Map<String, String>> update = getDBList(UPDATE);
-    		request.setAttribute("update", update);
-	        
-    		
-	        // 리소스 닫기
-	        pst.close();
-	        conn.close();
-	    } catch (SQLException e) {
-	        e.printStackTrace(); 
-	    }
-		
+
+			} else {
+				System.out.println("조회수 증가 실패");
+			}
+
+			String UPDATE = "select * from notice where N_ID=";
+			UPDATE += notice_id;
+			ArrayList<Map<String, String>> update = getDBList(UPDATE);
+			request.setAttribute("update", update);
+
+			// 리소스 닫기
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		request.getRequestDispatcher("board/notice_detail.jsp").forward(request, response);
 	}

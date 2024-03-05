@@ -70,6 +70,23 @@
 }
 </style>
 <script>
+window.onload = function() {
+    // 서버에서 받은 M_MANAGERCHK 값
+    var mManagerChk = "<%=request.getAttribute("manager")%>"; 
+//     console.log(mManagerChk);
+    var upbut = document.querySelector("#notice_update");
+    var debut = document.querySelector("#notice_delete");
+    // M_MANAGERCHK 값이 "Y"인 경우 버튼을 표시, 그 외의 경우에는 버튼을 숨김
+    if (mManagerChk == "Y") {
+    	upbut.style.display = "block";
+    	debut.style.display = "block";
+    } else {
+    	upbut.style.display = "none";
+        debut.style.display = "none";
+    }
+
+    };
+    
 	window
 			.addEventListener("load",
 					function() {

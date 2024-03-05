@@ -17,7 +17,6 @@
 <link href="/carpedm/css/layout.css" rel="stylesheet">
 <script>
 window.onload = function() {
-    // 서버에서 받은 M_MANAGERCHK 값
     var mManagerChk = "<%=request.getAttribute("manager")%>"; 
 //     console.log(mManagerChk);
     var wbut = document.querySelector("#writebut");

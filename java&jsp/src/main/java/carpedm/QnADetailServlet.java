@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/QnA_detail")
 public class QnADetailServlet extends HttpServlet {
@@ -140,17 +141,10 @@ public class QnADetailServlet extends HttpServlet {
 	        
 	        PreparedStatement pst = conn.prepareStatement(sql);
 	        pst.setString(1, notice_id);
-	        System.out.println("--------------------------");
-	        System.out.println("공지사항번호: "+notice_id);
-	        System.out.println("카운트업데이트 값: "+sql);
 //	        executeUpdate : 업데이트 하는 sql문 작성됨
 	        int rowCount = pst.executeUpdate();
-	        System.out.println("--------------------------");
-	        System.out.println("pst:"+pst);
-	        System.out.println("rowCount :"+rowCount);
 	        if (rowCount > 0) {
 //	        	가져올 쿼리문
-	        	
 	        } else {
 	        	System.out.println("조회수 증가 실패");
 	        }
@@ -168,8 +162,43 @@ public class QnADetailServlet extends HttpServlet {
 	        e.printStackTrace(); 
 	    }
 		
+		
 
-			
+		HttpSession getSession = request.getSession();
+        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 아이디
+
+        String query = "";
+		query += "SELECT * FROM member where ";
+		query += "M_PID = ";
+		query += login_m_pid;
+
+//		System.out.println("MEMBER테이블 쿼리: " + query);
+		ArrayList<Map<String, String>> mem = getDBList(query);
+
+		request.setAttribute("mem", mem);
+
+		String manager = "";
+		if (mem != null && !mem.isEmpty()) {
+			for (int i = 0; i < mem.size(); i++) {
+				Map<String, String> row = mem.get(i);
+				manager = row.get("M_MANAGERCHK");
+//				System.out.println("manager 값: " + manager);
+			}
+		}
+
+		request.setAttribute("manager", manager);
+		
+		String sign_in_mpid = "";
+		if (mem != null && !mem.isEmpty()) {
+			for (int i = 0; i < mem.size(); i++) {
+				Map<String, String> row = mem.get(i);
+				sign_in_mpid = row.get("M_PID");
+//				System.out.println("manager 값: " + manager);
+			}
+		}
+
+		request.setAttribute("sign_in_mpid", sign_in_mpid);
+		
 		request.getRequestDispatcher("board/QnA_detail.jsp").forward(request, response);
 		
 	}

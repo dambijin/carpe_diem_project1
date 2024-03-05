@@ -16,6 +16,27 @@
     <title>QnA상세페이지</title>
     <link href="/carpedm/css/layout.css" rel="stylesheet">
     <script>
+    window.onload = function() {
+        var mManagerChk = "<%=request.getAttribute("manager")%>"; 
+        var rebut = document.querySelector(".reply");
+        // M_MANAGERCHK 값이 "Y"인 경우 버튼을 표시, 그 외의 경우에는 버튼을 숨김
+        if (mManagerChk == "Y") {
+        	rebut.style.display = "block";
+        } else {
+        	rebut.style.display = "none";
+        }
+        
+     var mManagerChk = "<%=request.getAttribute("manager")%>"; 
+     var rebut = document.querySelector("#QnAdelete");
+     var rebut = document.querySelector("#QnAupdate");
+
+     // M_MANAGERCHK 값이 "N"인 경우 버튼을 표시, 그 외의 경우에는 버튼을 숨김
+     if (mManagerChk == "N") {
+     	rebut.style.display = "block";
+     } else {
+     	rebut.style.display = "none";
+     }
+        };
     window.addEventListener("load", function () {
         // 답글
         let completion = document.querySelector(".completion");
@@ -296,9 +317,9 @@
                             <td class="content" colspan="6"><%=result_list.get(0).get("N_CONTENT")%></td>
                         </tr>
                     </table>
-                    <button type="button" class="notice_but completion">답글</button>
-                    <button type="button" class="notice_but" onclick="location.href='QnA_update?N_ID=<%=result_list.get(0).get("N_ID")%>';">수정</button>
-                    <button type="button" class="notice_but" id="QnA_delete">삭제</button>
+                    <button type="button" class="notice_but completion reply">답글</button>
+                    <button type="button" class="notice_but" id="QnAupdate" onclick="location.href='QnA_update?N_ID=<%=result_list.get(0).get("N_ID")%>';">수정</button>
+                    <button type="button" class="notice_but" id="QnAdelete">삭제</button>
 
                     <hr class="detail_hr">
                 </div>

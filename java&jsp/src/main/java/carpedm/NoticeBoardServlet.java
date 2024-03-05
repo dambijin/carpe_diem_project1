@@ -97,7 +97,7 @@ public class NoticeBoardServlet extends HttpServlet {
 
 
 		HttpSession getSession = request.getSession();
-        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
+        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 아이디
 
         String query = "";
 		query += "SELECT * FROM member where ";
