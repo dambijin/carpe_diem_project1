@@ -78,8 +78,8 @@ window.onload = function() {
     var debut = document.querySelector("#notice_delete");
     // M_MANAGERCHK 값이 "Y"인 경우 버튼을 표시, 그 외의 경우에는 버튼을 숨김
     if (mManagerChk == "Y") {
-    	upbut.style.display = "block";
-    	debut.style.display = "block";
+    	upbut.style.display = "inline-block";
+    	debut.style.display = "inline-block";
     } else {
     	upbut.style.display = "none";
         debut.style.display = "none";
