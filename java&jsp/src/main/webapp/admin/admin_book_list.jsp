@@ -374,8 +374,7 @@
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	height: 50px;
-	width:1200px;
-	text-align : center;
+	width:95%;
 	margin:auto;
 }
 
@@ -490,8 +489,6 @@
 			<button type="button" class="button" id="button_cancle">폐기</button>
 		</div>
 
-
-
 		<!-- 쪽이동 -->
 		<div id="paging">
 					<%
@@ -539,7 +536,6 @@
 						<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
 					</div>
 				</div>
-
 	</div>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header_admin.js"></script>

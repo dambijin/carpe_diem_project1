@@ -122,39 +122,27 @@
 			search_opt.append(opt);
 		}
 		
-		// 검색 textbox를 가져와서 inputTodo 변수에 담고
-		// 값이 null이 아니면
-		// textbox의 엔터키를 눌렀을 때 
-		// 밑에 함수가 있어서 검색됨
-		// 도서검색 버튼 클릭
-		var textbox = document.getElementById("input_todo");
-		 /* enterkey함수 이벤트 */
-		textbox.addEventListener("keydown", enterkey);
-		if (textbox.value == "") {
-			document.querySelector('#input_todo').focus();		
-		} else {
-			alert(textbox.value + "을 검색했습니다");
-			window.location.href = '/carpedm/admin_member_list?search=' + encodeURIComponent(textbox.value);
-		}
-		
+		var searchButton = document.querySelector('.button');
+    	if (searchButton) {
+      		searchButton.addEventListener('click', search);
+    	}
+    	var textbox = document.getElementById("input_todo");
+      	textbox.addEventListener("keydown", function (event) {
+        	if (event.key === "Enter") {
+          	search();
+        	}
+      	});
 	};
 
-	// 엔터눌렀을 때 search() 실행
-	function enterkey() {
-		if (window.event.keyCode == 13) {
-			// 엔터키가 눌렸을 때 실행하는 반응
-			search();
-		}
-	}
+	
 	// 검색기능
-	// 검색 함수
 	function search() {
 	    // 검색어 입력란과 검색 옵션의 DOM 요소 가져오기
 	    var textbox = document.getElementById("input_todo");
 	    var searchOption = document.getElementById("search_option").value;
 	
 	    // AJAX 요청을 서블릿으로 전송
-	    var xhr = new XMLHttpRequest();
+	    xhr = new XMLHttpRequest();	    
 	    xhr.onreadystatechange = function () {
 	        // 서블릿 응답이 도착하면 실행
 	        if (xhr.readyState == 4 && xhr.status == 200) {
@@ -179,8 +167,8 @@
 	    var memberListBody = document.getElementById("memberListBody");
 	    memberListBody.innerHTML = ""; // 기존 테이블 행 삭제
 	
-	 // 새로운 데이터를 순회하며 테이블 행 추가
-	    for (var i = 0; i < data.length; i++) { 
+	// 새로운 데이터를 순회하며 테이블 행 추가
+		for (var i = 0; i < data.length; i++) { 
 	        var tr=document.createElement("tr"); 
 	        
 	        // 새로운 행을 테이블에 추가
@@ -195,14 +183,25 @@
 	        	'<input type="button" value="수정"onclick="location.href=\'/carpedm/admin_member_chginfo?m_pid=' + data[i].m_pid + '\'">'
 	        ];
 
-	        // Add cells to the row
+	     	// 행에 셀 추가
 	        for (var j = 0; j < cells.length; j++) { 
-	            var td=document.createElement("td"); td.innerHTML=cells[j];
+	            var td=document.createElement("td"); 
+	            td.innerHTML=cells[j];
 	            tr.appendChild(td); 
 	        } 
+	     	
+	     	// 테이블에 새 행 추가
+	        memberListBody.appendChild(tr);
 	    } 
 	}
-
+	  
+	// 엔터눌렀을 때 search() 실행
+	function enterkey() {
+		if (window.event.keyCode == 13) {
+			// 엔터키가 눌렸을 때 실행하는 반응
+			search();
+		}
+	}
 
 	// 예약목록 조회 이벤트
 	function reservation_check() {
@@ -217,36 +216,6 @@
 	function changeViewCount(count) {
 // 		alert(count + "개씩 보기로 변경되었습니다.");
 	}
-	
-
-	// 	// 검색 및 페이징 기능을 위한 함수들 추가
-	//     let currentPage = 1;
-	//     let itemsPerPage = 10;
-
-	//     function changeViewCount(count) {
-	//         itemsPerPage = parseInt(count);
-	//         currentPage = 1;
-	//         // 실제로는 서버에 해당 페이지의 데이터를 요청하고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
-	//         // 여기서는 간단히 현재 페이지를 알림창으로 표시하는 예시를 보여줍니다.
-	//         alert(`한 페이지에 표시할 개수: ${itemsPerPage}`);
-	//     }
-
-	//     function search() {
-	//         // 검색 기능 구현
-	//         let searchOption = document.getElementById("search_option").value;
-	//         let searchTextbox = document.getElementById("input_todo").value;
-	//         // 실제로는 서버에 검색 요청을 보내고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
-	//         // 여기서는 간단히 검색어를 알림창으로 표시하는 예시를 보여줍니다.
-	//         alert(`검색 옵션: ${searchOption}, 검색어: ${searchTextbox}`);
-	//     }
-
-	//     function changePage(offset) {
-	//         // 페이징 기능 구현
-	//         currentPage += offset;
-	//         // 실제로는 서버에 해당 페이지의 데이터를 요청하고, 그 결과를 받아와서 표시하는 로직이 들어갑니다.
-	//         // 여기서는 간단히 현재 페이지를 알림창으로 표시하는 예시를 보여줍니다.
-	//         alert(`현재 페이지: ${currentPage}`);
-	//     }
 	
 	// 예약목록 조회 클릭 시 동작하는 함수
     function getReservationInfo(memberId) {
@@ -471,9 +440,11 @@ h1 {
 			<option value="10">10개씩</option>
 			<option value="20">20개씩</option>
 			<option value="30">30개씩</option>
-		</select> <select class="range" id="search_option">
+		</select> 
+		<select class="range" id="search_option">
 			<!-- 자바스크립트로 가져오기 -->
-		</select> <input type="text" name="search" class="textbox" id="input_todo">
+		</select> 
+		<input type="text" name="search" class="textbox" id="input_todo">
 		<button type=button class="button" onclick="search()">검색</button>
 	</div>
 

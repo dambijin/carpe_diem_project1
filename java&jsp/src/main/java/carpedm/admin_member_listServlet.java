@@ -47,6 +47,7 @@ public class admin_member_listServlet extends HttpServlet {
 			perPage = "10";
 		}
 		int itemsPerPage = Integer.parseInt(perPage);
+		
 		// 페이지 처리를 위한 계산
 		int startRow = (currentPage - 1) * itemsPerPage + 1;
 		int endRow = currentPage * itemsPerPage;
@@ -67,15 +68,10 @@ public class admin_member_listServlet extends HttpServlet {
 		}
 		
 		System.out.println(pageList);
-//		request.setAttribute("list", pageList);
+		
 		request.setAttribute("allcount", list.size());
-
-        // 4. 검색 결과를 속성으로 설정하여 JSP 페이지로 전달
-//        request.setAttribute("admin_member_list", list); 필요없는 코드
-        // 5. 검색어도 속성으로 설정하여 JSP 페이지로 전달
-        request.setAttribute("search", search);
-
         request.setAttribute("member_list", pageList);
+        request.setAttribute("search", search);
         
         // 6. JSP 페이지로 포워딩
         request.getRequestDispatcher("/admin/admin_member_list.jsp").forward(request, response);
@@ -88,7 +84,7 @@ public class admin_member_listServlet extends HttpServlet {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-//		    System.out.println("db접속성공");
+		    System.out.println("db접속성공");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -140,16 +136,19 @@ public class admin_member_listServlet extends HttpServlet {
 			    map.put("m_tel", rs.getString("m_tel"));
 			    map.put("m_address", rs.getString("m_address"));
 			    map.put("lb_id", rs.getString("lb_id"));
-			    //jsp에 조건을 쓰면 보기 힘드니까 그냥 여기다가 넣자
-			    String m_loanstate_text = rs.getString("m_loanstate")+"일";
-			    if(rs.getString("m_loanstate") == null || rs.getString("m_loanstate").equals("0"))
-			    {
-			    	m_loanstate_text = "정상";
+			    
+			    // m_loanstate 컬럼 값 확인
+			    String m_loanstate_text;
+			    if (rs.getString("m_loanstate") != null) {
+			    	// m_loanstate 값이 null이 아니면 "일"을 추가하여 m_loanstate_text에 할당
+			    	m_loanstate_text = rs.getString("m_loanstate") + "일";
+			    } else {
+			    	// m_loanstate 값이 null이면 "정상"을 m_loanstate_text에 할당
+			        m_loanstate_text = "정상";
 			    }
 			    map.put("m_loanstate", m_loanstate_text);
 
-				result_list.add(map);
-//			   	System.out.println(rs.getString("lb_name"));
+			    result_list.add(map);
 			}
 
 			rs.close();

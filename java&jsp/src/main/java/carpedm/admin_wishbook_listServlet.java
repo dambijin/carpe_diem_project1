@@ -29,6 +29,7 @@ public class admin_wishbook_listServlet extends HttpServlet {
 		
 		System.out.println(list);
 		System.out.println(list.size());
+		// perPage(표시 개수) 처리 부분
 		String page = request.getParameter("page");
 		if (page == null || "".equals(page)) {
 			page = "1";
@@ -41,6 +42,7 @@ public class admin_wishbook_listServlet extends HttpServlet {
 			perPage = "10";
 		}
 		int itemsPerPage = Integer.parseInt(perPage);
+		
 		// 페이지 처리를 위한 계산
 		int startRow = (currentPage - 1) * itemsPerPage + 1;
 		int endRow = currentPage * itemsPerPage;
