@@ -63,7 +63,7 @@
         // 회원 정보 수정 로직 추가
         var name = document.querySelector("td:nth-child(2)").textContent;
         var password = document.querySelector("#password").value;
-        var password1 = document.querySelector("#password1").value;
+        var password_check = document.querySelector("#password_check").value;
         var phoneNumber = document.querySelector("input[name='phone_number']").value;
 
         var smsCheck = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
@@ -84,10 +84,9 @@
 
             // 변경된 정보 메시지를 알림창으로 표시
             alert(changed_Message);
-            location.href = "/carpedm/admin_member_list";
-        }
-        else {  //내용이 있을때
-            if (password === password1) {   //비밀번호칸과 비밀번호 확인칸이 동일할 때
+            location.href = "/carpedm/admin/admin_member_list";
+        } else {  //내용이 있을때
+            if (password === password_check) {   //비밀번호칸과 비밀번호 확인칸이 동일할 때
                 // 변경된 정보 메시지 생성
                 var changed_Message = name + "님의 정보가 변경되었습니다.\n" +
                     "비밀번호 : " + password + "\n" +
@@ -103,7 +102,7 @@
             } else {   //비밀번호칸과 비밀번호 확인칸이 동일하지 않을 때
                 // 비밀번호 불일치 시 알림
                 document.querySelector("#password").value = "";
-                document.querySelector("#password1").value = "";
+                document.querySelector("#password_check").value = "";
                 alert("비밀번호를 다시 확인해주세요.");
             }
 
@@ -337,7 +336,7 @@
 	                <th height="40px">비밀번호확인</th>
 	
 	                <td>
-	                    <input type="password" id="text" name="password_check" maxlength="16"
+	                    <input type="password" id="password_check" name="password_check" maxlength="16"
 	                        placeholder=" 비밀번호를 확인해주세요.">
 	                </td>
 	            </tr>
