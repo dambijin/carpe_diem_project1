@@ -170,6 +170,45 @@
         }
     </script>
 <style>
+/* 페이지 */
+#paging {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	height: 50px;
+}
+
+#paging .total {
+	font-weight: bold;
+}
+
+#paging .paging {
+	display: flex;
+}
+
+#paging .paging a, #paging .paging strong {
+	margin: 0 5px;
+	padding: 5px 10px;
+	border-radius: 5px;
+	text-decoration: none;
+	color: #333;
+}
+
+#paging .paging a {
+	background-color: #f8f8f8;
+}
+
+#paging .paging a.num.active {
+    color: blue;
+    font-size: 20px;
+    font-style: bold;
+}
+
+#paging .paging strong {
+	background-color: #007bff;
+	color: #fff;
 </style>
 </head>
 
@@ -275,19 +314,53 @@
 						</tr>
 						<%}
                          %>
-
-
-
 						</table>
-						<div class="paging">
-							<a href="" class="pre underline_remove">◀</a> <strong
-								class="underline_remove">1</strong> <a href=""
-								class="num underline_remove">2</a> <a href=""
-								class="num underline_remove">3</a> <a href=""
-								class="num underline_remove">4</a> <a href=""
-								class="num underline_remove">5</a> <a href=""
-								class="next underline_remove">▶</a>
-						</div>
+						<div id="paging">
+					<%
+					// 서블릿에서 불러온 페이징 정보
+					int total_count = 5;// 임시로 설정한 값
+					int perPage = 10;
+					int current_page = 1;
+				    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
+
+					// 표시할 페이지의 범위 계산
+					int start_page = Math.max(current_page - 2, 1);
+					int end_page = Math.min(start_page + 4, total_pages);
+					start_page = Math.max(1, end_page - 4);
+					%>
+
+					<div class="total_count">
+						전체 : 총&nbsp;<%=total_count%>&nbsp;권
+					</div>
+
+					<div class="paging">
+						<%
+						if (current_page > 1) {
+						%>
+						<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" class="pre">◀</a>
+						<%
+						}
+						%>
+						<%
+						for (int i = start_page; i <= end_page; i++) {
+						%>
+						<a href="?page=<%=i%>&perPage=<%=perPage%>"
+							class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
+						<%
+						}
+						%>
+						<%
+						if (current_page < total_pages) {
+						%>
+						<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" class="next">▶</a>
+						<%
+						}
+						%>
+					</div>
+					<div class="total">
+						<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
+					</div>
+				</div>
 					</div>
 				</div>
 			</div>
