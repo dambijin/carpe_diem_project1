@@ -152,7 +152,7 @@
 
 /* 신착도서 */
 .announcement_library_information .newbook {
-	height: 400px;
+	height: 430px;
 	width: 100%;
 	background-color: rgba(140, 201, 240, 0.3);
 	border: 2px solid rgba(140, 201, 240, 0.6);
