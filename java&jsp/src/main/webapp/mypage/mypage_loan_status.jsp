@@ -103,6 +103,38 @@
 
 //             }
         };
+        // 연장버튼 클릭
+        function weapon(l_id)
+    	<%// 세션에서 현재 아이디값 가져오기
+    	HttpSession getSession = request.getSession();
+    	String login_m_pid = (String) getSession.getAttribute("m_pid");%>
+        {
+        	 let url = '/carpedm/mypage_loan_status';
+	     	    let data = 'l_id=' + encodeURIComponent(l_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
+	     		//dopost로 보내기위한 코드
+	     	    fetch(url, {
+	     	      method: 'POST',
+	     	      headers: {
+	     	        'Content-Type': 'application/x-www-form-urlencoded',
+	     	      },
+	     	      body: data,
+	     	    })
+	     	    .then(response => response.json())
+	     	    .then(data => {
+	//      	    	console.log(data);
+	         	  // 서버에서 전달한 결과 메시지에 따라 분기처리
+	         	  if (data.message === 'success') {
+	         	    alert(' 연장되었습니다.');
+	         	   window.location.href = "/carpedm/mypage_loan_status";  // fetch가 완료된 후에 search 함수를 실행
+	         	  } else if (data.message === 'fail') {
+	         	    alert('비로그인상태입니다. 로그인해주세요.');
+	         	    window.location.href = "/carpedm/sign_in";
+	         	  } else {
+	         	    alert('알 수 없는 오류가 발생하였습니다.');
+	         	  }	      
+	     	    })
+	     	    .catch((error) => console.error('Error:', error));
+        }
         //true일때 숫자, false일때 문자 테이블정렬함수
 		function sortTable(n, isNumeric) {
 		    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
@@ -231,7 +263,7 @@
 							<td><%=list.get(i).get("l_loandate").substring(0, 10)%></td>
 							<td><%=list.get(i).get("l_returndate").substring(0, 10)%></td>
 							<td><%=list.get(i).get("lb_name")%></td>
-							<td><button>연장</button></td>
+							<td><button onclick="weapon(<%=list.get(i).get("l_id")%>)">연장</button></td>
 
 						</tr>
 						<%

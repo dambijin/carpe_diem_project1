@@ -50,6 +50,36 @@ public class mypage_loan_statusServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/mypage/mypage_loan_status.jsp").forward(request, response);
 	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		String l_id = request.getParameter("l_id");
+		System.out.println(l_id);
+		String query = "UPDATE loan set l_returndate = l_returndate + 7, l_extendcount = l_extendcount + 1 where l_id = " + l_id;
+
+		String m_pid = request.getParameter("m_pid");
+		System.out.println(m_pid);
+		if(m_pid != null && !m_pid.equals("null") && !m_pid.equals(""))
+		{
+			int successRow = setDBList(query);
+			System.out.println("변경된 행 수:" + successRow);
+			if (successRow > 0) {
+				// 완료하고 결과값을 보내기 위해
+				response.getWriter().write("{\"message\": \"success\"}");
+			}
+		}
+		else
+		{
+			System.out.println("현재 로그인되어있지 않습니다.");
+			// 완료하고 결과값을 보내기 위해
+			response.getWriter().write("{\"message\": \"fail\"}");
+		}
+	
+
+
+	}
 
 	// 기본적인 접속메소드
 	private Connection getConnection() {
@@ -140,5 +170,23 @@ public class mypage_loan_statusServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		return result_list;
+	}
+	private int setDBList(String query) {
+		int result = -1;
+		try {
+			Connection conn = getConnection();
+			// SQL준비
+
+			System.out.println("query:" + query);
+			// SQL 실행준비
+			PreparedStatement ps = conn.prepareStatement(query);
+			result = ps.executeUpdate();
+
+			ps.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
