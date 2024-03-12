@@ -295,7 +295,8 @@
     </div>
 
     <div class="chtable">
-        <table border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc">
+    <form method="get" action="admin_member_change">
+    <table border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc">
             <thead>
             <%
             ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("list");
@@ -311,23 +312,24 @@
 	            </tr>
 	            <tr>
 	                <th height="40px">이름</th>
-	                <td id="name"><%=data_list.get(0).get("m_name")%></td>
+	                <td id="name" name="name"><%=data_list.get(0).get("m_name")%></td>
 	            </tr>
 	            <tr>
 	                <th height="40px">생년월일</th>
-	                <td>
+	                <td name="date">
 	                <input type="date" id="yymmdd" value="<%=data_list.get(0).get("m_birthday").substring(0,10)%>">
 	                </td>
 	            </tr>
 	            <tr>
 	                <th height="40px">아이디</th>
-	                <td>
+	                <td name="id">
 	                	<input type="text" id="userid" value="<%=data_list.get(0).get("m_id")%>">
 	                </td>
 	            </tr>
 	            <tr>
 	                <th height="40px">비밀번호</th>
-	                <td><input type="password" name="text" id="password" maxlength="20" 
+	                <td name="pw">
+	                 <input type="password" name="text" id="password" maxlength="20" 
 	                		placeholder=" 비밀번호를 입력해주세요." value="<%=data_list.get(0).get("m_pw")%>">
 	                </td>
 	            </tr>
@@ -335,14 +337,14 @@
 	            <tr>
 	                <th height="40px">비밀번호확인</th>
 	
-	                <td>
+	                <td name="pw">
 	                    <input type="password" id="password_check" name="password_check" maxlength="16"
 	                        placeholder=" 비밀번호를 확인해주세요.">
 	                </td>
 	            </tr>
 	            <tr>
 	                <th height="40px">휴대폰번호</th>
-	                <td>
+	                <td name="number">
 	                    <input type="number" name="phone_number" id="phone" placeholder="-를 빼고 작성해주세요." value="<%=data_list.get(0).get("m_tel").replace("-","")%>">
 	               
 	                    SMS수신
@@ -362,11 +364,11 @@
 	            <tr>
 	                <th height="40px">이메일</th>
 	                <td>
-	                    <input type="text" id="emailId1" placeholder="이메일 입력" value="<%=data_list.get(0).get("m_email").split("@")[0]%>">
+	                    <input type="text" name="email1" id="emailId1" placeholder="이메일 입력" value="<%=data_list.get(0).get("m_email").split("@")[0]%>">
 	
 	                    <span>@</span>
 	
-	                    <input type="text" id="emailId2" placeholder="이메일을 선택하세요." value="<%=data_list.get(0).get("m_email").split("@")[1]%>">
+	                    <input type="text" name="email2" id="emailId2" placeholder="이메일을 선택하세요." value="<%=data_list.get(0).get("m_email").split("@")[1]%>">
 	
 	                    <select class="temail" onchange="selectWebsite()" id="select_email">
 	                        <!-- 자바스크립트화 -->
@@ -379,7 +381,7 @@
 	            </tr>
 	            <tr>
 	                <th height="40px">주소</th>
-	                <td>
+	                <td name="address">
 	                    <input type="text" class="zipcode" id="zipcodenum" placeholder="우편번호">
 	                    <input type="button" value="주소찾기" class="add" onclick="sample6_execDaumPostcode()"><br>
 	                    <input type="text" class="adr" id="adr1" placeholder="기본주소" value="<%=data_list.get(0).get("m_address")%>"><br>
@@ -388,11 +390,15 @@
 	            </tr>
             </thead>
         </table>
+    </form>
+        
     </div>
 
     <!-- 수정 취소 -->
     <div class="input">
-        <input type="button" value="수정" class="button" onclick="chgInfo()">
+    <form method="get" action="admin_member_change">
+        <input type="submit" value="수정" class="button" onclick="chgInfo()">    
+    </form>
         <input type="reset" value="취소" class="button" onclick="location.href='/carpedm/admin_member_list';">
     </div>
 
