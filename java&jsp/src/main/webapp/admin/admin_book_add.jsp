@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Map"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자페이지 책등록 popup</title>
-    <link href="/carpedm/css/layout.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>관리자페이지 책등록 popup</title>
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
 <script src="/carpedm/js/admin_library.js"></script>
 <script>
+
     // admin_book_add 책 등록           미완성
     function bookAdd() {
         alert("등록되었습니다");
@@ -20,12 +23,6 @@
     }
 
     window.addEventListener("load", function () {
-        let libs_list = ["천안도서관", "두정도서관", "아우내도서관"];
-        let libs_list_box = document.querySelector("#libs_info");
-
-        for (let i = 0; i < libs_list.length; i++) {
-            libs_list_box.innerHTML += "<option value=\"" + libs_list[i] + "\">" + libs_list[i] + "</option>";
-        }
 
         //등록일자에 현재날짜 넣기
         var today = new Date(); // 현재 날짜와 시간을 가져옴
@@ -36,285 +33,203 @@
         today = yyyy + '-' + mm + '-' + dd; // 'YYYY-MM-DD' 형식의 문자열로 변환
         document.querySelector('input[name="regi_date"]').value = today; // <input> 요소의 value 속성에 설정
 
+        
+        //isbn가져오기 버튼리스너
         document.querySelector("#isbn_import").addEventListener("click", function () {
             let isbn = document.querySelector('input[name="isbn"]').value;
-
-            if (isbn.trim() != "") {
-                //9791168473690
-                //9788901152202
-                get_isbn(isbn);
+            if (isbn.trim() == "") {
+            	  alert("값을 입력해주세요.");
             }
-            else {
-                alert("값을 입력해주세요.");
+            else{
+           	    let data = 'isbn=' + encodeURIComponent(isbn);
+           		//dopost로 보내기위한 코드
+           	    fetch('/carpedm/admin_book_add', {
+           	      method: 'POST',
+           	      headers: {
+           	        'Content-Type': 'application/x-www-form-urlencoded',
+           	      },
+           	      body: data,
+           	    })
+           	    .then(response => response.json())
+           	    .then(data => {
+           	    	console.log(data);
+	           	    document.querySelector('input[name="bookname"]').value = data.title;
+	                document.querySelector('input[name="author"]').value = data.author;
+	                document.querySelector('input[name="year"]').value = data.b_date;
+	                document.querySelector('input[name="publisher"]').value = data.publisher;
+           	    })
+           	    .catch((error) => console.error('Error:', error));   
             }
-
         });
 
     });
-    //비동기를 사용하기 위해
-    async function get_isbn(isbn) {
-        let book = await get_isbn_info_googleAPI(isbn);
-
-        if (book == null) {
-            book = await get_isbn_naver_crawling(isbn);
-            if (book == null) {
-                book = await get_isbn_google_crawling(isbn);
-            }
-        }
-
-        if (book != null) {
-            console.log(book);
-            document.querySelector('input[name="bookname"]').value = book.title;
-            document.querySelector('input[name="author"]').value = book.authors;
-            document.querySelector('input[name="year"]').value = book.publishedDate;
-        }
-        else {
-            alert("해당 ISBN값을 가진 책을 찾을 수 없습니다.")
-        }
-
-    }
-
-    async function get_isbn_naver_crawling(isbn) {
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-        const feedUrl = `https://search.shopping.naver.com/book/search?bookTabType=ALL&pageIndex=1&pageSize=40&query=${isbn}&sort=REL`;
-        //https://search.shopping.naver.com/book/search?bookTabType=ALL&pageIndex=1&pageSize=40&query=9791168473690&sort=REL
-        // 프록시를 통해 RSS 피드 정보 조회
-        //아...네이버에서 헤더검사해서 막네ㅎㅎ...
-        const response = await fetch(proxyUrl + feedUrl, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-                'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7'
-            }
-        });
-        const str = await response.text();
-        console.log(str);
-        const data = new window.DOMParser().parseFromString(str, 'text/xml');
-
-        console.log(data);
-        // // 피드 내의 모든 item 태그를 선택
-        // const items = data.querySelectorAll('item');
-        // //가져온 item태그의 title을 모두 추출 
-        // const titles = Array.from(items).map(item => item.querySelector('title').textContent);
-
-        // // 가져온 title을 출력
-        // var seq = 0;
-        // for (const title of titles) {
-        //     seq++;
-        //     console.log(seq + '.' + ' 제목: ' + title);
-        // }
-
-    }
-
-    async function get_isbn_google_crawling(isbn) {
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-        const feedUrl = `https://www.google.co.kr/search?hl=ko&tbo=p&tbm=bks&q=${isbn}&num=10`;
-        //https://www.google.co.kr/search?hl=ko&tbo=p&tbm=bks&q=9791168473690&num=10
-        // 프록시를 통해 RSS 피드 정보 조회
-        //이것도 안되네..나중에 시간될때 하는걸로
-        const response = await fetch(proxyUrl + feedUrl, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-                'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7'
-            }
-        });
-        const str = await response.text();
-        console.log(str);
-        const data = new window.DOMParser().parseFromString(str, 'text/xml');
-
-        console.log(data);
-        // // 피드 내의 모든 item 태그를 선택
-        // const items = data.querySelectorAll('item');
-        // //가져온 item태그의 title을 모두 추출 
-        // const titles = Array.from(items).map(item => item.querySelector('title').textContent);
-
-        // // 가져온 title을 출력
-        // var seq = 0;
-        // for (const title of titles) {
-        //     seq++;
-        //     console.log(seq + '.' + ' 제목: ' + title);
-        // }
-
-    }
-
-    async function get_isbn_info_googleAPI(isbn) {
-        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
-        const data = await response.json();
-
-        if (data.totalItems > 0) {
-            const book = data.items[0].volumeInfo;
-            // console.log(book);
-            // console.log(`제목: ${book.title}`);
-            // console.log(`저자: ${book.authors.join(', ')}`);
-            // console.log(`출판사: ${book.publisher}`);
-            return book;
-        } else {
-            console.log('해당 ISBN에 대한 도서 정보를 찾을 수 없습니다.');
-        }
-    }
 </script>
 
 <style>
-    header .nav .book_in {
-        background-color: rgba(168, 156, 200, 0.6);
-        color: #000000;
-        height: 45px;
-        line-height: 40px;
-        display: inline-block;
-        border-radius: 5px;
-        width: 150px;
-        font-size: 20px;
-        margin-top: 10px;
+header .nav .book_in {
+	background-color: rgba(168, 156, 200, 0.6);
+	color: #000000;
+	height: 45px;
+	line-height: 40px;
+	display: inline-block;
+	border-radius: 5px;
+	width: 150px;
+	font-size: 20px;
+	margin-top: 10px;
+}
 
-    }
+/* 책등록 글씨 */
+.add_subject {
+	font-family: 'Wanted Sans Variable';
+}
 
-    /* 책등록 글씨 */
-    .add_subject {
-        font-family: 'Wanted Sans Variable';
-    }
+/* 테이블 */
+.add_table {
+	border-collapse: collapse;
+	margin: auto;
+	width: 60%;
+	font-family: 'Wanted Sans Variable';
+}
 
-    /* 테이블 */
-    .add_table {
-        border-collapse: collapse;
-        margin: auto;
-        width: 60%;
-        font-family: 'Wanted Sans Variable';
-    }
+.add_table th {
+	background-color: rgba(168, 156, 200, 0.6);
+}
 
-    .add_table th {
-        background-color: rgba(168, 156, 200, 0.6);
-    }
+.add_table tr {
+	background-color: #fff;
+}
 
-    .add_table tr {
-        background-color: #fff;
-    }
+.add_table tr .bookname {
+	width: 500px;
+}
 
-    .add_table tr .bookname {
-        width: 500px;
-    }
+.add_table th, .add_table td {
+	border: 1px solid black;
+	height: 50px;
+	padding: 3px;
+}
 
-    .add_table th,
-    .add_table td {
-        border: 1px solid black;
-        height: 50px;
-        padding: 3px;
-    }
+/* 테이블 안에 인풋 */
+.add_table input, .add_table select {
+	font-family: "Wanted Sans Variable";
+	font-size: 18px;
+}
 
-    /* 테이블 안에 인풋 */
-    .add_table input,
-    .add_table select {
-        font-family: "Wanted Sans Variable";
-        font-size: 18px;
-    }
+/*  등록 취소 버튼 (맨 아래) */
+.input {
+	border: 1px;
+	width: 20%;
+	margin: auto;
+	text-align: center;
+	margin-top: 20px;
+}
 
-    /*  등록 취소 버튼 (맨 아래) */
-    .input {
-        border: 1px;
-        width: 20%;
-        margin: auto;
-        text-align: center;
-        margin-top: 20px;
-    }
+/* 버튼 */
+.input .button {
+	font-family: "Wanted Sans Variable";
+	font-size: 18px;
+	background-color: rgba(155, 178, 225, 0.6);
+	border: 0;
+	width: 70px;
+	height: 30px;
+	border-radius: 5px;
+	cursor: pointer;
+}
 
+.input .button:hover {
+	background-color: rgba(205, 155, 225, 0.6);
+}
 
-    /* 버튼 */
-    .input .button {
-        font-family: "Wanted Sans Variable";
-        font-size: 18px;
-        background-color: rgba(155, 178, 225, 0.6);
-        border: 0;
-        width: 70px;
-        height: 30px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+/* 인풋 넘버 위아래 방향키 삭제 */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
 
-    .input .button:hover {
-        background-color: rgba(205, 155, 225, 0.6);
-    }
+/* 가져오기 버튼 */
+.upload {
+	font-family: "Wanted Sans Variable";
+	font-size: 16px;
+	background-color: rgba(155, 178, 225, 0.6);
+	border: 0;
+	width: 70px;
+	height: 30px;
+	border-radius: 5px;
+	cursor: pointer;
+}
 
-    /* 인풋 넘버 위아래 방향키 삭제 */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    /* 가져오기 버튼 */
-    .upload {
-        font-family: "Wanted Sans Variable";
-        font-size: 16px;
-        background-color: rgba(155, 178, 225, 0.6);
-        border: 0;
-        width: 70px;
-        height: 30px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .upload:hover {
-        background-color: rgba(205, 155, 225, 0.6);
-    }
+.upload:hover {
+	background-color: rgba(205, 155, 225, 0.6);
+}
 </style>
 
 <body>
-    <!-- header -->
-    <header></header>
+	<!-- header -->
+	<header></header>
 
-    <!-- section -->
-    <section>
-        <div class="add_subject">
-            <h2 align="center">책등록</h2>
-        </div>
+	<!-- section -->
+	<section>
+		<div class="add_subject">
+			<h2 align="center">책등록</h2>
+		</div>
 
-        <div>
-            <table class="add_table">
-                <tr>
-                    <th>ISBN</th>
-                    <td>
-                        <input type="number" name="isbn">
-                        <input type="button" value="가져오기" id="isbn_import" class="upload">
-                    </td>
-                </tr>
-                <tr>
-                    <th width="20%">책이름</th>
-                    <td width="80%"><input type="text" name="bookname" class="bookname" autofocus></td>
-                </tr>
-                <tr>
-                    <th>저자</th>
-                    <td><input type="text" name="author"></td>
-                </tr>
-                <tr>
-                    <th>발행년도</th>
-                    <td><input type="text" name="year"></td>
-                </tr>
-                <tr>
-                    <th>도서ID</th>
-                    <td><input type="number" name="regi_number"></td>
-                </tr>
-                <tr>
-                    <th>소장기관</th>
-                    <td>
-                        <select id="libs_info">
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>등록일자</th>
-                    <td><input type="date" name="regi_date"></td>
-                </tr>
+		<div>
+			<table class="add_table">
+				<tr>
+					<th>ISBN</th>
+					<td><input type="number" name="isbn"> <input
+						type="button" value="가져오기" id="isbn_import" class="upload">
+					</td>
+				</tr>
+				<tr>
+					<th width="20%">책이름</th>
+					<td width="80%"><input type="text" name="bookname"
+						class="bookname" autofocus></td>
+				</tr>
+				<tr>
+					<th>저자</th>
+					<td><input type="text" name="author"></td>
+				</tr>
+				<tr>
+					<th>출판사</th>
+					<td><input type="text" name="publisher"></td>
+				</tr>
+				<tr>
+					<th>발행년도</th>
+					<td><input type="text" name="year"></td>
+				</tr>
+				<tr>
+					<th>도서ID</th>
+					<td><input type="number" name="regi_number"></td>
+				</tr>
+				<tr>
+					<th>소장기관</th>
+					<td><select id="libs_info">
+									<%
+				ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
 
-            </table>
-        </div>
-    </section>
+				for (int i = 0; i < library_list.size(); i++) {
+				%>
+				<option value="<%=library_list.get(i).get("LB_ID")%>"><%=library_list.get(i).get("LB_NAME")%></option>
+				<%
+				}
+				%>
+					</select></td>
+				</tr>
+				<tr>
+					<th>등록일자</th>
+					<td><input type="date" name="regi_date"></td>
+				</tr>
 
-    <!-- 등록 취소 -->
-    <div class="input">
-        <input type="submit" value="책 등록" class="button" onclick="bookAdd()">
-        <input type="reset" value="닫기" class="button" onclick="closePopup()">
-    </div>
+			</table>
+		</div>
+	</section>
 
-
-
+	<!-- 등록 취소 -->
+	<div class="input">
+		<input type="submit" value="책 등록" class="button" onclick="bookAdd()">
+		<input type="reset" value="닫기" class="button" onclick="closePopup()">
+	</div>
 </body>
 
 </html>
