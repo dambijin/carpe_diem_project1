@@ -161,7 +161,6 @@ public class NoticeBoardServlet extends HttpServlet {
 
 //      board/notice_board.jsp 파일을 이어줌
 		request.getRequestDispatcher("board/notice_board.jsp").forward(request, response);
-
 	}
 
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
