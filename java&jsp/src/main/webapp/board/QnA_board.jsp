@@ -291,7 +291,11 @@
 								</td>
 								<td><a href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>"
 									class="table_a" id="title_st"><%=list.get(i).get("N_TITLE")%></a></td>
-								<td><%=list.get(i).get("M_NAME")%></td>
+								<td>
+									<%String name = list.get(i).get("M_NAME");										
+									String rename = name.substring(0, 1) + "**"; %>
+									<%=rename%>
+								</td>
 								<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
 								<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
 							</tr>

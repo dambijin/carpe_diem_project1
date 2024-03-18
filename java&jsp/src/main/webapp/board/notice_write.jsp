@@ -195,7 +195,11 @@
 									ArrayList<Map<String, String>> member = (ArrayList<Map<String, String>>) request.getAttribute("member");
 								%>
 									<td class="sub">작성자</td>
-									<td class="text" name="writer"><%=member.get(0).get("M_NAME")%></td>
+									<td class="text" name="writer">
+										<%String name = member.get(0).get("M_NAME");										
+										String rename = name.substring(0, 1) + "**"; %>
+										<%=rename%>
+									</td>
 								</tr>
 								<tr>
 									<td class="sub">소속도서관</td>

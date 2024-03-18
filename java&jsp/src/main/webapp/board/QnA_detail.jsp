@@ -20,53 +20,46 @@ window.onload = function() {
 	
 // 	수정, 삭제 버튼 보이기 안보이기
 	<%HttpSession getSession = request.getSession();
-    String login_m_pid = (String) getSession.getAttribute("m_pid");
-    List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
-    List<Map<String, String>> notice = (List<Map<String, String>>) request.getAttribute("notice");
-
-    %>
+	String login_m_pid = (String) getSession.getAttribute("m_pid");
+	List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
+	List<Map<String, String>> notice = (List<Map<String, String>>) request.getAttribute("notice");%>
     var login_mpid = "<%=login_m_pid%>"; 
     var mpid = "<%=member.get(0).get("M_PID")%>"; 
-    var open = "<%=notice.get(0).get("N_OPT")%>"
     
-    var mgChk = "<%=request.getAttribute("manager")%>"; 
-    var qnabut = document.querySelector("#qna_but"); // 수정 
-    var debut = document.querySelector("#delet_but"); // 삭제 
-    var mgbut = document.querySelector("#detail_but"); // 답글
-
-
-    if (login_mpid == mpid) {
-    	qnabut.style.display = "inline-block";
-    } else {
-    	qnabut.style.display = "none";
-    }
-//  로그인한 아이디와 게시물 작성자가 일치하고, 관리자라면 보이게
-    if (login_mpid == mpid || mgChk == "Y") {
-    	debut.style.display = "inline-block";
-    } else {
-    	debut.style.display = "none";
-    }
     
-//     관리자는 답글 보이게
-    if (mgChk == "Y") {
-    	mgbut.style.display = "inline-block";
-    } else {
-    	mgbut.style.display = "none";
-    }
-   
-    
+    var mgChk = "<%=request.getAttribute("manager")%>";
+		var qnabut = document.querySelector("#qna_but"); // 수정 
+		var debut = document.querySelector("#delet_but"); // 삭제 
+		var mgbut = document.querySelector("#detail_but"); // 답글
 
-    };
+		if (login_mpid == mpid) {
+			qnabut.style.display = "inline-block";
+		} else {
+			qnabut.style.display = "none";
+		}
+		//  로그인한 아이디와 게시물 작성자가 일치하고, 관리자라면 보이게
+		if (login_mpid == mpid || mgChk == "Y") {
+			debut.style.display = "inline-block";
+		} else {
+			debut.style.display = "none";
+		}
 
+		//     관리자는 답글 보이게
+		if (mgChk == "Y") {
+			mgbut.style.display = "inline-block";
+		} else {
+			mgbut.style.display = "none";
+		}
 
-window.addEventListener("load", function() {
+	};
+
+	window.addEventListener("load", function() {
 		// 답글
 		let completion = document.querySelector(".completion");
 		// 답글 클릭시
 		completion.addEventListener('click', function() {
 			// div안에
 			document.querySelector(".answer_detail").style.display = "block";
-
 		});
 
 		libsinfolist();
@@ -92,8 +85,7 @@ window.addEventListener("load", function() {
 		});
 
 		// 파일첨부
-		document.querySelector("#upload_file").addEventListener("change",
-				function(changeEvent) {
+		document.querySelector("#upload_file").addEventListener("change", function(changeEvent) {
 					// 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
 					// 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
 					// 여기서는 첫 번째 파일만 사용하므로 'files[0]'을 선택합니다.
@@ -305,7 +297,9 @@ window.addEventListener("load", function() {
 						</tr>
 						<tr>
 							<td class="subject">작성자</td>
-							<td class="writer"><%=member.get(0).get("M_NAME")%></td>
+							<td class="writer"><%String name = member.get(0).get("M_NAME");										
+									String rename = name.substring(0, 1) + "**"; %>
+									<%=rename%></td>
 							<td class="subject">등록일</td>
 							<td><%=result_list.get(0).get("N_DATE").substring(0, 10)%></td>
 							<td class="subject">조회</td>
@@ -331,18 +325,22 @@ window.addEventListener("load", function() {
 							<td class="content" colspan="6"><%=result_list.get(0).get("N_CONTENT")%></td>
 						</tr>
 					</table>
-					
-						<div id=qna_but>
+
+					<div id=qna_but>
 						<button type="button" class="notice_but" id="QnAupdate"
 							onclick="location.href='QnA_update?N_ID=<%=result_list.get(0).get("N_ID")%>';">수정</button>
-						</div>
-						
-						<div id="detail_but">
-						<button type="button" class="notice_but completion reply" id="writebut">답글</button>
-						</div>
-						<div id="delet_but">
-						<button type="button" class="notice_but">삭제</button>
-						</div>
+					</div>
+
+					<div id="detail_but">
+						<button type="button" class="notice_but completion reply"
+							id="writebut">답글</button>
+					</div>
+					<div id="delet_but">
+						<form method="get" action="QnA_delete">
+							<button type="button" class="notice_but"
+								onclick="location.href='QnA_delete?N_ID=<%=result_list.get(0).get("N_ID")%>';">삭제</button>
+						</form>
+					</div>
 					<hr class="detail_hr">
 				</div>
 

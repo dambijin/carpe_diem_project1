@@ -34,7 +34,9 @@ public class NoticeUpdateServlet extends HttpServlet {
 		}
 		return conn;
 	}
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String url = request.getRequestURL().toString(); // 현재 URL 가져오기
 		String queryString = request.getQueryString(); // 쿼리 문자열 가져오기
@@ -50,7 +52,7 @@ public class NoticeUpdateServlet extends HttpServlet {
 
 				if (paramName.equals("N_ID")) {
 					nid = Integer.parseInt(paramValue);
-					
+
 				}
 				System.out.println(nid);
 			}
@@ -84,10 +86,8 @@ public class NoticeUpdateServlet extends HttpServlet {
 		member_query += mPid;
 		ArrayList<Map<String, String>> member = getDBList(member_query);
 
-		
 		request.setAttribute("member", member);
-		
-		
+
 		String lb_id = "";
 		if (notice != null && !notice.isEmpty()) {
 			for (int i = 0; i < notice.size(); i++) {
@@ -106,28 +106,23 @@ public class NoticeUpdateServlet extends HttpServlet {
 		System.out.println(library);
 		ArrayList<Map<String, String>> library_list = getDBList(library);
 
-		
 		request.setAttribute("library_list", library_list);
-		
-		
+
 //		실행할 쿼리문
 		String l_id = "";
 		l_id += "SELECT *";
 		l_id += " FROM LIBRARY";
 		l_id += " WHERE LB_ID <> ";
 		l_id += lb_id;
-		System.out.println("l_id :"+l_id);
+		System.out.println("l_id :" + l_id);
 		ArrayList<Map<String, String>> library_id = getDBList(l_id);
 
-		
 		request.setAttribute("library_id", library_id);
-		
-		
 
 		request.getRequestDispatcher("board/notice_update.jsp").forward(request, response);
-		
+
 	}
-	
+
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
@@ -162,7 +157,8 @@ public class NoticeUpdateServlet extends HttpServlet {
 		return result_list;
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -170,30 +166,29 @@ public class NoticeUpdateServlet extends HttpServlet {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-	
+
 		System.out.println(getDBUpdate(request, response));
 		response.sendRedirect("notice_board");
 	}
-	
 
 //	DB업데이트 or 인서트 등등을 할 수 있는 메소드
-	private int getDBUpdate(HttpServletRequest request , HttpServletResponse response) {
+	private int getDBUpdate(HttpServletRequest request, HttpServletResponse response) {
 		int result = -1;
 		try {
 			Connection conn = getConnection();
-			
+
 			// SQL준비
 			String n_subject = request.getParameter("notice_subject"); // 제목
-			String n_lb= request.getParameter("library"); // 소속 도서관
-			String n_fi= request.getParameter("n_file"); // 파일
-			String n_write= request.getParameter("n_textarea"); // 글 내용(textarea)
-			String nid= request.getParameter("n_id");
+			String n_subject_update = "(수정) " + n_subject;
+			String n_lb = request.getParameter("library"); // 소속 도서관
+			String n_fi = request.getParameter("n_file"); // 파일
+			String n_write = request.getParameter("n_textarea"); // 글 내용(textarea)
+			String nid = request.getParameter("n_id");
 //			trim() : 앞뒤 공백 제거, 스페이스바 적을 수 있으니까 필요
-			
-			if(n_subject==null || n_subject.trim().equals("")
-					|| n_write == null || n_write.trim().equals("")) {
+
+			if (n_subject == null || n_subject.trim().equals("") || n_write == null || n_write.trim().equals("")) {
 				response.sendRedirect("notice_update");
-			}else {
+			} else {
 //				UPDATE [테이블] SET [열] = '변경할값' WHERE [조건]
 				String notice_in = "";
 				notice_in += " update notice set";
@@ -201,27 +196,27 @@ public class NoticeUpdateServlet extends HttpServlet {
 				notice_in += ", LB_ID = ?";
 //				notice_in += ", N_FILE = ?";
 				notice_in += ", N_CONTENT = ?";
+				notice_in += ", N_DATE = SYSDATE";
 				notice_in += " where N_ID = ";
 				notice_in += nid;
 				
+
 				// SQL 실행준비
 				PreparedStatement ps = conn.prepareStatement(notice_in);
-				ps.setString(1, n_subject);
+				ps.setString(1, n_subject_update);
 				ps.setString(2, n_lb);
 				ps.setString(3, n_write);
 //				ps.setString(4, n_fi);
-				System.out.println("n_lb : "+n_lb);
-				System.out.println("update문 : "+notice_in);
-				
+				System.out.println("n_lb : " + n_lb);
+				System.out.println("업데이트 쿼리문 : " + notice_in);
+
 				result = ps.executeUpdate();
-				
+
 				System.out.println("바뀐 행 수:" + result);
 				ps.close();
 				conn.close();
 			}
-			
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -240,7 +240,11 @@
 							</tr>
 							<tr>
 								<td class="sub">작성자</td>
-								<td class="text" id="writer"><%=member.get(0).get("M_NAME")%></td>
+								<td class="text" id="writer">
+									<%String name = member.get(0).get("M_NAME");										
+									String rename = name.substring(0, 1) + "**"; %>
+									<%=rename%>
+								</td>
 							</tr>
 							<tr>
 								<td class="sub">소속도서관</td>

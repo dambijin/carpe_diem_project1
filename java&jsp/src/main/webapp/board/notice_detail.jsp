@@ -19,7 +19,7 @@
 /* 글쓴 내용 테이블의 제목, 작성자, 등록일, 조회, 도서관 ,첨부 */
 .notice_detail {
 	text-align: right;
-	width: 800px;
+	width: 100%;
 }
 
 .notice_detail .subject {
@@ -32,6 +32,7 @@
 .notice_detail table {
 	border-collapse: collapse;
 	text-align: left;
+	width: 100%;
 }
 
 .notice_detail td {
@@ -71,18 +72,29 @@
 </style>
 <script>
 window.onload = function() {
+	<%HttpSession getSession = request.getSession();
+	String login_m_pid = (String) getSession.getAttribute("m_pid");
+	List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
+	%>
+	
+	var login_mpid = "<%=login_m_pid%>"; 
+	var mpid = "<%=member.get(0).get("M_PID")%>"; 
     // 서버에서 받은 M_MANAGERCHK 값
     var mManagerChk = "<%=request.getAttribute("manager")%>"; 
 //     console.log(mManagerChk);
-    var upbut = document.querySelector("#notice_update");
-    var debut = document.querySelector("#notice_delete");
+    var upbut = document.querySelector("#notice_update"); // 수정버튼
+    var debut = document.querySelector("#notice_delete"); // 삭제버튼
     // M_MANAGERCHK 값이 "Y"인 경우 버튼을 표시, 그 외의 경우에는 버튼을 숨김
     if (mManagerChk == "Y") {
-    	upbut.style.display = "inline-block";
     	debut.style.display = "inline-block";
     } else {
-    	upbut.style.display = "none";
         debut.style.display = "none";
+    }
+    
+    if (login_mpid == mpid){
+    	upbut.style.display = "inline-block";
+    }else {
+    	upbut.style.display = "none";
     }
 
     
@@ -102,7 +114,6 @@ window.onload = function() {
 	<header></header>
 	<%
 	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
-	List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
 	List<Map<String, String>> library = (List<Map<String, String>>) request.getAttribute("library_list");
 	List<Map<String, String>> update = (List<Map<String, String>>) request.getAttribute("update");
 	 Map<String, String> map = new HashMap<String, String>();
@@ -133,7 +144,10 @@ window.onload = function() {
 						</tr>
 						<tr>
 							<td class="subject">작성자</td>
-							<td id="subject_writer"><%=member.get(0).get("M_NAME")%></td>
+							<td id="subject_writer">
+							<%String name = member.get(0).get("M_NAME");										
+							String rename = name.substring(0, 1) + "**"; %>
+							<%=rename%></td>
 							<td class="subject">등록일</td>
 							<td id="subject_date"><%=result_list.get(0).get("N_DATE").substring(0,10)%></td>
 							<td class="subject">조회</td>
@@ -156,7 +170,7 @@ window.onload = function() {
 							<td class="content" colspan="6" id="subject_cont"><%=result_list.get(0).get("N_CONTENT")%></td>
 						</tr>
 					</table>
-					<form method="post" action="notice_delete">
+					<form method="get" action="notice_delete">
 					<button type="button" id="notice_update" onclick="location.href='notice_update?N_ID=<%=result_list.get(0).get("N_ID")%>';">수정</button>
 					<button type="submit" id="notice_delete" onclick="location.href='notice_delete?N_ID=<%=result_list.get(0).get("N_ID")%>';">삭제</button>
 					</form>
