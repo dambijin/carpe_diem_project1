@@ -2,32 +2,38 @@ package carpedm;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
+
 public class Admin_member_chginfoDAO {
-	
-	private String driver = "oracle.jdbc.driver.OracleDriver";
-	private String url = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
-//	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private String user = "carpedm";
-	private String password = "dm1113@";
+	private static final int EMPTY_EMPNO = -9999;
 	
 	private Connection con;
 
+	
+//	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	
+//	private String driver = "oracle.jdbc.driver.OracleDriver";
+//	private String url = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
+//	private String user = "carpedm";
+//	private String password = "dm1113@";
+
 	private void connDB() {
 		try {
-			// 오라클 드라이버 로딩
-			Class.forName(this.driver);
-
-			// DB 접속
-			this.con = DriverManager.getConnection(this.url, this.user, this.password);
-
+			Context ctx = new InitialContext();
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/oracle");
+			// DataSource로부터 Connection을 얻어옴
+			this.con =  dataFactory.getConnection();
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -76,8 +82,11 @@ public class Admin_member_chginfoDAO {
 //			}
 //			return result_list;
 //		}
+	List listBook() {
+		return listBook(EMPTY_EMPNO);
+	}
 	
-	public void listEmp() {
+	public List listBook(int m_pid) {
 		/* 꼭 써야함!! */
 		connDB();
 //		Connection con2 = connDB2();
@@ -85,12 +94,20 @@ public class Admin_member_chginfoDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
+		List list = new ArrayList();
+		
 		try {
 			// SQL 준비
 			String query = "select * from member";
+			if(m_pid != EMPTY_EMPNO) {
+				query += " where m_pid = ?";
+			}
 //			query += " where m_pid = " + m_pid;
 			
 			ps = con.prepareStatement(query);
+			if(m_pid != EMPTY_EMPNO) {
+				ps.setInt(1, m_pid);
+			}
 //			PreparedStatement ps = con2.prepareStatement(query);
 
 			// SQL 실행 및 결과 확보
@@ -98,22 +115,35 @@ public class Admin_member_chginfoDAO {
 			
 			// 결과 활용
 			while(rs.next()) {
-				String m_pid = rs.getString("m_pid");
+				int m_pid1 = rs.getInt("m_pid");
 				String m_id = rs.getString("m_id");
 				String m_pw = rs.getString("m_pw");
 				String m_name = rs.getString("m_name");
 				String m_tel = rs.getString("m_tel");
 				String m_email = rs.getString("m_email");
-				String m_birthday = rs.getString("m_birthday");
+				Date m_birthday = (Date)rs.getDate("m_birthday");
 				String m_address = rs.getString("m_address");
 				String m_email_agree = rs.getString("m_email_agree");
-				String m_loanstate = rs.getString("m_loanstate");
+				int m_loanstate = rs.getInt("m_loanstate");
 				String m_managerchk = rs.getString("m_managerchk");
 				String lb_id = rs.getString("lb_id");
 				
-				System.out.println("m_pid : "+ m_pid);
+				System.out.println("m_pid : "+ m_pid1);
 				
+				admin_chginfo_BookDTO bookDTO = new admin_chginfo_BookDTO();
+				bookDTO.setM_pid(m_pid1);
+				bookDTO.setM_pid(m_pid1);
+				bookDTO.setM_pw(m_pw);
+				bookDTO.setM_name(m_name);
+				bookDTO.setM_tel(m_tel);
+				bookDTO.setM_email(m_email);
+				bookDTO.setM_birthday(m_birthday);
+				bookDTO.setM_address(m_address);
+				bookDTO.setM_email_agree(m_email_agree);
+				bookDTO.setM_loanstate(m_loanstate);
+				bookDTO.setM_managerchk(m_managerchk);
 				
+				list.add(bookDTO);
 			}
 			
 		} catch (Exception e) {
@@ -147,11 +177,62 @@ public class Admin_member_chginfoDAO {
 				}
 			}
 		}
+		return list;
 
 	}
-	
+	int insertBook(admin_chginfo_BookDTO bookDTO) {
+		int result = -9999;
+		
+		/* 꼭 써야함!! */
+		connDB();
+		
+		PreparedStatement ps = null;
+		
+		try {
+			// SQL 준비
+			String query = " insert into member (m_pid, m_id, m_pw, m_name)";
+			query += 	   " values(?, ?, ?, ?) ";
+
+			ps = con.prepareStatement(query);
+			
+			ps.setInt(1, bookDTO.getM_pid());
+			ps.setString(2, bookDTO.getM_id());
+			ps.setString(3, bookDTO.getM_pw());
+			ps.setString(4, bookDTO.getM_name());
+
+			// SQL 실행 및 결과 확보
+			result = ps.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if(this.con != null) {
+				try {
+					this.con.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return result;
+	}
+		
+
 	// 수정메소드
-	List change(String name, String date, String id, String pw, String number, String email1, String email2, String address) {
+	int updateBook(admin_chginfo_BookDTO bookDTO) {
+		int result = -9999;
 		/* 꼭 써야함!! */
 		connDB();
 //		Connection con2 = connDB2();
@@ -160,17 +241,55 @@ public class Admin_member_chginfoDAO {
 		ResultSet rs = null;
 		
 		try {
-			String query = "update member set ename=?";
-			query += " where is not null";
+			String query = "UPDATE member";
+			query += " SET ";
+			query += " M_pw=?, ";
+			query += " M_name=?, ";
+			query += " M_tel=?, ";
+			query += " M_email=?, ";
+			query += " M_birthday=?, ";
+			query += " M_address=?, ";
+			query += " M_email_agree=? ";
+			query += " where m_id = ?";
 			
 			ps = con.prepareStatement(query);
-			rs = ps.executeQuery();
+			
+			ps.setString(1, bookDTO.getM_pw());
+			ps.setString(2, bookDTO.getM_name());
+			ps.setString(3, bookDTO.getM_tel());
+			ps.setString(4, bookDTO.getM_email());
+			ps.setDate(5, (Date)bookDTO.getM_birthday());
+			ps.setString(6, bookDTO.getM_address());
+			ps.setString(7, bookDTO.getM_email_agree());
+			ps.setString(8, bookDTO.getM_id());
 			
 			System.out.println("query:" + query);
+			
+			// SQL 실행 및 결과 확보
+			result = ps.executeUpdate();
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if(ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if(this.con != null) {
+				try {
+					this.con.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		return change(name, date, id, pw, number, email1, email2, address);
+		return result;
 	}
 }
