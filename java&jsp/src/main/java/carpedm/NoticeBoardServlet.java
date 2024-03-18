@@ -90,8 +90,9 @@ public class NoticeBoardServlet extends HttpServlet {
 		notice += " ORDER BY n_id DESC";
 		
 
-		System.out.println(notice);
+		System.out.println("이름 바꾸기 sql: "+notice);
 		ArrayList<Map<String, String>> list = getDBList(notice);
+		
 //		request.setAttribute("list", list);
 		
 		String page = request.getParameter("page");

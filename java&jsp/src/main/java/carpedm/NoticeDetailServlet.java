@@ -59,7 +59,7 @@ public class NoticeDetailServlet extends HttpServlet {
 		query += "M_PID = ";
 		query += login_m_pid;
 
-//			System.out.println("MEMBER테이블 쿼리: " + query);
+//		System.out.println("MEMBER테이블 쿼리: " + query);
 		ArrayList<Map<String, String>> mem = getDBList(query);
 
 		request.setAttribute("mem", mem);
@@ -111,7 +111,7 @@ public class NoticeDetailServlet extends HttpServlet {
 //		실행할 쿼리문
 		String nid_query = "";
 		nid_query += "SELECT * FROM notice where n_opt=0";
-		nid_query += "and n_id=";
+		nid_query += " and n_id=";
 		nid_query += nid;
 		nid_query += " order by n_id desc";
 
@@ -119,6 +119,7 @@ public class NoticeDetailServlet extends HttpServlet {
 		ArrayList<Map<String, String>> notice = getDBList(nid_query);
 
 		request.setAttribute("notice", notice);
+
 
 //		멤버 가져오기
 		String mPid = "";

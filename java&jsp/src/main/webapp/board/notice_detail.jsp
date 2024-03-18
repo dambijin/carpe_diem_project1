@@ -85,24 +85,16 @@ window.onload = function() {
         debut.style.display = "none";
     }
 
-    };
     
-	window
-			.addEventListener("load",
-					function() {
-						// 수정 버튼
-// 						document.querySelector("#notice_update")
-// 								.addEventListener('click', function() {
-// 									location.href = "notice_update";
-// 								});
+//  삭제버튼
+    document.querySelector("#notice_delete").addEventListener('click', function() {
+    	alert("삭제했습니다.");
+    });
+};
+    
 
-						document.querySelector("#notice_delete")
-								.addEventListener('click', function() {
-									alert("삭제했습니다.");
-									location.href = "notice_board";
-								});
 
-					})
+
 </script>
 </head>
 
@@ -136,7 +128,7 @@ window.onload = function() {
 						<tr>
 							<td class="subject">제목</td>
 							<td colspan="5" id="subject_title">
-							<input type="hidden" name="notice_id" value="<%=result_list.get(0).get("N_ID")%>" >
+							<input type="hidden" name="notice_id" id="n_id" value="<%=result_list.get(0).get("N_ID")%>">
 							<%=result_list.get(0).get("N_TITLE")%></td>
 						</tr>
 						<tr>
@@ -164,8 +156,10 @@ window.onload = function() {
 							<td class="content" colspan="6" id="subject_cont"><%=result_list.get(0).get("N_CONTENT")%></td>
 						</tr>
 					</table>
+					<form method="post" action="notice_delete">
 					<button type="button" id="notice_update" onclick="location.href='notice_update?N_ID=<%=result_list.get(0).get("N_ID")%>';">수정</button>
-					<button type="button" id="notice_delete">삭제</button>
+					<button type="submit" id="notice_delete" onclick="location.href='notice_delete?N_ID=<%=result_list.get(0).get("N_ID")%>';">삭제</button>
+					</form>
 				</div>
 			</div>
 		</div>

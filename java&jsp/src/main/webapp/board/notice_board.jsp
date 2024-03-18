@@ -313,7 +313,11 @@ window.onload = function() {
 										class="table_a"><%=list.get(i).get("N_TITLE")%> <input
 											type="hidden" name="title"
 											value="<%=list.get(i).get("N_ID")%>"></a></td>
-									<td><%=list.get(i).get("M_NAME")%></td>
+									<td>
+<!-- 									이름 바꾸기 -->
+									<%String name = list.get(i).get("M_NAME");										
+										String rename = name.substring(0, 1) + "**"; %>
+										<%=rename%></td>
 									<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
 									<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
 								</tr>
