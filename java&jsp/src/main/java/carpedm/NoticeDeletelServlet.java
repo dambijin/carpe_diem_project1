@@ -37,10 +37,6 @@ public class NoticeDeletelServlet extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		삭제할 N_ID값 가져오기
 		String nid= request.getParameter("N_ID");
 		System.out.println("삭제할 N_ID : "+nid);
@@ -51,7 +47,11 @@ public class NoticeDeletelServlet extends HttpServlet {
 		System.out.println("삭제할 쿼리 : "+nid);
 		
 		ArrayList<Map<String, String>> delet_notice = deleteDB(delete_nid);
-		response.sendRedirect("notice_board");
+		response.sendRedirect("notice_board");	
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 	}
 	
 	
