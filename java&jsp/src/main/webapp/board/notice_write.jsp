@@ -36,7 +36,28 @@
 					// 이렇게 하면 사용자가 선택한 파일의 이름이 웹 페이지에 표시됩니다.
 					fileName.value = imgFile.name;
 				});
+		
+		document.querySelector("#completion").addEventListener('click', function () {
+			//제목
+	        let title = document.querySelector("#notice_write_title");
+	        //내용
+	        let cont_text = document.querySelector("#ntextarea");
+	        console.log(title.value != "");
+	        console.log(cont_text.value);
+	        if (title.value != "" && cont_text.value != "") {
+	            let f=document.querySelector('form');
+	            f.submit();
+	        }
+	        else {
+	        	alert("첨부파일을 제외한 모든 내용을 작성해주세요.");
+	        	event.preventDefault();   
+	        }
+		});
+
 	});
+
+	
+	
 </script>
 
 <style>
@@ -227,18 +248,14 @@
 							</table>
 						</div>
 						<div class="td1">
-							<textarea name="n_textarea"></textarea>
+							<textarea name="n_textarea" id="ntextarea"></textarea>
 						</div>
 						<div class="div_buttonAll">
 							<div class="div_button">
 								<button type="submit" class="but" id="completion" value="submit">등록</button>
 							</div>
-
-
 						</div>
-
 					</div>
-
 				</div>
 			</form>
 		</section>

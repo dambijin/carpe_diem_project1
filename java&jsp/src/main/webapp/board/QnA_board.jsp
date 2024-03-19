@@ -33,6 +33,32 @@
 				search_box(); // 검색 함수 호출
 			}
 		});
+		
+		
+		<% HttpSession getSession = request.getSession();
+        String login_m_pid = (String) getSession.getAttribute("m_pid");%>
+// 		로그인한 아이디
+        let login_nid= <%=login_m_pid%>;
+        let hrefValue = document.querySelector("#title_st").getAttribute("href");
+		
+		document.querySelector("#title_st").addEventListener('click', function () {
+			
+			cosole.log(hrefValue);
+// 			if(document.querySelector("#close_id").value === 0){
+// 				if(login_nid==nid){
+// // 				href가 사용가능
+// 				window.location.href = hinid;
+// 				} else{
+// //	 				href가 사용불가능
+// 					alert("작성자의 로그인이 필요합니다.");
+// 				}
+// 			} else {
+// // 				href가 사용가능
+// 				window.location.href = hinid;
+// 			}
+		});
+		
+		
 	});
 
 	// 	검색 버튼 클릭
@@ -43,9 +69,7 @@
 			document.querySelector('#searchbox').focus();
 		} else {
 			alert(textbox.value + "검색했습니다");
-			window.location.href = '/carpedm/QnA_board?search='
-					+ encodeURIComponent(textbox.value) + '&n_search='
-					+ document.querySelector("#searchselect").value;
+			window.location.href = '/carpedm/QnA_board?search='+ encodeURIComponent(textbox.value) + '&n_search='+ document.querySelector("#searchselect").value;
 		}
 	};
 </script>
@@ -233,7 +257,6 @@
 	<header></header>
 	<section>
 		<div class="s_section">
-
 			<div class="left_section">
 				<button type="button" class="sub_but"
 					onclick="location.href='notice_board';">공지사항</button>
@@ -254,7 +277,6 @@
 								name="n_search">
 								<option>제목</option>
 								<option>제목+내용</option>
-								<option>작성자</option>
 							</select> <input type="text" class="change_handwriting search_input"
 								id="searchbox"> <input type="button"
 								class="change_handwriting request search_button" value="검색"
@@ -276,21 +298,25 @@
 							for (int i = 0; i < list.size(); i++) {
 								Map map = (Map) list.get(i);
 
-								String a = "1";
+								String open = "1";
 							%>
 							<tr>
-								<td><%=list.get(i).get("N_ID")%></td>
-								<td>
+								<td id="nid_value"><%=list.get(i).get("N_ID")%></td>
+								<td name="close_tx">
+								<input type="hidden" id="close_id" value="<%=list.get(i).get("N_OPT")%>">
 									<%
-									if (list.get(i).get("N_OPT").equals(a)) {
+									if (list.get(i).get("N_OPT").equals(open)) {
 									%> 공개 <%
 									} else {
 									%> 비공개 <%
 									}
 									%>
 								</td>
-								<td><a href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>"
-									class="table_a" id="title_st"><%=list.get(i).get("N_TITLE")%></a></td>
+								<td>
+								<a id="title_st" href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a">
+									<%=list.get(i).get("N_TITLE")%>
+								</a>
+								</td>
 								<td>
 									<%String name = list.get(i).get("M_NAME");										
 									String rename = name.substring(0, 1) + "**"; %>

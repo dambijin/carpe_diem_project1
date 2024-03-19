@@ -75,8 +75,6 @@ public class QnABoardServlet extends HttpServlet {
 			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%'";
 		} else if (select.equals("제목 내용")) {
 			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%' OR N_CONTENT LIKE '%"+searchWord+"%'";
-		} else if (select.equals("작성자")) {
-			select_sql = " AND M_NAME LIKE '%"+searchWord+"%'";
 		} 
 		
 		

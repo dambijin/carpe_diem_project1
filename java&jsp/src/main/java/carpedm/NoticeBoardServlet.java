@@ -164,13 +164,12 @@ public class NoticeBoardServlet extends HttpServlet {
 		request.getRequestDispatcher("board/notice_board.jsp").forward(request, response);
 	}
 
-	public static ArrayList<Map<String, String>> getDBList(String notice) {
+	private static ArrayList<Map<String, String>> getDBList(String notice) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
 			Connection conn = getConnection();
 			// SQL준비
 
-//			System.out.println("nidquery:" + notice);
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(notice);
 			ResultSet rs = ps.executeQuery();
@@ -186,7 +185,6 @@ public class NoticeBoardServlet extends HttpServlet {
 				}
 
 				result_list.add(map);
-//			    System.out.println(map.get("N_ID"));
 			}
 
 			rs.close();

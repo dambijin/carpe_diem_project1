@@ -177,14 +177,8 @@ public class NoticeDetailServlet extends HttpServlet {
 
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, notice_id);
-			System.out.println("--------------------------");
-			System.out.println("공지사항번호: " + notice_id);
-			System.out.println("카운트업데이트 값: " + sql);
 //	        executeUpdate : 업데이트 하는 sql문 작성됨
 			int rowCount = pst.executeUpdate();
-			System.out.println("--------------------------");
-			System.out.println("pst:" + pst);
-			System.out.println("rowCount :" + rowCount);
 			if (rowCount > 0) {
 //	        	가져올 쿼리문
 

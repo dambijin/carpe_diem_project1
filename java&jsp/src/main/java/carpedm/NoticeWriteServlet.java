@@ -23,10 +23,10 @@ public class NoticeWriteServlet extends HttpServlet {
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
-	
+
 //	DB접속 메소드
 	private static Connection getConnection() {
-		Connection conn= null;
+		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -35,8 +35,9 @@ public class NoticeWriteServlet extends HttpServlet {
 		}
 		return conn;
 	}
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 //		실행할 쿼리문
 		String library = "";
 		library += "SELECT *";
@@ -46,35 +47,39 @@ public class NoticeWriteServlet extends HttpServlet {
 //		System.out.println(library);
 		ArrayList<Map<String, String>> library_list = getDBList(library);
 		request.setAttribute("library_list", library_list);
-		
-		HttpSession getSession = request.getSession();
-        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
 
-        String member_qr = "";
-        member_qr += "SELECT * FROM member where ";
-        member_qr += "M_PID = ";
-        member_qr += login_m_pid;
+		HttpSession getSession = request.getSession();
+		String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
+
+		String member_qr = "";
+		member_qr += "SELECT * FROM member where ";
+		member_qr += "M_PID = ";
+		member_qr += login_m_pid;
 		ArrayList<Map<String, String>> member = getDBList(member_qr);
 		request.setAttribute("member", member);
-		
-		
+
 		request.getRequestDispatcher("board/notice_write.jsp").forward(request, response);
 	}
-	
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=utf-8;");
 		System.out.println("포스트접근성공");
-		try {
-			request.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=utf-8;");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		
+		
+		String title = request.getParameter("title"); // 작성자
+		String n_textarea = request.getParameter("n_textarea"); // textarea
+		
+		if (title != null && n_textarea != null && title !="" && n_textarea !="") {
+			System.out.println(inSert(request, response));
+		} else {
+			System.out.println("안됨");
+			response.sendRedirect("notice_write");
 		}
-	
-		System.out.println(inSert(request, response));
-		response.sendRedirect("notice_board");
+
 	}
-	
+
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
@@ -88,18 +93,18 @@ public class NoticeWriteServlet extends HttpServlet {
 			int columnCount = rsmd.getColumnCount();
 
 			while (rs.next()) {
-			    Map<String, String> map = new HashMap<String, String>();
+				Map<String, String> map = new HashMap<String, String>();
 
-			    for (int i = 1; i <= columnCount; i++) {
-			        String columnName = rsmd.getColumnName(i);
-			        map.put(columnName, rs.getString(columnName));
-			    }
+				for (int i = 1; i <= columnCount; i++) {
+					String columnName = rsmd.getColumnName(i);
+					map.put(columnName, rs.getString(columnName));
+				}
 
-			    result_list.add(map);
+				result_list.add(map);
 //			    값 잘 나오는지 확인
 //			    System.out.println(result_list.get(0).get("N_TITLE"));
 			}
-			
+
 			rs.close();
 			ps.close();
 			conn.close();
@@ -108,32 +113,29 @@ public class NoticeWriteServlet extends HttpServlet {
 		}
 		return result_list;
 	}
-	
 
-	
 //	DB업데이트 or 인서트 등등을 할 수 있는 메소드
-	private int inSert(HttpServletRequest request , HttpServletResponse response) {
+	private int inSert(HttpServletRequest request, HttpServletResponse response) {
 		int result = -1;
 		try {
-			
+
 			Connection conn = getConnection();
-			
+
 			HttpSession getSession = request.getSession();
-	        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
+			String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 관리자 아이디
 
 			// SQL준비
 			String n_subject = request.getParameter("title"); // 제목
 			String n_admin = request.getParameter("writer"); // 작성자
-			String n_lb= request.getParameter("library"); // 소속 도서관
-			String n_fi= request.getParameter("n_file"); // 파일
-			String n_write= request.getParameter("n_textarea"); // 글 내용(textarea)
-			String n_pid= request.getParameter("mpid"); // 관리자 번호(회원번호) 로그인한거 불러와야함
+			String n_lb = request.getParameter("library"); // 소속 도서관
+			String n_fi = request.getParameter("n_file"); // 파일
+			String n_write = request.getParameter("n_textarea"); // 글 내용(textarea)
+			String n_pid = request.getParameter("mpid"); // 관리자 번호(회원번호) 로그인한거 불러와야함
 
 //			trim() : 앞뒤 공백 제거, 스페이스바 적을 수 있으니까 필요
-			if(n_subject==null || n_subject.trim().equals("")
-					|| n_write == null || n_write.trim().equals("")) {
+			if (n_subject == null || n_subject.trim().equals("") || n_write == null || n_write.trim().equals("")) {
 				response.sendRedirect("notice_write");
-			}else {
+			} else {
 				String notice_in = "";
 				notice_in += " insert into notice";
 				notice_in += " (";
@@ -156,8 +158,8 @@ public class NoticeWriteServlet extends HttpServlet {
 				notice_in += " , sysdate";
 				notice_in += " , 0";
 				notice_in += " , ?";
-				notice_in += " , "+login_m_pid+")";
-				
+				notice_in += " , " + login_m_pid + ")";
+
 				System.out.println(notice_in);
 				// SQL 실행준비
 				PreparedStatement ps = conn.prepareStatement(notice_in);
@@ -165,22 +167,19 @@ public class NoticeWriteServlet extends HttpServlet {
 				ps.setString(2, n_subject);
 				ps.setString(3, n_write);
 				ps.setString(4, n_fi);
-				
+
 				result = ps.executeUpdate();
 				System.out.println("바뀐 행 수:" + result);
 
 				ps.close();
 				conn.close();
+				response.sendRedirect("notice_board");
 			}
-			
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-
-	
 
 }

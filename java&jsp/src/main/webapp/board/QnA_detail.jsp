@@ -69,11 +69,10 @@ window.onload = function() {
 		//        document.querySelector("#subject_file").innerHTML = '<a href="/path/to/your/file.pdf" download>첨부파일 다운로드</a>';
 
 		// 게시물삭제버튼
-		let QnA_delete = document.querySelector("#QnA_delete");
+		let QnA_delete = document.querySelector(".notice_but");
 		// 삭제버튼 클릭시
 		QnA_delete.addEventListener('click', function() {
 			alert("삭제되었습니다.");
-			location.href = 'QnA_board';
 		});
 
 		// 게시물삭제버튼
@@ -337,7 +336,7 @@ window.onload = function() {
 					</div>
 					<div id="delet_but">
 						<form method="get" action="QnA_delete">
-							<button type="button" class="notice_but"
+							<button type="submit" class="notice_but"
 								onclick="location.href='QnA_delete?N_ID=<%=result_list.get(0).get("N_ID")%>';">삭제</button>
 						</form>
 					</div>

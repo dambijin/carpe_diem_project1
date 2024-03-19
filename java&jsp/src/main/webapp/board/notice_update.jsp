@@ -135,74 +135,42 @@
 </style>
 
 <script>
+	window.addEventListener("load", function() {
+// 		등록 버튼
+	let cont_text = document.querySelector("#subtext");
+	console.log(cont_text.value);
+// 		document.querySelector("#completion").addEventListener('click',function() {
+// 			//제목
+// 			let title = document.querySelector("#notice_write_title");
+// 			//작성자
+// 			let writer = document.querySelector("#writer");
+// 			//소속도서관
+// 			let lib = document.querySelector("#library");
+// 			let lib_text = lib.options[lib.selectedIndex].value;
+// 			//첨부파일
+// 			let attach = document.querySelector("#file_route");
+// 			//내용
+// 			let cont_text = document.querySelector("#subtext");
+// 			if (title.value != "" && writer.innerHTML != ""
+// 				&& lib_text != "" && cont_text.value != "") {
+// 				alert("등록이 완료되었습니다.");
+// 				location.href = "notice_board";
+// 				} else {alert("첨부파일을 제외한 모든 내용을 작성해주세요.");
+// 				}
+// 		});
 
-	window
-			.addEventListener(
-					"load",
-					function() {
-
-<%-- 						let libs_list = ["<%=library.get(0).get("LB_NAME")%>", "두정도서관", "아우내도서관" ]; --%>
-// 						let libs_list_box = document.querySelector("#library");
-
-// 						for (let i = 0; i < libs_list.length; i++) {
-// 							libs_list_box.innerHTML += "<option>"
-// 									+ libs_list[i] + "</option>";
-// 						}
-
-// 						내용 임의로 채워넣기
-// 						document.querySelector("#notice_write_title").value = "제에목입니다.";
-// 						document.querySelector("#writer").innerHTML = "";
-// 						document.querySelector(".td1 textarea").innerHTML = "내애용입니다";
-
-						// 등록 버튼
-// 						document.querySelector("#completion").addEventListener('click',function() {
-// 											//제목
-// 											let title = document
-// 													.querySelector("#notice_write_title");
-// 											//작성자
-// 											let writer = document
-// 													.querySelector("#writer");
-// 											//소속도서관
-// 											let lib = document
-// 													.querySelector("#library");
-// 											let lib_text = lib.options[lib.selectedIndex].value;
-// 											//첨부파일
-// 											let attach = document
-// 													.querySelector("#file_route");
-// 											//내용
-// 											let cont_text = document
-// 													.querySelector(".td1 textarea");
-
-// 											if (title.value != ""
-// 													&& writer.innerHTML != ""
-// 													&& lib_text != ""
-// 													&& cont_text.value != "") {
-// 												alert("등록이 완료되었습니다.");
-// 												location.href = "notice_board";
-// 											} else {
-// 												alert("첨부파일을 제외한 모든 내용을 작성해주세요.");
-// 											}
-// 										});
-
-						document
-								.querySelector("#upload_file")
-								.addEventListener(
-										"change",
-										function(changeEvent) {
-											// 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
-											// 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
-											// 여기서는 첫 번째 파일만 사용하므로 'files[0]'을 선택합니다.
-											var imgFile = changeEvent.target.files[0];
-
-											// 파일 경로를 표시할 요소를 선택합니다.
-											var fileName = document
-													.getElementById("file_route");
-
-											// 선택한 요소의 값에 파일 이름을 설정합니다.
-											// 이렇게 하면 사용자가 선택한 파일의 이름이 웹 페이지에 표시됩니다.
-											fileName.value = imgFile.name;
-										});
-					})
+		document.querySelector("#upload_file").addEventListener("change",function(changeEvent) {
+			// 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
+			// 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
+			// 여기서는 첫 번째 파일만 사용하므로 'files[0]'을 선택합니다.
+			var imgFile = changeEvent.target.files[0];
+			// 파일 경로를 표시할 요소를 선택합니다.
+			var fileName = document.getElementById("file_route");
+			// 선택한 요소의 값에 파일 이름을 설정합니다.
+			// 이렇게 하면 사용자가 선택한 파일의 이름이 웹 페이지에 표시됩니다.
+			fileName.value = imgFile.name;
+			});
+	});
 </script>
 </head>
 
@@ -271,7 +239,7 @@
 
 					</div>
 					<div class="td1">
-						<textarea name="n_textarea"><%=result_list.get(0).get("N_CONTENT")%></textarea>
+						<textarea name="n_textarea" id="subtext"><%=result_list.get(0).get("N_CONTENT")%></textarea>
 					</div>
 
 					<div class="div_buttonAll">

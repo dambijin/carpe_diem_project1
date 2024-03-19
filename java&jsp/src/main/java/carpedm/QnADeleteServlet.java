@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class QnADeleteServlet
- */
 @WebServlet("/QnA_delete")
 public class QnADeleteServlet extends HttpServlet {
 	
@@ -46,7 +43,6 @@ public class QnADeleteServlet extends HttpServlet {
 		
 		ArrayList<Map<String, String>> delet_notice = deleteDB(delete_nid);
 		response.sendRedirect("QnA_board");
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
