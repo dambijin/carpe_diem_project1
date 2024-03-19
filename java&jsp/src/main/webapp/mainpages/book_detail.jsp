@@ -13,8 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<link href="./css/layout.css" rel="stylesheet">
-
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 <style>
 section {
 	width: 80%;
@@ -150,9 +149,20 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 <script>
 	window.addEventListener("load",function() {
 		document.title ='<%=bookdetail_list.get(0).get("B_TITLE")%>';
+		
+		//책 추천버튼에 이벤트 추가
+        document.querySelector("#book_recommbtn").addEventListener("click", function () {
+        	book_recommbtn();
+        });
 	});
-	// 생성한 HTML을 DOM에 삽입
 
+	
+	function book_recommbtn()
+	{
+		window.open('book_recommend?isbn='+<%=bookdetail_list.get(0).get("B_ISBN")%>,"", "width=900,height=600");
+	}
+	
+	
 	function selboxAllChecked(id) {
 		var allCheck = document.getElementById(id);
 		var selbox = document.getElementsByClassName("selbox")[0];
@@ -221,8 +231,9 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("LB_NAME")%></li>
 						</ul>
 					</dd>
-				</dl>
+				</dl>				
 			</div>
+			<button type="button" id="book_recommbtn">관련 책 추천</button>
 			<div class="table">
 				<h3>소장정보</h3>
 				<table class="responsive">
