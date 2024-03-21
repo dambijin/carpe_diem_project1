@@ -38,12 +38,14 @@ public class book_recommendServlet extends HttpServlet {
 		return result;
 	}
 
-	// 뤼튼에게 요청하고 받아내기(gpt4)
+	// 뤼튼에게 요청하고 받아내기(gpt4.0,wrtn_search)
 	String wrtn_qna(String query) {
 		String result = "";
 		try {
+			String assi_data = "";
+			String ai_model = "wrtn_search";
 			long unixTime = System.currentTimeMillis();
-			URL url_q = new URL("https://william.wow.wrtn.ai/chat/anonymous/start?platform=web&mode=chat&model=gpt4");
+			URL url_q = new URL("https://william.wow.wrtn.ai/chat/anonymous/start?platform=web&mode=chat&model="+ai_model);
 			HttpURLConnection connection_q = (HttpURLConnection) url_q.openConnection();
 
 			// 요청 헤더 설정
@@ -62,73 +64,88 @@ public class book_recommendServlet extends HttpServlet {
 			System.out.println("Response Code: " + responseCode);
 
 			// 웹 페이지 내용 읽기(여기선 getInputStream때 connect가 된다)
-			BufferedReader in = new BufferedReader(new InputStreamReader(connection_q.getInputStream()));
+			BufferedReader in_q = new BufferedReader(new InputStreamReader(connection_q.getInputStream()));
 			StringBuffer rs_q = new StringBuffer();
+			String inputLine;
 
-			while (in.readLine() != null) {
-				rs_q.append(in.readLine());
+            while ((inputLine = in_q.readLine()) != null) {
+                rs_q.append(inputLine);
 			}
-			in.close();
-
+            in_q.close();
+			connection_q.disconnect();
 			// 응답 내용 출력
 			System.out.println(rs_q.toString());
-			String assi_data = getDataOne(rs_q.toString(), "data\":\"", "\"");
+			assi_data = getDataOne(rs_q.toString(), "data\":\"", "\"");
 			System.out.println(assi_data);
 			System.out.println("POST 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+
 			// data값이 있다면 답을 가져오기(1단계, 일종의 답변요청)
 			if (!"".equals(assi_data) && assi_data != null) {
 				// 뤼튼에게 답 받아내기(한번 요청을 하고 나서야 아래 요청이 가능해진다)
 				URL url_a = new URL("https://william.wow.wrtn.ai/chat/anonymous/" + assi_data
-						+ "?model=gpt4.0&platform=web&user=nobody");
-//				URL url_a = new URL("https://william.wow.wrtn.ai/chat/anonymous/"+assi_data+"/result");
+						+ "?model="+ai_model+"&platform=web&user=nobody");
 				HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
 				// 헤더설정
 				configureConnection(connection_a, "" + unixTime, "GET");
 				// 응답 코드 확인(이걸 하면서 connect도 작동된다.)
 				responseCode = connection_a.getResponseCode();
 				System.out.println("Response Code: " + responseCode);
-				System.out.println("GET1 단순히 받아오기만 함 : " + (System.currentTimeMillis() - unixTime));
+				System.out.println("GET1 단순한 응답완료 : " + (System.currentTimeMillis() - unixTime));
 				// 웹 페이지 내용 읽기
 //				BufferedReader in_a = new BufferedReader(new InputStreamReader(connection_a.getInputStream()));
-
 //				String inputLine_a;
 //				StringBuffer rs_a = new StringBuffer();
+//				
 //				while ((inputLine_a = in_a.readLine()) != null) {
 //					rs_a.append(inputLine_a);
 //				}
 //				result = rs_a.toString();
 //				System.out.println(result);
 //				in_a.close();
+//				
 //				첫 번째 요청에서는 응답 본문을 사용하지 않으므로, 연결을 빠르게 종료
 				connection_a.disconnect();
 				System.out.println("GET1 걸린시간 : " + (System.currentTimeMillis() - unixTime));
-				System.out.println("60초 딜레이 시작");
-				Thread.sleep(30000); // 60초 대기
-				System.out.println("60초 딜레이 종료");
+//				System.out.println("딜레이 시작");
+//				Thread.sleep(10000); // 10초 대기
+//				System.out.println("딜레이 종료");
 			}
 			// 최종적으로 정리된 내용을 받아오기위한 get
 			if (!"".equals(assi_data) && assi_data != null) {
-				// 뤼튼에게 답 받아내기
-				URL url_a = new URL("https://william.wow.wrtn.ai/chat/anonymous/" + assi_data + "/result");
-				HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
+				
+				for(int i = 0; i <10; i++)
+				{
+					// 뤼튼에게 답 받아내기
+					URL url_a = new URL("https://william.wow.wrtn.ai/chat/anonymous/" + assi_data + "/result");
+					HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
 
-				// 헤더설정
-				configureConnection(connection_a, "" + unixTime, "GET");
+					// 헤더설정
+					configureConnection(connection_a, "" + unixTime, "GET");
+		
+					responseCode = connection_a.getResponseCode();
+					System.out.println("Response Code: " + responseCode);
+					if(responseCode == 500)
+					{
+						System.out.println("아직 응답을 받지 못해 30초 대기합니다.");
+						Thread.sleep(10000); // 10초 대기
+						continue;
+					}
+					// 웹 페이지 내용 읽기
+					BufferedReader in_a = new BufferedReader(new InputStreamReader(connection_a.getInputStream()));
+					StringBuffer rs_a = new StringBuffer();
 
-				// 웹 페이지 내용 읽기
-				BufferedReader in_a = new BufferedReader(new InputStreamReader(connection_a.getInputStream()));
-				StringBuffer rs_a = new StringBuffer();
+		            while ((inputLine = in_a.readLine()) != null) {
+		                rs_a.append(inputLine);
+					}
+					in_a.close();
+					connection_a.disconnect();
+					System.out.println(rs_a.toString());
+					result = getDataOne(rs_a.toString(), ",\"content\":\"", "\",\"status\"");
 
-				while (in_a.readLine() != null) {
-					rs_a.append(in_a.readLine());
-				}
-				in_a.close();
-				connection_a.disconnect();
-				System.out.println(rs_a.toString());
-				result = getDataOne(rs_a.toString(), ",\"content\":\"","\",\"status\"");
-
-				System.out.println(result);
-				System.out.println("GET2 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+					System.out.println(result);
+					System.out.println("GET2 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+					break;
+				}				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -142,9 +159,10 @@ public class book_recommendServlet extends HttpServlet {
 		connection.setRequestMethod(method);
 		connection.setRequestProperty("Content-Type", "application/json");
 		connection.setRequestProperty("host", "william.wow.wrtn.ai");
+		connection.setRequestProperty("Referer", "https://wrtn.ai/");
 		connection.setRequestProperty("wrtn-locale", "ko-KR");
 		connection.setRequestProperty("x-wrtn-id",
-				"W1.2.2501006464537361220005373612200051024128024.Jg5IsoVnDr1dqsCyFGvg_." + unixTime);
+				"W1.2.2501006464537361220005373612200051024128024.zD5VRxF2iPK1GWakz6wvd." + unixTime);
 //		"W1.2.2501006464537361220005373612200051024128024.obV9sF_ZlFvDyD7GEfHR4." + unixTime);
 //		connection.setRequestProperty("x-wrtn-id", "W1.2.2501006464537361220005373612200051024128024.obV9sF_ZlFvDyD7GEfHR4.1710747589240");
 //		connection.setRequestProperty("x-wrtn-id", "W1.2.2501006464537361220005373612200051024128024.YXvD2j0myi8uUHCZ60lYR.1710806620964");

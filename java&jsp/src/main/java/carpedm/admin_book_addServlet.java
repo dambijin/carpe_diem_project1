@@ -27,7 +27,7 @@ public class admin_book_addServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ArrayList<Map<String, String>> library_list = getDBList("select lb_id,lb_name from library");
-
+		
 		request.setAttribute("library_list", library_list);
 		request.getRequestDispatcher("/admin/admin_book_add.jsp").forward(request, response);
 	}
