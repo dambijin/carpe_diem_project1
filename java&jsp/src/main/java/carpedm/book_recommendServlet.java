@@ -24,17 +24,56 @@ public class book_recommendServlet extends HttpServlet {
 		if (isbn == null || "".equals(isbn)) {
 			isbn = "";
 		}
-		book_AIRecommend(isbn);
+		// http://localhost:8080/carpedm/book_recommend?isbn=9791198530349
+//		book_AIRecommend(isbn);
+		getBookRecommend(isbn);
+	}
+
+	// 알라딘에서
+	void getBookRecommend(String isbn) {
+		try {
+			long unixTime = System.currentTimeMillis();
+			// 뤼튼에게 답 받아내기
+			URL url_a = new URL("https://www.yes24.com/Product/Goods/119782591");
+			HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
+
+			// 헤더설정
+//			configureConnection(connection_a, "" + unixTime, "GET");
+			connection_a.setRequestMethod("GET");
+			connection_a.setRequestProperty("Content-Type", "application/json");
+			int responseCode = connection_a.getResponseCode();
+			System.out.println("Response Code: " + responseCode);
+			if (responseCode == 500) {
+				System.out.println("아직 응답을 받지 못해 10초 대기합니다.");
+				Thread.sleep(10000); // 10초 대기
+			}
+			// 웹 페이지 내용 읽기
+			BufferedReader in_a = new BufferedReader(new InputStreamReader(connection_a.getInputStream()));
+			StringBuffer rs_a = new StringBuffer();
+			String inputLine;
+			while ((inputLine = in_a.readLine()) != null) {
+				rs_a.append(inputLine);
+			}
+			in_a.close();
+			connection_a.disconnect();
+			System.out.println(rs_a.toString());
+			String result = getDataOne(rs_a.toString(), ",\"content\":\"", "\",\"status\"");
+
+			System.out.println(result);
+			System.out.println("GET2 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	// ISBN값을 기준으로 값을 가져오는 웹크롤링 함수
 	private Map<String, String> book_AIRecommend(String isbn) {
-		// 9788901271729 콜드리딩
-		// 9791168473690 세이노
 		Map<String, String> result = new HashMap<String, String>();
 		// 9788901271729 콜드리딩
 		// 9791168473690 세이노
-		System.out.println(wrtn_qna("isbn값이 9791198530349인 책과 비슷한 주제를 다루고 있는 책 5개정도 추천해줘"));
+		System.out.println(
+				wrtn_qna("isbn값이 9788901271729인 책과 비슷한 책 5개 알려줘. 꼭 isbn값을 포함해야 해. 양식은 책 이름 : \\nisbn : 이렇게 작성해줘"));
 		return result;
 	}
 
@@ -43,9 +82,10 @@ public class book_recommendServlet extends HttpServlet {
 		String result = "";
 		try {
 			String assi_data = "";
-			String ai_model = "wrtn_search";
+			String ai_model = "gpt4";
 			long unixTime = System.currentTimeMillis();
-			URL url_q = new URL("https://william.wow.wrtn.ai/chat/anonymous/start?platform=web&mode=chat&model="+ai_model);
+			URL url_q = new URL(
+					"https://william.wow.wrtn.ai/chat/anonymous/start?platform=web&mode=chat&model=" + ai_model);
 			HttpURLConnection connection_q = (HttpURLConnection) url_q.openConnection();
 
 			// 요청 헤더 설정
@@ -68,10 +108,10 @@ public class book_recommendServlet extends HttpServlet {
 			StringBuffer rs_q = new StringBuffer();
 			String inputLine;
 
-            while ((inputLine = in_q.readLine()) != null) {
-                rs_q.append(inputLine);
+			while ((inputLine = in_q.readLine()) != null) {
+				rs_q.append(inputLine);
 			}
-            in_q.close();
+			in_q.close();
 			connection_q.disconnect();
 			// 응답 내용 출력
 			System.out.println(rs_q.toString());
@@ -82,8 +122,8 @@ public class book_recommendServlet extends HttpServlet {
 			// data값이 있다면 답을 가져오기(1단계, 일종의 답변요청)
 			if (!"".equals(assi_data) && assi_data != null) {
 				// 뤼튼에게 답 받아내기(한번 요청을 하고 나서야 아래 요청이 가능해진다)
-				URL url_a = new URL("https://william.wow.wrtn.ai/chat/anonymous/" + assi_data
-						+ "?model="+ai_model+"&platform=web&user=nobody");
+				URL url_a = new URL("https://william.wow.wrtn.ai/chat/anonymous/" + assi_data + "?model=" + ai_model
+						+ "&platform=web&user=nobody");
 				HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
 				// 헤더설정
 				configureConnection(connection_a, "" + unixTime, "GET");
@@ -91,42 +131,25 @@ public class book_recommendServlet extends HttpServlet {
 				responseCode = connection_a.getResponseCode();
 				System.out.println("Response Code: " + responseCode);
 				System.out.println("GET1 단순한 응답완료 : " + (System.currentTimeMillis() - unixTime));
-				// 웹 페이지 내용 읽기
-//				BufferedReader in_a = new BufferedReader(new InputStreamReader(connection_a.getInputStream()));
-//				String inputLine_a;
-//				StringBuffer rs_a = new StringBuffer();
-//				
-//				while ((inputLine_a = in_a.readLine()) != null) {
-//					rs_a.append(inputLine_a);
-//				}
-//				result = rs_a.toString();
-//				System.out.println(result);
-//				in_a.close();
-//				
+
 //				첫 번째 요청에서는 응답 본문을 사용하지 않으므로, 연결을 빠르게 종료
 				connection_a.disconnect();
 				System.out.println("GET1 걸린시간 : " + (System.currentTimeMillis() - unixTime));
-//				System.out.println("딜레이 시작");
-//				Thread.sleep(10000); // 10초 대기
-//				System.out.println("딜레이 종료");
 			}
 			// 최종적으로 정리된 내용을 받아오기위한 get
 			if (!"".equals(assi_data) && assi_data != null) {
-				
-				for(int i = 0; i <10; i++)
-				{
+				for (int i = 0; i < 10; i++) {
 					// 뤼튼에게 답 받아내기
 					URL url_a = new URL("https://william.wow.wrtn.ai/chat/anonymous/" + assi_data + "/result");
 					HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
 
 					// 헤더설정
 					configureConnection(connection_a, "" + unixTime, "GET");
-		
+
 					responseCode = connection_a.getResponseCode();
 					System.out.println("Response Code: " + responseCode);
-					if(responseCode == 500)
-					{
-						System.out.println("아직 응답을 받지 못해 30초 대기합니다.");
+					if (responseCode == 500) {
+						System.out.println("아직 응답을 받지 못해 10초 대기합니다.");
 						Thread.sleep(10000); // 10초 대기
 						continue;
 					}
@@ -134,8 +157,8 @@ public class book_recommendServlet extends HttpServlet {
 					BufferedReader in_a = new BufferedReader(new InputStreamReader(connection_a.getInputStream()));
 					StringBuffer rs_a = new StringBuffer();
 
-		            while ((inputLine = in_a.readLine()) != null) {
-		                rs_a.append(inputLine);
+					while ((inputLine = in_a.readLine()) != null) {
+						rs_a.append(inputLine);
 					}
 					in_a.close();
 					connection_a.disconnect();
@@ -145,7 +168,7 @@ public class book_recommendServlet extends HttpServlet {
 					System.out.println(result);
 					System.out.println("GET2 걸린시간 : " + (System.currentTimeMillis() - unixTime));
 					break;
-				}				
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,11 +176,12 @@ public class book_recommendServlet extends HttpServlet {
 		return result;
 	}
 
-	// 중복 설정을 위한 메소드
+	// 헤더 설정을 위한 메소드
 	private void configureConnection(HttpURLConnection connection, String unixTime, String method)
 			throws ProtocolException {
 		connection.setRequestMethod(method);
 		connection.setRequestProperty("Content-Type", "application/json");
+		connection.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
 		connection.setRequestProperty("host", "william.wow.wrtn.ai");
 		connection.setRequestProperty("Referer", "https://wrtn.ai/");
 		connection.setRequestProperty("wrtn-locale", "ko-KR");
@@ -169,7 +193,7 @@ public class book_recommendServlet extends HttpServlet {
 
 	}
 
-	// 단어 잘라내는 함수
+	// 단어 잘라내는 메소드
 	public String getDataOne(String source, String start, String endString) {
 		int startIndex = source.indexOf(start);
 		int endIndex;
