@@ -115,7 +115,7 @@ public class NoticeDetailServlet extends HttpServlet {
 		nid_query += nid;
 		nid_query += " order by n_id desc";
 
-		System.out.println("N_ID 값: " + nid_query);
+		System.out.println("N_ID 쿼리문: " + nid_query);
 		ArrayList<Map<String, String>> notice = getDBList(nid_query);
 
 		request.setAttribute("notice", notice);

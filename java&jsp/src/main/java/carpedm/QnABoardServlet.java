@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/QnA_board")
 public class QnABoardServlet extends HttpServlet {
@@ -45,39 +46,33 @@ public class QnABoardServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		
-		
 //		---------------------------------------------------------------------
 //		제목을 눌렀을때 QnA_detail.jsp로 넘어가기
 		String nid_list = request.getParameter("N_ID");
-		if(nid_list == null || "".equals(nid_list))
-		{
-			nid_list="";
+		if (nid_list == null || "".equals(nid_list)) {
+			nid_list = "";
 		}
 		request.setAttribute("N_ID", nid_list);
-	
-		
-		//검색어가져오기
+
+		// 검색어가져오기
 		String searchWord = request.getParameter("search");
 		if (searchWord == null || "".equals(searchWord)) {
 			searchWord = "";
 		}
-		
+
 		String select = request.getParameter("n_search");
 		String select_sql = "";
 		System.out.println(select);
-		
 
 		if (select == null || "".equals(select)) {
-			select="제목";
+			select = "제목";
 		}
 		if (select.equals("제목")) {
-			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%'";
+			select_sql = " AND N_TITLE LIKE '%" + searchWord + "%'";
 		} else if (select.equals("제목 내용")) {
-			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%' OR N_CONTENT LIKE '%"+searchWord+"%'";
-		} 
-		
-		
+			select_sql = " AND N_TITLE LIKE '%" + searchWord + "%' OR N_CONTENT LIKE '%" + searchWord + "%'";
+		}
+
 //		실행할 쿼리문
 		String notice = "";
 		notice += "SELECT notice.*,  member.M_NAME";
@@ -86,8 +81,8 @@ public class QnABoardServlet extends HttpServlet {
 		notice += "	WHERE  N_OPT IN (1, 2)";
 		notice += select_sql;
 		notice += "	ORDER BY n_id DESC";
-		System.out.println("notice쿼리 : "+notice);
-		ArrayList<Map<String,String>> list = getDBList(notice);
+		System.out.println("notice쿼리 : " + notice);
+		ArrayList<Map<String, String>> list = getDBList(notice);
 
 		String page = request.getParameter("page");
 		if (page == null || "".equals(page)) {
@@ -123,13 +118,12 @@ public class QnABoardServlet extends HttpServlet {
 		request.setAttribute("list", pageList);
 		request.setAttribute("allcount", list.size());
 //		request.setAttribute("list", list);
-		
 
-		
 //		board/QnA_board.jsp와 이어줌
 		request.getRequestDispatcher("board/QnA_board.jsp").forward(request, response);
 	}
-	
+
+
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
@@ -143,18 +137,18 @@ public class QnABoardServlet extends HttpServlet {
 			int columnCount = rsmd.getColumnCount();
 
 			while (rs.next()) {
-			    Map<String, String> map = new HashMap<String, String>();
+				Map<String, String> map = new HashMap<String, String>();
 
-			    for (int i = 1; i <= columnCount; i++) {
-			        String columnName = rsmd.getColumnName(i);
-			        map.put(columnName, rs.getString(columnName));
-			    }
+				for (int i = 1; i <= columnCount; i++) {
+					String columnName = rsmd.getColumnName(i);
+					map.put(columnName, rs.getString(columnName));
+				}
 
-			    result_list.add(map);
+				result_list.add(map);
 //			    값 잘 나오는지 확인
 //			    System.out.println(map.get("N_ID"));
 			}
-			
+
 			rs.close();
 			ps.close();
 			conn.close();

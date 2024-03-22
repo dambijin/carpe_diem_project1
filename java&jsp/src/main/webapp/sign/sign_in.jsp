@@ -152,7 +152,7 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            alert("로그인 성공");
+//                             alert("로그인 성공");
                             location.href = 'main'; // 메인 페이지로 이동
                         } else {
                             alert("아이디 또는 비밀번호가 잘못되었습니다.");

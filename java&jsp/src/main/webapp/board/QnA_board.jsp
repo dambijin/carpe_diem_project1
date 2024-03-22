@@ -41,9 +41,10 @@
         let login_nid= <%=login_m_pid%>;
         let hrefValue = document.querySelector("#title_st").getAttribute("href");
 		
-		document.querySelector("#title_st").addEventListener('click', function () {
-			
-			cosole.log(hrefValue);
+        
+        
+// 		document.querySelector("#title_st").addEventListener('click', function () {
+// 			cosole.log(hrefValue);
 // 			if(document.querySelector("#close_id").value === 0){
 // 				if(login_nid==nid){
 // // 				href가 사용가능
@@ -56,7 +57,7 @@
 // // 				href가 사용가능
 // 				window.location.href = hinid;
 // 			}
-		});
+// 		});
 		
 		
 	});
@@ -282,6 +283,7 @@
 								class="change_handwriting request search_button" value="검색"
 								onclick="search_box()">
 						</div>
+						<form method="post" action="QnA_board">
 						<table class="board_sub">
 							<tr>
 								<th class="board_subject">순번</th>
@@ -303,7 +305,7 @@
 							<tr>
 								<td id="nid_value"><%=list.get(i).get("N_ID")%></td>
 								<td name="close_tx">
-								<input type="hidden" id="close_id" value="<%=list.get(i).get("N_OPT")%>">
+								<input type="hidden" id="close_id" value="<%=list.get(i).get("N_OPT")%>" name="n_opt">
 									<%
 									if (list.get(i).get("N_OPT").equals(open)) {
 									%> 공개 <%
@@ -313,7 +315,8 @@
 									%>
 								</td>
 								<td>
-								<a id="title_st" href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a">
+								<a id="title_st" href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"
+								value="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" name="a_tag">
 									<%=list.get(i).get("N_TITLE")%>
 								</a>
 								</td>
@@ -321,6 +324,8 @@
 									<%String name = list.get(i).get("M_NAME");										
 									String rename = name.substring(0, 1) + "**"; %>
 									<%=rename%>
+									<input type="hidden" name="m_writer_id" value="<%=list.get(0).get("M_PID")%>">
+									
 								</td>
 								<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
 								<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
@@ -329,6 +334,7 @@
 							}
 							%>
 						</table>
+						</form>
 					</div>
 					<div class="paging_writing">
 

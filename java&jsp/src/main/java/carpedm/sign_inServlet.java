@@ -125,6 +125,7 @@ public class sign_inServlet extends HttpServlet {
 			// 로그인 성공: 세션에 사용자 정보를 저장하고 클라이언트에게 로그인 성공 메시지를 보냅니다.
 			HttpSession session = request.getSession();
 			session.setAttribute("m_pid", idpw_list.get(0).get("M_PID"));
+			session.setAttribute("m_managerchk", idpw_list.get(0).get("M_MANAGERCHK"));
 			
 		    // 세션 ID를 쿠키에 저장합니다.
 		    Cookie sessionCookie = new Cookie("lc", idpw_list.get(0).get("M_MANAGERCHK"));

@@ -21,8 +21,6 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/QnA_detail")
 public class QnADetailServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
 	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
@@ -49,133 +47,46 @@ public class QnADetailServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		String url = request.getRequestURL().toString(); // 현재 URL 가져오기
-		String queryString = request.getQueryString(); // 쿼리 문자열 가져오기
+		String nid = request.getParameter("N_ID");
+		System.out.println("가져온 nid : " + nid);
 
-		int nid = 0;
-		if (queryString != null) {
-			String[] params = queryString.split("&"); // 쿼리 파라미터 분리
-
-			for (String param : params) {
-				String[] keyValue = param.split("="); // 파라미터 이름과 값 분리
-				String paramName = keyValue[0]; // 파라미터 이름
-				String paramValue = keyValue.length > 1 ? keyValue[1] : ""; // 파라미터 값
-
-				if (paramName.equals("N_ID")) {
-					nid = Integer.parseInt(paramValue);
-				}
-			}
-		}
-
-//			실행할 쿼리문
-		String nid_query = "";
-		nid_query += "SELECT * FROM notice where";
-		nid_query += " n_id=";
+//		실행할 쿼리문
+		String nid_query = "SELECT n.*, m.M_NAME, l.LB_NAME";
+		nid_query += " FROM notice n";
+		nid_query += " INNER JOIN member m ON n.M_PID = m.M_PID";
+		nid_query += " INNER JOIN library l ON n.LB_ID = l.LB_ID";
+		nid_query += " WHERE n.n_id = ";
 		nid_query += nid;
-		nid_query += " order by n_id desc";
 
-		System.out.println("N_ID 값: " + nid_query);
+		System.out.println("N_ID 들어간 쿼리: " + nid_query);
 		ArrayList<Map<String, String>> notice = getDBList(nid_query);
 
 		request.setAttribute("notice", notice);
 
-//		멤버 가져오기
-		String mPid = "";
-		if (notice != null && !notice.isEmpty()) {
-			for (int i = 0; i < notice.size(); i++) {
-				Map<String, String> row = notice.get(i);
-				mPid = row.get("M_PID");
-				System.out.println("mPid 값: " + mPid);
-			}
-		}
-
-//		멤버 쿼리문
-		String member_query = "";
-		member_query += "SELECT *";
-		member_query += " FROM MEMBER where";
-		member_query += " M_PID=";
-		member_query += mPid;
-		ArrayList<Map<String, String>> member = getDBList(member_query);
-
-		request.setAttribute("member", member);
-
-//		도서관 가져오기
-		String lb_id = "";
-		if (notice != null && !notice.isEmpty()) {
-			for (int i = 0; i < notice.size(); i++) {
-				Map<String, String> row = notice.get(i);
-				lb_id = row.get("LB_ID");
-				System.out.println("lb_id 값: " + lb_id);
-			}
-		}
-
-//		도서관 쿼리문
-		String library = "";
-		library += "SELECT *";
-		library += " FROM LIBRARY ";
-		library += " where LB_ID=";
-		library += lb_id;
-		ArrayList<Map<String, String>> library_list = getDBList(library);
-		request.setAttribute("library_list", library_list);
-
-		String notice_id = "";
-		if (notice != null && !notice.isEmpty()) {
-			for (int i = 0; i < notice.size(); i++) {
-				Map<String, String> row = notice.get(i);
-				notice_id = row.get("N_ID");
-			}
-		}
-
-		try {
-			// 데이터 베이스 연결
-			Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-
-			String sql = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
-
-			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, notice_id);
-//	        executeUpdate : 업데이트 하는 sql문 작성됨
-			int rowCount = pst.executeUpdate();
-			if (rowCount > 0) {
-//	        	가져올 쿼리문
-			} else {
-				System.out.println("조회수 증가 실패");
-			}
-
-			String UPDATE = "select * from notice where N_ID=";
-			UPDATE += notice_id;
-			ArrayList<Map<String, String>> update = getDBList(UPDATE);
-			request.setAttribute("update", update);
-
-			// 리소스 닫기
-			pst.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
 		HttpSession getSession = request.getSession();
 		String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 아이디
-
-		String query = "";
-		query += "SELECT * FROM member where ";
-		query += "M_PID = ";
-		query += login_m_pid;
-
-		ArrayList<Map<String, String>> m_pid = getDBList(query);
-
-		request.setAttribute("m_pid", m_pid);
+		// M_MANAGERCHK 매니저인지 아닌지 구분
+		String login_manager = (String) getSession.getAttribute("m_managerchk");
+		// 게시물 비공개 공개 여부
+		String opt = notice.get(0).get("N_OPT");
+		String mpid = notice.get(0).get("M_PID");
+//		QnA게시물 아이디
+		boolean upchk = true; // 조회수를 올릴지 말지 결정하는 체크 값
+		if ((login_m_pid == null || !login_m_pid.equals(mpid)) && opt.equals("2")) {
+			// 비공개글을 들어갔을 때 로그인이 안되어있거나, 해당 작성자가 아니면 체크값을 false로 변경
+			upchk = false;
+		}
 		
-		String manager = "";
-		if (m_pid != null && !m_pid.isEmpty()) {
-			for (int i = 0; i < m_pid.size(); i++) {
-				Map<String, String> row = m_pid.get(i);
-				manager = row.get("M_MANAGERCHK");
-//				System.out.println("manager 값: " + manager);
-			}
+		System.out.println(login_manager);
+		if (login_manager != null && login_manager.equals("Y")) {
+			upchk = true;
 		}
 
-		request.setAttribute("manager", manager);
+		if (upchk) {// 체크값이 true로 온전한 상태면 조회수 증가
+			String update = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
+			viewUpdate(update, nid);
+		}
+
 		request.getRequestDispatcher("board/QnA_detail.jsp").forward(request, response);
 
 	}
@@ -214,4 +125,24 @@ public class QnADetailServlet extends HttpServlet {
 		return result_list;
 	}
 
+	public static void viewUpdate(String notice, String nid) {
+		try {
+			// 데이터 베이스 연결
+			Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			PreparedStatement pst = conn.prepareStatement(notice);
+			pst.setString(1, nid);
+//			executeUpdate : 업데이트 하는 sql문 작성됨
+			int rowCount = pst.executeUpdate();
+			if (rowCount > 0) {
+//			가져올 쿼리문
+			} else {
+				System.out.println("조회수 증가 실패");
+			}
+			// 리소스 닫기
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

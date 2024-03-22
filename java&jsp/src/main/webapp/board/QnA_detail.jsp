@@ -21,21 +21,26 @@ window.onload = function() {
 // 	수정, 삭제 버튼 보이기 안보이기
 	<%HttpSession getSession = request.getSession();
 	String login_m_pid = (String) getSession.getAttribute("m_pid");
-	List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
-	List<Map<String, String>> notice = (List<Map<String, String>>) request.getAttribute("notice");%>
+	String login_manger = (String) getSession.getAttribute("m_managerchk");
+	List<Map<String, String>> select = (List<Map<String, String>>) request.getAttribute("notice");
+	%>
     var login_mpid = "<%=login_m_pid%>"; 
-    var mpid = "<%=member.get(0).get("M_PID")%>"; 
+    var mpid = "<%=select.get(0).get("M_PID")%>"; 
     
     
-    var mgChk = "<%=request.getAttribute("manager")%>";
+    var mgChk = "<%=login_manger%>";
 		var qnabut = document.querySelector("#qna_but"); // 수정 
 		var debut = document.querySelector("#delet_but"); // 삭제 
 		var mgbut = document.querySelector("#detail_but"); // 답글
-
+	
 		if (login_mpid == mpid) {
 			qnabut.style.display = "inline-block";
-		} else {
-			qnabut.style.display = "none";
+		} else {			
+			if(<%=select.get(0).get("N_OPT")%>==2 && mgChk != "Y"){
+				location.href="QnA_board";
+				alert("비공개 글입니다.");
+			}
+			qnabut.style.display = "none";			
 		}
 		//  로그인한 아이디와 게시물 작성자가 일치하고, 관리자라면 보이게
 		if (login_mpid == mpid || mgChk == "Y") {
@@ -44,7 +49,7 @@ window.onload = function() {
 			debut.style.display = "none";
 		}
 
-		//     관리자는 답글 보이게
+		//   관리자는 답글 보이게
 		if (mgChk == "Y") {
 			mgbut.style.display = "inline-block";
 		} else {
@@ -268,13 +273,7 @@ window.onload = function() {
 	<header></header>
 	<section>
 
-		<%
-		List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
-		List<Map<String, String>> library = (List<Map<String, String>>) request.getAttribute("library_list");
-		List<Map<String, String>> update = (List<Map<String, String>>) request.getAttribute("update");
-
-		Map<String, String> map = new HashMap<String, String>();
-		%>
+		
 
 		<div class="s_section">
 			<div class="left_section">
@@ -292,42 +291,46 @@ window.onload = function() {
 					<table>
 						<tr>
 							<td class="subject">제목</td>
-							<td colspan="5" class="subject_title" id="qna_title"><%=result_list.get(0).get("N_TITLE")%></td>
+							<td colspan="5" class="subject_title" id="qna_title"><%=select.get(0).get("N_TITLE")%></td>
 						</tr>
 						<tr>
 							<td class="subject">작성자</td>
-							<td class="writer"><%String name = member.get(0).get("M_NAME");										
+							<td class="writer"><%String name = select.get(0).get("M_NAME");										
 									String rename = name.substring(0, 1) + "**"; %>
-									<%=rename%></td>
+									<%=rename%>
+									<input type="hidden" value="<%=select.get(0).get("N_OPT")%>" name="NOPT">
+									<input type="hidden" value="<%=select.get(0).get("M_PID")%>" name="mpid">
+									
+									</td>
 							<td class="subject">등록일</td>
-							<td><%=result_list.get(0).get("N_DATE").substring(0, 10)%></td>
+							<td><%=select.get(0).get("N_DATE").substring(0, 10)%></td>
 							<td class="subject">조회</td>
-							<td class="inquiry"><%=update.get(0).get("N_VIEWCOUNT")%></td>
+							<td class="inquiry"><%=select.get(0).get("N_VIEWCOUNT")%></td>
 						</tr>
 						<tr>
 							<td class="subject">도서관</td>
-							<td colspan="5"><%=library.get(0).get("LB_NAME")%></td>
+							<td colspan="5"><%=select.get(0).get("LB_NAME")%></td>
 						</tr>
 						<tr>
 							<td class="subject">첨부</td>
 							<td colspan="5" id="subject_file">
 								<%
-								if (result_list.get(0).get("N_FILE") == null) {
+								if (select.get(0).get("N_FILE") == null) {
 									out.print(" ");
 								} else {
-									out.print(result_list.get(0).get("N_FILE"));
+									out.print(select.get(0).get("N_FILE"));
 								}
 								%>
 							</td>
 						</tr>
 						<tr>
-							<td class="content" colspan="6"><%=result_list.get(0).get("N_CONTENT")%></td>
+							<td class="content" colspan="6"><%=select.get(0).get("N_CONTENT")%></td>
 						</tr>
 					</table>
 
 					<div id=qna_but>
 						<button type="button" class="notice_but" id="QnAupdate"
-							onclick="location.href='QnA_update?N_ID=<%=result_list.get(0).get("N_ID")%>';">수정</button>
+							onclick="location.href='QnA_update?N_ID=<%=select.get(0).get("N_ID")%>';">수정</button>
 					</div>
 
 					<div id="detail_but">
@@ -337,7 +340,7 @@ window.onload = function() {
 					<div id="delet_but">
 						<form method="get" action="QnA_delete">
 							<button type="submit" class="notice_but"
-								onclick="location.href='QnA_delete?N_ID=<%=result_list.get(0).get("N_ID")%>';">삭제</button>
+								onclick="location.href='QnA_delete?N_ID=<%=select.get(0).get("N_ID")%>';">삭제</button>
 						</form>
 					</div>
 					<hr class="detail_hr">
