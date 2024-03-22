@@ -59,56 +59,56 @@
 
     // 회원정보 수정
     // 수정버튼 누르면 알림창 띄우기 (내용도 같이)
-    function chgInfo() {
-        // 회원 정보 수정 로직 추가
-        var name = document.querySelector("td:nth-child(2)").textContent;
-        var password = document.querySelector("#password").value;
-        var password_check = document.querySelector("#password_check").value;
-        var phoneNumber = document.querySelector("input[name='phone_number']").value;
+//     function chgInfo() {
+//         // 회원 정보 수정 로직 추가
+//         var name = document.querySelector("td:nth-child(2)").textContent;
+//         var password = document.querySelector("#password").value;
+//         var password_check = document.querySelector("#password_check").value;
+//         var phoneNumber = document.querySelector("input[name='phone_number']").value;
 
-        var smsCheck = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
-        var emailInput1_text = document.getElementById("emailId1").value;
-        var emailInput2_text = document.getElementById("emailId2").value;
-        var emailSelection = document.getElementById("select_email").value;
-        var emailReception = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
+//         var smsCheck = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
+//         var emailInput1_text = document.getElementById("emailId1").value;
+//         var emailInput2_text = document.getElementById("emailId2").value;
+//         var emailSelection = document.getElementById("select_email").value;
+//         var emailReception = document.querySelector("input[name='sms']:checked") ? "예" : "아니오";
 
-        // 비밀번호 확인 다르면 수정 안됨
-        if (password == "") {   //비밀번호칸에 내용에 없을 때
-            // 변경된 정보 메시지 생성
-            var changed_Message = name + "님의 정보가 변경되었습니다.\n" +
-                "비밀번호 : " + password + "\n" +
-                "휴대폰 번호 : " + phoneNumber + "\n" +
-                "SMS 수신 동의 여부 : " + smsCheck + "\n" +
-                "이메일 : " + emailInput1_text + "@" + emailInput2_text + "\n" +
-                "이메일 수신 동의 여부 : " + emailReception;
+//         // 비밀번호 확인 다르면 수정 안됨
+//         if (password == "") {   //비밀번호칸에 내용에 없을 때
+//             // 변경된 정보 메시지 생성
+//             var changed_Message = name + "님의 정보가 변경되었습니다.\n" +
+//                 "비밀번호 : " + password + "\n" +
+//                 "휴대폰 번호 : " + phoneNumber + "\n" +
+//                 "SMS 수신 동의 여부 : " + smsCheck + "\n" +
+//                 "이메일 : " + emailInput1_text + "@" + emailInput2_text + "\n" +
+//                 "이메일 수신 동의 여부 : " + emailReception;
 
-            // 변경된 정보 메시지를 알림창으로 표시
-            alert(changed_Message);
-            location.href = "/carpedm/admin/admin_member_list";
-        } else {  //내용이 있을때
-            if (password === password_check) {   //비밀번호칸과 비밀번호 확인칸이 동일할 때
-                // 변경된 정보 메시지 생성
-                var changed_Message = name + "님의 정보가 변경되었습니다.\n" +
-                    "비밀번호 : " + password + "\n" +
-                    "휴대폰 번호 : " + phoneNumber + "\n" +
-                    "SMS 수신 동의 여부 : " + smsCheck + "\n" +
-                    "이메일 : " + emailInput1_text + "@" + emailInput2_text + "\n" +
-                    "이메일 수신 동의 여부 : " + emailReception;
+//             // 변경된 정보 메시지를 알림창으로 표시
+//             alert(changed_Message);
+//             location.href = "/carpedm/admin/admin_member_list";
+//         } else {  //내용이 있을때
+//             if (password === password_check) {   //비밀번호칸과 비밀번호 확인칸이 동일할 때
+//                 // 변경된 정보 메시지 생성
+//                 var changed_Message = name + "님의 정보가 변경되었습니다.\n" +
+//                     "비밀번호 : " + password + "\n" +
+//                     "휴대폰 번호 : " + phoneNumber + "\n" +
+//                     "SMS 수신 동의 여부 : " + smsCheck + "\n" +
+//                     "이메일 : " + emailInput1_text + "@" + emailInput2_text + "\n" +
+//                     "이메일 수신 동의 여부 : " + emailReception;
 
-                // 변경된 정보 메시지를 알림창으로 표시
-                alert(changed_Message);
-                location.href = "/carpedm/admin_member_list";
+//                 // 변경된 정보 메시지를 알림창으로 표시
+//                 alert(changed_Message);
+//                 location.href = "/carpedm/admin_member_list";
 
-            } else {   //비밀번호칸과 비밀번호 확인칸이 동일하지 않을 때
-                // 비밀번호 불일치 시 알림
-                document.querySelector("#password").value = "";
-                document.querySelector("#password_check").value = "";
-                alert("비밀번호를 다시 확인해주세요.");
-            }
+//             } else {   //비밀번호칸과 비밀번호 확인칸이 동일하지 않을 때
+//                 // 비밀번호 불일치 시 알림
+//                 document.querySelector("#password").value = "";
+//                 document.querySelector("#password_check").value = "";
+//                 alert("비밀번호를 다시 확인해주세요.");
+//             }
 
-        }
+//         }
 
-    }
+//     }
 
 
     // 주소찾기
@@ -317,19 +317,19 @@
 	            <tr>
 	                <th height="40px">생년월일</th>
 	                <td name="date">
-	                <input type="date" id="yymmdd" value="<%=data_list.get(0).get("m_birthday").substring(0,10)%>">
+	                <input type="date" name="date" id="yymmdd" value="<%=data_list.get(0).get("m_birthday").substring(0,10)%>">
 	                </td>
 	            </tr>
 	            <tr>
 	                <th height="40px">아이디</th>
 	                <td name="id">
-	                	<input type="text" id="userid" value="<%=data_list.get(0).get("m_id")%>">
+	                	<input type="text" name="id" id="userid" value="<%=data_list.get(0).get("m_id")%>">
 	                </td>
 	            </tr>
 	            <tr>
 	                <th height="40px">비밀번호</th>
 	                <td name="pw">
-	                 <input type="password" name="text" id="password" maxlength="20" 
+	                 <input type="password" name="pw" id="password" maxlength="20" 
 	                		placeholder=" 비밀번호를 입력해주세요." value="<%=data_list.get(0).get("m_pw")%>">
 	                </td>
 	            </tr>
@@ -338,7 +338,7 @@
 	                <th height="40px">비밀번호확인</th>
 	
 	                <td name="pw">
-	                    <input type="password" id="password_check" name="password_check" maxlength="16"
+	                    <input type="password" id="password_check" name="pw_chk" maxlength="16"
 	                        placeholder=" 비밀번호를 확인해주세요.">
 	                </td>
 	            </tr>
@@ -397,7 +397,8 @@
     <!-- 수정 취소 -->
     <div class="input">
     <form method="get" action="admin_member_change">
-        <input type="submit" value="수정" class="button" onclick="chgInfo()">    
+						<!--  이거 구현하기 -->
+        <input type="submit" value="수정" class="button" onclick="">    
     </form>
         <input type="reset" value="취소" class="button" onclick="location.href='/carpedm/admin_member_list';">
     </div>

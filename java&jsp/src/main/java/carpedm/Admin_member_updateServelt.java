@@ -10,25 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/admin_member_chginfo")
-public class Admin_member_changeServelt extends HttpServlet {
+@WebServlet("/admin_member_update")
+public class Admin_member_updateServelt extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// DAO 인스턴스 생성
 		Admin_member_chginfoDAO dao = new Admin_member_chginfoDAO();
 			
-		String M_pid = request.getParameter("M_pid");
+		String m_pid = (String)request.getParameter("m_pid");
 		String date = request.getParameter("date");
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
-		String number = request.getParameter("number");
+		String number = request.getParameter("phone_number");
 		String email1 = request.getParameter("email1");
 		String email2 = request.getParameter("email2");
 		String address = request.getParameter("address");
 
-		admin_chginfo_BookDTO bookDTO = new admin_chginfo_BookDTO(); // EmpDTO 객체 생성 및 설정
-		bookDTO.setM_id(M_pid);
+		admin_chginfo_BookDTO bookDTO = new admin_chginfo_BookDTO();
+		bookDTO.setM_id(m_pid);
 		bookDTO.setM_id(date);
 		bookDTO.setM_id(id);
 		bookDTO.setM_id(pw);

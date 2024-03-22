@@ -174,7 +174,7 @@
 	        // 새로운 행을 테이블에 추가
 	        memberListBody.appendChild(tr); 
 	        
-	        // Add the necessary cells and data to the new row 
+	        
 	        var cells=[ 
 	        	(i +1),data[i].m_pid, data[i].m_name, data[i].m_id, data[i].m_birthday, data[i].m_tel, data[i].m_address, data[i].lb_id, 
 	        	'<div class="overdue_name" onclick="openOverduePopup()">3일</div>' , 
