@@ -436,7 +436,8 @@
 
 
 		<!-- table -->
-			<div class="detail_tabel">
+		<div class="detail_tabel">
+			<form method="get" action="admin_book_list">
 				<table border="0" width="1200" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc"
 					id="todo_booktable">
 					<thead>
@@ -480,13 +481,17 @@
 					%>
 					</tbody>
 				</table>
-			</div>
+				<input type="hidden" style="display: none;" name="b_id"
+							value="<%=data_list.get(0).get("b_id")%>">
+			</form>
+				
+		</div>
 	
 
 		<!-- 등록 삭제 -->
 		<div class="input1">
 			<button type="button" class="button" onclick="bookadd_popup()">등록</button>
-			<button type="button" class="button" id="button_cancle">폐기</button>
+			<button type="submit" class="button" id="button_cancle" name="delete">폐기</button>
 		</div>
 
 		<!-- 쪽이동 -->

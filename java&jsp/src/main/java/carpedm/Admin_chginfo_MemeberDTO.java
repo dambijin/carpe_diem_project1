@@ -1,8 +1,8 @@
 package carpedm;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class admin_chginfo_BookDTO {
+public class Admin_chginfo_MemeberDTO {
 
 	int m_pid;
 	String m_id;

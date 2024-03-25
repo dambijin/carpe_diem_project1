@@ -37,16 +37,6 @@ public class admin_member_chginfoServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/admin/admin_member_chginfo.jsp").forward(request, response);
 	
-		// 나중에 나눠서 작업할 예정
-		// DAO 인스턴스 생성
-//		Admin_member_chginfoDAO DAO = new Admin_member_chginfoDAO();
-		
-		// 수정기능 구현
-//		List emp = Change();
-//		for(int i = 0; i < emp.size(); i++) {
-//			List empDTO = (List) emp.get(i);
-//			empDTO.getEmpno();
-//		}
 	}
 
 
@@ -108,26 +98,26 @@ public class admin_member_chginfoServlet extends HttpServlet {
 		return result_list;
 	}
 	
-	List Change() {
-		
-		try {
-			Connection conn = getConnection();
-			
-			String query = "update emp2 set ename=?";
-			query += " where is not null";
-			
-			PreparedStatement ps;
-			
-			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			
-			System.out.println("query:" + query);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-		
-	}
+//	List Change() {
+//		
+//		try {
+//			Connection conn = getConnection();
+//			
+//			String query = "update emp2 set ename=?";
+//			query += " where is not null";
+//			
+//			PreparedStatement ps;
+//			
+//			ps = conn.prepareStatement(query);
+//			ResultSet rs = ps.executeQuery();
+//			
+//			System.out.println("query:" + query);
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//		
+//	}
 	
 }

@@ -29,7 +29,7 @@ public class Admin_member_chginfoDAO {
 	private void connDB() {
 		try {
 			Context ctx = new InitialContext();
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/oracle");
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/team");
 			// DataSource로부터 Connection을 얻어옴
 			this.con =  dataFactory.getConnection();
 			
@@ -82,11 +82,11 @@ public class Admin_member_chginfoDAO {
 //			}
 //			return result_list;
 //		}
-	List listBook() {
-		return listBook(EMPTY_EMPNO);
+	List listMember() {
+		return listMember(EMPTY_EMPNO);
 	}
 	
-	public List listBook(int m_pid) {
+	public List listMember(int m_pid) {
 		/* 꼭 써야함!! */
 		connDB();
 //		Connection con2 = connDB2();
@@ -121,7 +121,7 @@ public class Admin_member_chginfoDAO {
 				String m_name = rs.getString("m_name");
 				String m_tel = rs.getString("m_tel");
 				String m_email = rs.getString("m_email");
-				Date m_birthday = (Date)rs.getDate("m_birthday");
+				Date m_birthday = rs.getDate("m_birthday");
 				String m_address = rs.getString("m_address");
 				String m_email_agree = rs.getString("m_email_agree");
 				int m_loanstate = rs.getInt("m_loanstate");
@@ -130,20 +130,19 @@ public class Admin_member_chginfoDAO {
 				
 				System.out.println("m_pid : "+ m_pid1);
 				
-				admin_chginfo_BookDTO bookDTO = new admin_chginfo_BookDTO();
-				bookDTO.setM_pid(m_pid1);
-				bookDTO.setM_pid(m_pid1);
-				bookDTO.setM_pw(m_pw);
-				bookDTO.setM_name(m_name);
-				bookDTO.setM_tel(m_tel);
-				bookDTO.setM_email(m_email);
-				bookDTO.setM_birthday(m_birthday);
-				bookDTO.setM_address(m_address);
-				bookDTO.setM_email_agree(m_email_agree);
-				bookDTO.setM_loanstate(m_loanstate);
-				bookDTO.setM_managerchk(m_managerchk);
+				Admin_chginfo_MemeberDTO dto = new Admin_chginfo_MemeberDTO();
+				dto.setM_pid(m_pid1);
+				dto.setM_pw(m_pw);
+				dto.setM_name(m_name);
+				dto.setM_tel(m_tel);
+				dto.setM_email(m_email);
+				dto.setM_birthday(m_birthday);
+				dto.setM_address(m_address);
+				dto.setM_email_agree(m_email_agree);
+				dto.setM_loanstate(m_loanstate);
+				dto.setM_managerchk(m_managerchk);
 				
-				list.add(bookDTO);
+				list.add(dto);
 			}
 			
 		} catch (Exception e) {
@@ -180,7 +179,7 @@ public class Admin_member_chginfoDAO {
 		return list;
 
 	}
-	int insertBook(admin_chginfo_BookDTO bookDTO) {
+	int insertBook(Admin_chginfo_MemeberDTO dto) {
 		int result = -9999;
 		
 		/* 꼭 써야함!! */
@@ -191,14 +190,14 @@ public class Admin_member_chginfoDAO {
 		try {
 			// SQL 준비
 			String query = " insert into member (m_pid, m_id, m_pw, m_name)";
-			query += 	   " values(?, ?, ?, ?) ";
+			query += " values(?, ?, ?, ?) ";
 
 			ps = con.prepareStatement(query);
 			
-			ps.setInt(1, bookDTO.getM_pid());
-			ps.setString(2, bookDTO.getM_id());
-			ps.setString(3, bookDTO.getM_pw());
-			ps.setString(4, bookDTO.getM_name());
+			ps.setInt(1, dto.getM_pid());
+			ps.setString(2, dto.getM_id());
+			ps.setString(3, dto.getM_pw());
+			ps.setString(4, dto.getM_name());
 
 			// SQL 실행 및 결과 확보
 			result = ps.executeUpdate();
@@ -231,7 +230,7 @@ public class Admin_member_chginfoDAO {
 		
 
 	// 수정메소드
-	int updateBook(admin_chginfo_BookDTO bookDTO) {
+	int updateBook(Admin_chginfo_MemeberDTO dto) {
 		int result = -9999;
 		/* 꼭 써야함!! */
 		connDB();
@@ -243,30 +242,32 @@ public class Admin_member_chginfoDAO {
 		try {
 			String query = "UPDATE member";
 			query += " SET ";
-			query += " M_pw=?, ";
-			query += " M_name=?, ";
-			query += " M_tel=?, ";
-			query += " M_email=?, ";
-			query += " M_birthday=?, ";
-			query += " M_address=?, ";
-			query += " M_email_agree=? ";
-			query += " where m_id = ?";
+			query += " m_name=?, ";
+			query += " m_birthday=?, ";
+			query += " m_id=?, ";
+			query += " m_pw=?, ";
+			query += " m_tel=?, ";
+			query += " m_email=?, ";
+			query += " m_address=? ";
+			query += " where m_pid = ?";
 			
 			ps = con.prepareStatement(query);
-			
-			ps.setString(1, bookDTO.getM_pw());
-			ps.setString(2, bookDTO.getM_name());
-			ps.setString(3, bookDTO.getM_tel());
-			ps.setString(4, bookDTO.getM_email());
-			ps.setDate(5, (Date)bookDTO.getM_birthday());
-			ps.setString(6, bookDTO.getM_address());
-			ps.setString(7, bookDTO.getM_email_agree());
-			ps.setString(8, bookDTO.getM_id());
+
+			System.out.println("dto.getM_id() : " + dto.getM_id());
+			ps.setString(1, dto.getM_name());
+			ps.setDate(2, (Date)dto.getM_birthday());
+			ps.setString(3, dto.getM_id());
+			ps.setString(4, dto.getM_pw());
+			ps.setString(5, dto.getM_tel());
+			ps.setString(6, dto.getM_email());
+			ps.setString(7, dto.getM_address());
+			ps.setInt(8, dto.getM_pid());
 			
 			System.out.println("query:" + query);
 			
 			// SQL 실행 및 결과 확보
 			result = ps.executeUpdate();
+			System.out.println("성공 수 :" + result);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 @WebServlet("/admin_book_list")
 public class admin_book_listServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,6 +26,13 @@ public class admin_book_listServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=utf-8;");
+		
+		// 데이터베이스 연동을 위한 DAO 객체 생성
+		admin_book_listDAO DAO = new admin_book_listDAO();
+				
+		
 		ArrayList<Map<String, String>> list = getbook();
 
 		String page = request.getParameter("page");
@@ -132,5 +140,6 @@ public class admin_book_listServlet extends HttpServlet {
 		}
 		return result_list;
 	}
+	
 
 }
