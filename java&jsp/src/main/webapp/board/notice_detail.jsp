@@ -74,13 +74,15 @@
 window.onload = function() {
 	<%HttpSession getSession = request.getSession();
 	String login_m_pid = (String) getSession.getAttribute("m_pid");
-	List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
+    String managerChk = (String) getSession.getAttribute("m_managerchk");
+	
+	List<Map<String, String>> notice = (List<Map<String, String>>) request.getAttribute("notice");
 	%>
 	
 	var login_mpid = "<%=login_m_pid%>"; 
-	var mpid = "<%=member.get(0).get("M_PID")%>"; 
+	var mpid = "<%=notice.get(0).get("M_PID")%>"; 
     // 서버에서 받은 M_MANAGERCHK 값
-    var mManagerChk = "<%=request.getAttribute("manager")%>"; 
+    var mManagerChk = "<%=managerChk%>"; 
 //     console.log(mManagerChk);
     var upbut = document.querySelector("#notice_update"); // 수정버튼
     var debut = document.querySelector("#notice_delete"); // 삭제버튼
@@ -112,12 +114,9 @@ window.onload = function() {
 
 <body>
 	<header></header>
-	<%
-	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
-	List<Map<String, String>> library = (List<Map<String, String>>) request.getAttribute("library_list");
-	List<Map<String, String>> update = (List<Map<String, String>>) request.getAttribute("update");
-	 Map<String, String> map = new HashMap<String, String>();
-%>
+<%-- 	<% --%>
+<!-- Map<String, String> map = new HashMap<String, String>(); -->
+<%-- %> --%>
 							
 	<section>
 		<div class="s_section">
@@ -139,40 +138,40 @@ window.onload = function() {
 						<tr>
 							<td class="subject">제목</td>
 							<td colspan="5" id="subject_title">
-							<input type="hidden" name="notice_id" id="n_id" value="<%=result_list.get(0).get("N_ID")%>">
-							<%=result_list.get(0).get("N_TITLE")%></td>
+							<input type="hidden" name="notice_id" id="n_id" value="<%=notice.get(0).get("N_ID")%>">
+							<%=notice.get(0).get("N_TITLE")%></td>
 						</tr>
 						<tr>
 							<td class="subject">작성자</td>
 							<td id="subject_writer">
-							<%String name = member.get(0).get("M_NAME");										
+							<%String name = notice.get(0).get("M_NAME");										
 							String rename = name.substring(0, 1) + "**"; %>
 							<%=rename%></td>
 							<td class="subject">등록일</td>
-							<td id="subject_date"><%=result_list.get(0).get("N_DATE").substring(0,10)%></td>
+							<td id="subject_date"><%=notice.get(0).get("N_DATE").substring(0,10)%></td>
 							<td class="subject">조회</td>
-							<td id="subject_view"><%=update.get(0).get("N_VIEWCOUNT")%></td>
+							<td id="subject_view"><%=notice.get(0).get("N_VIEWCOUNT")%></td>
 						</tr>
 						<tr>
 							<td class="subject">도서관</td>
-							<td colspan="5" id="subject_lib"><%=library.get(0).get("LB_NAME")%></td>
+							<td colspan="5" id="subject_lib"><%=notice.get(0).get("LB_NAME")%></td>
 						</tr>
 						<tr>
 							<td class="subject">첨부</td>
 							<td colspan="5" id="subject_file"><%
-							if (result_list.get(0).get("N_FILE") == null){
+							if (notice.get(0).get("N_FILE") == null){
 								out.print(" ");
 							} else {
-								out.print(result_list.get(0).get("N_FILE"));
+								out.print(notice.get(0).get("N_FILE"));
 								}%></td>
 						</tr>
 						<tr>
-							<td class="content" colspan="6" id="subject_cont"><%=result_list.get(0).get("N_CONTENT")%></td>
+							<td class="content" colspan="6" id="subject_cont"><%=notice.get(0).get("N_CONTENT")%></td>
 						</tr>
 					</table>
 					<form method="get" action="notice_delete">
-					<button type="button" id="notice_update" onclick="location.href='notice_update?N_ID=<%=result_list.get(0).get("N_ID")%>';">수정</button>
-					<button type="submit" id="notice_delete" onclick="location.href='notice_delete?N_ID=<%=result_list.get(0).get("N_ID")%>';">삭제</button>
+					<button type="button" id="notice_update" onclick="location.href='notice_update?N_ID=<%=notice.get(0).get("N_ID")%>';">수정</button>
+					<button type="submit" id="notice_delete" onclick="location.href='notice_delete?N_ID=<%=notice.get(0).get("N_ID")%>';">삭제</button>
 					</form>
 				</div>
 			</div>

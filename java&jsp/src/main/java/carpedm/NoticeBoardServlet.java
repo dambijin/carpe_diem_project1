@@ -39,6 +39,7 @@ public class NoticeBoardServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 //		한글 깨짐 방지
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -129,36 +130,6 @@ public class NoticeBoardServlet extends HttpServlet {
 		request.setAttribute("list", pageList);
 		request.setAttribute("allcount", list.size());
 		
-		HttpSession getSession = request.getSession();
-        String login_m_pid = (String) getSession.getAttribute("m_pid"); // 로그인한 아이디
-
-        String query = "";
-		query += "SELECT * FROM member where ";
-		query += "M_PID = ";
-		query += login_m_pid;
-
-//		System.out.println("MEMBER테이블 쿼리: " + query);
-		ArrayList<Map<String, String>> mem = getDBList(query);
-
-		request.setAttribute("mem", mem);
-
-//		멤버 가져오기
-		String manager = "";
-		if (mem != null && !mem.isEmpty()) {
-			for (int i = 0; i < mem.size(); i++) {
-				Map<String, String> row = mem.get(i);
-				manager = row.get("M_MANAGERCHK");
-//				System.out.println("manager 값: " + manager);
-			}
-		}
-
-		request.setAttribute("manager", manager);
-
-		response.setContentType("text/plain");
-		response.setCharacterEncoding("UTF-8");
-		
-		
-		
 
 //      board/notice_board.jsp 파일을 이어줌
 		request.getRequestDispatcher("board/notice_board.jsp").forward(request, response);
@@ -169,7 +140,6 @@ public class NoticeBoardServlet extends HttpServlet {
 		try {
 			Connection conn = getConnection();
 			// SQL준비
-
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(notice);
 			ResultSet rs = ps.executeQuery();
@@ -178,15 +148,12 @@ public class NoticeBoardServlet extends HttpServlet {
 
 			while (rs.next()) {
 				Map<String, String> map = new HashMap<String, String>();
-
 				for (int i = 1; i <= columnCount; i++) {
 					String columnName = rsmd.getColumnName(i);
 					map.put(columnName, rs.getString(columnName));
 				}
-
 				result_list.add(map);
 			}
-
 			rs.close();
 			ps.close();
 			conn.close();

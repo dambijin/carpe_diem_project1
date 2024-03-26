@@ -17,8 +17,10 @@
 <link href="/carpedm/css/layout.css" rel="stylesheet">
 <script>
 window.onload = function() {
+	<%        HttpSession getSession = request.getSession();
+    String managerChk = (String) getSession.getAttribute("m_managerchk");%>
     // 서버에서 받은 M_MANAGERCHK 값
-    var mManagerChk = "<%=request.getAttribute("manager")%>";
+    var mManagerChk = "<%=managerChk%>";
 		//     console.log(mManagerChk);
 		var wbut = document.querySelector("#writebut");
 		// M_MANAGERCHK 값이 "Y"인 경우 버튼을 표시, 그 외의 경우에는 버튼을 숨김

@@ -88,14 +88,7 @@ public class NoticeUpdateServlet extends HttpServlet {
 
 		request.setAttribute("member", member);
 
-		String lb_id = "";
-		if (notice != null && !notice.isEmpty()) {
-			for (int i = 0; i < notice.size(); i++) {
-				Map<String, String> row = notice.get(i);
-				lb_id = row.get("LB_ID");
-				System.out.println("lb_id 값: " + lb_id);
-			}
-		}
+		String lb_id = request.getParameter("LB_ID");
 
 //		도서관 쿼리문
 		String library = "";
@@ -196,7 +189,6 @@ public class NoticeUpdateServlet extends HttpServlet {
 				notice_in += ", LB_ID = ?";
 //				notice_in += ", N_FILE = ?";
 				notice_in += ", N_CONTENT = ?";
-				notice_in += ", N_DATE = SYSDATE";
 				notice_in += " where N_ID = ";
 				notice_in += nid;
 				
