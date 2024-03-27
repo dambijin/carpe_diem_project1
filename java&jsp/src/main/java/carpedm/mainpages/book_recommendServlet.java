@@ -1,4 +1,4 @@
-package carpedm;
+package carpedm.mainpages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,7 +7,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -248,4 +250,31 @@ public class book_recommendServlet extends HttpServlet {
 			return "";
 		}
 	}
+	
+    // 여러 개의 문자열을 추출하여 배열로 반환하는 메소드
+    public String[] getDataList(String source, String start, String endString) {
+        List<String> resultList = new ArrayList<>();
+        int startIndex = 0;
+        int endIndex;
+
+        while (true) {
+            startIndex = source.indexOf(start, startIndex);
+            if (startIndex == -1) break; // 더 이상 시작 문자열을 찾을 수 없으면 반복 종료
+
+            endIndex = source.indexOf(endString, startIndex + start.length());
+            if (endIndex == -1) {
+                endIndex = source.length();
+            }
+
+            // 문자열 추출 및 리스트에 추가
+            String extracted = source.substring(startIndex + start.length(), endIndex);
+            resultList.add(extracted);
+
+            // 다음 검색을 위해 startIndex 업데이트
+            startIndex = endIndex + endString.length();
+        }
+
+        // 결과 리스트를 배열로 변환하여 반환
+        return resultList.toArray(new String[0]);
+    }
 }

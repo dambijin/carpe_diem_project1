@@ -1,4 +1,4 @@
-package carpedm;
+package carpedm.mainpages;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -118,30 +118,14 @@ public class book_searchServlet extends HttpServlet {
 		baseQuery += ")";
 
 		baseQuery += " ORDER BY " + okywd_kywd + " " + okywd_order;
+//		System.out.println("베이스쿼리:"+ baseQuery);
+
 		// 위 쿼리에 페이지별 계산까지 들어가서 최종완성시킴
 		String query = "SELECT *" + " FROM (SELECT rownum rnum, a.* FROM (" + baseQuery + ") a" + " WHERE rownum <= "
 				+ endRow + ")" + " WHERE rnum >= " + startRow;
-		// 이건 그냥 조건에 맞는 책들의 개수를 알기 위해 따로 만듬(합치려니 너무 복잡해져서 쿼리를 2번날림)
-		String countQuery = "";
-		countQuery += "SELECT COUNT(*)";
-		countQuery += " FROM book b";
-		countQuery += " JOIN library l ON b.lb_id = l.lb_id";
-		if (item.equals("전체")) {
-			countQuery += " WHERE (b.b_title LIKE '%" + searchWord + "%' OR b.b_author LIKE '%" + searchWord
-					+ "%' OR b.b_publisher LIKE '%" + searchWord + "%' OR b.b_kywd LIKE '%" + searchWord + "%')";
-		} else {
-			countQuery += " WHERE " + item_query + " LIKE '%" + searchWord + "%'";
-		}
-		countQuery += " AND l.lb_id IN (";
-		for (int i = 0; i < libraryIds.length; i++) {
-			if (i > 0) {
-				countQuery += ", ";
-			}
-			countQuery += "'" + libraryIds[i] + "'";
-		}
-		countQuery += ")";
+
 		ArrayList<Map<String, String>> book_list = getDBList(query);
-		String book_count = getDBList(countQuery).get(0).get("COUNT(*)");
+		String book_count = getDBList(baseQuery.trim()).size() + "";
 //		System.out.println(book_count);
 
 		request.setAttribute("searchWord", searchWord);
@@ -168,8 +152,7 @@ public class book_searchServlet extends HttpServlet {
 
 		String m_pid = request.getParameter("m_pid");
 		System.out.println(m_pid);
-		if(m_pid != null && !m_pid.equals("null") && !m_pid.equals(""))
-		{
+		if (m_pid != null && !m_pid.equals("null") && !m_pid.equals("")) {
 			int successRow = setDBList("INSERT INTO reservation (r_id, b_id, r_resdate, r_resstate, m_pid)"
 					+ " VALUES (reservation_seq.NEXTVAL," + b_id + ",SYSDATE, 0," + m_pid + ")");
 			System.out.println("추가된 행 수:" + successRow);
@@ -178,15 +161,11 @@ public class book_searchServlet extends HttpServlet {
 				// 완료하고 결과값을 보내기 위해
 				response.getWriter().write("{\"message\": \"success\"}");
 			}
-		}
-		else
-		{
+		} else {
 			System.out.println("현재 로그인되어있지 않습니다.");
 			// 완료하고 결과값을 보내기 위해
 			response.getWriter().write("{\"message\": \"fail\"}");
 		}
-	
-
 
 	}
 
