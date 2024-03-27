@@ -35,33 +35,40 @@ public class book_recommendServlet extends HttpServlet {
 		// http://localhost:8080/carpedm/book_recommend?isbn=9791198530349
 //		book_AIRecommend(isbn);
 //		getBookRecommend(isbn);
-		selenium_test();
+		selenium_getyes24();
 	}
 
-	void selenium_test() {
+	void selenium_getyes24() {
 		// WebDriverManager를 통해 크롬 드라이버를 자동으로 설정
 		WebDriverManager.chromedriver().setup();
 		WebDriverManager.chromedriver().timeout(3000).setup();
 		// 헤드리스 모드 옵션 설정
 		ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless");
+        options.addArguments("--headless");
 		// 크롬 드라이버를 사용하여 WebDriver 인스턴스 생성
 		WebDriver driver = new ChromeDriver(options);
 		try {
-			// 예제로 Google에 접속해 봅시다.
 			driver.get("https://www.yes24.com/Product/Goods/119782591");
 //			Thread.sleep(10000);
 			String pageText = driver.getPageSource();
-			System.out.println(getDataOne(pageText, "id=\"nomiBoxRoolGrp_buyNCateGoodsWrap\"", "class=\"yPagenNum\""));
-
+			String book_list_text = getDataOne(pageText, "id=\"nomiBoxRoolGrp_buyNCateGoodsWrap\"", "class=\"yPagenNum\"");
+			String[] book_list = getDataList(book_list_text, "<li id=\"recommend_goods_area\"", "</li>");
+			
+			for(int i = 0; i < book_list.length; i++)
+			{
+				//책 이미지쪽을 통채로 오려냄(제목까지 포함되어있기 때문)
+				String book = getDataOne(book_list[i], "<img class", "</a");
+				//책 이미지 url
+				System.out.println(getDataOne(book, "data-original=\"", "\""));
+				//책 제목
+				System.out.println(getDataOne(book, " alt=\"", "\""));
+			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			// 사용이 끝났으면, 드라이버를 종료합니다.
 			driver.quit();
 		}
-
 	}
 
 	// 알라딘에서
@@ -78,10 +85,6 @@ public class book_recommendServlet extends HttpServlet {
 			connection_a.setRequestProperty("Content-Type", "application/json");
 			int responseCode = connection_a.getResponseCode();
 			System.out.println("Response Code: " + responseCode);
-			if (responseCode == 500) {
-				System.out.println("아직 응답을 받지 못해 10초 대기합니다.");
-				Thread.sleep(10000); // 10초 대기
-			}
 			// 웹 페이지 내용 읽기
 			BufferedReader in_a = new BufferedReader(new InputStreamReader(connection_a.getInputStream()));
 			StringBuffer rs_a = new StringBuffer();
@@ -95,7 +98,7 @@ public class book_recommendServlet extends HttpServlet {
 			String result = getDataOne(rs_a.toString(), ",\"content\":\"", "\",\"status\"");
 
 			System.out.println(result);
-			System.out.println("GET2 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+			System.out.println("GET2 걸린시간 : " + (System.currentTimeMillis() - unixTime));			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
