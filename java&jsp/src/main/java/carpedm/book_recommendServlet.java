@@ -16,6 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 @WebServlet("/book_recommend")
 public class book_recommendServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -26,7 +32,34 @@ public class book_recommendServlet extends HttpServlet {
 		}
 		// http://localhost:8080/carpedm/book_recommend?isbn=9791198530349
 //		book_AIRecommend(isbn);
-		getBookRecommend(isbn);
+//		getBookRecommend(isbn);
+		selenium_test();
+	}
+
+	void selenium_test() {
+		// WebDriverManager를 통해 크롬 드라이버를 자동으로 설정
+		WebDriverManager.chromedriver().setup();
+		WebDriverManager.chromedriver().timeout(3000).setup();
+		// 헤드리스 모드 옵션 설정
+		ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--headless");
+		// 크롬 드라이버를 사용하여 WebDriver 인스턴스 생성
+		WebDriver driver = new ChromeDriver(options);
+		try {
+			// 예제로 Google에 접속해 봅시다.
+			driver.get("https://www.yes24.com/Product/Goods/119782591");
+//			Thread.sleep(10000);
+			String pageText = driver.getPageSource();
+			System.out.println(getDataOne(pageText, "id=\"nomiBoxRoolGrp_buyNCateGoodsWrap\"", "class=\"yPagenNum\""));
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// 사용이 끝났으면, 드라이버를 종료합니다.
+			driver.quit();
+		}
+
 	}
 
 	// 알라딘에서
