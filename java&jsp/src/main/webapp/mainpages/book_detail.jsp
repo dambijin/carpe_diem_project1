@@ -15,7 +15,7 @@
 <link href="/carpedm/css/layout.css" rel="stylesheet">
 <style>
 section {
-	width: 80%;
+	width: 830px;
 	margin: auto;
 	/* font-family: 'KNUTRUTHTTF'; */
 	font-family: 'Wanted Sans Variable';
@@ -139,6 +139,37 @@ section {
 	color: #888;
 	font-size: 0.9em;
 }
+
+/* 추천도서 */
+.recommendbook {
+	height: 500px;
+	width: 100%;
+	background-color: rgba(199, 156, 200, 0.3);
+	border: 2px solid black;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	font-family: "Wanted Sans Variable";
+}
+
+/* 추천도서 테이블 */
+.recommendbook_table {
+	margin-top: 10px;
+	font-size: 15px;
+	font-weight: normal;
+}
+
+.recommendbook_table td {
+	border-right: 2px solid rgba(140, 201, 240, 0.6);
+	width: 300px;
+}
+
+/* 신착도서 div */
+.recommendbook_table .recommendbook_div {
+	margin-top: 8px;
+	cursor: pointer;
+	width: 100%;
+}
 </style>
 </head>
 <%
@@ -148,19 +179,7 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 <script>
 	window.addEventListener("load",function() {
 		document.title ='<%=bookdetail_list.get(0).get("B_TITLE")%>';
-		
-		//책 추천버튼에 이벤트 추가
-        document.querySelector("#book_recommbtn").addEventListener("click", function () {
-        	book_recommbtn();
-        });
 	});
-
-	
-	function book_recommbtn()
-	{
-		window.open('book_recommend?isbn='+<%=bookdetail_list.get(0).get("B_ISBN")%>,"", "width=900,height=600");
-	}
-	
 	
 	function selboxAllChecked(id) {
 		var allCheck = document.getElementById(id);
@@ -174,8 +193,8 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 	//예약기능
 	function reservation(b_id) {
 			<%// 세션에서 현재 아이디값 가져오기
-	HttpSession getSession = request.getSession();
-	String login_m_pid = (String) getSession.getAttribute("m_pid");%>
+HttpSession getSession = request.getSession();
+String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 // 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
@@ -230,9 +249,8 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("LB_NAME")%></li>
 						</ul>
 					</dd>
-				</dl>				
+				</dl>
 			</div>
-			<button type="button" id="book_recommbtn">관련 책 추천</button>
 			<div class="table">
 				<h3>소장정보</h3>
 				<table class="responsive">
@@ -284,7 +302,44 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 				</div>
 			</div>
 		</div>
+		<hr>
+		<div class="recommendbook">
+			관련추천도서
+			<table class="recommendbook_table">
+				<tr id="rcb">
+					<%
+					ArrayList<Map<String, String>> book_list = (ArrayList<Map<String, String>>) request.getAttribute("bookrecommend_list");
 
+					for (int i = 0; i < 3; i++) {
+						if (i == 2) {
+					%>
+					<td style="border-right: 0px;">
+						<div class="recommendbook_div">
+							<img class="recommendbook_img"
+								src="<%=book_list.get(i).get("b_img")%>">
+						</div>
+						<div class="recommendbook_title"><%=book_list.get(i).get("b_title")%></div>
+					</td>
+					<%
+					} else {
+					%>
+					<td>
+						<div class="recommendbook_div">
+							<img class="recommendbook_img"
+								src="<%=book_list.get(i).get("b_img")%>">
+						</div>
+						<div class="recommendbook_title"><%=book_list.get(i).get("b_title")%></div>
+					</td>
+					<%
+					}
+					%>
+
+					<%
+					}
+					%>
+				</tr>
+			</table>
+		</div>
 	</section>
 </body>
 

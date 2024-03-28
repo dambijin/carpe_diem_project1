@@ -24,44 +24,48 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-@WebServlet("/book_recommend")
-public class book_recommendServlet extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String isbn = request.getParameter("isbn");
-		if (isbn == null || "".equals(isbn)) {
-			isbn = "";
-		}
-		// http://localhost:8080/carpedm/book_recommend?isbn=9791198530349
-//		book_AIRecommend(isbn);
-//		getBookRecommend(isbn);
-		selenium_getyes24();
-	}
+public class Book_Recommend {
+	public ArrayList<Map<String, String>> selenium_getyes24() {
+		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 
-	void selenium_getyes24() {
+		long unixTime = System.currentTimeMillis();
 		// WebDriverManager를 통해 크롬 드라이버를 자동으로 설정
 		WebDriverManager.chromedriver().setup();
 		WebDriverManager.chromedriver().timeout(3000).setup();
 		// 헤드리스 모드 옵션 설정
 		ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+//		options.addArguments("--headless");
 		// 크롬 드라이버를 사용하여 WebDriver 인스턴스 생성
 		WebDriver driver = new ChromeDriver(options);
+		System.out.println("크롬드라이버 세팅 걸린시간 : " + (System.currentTimeMillis() - unixTime));
 		try {
+			unixTime = System.currentTimeMillis();
 			driver.get("https://www.yes24.com/Product/Goods/119782591");
+			System.out.println("페이지이동 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+
 //			Thread.sleep(10000);
 			String pageText = driver.getPageSource();
-			String book_list_text = getDataOne(pageText, "id=\"nomiBoxRoolGrp_buyNCateGoodsWrap\"", "class=\"yPagenNum\"");
+			String book_list_text = getDataOne(pageText, "id=\"nomiBoxRoolGrp_buyNCateGoodsWrap\"",
+					"class=\"yPagenNum\"");
 			String[] book_list = getDataList(book_list_text, "<li id=\"recommend_goods_area\"", "</li>");
-			
-			for(int i = 0; i < book_list.length; i++)
-			{
-				//책 이미지쪽을 통채로 오려냄(제목까지 포함되어있기 때문)
+
+			for (int i = 0; i < book_list.length; i++) {
+				// 책 이미지쪽을 통채로 오려냄(제목까지 포함되어있기 때문)
 				String book = getDataOne(book_list[i], "<img class", "</a");
-				//책 이미지 url
-				System.out.println(getDataOne(book, "data-original=\"", "\""));
-				//책 제목
-				System.out.println(getDataOne(book, " alt=\"", "\""));
+				// 책 이미지 url
+				String b_img = getDataOne(book, "data-original=\"", "\"");
+				// 책 제목
+				String b_title = getDataOne(book, " alt=\"", "\"");
+
+				System.out.println(b_img);
+				System.out.println(b_title);
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("b_img", b_img);
+				map.put("b_title", b_title);
+				result_list.add(map);
+				if (i >= 2) {
+					break;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,10 +73,12 @@ public class book_recommendServlet extends HttpServlet {
 			// 사용이 끝났으면, 드라이버를 종료합니다.
 			driver.quit();
 		}
+
+		return result_list;
 	}
 
 	// 알라딘에서
-	void getBookRecommend(String isbn) {
+	public void getBookRecommend(String isbn) {
 		try {
 			long unixTime = System.currentTimeMillis();
 			// 뤼튼에게 답 받아내기
@@ -98,7 +104,7 @@ public class book_recommendServlet extends HttpServlet {
 			String result = getDataOne(rs_a.toString(), ",\"content\":\"", "\",\"status\"");
 
 			System.out.println(result);
-			System.out.println("GET2 걸린시간 : " + (System.currentTimeMillis() - unixTime));			
+			System.out.println("GET2 걸린시간 : " + (System.currentTimeMillis() - unixTime));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -106,7 +112,7 @@ public class book_recommendServlet extends HttpServlet {
 	}
 
 	// ISBN값을 기준으로 값을 가져오는 웹크롤링 함수
-	private Map<String, String> book_AIRecommend(String isbn) {
+	public Map<String, String> book_AIRecommend(String isbn) {
 		Map<String, String> result = new HashMap<String, String>();
 		// 9788901271729 콜드리딩
 		// 9791168473690 세이노
@@ -116,7 +122,7 @@ public class book_recommendServlet extends HttpServlet {
 	}
 
 	// 뤼튼에게 요청하고 받아내기(gpt4.0,wrtn_search)
-	String wrtn_qna(String query) {
+	public String wrtn_qna(String query) {
 		String result = "";
 		try {
 			String assi_data = "";
@@ -253,31 +259,32 @@ public class book_recommendServlet extends HttpServlet {
 			return "";
 		}
 	}
-	
-    // 여러 개의 문자열을 추출하여 배열로 반환하는 메소드
-    public String[] getDataList(String source, String start, String endString) {
-        List<String> resultList = new ArrayList<>();
-        int startIndex = 0;
-        int endIndex;
 
-        while (true) {
-            startIndex = source.indexOf(start, startIndex);
-            if (startIndex == -1) break; // 더 이상 시작 문자열을 찾을 수 없으면 반복 종료
+	// 여러 개의 문자열을 추출하여 배열로 반환하는 메소드
+	public String[] getDataList(String source, String start, String endString) {
+		List<String> resultList = new ArrayList<>();
+		int startIndex = 0;
+		int endIndex;
 
-            endIndex = source.indexOf(endString, startIndex + start.length());
-            if (endIndex == -1) {
-                endIndex = source.length();
-            }
+		while (true) {
+			startIndex = source.indexOf(start, startIndex);
+			if (startIndex == -1)
+				break; // 더 이상 시작 문자열을 찾을 수 없으면 반복 종료
 
-            // 문자열 추출 및 리스트에 추가
-            String extracted = source.substring(startIndex + start.length(), endIndex);
-            resultList.add(extracted);
+			endIndex = source.indexOf(endString, startIndex + start.length());
+			if (endIndex == -1) {
+				endIndex = source.length();
+			}
 
-            // 다음 검색을 위해 startIndex 업데이트
-            startIndex = endIndex + endString.length();
-        }
+			// 문자열 추출 및 리스트에 추가
+			String extracted = source.substring(startIndex + start.length(), endIndex);
+			resultList.add(extracted);
 
-        // 결과 리스트를 배열로 변환하여 반환
-        return resultList.toArray(new String[0]);
-    }
+			// 다음 검색을 위해 startIndex 업데이트
+			startIndex = endIndex + endString.length();
+		}
+
+		// 결과 리스트를 배열로 변환하여 반환
+		return resultList.toArray(new String[0]);
+	}
 }

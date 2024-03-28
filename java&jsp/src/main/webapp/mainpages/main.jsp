@@ -15,87 +15,101 @@
 <title>메인 페이지</title>
 <link href="/carpedm/css/layout.css" rel="stylesheet">
 <link href="/carpedm/css/calender.css" rel="stylesheet">
-  
-  <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
-  <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
 
 <style>
-.ui-widget.ui-widget-content{
-  /* 전체 박스 */
-  border:0px;
-  height : 267px;
-  box-shadow: 5px 5px 10px #ccc;
-  padding:0;
-  width : 100%;
-  margin-top:5px;
-  
-}
-.ui-widget-header{
-  /* 헤더 (화살표/날짜표시 영역) */
-  background: #f3882d9e;
-  border: 0px;
-  border-radius: 0px;
-}
-.ui-widget-header .ui-icon{
-  /* 이전,다음 화살표 */
-}
-.ui-datepicker-prev{
-  /* 이전 화살표 */
-  text-align:center;
-  line-height: 2em;
-}
-.ui-datepicker-prev::before{
-  font: var(--fa-font-solid);
-  color:#fff;
-}
-.ui-datepicker-next{
-  /* 다음 화살표 */
-  text-align:center;
-  line-height: 2em;
-}
-/*font-awesome 이용해서 화살표 변경*/
-.ui-datepicker-next::before{
-  font: var(--fa-font-solid);
-  color:#fff;
-}
-.ui-datepicker .ui-datepicker-title,
-.ui-datepicker .ui-datepicker-title .ui-datepicker-year,
-.ui-datepicker .ui-datepicker-title .ui-datepicker-month{
-  /* 년월 텍스트 묶음 */
-  color: #4b4747;
-}
-.ui-datepicker th{
-  /* 요일 영역 */
-  background : #fff083;
-}
-.ui-datepicker th span{
-  /* 요일 텍스트 */
-  font-size:18px;
-  color: #5b5858;
+.ui-widget.ui-widget-content {
+	/* 전체 박스 */
+	border: 0px;
+	height: 267px;
+	box-shadow: 5px 5px 10px #ccc;
+	padding: 0;
+	width: 100%;
+	margin-top: 5px;
 }
 
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{
-  /* 일자 기본영역 */
-  border:0px;
-  background: none;
-  text-align: center;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  border-radius: 100%;
-  padding:0;
-  margin: 0 auto;
+.ui-widget-header {
+	/* 헤더 (화살표/날짜표시 영역) */
+	background: #f3882d9e;
+	border: 0px;
+	border-radius: 0px;
 }
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight{
-  /* 오늘일자 */
-  border:0px;
-  background:#ccc;
-  color: #fff;
+
+.ui-widget-header .ui-icon {
+	/* 이전,다음 화살표 */
+	
 }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
-  /* 선택 일자 */
-  background: gold;
-  color: #000;
+
+.ui-datepicker-prev {
+	/* 이전 화살표 */
+	text-align: center;
+	line-height: 2em;
+}
+
+.ui-datepicker-prev::before {
+	font: var(--fa-font-solid);
+	color: #fff;
+}
+
+.ui-datepicker-next {
+	/* 다음 화살표 */
+	text-align: center;
+	line-height: 2em;
+}
+/*font-awesome 이용해서 화살표 변경*/
+.ui-datepicker-next::before {
+	font: var(--fa-font-solid);
+	color: #fff;
+}
+
+.ui-datepicker .ui-datepicker-title, .ui-datepicker .ui-datepicker-title .ui-datepicker-year,
+	.ui-datepicker .ui-datepicker-title .ui-datepicker-month {
+	/* 년월 텍스트 묶음 */
+	color: #4b4747;
+}
+
+.ui-datepicker th {
+	/* 요일 영역 */
+	background: #fff083;
+}
+
+.ui-datepicker th span {
+	/* 요일 텍스트 */
+	font-size: 18px;
+	color: #5b5858;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover,
+	html .ui-button.ui-state-disabled:active {
+	/* 일자 기본영역 */
+	border: 0px;
+	background: none;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	border-radius: 100%;
+	padding: 0;
+	margin: 0 auto;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight,
+	.ui-widget-header .ui-state-highlight {
+	/* 오늘일자 */
+	border: 0px;
+	background: #ccc;
+	color: #fff;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
+	a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover
+	{
+	/* 선택 일자 */
+	background: gold;
+	color: #000;
 }
 
 /* 바디사이즈 */
@@ -122,11 +136,11 @@
 	font-size: 20px;
 	font-weight: bold;
 	font-family: "Wanted Sans Variable";
-	border: 2px solid  rgba(205, 205, 205);
+	border: 2px solid rgba(205, 205, 205);
 	border-bottom: 0px;
 	background-color: rgba(220, 220, 220);
 	text-align: center;
-	margin-bottom : 2px;
+	margin-bottom: 2px;
 }
 
 /* 공지사항테이블 */
@@ -159,31 +173,28 @@
 	font-size: 20px;
 	font-weight: bold;
 	text-align: center;
-	border-bottom : 2px solid rgba(140, 201, 240, 0.6);
+	border-bottom: 2px solid rgba(140, 201, 240, 0.6);
 	font-family: "Wanted Sans Variable";
 }
-
 
 /* 신착도서 테이블 */
 .newbook_table {
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: normal;
-	
 }
 
 .newbook_table td {
 	border-right: 2px solid rgba(140, 201, 240, 0.6);
-	width : 300px;
+	width: 300px;
 }
 
 /* 신착도서 div */
 .newbook_table .newbook_div {
 	margin-top: 8px;
 	cursor: pointer;
-	width : 100%;
+	width: 100%;
 }
-
 
 /* 도서관별이용정보 */
 .library_information_content .library_information {
@@ -209,12 +220,9 @@
 }
 
 /* 이용정보 select아래내용 */
-.text_detail h2,
-.text_detail h3,
-.text_detail {
-margin : 1px;
+.text_detail h2, .text_detail h3, .text_detail {
+	margin: 1px;
 }
-
 
 .library_information_content .announcement_library_information .announcement .ann_title
 	{
@@ -225,7 +233,6 @@ margin : 1px;
 	.library_information_content .announcement_library_information .newbook table,
 	.library_information table {
 	width: 100%;
-	
 }
 
 .announcement .ann_day {
@@ -386,13 +393,14 @@ nav .inner .inner-list img {
 	right: 15px;
 }
 /* a태그 밑줄삭제 */
-.title_a{
+.title_a {
 	text-decoration: none;
 	font-family: 'Wanted Sans Variable';
-	color : black;
+	color: black;
 }
-.title_a:hover{
-text-decoration: underline;
+
+.title_a:hover {
+	text-decoration: underline;
 }
 </style>
 
@@ -510,10 +518,9 @@ text-decoration: underline;
 	    document.querySelector('.text_detail').innerHTML = content;
 	};
 	
-	<%		  // 세션에서 현재 아이디값 가져오기
-	HttpSession getSession = request.getSession();
-	String m_pid = (String) getSession.getAttribute("m_pid");
-	%>
+	<%// 세션에서 현재 아이디값 가져오기
+HttpSession getSession = request.getSession();
+String m_pid = (String) getSession.getAttribute("m_pid");%>
 </script>
 </head>
 
@@ -574,7 +581,7 @@ text-decoration: underline;
 					for (int i = 0; i < notice_list.size(); i++) {
 					%>
 					<tr>
-					
+
 						<td class="ann_id"><%=notice_list.get(i).get("N_ID")%></td>
 						<td class="ann_title"><a class="title_a"
 							href="notice_detail?N_ID=<%=notice_list.get(i).get("N_ID")%>"><%=notice_list.get(i).get("N_TITLE")%></a>
@@ -582,7 +589,9 @@ text-decoration: underline;
 						<td class="ann_day"><%=notice_list.get(i).get("N_DATE").substring(0, 10)%></td>
 					</tr>
 					<%
-					if(i>=4){break;}
+					if (i >= 4) {
+						break;
+					}
 					}
 					%>
 				</table>
@@ -596,17 +605,20 @@ text-decoration: underline;
 						ArrayList<Map<String, String>> book_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
 
 						for (int i = 0; i < 3; i++) {
-							if(i==2){%>
-								<td style="border-right: 0px;">
+							if (i == 2) {
+						%>
+						<td style="border-right: 0px;">
 							<div class="newbook_div"
 								onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
 								<img class="newbook_img"
 									src="<%=book_list.get(i).get("B_IMGURL")%>">
 							</div>
 							<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
-							<div class="newbook_author" ><%=book_list.get(i).get("B_AUTHOR")%></div>
+							<div class="newbook_author"><%=book_list.get(i).get("B_AUTHOR")%></div>
 						</td>
-							<%}else{%>
+						<%
+						} else {
+						%>
 						<td>
 							<div class="newbook_div"
 								onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
@@ -616,8 +628,10 @@ text-decoration: underline;
 							<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
 							<div class="newbook_author"><%=book_list.get(i).get("B_AUTHOR")%></div>
 						</td>
-						<%} %>
-						
+						<%
+						}
+						%>
+
 						<%
 						}
 						%>
@@ -642,8 +656,7 @@ text-decoration: underline;
 			<div id="libs_time" class="calendar"></div>
 
 			<div class="calendar">
-				<div class="text_detail">
-				</div>
+				<div class="text_detail"></div>
 				<script>
 					library_list_js = [
 					<%for (int i = 0; i < library_list.size(); i++) {%>
@@ -656,13 +669,10 @@ text-decoration: underline;
 					    }<%=(i < library_list.size() - 1) ? "," : ""%>
 					<%}%>
 					];
-					</script>	
+					</script>
 			</div>
-		 <div id="datepicker"></div>
+			<div id="datepicker"></div>
 		</div>
-		
-
-
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header.js"></script>

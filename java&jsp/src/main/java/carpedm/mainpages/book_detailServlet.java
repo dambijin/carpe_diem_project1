@@ -10,11 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 /**
  * Servlet implementation class book_detailServlet
@@ -35,22 +38,25 @@ public class book_detailServlet extends HttpServlet {
 		query += " JOIN library l ON b.lb_id = l.lb_id";
 		query += " WHERE b.b_id = '" + b_id + "'";
 		
+		long unixTime = System.currentTimeMillis();
 		ArrayList<Map<String,String>> bookdetail_list = getDBList(query);
-
+		System.out.println("책 상세(DB) 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+		Book_Recommend brc = new Book_Recommend();
+		
+		unixTime = System.currentTimeMillis();
+		ArrayList<Map<String,String>> bookrecommend_list = brc.selenium_getyes24();
+		System.out.println("추천 목록 총 걸린시간 : " + (System.currentTimeMillis() - unixTime));
 		request.setAttribute("bookdetail_list", bookdetail_list);
+		request.setAttribute("bookrecommend_list", bookrecommend_list);
 		request.getRequestDispatcher("/mainpages/book_detail.jsp").forward(request, response);
 	}
-	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
-	private static final String USER = "carpedm";
-	private static final String PASSWORD = "dm1113@";
-
 	// 기본적인 접속메소드
 	private Connection getConnection() {
 		Connection conn = null;
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-//			    System.out.println("db접속성공");
+			Context ctx = new InitialContext();
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/carpedm");
+			conn = dataFactory.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
