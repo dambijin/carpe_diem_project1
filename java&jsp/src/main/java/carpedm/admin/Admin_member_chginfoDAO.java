@@ -29,7 +29,7 @@ public class Admin_member_chginfoDAO {
 	private void connDB() {
 		try {
 			Context ctx = new InitialContext();
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/team");
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/carpedm");
 			// DataSource로부터 Connection을 얻어옴
 			this.con =  dataFactory.getConnection();
 			
