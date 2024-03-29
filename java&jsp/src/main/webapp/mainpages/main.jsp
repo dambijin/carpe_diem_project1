@@ -605,9 +605,12 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 						ArrayList<Map<String, String>> book_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
 
 						for (int i = 0; i < 3; i++) {
+							String tdStyle = "";
 							if (i == 2) {
+								tdStyle = "border-right: 0px;"; // 마지막에 오른쪽 줄 없애기
+							}
 						%>
-						<td style="border-right: 0px;">
+						<td style="<%=tdStyle%>">
 							<div class="newbook_div"
 								onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
 								<img class="newbook_img"
@@ -616,22 +619,6 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 							<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
 							<div class="newbook_author"><%=book_list.get(i).get("B_AUTHOR")%></div>
 						</td>
-						<%
-						} else {
-						%>
-						<td>
-							<div class="newbook_div"
-								onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
-								<img class="newbook_img"
-									src="<%=book_list.get(i).get("B_IMGURL")%>">
-							</div>
-							<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
-							<div class="newbook_author"><%=book_list.get(i).get("B_AUTHOR")%></div>
-						</td>
-						<%
-						}
-						%>
-
 						<%
 						}
 						%>

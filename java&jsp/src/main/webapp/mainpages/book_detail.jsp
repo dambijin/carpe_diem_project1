@@ -142,7 +142,7 @@ section {
 
 /* 추천도서 */
 .recommendbook {
-	height: 470px;
+	height: 480px;
 	width: 100%;
 	background-color: rgba(199, 156, 200, 0.3);
 	border: 2px solid rgba(140, 201, 240, 0.6);
@@ -319,7 +319,7 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 
 					for (int i = 0; i < bookrecommend_list.size(); i++) {
 						String tdStyle = "";
-						if (i == 2) {
+						if (i == bookrecommend_list.size()-1) {
 							tdStyle = "border-right: 0px;"; // 마지막에 오른쪽 줄 없애기
 						}
 					%>
@@ -329,6 +329,8 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 								src="<%=bookrecommend_list.get(i).get("b_img")%>">
 						</div>
 						<div class="recommendbook_title"><%=bookrecommend_list.get(i).get("b_title")%></div>
+						<hr>
+						<div class="recommendbook_author"><%=bookrecommend_list.get(i).get("b_auth")%></div>
 					</td>
 					<%
 					}

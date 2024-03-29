@@ -29,7 +29,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Book_Recommend {
 
-	// yes24에서 isbn으로 검색하여 원 책의 id값을 가져옴
+	// yes24에서 isbn으로 검색하여 기존 책의 yes24 책 id값을 가져옴
 	public String yes24SearchISBN(String isbn) {
 		String result = "";
 		try {
@@ -43,8 +43,8 @@ public class Book_Recommend {
 			connection_a.setRequestMethod("GET");
 			connection_a.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
 			connection_a.setRequestProperty("Content-Type", "application/json");
-			int responseCode = connection_a.getResponseCode();
-			System.out.println("Response Code: " + responseCode);
+//			int responseCode = connection_a.getResponseCode();
+//			System.out.println("Response Code: " + responseCode);
 
 			// 웹 페이지 내용 읽기
 			StringBuffer rs_a = new StringBuffer();
@@ -80,23 +80,22 @@ public class Book_Recommend {
 		return result;
 	}
 
-	// 연관책을 가져옴(셀레니움느려터지고 불안정해서 뚫음)
+	// 연관책을 가져옴(셀레니움느려터지고 불안정해서 사용하게 됨)
 	public ArrayList<Map<String, String>> Httpgetyes24(String url) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 
 		try {
 			long unixTime = System.currentTimeMillis();
-			// 뤼튼에게 답 받아내기
+
 			URL url_a = new URL(url);
 			HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
 			System.out.println(url);
-			// 헤더설정
-//			configureConnection(connection_a, "" + unixTime, "GET");
+
 			connection_a.setRequestMethod("GET");
 			connection_a.setRequestProperty("Accept", "application/json"); // 필요한 경우
 			connection_a.setRequestProperty("host", "www.yes24.com");
 			connection_a.setRequestProperty("Referer", "https://www.yes24.com/");
-//			connection_a.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
+			connection_a.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
 //			connection_a.setRequestProperty("Content-Type", "application/json");
 			int responseCode = connection_a.getResponseCode();
 			System.out.println("Response Code: " + responseCode);
@@ -136,12 +135,15 @@ public class Book_Recommend {
 				String b_img = getDataOne(book, "data-original=\"", "\"");
 				// 책 제목
 				String b_title = getDataOne(book, " alt=\"", "\"");
-
+				// 책 제목
+				String b_auth = getDataOne(book_list[i], "class=\"goods_auth\">", "</span");
 				System.out.println(b_img);
 				System.out.println(b_title);
+				System.out.println(b_auth);
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("b_img", b_img);
 				map.put("b_title", b_title);
+				map.put("b_auth", b_auth);
 				result_list.add(map);
 				if (i >= 2) {
 					break;
@@ -156,8 +158,6 @@ public class Book_Recommend {
 		}
 		return result_list;
 	}
-	
-	
 
 	// 셀레니움으로 가져오기(속도가 들쑥날쑥)
 	public ArrayList<Map<String, String>> selenium_getyes24(String url) {
@@ -214,7 +214,6 @@ public class Book_Recommend {
 
 		return result_list;
 	}
-
 
 	// 뤼튼에게 요청하고 받아내기(gpt4.0,wrtn_search, 답변이 지멋대로라 안정성 매우 떨어짐)
 	public String wrtn_qna(String query) {
