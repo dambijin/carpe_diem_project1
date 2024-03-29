@@ -142,10 +142,10 @@ section {
 
 /* 추천도서 */
 .recommendbook {
-	height: 500px;
+	height: 470px;
 	width: 100%;
 	background-color: rgba(199, 156, 200, 0.3);
-	border: 2px solid black;
+	border: 2px solid rgba(140, 201, 240, 0.6);
 	font-size: 20px;
 	font-weight: bold;
 	text-align: center;
@@ -169,6 +169,12 @@ section {
 	margin-top: 8px;
 	cursor: pointer;
 	width: 100%;
+}
+
+.recommendbook_table img {
+	width: 250px;
+	height: 370px;
+	object_fit: contain;
 }
 </style>
 </head>
@@ -308,32 +314,22 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 			<table class="recommendbook_table">
 				<tr id="rcb">
 					<%
-					ArrayList<Map<String, String>> book_list = (ArrayList<Map<String, String>>) request.getAttribute("bookrecommend_list");
+					ArrayList<Map<String, String>> bookrecommend_list = (ArrayList<Map<String, String>>) request
+							.getAttribute("bookrecommend_list");
 
-					for (int i = 0; i < 3; i++) {
+					for (int i = 0; i < bookrecommend_list.size(); i++) {
+						String tdStyle = "";
 						if (i == 2) {
+							tdStyle = "border-right: 0px;"; // 마지막에 오른쪽 줄 없애기
+						}
 					%>
-					<td style="border-right: 0px;">
+					<td style="<%=tdStyle%>">
 						<div class="recommendbook_div">
 							<img class="recommendbook_img"
-								src="<%=book_list.get(i).get("b_img")%>">
+								src="<%=bookrecommend_list.get(i).get("b_img")%>">
 						</div>
-						<div class="recommendbook_title"><%=book_list.get(i).get("b_title")%></div>
+						<div class="recommendbook_title"><%=bookrecommend_list.get(i).get("b_title")%></div>
 					</td>
-					<%
-					} else {
-					%>
-					<td>
-						<div class="recommendbook_div">
-							<img class="recommendbook_img"
-								src="<%=book_list.get(i).get("b_img")%>">
-						</div>
-						<div class="recommendbook_title"><%=book_list.get(i).get("b_title")%></div>
-					</td>
-					<%
-					}
-					%>
-
 					<%
 					}
 					%>

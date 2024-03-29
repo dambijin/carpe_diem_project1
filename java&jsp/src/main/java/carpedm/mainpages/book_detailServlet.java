@@ -24,11 +24,11 @@ import javax.sql.DataSource;
  */
 @WebServlet("/book_detail")
 public class book_detailServlet extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String b_id = request.getParameter("id");
-		if(b_id == null || "".equals(b_id))
-		{
-			b_id="";
+		if (b_id == null || "".equals(b_id)) {
+			b_id = "";
 		}
 
 		String query = "";
@@ -37,19 +37,27 @@ public class book_detailServlet extends HttpServlet {
 		query += " JOIN bookgenre bg ON b.bg_id = bg.bg_id";
 		query += " JOIN library l ON b.lb_id = l.lb_id";
 		query += " WHERE b.b_id = '" + b_id + "'";
-		
+
 		long unixTime = System.currentTimeMillis();
-		ArrayList<Map<String,String>> bookdetail_list = getDBList(query);
+		ArrayList<Map<String, String>> bookdetail_list = getDBList(query);
 		System.out.println("책 상세(DB) 걸린시간 : " + (System.currentTimeMillis() - unixTime));
-		Book_Recommend brc = new Book_Recommend();
-		
+
+		// 책 추천관련 작업들
 		unixTime = System.currentTimeMillis();
-		ArrayList<Map<String,String>> bookrecommend_list = brc.selenium_getyes24();
+		Book_Recommend brc = new Book_Recommend();
+		String yes24bookno = brc.yes24SearchISBN(bookdetail_list.get(0).get("B_ISBN"));
+		ArrayList<Map<String, String>> bookrecommend_list = new ArrayList<Map<String, String>>();
+		if (yes24bookno != null && !"".equals(yes24bookno)) {
+//			bookrecommend_list = brc.selenium_getyes24("https://www.yes24.com/Product/Goods/" + yes24url); 
+			bookrecommend_list = brc.Httpgetyes24("https://www.yes24.com/Product/addModules/GoodsRecommend/"+yes24bookno+"?type=AREA_ASSOC_RECOMMEND&pageNo=0&pageSize=40&divId=buyNCateGoodsWrap&bookYn=Y"); 
+		}
 		System.out.println("추천 목록 총 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+
 		request.setAttribute("bookdetail_list", bookdetail_list);
 		request.setAttribute("bookrecommend_list", bookrecommend_list);
 		request.getRequestDispatcher("/mainpages/book_detail.jsp").forward(request, response);
 	}
+
 	// 기본적인 접속메소드
 	private Connection getConnection() {
 		Connection conn = null;
@@ -77,16 +85,16 @@ public class book_detailServlet extends HttpServlet {
 			int columnCount = rsmd.getColumnCount();
 
 			while (rs.next()) {
-			    Map<String, String> map = new HashMap<String, String>();
+				Map<String, String> map = new HashMap<String, String>();
 
-			    for (int i = 1; i <= columnCount; i++) {
-			        String columnName = rsmd.getColumnName(i);
-			        map.put(columnName, rs.getString(columnName));
-			    }
+				for (int i = 1; i <= columnCount; i++) {
+					String columnName = rsmd.getColumnName(i);
+					map.put(columnName, rs.getString(columnName));
+				}
 
-			    result_list.add(map);
+				result_list.add(map);
 			}
-			
+
 			rs.close();
 			ps.close();
 			conn.close();

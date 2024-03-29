@@ -7,10 +7,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -25,22 +28,157 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Book_Recommend {
-	public ArrayList<Map<String, String>> selenium_getyes24() {
+
+	// yes24에서 isbn으로 검색하여 원 책의 id값을 가져옴
+	public String yes24SearchISBN(String isbn) {
+		String result = "";
+		try {
+			long unixTime = System.currentTimeMillis();
+			// 뤼튼에게 답 받아내기
+			URL url_a = new URL("https://www.yes24.com/Product/Search?domain=ALL&query=" + isbn);
+			HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
+
+			// 헤더설정
+//			configureConnection(connection_a, "" + unixTime, "GET");
+			connection_a.setRequestMethod("GET");
+			connection_a.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
+			connection_a.setRequestProperty("Content-Type", "application/json");
+			int responseCode = connection_a.getResponseCode();
+			System.out.println("Response Code: " + responseCode);
+
+			// 웹 페이지 내용 읽기
+			StringBuffer rs_a = new StringBuffer();
+			if ("gzip".equals(connection_a.getContentEncoding())) {
+				GZIPInputStream gzipInputStream = new GZIPInputStream(connection_a.getInputStream());
+				BufferedReader in_a = new BufferedReader(
+						new InputStreamReader(gzipInputStream, StandardCharsets.UTF_8));
+				String inputLine;
+				while ((inputLine = in_a.readLine()) != null) {
+					rs_a.append(inputLine);
+				}
+				// in_a.close();//지역변수라 필요없어짐
+
+			} else {
+				BufferedReader in_a = new BufferedReader(
+						new InputStreamReader(connection_a.getInputStream(), StandardCharsets.UTF_8));
+				String inputLine;
+				while ((inputLine = in_a.readLine()) != null) {
+					rs_a.append(inputLine);
+				}
+				// in_a.close();//지역변수라 필요없어짐
+			}
+
+			connection_a.disconnect();
+//			System.out.println(rs_a.toString());
+			result = getDataOne(rs_a.toString(), "data-goods-no=\"", "\"");
+
+			System.out.println(result);
+			System.out.println("yes24 isbn검색 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// 연관책을 가져옴(셀레니움느려터지고 불안정해서 뚫음)
+	public ArrayList<Map<String, String>> Httpgetyes24(String url) {
+		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
+
+		try {
+			long unixTime = System.currentTimeMillis();
+			// 뤼튼에게 답 받아내기
+			URL url_a = new URL(url);
+			HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
+			System.out.println(url);
+			// 헤더설정
+//			configureConnection(connection_a, "" + unixTime, "GET");
+			connection_a.setRequestMethod("GET");
+			connection_a.setRequestProperty("Accept", "application/json"); // 필요한 경우
+			connection_a.setRequestProperty("host", "www.yes24.com");
+			connection_a.setRequestProperty("Referer", "https://www.yes24.com/");
+//			connection_a.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
+//			connection_a.setRequestProperty("Content-Type", "application/json");
+			int responseCode = connection_a.getResponseCode();
+			System.out.println("Response Code: " + responseCode);
+
+			// 웹 페이지 내용 읽기
+			StringBuffer rs_a = new StringBuffer();
+			if ("gzip".equals(connection_a.getContentEncoding())) {
+				GZIPInputStream gzipInputStream = new GZIPInputStream(connection_a.getInputStream());
+				BufferedReader in_a = new BufferedReader(
+						new InputStreamReader(gzipInputStream, StandardCharsets.UTF_8));
+				String inputLine;
+				while ((inputLine = in_a.readLine()) != null) {
+					rs_a.append(inputLine);
+				}
+				// in_a.close(); // try-with-resources를 사용하여 자동으로 close 됩니다.
+
+			} else {
+				BufferedReader in_a = new BufferedReader(
+						new InputStreamReader(connection_a.getInputStream(), StandardCharsets.UTF_8));
+				String inputLine;
+				while ((inputLine = in_a.readLine()) != null) {
+					rs_a.append(inputLine);
+				}
+				// in_a.close(); // try-with-resources를 사용하여 자동으로 close 됩니다.
+			}
+
+			connection_a.disconnect();
+
+			String book_list_text = getDataOne(rs_a.toString(), "id=\"nomiBoxRoolGrp_buyNCateGoodsWrap\"",
+					"class=\"yPagenNum\"");
+			String[] book_list = getDataList(book_list_text, "<li id=\"recommend_goods_area\"", "</li>");
+
+			for (int i = 0; i < book_list.length; i++) {
+				// 책 이미지쪽을 통채로 오려냄(제목까지 포함되어있기 때문)
+				String book = getDataOne(book_list[i], "<img class", "</a");
+				// 책 이미지 url
+				String b_img = getDataOne(book, "data-original=\"", "\"");
+				// 책 제목
+				String b_title = getDataOne(book, " alt=\"", "\"");
+
+				System.out.println(b_img);
+				System.out.println(b_title);
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("b_img", b_img);
+				map.put("b_title", b_title);
+				result_list.add(map);
+				if (i >= 2) {
+					break;
+				}
+			}
+//			result = getDataOne(rs_a.toString(), "data-goods-no=\"", "\"");
+
+//			System.out.println(result);
+			System.out.println("yes24 http 검색 걸린시간 : " + (System.currentTimeMillis() - unixTime));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result_list;
+	}
+	
+	
+
+	// 셀레니움으로 가져오기(속도가 들쑥날쑥)
+	public ArrayList<Map<String, String>> selenium_getyes24(String url) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 
 		long unixTime = System.currentTimeMillis();
 		// WebDriverManager를 통해 크롬 드라이버를 자동으로 설정
-		WebDriverManager.chromedriver().setup();
 		WebDriverManager.chromedriver().timeout(3000).setup();
-		// 헤드리스 모드 옵션 설정
+
 		ChromeOptions options = new ChromeOptions();
-//		options.addArguments("--headless");
+		options.addArguments("--blink-settings=imagesEnabled=false"); // 이미지 비활성화
+//		options.addArguments("--disable-javascript"); // 자바스크립트 비활성화?(근데 안 되는거 같음)
+		options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+		options.addArguments("--headless");// 헤드리스 모드 옵션 설정
 		// 크롬 드라이버를 사용하여 WebDriver 인스턴스 생성
 		WebDriver driver = new ChromeDriver(options);
 		System.out.println("크롬드라이버 세팅 걸린시간 : " + (System.currentTimeMillis() - unixTime));
 		try {
 			unixTime = System.currentTimeMillis();
-			driver.get("https://www.yes24.com/Product/Goods/119782591");
+//			driver.get("https://www.yes24.com/Product/Goods/119782591");
+			driver.get(url);
 			System.out.println("페이지이동 걸린시간 : " + (System.currentTimeMillis() - unixTime));
 
 //			Thread.sleep(10000);
@@ -77,51 +215,8 @@ public class Book_Recommend {
 		return result_list;
 	}
 
-	// 알라딘에서
-	public void getBookRecommend(String isbn) {
-		try {
-			long unixTime = System.currentTimeMillis();
-			// 뤼튼에게 답 받아내기
-			URL url_a = new URL("https://www.yes24.com/Product/Goods/119782591");
-			HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
 
-			// 헤더설정
-//			configureConnection(connection_a, "" + unixTime, "GET");
-			connection_a.setRequestMethod("GET");
-			connection_a.setRequestProperty("Content-Type", "application/json");
-			int responseCode = connection_a.getResponseCode();
-			System.out.println("Response Code: " + responseCode);
-			// 웹 페이지 내용 읽기
-			BufferedReader in_a = new BufferedReader(new InputStreamReader(connection_a.getInputStream()));
-			StringBuffer rs_a = new StringBuffer();
-			String inputLine;
-			while ((inputLine = in_a.readLine()) != null) {
-				rs_a.append(inputLine);
-			}
-			in_a.close();
-			connection_a.disconnect();
-			System.out.println(rs_a.toString());
-			String result = getDataOne(rs_a.toString(), ",\"content\":\"", "\",\"status\"");
-
-			System.out.println(result);
-			System.out.println("GET2 걸린시간 : " + (System.currentTimeMillis() - unixTime));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	// ISBN값을 기준으로 값을 가져오는 웹크롤링 함수
-	public Map<String, String> book_AIRecommend(String isbn) {
-		Map<String, String> result = new HashMap<String, String>();
-		// 9788901271729 콜드리딩
-		// 9791168473690 세이노
-		System.out.println(
-				wrtn_qna("isbn값이 9788901271729인 책과 비슷한 책 5개 알려줘. 꼭 isbn값을 포함해야 해. 양식은 책 이름 : \\nisbn : 이렇게 작성해줘"));
-		return result;
-	}
-
-	// 뤼튼에게 요청하고 받아내기(gpt4.0,wrtn_search)
+	// 뤼튼에게 요청하고 받아내기(gpt4.0,wrtn_search, 답변이 지멋대로라 안정성 매우 떨어짐)
 	public String wrtn_qna(String query) {
 		String result = "";
 		try {
@@ -220,7 +315,7 @@ public class Book_Recommend {
 		return result;
 	}
 
-	// 헤더 설정을 위한 메소드
+	// 헤더 설정을 위한 메소드(뤼튼)
 	private void configureConnection(HttpURLConnection connection, String unixTime, String method)
 			throws ProtocolException {
 		connection.setRequestMethod(method);
