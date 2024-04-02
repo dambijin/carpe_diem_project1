@@ -3,7 +3,6 @@ package carpedm.mypage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -11,12 +10,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 @WebServlet("/mypage_chginfo")
 public class mypage_chginfoServlet extends HttpServlet {
@@ -65,16 +67,16 @@ public class mypage_chginfoServlet extends HttpServlet {
 
 // 기본적인 접속메소드
 	private Connection getConnection() {
-		Connection conn = null;
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-//	            System.out.println("db접속성공");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return conn;
-	}
+        Connection conn = null;
+        try {
+            Context ctx = new InitialContext();
+            DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/carpedm");
+            conn = dataFactory.getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
 
 	// 가져오기
 	private ArrayList<Map<String, String>> getDBList(String query) {

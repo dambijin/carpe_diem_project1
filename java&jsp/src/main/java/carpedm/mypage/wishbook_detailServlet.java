@@ -2,7 +2,6 @@ package carpedm.mypage;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -10,11 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 /**
  * Servlet implementation class wishbook_detailServlet
@@ -25,17 +27,17 @@ public class wishbook_detailServlet extends HttpServlet {
 	private static final String USER = "carpedm";
 	private static final String PASSWORD = "dm1113@";
 	
-	private Connection getConnection() {
-		Connection conn = null;
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-//		            System.out.println("db접속성공");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return conn;
-	}
+	 private Connection getConnection() {
+	        Connection conn = null;
+	        try {
+	            Context ctx = new InitialContext();
+	            DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/carpedm");
+	            conn = dataFactory.getConnection();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return conn;
+	    }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
