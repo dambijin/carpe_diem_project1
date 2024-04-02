@@ -23,9 +23,7 @@ import javax.sql.DataSource;
 @WebServlet("/mypage_loan_status")
 public class mypage_loan_statusServlet extends HttpServlet {
 	
-	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
-	private static final String USER = "carpedm";
-	private static final String PASSWORD = "dm1113@";
+	
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

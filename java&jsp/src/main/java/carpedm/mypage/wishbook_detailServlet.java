@@ -23,9 +23,6 @@ import javax.sql.DataSource;
  */
 @WebServlet("/wishbook_detail")
 public class wishbook_detailServlet extends HttpServlet {
-	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
-	private static final String USER = "carpedm";
-	private static final String PASSWORD = "dm1113@";
 	
 	 private Connection getConnection() {
 	        Connection conn = null;
