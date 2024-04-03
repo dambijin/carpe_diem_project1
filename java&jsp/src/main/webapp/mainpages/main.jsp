@@ -165,7 +165,7 @@
 
 /* 신착도서 */
 .announcement_library_information .newbook {
-	height: 430px;
+	height: 410px;
 	width: 100%;
 	background-color: rgba(140, 201, 240, 0.3);
 	border: 2px solid rgba(140, 201, 240, 0.6);
@@ -194,8 +194,14 @@
 	margin-top: 8px;
 	cursor: pointer;
 	width: 100%;
+
 }
 
+.newbook_table img {
+	width: 250px;
+	height: 300px;
+	object_fit: contain;
+}
 /* 도서관별이용정보 */
 .library_information_content .library_information {
 	background-color: rgba(239, 168, 176, 0.5);
@@ -551,16 +557,24 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 		<br>
 		<nav>
 			<div class="outer">
+				<!-- 메인배너 -->
 				<div class="inner-list">
-					<div class="inner">
-						<img class="banner" src="/carpedm/resource/banner3.png">
-					</div>
-					<div class="inner">
-						<img class="banner" src="/carpedm/resource/banner2.png">
-					</div>
-					<div class="inner">
-						<img class="banner" src="/carpedm/resource/banner3.png">
-					</div>
+					<%
+					ArrayList<Map<String, String>> banner_list = (ArrayList<Map<String, String>>) request.getAttribute("banner_list");
+
+					if(banner_list.size()<=0){%>
+						<div class="inner">
+							<img class="banner" src="/carpedm/resource/logo.png">
+						</div>
+					<%}
+					for (int i = 0; i < banner_list.size(); i++) {
+					%>
+						<div class="inner">
+							<img class="banner" src="<%=banner_list.get(i).get("BAN_IMGURL") %>" onerror="this.onerror=null; this.src='/carpedm/resource/logo.png'">
+						</div>
+					<%
+					}
+					%>
 				</div>
 				<div class="button-list">
 					<button class="button-left">←</button>
@@ -589,9 +603,9 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 						<td class="ann_day"><%=notice_list.get(i).get("N_DATE").substring(0, 10)%></td>
 					</tr>
 					<%
-					if (i >= 4) {
-						break;
-					}
+						if (i >= 4) {
+							break;
+						}
 					}
 					%>
 				</table>
@@ -617,6 +631,7 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 									src="<%=book_list.get(i).get("B_IMGURL")%>">
 							</div>
 							<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
+							<hr>
 							<div class="newbook_author"><%=book_list.get(i).get("B_AUTHOR")%></div>
 						</td>
 						<%

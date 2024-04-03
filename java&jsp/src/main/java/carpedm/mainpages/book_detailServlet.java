@@ -30,7 +30,7 @@ public class book_detailServlet extends HttpServlet {
 		if (b_id == null || "".equals(b_id)) {
 			b_id = "";
 		}
-
+	
 		String query = "";
 		query += "SELECT b.*, bg.bg_name, l.lb_name";
 		query += " FROM book b";

@@ -2,11 +2,12 @@ package carpedm.mainpages;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,17 +25,23 @@ public class mainServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+//		Date date = new Date();
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		//코드압축
+		String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		ArrayList<Map<String, String>> notice_list = getDBList("select n_id,n_title,n_date from notice where n_opt = 0 order by n_id desc");
 		ArrayList<Map<String, String>> book_list = getDBList("select b_id,b_title,b_author,b_imgurl from book order by b_id desc");
 		ArrayList<Map<String, String>> library_list = getDBList("select lb_name,lb_opentime,lb_address,lb_tel,lb_content from library");
-		ArrayList<Map<String, String>> banner_list = getDBList("select * from banner");
+		ArrayList<Map<String, String>> banner_list = getDBList("SELECT * FROM banner WHERE TO_DATE('"+now_date+"','YYYY-MM-DD HH24:MI:SS') BETWEEN ban_startdate AND ban_enddate");
 		
-		System.out.println(banner_list);
+//		System.out.println(banner_list);
+//		System.out.println(notice_list);
 		request.setAttribute("notice_list", notice_list);
 		request.setAttribute("book_list", book_list);
 		request.setAttribute("library_list", library_list);
 		request.setAttribute("banner_list", banner_list);
-//		System.out.println(notice_list);
+
 		request.getRequestDispatcher("/mainpages/main.jsp").forward(request, response);
 	}
 
