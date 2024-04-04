@@ -176,8 +176,8 @@
 
 <body>
 <%
-	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
-	List<Map<String, String>> member = (List<Map<String, String>>) request.getAttribute("member");
+	List<Map<String, String>> qna_notice = (List<Map<String, String>>) request.getAttribute("qna_notice");
+	List<Map<String, String>> library = (List<Map<String, String>>) request.getAttribute("library");
 	Map<String, String> map = new HashMap<String, String>();
 	%>
 	<header></header>
@@ -203,13 +203,13 @@
 					<div class="notice_table">
 						<table class="table_table">
 							<tr>
-								<td class="sub">제목<input type="hidden" name="n_id" value="<%=result_list.get(0).get("N_ID")%>"></td>
-								<td class="text"><input type="text" id="notice_write_title" value="<%=result_list.get(0).get("N_TITLE")%>" name="notice_subject"></td>
+								<td class="sub">제목<input type="hidden" name="n_id" value="<%=qna_notice.get(0).get("N_ID")%>"></td>
+								<td class="text"><input type="text" id="notice_write_title" value="<%=qna_notice.get(0).get("N_TITLE")%>" name="notice_subject"></td>
 							</tr>
 							<tr>
 								<td class="sub">작성자</td>
 								<td class="text" id="writer">
-									<%String name = member.get(0).get("M_NAME");										
+									<%String name = qna_notice.get(0).get("M_NAME");										
 									String rename = name.substring(0, 1) + "**"; %>
 									<%=rename%>
 								</td>
@@ -217,13 +217,10 @@
 							<tr>
 								<td class="sub">소속도서관</td>
 								<td class="text"><select class="textbox" id="library" name="library">
-								<%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
-								ArrayList<Map<String, String>> library_id = (ArrayList<Map<String, String>>) request.getAttribute("library_id");
-								%>
-								<option selected value="<%=library_list.get(0).get("LB_ID")%>"><%=library_list.get(0).get("LB_NAME")%></option>
-				<%for (int i = 0; i < library_id.size(); i++) {	%>
-    				<option value="<%=library_id.get(i).get("LB_ID")%>"><%= library_id.get(i).get("LB_NAME") %></option>
-				<% } %>
+								<option selected value="<%=qna_notice.get(0).get("LB_ID")%>"><%=qna_notice.get(0).get("LB_NAME")%></option>
+									<%for (int i = 0; i < library.size(); i++) {	%>
+    							<option value="<%=library.get(i).get("LB_ID")%>"><%= library.get(i).get("LB_NAME") %></option>
+									<% } %>
 								</select></td>
 							</tr>
 							<tr>
@@ -239,7 +236,7 @@
 
 					</div>
 					<div class="td1">
-						<textarea name="n_textarea" id="subtext"><%=result_list.get(0).get("N_CONTENT")%></textarea>
+						<textarea name="n_textarea" id="subtext"><%=qna_notice.get(0).get("N_CONTENT")%></textarea>
 					</div>
 
 					<div class="div_buttonAll">

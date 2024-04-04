@@ -74,7 +74,7 @@ window.onload = function() {
 		//        document.querySelector("#subject_file").innerHTML = '<a href="/path/to/your/file.pdf" download>첨부파일 다운로드</a>';
 
 		// 게시물삭제버튼
-		let QnA_delete = document.querySelector(".notice_but");
+		let QnA_delete = document.querySelector("#QnAdelete");
 		// 삭제버튼 클릭시
 		QnA_delete.addEventListener('click', function() {
 			alert("삭제되었습니다.");
@@ -324,7 +324,7 @@ window.onload = function() {
 							</td>
 						</tr>
 						<tr>
-							<td class="content" colspan="6"><%=select.get(0).get("N_CONTENT")%></td>
+							<td class="content" colspan="6"><%=select.get(0).get("N_CONTENT").replace("\n","<br>")%></td>
 						</tr>
 					</table>
 
@@ -339,7 +339,7 @@ window.onload = function() {
 					</div>
 					<div id="delet_but">
 						<form method="get" action="QnA_delete">
-							<button type="submit" class="notice_but"
+							<button type="submit" class="notice_but" id="QnAdelete"
 								onclick="location.href='QnA_delete?N_ID=<%=select.get(0).get("N_ID")%>';">삭제</button>
 						</form>
 					</div>

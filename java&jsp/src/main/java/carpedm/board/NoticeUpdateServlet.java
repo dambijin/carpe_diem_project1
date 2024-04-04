@@ -11,24 +11,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 @WebServlet("/notice_update")
 public class NoticeUpdateServlet extends HttpServlet {
-	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
-	private static final String USER = "carpedm";
-	private static final String PASSWORD = "dm1113@";
 
 //	DB접속 메소드
 	private static Connection getConnection() {
 		Connection conn = null;
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			Context ctx = new InitialContext();
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/carpedm");
+			conn = dataFactory.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -37,80 +38,35 @@ public class NoticeUpdateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		String url = request.getRequestURL().toString(); // 현재 URL 가져오기
-		String queryString = request.getQueryString(); // 쿼리 문자열 가져오기
-
-		int nid = 0;
-		if (queryString != null) {
-			String[] params = queryString.split("&"); // 쿼리 파라미터 분리
-
-			for (String param : params) {
-				String[] keyValue = param.split("="); // 파라미터 이름과 값 분리
-				String paramName = keyValue[0]; // 파라미터 이름
-				String paramValue = keyValue.length > 1 ? keyValue[1] : ""; // 파라미터 값
-
-				if (paramName.equals("N_ID")) {
-					nid = Integer.parseInt(paramValue);
-
-				}
-				System.out.println(nid);
-			}
+		try {
+			request.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=utf-8;");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 
+
+		String nid = request.getParameter("N_ID");
 //		실행할 쿼리문
-		String nid_query = "";
-		nid_query += "SELECT * FROM notice where";
-		nid_query += " n_id=";
-		nid_query += nid;
-
-//		System.out.println("N_ID 값: " + nid_query);
-		ArrayList<Map<String, String>> notice = getDBList(nid_query);
-
-		request.setAttribute("notice", notice);
-
-		String mPid = "";
-//		M_PID 컬럼 데이터 가져오기
-		if (notice != null && !notice.isEmpty()) {
-			for (int i = 0; i < notice.size(); i++) {
-				Map<String, String> row = notice.get(i);
-				mPid = row.get("M_PID");
-			}
-		}
-
-//		실행할 쿼리문
-		String member_query = "";
-		member_query += "SELECT *";
-		member_query += " FROM MEMBER where";
-		member_query += " M_PID=";
-		member_query += mPid;
-		ArrayList<Map<String, String>> member = getDBList(member_query);
-
-		request.setAttribute("member", member);
-
-		String lb_id = request.getParameter("LB_ID");
-
-//		도서관 쿼리문
-		String library = "";
-		library += "SELECT *";
-		library += " FROM LIBRARY ";
-		library += " WHERE LB_ID = ";
-		library += lb_id;
-		System.out.println(library);
-		ArrayList<Map<String, String>> library_list = getDBList(library);
-
-		request.setAttribute("library_list", library_list);
-
-//		실행할 쿼리문
-		String l_id = "";
-		l_id += "SELECT *";
-		l_id += " FROM LIBRARY";
-		l_id += " WHERE LB_ID <> ";
-		l_id += lb_id;
-		System.out.println("l_id :" + l_id);
-		ArrayList<Map<String, String>> library_id = getDBList(l_id);
-
-		request.setAttribute("library_id", library_id);
+		String notice = "";
+		notice += " SELECT n.*, m.M_NAME, l.LB_NAME";
+		notice += " FROM notice n";
+		notice += " JOIN member m ON n.M_PID = m.M_PID";
+		notice += " JOIN library l ON n.LB_ID = l.LB_ID";
+		notice += " WHERE n.N_ID = ";
+		notice += nid;
+		ArrayList<Map<String, String>> qna_notice = getDBList(notice);
+		request.setAttribute("qna_notice", qna_notice);
+		
+		String lb_id = qna_notice.get(0).get("LB_ID");
+		String library_query = "";
+		library_query += "SELECT *";
+		library_query += " FROM LIBRARY";
+		library_query += " WHERE LB_ID <> ";
+		library_query += lb_id;
+		System.out.println("library_query :" + library_query);
+		ArrayList<Map<String, String>> library = getDBList(library_query);
+		request.setAttribute("library", library);
 
 		request.getRequestDispatcher("board/notice_update.jsp").forward(request, response);
 
@@ -191,7 +147,6 @@ public class NoticeUpdateServlet extends HttpServlet {
 				notice_in += ", N_CONTENT = ?";
 				notice_in += " where N_ID = ";
 				notice_in += nid;
-				
 
 				// SQL 실행준비
 				PreparedStatement ps = conn.prepareStatement(notice_in);

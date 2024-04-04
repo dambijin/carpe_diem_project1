@@ -101,7 +101,7 @@ window.onload = function() {
 
     
 //  삭제버튼
-    document.querySelector("#notice_delete").addEventListener('click', function() {
+    debut.addEventListener('click', function() {
     	alert("삭제했습니다.");
     });
 };
@@ -166,7 +166,7 @@ window.onload = function() {
 								}%></td>
 						</tr>
 						<tr>
-							<td class="content" colspan="6" id="subject_cont"><%=notice.get(0).get("N_CONTENT")%></td>
+							<td class="content" colspan="6" id="subject_cont"><%=notice.get(0).get("N_CONTENT").replace("\n","<br>")%></td>
 						</tr>
 					</table>
 					<form method="get" action="notice_delete">
