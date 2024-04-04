@@ -34,7 +34,6 @@ public class Book_Recommend {
 		String result = "";
 		try {
 			long unixTime = System.currentTimeMillis();
-			// 뤼튼에게 답 받아내기
 			URL url_a = new URL("https://www.yes24.com/Product/Search?domain=ALL&query=" + isbn);
 			HttpURLConnection connection_a = (HttpURLConnection) url_a.openConnection();
 

@@ -31,12 +31,20 @@ public class book_detailServlet extends HttpServlet {
 			b_id = "";
 		}
 	
-		String query = "";
-		query += "SELECT b.*, bg.bg_name, l.lb_name";
-		query += " FROM book b";
-		query += " JOIN bookgenre bg ON b.bg_id = bg.bg_id";
-		query += " JOIN library l ON b.lb_id = l.lb_id";
-		query += " WHERE b.b_id = '" + b_id + "'";
+//		String query = "";
+//		query += "SELECT b.*, bg.bg_name, l.lb_name";
+//		query += " FROM book b";
+//		query += " JOIN bookgenre bg ON b.bg_id = bg.bg_id";
+//		query += " JOIN library l ON b.lb_id = l.lb_id";
+//		query += " WHERE b.b_id = '" + b_id + "'";
+		
+		String query = "SELECT b.*, bg.bg_name, l.lb_name, ln.L_RETURNDATE " +
+	             "FROM book b " +
+	             "JOIN bookgenre bg ON b.bg_id = bg.bg_id " +
+	             "JOIN library l ON b.lb_id = l.lb_id " +
+	             "LEFT JOIN LOAN ln ON b.b_id = ln.b_id " +
+	             "WHERE b.b_id = '" + b_id + "' "+
+	             "ORDER BY l_returndate DESC";
 
 		long unixTime = System.currentTimeMillis();
 		ArrayList<Map<String, String>> bookdetail_list = getDBList(query);

@@ -346,27 +346,29 @@ section {
         });
 
         //리다이렉트로 받아온 값을 재설정(ajax쓸껄...)
+        //키워드 유지
         document.getElementById("searchWord").value = "<%=request.getAttribute("searchWord")%>";
+        
+        //옵션값 유지
         let search_opt_list_values = document.getElementById("search_opt_list").options;
-        for(let i = 0; i< search_opt_list_values.length;i++)
-        {   
+        for(let i = 0; i< search_opt_list_values.length;i++){   
             if(search_opt_list_values[i].value == '<%=request.getAttribute("item")%>') {
             	search_opt_list_values.selectedIndex = i;
                 break;
             }
         }
+        //옵션값 유지
         let result_filter1_values = document.getElementById("result_filter1").options;
-        for(let i = 0; i< result_filter1_values.length;i++)
-        {   
+        for(let i = 0; i< result_filter1_values.length;i++){   
             if(result_filter1_values[i].value == '<%=request.getAttribute("perPage")%>') {
             	result_filter1_values.selectedIndex = i;
                 break;
             }
         }
 
+        //옵션값 유지
         let result_filter2_values = document.getElementById("result_filter2").options;
-        for(let i = 0; i< result_filter2_values.length;i++)
-        {   
+        for(let i = 0; i< result_filter2_values.length;i++){   
             if(result_filter2_values[i].value == '<%=request.getAttribute("okywd")%>') {
             	result_filter2_values.selectedIndex = i;
                 break;
