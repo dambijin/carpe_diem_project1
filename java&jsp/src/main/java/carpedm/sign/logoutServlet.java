@@ -21,7 +21,17 @@ public class logoutServlet extends HttpServlet {
 		lcCookie.setMaxAge(0);
 		lcCookie.setPath("/");
 		response.addCookie(lcCookie);  // 응답에 쿠키를 추가합니다.
-		response.sendRedirect("/carpedm/main");
+		//"Referer" 값가져오기(이전 주소)
+		String referer = request.getHeader("Referer");
+
+		// referer 값이 null이 아니면, 그 주소로 리디렉션
+		if (referer != null) {
+		    response.sendRedirect(referer);
+		} else {
+		    // referer 값이 없는 경우
+			response.sendRedirect("/carpedm/main");
+		}
+	
 	}
 
 }

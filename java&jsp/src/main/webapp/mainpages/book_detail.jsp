@@ -142,14 +142,16 @@ section {
 
 /* 추천도서 */
 .recommendbook {
-	height: 480px;
+	height: 490px;
 	width: 100%;
-	background-color: rgba(199, 156, 200, 0.3);
-	border: 2px solid rgba(140, 201, 240, 0.6);
+	background-color: rgba(220, 220, 220);
+/*  	border: 2px solid black;  */
 	font-size: 20px;
 	font-weight: bold;
 	text-align: center;
 	font-family: "Wanted Sans Variable";
+	margin-top:10px;
+	padding-top:10px;
 }
 
 /* 추천도서 테이블 */
@@ -160,7 +162,7 @@ section {
 }
 
 .recommendbook_table td {
-	border-right: 2px solid rgba(140, 201, 240, 0.6);
+	border-right: 2px solid black;
 	width: 300px;
 }
 
@@ -173,7 +175,7 @@ section {
 
 .recommendbook_table img {
 	width: 250px;
-	height: 370px;
+	height: 355px;
 	object_fit: contain;
 }
 </style>

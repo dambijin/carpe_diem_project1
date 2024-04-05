@@ -6,7 +6,7 @@ function isLoggedIn() {
 
 function mchk() {
     // 예를 들어, 쿠키에 'login'이라는 이름의 값이 있는지 확인합니다.
-    return document.cookie.includes('lc=Y');
+    return document.cookie.includes('lc=9');
 // return true;
 }
 

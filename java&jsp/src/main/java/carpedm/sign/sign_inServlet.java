@@ -96,7 +96,16 @@ public class sign_inServlet extends HttpServlet {
 //		}
 //
 //		request.setAttribute("idpw_list", list);
-//
+
+		// 로그인페이지에 접속하면 강제로 로그인 풀어버리기
+		HttpSession session = request.getSession(false); // 현재 세션 가져오기. 없으면 null 반환
+		if (session != null) {
+			session.invalidate(); // 세션 초기화
+		}
+		Cookie lcCookie = new Cookie("lc", "");
+		lcCookie.setMaxAge(0);
+		lcCookie.setPath("/");
+		response.addCookie(lcCookie); // 응답에 쿠키를 추가합니다.
 		request.getRequestDispatcher("sign/sign_in.jsp").forward(request, response);
 
 	}
@@ -110,11 +119,10 @@ public class sign_inServlet extends HttpServlet {
 		System.out.println(userpw);
 		// 데이터베이스에서 사용자 정보를 가져옵니다.
 		// 이 부분은 실제 데이터베이스 환경에 맞게 수정해야 합니다.
-		List<Map<String, String>> idpw_list = getUserInfoFromDatabase(userid,userpw);
+		List<Map<String, String>> idpw_list = getUserInfoFromDatabase(userid, userpw);
 
 		boolean found = false;
-		if(idpw_list.size()>0)
-		{
+		if (idpw_list.size() > 0) {
 			found = true;
 		}
 		PrintWriter out = response.getWriter();
@@ -126,11 +134,19 @@ public class sign_inServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("m_pid", idpw_list.get(0).get("M_PID"));
 			session.setAttribute("m_managerchk", idpw_list.get(0).get("M_MANAGERCHK"));
-			
-		    // 세션 ID를 쿠키에 저장합니다.
-		    Cookie sessionCookie = new Cookie("lc", idpw_list.get(0).get("M_MANAGERCHK"));
-		    sessionCookie.setPath("/");  // 쿠키의 유효 경로를 설정합니다.
-		    response.addCookie(sessionCookie);
+
+			// 세션 ID를 쿠키에 저장합니다.
+			String rnd_sessionKey = System.currentTimeMillis() + "";
+			if (idpw_list.get(0).get("M_MANAGERCHK").equals("Y")) {
+				System.out.println("매니저임");
+				rnd_sessionKey = "9" + rnd_sessionKey;
+			} else {
+				rnd_sessionKey = "1" + rnd_sessionKey;
+			}
+			System.out.println(rnd_sessionKey);
+			Cookie sessionCookie = new Cookie("lc", rnd_sessionKey);
+			sessionCookie.setPath("/"); // 쿠키의 유효 경로를 설정합니다.
+			response.addCookie(sessionCookie);
 			out.print("{\"success\": true}");
 		} else {
 			// 로그인 실패: 클라이언트에게 로그인 실패 메시지를 보냅니다.
@@ -142,7 +158,7 @@ public class sign_inServlet extends HttpServlet {
 	// 이 메소드는 실제 데이터베이스 환경에 맞게 수정해야 합니다.
 	private List<Map<String, String>> getUserInfoFromDatabase(String id, String pw) {
 		List<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
-		String query = "SELECT * FROM member where m_id='"+id+"' AND m_pw='"+pw+"'";
+		String query = "SELECT * FROM member where m_id='" + id + "' AND m_pw='" + pw + "'";
 		try {
 			Connection conn = getConnection();
 			// SQL준비
