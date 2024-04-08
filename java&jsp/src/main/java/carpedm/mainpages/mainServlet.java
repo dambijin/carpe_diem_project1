@@ -62,8 +62,8 @@ public class mainServlet extends HttpServlet {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
 			Connection conn = getConnection();
+			
 			// SQL준비
-
 			System.out.println("query:" + query);
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(query);

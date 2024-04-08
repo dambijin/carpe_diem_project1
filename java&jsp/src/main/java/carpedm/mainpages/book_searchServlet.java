@@ -6,7 +6,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ import javax.sql.DataSource;
 public class book_searchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// ajax로 할껄 급 후회중...
+
 		// 검색어
 		String searchWord = request.getParameter("search");
 		if (searchWord == null || "".equals(searchWord)) {
@@ -43,6 +45,8 @@ public class book_searchServlet extends HttpServlet {
 				item_query = "b.b_publisher";
 			} else if (item.equals("키워드")) {
 				item_query = "b.b_kywd";
+			} else if (item.equals("ISBN")) {
+				item_query = "b.b_isbn";
 			}
 		}
 
@@ -69,6 +73,7 @@ public class book_searchServlet extends HttpServlet {
 		if (okywd == null || "".equals(okywd)) {
 			okywd = "제목 오름차순";
 		}
+
 		String okywd_kywd = "b.b_title";
 		String okywd_order = "ASC";
 		try {
@@ -87,6 +92,7 @@ public class book_searchServlet extends HttpServlet {
 			}
 			if (temp_order.equals("내림차순"))
 				okywd_order = "DESC";
+
 		} catch (Exception e) {
 			okywd_kywd = "b.b_title";
 			okywd_order = "ASC";
@@ -131,6 +137,14 @@ public class book_searchServlet extends HttpServlet {
 		String book_count = getDBList(baseQuery.trim()).size() + "";
 //		System.out.println(book_count);
 
+		// 키워드조회테이블에 조회값 등록
+		if (!"".equals(searchWord) && searchWord != null) {
+			String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+			setDBList("INSERT INTO searchinfo (SI_ID, SI_KEYWORD, SI_OPT, SI_TIME,B_ID) " + "VALUES ("
+					+ " searchinfo_seq.nextval," + " '" + searchWord + "'," + " '" + item + "',"
+					+ " TO_DATE('" + now_date + "', 'YYYY-MM-DD HH24:MI:SS')," + " ''" + ")");
+		}
+
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("item", item);
 		request.setAttribute("page", page);
@@ -141,6 +155,7 @@ public class book_searchServlet extends HttpServlet {
 
 		request.setAttribute("book_list", book_list);
 		request.setAttribute("library_list", library_list);
+
 		request.getRequestDispatcher("/mainpages/book_search.jsp").forward(request, response);
 	}
 

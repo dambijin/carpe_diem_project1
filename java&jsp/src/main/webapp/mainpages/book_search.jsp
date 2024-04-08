@@ -528,6 +528,7 @@ section {
 										<option>저자</option>
 										<option>출판사</option>
 										<option>키워드</option>
+										<option>ISBN</option>
 								</select>
 								</strong> <input type="text" name="word" autocomplete="off"
 									id="searchWord" style="ime-mode: active"

@@ -544,6 +544,7 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 								<option>저자</option>
 								<option>출판사</option>
 								<option>키워드</option>
+								<option>ISBN</option>
 						</select>
 						</strong> <input type="text" name="searchWord" autocomplete="off"
 							id="searchWord" style="ime-mode: active" placeholder="검색어를 적어주세요">

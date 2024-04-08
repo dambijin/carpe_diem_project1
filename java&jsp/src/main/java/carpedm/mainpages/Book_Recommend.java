@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.zip.GZIPInputStream;
 
 import javax.servlet.ServletException;
@@ -109,7 +110,6 @@ public class Book_Recommend {
 				while ((inputLine = in_a.readLine()) != null) {
 					rs_a.append(inputLine);
 				}
-				// in_a.close(); // try-with-resources를 사용하여 자동으로 close 됩니다.
 
 			} else {
 				BufferedReader in_a = new BufferedReader(
@@ -118,7 +118,6 @@ public class Book_Recommend {
 				while ((inputLine = in_a.readLine()) != null) {
 					rs_a.append(inputLine);
 				}
-				// in_a.close(); // try-with-resources를 사용하여 자동으로 close 됩니다.
 			}
 
 			connection_a.disconnect();
@@ -126,7 +125,11 @@ public class Book_Recommend {
 			String book_list_text = getDataOne(rs_a.toString(), "id=\"nomiBoxRoolGrp_buyNCateGoodsWrap\"",
 					"class=\"yPagenNum\"");
 			String[] book_list = getDataList(book_list_text, "<li id=\"recommend_goods_area\"", "</li>");
+			
+			//약 16개의 책을 가져오는데, 랜덤으로 섞어서 3개만 가져오도록 함
+			shuffleArray(book_list);
 
+			System.out.println("책 개수:" + book_list.length);
 			for (int i = 0; i < book_list.length; i++) {
 				// 책 이미지쪽을 통채로 오려냄(제목까지 포함되어있기 때문)
 				String book = getDataOne(book_list[i], "<img class", "</a");
@@ -134,7 +137,7 @@ public class Book_Recommend {
 				String b_img = getDataOne(book, "data-original=\"", "\"");
 				// 책 제목
 				String b_title = getDataOne(book, " alt=\"", "\"");
-				// 책 제목
+				// 책 저자
 				String b_auth = getDataOne(book_list[i], "class=\"goods_auth\">", "</span");
 				System.out.println(b_img);
 				System.out.println(b_title);
@@ -345,8 +348,8 @@ public class Book_Recommend {
 		}
 
 		if (startIndex != -1) {
-			// startIndex + start.length()를 해줌으로써, 시작 태그 바로 뒤의 위치를 얻습니다.
-			// endIndex는 종료 태그의 시작 위치 또는 문자열의 끝이므로, 이 사이의 문자열을 추출합니다.
+			// startIndex + start.length()를 해줌으로써, 시작 태그 바로 뒤의 위치를 획득
+			// endIndex는 종료 태그의 시작 위치 또는 문자열의 끝이므로, 이 사이의 문자열을 추출
 			return source.substring(startIndex + start.length(), endIndex);
 		} else {
 			return "";
@@ -380,4 +383,18 @@ public class Book_Recommend {
 		// 결과 리스트를 배열로 변환하여 반환
 		return resultList.toArray(new String[0]);
 	}
+	
+    // Fisher-Yates shuffle 알고리즘을 사용하여 배열을 섞는 메소드
+    public static void shuffleArray(String[] book_list) {
+        Random rnd = new Random();
+        
+        for (int i = book_list.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            
+            // 현재 원소와 랜덤하게 선택된 원소를 교환
+            String temp = book_list[index];
+            book_list[index] = book_list[i];
+            book_list[i] = temp;
+        }
+    }
 }
