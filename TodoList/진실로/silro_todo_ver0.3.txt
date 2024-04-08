@@ -52,7 +52,7 @@ v 수정되었으면 등록일에 [(수정)제목] 될 수 있게 만들기
 
 ◆ QnA 답글수정(QnA_replyl_update)
 - 페이지 생성
-
+- 수정하면 제목에 수정
 
 ◆ QnA 답글상세페이지(QnA_reply_detail)
 - QnA상세페이지랑 같음
