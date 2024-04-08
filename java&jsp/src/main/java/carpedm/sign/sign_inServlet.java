@@ -134,6 +134,7 @@ public class sign_inServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("m_pid", idpw_list.get(0).get("M_PID"));
 			session.setAttribute("m_managerchk", idpw_list.get(0).get("M_MANAGERCHK"));
+			session.setAttribute("m_name", idpw_list.get(0).get("M_NAME"));
 
 			// 세션 ID를 쿠키에 저장합니다.
 			String rnd_sessionKey = System.currentTimeMillis() + "";

@@ -103,14 +103,6 @@ window.onload = function() {
 					fileName.value = imgFile.name;
 				});
 
-		//등록일에 현재날짜 넣기
-		var today = new Date(); // 현재 날짜와 시간을 가져옴
-		var dd = String(today.getDate()).padStart(2, '0'); // 일자를 2자리 문자열로 변환
-		var mm = String(today.getMonth() + 1).padStart(2, '0'); // 월을 2자리 문자열로 변환 (JavaScript의 월은 0부터 시작하므로 1을 더함)
-		var yyyy = today.getFullYear(); // 연도를 가져옴
-
-		today = yyyy + '-' + mm + '-' + dd; // 'YYYY-MM-DD' 형식의 문자열로 변환
-		document.querySelector('.redate').innerHTML = today; // <input> 요소의 value 속성에 설정
 
 		// 유효성검사
 		// 등록 버튼
@@ -335,7 +327,8 @@ window.onload = function() {
 
 					<div id="detail_but">
 						<button type="button" class="notice_but completion reply"
-							id="writebut">답글</button>
+							id="writebut"
+							onclick="location.href='QnA_reply_write?N_ID=<%=select.get(0).get("N_ID")%>';">답글</button>
 					</div>
 					<div id="delet_but">
 						<form method="get" action="QnA_delete">
@@ -343,47 +336,6 @@ window.onload = function() {
 								onclick="location.href='QnA_delete?N_ID=<%=select.get(0).get("N_ID")%>';">삭제</button>
 						</form>
 					</div>
-					<hr class="detail_hr">
-				</div>
-
-				<div class="QnA_detail answer_detail">
-					<table>
-						<tr>
-							<td class="subject">제목</td>
-							<td colspan="5" class="subject_title"><input type="text"
-								class="answer_write answer_subject" id="answer_title"></td>
-						</tr>
-						<tr>
-							<td class="subject ">작성자</td>
-							<td class="writer"><input type="text"
-								class="answer_write answer_admin" value="admin"></td>
-							<td class="subject">등록일</td>
-							<td class="redate"></td>
-							<td class="subject inquiry">조회</td>
-							<td class="inquiry">0</td>
-						</tr>
-						<tr>
-							<td class="subject">도서관</td>
-							<td colspan="5"><select id="libs_info">
-							</select></td>
-						</tr>
-						<tr>
-							<td class="subject">첨부</td>
-							<td colspan="5"><input type="text" id="file_route"
-								disabled="disabled" value=""> <label for="upload_file"
-								class="btn" id="file_upload">파일첨부</label> <input type="file"
-								id="upload_file" required=true
-								style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
-						</tr>
-						<tr>
-							<td class="content" colspan="6"><textarea type="textarea"
-									class="answer_write answer_textarea" placeholder="답글을 입력해주세요"
-									id="awtext"></textarea></td>
-						</tr>
-					</table>
-					<!-- <button type="button" class="notice_but" onclick="location.href='QnA_update.jsp';">수정</button> -->
-					<button type="button" class="notice_but" id="registration">등록</button>
-					<button type="button" class="notice_but" id="answer_delete">삭제</button>
 				</div>
 			</div>
 		</div>
