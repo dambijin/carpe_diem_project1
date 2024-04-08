@@ -312,6 +312,31 @@ section {
 	background-color: #007bff;
 	color: #fff;
 }
+/* 인기검색어 */
+.pop_search_table {
+	width: 60%;
+	margin: 20px auto;
+	border-collapse: collapse;
+}
+
+.pop_search_table th, .keyword-table td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: left;
+}
+
+.pop_search_table th {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.pop_search_table tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+.pop_search_table tr:hover {
+	background-color: #ddd;
+}
 </style>
 </head>
 
@@ -404,18 +429,17 @@ section {
 
     function openBookDetail(b_id) {
         // 쿼리 문자열을 URL에 추가하여 새 창을 열기
-        window.open('book_detail?id='+b_id ,"", "width=900,height=600");
+        window.open("book_detail?id="+ b_id + "&si_id=<%=request.getAttribute("si_id")%>" ,"", "width=900,height=600");
     }
 
 
     //예약기능
 	function reservation(b_id) {
-		<%// 세션에서 현재 아이디값 가져오기
-		HttpSession getSession = request.getSession();
-		String login_m_pid = (String) getSession.getAttribute("m_pid");%>
+    	//현재 세션에서 아이디 값 가져오기
+		 var login_m_pid = "<%= (String)request.getSession().getAttribute("m_pid") %>";
 // 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
-	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
+	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(login_m_pid);
 		//dopost로 보내기위한 코드
 	    fetch(url, {
 	      method: 'POST',
@@ -641,8 +665,8 @@ section {
 				<%
 				if (current_page > 1) {
 				%>
-				<a href="javascript:void(0);" onclick="search2(<%=current_page - 1%>)"
-					class="pre">◀</a>
+				<a href="javascript:void(0);"
+					onclick="search2(<%=current_page - 1%>)" class="pre">◀</a>
 				<%
 				}
 				%>
@@ -657,13 +681,40 @@ section {
 				<%
 				if (current_page < total_pages) {
 				%>
-				<a href="javascript:void(0);" onclick="search2(<%=current_page + 1%>)"
-					class="next">▶</a>
+				<a href="javascript:void(0);"
+					onclick="search2(<%=current_page + 1%>)" class="next">▶</a>
 				<%
 				}
 				%>
 			</div>
 		</div>
+
+		<h2 style="text-align: center;">인기 검색어 TOP 10</h2>
+
+		<table class="pop_search_table">
+			<thead>
+				<tr>
+					<th>순위</th>
+					<th>검색어</th>
+					<th>횟수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				ArrayList<Map<String, String>> pop_search_list = (ArrayList<Map<String, String>>) request
+						.getAttribute("pop_search_list");
+				for (int i = 0; i < pop_search_list.size(); i++) {
+				%>
+				<tr>
+					<td><%=(i + 1)%></td>
+					<td><%=pop_search_list.get(i).get("SI_KEYWORD")%></td>
+					<td><%=pop_search_list.get(i).get("KEYWORD_COUNT")%></td>
+				</tr>
+				<%
+				}
+				%>
+			</tbody>
+		</table>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header.js"></script>

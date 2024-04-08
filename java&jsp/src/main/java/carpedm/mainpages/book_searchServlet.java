@@ -138,12 +138,34 @@ public class book_searchServlet extends HttpServlet {
 //		System.out.println(book_count);
 
 		// 키워드조회테이블에 조회값 등록
+		String si_id = "";
 		if (!"".equals(searchWord) && searchWord != null) {
 			String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 			setDBList("INSERT INTO searchinfo (SI_ID, SI_KEYWORD, SI_OPT, SI_TIME,B_ID) " + "VALUES ("
-					+ " searchinfo_seq.nextval," + " '" + searchWord + "'," + " '" + item + "',"
-					+ " TO_DATE('" + now_date + "', 'YYYY-MM-DD HH24:MI:SS')," + " ''" + ")");
+					+ " searchinfo_seq.nextval," + " '" + searchWord + "'," + " '" + item + "'," + " TO_DATE('"
+					+ now_date + "', 'YYYY-MM-DD HH24:MI:SS')," + " ''" + ")");
+
+			// 조회id값 가져오기
+			ArrayList<Map<String, String>> si_id_list = getDBList(
+					"select si_id from (select si_id from searchinfo order by si_id desc) WHERE ROWNUM <= 1");
+			if (si_id_list.size() > 0) {
+				si_id = si_id_list.get(0).get("SI_ID");
+				System.out.println(si_id);
+			}
 		}
+
+		// 인기검색어 리스트 가져오기
+		ArrayList<Map<String, String>> pop_search_list = getDBList(
+				"SELECT si_keyword, keyword_count"
+				+ " FROM ("
+				+ " SELECT si_keyword, COUNT(si_keyword) AS keyword_count"
+				+ " FROM searchinfo"
+				+ " GROUP BY si_keyword"
+				+ " ORDER BY COUNT(si_keyword) DESC"
+				+ ")"
+				+ " WHERE ROWNUM <= 10");
+		
+		System.out.println(pop_search_list);
 
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("item", item);
@@ -152,9 +174,11 @@ public class book_searchServlet extends HttpServlet {
 		request.setAttribute("okywd", okywd);
 		request.setAttribute("book_count", book_count);
 		request.setAttribute("libraryIds", libraryIds);
+		request.setAttribute("si_id", si_id);
 
 		request.setAttribute("book_list", book_list);
 		request.setAttribute("library_list", library_list);
+		request.setAttribute("pop_search_list", pop_search_list);
 
 		request.getRequestDispatcher("/mainpages/book_search.jsp").forward(request, response);
 	}
