@@ -139,7 +139,7 @@ public class QnAWriteServlet extends HttpServlet {
 				notice_in += " , ?"; // 작성내용
 				notice_in += " , 0";
 				notice_in += " , sysdate";
-				notice_in += " , ?)"; // 임의값 추후 로그인했을때 불러와야함
+				notice_in += " , ?)";
 
 				System.out.println(notice_in);
 				// SQL 실행준비

@@ -189,44 +189,47 @@ List<Map<String, String>> library = (List<Map<String, String>>) request.getAttri
 					onclick="location.href='wishbook_add';">희망도서신청</button>
 			</div>
 			<div class="right_section" id="rs">
-				<div class="QnA_detail answer_detail">
-					<table>
-						<tr>
-							<td class="subject">제목</td>
-							<td colspan="5" class="subject_title"><input type="text"
-								class="answer_write answer_subject" id="answer_title"
-								value="RE : <%=qna_notice.get(0).get("N_TITLE")%>"></td>
-						</tr>
-						<tr>
-							<td class="subject ">작성자</td>
-							<td class="writer" colspan="5"><input type="text"
-								class="answer_write answer_admin" value="<%=login_name%>"></td>
-						</tr>
-						<tr>
-							<td class="subject">도서관</td>
-							<td colspan="5"><select id="libs_info">
-							<option selected value="<%=qna_notice.get(0).get("LB_ID")%>"><%=qna_notice.get(0).get("LB_NAME")%></option>
-				<%for (int i = 0; i < library.size(); i++) {	%>
-    				<option value="<%=library.get(i).get("LB_ID")%>"><%= library.get(i).get("LB_NAME") %></option>
-				<% } %>
-							</select></td>
-						</tr>
-						<tr>
-							<td class="subject">첨부</td>
-							<td colspan="5"><input type="text" id="file_route"
-								disabled="disabled" value=""> <label for="upload_file"
-								class="btn" id="file_upload">파일첨부</label> <input type="file"
-								id="upload_file" required=true
-								style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
-						</tr>
-						<tr>
-							<td class="content" colspan="6"><textarea type="textarea"
-									class="answer_write answer_textarea" placeholder="답글을 입력해주세요"
-									id="awtext"></textarea></td>
-						</tr>
-					</table>
-					<button type="button" class="notice_but" id="registration">등록</button>
-				</div>
+				<form method="post" action="QnA_reply_write">
+					<div class="QnA_detail answer_detail">
+						<table>
+							<tr>
+								<td class="subject">제목</td>
+								<td colspan="5" class="subject_title">
+									<input type="text" class="answer_write answer_subject" id="answer_title" name="title"
+											value="RE : <%=qna_notice.get(0).get("N_TITLE")%>">
+									<input type="hidden" name="pub" value="<%=qna_notice.get(0).get("N_OPT")%>">
+									<input type="hidden" name="p_nid" value="<%=qna_notice.get(0).get("N_ID")%>">
+								</td>
+							</tr>
+							<tr>
+								<td class="subject ">작성자</td>
+								<td class="writer" colspan="5"><%=login_name%></td>
+							</tr>
+							<tr>
+								<td class="subject">도서관</td>
+								<td colspan="5"><select id="libs_info" name="n_library">
+								<option selected value="<%=qna_notice.get(0).get("LB_ID")%>"><%=qna_notice.get(0).get("LB_NAME")%></option>
+								<%for (int i = 0; i < library.size(); i++) {	%>
+	    						<option value="<%=library.get(i).get("LB_ID")%>"><%= library.get(i).get("LB_NAME") %></option>
+								<% } %>
+								</select></td>
+							</tr>
+							<tr>
+								<td class="subject">첨부</td>
+								<td colspan="5"><input type="text" id="file_route" disabled="disabled" value="">
+									<label for="upload_file" class="btn" id="file_upload" >파일첨부</label>
+									<input type="file" id="upload_file" name="n_file"
+									style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
+							</tr>
+							<tr>
+								<td class="content" colspan="6"><textarea type="textarea"
+										class="answer_write answer_textarea" placeholder="답글을 입력해주세요"
+										id="awtext" name="n_textarea"></textarea></td>
+							</tr>
+						</table>
+						<button type="submit" class="notice_but" id="registration">등록</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</section>

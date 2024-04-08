@@ -428,7 +428,9 @@
                             <thead>
                                 <tr>
                                     <th>제목</th>
-                                    <td><input type="text" class="inputbox" placeholder="제목" id="sject" name="title"></td>
+                                    <td>
+                                    	<input type="text" class="inputbox" placeholder="제목" id="sject" name="title">
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -449,17 +451,15 @@
 								<th class="sub">소속도서관</th>
 								<td class="text"><select class="textbox" id="library" name="library">
 								<%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
-
-				for (int i = 0; i < library_list.size(); i++) {
-				%>
-    				<option value="<%= library_list.get(i).get("LB_ID")%>"><%= library_list.get(i).get("LB_NAME") %></option>
-				<% } %>
+								for (int i = 0; i < library_list.size(); i++) {
+								%>
+    							<option value="<%= library_list.get(i).get("LB_ID")%>"><%= library_list.get(i).get("LB_NAME") %></option>
+								<% } %>
 								</select></td>
 							</tr>
                                 <tr>
                                     <th>공개</th>
                                     <td class="private">
-
                                         <input type="radio" name="pub" checked value="1">
                                         공개
                                         <input type="radio" name="pub" value="2">
@@ -491,12 +491,9 @@
                     </div>
                     <!-- 버튼 -->
                     <div class="div_buttonAll">
-
                         <div class="div_button">
                             <button class="button" type="submit" id="save">등록</button>
-                            
                         </div>
-
                     </div>
                     </form>
                 </div>

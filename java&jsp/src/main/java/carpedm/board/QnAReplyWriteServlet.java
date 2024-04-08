@@ -47,6 +47,9 @@ public class QnAReplyWriteServlet extends HttpServlet {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		
+		HttpSession getSession = request.getSession();
+		String login_mname = (String) getSession.getAttribute("m_name");
 
 		String nid = request.getParameter("N_ID");
 //		실행할 쿼리문
@@ -70,13 +73,13 @@ public class QnAReplyWriteServlet extends HttpServlet {
 //		System.out.println("library_query :" + library_query);
 		ArrayList<Map<String, String>> library = getDBList(library_query);
 		request.setAttribute("library", library);
+
 		
+
 		request.getRequestDispatcher("board/QnA_reply_write.jsp").forward(request, response);
 
 	}
-	
-	
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 한글깨짐방지
@@ -90,11 +93,8 @@ public class QnAReplyWriteServlet extends HttpServlet {
 		System.out.println(replyCreate(request, response));
 		response.sendRedirect("QnA_board");
 	}
-	
-	
-	
-//	답글 생성
-//	DB업데이트 or 인서트 등등을 할 수 있는 메소드
+
+//	인서트
 	private int replyCreate(HttpServletRequest request, HttpServletResponse response) {
 		int result = -1;
 		try {
@@ -104,7 +104,8 @@ public class QnAReplyWriteServlet extends HttpServlet {
 			String n_fi = request.getParameter("n_file"); // 파일
 			String n_write = request.getParameter("n_textarea"); // 글 내용(textarea)
 			String n_pub = request.getParameter("pub"); // 공개글 or 비공개글
-			String n_lb = request.getParameter("library"); // 소속 도서관
+			String n_lb = request.getParameter("n_library"); // 소속 도서관
+			String p_nid = request.getParameter("p_nid"); // 부모글 ID
 
 			HttpSession getSession = request.getSession();
 			String login_m_pid = (String) getSession.getAttribute("m_pid");
@@ -122,7 +123,8 @@ public class QnAReplyWriteServlet extends HttpServlet {
 				notice_in += " , N_CONTENT";
 				notice_in += " , N_VIEWCOUNT";
 				notice_in += " , N_DATE";
-				notice_in += " , M_PID)";
+				notice_in += " , M_PID";
+				notice_in += " , N_PARENT_ID)";
 				notice_in += " values(";
 				notice_in += " notice_seq.NEXTVAL";
 				// 도서관 로그인하면 불러오기 사용 필요
@@ -132,9 +134,10 @@ public class QnAReplyWriteServlet extends HttpServlet {
 				notice_in += " , ?"; // 작성내용
 				notice_in += " , 0";
 				notice_in += " , sysdate";
-				notice_in += " , ?)"; // 임의값 추후 로그인했을때 불러와야함
+				notice_in += " , ?"; // 로그인한 아이디 M_PID
+				notice_in += " , ?)"; // 부모글 ID
 
-				System.out.println(notice_in);
+//				System.out.println(notice_in);
 				// SQL 실행준비
 				PreparedStatement ps = conn.prepareStatement(notice_in);
 				ps.setString(1, n_pub);
@@ -142,6 +145,7 @@ public class QnAReplyWriteServlet extends HttpServlet {
 				ps.setString(3, n_subject);
 				ps.setString(4, n_write);
 				ps.setString(5, login_m_pid);
+				ps.setString(6, p_nid);
 
 				result = ps.executeUpdate();
 				System.out.println("바뀐 행 수:" + result);
@@ -175,7 +179,6 @@ public class QnAReplyWriteServlet extends HttpServlet {
 					String columnName = rsmd.getColumnName(i);
 					map.put(columnName, rs.getString(columnName));
 				}
-
 				result_list.add(map);
 //			    값 잘 나오는지 확인
 //			    System.out.println(result_list.get(0).get("N_TITLE"));
