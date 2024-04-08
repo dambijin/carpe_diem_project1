@@ -5,6 +5,9 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,94 +109,10 @@
 // 			todolist.append(tr);
 // 		}
 
-		// 검색옵션 기본세팅
-		// select 옵션 가져와서 변수에담고
-		// html 변수에 배열의 값을 추가해서 for문 돌림
-		let search_opt_list = ["전체", "순번", "회원번호", "이름", "회원ID", "생년월일", "전화번호", "주소"];
-
-		for (let i = 0; i < search_opt_list.length; i++) {
-			let search_opt = document.querySelector("#search_option");
-			let html = '';
-			html += search_opt_list[i];
-
-			let opt = document.createElement("option");//<option></option>
-			opt.innerHTML = html;//<option>serach_opt_list[i]</option>
-
-			search_opt.append(opt);
-		}
 		
-		var searchButton = document.querySelector('.button');
-    	if (searchButton) {
-      		searchButton.addEventListener('click', search);
-    	}
-    	var textbox = document.getElementById("input_todo");
-      	textbox.addEventListener("keydown", function (event) {
-        	if (event.key === "Enter") {
-          	search();
-        	}
-      	});
-	};
-
-	
-	// 검색기능
-	function search() {
-	    // 검색어 입력란과 검색 옵션의 DOM 요소 가져오기
-	    var textbox = document.getElementById("input_todo");
-	    var searchOption = document.getElementById("search_option").value;
-	
-	    // AJAX 요청을 서블릿으로 전송
-	    xhr = new XMLHttpRequest();	    
-	    xhr.onreadystatechange = function () {
-	        // 서블릿 응답이 도착하면 실행
-	        if (xhr.readyState == 4 && xhr.status == 200) {
-	            // 서블릿에서 받은 JSON 데이터를 파싱
-	            var responseData = JSON.parse(xhr.responseText);
-	            // 테이블을 새 데이터로 업데이트하는 함수 호출
-	            updateTable(responseData);
-	        }
-	    };	
-	
-	    // 검색어와 검색 옵션을 포함한 URL 생성
-	    var url = "/carpedm/admin_member_list?search=" + encodeURIComponent(textbox.value) + "&searchOption=" + encodeURIComponent(searchOption);
-	
-	    // AJAX 요청 열기 및 전송
-	    xhr.open("GET", url, true);
-	    xhr.send();
 	}
 	
-	// 테이블 업데이트 함수
-	function updateTable(data) {
-	    // 테이블의 tbody 요소 가져오기
-	    var memberListBody = document.getElementById("memberListBody");
-	    memberListBody.innerHTML = ""; // 기존 테이블 행 삭제
 	
-	// 새로운 데이터를 순회하며 테이블 행 추가
-		for (var i = 0; i < data.length; i++) { 
-	        var tr=document.createElement("tr"); 
-	        
-	        // 새로운 행을 테이블에 추가
-	        memberListBody.appendChild(tr); 
-	        
-	        
-	        var cells=[ 
-	        	(i +1),data[i].m_pid, data[i].m_name, data[i].m_id, data[i].m_birthday, data[i].m_tel, data[i].m_address, data[i].lb_id, 
-	        	'<div class="overdue_name" onclick="openOverduePopup()">3일</div>' , 
-	        	'<input type="button" value="조회" onclick="getReservationInfo(\'' + data[i].m_id + ' \')">',
-	        	'<input type="button" value="조회" onclick="loans(\'' + data[i].m_id + '\')">',
-	        	'<input type="button" value="수정"onclick="location.href=\'/carpedm/admin_member_chginfo?m_pid=' + data[i].m_pid + '\'">'
-	        ];
-
-	     	// 행에 셀 추가
-	        for (var j = 0; j < cells.length; j++) { 
-	            var td=document.createElement("td"); 
-	            td.innerHTML=cells[j];
-	            tr.appendChild(td); 
-	        } 
-	     	
-	     	// 테이블에 새 행 추가
-	        memberListBody.appendChild(tr);
-	    } 
-	}
 	  
 	// 엔터눌렀을 때 search() 실행
 	function enterkey() {
@@ -255,7 +174,7 @@ header .nav .member_list {
 	margin-bottom: 10px;
 }
 
-.search .range {
+.search .type {
 	width: 90px;
 	height: 30px;
 	font-family: "Wanted Sans Variable";
@@ -310,7 +229,7 @@ header .nav .member_list {
 }
 
 /* 예약목록, 대출내역, 정보수정 버튼 스타일 */
-.member_table tr td input {
+.member_table input {
 	font-family: "Wanted Sans Variable";
 	font-size: 14px;
 	background-color: #4CAF50; /* 버튼 색상 변경 */
@@ -425,6 +344,7 @@ h1 {
 </style>
 
 <body>
+
 	<!-- header-->
 	<header></header>
 
@@ -434,124 +354,131 @@ h1 {
 	</div>
 
 	<!-- 검색창   -->
-	<div class="search">
-		<select id="viewCount" class="view_count"
-			onchange="changeViewCount(this.value)">
-			<option value="10">10개씩</option>
-			<option value="20">20개씩</option>
-			<option value="30">30개씩</option>
-		</select> 
-		<select class="range" id="search_option">
-			<!-- 자바스크립트로 가져오기 -->
-		</select> 
-		<input type="text" name="search" class="textbox" id="input_todo">
-		<button type=button class="button" onclick="search()">검색</button>
-	</div>
+	<form method="get" action=admin_member_list>
+		<div class="search">
+			<select id="viewCount" class="view_count"
+				onchange="changeViewCount(this.value)">
+				<option value="10">10개씩</option>
+				<option value="20">20개씩</option>
+				<option value="30">30개씩</option>
+			</select>	
+			<select class="type" name="type">
+				<option value="1" ${type ==1 ? "selected" : "" }>전체</option>
+				<option value="2" ${type ==2 ? "selected='selected'" : "" }>회원번호</option>
+				<option value="3" ${type ==3 ? "selected='selected'" : "" }>이름</option>
+				<option value="4" ${type ==4 ? "selected='selected'" : "" }>회원ID</option>
+				<option value="5" ${type ==5 ? "selected='selected'" : "" }>전화번호</option>
+			</select> 
+			<input type="text" name="keyword" class="textbox" id="input_todo"
+				value="" ${keyword }>
+			<button type=button class="button" onclick="search()">검색</button>
 
+			<!-- 정렬용 필드 -->
+<%-- 			<input type="hidden" name="orderColumn" value="${orderColumn }"> --%>
+<%-- 			<input type="hidden" name="orderType" value="${orderType }"> --%>
+		</div>
+	</form>
 
 
 	<!-- table 보드 -->
-	<div class="table_div">
-		<form method="get" action="/carpedm/admin_member_list">
-			<table class="member_table" id="memberListTable">
+	<form method="get" action="admin_member_list">
+		<div class="table_div">
+			<table class="member_table">
 				<thead>
-					<tr id="memberListTable_tr">
-						<th width="80px">순번</th>
-						<th width="80px">회원번호</th>
-						<th width="100">이름</th>
-						<th width="100">회원ID</th>
-						<th width="130px">생년월일</th>
-						<th width="150px">전화번호</th>
-						<th width="200">주소</th>
-						<th width="80px">연체상태</th>
-						<th width="100">예약목록</th>
-						<th width="100">대출내역</th>
-						<th width="100">정보수정</th>
+					<tr>
+						<th>순번</th>
+						<th>회원번호</th>
+						<th>이름</th>
+						<th>회원ID</th>
+						<th>생년월일</th>
+						<th>전화번호</th>
+						<th>주소</th>
+						<th>연체상태</th>
+						<th>예약목록</th>
+						<th>대출내역</th>
+						<th>정보수정</th>
 					</tr>
 				</thead>
 				<tbody id="memberListBody">
-					<!-- 동적으로 추가될 테이블 내용 -->
-
-					<%
-					ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("member_list");
-					%>
-
-					<%
-					for (int i = 0; i < data_list.size(); i++) {
-					%>
-					<tr>
-						<td><%=i + 1%></td>
-						<td class="member_no"><%=data_list.get(i).get("m_pid")%></td>
-						<td><div class="member_name"><%=data_list.get(i).get("m_name")%></div></td>
-						<td><%=data_list.get(i).get("m_id")%></td>
-						<td><%=data_list.get(i).get("m_birthday").substring(0, 10)%></td>
-						<td><%=data_list.get(i).get("m_tel")%></td>
-						<td><%=data_list.get(i).get("m_address")%></td>
-						<%-- 						<td><div class="overdue_name" onclick="openOverduePopup('<%=data_list.get(i).get("m_pid")%>')"><%=data_list.get(i).get("m_loanstate") %></div></td> --%>
-						<td><div class="overdue_name"><%=data_list.get(i).get("m_loanstate")%></div></td>
-						<td><input type="button" value="조회"
-							onclick="openReservation('<%=data_list.get(i).get("m_pid")%>')"></td>
-						<%-- 						getReservationInfo('<%=data_list.get(i).get("m_id")%>') --%>
-						<td><input type="button" value="조회"
-							onclick="openLoan('<%=data_list.get(i).get("m_pid")%>')"></td>
-						<td><input type="button" value="수정"
-							onclick="location.href='/carpedm/admin_member_chginfo?m_pid=<%=data_list.get(i).get("m_pid")%>';"></td>
-					</tr>
-					<%
-					}
-					%>
+					<!-- empty: 비어있다/ 사이즈가0이거나 NULL일 때	 -->
+					<c:if test="${not empty list }">
+						<c:forEach var="dto" items="${list }" varStatus="status">
+							<tr>
+								<td>${status.index + 1}</td>
+								<td class="member_no">${dto.m_pid}</td>
+								<td><div class="member_name">${dto.m_name}</div></td>
+								<td>${dto.m_id}</td>
+								<td>${dto.m_id}</td>
+								<td>${dto.m_tel}</td>
+								<td>${dto.m_address}</td>
+								<td>
+						            <div class="overdue_name" onclick="openOverduePopup('${dto.m_pid}')">${dto.m_limitdate}
+						            </div>
+						        </td>
+								<td><input type="button" value="조회" onclick="openReservation('${dto.m_pid}')"></td>
+								<td><input type="button" value="조회" onclick="openLoan('${dto.m_pid}')"></td>
+								<td><input type="button" value="수정" onclick="location.href='/carpedm/admin_member_chginfo?m_pid=${dto.m_pid}'"></td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<!-- 비어있는 리스트라면 -->
+					<c:if test="${empty list}">
+						<tr>
+							<td colspan="11">조회할 내용이 없습니다</td>
+						</tr>
+					</c:if>
 				</tbody>
 			</table>
-		</form>
-		<div id="paging">
-			<%
-			// 서블릿에서 불러온 페이징 정보
-			int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값
-			int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
-			int current_page = Integer.parseInt((String) request.getAttribute("page"));
-			int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
-
-			// 표시할 페이지의 범위 계산
-			int start_page = Math.max(current_page - 2, 1);
-			int end_page = Math.min(start_page + 4, total_pages);
-			start_page = Math.max(1, end_page - 4);
-			%>
-
-			<div class="total_count">
-				전체 : 총&nbsp;<%=total_count%>&nbsp;명
-			</div>
-
-			<div class="paging">
-				<%
-				if (current_page > 1) {
-				%>
-				<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>"
-					class="pre">◀</a>
-				<%
-				}
-				%>
-				<%
-				for (int i = start_page; i <= end_page; i++) {
-				%>
-				<a href="?page=<%=i%>&perPage=<%=perPage%>"
-					class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
-				<%
-				}
-				%>
-				<%
-				if (current_page < total_pages) {
-				%>
-				<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>"
-					class="next">▶</a>
-				<%
-				}
-				%>
-			</div>
-			<div class="total">
-				<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
-			</div>
 		</div>
-	</div>
+	</form>
+<!-- 	<div id="paging"> -->
+<%-- 		<% --%>
+<!-- // 		// 서블릿에서 불러온 페이징 정보 -->
+<!-- // 		int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값 -->
+<!-- // 		int perPage = Integer.parseInt((String) request.getAttribute("perPage")); -->
+<!-- // 		int current_page = Integer.parseInt((String) request.getAttribute("page")); -->
+<!-- // 		int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1; -->
+
+<!-- // 		// 표시할 페이지의 범위 계산 -->
+<!-- // 		int start_page = Math.max(current_page - 2, 1); -->
+<!-- // 		int end_page = Math.min(start_page + 4, total_pages); -->
+<!-- // 		start_page = Math.max(1, end_page - 4); -->
+<%-- 		%> --%>
+
+<!-- 		<div class="total_count"> -->
+<%-- 			전체 : 총&nbsp;<%=total_count%>&nbsp;명 --%>
+<!-- 		</div> -->
+
+<!-- 		<div class="paging"> -->
+<%-- 			<% --%>
+<!-- // 			if (current_page > 1) { -->
+<%-- 			%> --%>
+<%-- 			<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" --%>
+<!-- 				class="pre">◀</a> -->
+<%-- 			<% --%>
+<!-- // 			} -->
+<%-- 			%> --%>
+<%-- 			<% --%>
+<!-- // 			for (int i = start_page; i <= end_page; i++) { -->
+<%-- 			%> --%>
+<%-- 			<a href="?page=<%=i%>&perPage=<%=perPage%>" --%>
+<%-- 				class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a> --%>
+<%-- 			<% --%>
+<!-- // 			} -->
+<%-- 			%> --%>
+<%-- 			<% --%>
+<!-- // 			if (current_page < total_pages) { -->
+<%-- 			%> --%>
+<%-- 			<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" --%>
+<!-- 				class="next">▶</a> -->
+<%-- 			<% --%>
+<!-- // 			} -->
+<%-- 			%> --%>
+<!-- 		</div> -->
+<!-- 		<div class="total"> -->
+<%-- 			<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지 --%>
+<!-- 		</div> -->
+<!-- 	</div> -->
 
 	<!-- 쪽이동 -->
 

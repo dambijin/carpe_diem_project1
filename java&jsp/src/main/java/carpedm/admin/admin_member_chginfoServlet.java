@@ -82,7 +82,7 @@ public class admin_member_chginfoServlet extends HttpServlet {
 				map.put("m_birthday", rs.getString("M_BIRTHDAY"));
 				map.put("m_address", rs.getString("M_ADDRESS"));
 				map.put("m_email_agree", rs.getString("M_EMAIL_AGREE"));
-				map.put("m_loanstate", rs.getString("M_LOANSTATE"));
+				map.put("m_limitdate", rs.getString("M_LIMITDATE"));
 				map.put("m_managerchk", rs.getString("M_MANAGERCHK"));
 				map.put("lb_id", rs.getString("LB_ID"));
 
@@ -97,27 +97,5 @@ public class admin_member_chginfoServlet extends HttpServlet {
 		}
 		return result_list;
 	}
-	
-//	List Change() {
-//		
-//		try {
-//			Connection conn = getConnection();
-//			
-//			String query = "update emp2 set ename=?";
-//			query += " where is not null";
-//			
-//			PreparedStatement ps;
-//			
-//			ps = conn.prepareStatement(query);
-//			ResultSet rs = ps.executeQuery();
-//			
-//			System.out.println("query:" + query);
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//		
-//	}
 	
 }

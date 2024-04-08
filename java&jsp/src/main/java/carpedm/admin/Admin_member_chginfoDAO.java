@@ -130,7 +130,7 @@ public class Admin_member_chginfoDAO {
 				
 				System.out.println("m_pid : "+ m_pid1);
 				
-				Admin_chginfo_MemeberDTO dto = new Admin_chginfo_MemeberDTO();
+				MemberDTO dto = new MemberDTO();
 				dto.setM_pid(m_pid1);
 				dto.setM_pw(m_pw);
 				dto.setM_name(m_name);
@@ -179,7 +179,7 @@ public class Admin_member_chginfoDAO {
 		return list;
 
 	}
-	int insertBook(Admin_chginfo_MemeberDTO dto) {
+	int insertBook(MemberDTO dto) {
 		int result = -9999;
 		
 		/* 꼭 써야함!! */
@@ -230,7 +230,7 @@ public class Admin_member_chginfoDAO {
 		
 
 	// 수정메소드
-	int updateBook(Admin_chginfo_MemeberDTO dto) {
+	int updateBook(MemberDTO dto) {
 		int result = -9999;
 		/* 꼭 써야함!! */
 		connDB();

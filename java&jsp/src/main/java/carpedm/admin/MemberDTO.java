@@ -2,7 +2,7 @@ package carpedm.admin;
 
 import java.sql.Date;
 
-public class Admin_chginfo_MemeberDTO {
+public class MemberDTO {
 
 	int m_pid;
 	String m_id;
@@ -13,14 +13,70 @@ public class Admin_chginfo_MemeberDTO {
 	Date m_birthday;
 	String m_address;
 	String m_email_agree;
-	int m_loanstate;
+	Date m_limitdate;
 	String m_managerchk;
+	
+	// 검색에 관한 변수
+	private String type;
+	private String keyword;
+	
+	// 정렬에 대한 변수
+	String orderColumn;
+	String orderType;
 	
 	/**
 	 * @return the m_pid
 	 */
 	public int getM_pid() {
 		return m_pid;
+	}
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+	/**
+	 * @return the keyword
+	 */
+	public String getKeyword() {
+		return keyword;
+	}
+	/**
+	 * @param keyword the keyword to set
+	 */
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	/**
+	 * @return the orderColumn
+	 */
+	public String getOrderColumn() {
+		return orderColumn;
+	}
+	/**
+	 * @param orderColumn the orderColumn to set
+	 */
+	public void setOrderColumn(String orderColumn) {
+		this.orderColumn = orderColumn;
+	}
+	/**
+	 * @return the orderType
+	 */
+	public String getOrderType() {
+		return orderType;
+	}
+	/**
+	 * @param orderType the orderType to set
+	 */
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
 	}
 	/**
 	 * @param m_pid the m_pid to set
@@ -127,14 +183,14 @@ public class Admin_chginfo_MemeberDTO {
 	/**
 	 * @return the m_loanstate
 	 */
-	public int getM_loanstate() {
-		return m_loanstate;
+	public Date getM_limitdate() {
+		return m_limitdate;
 	}
 	/**
 	 * @param m_loanstate the m_loanstate to set
 	 */
-	public void setM_loanstate(int m_loanstate) {
-		this.m_loanstate = m_loanstate;
+	public void setM_limitdate(Date m_limitdate) {
+		this.m_limitdate = m_limitdate;
 	}
 	/**
 	 * @return the m_managerchk
@@ -149,5 +205,12 @@ public class Admin_chginfo_MemeberDTO {
 		this.m_managerchk = m_managerchk2;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "MemberDTO [m_pid=" + m_pid + ", m_id=" + m_id + ", m_pw=" + m_pw + ", m_name=" + m_name + ", m_tel="
+				+ m_tel + ", m_email=" + m_email + ", m_birthday=" + m_birthday + ", m_address=" + m_address
+				+ ", m_email_agree=" + m_email_agree + ", m_limitdate=" + m_limitdate + ", m_managerchk=" + m_managerchk
+				+ ", type=" + type + ", keyword=" + keyword + ", orderColumn=" + orderColumn + ", orderType="
+				+ orderType + "]";
+	}
 }

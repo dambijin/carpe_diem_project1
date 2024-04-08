@@ -50,7 +50,7 @@ public class Admin_member_updateServelt extends HttpServlet {
 		String m_email2 = request.getParameter("email2");
 		String m_address = request.getParameter("address1");
 
-		Admin_chginfo_MemeberDTO memberDTO = new Admin_chginfo_MemeberDTO();
+		MemberDTO memberDTO = new MemberDTO();
 		memberDTO.setM_pid(m_pid);
 		memberDTO.setM_birthday(m_birthday);
 		memberDTO.setM_name(m_name);
