@@ -313,29 +313,63 @@ section {
 	color: #fff;
 }
 /* 인기검색어 */
-.pop_search_table {
-	width: 60%;
-	margin: 20px auto;
-	border-collapse: collapse;
+.pop_searchkeyword {
+	width: 100%; /* 필요에 따라 조정 */
+	max-width: 300px; /* 최대 너비 설정, 필요에 따라 조정 */
+	margin: 0 auto; /* 가운데 정렬 */
+	padding: 5px; /* 내부 여백 */
+	padding-left:30px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+	border-radius: 8px; /* 모서리 둥글게 */
+	position: fixed; /* 뷰포트에 상대적으로 고정 */
+	right: 20px; /* 오른쪽에서 20px 떨어진 위치 */
+	bottom: 70px; /* 아래에서 20px 떨어진 위치 */
+	background-color: rgba(255, 255, 255, 0.9); /* 배경 색상 및 투명도 설정 */
+	z-index: 1000; /* 다른 요소 위에 렌더링 되도록 z-index 설정 */
+	box-sizing: border-box; /* padding을 포함한 박스 모델 */
+	height:500px;
+	max-height: 70px; /* 초기 최대 높이 설정 */
+	overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+	transition: max-height 0.5s ease; /* 최대 높이 변경시 부드러운 전환 효과 */
+	border: 1px solid black;
 }
 
-.pop_search_table th, .keyword-table td {
-	border: 1px solid #ddd;
-	padding: 8px;
-	text-align: left;
+
+.pop_searchkeyword ul {
+	list-style: none; /* 기본 리스트 스타일 제거 */
+	margin: 0;
+	padding: 0;
 }
 
-.pop_search_table th {
-	background-color: #4CAF50;
-	color: white;
+.pop_searchkeyword li {
+	border-bottom: 1px solid #eee; /* 하단 경계선 */
+	padding: 10px 0; /* 상하 여백 */
+	display: flex; /* Flexbox 레이아웃 사용 */
+	align-items: center; /* 세로 중앙 정렬 */
 }
 
-.pop_search_table tr:nth-child(even) {
-	background-color: #f2f2f2;
+.pop_searchkeyword li:last-child {
+	border-bottom: none; /* 마지막 항목의 하단 경계선 제거 */
 }
 
-.pop_search_table tr:hover {
-	background-color: #ddd;
+.pop_searchkeyword em {
+	font-style: normal; /* 기울임꼴 제거 */
+	font-weight: bold; /* 글자 두껍게 */
+	color: #007bff; /* 글자색 */
+	margin-right: 10px; /* 오른쪽 여백 */
+}
+
+.pop_searchkeyword span {
+	flex-grow: 1; /* 남은 공간 채우기 */
+}
+
+.pop_searchkeyword a {
+	text-decoration: none;
+	color: black;
+}
+
+.pop_searchkeyword:hover {
+	max-height: 500px; /* 마우스 오버시 충분히 큰 값으로 변경 */
 }
 </style>
 </head>
@@ -436,7 +470,7 @@ section {
     //예약기능
 	function reservation(b_id) {
     	//현재 세션에서 아이디 값 가져오기
-		 var login_m_pid = "<%= (String)request.getSession().getAttribute("m_pid") %>";
+		 var login_m_pid = "<%=(String) request.getSession().getAttribute("m_pid")%>";
 // 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(login_m_pid);
@@ -564,6 +598,21 @@ section {
 					</fieldset>
 				</div>
 			</div>
+			<div class="pop_searchkeyword">
+				<h3>인기 검색어 TOP 10</h3>
+				<ul>
+					<%
+					ArrayList<Map<String, String>> pop_search_list = (ArrayList<Map<String, String>>) request
+							.getAttribute("pop_search_list");
+					for (int i = 0; i < pop_search_list.size(); i++) {
+					%>
+					<li><em><%=(i + 1)%></em> <span><a href="/carpedm/book_search?search=<%=pop_search_list.get(i).get("SI_KEYWORD")%>"><%=pop_search_list.get(i).get("SI_KEYWORD")%></a></span>
+					</li>
+					<%
+					}
+					%>
+				</ul>
+			</div>
 			<div class="result_filter_div">
 				<div class="blank_space total_count">
 					전체 : 총&nbsp;<%=(String) request.getAttribute("book_count")%>&nbsp;권
@@ -688,33 +737,6 @@ section {
 				%>
 			</div>
 		</div>
-
-		<h2 style="text-align: center;">인기 검색어 TOP 10</h2>
-
-		<table class="pop_search_table">
-			<thead>
-				<tr>
-					<th>순위</th>
-					<th>검색어</th>
-					<th>횟수</th>
-				</tr>
-			</thead>
-			<tbody>
-				<%
-				ArrayList<Map<String, String>> pop_search_list = (ArrayList<Map<String, String>>) request
-						.getAttribute("pop_search_list");
-				for (int i = 0; i < pop_search_list.size(); i++) {
-				%>
-				<tr>
-					<td><%=(i + 1)%></td>
-					<td><%=pop_search_list.get(i).get("SI_KEYWORD")%></td>
-					<td><%=pop_search_list.get(i).get("KEYWORD_COUNT")%></td>
-				</tr>
-				<%
-				}
-				%>
-			</tbody>
-		</table>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header.js"></script>
