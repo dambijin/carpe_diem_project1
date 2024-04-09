@@ -201,14 +201,15 @@
 }
 
 #paging .paging a.num.active {
-    color: blue;
-    font-size: 20px;
-    font-style: bold;
+	color: blue;
+	font-size: 20px;
+	font-style: bold;
 }
 
 #paging .paging strong {
 	background-color: #007bff;
 	color: #fff;
+}
 </style>
 </head>
 
@@ -219,13 +220,13 @@
 		<div class="s_section2">
 			<div class="left_section">
 				<a href="/carpedm/mypage_loan_status"><button type="button"
-						class="sub_but">대출 현황</button></a><br> 
-				<a href="/carpedm/mypage_loan_history"><button type="button"
-						class="sub_but">대출 내역</button></a><br> 
-				<a href="/carpedm/mypage_reservation_list"><button type="button"
-						class="sub_but">예약</button></a> 
-				<a href="/carpedm/mypage_wishbook_list"><button
-						type="button" class="sub_but">
+						class="sub_but">대출 현황</button></a><br> <a
+					href="/carpedm/mypage_loan_history"><button type="button"
+						class="sub_but">대출 내역</button></a><br> <a
+					href="/carpedm/mypage_reservation_list"><button type="button"
+						class="sub_but">예약</button></a> <a
+					href="/carpedm/mypage_wishbook_list"><button type="button"
+						class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
 
@@ -241,24 +242,20 @@
 							<tr>
 
 								<td class="info1">
-								
-								<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
-							System.out.println(myInfo.size());
-							
-							%><Strong>내정보</Strong><br>
-								이름 : <%=myInfo.get(0).get("M_NAME") %><br>
-								번호 : <%=myInfo.get(0).get("M_TEL") %><br>
-								주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
-								<% String loanstate_text = "대출가능";
-								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
-								{
-									loanstate_text = myInfo.get(0).get("M_LOANSTATE")+"일 연체상태";
-								}
-								%>
-								대출가능여부 : <%=loanstate_text%>
-                         	
-                        
-                         </td>
+									<%
+									ArrayList<Map<String, String>> myInfo = (ArrayList<Map<String, String>>) request.getAttribute("myInfo");
+									System.out.println(myInfo.size());
+									%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME")%><br>
+									번호 : <%=myInfo.get(0).get("M_TEL")%><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS")%><br>
+									<%
+									String loanstate_text = "대출가능";
+									if (myInfo.get(0).get("M_LIMITDATE") != null && !myInfo.get(0).get("M_LIMITDATE").equals("0")) {
+										loanstate_text = myInfo.get(0).get("M_LIMITDATE").substring(0, 10) + "일 까지 불가능";
+									}
+									%> 대출가능여부 : <%=loanstate_text%>
+
+
+								</td>
 								<td><button type="button" id="chginfo">정보수정</button></td>
 							</tr>
 
@@ -271,96 +268,105 @@
 							<div id="select">
 								<div>
 
-								<select id="case" onchange="redirectPage()">
+									<select id="case" onchange="redirectPage()">
 										<option value=10>10개</option>
 										<option value=20>20개</option>
 										<option value=30>30개</option>
 										<option value=40>40개</option>
 										<option value=50>50개</option>
 									</select>
+
+
 								</div>
+
 							</div>
 							<div id="select1">
 								<div>
-									
-
+									<form method="get" action="mypage_loan_history">
+										<input type="text" name="search">
+										<button>검색</button>
+									</form>
 								</div>
 							</div>
 						</div>
 						<!-- 보드 -->
 						<table id="page1">
 							<tr id="page1_tr">
-								<th style="cursor:pointer;" onclick="sortTable(0,true)">번호</th>	
-								<th style="cursor:pointer;" onclick="sortTable(1,false)">자료명/등록번호</th>
-								<th style="cursor:pointer;" onclick="sortTable(2,false)">저자</th>
-								<th style="cursor:pointer;" onclick="sortTable(3,true)">대출일</th>
-								<th style="cursor:pointer;" onclick="sortTable(4,true)">실반납일</th>
-								<th style="cursor:pointer;" onclick="sortTable(5,false)">소장기관</th>
+								<th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
+								<th style="cursor: pointer;" onclick="sortTable(1,false)">자료명/등록번호</th>
+								<th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
+								<th style="cursor: pointer;" onclick="sortTable(3,true)">대출일</th>
+								<th style="cursor: pointer;" onclick="sortTable(4,true)">실반납일</th>
+								<th style="cursor: pointer;" onclick="sortTable(5,false)">소장기관</th>
 							</tr>
-							<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 
+							<%
+							ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) request.getAttribute("list");
 							System.out.println(list.size());
-							
-							for(int i = 0; i< list.size(); i++)
-                         {%>
-                         <tr class="tr">
-							<td><%=i+1 %></td>
-							<td><%=list.get(i).get("b_title") %></td>
-							<td><%=list.get(i).get("b_author") %></td>
-							<td><%=list.get(i).get("l_loandate").substring(0,10) %></td>
-							 <td><%= list.get(i).get("l_returnrealdate") != null ? list.get(i).get("l_returnrealdate").substring(0,10) : "" %></td>
-							<td><%=list.get(i).get("lb_name") %></td>
-							 
-							
-						</tr>
-						<%}
-                         %>
+
+							for (int i = 0; i < list.size(); i++) {
+							%>
+							<tr class="tr">
+								<td><%=i + 1%></td>
+								<td><%=list.get(i).get("b_title")%></td>
+								<td><%=list.get(i).get("b_author")%></td>
+								<td><%=list.get(i).get("l_loandate").substring(0, 10)%></td>
+								<td><%=list.get(i).get("l_returnrealdate") != null ? list.get(i).get("l_returnrealdate").substring(0, 10) : ""%></td>
+								<td><%=list.get(i).get("lb_name")%></td>
+
+
+							</tr>
+							<%
+							}
+							%>
 						</table>
 						<div id="paging">
-					<%
-					// 서블릿에서 불러온 페이징 정보
-					int total_count = (int)request.getAttribute("allcount");// 임시로 설정한 값
-					int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
-					int current_page = Integer.parseInt((String) request.getAttribute("page"));
-				    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
+							<%
+							// 서블릿에서 불러온 페이징 정보
+							int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값
+							int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
+							int current_page = Integer.parseInt((String) request.getAttribute("page"));
+							int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
 
-					// 표시할 페이지의 범위 계산
-					int start_page = Math.max(current_page - 2, 1);
-					int end_page = Math.min(start_page + 4, total_pages);
-					start_page = Math.max(1, end_page - 4);
-					%>
+							// 표시할 페이지의 범위 계산
+							int start_page = Math.max(current_page - 2, 1);
+							int end_page = Math.min(start_page + 4, total_pages);
+							start_page = Math.max(1, end_page - 4);
+							%>
 
-					<div class="total_count">
-						전체 : 총&nbsp;<%=total_count%>&nbsp;권
-					</div>
+							<div class="total_count">
+								전체 : 총&nbsp;<%=total_count%>&nbsp;권
+							</div>
 
-					<div class="paging">
-						<%
-						if (current_page > 1) {
-						%>
-						<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" class="pre">◀</a>
-						<%
-						}
-						%>
-						<%
-						for (int i = start_page; i <= end_page; i++) {
-						%>
-						<a href="?page=<%=i%>&perPage=<%=perPage%>"
-							class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
-						<%
-						}
-						%>
-						<%
-						if (current_page < total_pages) {
-						%>
-						<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" class="next">▶</a>
-						<%
-						}
-						%>
-					</div>
-					<div class="total">
-						<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
-					</div>
-				</div>
+							<div class="paging">
+								<%
+								if (current_page > 1) {
+								%>
+								<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>"
+									class="pre">◀</a>
+								<%
+								}
+								%>
+								<%
+								for (int i = start_page; i <= end_page; i++) {
+								%>
+								<a href="?page=<%=i%>&perPage=<%=perPage%>"
+									class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
+								<%
+								}
+								%>
+								<%
+								if (current_page < total_pages) {
+								%>
+								<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>"
+									class="next">▶</a>
+								<%
+								}
+								%>
+							</div>
+							<div class="total">
+								<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
