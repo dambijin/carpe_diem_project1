@@ -302,13 +302,34 @@
 							
 							%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME") %><br>
 									번호 : <%=myInfo.get(0).get("M_TEL") %><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
-											<% String loanstate_text = "대출가능";
-								if(myInfo.get(0).get("M_LOANSTATE") != null && !myInfo.get(0).get("M_LOANSTATE").equals("0"))
-								{
-									loanstate_text = myInfo.get(0).get("M_LOANSTATE")+"일 연체상태";
-								}
-								%>
-								대출가능여부 : <%=loanstate_text%>
+										<%
+									String limitDate = "";
+									if (myInfo.get(0).get("M_LIMITDATE") != null && !myInfo.get(0).get("M_LIMITDATE").equals("0")) {
+										limitDate = myInfo.get(0).get("M_LIMITDATE").substring(0, 10); // M_LIMITDATE 문자열에서 날짜 부분 추출
+									}
+
+									// 현재 날짜를 가져오기
+									java.util.Date currentDate = new java.util.Date();
+									java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
+									String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
+
+									// limitDate와 formattedDate의 차이 계산
+									java.util.Date limitDateObj = sdf.parse(limitDate);
+									java.util.Date formattedDateObj = sdf.parse(formattedDate);
+									
+									long diffInMillies = limitDateObj.getTime() - formattedDateObj.getTime(); // 두 날짜의 밀리초 단위 차이
+									long diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
+
+									 if (diff <= 0) {										 
+									 %> 
+									 대출가능여부 : 대출가능 
+									 <%
+									 } else if (diff > 0) {
+									 %> 
+									 대출가능 여부 : <%=diff%> 일 
+									 <%
+									 }
+									 %>
 								</td>
 								<td>
 									<button type="button" id="chginfo">정보수정</button>
@@ -351,7 +372,7 @@
 <!-- 							<th style="cursor:pointer;" onclick="sortTable(5,false)">신청사유</th> -->
 							<th style="cursor:pointer;" onclick="sortTable(4,false)">출판사</th>
 							<th style="cursor:pointer;" onclick="sortTable(5,false)">처리상태</th>
-							<th>전체선택<input type="checkbox" id="selectAll"></th>
+							<th>취소<input type="checkbox" id="selectAll"></th>
 						</tr>
 
 						<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 

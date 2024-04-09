@@ -63,8 +63,12 @@ public class mypage_chginfoServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	
-		
+		//성공
 		response.sendRedirect("mypage_loan_status");
+		
+		//실패
+//		response.sendRedirect("mypage_chgInfoServlet");
+		
 	}
 	
 
@@ -129,7 +133,7 @@ public class mypage_chginfoServlet extends HttpServlet {
 				String m_pw = request.getParameter("password");
 				String m_tel = request.getParameter("phonenumber");
 				String email = request.getParameter("email_id")+"@"+request.getParameter("email_domain");
-				String address = request.getParameter("sample6_address") + "%" + request.getParameter("sample6_address2");
+				String address = request.getParameter("sample6_postcode") + "\n" + request.getParameter("sample6_address") + "\n" + request.getParameter("sample6_address2");
 				String emailChk = request.getParameter("email");
 
 				String sql = "";

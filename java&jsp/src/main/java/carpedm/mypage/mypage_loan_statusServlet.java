@@ -19,6 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import graphql.language.Document;
+import graphql.org.antlr.v4.runtime.ParserInterpreter;
+
 
 @WebServlet("/mypage_loan_status")
 public class mypage_loan_statusServlet extends HttpServlet {
@@ -34,10 +37,13 @@ public class mypage_loan_statusServlet extends HttpServlet {
 	
 		
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
+		
 		request.setAttribute("library", library);
 		
 		HttpSession getSession = request.getSession();
 		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		
+		
 		
 		//로그인 되어 있지 않으면 로그인 창으로 이동
 		if (login_m_pid == null || login_m_pid.equals("")) {
@@ -59,10 +65,13 @@ public class mypage_loan_statusServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		String l_id = request.getParameter("l_id");
 		System.out.println(l_id);
-		String query = "UPDATE loan set l_returndate = l_returndate + 7, l_extendcount = l_extendcount + 1 where l_id = " + l_id;
-
+		String query = "UPDATE loan set l_returndate = l_returndate + 7, l_extendcount = l_extendcount + 1 where l_id = " + l_id +  "and l_extendcount < 2";
+		System.out.println(query);
 		String m_pid = request.getParameter("m_pid");
 		System.out.println(m_pid);
+		
+		ArrayList<Map<String, String>> queryStr = getDBList("select l_extendcount from loan where l_id = " + l_id);
+		int queryInt = Integer.parseInt(queryStr.get(0).get("L_EXTENDCOUNT"));
 		if(m_pid != null && !m_pid.equals("null") && !m_pid.equals(""))
 		{
 			int successRow = setDBList(query);
@@ -70,7 +79,12 @@ public class mypage_loan_statusServlet extends HttpServlet {
 			if (successRow > 0) {
 				// 완료하고 결과값을 보내기 위해
 				response.getWriter().write("{\"message\": \"success\"}");
-			}
+			} else if(queryInt >= 2) {
+				//select문을 던져서 ext..값을 가져와보고 2가 넘었는지 안넘엇는지 확인해서 넘었으면 횟수초과라고 메세지 던지기
+				 
+				response.getWriter().write("{\"message\": \"앙실패띠\"}");
+				
+				}
 		}
 		else
 		{

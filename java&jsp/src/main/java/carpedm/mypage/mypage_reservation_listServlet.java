@@ -89,6 +89,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 		
 		request.getRequestDispatcher("/mypage/mypage_reservation_list.jsp").forward(request, response);
 	}
+	
 
 	// 기본적인 접속메소드
 	 private Connection getConnection() {

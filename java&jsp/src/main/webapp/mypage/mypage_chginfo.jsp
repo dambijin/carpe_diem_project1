@@ -87,7 +87,11 @@
 
 
 
-
+            var forms = document.querySelector("#form")
+            forms.addEventListener("submit", function(event){
+            	event.preventDefault();
+            	
+            })
 
             mod.addEventListener("click", function () {
                 let password = document.querySelector("#password").value
@@ -97,6 +101,8 @@
                 let emailCheck = document.getElementsByName("email")
                 let selectSms;
                 let selectEmail;
+
+                
                 for (let i = 0; i < smsCheck.length; i++) {
                     if (smsCheck[i].checked) {
                         selectSms = smsCheck[i].value;
@@ -150,7 +156,9 @@
                             "sms수신동의여부 : " + selectSms + "\n" +
                             "email수신동의여부 : " + selectEmail + "\n" +
                             "로 변경되었습니다.")
-                        location.href = "mypage_loan_status.html"
+
+                             forms.submit();
+                      
                     } else {
                         document.querySelector("#password").value = "";
                         document.querySelector("#password1").value = "";
@@ -305,7 +313,7 @@ input {
 			<h1>정보 수정</h1>
 		</div>
 		<!-- 수정항목 -->
-		<form method="post" action="mypage_chginfo">
+		<form method="post" action="mypage_chginfo" id="form">
 			<div>
 				<table id="table">
 					<tr>
@@ -370,12 +378,16 @@ input {
 						<td class="padding">
 							<% String text = myInfo.get(0).get("M_EMAIL");
                     String[] email = text.split("@");
+                    String email_none = "";
+                    if(email.length > 1){
+                    	email_none= email[1];
+                    }
                    %> 
                    <input class="input_width" type="text"
 							placeholder="내용을 입력해주세요." id="email_id" name="email_id"
 							value=<%=email[0] %>> @ <input class="input_width"
 							type="text" placeholder="내용을 입력해주세요." id="email_domain"
-							name="email_domain" value=<%=email[1] %>> <select
+							name="email_domain" value=<%=email_none %>> <select
 							id="email_domain1" value="직접입력">
 
 						</select> 
@@ -387,19 +399,30 @@ input {
 						</td>
 					</tr>
 					<th>주소</th>
+					<% String text1 = myInfo.get(0).get("M_ADDRESS");
+                    String[] address = text1.split("\n");
+                    String address_load = "";
+                    String address_detail = "";
+                    if(address.length > 1)
+                    {
+                    	address_load = address[1];
+                    }
+                    if(address.length > 2)
+                    {
+                    	address_detail = address[2];
+                    }
+                   
+                    
+                   %> 
 					<td><input class="input_width" type="text" placeholder="우편 번호"
-						id="sample6_postcode">
+						name="sample6_postcode" id="sample6_postcode" value="<%=address[0] %>">
+						
 						<button id="place_button" onclick="sample6_execDaumPostcode(); return false;">
 							주소 찾기</button>
-							<% String text1 = myInfo.get(0).get("M_ADDRESS");
-                    String[] address = text1.split("%");
-                    String address_detail = "";
-                    if(address.length > 1){
-                    	address_detail = address[1];
-                    }
-                   %> 
+							
 						<br> <input class="place_input_width" id="sample6_address" name="sample6_address"
-						type="text" placeholder="도로명 주소" value="<%=address[0] %>"><br> 
+						type="text" placeholder="도로명 주소" value="<%=address_load %>"><br> 
+						
 						<input class="place_input_width" id="sample6_address2" name="sample6_address2" type="text"
 						placeholder="상세 주소" value="<%=address_detail %>"></td>
 				</table>
