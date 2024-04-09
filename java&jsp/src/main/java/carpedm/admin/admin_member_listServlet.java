@@ -21,10 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 public class admin_member_listServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-//	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
-//	private static final String USER = "carpedm";
-//	private static final String PASSWORD = "dm1113@";
-	
 	Admin_member_listDAO dao = new Admin_member_listDAO();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,16 +50,34 @@ public class admin_member_listServlet extends HttpServlet {
 		
 		System.out.println("list.size() : "+ list.size());
 
-
+		// 연체상태
 		// 리스트가 비어 있는지 확인
 		if (list.isEmpty()) {
 		    System.out.println("리스트가 비어 있습니다.");
 		} else {
 		    // 리스트가 비어 있지 않으면 각 요소를 출력
 		    for (int i = 0; i < list.size(); i++) {
-		        MemberDTO member = list.get(i);
-		        System.out.println("Index " + i + ": " + member);
-		    }
+//		        MemberDTO member = list.get(i);
+//		        System.out.println("Index " + i + ": " + member);
+		        
+			    String m_limitdate_text = "정상";
+			    Date m_limitdate = list.get(i).getM_limitdate();
+			    
+			    if (m_limitdate != null) {
+			    	// db에서 가져온 날짜와 오늘날짜 차이 계산
+			        long millisecondsDiff = m_limitdate.getTime() - new Date().getTime();
+			        // 두 날짜 간의 시간 차이를 일 단위로 변환
+			        long daysDiff  = millisecondsDiff / (1000 * 60 * 60 * 24);
+			    	
+			        if (daysDiff > 0) {
+			            m_limitdate_text = "<font color='red'>" + daysDiff  + "일"; // 날짜 차이가 양수일 때
+			        } else {
+			            m_limitdate_text = "정상"; // 오늘 날짜까지의 차이
+			        }
+			    }
+			    list.get(i).setM_limitdate_text(m_limitdate_text);
+		    }	    
+		    
 		}
 
 		request.setAttribute("list", list);
@@ -73,6 +87,9 @@ public class admin_member_listServlet extends HttpServlet {
 		
 //		request.setAttribute("orderColumn", orderColumn);
 //		request.setAttribute("orderType", orderType);
+		// m_limitdate 컬럼 값 확인
+
+		
 		
 		// 1. 검색어를 파라미터에서 가져오기
         String search = request.getParameter("search");
@@ -82,9 +99,8 @@ public class admin_member_listServlet extends HttpServlet {
             search = "";
         }
         
-        // 3. 검색 결과를 가져오기
-//        ARRAYLIST<MAP<STRING, STRING>> LIST1 = GETMEMBER(SEARCH);
         
+        // 페이징!!
 		String page = request.getParameter("page");
 		if (page == null || "".equals(page)) {
 			page = "1";

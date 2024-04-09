@@ -412,7 +412,7 @@ h1 {
 								<td>${dto.m_tel}</td>
 								<td>${dto.m_address}</td>
 								<td>
-						            <div class="overdue_name" onclick="openOverduePopup('${dto.m_pid}')">${dto.m_limitdate}
+						            <div class="overdue_name" onclick="openOverduePopup('${dto.m_pid}')">${dto.m_limitdate_text}
 						            </div>
 						        </td>
 								<td><input type="button" value="조회" onclick="openReservation('${dto.m_pid}')"></td>

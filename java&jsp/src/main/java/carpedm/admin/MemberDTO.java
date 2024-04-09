@@ -24,6 +24,21 @@ public class MemberDTO {
 	String orderColumn;
 	String orderType;
 	
+	//연체날짜계산
+	String m_limitdate_text;
+	
+	/**
+	 * @return the m_limitdate_text
+	 */
+	public String getM_limitdate_text() {
+		return m_limitdate_text;
+	}
+	/**
+	 * @param m_limitdate_text the m_limitdate_text to set
+	 */
+	public void setM_limitdate_text(String m_limitdate_text) {
+		this.m_limitdate_text = m_limitdate_text;
+	}
 	/**
 	 * @return the m_pid
 	 */
