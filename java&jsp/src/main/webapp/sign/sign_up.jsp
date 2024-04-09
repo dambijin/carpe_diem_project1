@@ -188,7 +188,7 @@
             });
         };
 
-
+		
         function sample6_execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function (data) {
@@ -288,7 +288,8 @@
         <table>
             <tr>
                 <td class="r_border">아이디</td>
-                <td><input type="text" class="inputbox" name="id" placeholder="아이디를 입력(6~20자)" class="textbox" id="id_text"></td>
+                <td><input type="text" class="inputbox" name="id" placeholder="아이디를 입력(6~20자)" class="textbox" id="id_text">
+                	<input type="button" value="중복확인"></td>
             </tr>
             <tr>
                 <td class="r_border">비밀번호</td>
@@ -341,11 +342,43 @@
                 </td>
             </tr>
             <tr>
-                <td class="r_border">개인정보동의</td>
-                <td class="chk">
-                    <input type="checkbox" class="chk" id="chk">[필수]개인정보동의
-                </td>
-            </tr>
+					<td class="r_border">개인정보동의</td>
+					<td class="chk"><details>
+							<summary><input type="checkbox">[필수]개인정보동의</summary>
+							<b>1. 수집하는 개인정보 항목</b>
+국립중앙도서관은 회원가입, 원활한 고객상담, 각종 서비스 등 기본적인 서비스 제공을 위해 회원가입 시 아래와 같은 개인정보를 수집하고 있습니다.<br>
+가. 필수항목: ID, 비밀번호, 성명, E-Mail, 연락처(또는 핸드폰), 생년월일, 주소, 법정대리인 성명(만14세 미만 회원의 경우)<br>
+
+나. 서비스 이용과정에서 아래와 같은 정보들이 자동으로 생성되어 수집될 수 있습니다.
+(IP Address, 쿠키, 방문 일시, 서비스 이용 기록, 불량 이용 기록)<br><br>
+
+
+<b>2. 개인정보의 수집 및 이용 목적</b><br>
+
+가. 서비스 제공에 관한 업무 이행<br>
+
+ - 홈페이지 회원에게 정보 서비스 제공<br>
+
+나. 회원관리<br>
+
+ - 회원제 서비스 이용 및 제한적 본인 확인제에 따른 본인확인, 개인식별, 가입 의사 확인, 추후 법정 대리인 본인확인, 분쟁 조정을 위한 기록보존, 불만 처리 등 민원처리, 고지사항 전달<br><br>
+
+
+<b>3. 개인정보의 보유 및 이용기간</b><br>
+
+회원 이용자의 개인정보는 개인정보보호법 및 공공기록물법에 따라 마지막 이용일(도서관 방문, 홈페이지 로그인)로부터 5년간 보관되며, 그 이후, 관계법령의 절차에 따라 파기합니다.
+다만, 다음과 같은 경우에 개인정보의 처리 및 이용이 중지됩니다.<br>
+
+가. 휴면회원 전환(마지막 이용일로부터 2년간 미사용)시점부터 계정 활성화 또는 파기 시까지<br>
+
+나. 회원 탈퇴 요청 시점부터 개인정보 파기시까지<br><br>
+
+
+<b>4. 동의 거부권 및 동의 거부에 따른 불이익</b><br>
+
+가입자는 개인정보 수집·이용에 대하여 거부할 수 있는 권리가 있습니다. 단, 이에 대한 동의를 거부할 경우, 회원가입이 불가능합니다.</p>
+						</details></td>
+				</tr>
         </table>
         <br>
         <!-- 회원가입완료 -->
