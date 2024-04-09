@@ -29,6 +29,7 @@ public class mypage_loan_statusServlet extends HttpServlet {
 			throws ServletException, IOException {
 //		String id = request.getParameter("id");
 //		request.setAttribute("id2", id);
+		
 
 	
 		

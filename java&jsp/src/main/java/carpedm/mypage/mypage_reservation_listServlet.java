@@ -25,9 +25,14 @@ public class mypage_reservation_listServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String search = request.getParameter("search");
+		if (search == null || "".equals(search)) {
+			search = "";
+		}
 
 		HttpSession getSession = request.getSession();
 		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		
 		if (login_m_pid == null || login_m_pid.equals("")) {
 			request.getRequestDispatcher("/sign_in").forward(request, response);
 			return;
@@ -53,7 +58,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
 		
-		ArrayList<Map<String,String>> list = getLoan(login_m_pid);
+		ArrayList<Map<String,String>> list = getLoan(login_m_pid, search);
 		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 		
 		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
@@ -75,6 +80,8 @@ public class mypage_reservation_listServlet extends HttpServlet {
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
 		request.setAttribute("library", library);
 		
+		
+		
 
 		
 
@@ -95,23 +102,24 @@ public class mypage_reservation_listServlet extends HttpServlet {
 	        }
 	        return conn;
 	    }
-	private ArrayList<Map<String,String>> getLoan(String m_pid) {
+	private ArrayList<Map<String,String>> getLoan(String m_pid, String search) {
 		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
 		try {
 			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
 			query += " select";
-			query += " b_title, b_author,b_publisher, r_resdate, library.lb_name, r_resstate ";
+			query += " b_title, b_author, b_publisher, r_resdate, library.lb_name, r_resstate ";
 			query += " from";
 			query += " reservation";
 			query += " inner join book";
 			query += " on reservation.b_id = book.b_id";
 			query += " inner join library";
 			query += " on book.lb_id = library.lb_id";
-			query += " where m_pid = " + m_pid;
+			query += " where m_pid = " + m_pid  + " and b_title like '%" + search + "%'";
 
 			System.out.println("query:" + query);
+			
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();

@@ -313,9 +313,10 @@
 							</div>
 							<div id="select1">
 								<div>
-									
-
-
+									<form method="get" action="mypage_reservation_list">
+										<input type="text" name="search">
+										<button>검색</button>
+									</form>
 								</div>
 							</div>
 						</div>

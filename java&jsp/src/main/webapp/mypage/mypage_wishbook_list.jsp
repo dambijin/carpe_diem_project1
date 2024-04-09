@@ -331,15 +331,10 @@
 							</div>
 							<div id="select1">
 								<div>
-<!-- 									<select id="library"> -->
-<!-- 										<option disabled selected>- 도서관 전체</option> -->
-<%-- 										<% ArrayList<Map<String,String>> library = (ArrayList<Map<String,String>>)request.getAttribute("library");  --%>
-<!-- // 							System.out.println(myInfo.size()); -->
-<!-- // 								for(int i=0; i < library.size(); i++){ -->
-<%-- 							%> --%>
-<%-- 										<option><%=library.get(i).get("LB_NAME") %></option> --%>
-<%-- 										<%} %> --%>
-<!-- 									</select> -->
+									<form method="get" action="mypage_wishbook_list">
+										<input type="text" name="search">
+										<button>검색</button>
+									</form>
 								</div>
 							</div>
 						</div>

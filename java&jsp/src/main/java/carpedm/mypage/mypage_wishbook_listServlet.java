@@ -27,6 +27,10 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			throws ServletException, IOException {
 //		String id = request.getParameter("id");
 //		request.setAttribute("id2", id);
+		String search = request.getParameter("search");
+		if (search == null || "".equals(search)) {
+			search = "";
+		}
 
 //		ArrayList<Map<String, String>> myInfo = getDBList("select * from member");
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
@@ -61,7 +65,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
 
-		ArrayList<Map<String, String>> list = getWishList(login_m_pid);
+		ArrayList<Map<String, String>> list = getWishList(login_m_pid, search);
 		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 
 		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
@@ -94,19 +98,19 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 	        return conn;
 	    }
 
-	private ArrayList<Map<String, String>> getWishList(String m_pid) {
+	private ArrayList<Map<String, String>> getWishList(String m_pid, String search) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
 			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
 			query += "select";
-			query += " w_id, lb_name, w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid, w_state";
+			query += " w_title, w_id, lb_name, w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid, w_state";
 			query += " from";
 			query += " wishlist";
 			query += " inner join library";
 			query += " on library.lb_id = wishlist.lb_id";
-			query += " where wishlist.m_pid = " + m_pid;
+			query += " where wishlist.m_pid = " + m_pid  + " and w_title like '%" + search + "%'";
 
 			System.out.println("query:" + query);
 			// SQL 실행준비
