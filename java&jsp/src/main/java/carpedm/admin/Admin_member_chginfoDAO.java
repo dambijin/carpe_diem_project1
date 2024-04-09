@@ -124,7 +124,7 @@ public class Admin_member_chginfoDAO {
 				Date m_birthday = rs.getDate("m_birthday");
 				String m_address = rs.getString("m_address");
 				String m_email_agree = rs.getString("m_email_agree");
-				int m_loanstate = rs.getInt("m_loanstate");
+				Date m_limitdate = rs.getDate("m_limitdate");
 				String m_managerchk = rs.getString("m_managerchk");
 				String lb_id = rs.getString("lb_id");
 				
@@ -139,7 +139,7 @@ public class Admin_member_chginfoDAO {
 				dto.setM_birthday(m_birthday);
 				dto.setM_address(m_address);
 				dto.setM_email_agree(m_email_agree);
-				dto.setM_loanstate(m_loanstate);
+				dto.setM_limitdate(m_limitdate);
 				dto.setM_managerchk(m_managerchk);
 				
 				list.add(dto);

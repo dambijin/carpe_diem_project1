@@ -50,9 +50,9 @@ public class admin_member_listServlet extends HttpServlet {
 //		dto.setOrderType(orderType);
 		
 		List<MemberDTO> list = dao.getMemberList(dto);
-		List list1 = dao.getMemberList(dto);
+//		List list = dao.getMemberList(dto);
 		
-		System.out.println("list.size() : "+ list1.size());
+		System.out.println("list.size() : "+ list.size());
 
 
 		// 리스트가 비어 있는지 확인
@@ -83,45 +83,45 @@ public class admin_member_listServlet extends HttpServlet {
         }
         
         // 3. 검색 결과를 가져오기
-//        ArrayList<Map<String, String>> list1 = getmember(search);
-//        
-//		String page = request.getParameter("page");
-//		if (page == null || "".equals(page)) {
-//			page = "1";
-//		}
-//		int currentPage = Integer.parseInt(page);
-//
-//		// perPage(표시 개수) 처리 부분
-//		String perPage = request.getParameter("perPage");
-//		if (perPage == null || "".equals(perPage)) {
-//			perPage = "10";
-//		}
-//		int itemsPerPage = Integer.parseInt(perPage);
-//		
-//		// 페이지 처리를 위한 계산
-//		int startRow = (currentPage - 1) * itemsPerPage + 1;
-//		int endRow = currentPage * itemsPerPage;
-//		request.setAttribute("page", page);
-//		request.setAttribute("perPage", perPage);
-//		ArrayList<Map<String, String>> pageList = new ArrayList<>();
-//		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
-//		startRow--;
-//		endRow--;
-//
-//
-//		for (int i = startRow; i <= endRow; i++) {
-//			if (i < list.size()) {
-//				pageList.add(list.get(i));
-//			} else {
-//				break;
-//			}
-//		}
-//		
-//		System.out.println(pageList);
-//		
-//		request.setAttribute("allcount", list.size());
-//        request.setAttribute("member_list", pageList);
-//        request.setAttribute("search", search);
+//        ARRAYLIST<MAP<STRING, STRING>> LIST1 = GETMEMBER(SEARCH);
+        
+		String page = request.getParameter("page");
+		if (page == null || "".equals(page)) {
+			page = "1";
+		}
+		int currentPage = Integer.parseInt(page);
+
+		// perPage(표시 개수) 처리 부분
+		String perPage = request.getParameter("perPage");
+		if (perPage == null || "".equals(perPage)) {
+			perPage = "10";
+		}
+		int itemsPerPage = Integer.parseInt(perPage);
+		
+		// 페이지 처리를 위한 계산
+		int startRow = (currentPage - 1) * itemsPerPage + 1;
+		int endRow = currentPage * itemsPerPage;
+		request.setAttribute("page", page);
+		request.setAttribute("perPage", perPage);
+		ArrayList<MemberDTO> pageList = new ArrayList<>();
+		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
+		startRow--;
+		endRow--;
+
+
+		for (int i = startRow; i <= endRow; i++) {
+			if (i < list.size()) {
+				pageList.add(list.get(i));
+			} else {
+				break;
+			}
+		}
+		
+		System.out.println(pageList);
+		
+		request.setAttribute("allcount", list.size());
+        request.setAttribute("member_list", pageList);
+        request.setAttribute("search", search);
         
         // 6. JSP 페이지로 포워딩
         request.getRequestDispatcher("/admin/admin_member_list.jsp").forward(request, response);

@@ -431,54 +431,54 @@ h1 {
 			</table>
 		</div>
 	</form>
-<!-- 	<div id="paging"> -->
-<%-- 		<% --%>
-<!-- // 		// 서블릿에서 불러온 페이징 정보 -->
-<!-- // 		int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값 -->
-<!-- // 		int perPage = Integer.parseInt((String) request.getAttribute("perPage")); -->
-<!-- // 		int current_page = Integer.parseInt((String) request.getAttribute("page")); -->
-<!-- // 		int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1; -->
+	<div id="paging">
+		<%
+ 		// 서블릿에서 불러온 페이징 정보 -->
+ 		int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값
+ 		int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
+ 		int current_page = Integer.parseInt((String) request.getAttribute("page"));
+		int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
 
-<!-- // 		// 표시할 페이지의 범위 계산 -->
-<!-- // 		int start_page = Math.max(current_page - 2, 1); -->
-<!-- // 		int end_page = Math.min(start_page + 4, total_pages); -->
-<!-- // 		start_page = Math.max(1, end_page - 4); -->
-<%-- 		%> --%>
+ 		// 표시할 페이지의 범위 계산
+ 		int start_page = Math.max(current_page - 2, 1);
+ 		int end_page = Math.min(start_page + 4, total_pages);
+ 		start_page = Math.max(1, end_page - 4);
+ 		%>
 
-<!-- 		<div class="total_count"> -->
-<%-- 			전체 : 총&nbsp;<%=total_count%>&nbsp;명 --%>
-<!-- 		</div> -->
+		<div class="total_count">
+			전체 : 총&nbsp;<%=total_count%>&nbsp;명
+		</div>
 
-<!-- 		<div class="paging"> -->
-<%-- 			<% --%>
-<!-- // 			if (current_page > 1) { -->
-<%-- 			%> --%>
-<%-- 			<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" --%>
-<!-- 				class="pre">◀</a> -->
-<%-- 			<% --%>
-<!-- // 			} -->
-<%-- 			%> --%>
-<%-- 			<% --%>
-<!-- // 			for (int i = start_page; i <= end_page; i++) { -->
-<%-- 			%> --%>
-<%-- 			<a href="?page=<%=i%>&perPage=<%=perPage%>" --%>
-<%-- 				class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a> --%>
-<%-- 			<% --%>
-<!-- // 			} -->
-<%-- 			%> --%>
-<%-- 			<% --%>
-<!-- // 			if (current_page < total_pages) { -->
-<%-- 			%> --%>
-<%-- 			<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" --%>
-<!-- 				class="next">▶</a> -->
-<%-- 			<% --%>
-<!-- // 			} -->
-<%-- 			%> --%>
-<!-- 		</div> -->
-<!-- 		<div class="total"> -->
-<%-- 			<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지 --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
+		<div class="paging">
+			<%
+	 			if (current_page > 1) {
+ 			%>
+			<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>"
+				class="pre">◀</a>
+			<%
+ 			}
+ 			%>
+			<%
+ 			for (int i = start_page; i <= end_page; i++) {
+ 			%>
+			<a href="?page=<%=i%>&perPage=<%=perPage%>"
+				class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
+			<%
+ 				}
+			%>
+			<%
+			if (current_page < total_pages) {
+ 			%> 
+			<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>"
+				class="next">▶</a>
+			<%
+			} 
+			%>
+		</div>
+		<div class="total">
+			<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
+		</div>
+	</div>
 
 	<!-- 쪽이동 -->
 
