@@ -109,6 +109,48 @@
 // 			todolist.append(tr);
 // 		}
 
+		let enames = document.querySelectorAll(".ename")
+		
+		for(let i=0; i<enames.length; i++){
+			enames[i].addEventListener("click", (event) => {
+				// event.target.parentNode : 부모 즉,<td>를 뜻함
+				event.target.parentNode.querySelector("form").submit();
+			})
+		}
+// 		// "keyword" 변수의 값을 가져옵니다.
+// 	    var keyword = "${keyword}";
+
+// 	    // "keyword" 변수가 null 또는 빈 문자열인지 체크합니다.
+// 	    if (!keyword) {
+// 	        alert("Keyword를 입력하세요!");
+// 	    } else if(keyword.trim() == "") {
+// 	    	alert("찾을 수 없습니다")
+// 	    }
+		
+// 		document.querySelector("#m_pid").addEventListener("click", function() {
+// 			// form id 값 잡아옴 			
+// 			let frm = document.querySelector("#frm");
+// 			frm.querySelector("[name=orderColumn]").value = "m_pid";
+			
+// 			let orderType = frm.querySelector("[name=orderType]");
+// 			// 없다가 클릭하면
+// 			// desc > asc > 없음 순으로 변경
+// 			console.log(orderType.value);
+			
+// 			if(orderType.value == ""){
+// 				orderType.value = 'desc';
+// 			} else if(orderType.value == "desc") {
+// 				orderType.value = 'asc';
+// 			} else if(orderType.value == "asc") {
+// 				orderType.value = '';
+// 				// 차라리 orderColumn을 지우는 방법도 있다
+// // 				frm.querySelector("[name=orderColumn]").value = '';
+// 				frm.querySelector("[name=orderType]").value = "desc";
+// 			}
+			
+			
+// 			frm.submit();
+// 		})
 		
 	}
 	
@@ -354,29 +396,27 @@ h1 {
 	</div>
 
 	<!-- 검색창   -->
-	<form method="get" action=admin_member_list>
+	<form method="get" action="admin_member_list">
 		<div class="search">
 			<select id="viewCount" class="view_count"
 				onchange="changeViewCount(this.value)">
 				<option value="10">10개씩</option>
 				<option value="20">20개씩</option>
 				<option value="30">30개씩</option>
-			</select>	
+			</select>
 			<select class="type" name="type">
 				<option value="1" ${type ==1 ? "selected" : "" }>전체</option>
 				<option value="2" ${type ==2 ? "selected='selected'" : "" }>회원번호</option>
 				<option value="3" ${type ==3 ? "selected='selected'" : "" }>이름</option>
 				<option value="4" ${type ==4 ? "selected='selected'" : "" }>회원ID</option>
-				<option value="5" ${type ==5 ? "selected='selected'" : "" }>전화번호</option>
 			</select> 
 			<input type="text" name="keyword" class="textbox" id="input_todo"
 				value="" ${keyword }>
-			<button type=button class="button" onclick="search()">검색</button>
-
-			<!-- 정렬용 필드 -->
-<%-- 			<input type="hidden" name="orderColumn" value="${orderColumn }"> --%>
-<%-- 			<input type="hidden" name="orderType" value="${orderType }"> --%>
+			<input type=submit class="button" value="검색" onclick="search()" >
 		</div>
+	 		<!-- 정렬용 필드 --> 
+<%-- 		<input type="hidden" name="orderColumn" value="${orderColumn }"> --%>
+<%-- 		<input type="hidden" name="orderType" value="${orderType }"> --%>
 	</form>
 
 
@@ -387,8 +427,8 @@ h1 {
 				<thead>
 					<tr>
 						<th>순번</th>
-						<th>회원번호</th>
-						<th>이름</th>
+						<th id="m_pid">회원번호</th>
+						<th id="name">이름</th>
 						<th>회원ID</th>
 						<th>생년월일</th>
 						<th>전화번호</th>

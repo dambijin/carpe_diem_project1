@@ -32,12 +32,17 @@ public class admin_member_listServlet extends HttpServlet {
 		
 		// input 검색창
 		String keyword = request.getParameter("keyword");
+		System.out.println("keyword : " + keyword);
+		
 		// select 박스 필터
 		String type = request.getParameter("type");
+		System.out.println("type : " + type);
 		
 		// 정렬
 //		String orderColumn = request.getParameter("orderColumn");
+//		System.out.println("orderColumn : " + orderColumn);
 //		String orderType = request.getParameter("orderType");
+//		System.out.println("orderType : " + orderType);
 				
 		dto.setType(type);
 		dto.setKeyword(keyword);
@@ -57,8 +62,8 @@ public class admin_member_listServlet extends HttpServlet {
 		} else {
 		    // 리스트가 비어 있지 않으면 각 요소를 출력
 		    for (int i = 0; i < list.size(); i++) {
-//		        MemberDTO member = list.get(i);
-//		        System.out.println("Index " + i + ": " + member);
+		        MemberDTO member = list.get(i);
+		        System.out.println("Index " + i + ": " + member);
 		        
 			    String m_limitdate_text = "정상";
 			    Date m_limitdate = list.get(i).getM_limitdate();
@@ -87,9 +92,7 @@ public class admin_member_listServlet extends HttpServlet {
 		
 //		request.setAttribute("orderColumn", orderColumn);
 //		request.setAttribute("orderType", orderType);
-		// m_limitdate 컬럼 값 확인
 
-		
 		
 		// 1. 검색어를 파라미터에서 가져오기
         String search = request.getParameter("search");
@@ -143,19 +146,6 @@ public class admin_member_listServlet extends HttpServlet {
         request.getRequestDispatcher("/admin/admin_member_list.jsp").forward(request, response);
 	}
 	
-	
-	// 기본적인 접속메소드
-//	private static Connection getConnection() {
-//		Connection conn = null;
-//		try {
-//			Class.forName("oracle.jdbc.driver.OracleDriver");
-//			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-//		    System.out.println("db접속성공");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return conn;
-//	}
 
 	// 맴버가져오기
 //	private static ArrayList<Map<String,String>> getmember(String search) {
@@ -202,27 +192,6 @@ public class admin_member_listServlet extends HttpServlet {
 //			    map.put("m_tel", rs.getString("m_tel"));
 //			    map.put("m_address", rs.getString("m_address"));
 //			    map.put("lb_id", rs.getString("lb_id"));
-//			    
-//			    // m_limitdate 컬럼 값 확인
-//			    String m_limitdate_text;
-//			    Date m_limitdate = rs.getDate("m_limitdate");
-//			    
-//			    if (rs.getString("m_limitdate") != null) {
-//			    	// db에서 가져온 날짜와 오늘날짜 차이 계산
-//			        long millisecondsDiff = m_limitdate.getTime() - new Date().getTime();
-//			        // 두 날짜 간의 시간 차이를 일 단위로 변환
-//			        long daysDiff  = millisecondsDiff / (1000 * 60 * 60 * 24);
-//			    	
-//			        if (daysDiff > 0) {
-//			            m_limitdate_text = "<font color='red'>" + daysDiff  + "일"; // 날짜 차이가 양수일 때
-//			        } else {
-//			            m_limitdate_text = "정상"; // 오늘 날짜까지의 차이
-//			        }
-//			    } else {
-//			    	// m_limitdate 값이 null이면 "정상"을 m_limitdate_text에 할당
-//			    	m_limitdate_text = "정상";
-//			    }
-//			    map.put("m_limitdate", m_limitdate_text);
 //
 //			    result_list.add(map);
 //			}
