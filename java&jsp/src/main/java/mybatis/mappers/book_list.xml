@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.book_list">
+
+	<select id="selectBook" parameterType="BookDTO"
+		resultType="BookDTO">
+		select b.b_id,b.lb_id, b.b_title, b.b_author, b.b_publisher, b.b_isbn, l.lb_name, b.b_date, b.b_resstate, b.b_loanstate
+		from book b
+		join library l on b.lb_id = l.lb_id
+	</select>
+	
+</mapper>

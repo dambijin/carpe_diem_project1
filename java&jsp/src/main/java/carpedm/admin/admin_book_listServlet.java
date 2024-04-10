@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -20,21 +21,61 @@ import javax.servlet.http.HttpServletResponse;
 public class admin_book_listServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final String URL = "jdbc:oracle:thin:@112.148.46.134:51521:xe";
-	private static final String USER = "carpedm";
-	private static final String PASSWORD = "dm1113@";
+	Admin_book_listDAO dao = new Admin_book_listDAO();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8;");
 		
-		// 데이터베이스 연동을 위한 DAO 객체 생성
-		admin_book_listDAO DAO = new admin_book_listDAO();
-				
+		System.out.println("서블릿 들어옴");
 		
-		ArrayList<Map<String, String>> list = getbook();
+		BookDTO dto = new BookDTO();
+		
+		// input 검색창
+		String keyword = request.getParameter("keyword");
+		System.out.println("keyword : " + keyword);
+				
+		// select 박스 필터
+		String type = request.getParameter("type");
+		System.out.println("type : " + type);
+				
+		// 정렬
+		String orderColumn = request.getParameter("orderColumn");
+		System.out.println("orderColumn : " + orderColumn);
+		String orderType = request.getParameter("orderType");
+		System.out.println("orderType : " + orderType);
 
+		dto.setType(type);
+		dto.setKeyword(keyword);
+
+		dto.setOrderColumn(orderColumn);
+		dto.setOrderType(orderType);
+				
+		List<BookDTO> list = dao.getBookList(dto);
+
+		System.out.println("list : " + list);
+		
+		if (list.isEmpty()) {
+		    System.out.println("리스트가 비어 있습니다.");
+		} else {
+		    // 리스트가 비어 있지 않으면 각 요소를 출력
+		    for (int i = 0; i < list.size(); i++) {
+		        BookDTO book = list.get(i);
+		        System.out.println("Index " + i + ": " + book);
+		    }
+		}
+		
+		request.setAttribute("list", list);
+		
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("type", type);
+		
+		request.setAttribute("orderColumn", orderColumn);
+		request.setAttribute("orderType", orderType);
+		
+		
+		// 페이징!!
 		String page = request.getParameter("page");
 		if (page == null || "".equals(page)) {
 			page = "1";
@@ -47,99 +88,94 @@ public class admin_book_listServlet extends HttpServlet {
 			perPage = "10";
 		}
 		int itemsPerPage = Integer.parseInt(perPage);
+		
 		// 페이지 처리를 위한 계산
 		int startRow = (currentPage - 1) * itemsPerPage + 1;
 		int endRow = currentPage * itemsPerPage;
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
-		ArrayList<Map<String, String>> pageList = new ArrayList<>();
+		ArrayList<BookDTO> pageList = new ArrayList<>();
 
 		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
 		startRow--;
 		endRow--;
 
-		for (int i = startRow; i <= endRow; i++) {
-			if (i < list.size()) {
-				pageList.add(list.get(i));
+		// 현재 페이지에 표시할 회원 목록 가져오기
+		for (int i = startRow; i <= endRow; i++) { // 시작 행부터 마지막 행까지 반복
+			if (i < list.size()) { // 리스트의 크기 범위 내에서
+				pageList.add(list.get(i)); // 현재 페이지에 표시할 회원을 pageList에 추가
 			} else {
 				break;
 			}
 		}
 
+		// 전체 회원 수
+		int allcount = list.size();
+		request.setAttribute("allcount", allcount);
 		request.setAttribute("book_list", pageList);
-		request.setAttribute("allcount", list.size());
 		
 		System.out.println(list);
-//		request.setAttribute("book_list", list);
+		// 6. JSP 페이지로 포워딩
 		request.getRequestDispatcher("/admin/admin_book_list.jsp").forward(request, response);
 	}
 
-	// 기본적인 접속메소드
-	private static Connection getConnection() {
-		Connection conn = null;
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-//			    System.out.println("db접속성공");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return conn;
-	}
+//	// 기본적인 접속메소드
+//	private static Connection getConnection() {
+//		Connection conn = null;
+//		try {
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+////			    System.out.println("db접속성공");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return conn;
+//	}
 	
 	
-	// 맴버가져오기
-	private static ArrayList<Map<String,String>> getbook() {
-		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
-		try {
-			Connection conn = getConnection();
-			// SQL준비
-			String query = "";
-			query += " select";
-			query += " b.b_id,b.lb_id, b.b_title, b.b_author, b.b_publisher, b.b_isbn, l.lb_name, b.b_date, b.b_resstate, b.b_loanstate";
-			query += " from book b";
-			query += " join library l on b.lb_id = l.lb_id";
-			
-			
-
-			System.out.println("query:" + query);
-			// SQL 실행준비
-			PreparedStatement ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				Map<String,String> map = new HashMap<String, String>();
-				/* 폐기처분행(자바스크립트에서 사용할때 필요할 수 있음)
-				map.put("lb_name", StringEscapeUtils.escapeJson(rs.getString("lb_name")));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
-				map.put("lb_address", StringEscapeUtils.escapeJson(rs.getString("lb_address")));
-				map.put("lb_tel", StringEscapeUtils.escapeJson(rs.getString("lb_tel")));
-				map.put("lb_openTime", StringEscapeUtils.escapeJson(rs.getString("lb_openTime")));
-				map.put("lb_content", StringEscapeUtils.escapeJson(rs.getString("lb_content")));
-				map.put("lb_imgUrl", StringEscapeUtils.escapeJson(rs.getString("lb_imgUrl")));
-				map.put("lb_content", rs.getString("lb_content").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r"));
-				*/				
-				map.put("b_id", rs.getString("b_id"));
-				map.put("lb_id", rs.getString("lb_id"));
-				map.put("b_title", rs.getString("b_title"));
-				map.put("b_author", rs.getString("b_author"));
-				map.put("b_publisher", rs.getString("b_publisher"));
-				map.put("b_isbn", rs.getString("b_isbn"));
-				map.put("lb_name", rs.getString("lb_name"));
-				map.put("b_date", rs.getString("b_date"));
-				map.put("b_resstate", rs.getString("b_resstate"));
-				map.put("b_loanstate", rs.getString("b_loanstate"));
-
-				result_list.add(map);
-//		    	System.out.println(rs.getString("lb_name"));
-			}
-
-			rs.close();
-			ps.close();
-			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result_list;
-	}
+//	// 맴버가져오기
+//	private static ArrayList<Map<String,String>> getbook() {
+//		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
+//		try {
+//			Connection conn = getConnection();
+//			// SQL준비
+//			String query = "";
+//			query += " select";
+//			query += " b.b_id,b.lb_id, b.b_title, b.b_author, b.b_publisher, b.b_isbn, l.lb_name, b.b_date, b.b_resstate, b.b_loanstate";
+//			query += " from book b";
+//			query += " join library l on b.lb_id = l.lb_id";
+//			
+//			
+//
+//			System.out.println("query:" + query);
+//			// SQL 실행준비
+//			PreparedStatement ps = conn.prepareStatement(query);
+//			ResultSet rs = ps.executeQuery();
+//			while (rs.next()) {
+//				Map<String,String> map = new HashMap<String, String>();			
+//				map.put("b_id", rs.getString("b_id"));
+//				map.put("lb_id", rs.getString("lb_id"));
+//				map.put("b_title", rs.getString("b_title"));
+//				map.put("b_author", rs.getString("b_author"));
+//				map.put("b_publisher", rs.getString("b_publisher"));
+//				map.put("b_isbn", rs.getString("b_isbn"));
+//				map.put("lb_name", rs.getString("lb_name"));
+//				map.put("b_date", rs.getString("b_date"));
+//				map.put("b_resstate", rs.getString("b_resstate"));
+//				map.put("b_loanstate", rs.getString("b_loanstate"));
+//
+//				result_list.add(map);
+////		    	System.out.println(rs.getString("lb_name"));
+//			}
+//
+//			rs.close();
+//			ps.close();
+//			conn.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return result_list;
+//	}
 	
 
 }

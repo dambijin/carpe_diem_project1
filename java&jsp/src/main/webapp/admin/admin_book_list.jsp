@@ -4,6 +4,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,52 +33,6 @@
 	});
 
 	function bind() {
-		<%
-		ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
-		%>
-<%--     	console.log(<%=data_list%>); --%>
-// 		for (let i = 0; i < data_list.length; i=i+10) {
-// 			// 테이블을 가져와서 todolist변수에 담아둠
-// 			let todolist = document.querySelector("#todo_booktable");		
-// 			let book_html = '';
-
-// 			html += '</tr>';
-// 			추가한다
-// 			book_html += '<td class="member_no">' + data_list[i] + '</td>';
-// 			book_html += '<td><div class="book_name">';			
-// 			book_html += data_list[i+1];			
-// 			book_html += '</div></td>';			
-// 			book_html += '<td>';
-// 			book_html += data_list[i+2];
-// 			book_html += '</td>';
-// 			book_html += '<td>';
-// 			book_html += data_list[i+3];
-// 			book_html += '</td>';
-// 			book_html += '<td>';
-// 			book_html += data_list[i+4];
-// 			book_html += '</td>';
-// 			book_html += '<td>';
-// 			book_html += data_list[i+5];
-// 			book_html += '</td>';
-// 			book_html += '<td>';
-// 			book_html += data_list[i+6];
-// 			book_html += '</td>';
-// 			book_html += '<td>';
-// 			book_html += data_list[i+7];
-// 			book_html += '</td>';
-// 			book_html += '<td>';
-// 			book_html += data_list[i+8];
-// 			book_html += '</td>';
-// 			book_html += '<td>';
-// 			book_html += data_list[i+9];
-// 			book_html += '</td>';
-// 			book_html += '<td><input type="checkbox" name="check" class="checkbox"></td>';
-// 			// html +=	'</tr>'
-
-// 			let tr = document.createElement("tr"); // <tr></tr>
-// 			tr.innerHTML = book_html;
-			
-			
 		// 전체선택 체크 해제
 		document.querySelector("#select_all").addEventListener("click", function (event) {
 			// 클릭된 요소가 check 상태라면
@@ -166,9 +123,43 @@
 			search_opt.append(opt);
 		}
 
-	}
+		
+		let m_names = document.querySelectorAll("#m_name")
+		console.log("m_names : "+ m_names)
+		for(let i=0; i<m_names.length; i++){
+			m_names[i].addEventListener("click", (event) => {
+				// event.target.parentNode : 부모 즉,<td>를 뜻함
+				event.target.parentNode.querySelector("form").submit();
+			})
+		}
+		
+		document.querySelector("#m_pid").addEventListener("click", function() {
+			// form id 값 잡아옴 			
+			let frm = document.querySelector("#frm");
+			frm.querySelector("[name=orderColumn]").value = "m_pid";
+			
+			let orderType = frm.querySelector("[name=orderType]");
+			// 없다가 클릭하면
+			// desc > asc > 없음 순으로 변경
+			console.log(orderType.value);
+			
+			if(orderType.value == ""){
+				orderType.value = 'desc';
+			} else if(orderType.value == "desc") {
+				orderType.value = 'asc';
+			} else if(orderType.value == "asc") {
+				orderType.value = '';
+				// 차라리 orderColumn을 지우는 방법도 있다
+// 				frm.querySelector("[name=orderColumn]").value = '';
+				frm.querySelector("[name=orderType]").value = "desc";
+			}
+			
+			
+			frm.submit();
+		})
+		
+	} // bind() 함수 종료
 	
-
 
 	// 10개씩 누를 때 change 이벤트 : 변동이 있을 때 발생
 	// 페이징 구현 정하고 기능
@@ -274,7 +265,9 @@
 	.booklist_entire table {
 		border-collapse: collapse;
 	}
-
+	#todo_booktable {
+		margin:auto;
+	}
 	/* 테이블 tr*/
 	.booklist_entire table tr {
 		background-color: #fff;
@@ -417,76 +410,86 @@
 		<h1 align="center">책 재고</h1>
 	</div>
 
-	<div class="booklist_entire">
-		<!-- 검색창   -->
-		<div class="search">
-			<select class="view_count" onchange="changeViewCount(this.value)">
-				<option value="10">10개씩</option>
-				<option value="20">20개씩</option>
-				<option value="30">30개씩</option>
-			</select>
-			<!-- <select class="search_opt_list" id="search_option" onchange="handleSearchOption()"> -->
-			<select class="search_opt_list" id="search_option">
-				<!-- 자바스크립트화 -->
-			</select>
-			<input type="text" name="search" class="textbox" id="input_todo">
-			<button type="button" class="button" id="todo_search" onclick="search()">검색
-			</button>
+	<form id="frm" method="get" action="admin_member_list">
+		<div class="booklist_entire">
+			<!-- 검색창   -->
+			<div class="search">
+				<select class="view_count" onchange="changeViewCount(this.value)">
+					<option value="10">10개씩</option>
+					<option value="20">20개씩</option>
+					<option value="30">30개씩</option>
+				</select>
+				<!-- <select class="search_opt_list" id="search_option" onchange="handleSearchOption()"> -->
+				<select class="search_opt_list" id="search_option">
+					<!-- 자바스크립트화 -->
+				</select>
+				<input type="text" name="keyword" class="textbox" id="input_todo" 
+						value="" ${keyword }>
+<!-- 					<input type="text" name="search" class="textbox" id="input_todo"> -->
+				<input type=submit class="button" value="검색" onclick="search()" >
+			</div>
 		</div>
+		<!-- 정렬용 필드 --> 
+		<input type="hidden" name="orderColumn" value="${orderColumn }">
+		<input type="hidden" name="orderType" value="${orderType }">
+	</form>
 
 
-		<!-- table -->
-		<div class="detail_tabel">
-			<form method="get" action="admin_book_list">
-				<table border="0" width="1200" align="center" cellpadding="5" cellspacing="1" bgcolor="cccccc"
-					id="todo_booktable">
-					<thead>
-						<tr>
-							<th width="50px">순번</th>
-							<th width="*">책이름</th>
-							<th width="100">저자</th>
-							<th width="100">출판사</th>
-							<th width="100">ISBN</th>
-							<th width="100">소장기관</th>
-							<th width="100">등록날짜</th>
-							<th width="50px">예약</th>
-							<th width="50px">대출상태</th>
-							<th width="80px">
-								도서폐기
-								<input type="checkbox" id="select_all">
-							</th>
-						</tr>
-					</thead>
-					<tbody id="memberListBody">
-                	<!-- 동적으로 추가될 테이블 내용 -->
-                	
-
-					<%
-					for (int i = 0; i < data_list.size(); i++) {
-					%>
+	<!-- table -->
+	<form method="get" action="admin_book_list">
+		<div class="booklist_entire">
+			<table id="todo_booktable">
+				<thead>
 					<tr>
-						<td><%= i+1 %></td>
-						<td><div class="book_name" onclick="openBookPopup('<%=data_list.get(i).get("b_id")%>')"><%=data_list.get(i).get("b_title")%></div></td>
-						<td><%=data_list.get(i).get("b_author")%></td>
-						<td><%=data_list.get(i).get("b_publisher")%></td>
-						<td><%=data_list.get(i).get("b_isbn")%></td>
-						<td><%=data_list.get(i).get("lb_name")%></td>
-						<td><%=data_list.get(i).get("b_date").substring(0,10)%></td>
-						<td><%=data_list.get(i).get("b_resstate")%></td>
-						<td><%=data_list.get(i).get("b_loanstate")%></td>
-						<td><input type="checkbox" name="check" class="checkbox"></td>
+<!-- 					<th width="50px">순번</th> -->
+						<th width="*">책번호</th>
+						<th width="*">책이름</th>
+						<th width="100">저자</th>
+						<th width="100">출판사</th>
+						<th width="100">ISBN</th>
+						<th width="100">소장기관</th>
+						<th width="100">등록날짜</th>
+						<th width="50px">예약</th>
+						<th width="50px">대출상태</th>
+						<th width="80px">
+							도서폐기
+							<input type="checkbox" id="select_all">
+						</th>
 					</tr>
-					<%
-					}
-					%>
-					</tbody>
+				</thead>
+				<tbody id="memberListBody">                
+				<!-- empty: 비어있다/ 사이즈가0이거나 NULL일 때	 -->
+				<c:if test="${not empty book_list }">
+					<c:forEach var="dto" items="${book_list }" varStatus="status">
+						<tr>
+							<td>${dto.b_id}</td>
+							<td><div class="book_name" onclick="openBookPopup('${dto.b_id}')">${dto.b_title}</div></td>
+							<td>${dto.b_author}</td>
+			                <td>${dto.b_publisher}</td>
+			                <td>${dto.b_isbn}</td>
+			                <td>${dto.lb_name}</td>
+			                <td>${dto.b_date}</td>
+<%-- 			                <td>${dto.b_date.substring(0,10)}</td> --%>
+			                <td>${dto.b_resstate}</td>
+			                <td>${dto.b_loanstate}</td>
+							<td><input type="checkbox" name="check" class="checkbox"></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<!-- 비어있는 리스트라면 -->
+				<c:if test="${empty book_list}">
+					<tr>
+						<td colspan="11">조회할 내용이 없습니다</td>
+					</tr>
+				</c:if>
+				</tbody>
 				</table>
+<!-- 				<input type="hidden" style="display: none;" name="b_id" -->
+<%-- 							value="<%=data_list.get(0).get("b_id")%>"> --%>
 				<input type="hidden" style="display: none;" name="b_id"
-							value="<%=data_list.get(0).get("b_id")%>">
-			</form>
-				
+       				value="${not empty book_list ? dto.b_id : ''}">
 		</div>
-	
+	</form>
 
 		<!-- 등록 삭제 -->
 		<div class="input1">
@@ -496,52 +499,51 @@
 
 		<!-- 쪽이동 -->
 		<div id="paging">
-					<%
-					// 서블릿에서 불러온 페이징 정보
-					int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값
-					int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
-					int current_page = Integer.parseInt((String) request.getAttribute("page"));
-				    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
+			<%
+			// 서블릿에서 불러온 페이징 정보
+			int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값
+			int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
+			int current_page = Integer.parseInt((String) request.getAttribute("page"));
+		    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
 
-					// 표시할 페이지의 범위 계산
-					int start_page = Math.max(current_page - 2, 1);
-					int end_page = Math.min(start_page + 4, total_pages);
-					start_page = Math.max(1, end_page - 4);
-					%>
+			// 표시할 페이지의 범위 계산
+			int start_page = Math.max(current_page - 2, 1);
+			int end_page = Math.min(start_page + 4, total_pages);
+			start_page = Math.max(1, end_page - 4);
+			%>
 
-					<div class="total_count">
-						전체 : 총&nbsp;<%=total_count%>&nbsp;권
-					</div>
+			<div class="total_count">
+				전체 : 총&nbsp;<%=total_count%>&nbsp;권
+			</div>
 
-					<div class="paging">
-						<%
-						if (current_page > 1) {
-						%>
-						<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" class="pre">◀</a>
-						<%
-						}
-						%>
-						<%
-						for (int i = start_page; i <= end_page; i++) {
-						%>
-						<a href="?page=<%=i%>&perPage=<%=perPage%>"
-							class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
-						<%
-						}
-						%>
-						<%
-						if (current_page < total_pages) {
-						%>
-						<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" class="next">▶</a>
-						<%
-						}
-						%>
-					</div>
-					<div class="total">
-						<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
-					</div>
-				</div>
-	</div>
+			<div class="paging">
+				<%
+				if (current_page > 1) {
+				%>
+				<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" class="pre">◀</a>
+				<%
+				}
+				%>
+				<%
+				for (int i = start_page; i <= end_page; i++) {
+				%>
+				<a href="?page=<%=i%>&perPage=<%=perPage%>"
+					class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
+				<%
+				}
+				%>
+				<%
+				if (current_page < total_pages) {
+				%>
+				<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" class="next">▶</a>
+				<%
+				}
+				%>
+			</div>
+			<div class="total">
+				<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
+			</div>
+		</div>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	<script src="/carpedm/js/header_admin.js"></script>
 

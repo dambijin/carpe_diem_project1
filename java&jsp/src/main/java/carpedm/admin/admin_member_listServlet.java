@@ -131,7 +131,7 @@ public class admin_member_listServlet extends HttpServlet {
 		
 		// 전체 회원 수
 		int allcount = list.size();
-		request.setAttribute("allcount",allcount );
+		request.setAttribute("allcount", allcount);
         request.setAttribute("member_list", pageList);
 
         // 6. JSP 페이지로 포워딩
