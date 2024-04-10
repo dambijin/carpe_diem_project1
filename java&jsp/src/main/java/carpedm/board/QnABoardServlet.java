@@ -75,15 +75,35 @@ public class QnABoardServlet extends HttpServlet {
 		}
 
 //		실행할 쿼리문
-		String notice = "";
-		notice += "SELECT notice.*,  member.M_NAME";
-		notice += "	FROM notice";
-		notice += "	INNER JOIN MEMBER ON notice.M_PID = member.M_PID";
-		notice += "	WHERE  N_OPT IN (1, 2)";
-		notice += select_sql;
-		notice += "	ORDER BY n_id DESC";
-		System.out.println("notice쿼리 : " + notice);
-		ArrayList<Map<String, String>> list = getDBList(notice);
+		String query = "";
+		query += " select * from (";
+		query += " select rownum rnum, n1.* from (";
+		// 답글 정렬 시작
+		query += " with notice_recu (lv, N_ID, N_OPT, N_TITLE, M_PID, N_DATE, N_PARENT_ID, M_NAME, N_CONTENT) as (";
+		query += " select";
+		query += " 1 as lv,";
+		query += " N.N_ID, N.N_OPT, N.N_TITLE, N.M_PID, N.N_DATE, N.N_PARENT_ID, M.M_NAME, N.N_CONTENT";
+		query += " from NOTICE N";
+		query += " left outer join MEMBER M on N.M_PID = M.M_PID";
+		query += " where N.N_PARENT_ID is null";
+		query += " union all";
+		query += " select";
+		query += " nr.lv + 1 as lv,";
+		query += " n.N_ID, n.N_OPT, n.N_TITLE, n.M_PID, n.N_DATE, n.N_PARENT_ID, m.M_NAME, n.N_CONTENT";
+		query += " from notice_recu nr";
+		query += " left outer join NOTICE n on n.N_PARENT_ID = nr.N_ID";
+		query += " left outer join MEMBER m on n.M_PID = m.M_PID";
+		query += " where n.N_PARENT_ID is not null";
+		query += " )";
+		query += " search depth first by N_ID desc set sort_N_ID";
+		query += " select * from notice_recu";
+		query += " order by sort_N_ID";
+		// 답글 정렬 끝
+		query += " ) n1";
+		query += " ) n2";
+		query += " where rnum >= 1 and rnum <= 10";
+		System.out.println("notice쿼리 : " + query);
+		ArrayList<Map<String, String>> list = getDBList(query);
 
 		String page = request.getParameter("page");
 		if (page == null || "".equals(page)) {
@@ -123,7 +143,6 @@ public class QnABoardServlet extends HttpServlet {
 //		board/QnA_board.jsp와 이어줌
 		request.getRequestDispatcher("board/QnA_board.jsp").forward(request, response);
 	}
-
 
 	public static ArrayList<Map<String, String>> getDBList(String notice) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
