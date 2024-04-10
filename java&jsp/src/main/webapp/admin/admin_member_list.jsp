@@ -21,33 +21,13 @@
 <!-- function 스크립트 -->
 <script defer src="/carpedm/js/admin_library.js"></script>
 <script>
-
-	// 연체상태 popup창
-	function openOverduePopup(m_pid) {
-		window.open
-		("/carpedm/admin_book_overdue?m_pid="+m_pid, "팝업", "width=1200, height=900, left=200, top=200");
-	}
-	
-	// 예약목록 popup창
-	function openReservation(m_pid) {
-		window.open
-		("/carpedm/admin_reservation_list?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
-	}
-	// 대출내역 popup창
-	function openLoan(m_pid) {
-		window.open
-		("/carpedm/admin_loan?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
-	}
-	
 	// 윈도우가 로드됐을 때 bind함수 작동
 	window.addEventListener("load", function () {
 		bind();
 	});
 
 	function bind() {
-
 		// 회원목록 가져옴		
-
 <%-- 		let data_list = <%=getSelectQueryAll("select m_pid, m_name, m_id, m_birthday, m_tel, m_address, lb_id from member")%> --%>
 
 // 		console.log(data_list.length);
@@ -109,48 +89,39 @@
 // 			todolist.append(tr);
 // 		}
 
-		let enames = document.querySelectorAll(".ename")
-		
-		for(let i=0; i<enames.length; i++){
-			enames[i].addEventListener("click", (event) => {
+		let m_names = document.querySelectorAll("#m_name")
+		console.log("m_names : "+ m_names)
+		for(let i=0; i<m_names.length; i++){
+			m_names[i].addEventListener("click", (event) => {
 				// event.target.parentNode : 부모 즉,<td>를 뜻함
 				event.target.parentNode.querySelector("form").submit();
 			})
 		}
-// 		// "keyword" 변수의 값을 가져옵니다.
-// 	    var keyword = "${keyword}";
-
-// 	    // "keyword" 변수가 null 또는 빈 문자열인지 체크합니다.
-// 	    if (!keyword) {
-// 	        alert("Keyword를 입력하세요!");
-// 	    } else if(keyword.trim() == "") {
-// 	    	alert("찾을 수 없습니다")
-// 	    }
 		
-// 		document.querySelector("#m_pid").addEventListener("click", function() {
-// 			// form id 값 잡아옴 			
-// 			let frm = document.querySelector("#frm");
-// 			frm.querySelector("[name=orderColumn]").value = "m_pid";
+		document.querySelector("#m_pid").addEventListener("click", function() {
+			// form id 값 잡아옴 			
+			let frm = document.querySelector("#frm");
+			frm.querySelector("[name=orderColumn]").value = "m_pid";
 			
-// 			let orderType = frm.querySelector("[name=orderType]");
-// 			// 없다가 클릭하면
-// 			// desc > asc > 없음 순으로 변경
-// 			console.log(orderType.value);
+			let orderType = frm.querySelector("[name=orderType]");
+			// 없다가 클릭하면
+			// desc > asc > 없음 순으로 변경
+			console.log(orderType.value);
 			
-// 			if(orderType.value == ""){
-// 				orderType.value = 'desc';
-// 			} else if(orderType.value == "desc") {
-// 				orderType.value = 'asc';
-// 			} else if(orderType.value == "asc") {
-// 				orderType.value = '';
-// 				// 차라리 orderColumn을 지우는 방법도 있다
-// // 				frm.querySelector("[name=orderColumn]").value = '';
-// 				frm.querySelector("[name=orderType]").value = "desc";
-// 			}
+			if(orderType.value == ""){
+				orderType.value = 'desc';
+			} else if(orderType.value == "desc") {
+				orderType.value = 'asc';
+			} else if(orderType.value == "asc") {
+				orderType.value = '';
+				// 차라리 orderColumn을 지우는 방법도 있다
+// 				frm.querySelector("[name=orderColumn]").value = '';
+				frm.querySelector("[name=orderType]").value = "desc";
+			}
 			
 			
-// 			frm.submit();
-// 		})
+			frm.submit();
+		})
 		
 	}
 	
@@ -164,6 +135,23 @@
 		}
 	}
 
+	// 연체상태 popup창
+	function openOverduePopup(m_pid) {
+		window.open
+		("/carpedm/admin_book_overdue?m_pid="+m_pid, "팝업", "width=1200, height=900, left=200, top=200");
+	}
+	
+	// 예약목록 popup창
+	function openReservation(m_pid) {
+		window.open
+		("/carpedm/admin_reservation_list?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
+	}
+	// 대출내역 popup창
+	function openLoan(m_pid) {
+		window.open
+		("/carpedm/admin_loan?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
+	}
+	
 	// 예약목록 조회 이벤트
 	function reservation_check() {
 		alert("예약내역조회");
@@ -322,22 +310,12 @@ header .nav .member_list {
 	font-size: 16px;
 	height: 30px;
 }
-
-/* 이름 링크 */
-/* 	.member_name { */
-/* 		color: blue; */
-/* 		font-family: bold; */
-/* 		text-decoration: underline; */
-/* 		font-weight: bold; */
-/* 		cursor: pointer; */
-/* 	} */
-
 /* 연체상태 링크 */
 .overdue_name {
 	color: blue;
-	/* 		text-decoration: underline; */
+	text-decoration: underline;
 	font-weight: bold;
-	/* 		cursor: pointer; */
+	cursor: pointer;
 }
 
 h1 {
@@ -396,7 +374,7 @@ h1 {
 	</div>
 
 	<!-- 검색창   -->
-	<form method="get" action="admin_member_list">
+	<form id="frm" method="get" action="admin_member_list">
 		<div class="search">
 			<select id="viewCount" class="view_count"
 				onchange="changeViewCount(this.value)">
@@ -415,8 +393,8 @@ h1 {
 			<input type=submit class="button" value="검색" onclick="search()" >
 		</div>
 	 		<!-- 정렬용 필드 --> 
-<%-- 		<input type="hidden" name="orderColumn" value="${orderColumn }"> --%>
-<%-- 		<input type="hidden" name="orderType" value="${orderType }"> --%>
+		<input type="hidden" name="orderColumn" value="${orderColumn }">
+		<input type="hidden" name="orderType" value="${orderType }">
 	</form>
 
 
@@ -426,11 +404,23 @@ h1 {
 			<table class="member_table">
 				<thead>
 					<tr>
-						<th>순번</th>
-						<th id="m_pid">회원번호</th>
-						<th id="name">이름</th>
+<!-- 						<th>순번</th> -->
+						<th id="m_pid" width="80px">
+						<c:if test="${orderColumn == 'm_pid' }">
+							<c:if test="${orderType == 'desc' }">
+								<strong style="cursor:pointer;">회원번호 ↓</strong>
+							</c:if>
+							<c:if test="${orderType != 'desc' }">
+								<strong style="cursor:pointer;">회원번호 ↑</strong>
+							</c:if>
+						</c:if>
+						<c:if test="${orderColumn != 'm_pid' }">
+							<span style="cursor:pointer;">회원번호</span>
+						</c:if>
+						</th>
+						<th width="100px" id="m_name">이름</th>
 						<th>회원ID</th>
-						<th>생년월일</th>
+						<th width="100px">생년월일</th>
 						<th>전화번호</th>
 						<th>주소</th>
 						<th>연체상태</th>
@@ -441,14 +431,14 @@ h1 {
 				</thead>
 				<tbody id="memberListBody">
 					<!-- empty: 비어있다/ 사이즈가0이거나 NULL일 때	 -->
-					<c:if test="${not empty list }">
-						<c:forEach var="dto" items="${list }" varStatus="status">
+					<c:if test="${not empty member_list }">
+						<c:forEach var="dto" items="${member_list }" varStatus="status">
 							<tr>
-								<td>${status.index + 1}</td>
+<%-- 								<td>${status.index + 1}</td> --%>
 								<td class="member_no">${dto.m_pid}</td>
 								<td><div class="member_name">${dto.m_name}</div></td>
 								<td>${dto.m_id}</td>
-								<td>${dto.m_id}</td>
+								<td>${dto.m_birthday}</td>
 								<td>${dto.m_tel}</td>
 								<td>${dto.m_address}</td>
 								<td>
@@ -462,7 +452,7 @@ h1 {
 						</c:forEach>
 					</c:if>
 					<!-- 비어있는 리스트라면 -->
-					<c:if test="${empty list}">
+					<c:if test="${empty member_list}">
 						<tr>
 							<td colspan="11">조회할 내용이 없습니다</td>
 						</tr>

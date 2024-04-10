@@ -15,13 +15,14 @@
 			<if test="type != null and type != '' ">
 				<!-- 회원ID가 비어있지 않은 경우 조건을 추가합니다. -->
 				<if test="type == 1">
-<!-- 					and m_pid = #{keyword} -->
-<!-- 					and m_name = #{keyword} -->
-<!-- 					and m_id = #{keyword} -->
-<!-- 					and m_birthday = #{keyword} -->
-<!-- 					and m_tel = #{keyword} -->
-<!-- 					and m_address = #{keyword} -->
-<!-- 					and m_pid = #{keyword} -->
+					 (
+				        m_pid = #{keyword}
+				        or lower(m_name) like '%' || lower(#{keyword}) || '%'
+				        or lower(m_id) like '%' || lower(#{keyword}) || '%'
+				        or lower(m_birthday) like '%' || lower(#{keyword}) || '%'
+				        or lower(m_tel) like '%' || lower(#{keyword}) || '%'
+				        or lower(m_address) like '%' || lower(#{keyword}) || '%'
+				    )
 				</if>
 				<if test="type == 2">
 					and m_pid = #{keyword}
@@ -33,10 +34,14 @@
 					and lower(m_id) like '%' || lower(#{keyword}) || '%'
 				</if>
 			</if>
+			
+			<!-- type이 null이거나 빈 문자열인 경우 전체 검색 -->
+			<if test="type = null and type = '' ">
+				and 1=1
+			</if>
 		</where>
 
-		<if
-			test="orderColumn != null and orderColumn != '' and orderType != '' ">
+		<if test="orderColumn != null and orderColumn != '' and orderType != '' ">
 			<if test="orderColumn == 'm_pid' ">
 				order by m_pid
 				<if test="orderType == 'desc' ">

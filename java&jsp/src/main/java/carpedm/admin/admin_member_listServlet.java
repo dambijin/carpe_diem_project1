@@ -39,22 +39,23 @@ public class admin_member_listServlet extends HttpServlet {
 		System.out.println("type : " + type);
 		
 		// 정렬
-//		String orderColumn = request.getParameter("orderColumn");
-//		System.out.println("orderColumn : " + orderColumn);
-//		String orderType = request.getParameter("orderType");
-//		System.out.println("orderType : " + orderType);
+		String orderColumn = request.getParameter("orderColumn");
+		System.out.println("orderColumn : " + orderColumn);
+		String orderType = request.getParameter("orderType");
+		System.out.println("orderType : " + orderType);
 				
 		dto.setType(type);
 		dto.setKeyword(keyword);
 		
-//		dto.setOrderColumn(orderColumn);
-//		dto.setOrderType(orderType);
+		dto.setOrderColumn(orderColumn);
+		dto.setOrderType(orderType);
 		
 		List<MemberDTO> list = dao.getMemberList(dto);
 //		List list = dao.getMemberList(dto);
 		
-		System.out.println("list.size() : "+ list.size());
+//		System.out.println("list.size() : "+ list.size());
 
+		System.out.println(list);
 		// 연체상태
 		// 리스트가 비어 있는지 확인
 		if (list.isEmpty()) {
@@ -90,36 +91,26 @@ public class admin_member_listServlet extends HttpServlet {
 		request.setAttribute("keyword", keyword);
 		request.setAttribute("type", type);
 		
-//		request.setAttribute("orderColumn", orderColumn);
-//		request.setAttribute("orderType", orderType);
+		request.setAttribute("orderColumn", orderColumn);
+		request.setAttribute("orderType", orderType);
 
-		
-		// 1. 검색어를 파라미터에서 가져오기
-        String search = request.getParameter("search");
-        
-        // 2. 검색어가 null이면 빈 문자열로 처리
-        if (search == null) {
-            search = "";
-        }
-        
-        
         // 페이징!!
 		String page = request.getParameter("page");
-		if (page == null || "".equals(page)) {
-			page = "1";
+		if (page == null || "".equals(page)) { // 만약 페이지 번호가 없다면
+			page = "1"; // 기본값으로 1페이지를 설정
 		}
-		int currentPage = Integer.parseInt(page);
+		int currentPage = Integer.parseInt(page); // 현재 페이지 번호를 정수형으로 변환하여 저장
 
 		// perPage(표시 개수) 처리 부분
 		String perPage = request.getParameter("perPage");
-		if (perPage == null || "".equals(perPage)) {
-			perPage = "10";
+		if (perPage == null || "".equals(perPage)) { // 만약 페이지당 표시할 아이템 개수가 없다면
+			perPage = "10"; // 기본값으로 10개를 설정
 		}
-		int itemsPerPage = Integer.parseInt(perPage);
+		int itemsPerPage = Integer.parseInt(perPage); // 페이지당 표시할 아이템 개수를 정수형으로 변환하여 저장
 		
 		// 페이지 처리를 위한 계산
-		int startRow = (currentPage - 1) * itemsPerPage + 1;
-		int endRow = currentPage * itemsPerPage;
+		int startRow = (currentPage - 1) * itemsPerPage + 1; // 현재 페이지의 시작 행 번호 계산
+		int endRow = currentPage * itemsPerPage; // 현재 페이지의 마지막 행 번호 계산
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
 		ArrayList<MemberDTO> pageList = new ArrayList<>();
@@ -127,10 +118,10 @@ public class admin_member_listServlet extends HttpServlet {
 		startRow--;
 		endRow--;
 
-
-		for (int i = startRow; i <= endRow; i++) {
-			if (i < list.size()) {
-				pageList.add(list.get(i));
+		// 현재 페이지에 표시할 회원 목록 가져오기
+		for (int i = startRow; i <= endRow; i++) { // 시작 행부터 마지막 행까지 반복
+			if (i < list.size()) { // 리스트의 크기 범위 내에서
+				pageList.add(list.get(i)); // 현재 페이지에 표시할 회원을 pageList에 추가
 			} else {
 				break;
 			}
@@ -138,10 +129,11 @@ public class admin_member_listServlet extends HttpServlet {
 		
 		System.out.println(pageList);
 		
-		request.setAttribute("allcount", list.size());
+		// 전체 회원 수
+		int allcount = list.size();
+		request.setAttribute("allcount",allcount );
         request.setAttribute("member_list", pageList);
-        request.setAttribute("search", search);
-        
+
         // 6. JSP 페이지로 포워딩
         request.getRequestDispatcher("/admin/admin_member_list.jsp").forward(request, response);
 	}

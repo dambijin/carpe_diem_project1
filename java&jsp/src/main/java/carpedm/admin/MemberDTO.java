@@ -5,6 +5,12 @@ import java.sql.Date;
 public class MemberDTO {
 
 	int m_pid;
+//	String m_pid_str;
+//
+//	public void setM_pid_str(int m_pid) {
+//		this.m_pid_str = ""+m_pid;
+//	}
+
 	String m_id;
 	String m_pw;
 	String m_name;
