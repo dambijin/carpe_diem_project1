@@ -89,6 +89,20 @@ public class mypage_reservation_listServlet extends HttpServlet {
 		
 		request.getRequestDispatcher("/mypage/mypage_reservation_list.jsp").forward(request, response);
 	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		System.out.println("접속성공");
+		
+		System.out.println(request.getParameter("ids"));
+		
+	
+
+
+	}
 	
 
 	// 기본적인 접속메소드
@@ -110,7 +124,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 			// SQL준비
 			String query = "";
 			query += " select";
-			query += " b_title, b_author, b_publisher, r_resdate, library.lb_name, r_resstate ";
+			query += " r_id, b_title, b_author, b_publisher, r_resdate, library.lb_name, r_resstate ";
 			query += " from";
 			query += " reservation";
 			query += " inner join book";
@@ -127,8 +141,9 @@ public class mypage_reservation_listServlet extends HttpServlet {
 			while (rs.next()) {
 				Map<String,String> map = new HashMap<String, String>();
 
-				map.put("b_title", rs.getString("b_title"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
-				map.put("b_author", rs.getString("b_author"));//이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
+				map.put("r_id", rs.getString("r_id"));
+				map.put("b_title", rs.getString("b_title"));
+				map.put("b_author", rs.getString("b_author"));
 				map.put("b_publisher", rs.getString("b_publisher"));
 				map.put("r_resdate", rs.getString("r_resdate"));
 				map.put("lb_name", rs.getString("lb_name"));
