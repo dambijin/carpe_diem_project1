@@ -90,6 +90,10 @@
 	font-family: "Wanted Sans Variable";
 }
 
+.table_title{
+	text-align: left;
+}
+
 /* 테이블 */
 .board_notice .board table {
 	border-collapse: collapse;
@@ -314,14 +318,17 @@
 									}
 									%>
 								</td>
-								<td>
+								<td class="table_title">
 								<a id="title_st" href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"
 								value="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" name="a_tag">
 									<%=list.get(i).get("N_TITLE")%>
 								</a>
 								</td>
 								<td>
-									<%String name = list.get(i).get("M_NAME");										
+									<%String name = list.get(i).get("M_NAME");	
+									if(name == null){
+										name = " ";
+									}
 									String rename = name.substring(0, 1) + "**"; %>
 									<%=rename%>
 									<input type="hidden" name="m_writer_id" value="<%=list.get(0).get("M_PID")%>">

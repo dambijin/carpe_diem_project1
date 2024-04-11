@@ -129,7 +129,7 @@ public class QnAupdateServlet extends HttpServlet {
 
 			// SQL준비
 			String n_subject = request.getParameter("notice_subject"); // 제목
-			String n_subject_update = "(수정) " + n_subject;
+			String n_subject_update = n_subject;
 			String n_lb = request.getParameter("library"); // 소속 도서관
 			String n_fi = request.getParameter("n_file"); // 파일
 			String n_write = request.getParameter("n_textarea"); // 글 내용(textarea)

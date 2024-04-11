@@ -79,17 +79,17 @@ public class QnABoardServlet extends HttpServlet {
 		query += " select * from (";
 		query += " select rownum rnum, n1.* from (";
 		// 답글 정렬 시작
-		query += " with notice_recu (lv, N_ID, N_OPT, N_TITLE, M_PID, N_DATE, N_PARENT_ID, M_NAME, N_CONTENT) as (";
+		query += " with notice_recu (lv, N_ID, N_OPT, N_TITLE, M_PID, N_DATE, N_PARENT_ID, M_NAME, N_VIEWCOUNT) as (";
 		query += " select";
 		query += " 1 as lv,";
-		query += " N.N_ID, N.N_OPT, N.N_TITLE, N.M_PID, N.N_DATE, N.N_PARENT_ID, M.M_NAME, N.N_CONTENT";
+		query += " N.N_ID, N.N_OPT, N.N_TITLE, N.M_PID, N.N_DATE, N.N_PARENT_ID, M.M_NAME, N.N_VIEWCOUNT";
 		query += " from NOTICE N";
 		query += " left outer join MEMBER M on N.M_PID = M.M_PID";
 		query += " where N.N_PARENT_ID is null";
 		query += " union all";
 		query += " select";
 		query += " nr.lv + 1 as lv,";
-		query += " n.N_ID, n.N_OPT, n.N_TITLE, n.M_PID, n.N_DATE, n.N_PARENT_ID, m.M_NAME, n.N_CONTENT";
+		query += " n.N_ID, n.N_OPT, n.N_TITLE, n.M_PID, n.N_DATE, n.N_PARENT_ID, m.M_NAME, n.N_VIEWCOUNT";
 		query += " from notice_recu nr";
 		query += " left outer join NOTICE n on n.N_PARENT_ID = nr.N_ID";
 		query += " left outer join MEMBER m on n.M_PID = m.M_PID";

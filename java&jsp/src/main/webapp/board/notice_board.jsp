@@ -252,6 +252,9 @@ window.onload = function() {
 	background-color: #007bff;
 	color: #fff;
 }
+.table_title{
+	text-align: left;
+}
 </style>
 </head>
 
@@ -310,7 +313,7 @@ window.onload = function() {
 								<tr>
 									<td><%=list.get(i).get("N_ID")%></td>
 									<td name="lb_name"><%=list.get(i).get("LB_NAME")%></td>
-									<td id="title_st"><a
+									<td id="title_st" class="table_title"><a
 										href="notice_detail?N_ID=<%=list.get(i).get("N_ID")%>"
 										class="table_a"><%=list.get(i).get("N_TITLE")%> <input
 											type="hidden" name="title"

@@ -196,7 +196,7 @@ List<Map<String, String>> library = (List<Map<String, String>>) request.getAttri
 								<td class="subject">제목</td>
 								<td colspan="5" class="subject_title">
 									<input type="text" class="answer_write answer_subject" id="answer_title" name="title"
-											value="RE : <%=qna_notice.get(0).get("N_TITLE")%>">
+											value="<%=qna_notice.get(0).get("N_TITLE")%>">
 									<input type="hidden" name="pub" value="<%=qna_notice.get(0).get("N_OPT")%>">
 									<input type="hidden" name="p_nid" value="<%=qna_notice.get(0).get("N_ID")%>">
 								</td>
