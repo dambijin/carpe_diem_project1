@@ -325,7 +325,7 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 							tdStyle = "border-right: 0px;"; // 마지막에 오른쪽 줄 없애기
 						}
 					%>
-					<td style="<%=tdStyle%>">
+					<td style="<%=tdStyle%>" onclick="window.open('<%=bookrecommend_list.get(i).get("b_src")%>','', 'width=1200,height=700');">
 						<div class="recommendbook_div">
 							<img class="recommendbook_img"
 								src="<%=bookrecommend_list.get(i).get("b_img")%>">

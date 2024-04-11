@@ -1,19 +1,19 @@
 function isLoggedIn() {
-    // 예를 들어, 쿠키에 'login'이라는 이름의 값이 있는지 확인합니다.
-    return document.cookie.includes('lc=');
-// return true;
+	// 예를 들어, 쿠키에 'lc'이라는 키의 값이 있는지 확인합니다.
+	return document.cookie.includes('lc=');
+	// return true;
 }
 
 function mchk() {
-    // 예를 들어, 쿠키에 'login'이라는 이름의 값이 있는지 확인합니다.
-    return document.cookie.includes('lc=9');
-// return true;
+	// 예를 들어, 쿠키에 'login'이라는 이름의 값이 있는지 확인합니다.
+	return document.cookie.includes('lc=9');
+	// return true;
 }
 
 let loginSection;
-let mchkSection='<div class="blank_space"></div>';
+let mchkSection = '<div class="blank_space"></div>';
 
-if(isLoggedIn()) {
+if (isLoggedIn()) {
 	loginSection = `
 	<div class="sign_up_in">
 		<div class="sign_up">
@@ -22,10 +22,9 @@ if(isLoggedIn()) {
 			</a>
 		</div>
 	</div>`;
-	
-	if(mchk())
-	{
-		mchkSection='<div class="blank_space"><a href="/carpedm/admin_member_list">관리자페이지</a></div>';
+
+	if (mchk()) {
+		mchkSection = '<div class="blank_space"><a href="/carpedm/admin_member_list">관리자페이지</a></div>';
 	}
 }
 else {

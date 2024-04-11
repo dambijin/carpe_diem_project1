@@ -125,8 +125,8 @@ public class Book_Recommend {
 			String book_list_text = getDataOne(rs_a.toString(), "id=\"nomiBoxRoolGrp_buyNCateGoodsWrap\"",
 					"class=\"yPagenNum\"");
 			String[] book_list = getDataList(book_list_text, "<li id=\"recommend_goods_area\"", "</li>");
-			
-			//약 16개의 책을 가져오는데, 랜덤으로 섞어서 3개만 가져오도록 함
+
+			// 약 16개의 책을 가져오는데, 랜덤으로 섞어서 3개만 가져오도록 함
 			shuffleArray(book_list);
 
 			System.out.println("책 개수:" + book_list.length);
@@ -139,13 +139,20 @@ public class Book_Recommend {
 				String b_title = getDataOne(book, " alt=\"", "\"");
 				// 책 저자
 				String b_auth = getDataOne(book_list[i], "class=\"goods_auth\">", "</span");
+				//책 url
+				String b_src = getDataOne(book_list[i], "a href=\"", "\"");
+
 				System.out.println(b_img);
 				System.out.println(b_title);
 				System.out.println(b_auth);
+				System.out.println(b_src);
+				
+//				System.out.println(book_list[i]);
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("b_img", b_img);
 				map.put("b_title", b_title);
 				map.put("b_auth", b_auth);
+				map.put("b_src", "https://www.yes24.com"+b_src);
 				result_list.add(map);
 				if (i >= 2) {
 					break;
@@ -383,18 +390,18 @@ public class Book_Recommend {
 		// 결과 리스트를 배열로 변환하여 반환
 		return resultList.toArray(new String[0]);
 	}
-	
-    // Fisher-Yates shuffle 알고리즘을 사용하여 배열을 섞는 메소드
-    public static void shuffleArray(String[] book_list) {
-        Random rnd = new Random();
-        
-        for (int i = book_list.length - 1; i > 0; i--) {
-            int index = rnd.nextInt(i + 1);
-            
-            // 현재 원소와 랜덤하게 선택된 원소를 교환
-            String temp = book_list[index];
-            book_list[index] = book_list[i];
-            book_list[i] = temp;
-        }
-    }
+
+	// Fisher-Yates shuffle 알고리즘을 사용하여 배열을 섞는 메소드
+	public static void shuffleArray(String[] book_list) {
+		Random rnd = new Random();
+
+		for (int i = book_list.length - 1; i > 0; i--) {
+			int index = rnd.nextInt(i + 1);
+
+			// 현재 원소와 랜덤하게 선택된 원소를 교환
+			String temp = book_list[index];
+			book_list[index] = book_list[i];
+			book_list[i] = temp;
+		}
+	}
 }

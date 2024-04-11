@@ -139,11 +139,17 @@ public class book_searchServlet extends HttpServlet {
 
 		// 키워드조회테이블에 조회값 등록
 		String si_id = "";
+		String clientIP = request.getHeader("X-Forwarded-For");
+		if(clientIP == null || clientIP.isEmpty()) {
+		    clientIP = request.getRemoteAddr();
+		}
+		System.out.println(clientIP);
+		
 		if (!"".equals(searchWord) && searchWord != null) {
 			String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-			setDBList("INSERT INTO searchinfo (SI_ID, SI_KEYWORD, SI_OPT, SI_TIME,B_ID) " + "VALUES ("
+			setDBList("INSERT INTO searchinfo (SI_ID, SI_KEYWORD, SI_OPT, SI_TIME,B_ID, SI_IP) " + "VALUES ("
 					+ " searchinfo_seq.nextval," + " '" + searchWord + "'," + " '" + item + "'," + " TO_DATE('"
-					+ now_date + "', 'YYYY-MM-DD HH24:MI:SS')," + " ''" + ")");
+					+ now_date + "', 'YYYY-MM-DD HH24:MI:SS')," + " '',"+"'"+clientIP+"'" + ")");
 
 			// 조회id값 가져오기
 			ArrayList<Map<String, String>> si_id_list = getDBList(
@@ -165,7 +171,7 @@ public class book_searchServlet extends HttpServlet {
 				+ ")"
 				+ " WHERE ROWNUM <= 10");
 		
-		System.out.println(pop_search_list);
+//		System.out.println(pop_search_list);
 
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("item", item);
