@@ -288,59 +288,71 @@
 								onclick="search_box()">
 						</div>
 						<form method="post" action="QnA_board">
-						<table class="board_sub">
-							<tr>
-								<th class="board_subject">순번</th>
-								<th class="board_subject open">분류</th>
-								<th class="board_subject sub">제목</th>
-								<th class="board_subject">작성자</th>
-								<th class="board_subject day">등록일</th>
-								<th class="board_subject">조회</th>
-							</tr>
-
-							<%
-							List<Map<String, String>> list = (List<Map<String, String>>) request.getAttribute("list");
-
-							for (int i = 0; i < list.size(); i++) {
-								Map map = (Map) list.get(i);
-
-								String open = "1";
-							%>
-							<tr>
-								<td id="nid_value"><%=list.get(i).get("N_ID")%></td>
-								<td name="close_tx">
-								<input type="hidden" id="close_id" value="<%=list.get(i).get("N_OPT")%>" name="n_opt">
+							<table class="board_sub">
+								<thead>
+									<tr>
+										<th class="board_subject">순번</th>
+										<th class="board_subject open">분류</th>
+										<th class="board_subject sub">제목</th>
+										<th class="board_subject">작성자</th>
+										<th class="board_subject day">등록일</th>
+										<th class="board_subject">조회</th>
+									</tr>
+								</thead>
+								<tbody>
+						
 									<%
-									if (list.get(i).get("N_OPT").equals(open)) {
-									%> 공개 <%
-									} else {
-									%> 비공개 <%
+									List<Map<String, String>> list = (List<Map<String, String>>) request.getAttribute("list");
+									System.out.println("jsp > list.size() : " + list.size());
+									for (int i = 0; i < list.size(); i++) {
+										Map map = (Map) list.get(i);
+		
+										String open = "1";
+									%>
+									<tr>
+										<td id="nid_value"><%=list.get(i).get("N_ID")%></td>
+										<td name="close_tx">
+										<input type="hidden" id="close_id" value="<%=list.get(i).get("N_OPT")%>" name="n_opt">
+											<%
+											if (list.get(i).get("N_OPT").equals(open)) {
+											%> 공개 <%
+											} else {
+											%> 비공개 <%
+											}
+											%>
+										</td>
+										<%
+										int lv= Integer.parseInt(list.get(i).get("LV"));
+										int pad=  lv * 10;
+										%>
+										<td class="table_title" style="padding-left: <%=pad%>px;">
+										<a id="title_st" href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"
+										value="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" name="a_tag">
+											<% if(list.get(i).get("N_PARENT_ID") != null){%>
+											└
+											<% } %>
+											
+											<%=list.get(i).get("N_TITLE")%>
+										</a>
+										</td>
+										<td>
+											<%String name = list.get(i).get("M_NAME");	
+											if(name == null){
+												name = " ";
+											}
+											String rename = name.substring(0, 1) + "**"; %>
+											<%=rename%>
+											<input type="hidden" name="m_writer_id" value="<%=list.get(0).get("M_PID")%>">
+											
+										</td>
+										<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
+										<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
+									</tr>
+									<%
 									}
 									%>
-								</td>
-								<td class="table_title">
-								<a id="title_st" href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"
-								value="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" name="a_tag">
-									<%=list.get(i).get("N_TITLE")%>
-								</a>
-								</td>
-								<td>
-									<%String name = list.get(i).get("M_NAME");	
-									if(name == null){
-										name = " ";
-									}
-									String rename = name.substring(0, 1) + "**"; %>
-									<%=rename%>
-									<input type="hidden" name="m_writer_id" value="<%=list.get(0).get("M_PID")%>">
-									
-								</td>
-								<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
-								<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
-							</tr>
-							<%
-							}
-							%>
-						</table>
+								</tbody>
+							</table>
 						</form>
 					</div>
 					<div class="paging_writing">
@@ -354,11 +366,11 @@
 						<div id="paging">
 							<%
 							// 서블릿에서 불러온 페이징 정보
-							int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값
+							int total_count = (int) request.getAttribute("totalViewCount");
 							int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
 							int current_page = Integer.parseInt((String) request.getAttribute("page"));
 							int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
-
+							
 							// 표시할 페이지의 범위 계산
 							int start_page = Math.max(current_page - 2, 1);
 							int end_page = Math.min(start_page + 4, total_pages);
