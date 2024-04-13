@@ -76,7 +76,7 @@
 
 
                 // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
-               console.log(document.querySelector(".checkbox"));
+               console.log(document.querySelectorAll(".checkbox"));
                 document.querySelector(".checkbox")
                     .addEventListener("click", function (event) {
 
@@ -93,7 +93,7 @@
                                 document.querySelector("#selectAll").checked = false;
                             }
                         }
-                    })
+                    });
 
 
                 // 전체선택 체크
@@ -121,25 +121,30 @@
                         let row = list_checked[i].closest("tr");
                         let id = row.querySelector('input[type="hidden"]').value;
                         ids.push(id);
+                        console.log(ids)
                     }
                     
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", "/carpedm/mypage_reservation_list", true);
-                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
                                 // 요청이 성공적으로 완료됨
                                 console.log("서버 응답:", xhr.responseText);
+                                alert("취소가 완료 되었습니다.")
+                                window.location.href = "/carpedm/mypage_reservation_list";
                             } else {
                                 // 요청이 실패함
                                 console.error("서버 응답 오류:", xhr.status);
                             }
                         }
                     };
+                    // ids 배열을 query string으로 변환합니다.
+                    let queryString = "ids=" + encodeURIComponent(JSON.stringify(ids));
 
-                    xhr.send(JSON.stringify({ ids: ids }));
+                    xhr.send(queryString);
                 });
                 
 }
@@ -382,7 +387,7 @@
 
 						<%
 						ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) request.getAttribute("list");
-						System.out.println(list.size());
+						System.out.println("리스트 사이즈:"+list.size());
 
 						for (int i = 0; i < list.size(); i++) {
 							String resState = list.get(i).get("r_resstate");
@@ -393,8 +398,18 @@
 							<td><%=list.get(i).get("b_title")%></td>
 							<td><%=list.get(i).get("b_author")%></td>
 							<td><%=list.get(i).get("b_publisher")%></td>
-							<td><%=list.get(i).get("r_resdate").substring(0, 10)%></td>
-							<td><%=list.get(i).get("r_resdate").substring(0, 10)%></td>
+							<td><%
+									String resDate = list.get(i).get("r_resdate");
+									String output = (resDate != null) ? resDate.substring(0, 10) : "-";
+									%>
+									<%= output %>
+							</td>
+							<td><%
+									String returndate = list.get(i).get("l_returndate");
+									String input = (returndate != null) ? returndate.substring(0, 10) : "-";
+									%>
+									<%=input%></td>
+							
 							<%
 							switch (resState) {
 							case "0":
@@ -415,12 +430,12 @@
 
 							<td><%=list.get(i).get("lb_name")%></td>
 
-							<td><input type="checkbox" class="checkbox" value="<%=list.get(i).get("r_id")%>"></td>
+							<td><input type="checkbox" class="checkbox"></td>
 						</tr>
 						<%
 						}
 						%>
-
+						
 					</table>
 				</div>
 				<div id="button_cancle">

@@ -286,11 +286,11 @@
                 <table>
                     <tr>
                         <td class="sub">아이디</td>
-                        <td><input type="text" class="textbox1" id="text_id" placeholder=" 아이디" autofocus></td>
+                        <td><input type="text" class="textbox1" id="text_id" placeholder=" 아이디" value="admin"></td>
                     </tr>
                     <tr>
                         <td class="sub">비밀번호</td>
-                        <td><input type="password" class="textbox2" id="text_pass" placeholder=" 비밀번호"></td>
+                        <td><input type="password" class="textbox2" id="text_pass" placeholder=" 비밀번호" value="admin"></td>
                     </tr>
                 </table>
                 <div class="check_sub">

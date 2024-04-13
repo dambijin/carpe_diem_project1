@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><!DOCTYPE html>
-	<%@ page import="java.sql.*"%>
+<%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
@@ -29,26 +29,76 @@
 //             let f = document.querySelector("#f").innerHTML = "제가 너무 읽고 싶은 책이었어요";
 //             let g = document.querySelector("#g").innerHTML = "휴먼출판사";
 //             let h = document.querySelector("#h").innerHTML = " 010-1234-1234";
-            let cancle = document.querySelector("#cancle")
-            let closes = document.querySelector("#close")
            
             // 취소신청 확인 알림 후 창닫기 이벤트 
-            cancle.addEventListener("click", function () {
-                let result = confirm("취소하시겠습니까?")
-                if (result === true) {
-                    alert("취소되었습니다.")
-                    
-                    window.close(); 
-                } else {      
-                }
-            })
+//         function cancle(w_id)
+<%--     	<%// 세션에서 현재 아이디값 가져오기 --%>
+// 		HttpSession getSession = request.getSession();
+<%-- 		String login_m_pid = (String) getSession.getAttribute("m_pid");%> --%>
+//         {
+//         	 let url = 'wishbook_detail';
+<%-- 	     	    let data = 'w_id=' + encodeURIComponent(w_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>); --%>
+// 	     		//dopost로 보내기위한 코드
+// 	     	    fetch(url, {
+// 	     	      method: 'POST',
+// 	     	      headers: {
+// 	     	        'Content-Type': 'application/x-www-form-urlencoded',
+// 	     	      },
+// 	     	      body: data,
+// 	     	    })
+// 	     	    .then(response => response.json())
+// 	     	    .then(data => {
+// // 	     	    	console.log(data);
+// 	         	  // 서버에서 전달한 결과 메시지에 따라 분기처리
+// 	         	  if (data.message === 'success') {
+// 	         	    alert(' 취소 신청 되었습니다.');
+// 	         	    window.close();  // fetch가 완료된 후에 search 함수를 실행
+// 	         	  }
+// 	         	  else if (data.message === 'fail') {
+// 	         	    alert('비로그인상태입니다. 로그인해주세요.');
+// 	         	    window.location.href = "/carpedm/sign_in";
+// 	         	  } else {
+// 	         	    	alert('알 수 없는 오류가 발생하였습니다.');
+// 	         	  }	
+// 	     	    })
+// 	     	    .catch((error) => console.error('Error:', error));
+//         }
 
-            // 닫기 버튼 이벤트
-            closes.addEventListener("click", function () {
-                window.close();
+		<%
+			HttpSession getSession = request.getSession();
+			String login_m_pid = (String) getSession.getAttribute("m_pid");
+		%>
+		
+		function cancle(w_id) {
+		    let xhr = new XMLHttpRequest();
+		    
+		    xhr.open("post", "wishbook_detail", true);
+		    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		     
+		    let param = "w_id=" + encodeURIComponent(w_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>)
+		    console.log("param : " + param);
+		    
+		    xhr.send(param);
+		    
+		    xhr.onload = function() {
+		        let data = xhr.responseText;
+		        console.log("data : " + data);
+		        if(data == 0) {
+		        	alert("취소 신청 완료");
+		        	window.close();
+		        } 
+		    };
+		 }
+		
+		document.querySelector("#cancle").addEventListener("click", () => {
+			let ww_id = document.querySelector("#cancle").getAttribute("data-id");
+			cancle(ww_id);
+			window.location.reload();
 
-            })
-        }
+		})
+
+         
+    }
 
     </script>
 <style>
@@ -106,63 +156,61 @@
 	<section class="hope">
 		<table>
 			<tr>
-			<% ArrayList<Map<String,String>> wish = (ArrayList<Map<String,String>>)request.getAttribute("wish"); 
-							System.out.println(wish.size());
-							%>
+				<%
+				ArrayList<Map<String, String>> wish = (ArrayList<Map<String, String>>) request.getAttribute("wish");
+				System.out.println(wish.size());
+				int w_id = (int) request.getAttribute("w_id");
+				%>
 				<td class="substance">희망소장처</td>
-				<td>
-				<%=wish.get(0).get("LB_NAME") %>
-				</td>
+				<td><%=wish.get(0).get("LB_NAME")%></td>
 			</tr>
 			<tr>
 				<td class="substance">자료명</td>
-				<td>
-				<%=wish.get(0).get("W_TITLE") %>
-				</td>
+				<td><%=wish.get(0).get("W_TITLE")%></td>
 			</tr>
 			<tr>
 				<td class="substance">저자</td>
-				<td>
-				<%=wish.get(0).get("W_AUTHOR") %>
-				</td>
+				<td><%=wish.get(0).get("W_AUTHOR")%></td>
 			</tr>
 			<tr>
 				<td class="substance">발행연도</td>
-				<td>
-				<%=wish.get(0).get("W_PUBYEAR") %>
-				</td>
+				<td><%=wish.get(0).get("W_PUBYEAR")%></td>
 			</tr>
 			<tr>
 				<td class="substance">ISBN번호<br> ISSN번호
 				</td>
-				<td>
-				<%=wish.get(0).get("W_ISBN") %>
-				</td>
+				<td><%=wish.get(0).get("W_ISBN")%></td>
 			</tr>
 			<tr>
 				<td class="substance">신청사유</td>
-				<td class="because">
-				<%=wish.get(0).get("W_CONTENT") %>
-				</td>
+				<td class="because"><%=wish.get(0).get("W_CONTENT")%></td>
 			</tr>
 			<tr>
 				<td class="substance">출판사</td>
-				<td>
-				<%=wish.get(0).get("W_PUBLISHER") %>
-				</td>
+				<td><%=wish.get(0).get("W_PUBLISHER")%></td>
 			</tr>
 			<tr>
 				<td class="substance">휴대폰번호</td>
-				<td>
-				<%=wish.get(0).get("W_TEL") %>
-				</td>
+				<td><%=wish.get(0).get("W_TEL")%></td>
 			</tr>
-			<% %>
+			<%
+
+			%>
 		</table>
-		<button type="button" class="button_revocation but" id="cancle">취소신청</button>
+		<button type="button" class="button_revocation but" id="cancle" data-id="${w_id}">
+			취소신청
+		</button>
 		<button type="button" class="button_x but" id="close">닫기</button>
 	</section>
-
+	<script>
+   // 닫기 버튼 이벤트
+   			let cancle = document.querySelector("#cancle");
+            let closes = document.querySelector("#close");
+           
+            closes.addEventListener("click", function () {
+                window.close();
+            })
+        </script>
 </body>
 
 </html>

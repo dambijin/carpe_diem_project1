@@ -50,11 +50,7 @@
 //             let info1 = document.querySelector(".info1")
 //             info1.innerHTML = myInfo;
 
-            // 취소버튼 클릭시 팝업 알림
-            button3.addEventListener('click', function () {
-                alert('취소 완')
-
-            });
+           
             // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
                 window.open('/carpedm/mypage_chginfo', '_self')
@@ -114,6 +110,40 @@
 //                 let tr = document.createElement("tr");
 //                 tr.classList.add("tr")
 //                 tr.innerHTML = html;
+
+ 				// 선택항목 삭제
+                document.querySelector("#cancle").addEventListener("click", function () {
+                    let list_checked = document.querySelectorAll(".checkbox:checked");
+                    let ids = [];
+                    for (let i = 0; i < list_checked.length; i++) {
+                        let row = list_checked[i].closest("tr");
+                        let id = row.querySelector('input[type="hidden"]').value;
+                        ids.push(id);
+                        console.log(ids)
+                    }
+                    
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/carpedm/mypage_wishbook_list", true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                // 요청이 성공적으로 완료됨
+                                console.log("서버 응답:", xhr.responseText);
+                                alert("취소가 완료 되었습니다.")
+                                window.location.href = "/carpedm/mypage_wishbook_list";
+                            } else {
+                                // 요청이 실패함
+                                console.error("서버 응답 오류:", xhr.status);
+                            }
+                        }
+                    };
+                    // ids 배열을 query string으로 변환합니다.
+                    let queryString = "ids=" + encodeURIComponent(JSON.stringify(ids));
+
+                    xhr.send(queryString);
+                });
 
                 // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
                 document.querySelector(".checkbox")
@@ -298,7 +328,7 @@
 							<tr>
 								<td class="info1">
 									<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
-							System.out.println(myInfo.size());
+							
 							
 							%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME") %><br>
 									번호 : <%=myInfo.get(0).get("M_TEL") %><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
@@ -384,7 +414,7 @@
 							
 							%>
 						<tr class="tr">
-							<td><%=i+1 %></td>
+							<td><%=i+1 %><input type="hidden" value="<%=list.get(i).get("w_id")%>"></td>
 							<td><%=list.get(i).get("lb_name") %></td>
 							<td><a href="javacsript:void(0);" onclick="popup('<%=list.get(i).get("w_id") %>')"> <%=list.get(i).get("w_title") %>
 							</a></td>
@@ -427,7 +457,7 @@
 				<div id="paging">
 					<%
 					// 서블릿에서 불러온 페이징 정보
-					int total_count = (int)request.getAttribute("allcount");// 임시로 설정한 값
+					int total_count = (int)request.getAttribute("totalViewCount");// 임시로 설정한 값
 					int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
 					int current_page = Integer.parseInt((String) request.getAttribute("page"));
 				    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;

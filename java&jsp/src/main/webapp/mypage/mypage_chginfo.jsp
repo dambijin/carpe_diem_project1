@@ -170,7 +170,7 @@
             // 취소버튼 이동
             let cancle = document.querySelector("#cancle")
             cancle.addEventListener("click", function () {
-                location.href = "mypage_loan_status.jsp";
+                location.href = "mypage_loan_status";
             })
 
 

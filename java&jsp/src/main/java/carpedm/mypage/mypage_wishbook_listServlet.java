@@ -47,6 +47,10 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
 
+		int start_page = -1;
+		int end_page = -1;
+		
+		// page를 가져옴
 		String page = request.getParameter("page");
 		if (page == null || "".equals(page)) {
 			page = "1";
@@ -59,30 +63,57 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			perPage = "10";
 		}
 		int itemsPerPage = Integer.parseInt(perPage);
-		// 페이지 처리를 위한 계산
-		int startRow = (currentPage - 1) * itemsPerPage + 1;
-		int endRow = currentPage * itemsPerPage;
+		
+		start_page = ((currentPage - 1) * itemsPerPage) + 1;
+		end_page = currentPage * itemsPerPage;
+		
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
 
 		ArrayList<Map<String, String>> list = getWishList(login_m_pid, search);
+		System.out.println(list);
 		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 
-		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
-		startRow--;
-		endRow--;
+		
+		String query2 = "";
+		query2 += " select count(*) from wishlist inner join library on library.lb_id = wishlist.lb_id";
+		query2 += " where wishlist.m_pid = " + login_m_pid ;
+		
+		
+		ArrayList<Map<String, String>> totalList = getDBList(query2);
+		
+		int totalViewCount = Integer.parseInt(totalList.get(0).get("COUNT(*)"));
+//		System.out.println("총 글 개수 : " + totalViewCount);
 
-		for (int i = startRow; i <= endRow; i++) {
-			if (i < list.size()) {
-				pageList.add(list.get(i));
-			} else {
-				break;
-			}
-		}
-
-		request.setAttribute("list", pageList);
-		request.setAttribute("allcount", list.size());
+		request.setAttribute("totalViewCount", totalViewCount);
+		request.setAttribute("list", list);
 		request.getRequestDispatcher("/mypage/mypage_wishbook_list.jsp").forward(request, response);
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+
+		System.out.println("접속성공");
+
+		String r_id = request.getParameter("ids");
+		r_id = r_id.replace("[", "");
+		r_id = r_id.replace("]", "");
+		r_id = r_id.replace("\"", "");
+		
+		
+		System.out.println(r_id);
+		HttpSession getSession = request.getSession();
+		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		String queryDelete = "";
+		
+		queryDelete = "delete wishlist where m_pid = " + login_m_pid + " and w_id in (" + r_id + ")";
+		System.out.println("queryDelete" + queryDelete);
+	
+		setDBList(queryDelete);
+		
 	}
 
 	// 기본적인 접속메소드
@@ -98,6 +129,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 	        return conn;
 	    }
 
+//	 위시리스트 불러오고 검색까지
 	private ArrayList<Map<String, String>> getWishList(String m_pid, String search) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
@@ -150,10 +182,11 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			Connection conn = getConnection();
 			// SQL준비
 
-			System.out.println("query:" + query);
+//			System.out.println("query:" + query);
 
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(query);
+			
 			ResultSet rs = ps.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnCount = rsmd.getColumnCount();
@@ -176,6 +209,25 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		return result_list;
+	}
+	
+	private int setDBList(String query) {
+		int result = -1;
+		try {
+			Connection conn = getConnection();
+			// SQL준비
+
+			System.out.println("query:" + query);
+			// SQL 실행준비
+			PreparedStatement ps = conn.prepareStatement(query);
+			result = ps.executeUpdate();
+
+			ps.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }
