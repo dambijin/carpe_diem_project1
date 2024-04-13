@@ -94,6 +94,9 @@ public class QnABoardServlet extends HttpServlet {
 		start_page = ((currentPage - 1) * itemsPerPage) + 1;
 		end_page = currentPage * itemsPerPage;
 		
+		request.setAttribute("page", page);
+		request.setAttribute("perPage", perPage);
+		
 //		System.out.println("start_page : " + start_page );
 //		System.out.println("end_page : " + end_page );
 		
@@ -103,9 +106,9 @@ public class QnABoardServlet extends HttpServlet {
 		
 		ArrayList<Map<String, String>> totalList = getDBList(query2);
 		
-		int totalViewCount = Integer.parseInt(totalList.get(0).get("COUNT(*)")); // 38
+		int totalViewCount = Integer.parseInt(totalList.get(0).get("COUNT(*)"));
 		System.out.println("총 글 개수 : " + totalViewCount);
-		
+		request.setAttribute("totalViewCount", totalViewCount);
 
 //		실행할 쿼리문
 		String query = "";
@@ -140,6 +143,9 @@ public class QnABoardServlet extends HttpServlet {
 		
 		ArrayList<Map<String, String>> list = getDBList(query);
 		
+		request.setAttribute("list", list);
+		request.setAttribute("allcount", list.size());
+		
 //		// 페이지 처리를 위한 계산
 //		int startRow = (currentPage - 1) * itemsPerPage + 1;
 //		int endRow = currentPage * itemsPerPage;
@@ -155,13 +161,7 @@ public class QnABoardServlet extends HttpServlet {
 //		for (int i = 0; i < list.size(); i++) {
 //			pageList.add(list.get(i));
 //		}
-		
-		request.setAttribute("totalViewCount", totalViewCount);
-		request.setAttribute("list", list);
-		request.setAttribute("allcount", list.size());
-//		System.out.println("list.size() : " + list.size());
 
-//		board/QnA_board.jsp와 이어줌
 		request.getRequestDispatcher("board/QnA_board.jsp").forward(request, response);
 	}
 

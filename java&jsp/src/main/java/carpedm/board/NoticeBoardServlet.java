@@ -40,7 +40,7 @@ public class NoticeBoardServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 //		한글 깨짐 방지
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -56,45 +56,33 @@ public class NoticeBoardServlet extends HttpServlet {
 			nid_list = "";
 		}
 		request.setAttribute("N_ID", nid_list);
-		
-		
-		//검색어가져오기
+
+		// 검색어가져오기
 		String searchWord = request.getParameter("search");
 		if (searchWord == null || "".equals(searchWord)) {
 			searchWord = "";
 		}
-		
+
 		String select = request.getParameter("n_search");
 		String select_sql = "";
 		System.out.println(select);
-		
 
 		if (select == null || "".equals(select)) {
-			select="제목";
+			select = "제목";
 		}
-		
-		if (select.equals("제목")) {
-			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%'";
-		} else if (select.equals("제목 내용")) {
-			select_sql = " AND N_TITLE LIKE '%"+searchWord+"%' OR N_CONTENT LIKE '%"+searchWord+"%'";
-		} else if (select.equals("도서관")) {
-			select_sql = " AND LB_NAME LIKE '%"+searchWord+"%'";
-		} 
 
-//		가져올 데이터 값의 쿼리문
-		String notice = "";
-		notice += " SELECT notice.*, library.LB_NAME, member.M_NAME";
-		notice += " FROM notice";
-		notice += " INNER JOIN LIBRARY ON notice.LB_ID = library.LB_ID";
-		notice += " INNER JOIN MEMBER ON notice.M_PID = member.M_PID";
-		notice += " WHERE n_opt = 0 ";
-		notice += select_sql;
-		notice += " ORDER BY n_id DESC";
-		
-		ArrayList<Map<String, String>> list = getDBList(notice);
-		
-//		request.setAttribute("list", list);
-		
+		if (select.equals("제목")) {
+			select_sql = " AND N_TITLE LIKE '%" + searchWord + "%'";
+		} else if (select.equals("제목 내용")) {
+			select_sql = " AND N_TITLE LIKE '%" + searchWord + "%' OR N_CONTENT LIKE '%" + searchWord + "%'";
+		} else if (select.equals("도서관")) {
+			select_sql = " AND LB_NAME LIKE '%" + searchWord + "%'";
+		}
+
+		// 페이징
+		int start_page = -1;
+		int end_page = -1;
+
 		String page = request.getParameter("page");
 		if (page == null || "".equals(page)) {
 			page = "1";
@@ -107,28 +95,55 @@ public class NoticeBoardServlet extends HttpServlet {
 			perPage = "10";
 		}
 		int itemsPerPage = Integer.parseInt(perPage);
-		// 페이지 처리를 위한 계산
-		int startRow = (currentPage - 1) * itemsPerPage + 1;
-		int endRow = currentPage * itemsPerPage;
+
+		start_page = ((currentPage - 1) * itemsPerPage) + 1;
+		end_page = currentPage * itemsPerPage;
+
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
-		
-		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 
+		String query2 = "";
+		query2 += " select count(*) from notice";
+		query2 += " where N_OPT = 0";
+
+		ArrayList<Map<String, String>> totalList = getDBList(query2);
+
+		int totalViewCount = Integer.parseInt(totalList.get(0).get("COUNT(*)"));
+		System.out.println("총 글 개수 : " + totalViewCount);
+		request.setAttribute("totalViewCount", totalViewCount);
+
+//		가져올 데이터 값의 쿼리문
+		String notice = "";
+		notice += " SELECT * FROM (";
+		notice += " SELECT rownum rnum, n1.* FROM (";
+		notice += "	SELECT notice.*, library.LB_NAME, member.M_NAME";
+		notice += "	FROM notice";
+		notice += " INNER JOIN LIBRARY ON notice.LB_ID = library.LB_ID";
+		notice += "	INNER JOIN MEMBER ON notice.M_PID = member.M_PID";
+		notice += "	WHERE n_opt = 0 ";
+		notice += select_sql;
+		notice += " ORDER BY n_id DESC";
+		notice += "	) n1";
+		notice += "	) n2";
+		notice += " where rnum >= " + start_page + " and rnum <=" + end_page;
+
+		ArrayList<Map<String, String>> list = getDBList(notice);
+		
+		
+//		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
-		startRow--;
-		endRow--;
-
-		for (int i = startRow; i <= endRow; i++) {
-			if (i < list.size()) {
-				pageList.add(list.get(i));
-			} else {
-				break;
-			}
-		}
-		request.setAttribute("list", pageList);
+//		startRow--;
+//		endRow--;
+//
+//		for (int i = startRow; i <= endRow; i++) {
+//			if (i < list.size()) {
+//				pageList.add(list.get(i));
+//			} else {
+//				break;
+//			}
+//		}
+		request.setAttribute("list", list);
 		request.setAttribute("allcount", list.size());
-		
 
 //      board/notice_board.jsp 파일을 이어줌
 		request.getRequestDispatcher("board/notice_board.jsp").forward(request, response);

@@ -40,8 +40,6 @@
 // 		로그인한 아이디
         let login_nid= <%=login_m_pid%>;
         let hrefValue = document.querySelector("#title_st").getAttribute("href");
-		
-        
         
 // 		document.querySelector("#title_st").addEventListener('click', function () {
 // 			cosole.log(hrefValue);
@@ -366,6 +364,7 @@
 						<div id="paging">
 							<%
 							// 서블릿에서 불러온 페이징 정보
+							// 총 글 개수
 							int total_count = (int) request.getAttribute("totalViewCount");
 							int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
 							int current_page = Integer.parseInt((String) request.getAttribute("page"));
@@ -414,8 +413,6 @@
 
 					</div>
 				</div>
-
-
 			</div>
 		</div>
 	</section>
