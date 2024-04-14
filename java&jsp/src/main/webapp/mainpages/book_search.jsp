@@ -394,13 +394,13 @@ section {
         // 도서검색 버튼
         // Enter 키 이벤트 리스너 추가
         document.querySelector(".btn-search").addEventListener("click", function () {
-            search();
+        	bookSearch(1);
         });
         // Enter 키 이벤트 리스너 추가
         document.getElementById("searchWord").addEventListener("keyup", function (event) {
             // keyCode 13은 Enter 키를 나타냅니다
-            if (event.keyCode === 13) {
-                search();
+            if (event.key === "Enter") {
+            	bookSearch(1);
             }
         });
 
@@ -488,7 +488,7 @@ section {
     	  // 서버에서 전달한 결과 메시지에 따라 분기처리
     	  if (data.message === 'success') {
     	    alert(' 예약되었습니다.');
-    	    search();  // fetch가 완료된 후에 search 함수를 실행
+    	    bookSearch(1);  // fetch가 완료된 후에 search 함수를 실행
     	  } else if (data.message === 'fail') {
     	    alert('비로그인상태입니다. 로그인해주세요.');
     	    window.location.href = "/carpedm/sign_in";
@@ -499,29 +499,7 @@ section {
 	    .catch((error) => console.error('Error:', error));   
 	}
 
-	function search() {
-	    let textbox = document.getElementById("searchWord");
-	    let selectbox = document.getElementById("search_opt_list");
-	    let rf_box1 = document.getElementById("result_filter1");
-	    let rf_box2 = document.getElementById("result_filter2");
-
-	    let checkboxes = document.querySelectorAll('input[name="libraryIds"]:checked');
-	    let libraryIdsParam = '';
-	    for (let i = 0; i < checkboxes.length; i++) {
-	        libraryIdsParam += '&libraryIds='+ checkboxes[i].value;
-	    }
-// 	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
-	    let currentPage = "1";
-
-	    window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)
-	    + '&item=' + selectbox.value
-	    + '&page=' + currentPage
-	    + '&perPage=' + rf_box1.value
-	    + '&okywd=' + rf_box2.value
-	    + libraryIdsParam;
-	};
-	
-	function search2(currentPage) {
+	function bookSearch(currentPage) {
 	    let textbox = document.getElementById("searchWord");
 	    let selectbox = document.getElementById("search_opt_list");
 	    let rf_box1 = document.getElementById("result_filter1");
@@ -620,14 +598,14 @@ section {
 				<div class="result_text">검색결과</div>
 				<div class="result_filter_all">
 					<select class="result_filter" id="result_filter1"
-						onchange="search()">
+						onchange="bookSearch(1)">
 						<option value=10>10개씩</option>
 						<option value=20>20개씩</option>
 						<option value=30>30개씩</option>
 						<option value=40>40개씩</option>
 						<option value=50>50개씩</option>
 					</select> &nbsp; <select class="result_filter" id="result_filter2"
-						onchange="search()">
+						onchange="bookSearch(1)">
 						<option>제목 오름차순</option>
 						<option>제목 내림차순</option>
 						<option>키워드 오름차순</option>
@@ -715,14 +693,14 @@ section {
 				if (current_page > 1) {
 				%>
 				<a href="javascript:void(0);"
-					onclick="search2(<%=current_page - 1%>)" class="pre">◀</a>
+					onclick="bookSearch(<%=current_page - 1%>)" class="pre">◀</a>
 				<%
 				}
 				%>
 				<%
 				for (int i = start_page; i <= end_page; i++) {
 				%>
-				<a href="javascript:void(0);" onclick="search2(<%=i%>)"
+				<a href="javascript:void(0);" onclick="bookSearch(<%=i%>)"
 					class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
 				<%
 				}
@@ -731,7 +709,7 @@ section {
 				if (current_page < total_pages) {
 				%>
 				<a href="javascript:void(0);"
-					onclick="search2(<%=current_page + 1%>)" class="next">▶</a>
+					onclick="bookSearch(<%=current_page + 1%>)" class="next">▶</a>
 				<%
 				}
 				%>
