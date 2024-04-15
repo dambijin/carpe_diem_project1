@@ -23,6 +23,10 @@ import javax.sql.DataSource;
 @WebServlet("/mypage_reservation_list")
 public class mypage_reservation_listServlet extends HttpServlet {
 
+	
+	int start_page = -1;
+	int end_page = -1;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String search = request.getParameter("search");
@@ -40,6 +44,9 @@ public class mypage_reservation_listServlet extends HttpServlet {
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
 
+		
+		
+		// page를 가져옴
 		String page = request.getParameter("page");
 		if (page == null || "".equals(page)) {
 			page = "1";
@@ -52,29 +59,36 @@ public class mypage_reservation_listServlet extends HttpServlet {
 			perPage = "10";
 		}
 		int itemsPerPage = Integer.parseInt(perPage);
-		// 페이지 처리를 위한 계산
-		int startRow = (currentPage - 1) * itemsPerPage + 1;
-		int endRow = currentPage * itemsPerPage;
+		
+		start_page = ((currentPage - 1) * itemsPerPage) + 1;
+		end_page = currentPage * itemsPerPage;
+		
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
 
-		ArrayList<Map<String, String>> list = getLoan(login_m_pid, search);
+		ArrayList<Map<String, String>> list = getReservation(login_m_pid, search);
 		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 
-		// 인덱스를 1부터 시작하기 위해 startRow와 endRow를 1씩 감소
-		startRow--;
-		endRow--;
+		String query2 = "";
+		query2 += " select";
+		query2 += " count(*)";
+		query2 += " from";
+		query2 += " reservation";
+		query2 += " inner join book";
+		query2 += " on reservation.b_id = book.b_id";
+		query2 += " inner join library";
+		query2 += " on book.lb_id = library.lb_id";
+		query2 += " LEFT JOIN ";
+		query2 += " loan ON reservation.b_id = loan.b_id";
+		query2 += " where reservation.m_pid = " + login_m_pid ;
+		
+		
+		ArrayList<Map<String, String>> totalList = getDBList(query2);
+		
+		int totalViewCount = Integer.parseInt(totalList.get(0).get("COUNT(*)"));
 
-		for (int i = startRow; i <= endRow; i++) {
-			if (i < list.size()) {
-				pageList.add(list.get(i));
-			} else {
-				break;
-			}
-		}
-
-		request.setAttribute("list", pageList);
-		request.setAttribute("allcount", list.size());
+		request.setAttribute("list", list);
+		request.setAttribute("totalViewCount", totalViewCount);
 //		request.setAttribute("list", list);
 
 		ArrayList<Map<String, String>> library = getDBList("select lb_name from library");
@@ -125,23 +139,24 @@ public class mypage_reservation_listServlet extends HttpServlet {
 		return conn;
 	}
 
-	private ArrayList<Map<String, String>> getLoan(String m_pid, String search) {
+	private ArrayList<Map<String, String>> getReservation(String m_pid, String search) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
 			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
-			query += " select";
-			query += " book.b_id, r_id, b_title, b_author, b_publisher, r_resdate, reservation.r_resstate, loan.L_returndate, library.lb_name ";
-			query += " from";
-			query += " reservation";
-			query += " inner join book";
-			query += " on reservation.b_id = book.b_id";
-			query += " inner join library";
-			query += " on book.lb_id = library.lb_id";
-			query += " LEFT JOIN ";
-			query += " loan ON reservation.b_id = loan.b_id";
-			query += " where reservation.m_pid = " + m_pid + " and b_title like '%" + search + "%'";
+			query += " SELECT * ";
+			query += " FROM (";
+			query += " SELECT rownum AS rnum, b_id, r_id, b_title, b_author, b_publisher, r_resdate, r_resstate, L_returndate, lb_name";
+			query += " FROM (";
+			query += " SELECT book.b_id, r_id, b_title, b_author, b_publisher, r_resdate, reservation.r_resstate, loan.L_returndate, library.lb_name";
+			query += " FROM reservation";
+			query += " INNER JOIN book ON reservation.b_id = book.b_id";
+			query += " INNER JOIN library ON book.lb_id = library.lb_id";
+			query += " LEFT JOIN loan ON reservation.b_id = loan.b_id";
+			query += " WHERE reservation.m_pid = 15 AND b_title LIKE '%%'))";
+			
+			query += "WHERE rnum >= " + start_page + " AND rnum <= " + end_page;
 
 			System.out.println("query:" + query);
 
@@ -151,6 +166,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 			while (rs.next()) {
 				Map<String, String> map = new HashMap<String, String>();
 
+				
 				
 				map.put("r_id", rs.getString("r_id"));
 				map.put("b_title", rs.getString("b_title"));

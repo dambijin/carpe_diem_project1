@@ -22,6 +22,8 @@ import javax.sql.DataSource;
 @WebServlet("/mypage_wishbook_list")
 public class mypage_wishbook_listServlet extends HttpServlet {
 	
+	int start_page = -1;
+	int end_page = -1;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -39,16 +41,17 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 
 		HttpSession getSession = request.getSession();
 		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		
 		if (login_m_pid == null || login_m_pid.equals("")) {
 			request.getRequestDispatcher("/sign_in").forward(request, response);
 			return;
 		}
 
+		
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
 		request.setAttribute("myInfo", myInfo);
-
-		int start_page = -1;
-		int end_page = -1;
+		
+		
 		
 		// page를 가져옴
 		String page = request.getParameter("page");
@@ -136,13 +139,13 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			Connection conn = getConnection();
 			// SQL준비
 			String query = "";
-			query += "select";
-			query += " w_title, w_id, lb_name, w_title, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid, w_state";
-			query += " from";
-			query += " wishlist";
+			query += "SELECT * FROM (";
+			query += " SELECT rownum AS rnum, w_title, w_id, lb_name, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid, w_state";
+			query += " FROM wishlist";
 			query += " inner join library";
 			query += " on library.lb_id = wishlist.lb_id";
-			query += " where wishlist.m_pid = " + m_pid  + " and w_title like '%" + search + "%'";
+			query += " where wishlist.m_pid = " + m_pid  + " and w_title like '%" + search + "%')";
+			query += " WHERE rnum >= "+ start_page + " and rnum <= " + end_page;
 
 			System.out.println("query:" + query);
 			// SQL 실행준비
@@ -151,6 +154,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			while (rs.next()) {
 				Map<String, String> map = new HashMap<String, String>();
 
+				
 				map.put("w_id", rs.getString("w_id"));// 이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
 				map.put("lb_name", rs.getString("lb_name"));// 이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
 				map.put("w_title", rs.getString("w_title"));// 이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
