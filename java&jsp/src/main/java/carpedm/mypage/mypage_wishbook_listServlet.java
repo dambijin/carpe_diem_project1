@@ -21,12 +21,16 @@ import javax.sql.DataSource;
 
 @WebServlet("/mypage_wishbook_list")
 public class mypage_wishbook_listServlet extends HttpServlet {
-	
+
 	int start_page = -1;
 	int end_page = -1;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		HttpSession getSession = request.getSession();
+		String login_m_pid = (String) getSession.getAttribute("m_pid");
+
 //		String id = request.getParameter("id");
 //		request.setAttribute("id2", id);
 		String search = request.getParameter("search");
@@ -39,18 +43,41 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		request.setAttribute("library", library);
 //		request.setAttribute("myInfo", myInfo);
 
-		HttpSession getSession = request.getSession();
-		String login_m_pid = (String) getSession.getAttribute("m_pid");
-		
 		if (login_m_pid == null || login_m_pid.equals("")) {
 			request.getRequestDispatcher("/sign_in").forward(request, response);
 			return;
 		}
 
-		
 		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
-		request.setAttribute("myInfo", myInfo);
+
 		
+		
+		// 계산한 다음에
+		String limitDate = "";
+		if (myInfo.get(0).get("M_LIMITDATE") != null && !myInfo.get(0).get("M_LIMITDATE").equals("0")) {
+			System.out.println("if성공");
+			limitDate = myInfo.get(0).get("M_LIMITDATE");
+		}
+
+		// 현재 날짜를 가져오기
+		java.util.Date currentDate = new java.util.Date();
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
+		String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
+
+		// limitDate와 formattedDate의 차이 계산
+		try {
+			java.util.Date limitDateObj = sdf.parse(limitDate);
+			java.util.Date formattedDateObj = sdf.parse(formattedDate);
+
+			long diffInMillies = limitDateObj.getTime() - formattedDateObj.getTime(); // 두 날짜의 밀리초 단위 차이
+			long diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
+
+			myInfo.get(0).put("diff", diff+"");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		request.setAttribute("myInfo", myInfo);
 		
 		
 		// page를 가져옴
@@ -66,10 +93,10 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			perPage = "10";
 		}
 		int itemsPerPage = Integer.parseInt(perPage);
-		
+
 		start_page = ((currentPage - 1) * itemsPerPage) + 1;
 		end_page = currentPage * itemsPerPage;
-		
+
 		request.setAttribute("page", page);
 		request.setAttribute("perPage", perPage);
 
@@ -77,14 +104,12 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		System.out.println(list);
 		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 
-		
 		String query2 = "";
 		query2 += " select count(*) from wishlist inner join library on library.lb_id = wishlist.lb_id";
-		query2 += " where wishlist.m_pid = " + login_m_pid ;
-		
-		
+		query2 += " where wishlist.m_pid = " + login_m_pid;
+
 		ArrayList<Map<String, String>> totalList = getDBList(query2);
-		
+
 		int totalViewCount = Integer.parseInt(totalList.get(0).get("COUNT(*)"));
 //		System.out.println("총 글 개수 : " + totalViewCount);
 
@@ -92,7 +117,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/mypage/mypage_wishbook_list.jsp").forward(request, response);
 	}
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -105,32 +130,31 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		r_id = r_id.replace("[", "");
 		r_id = r_id.replace("]", "");
 		r_id = r_id.replace("\"", "");
-		
-		
+
 		System.out.println(r_id);
 		HttpSession getSession = request.getSession();
 		String login_m_pid = (String) getSession.getAttribute("m_pid");
 		String queryDelete = "";
-		
+
 		queryDelete = "delete wishlist where m_pid = " + login_m_pid + " and w_id in (" + r_id + ")";
 		System.out.println("queryDelete" + queryDelete);
-	
+
 		setDBList(queryDelete);
-		
+
 	}
 
 	// 기본적인 접속메소드
-	 private Connection getConnection() {
-	        Connection conn = null;
-	        try {
-	            Context ctx = new InitialContext();
-	            DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/carpedm");
-	            conn = dataFactory.getConnection();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	        return conn;
-	    }
+	private Connection getConnection() {
+		Connection conn = null;
+		try {
+			Context ctx = new InitialContext();
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/carpedm");
+			conn = dataFactory.getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return conn;
+	}
 
 //	 위시리스트 불러오고 검색까지
 	private ArrayList<Map<String, String>> getWishList(String m_pid, String search) {
@@ -144,8 +168,8 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			query += " FROM wishlist";
 			query += " inner join library";
 			query += " on library.lb_id = wishlist.lb_id";
-			query += " where wishlist.m_pid = " + m_pid  + " and w_title like '%" + search + "%')";
-			query += " WHERE rnum >= "+ start_page + " and rnum <= " + end_page;
+			query += " where wishlist.m_pid = " + m_pid + " and w_title like '%" + search + "%')";
+			query += " WHERE rnum >= " + start_page + " and rnum <= " + end_page;
 
 			System.out.println("query:" + query);
 			// SQL 실행준비
@@ -154,7 +178,6 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 			while (rs.next()) {
 				Map<String, String> map = new HashMap<String, String>();
 
-				
 				map.put("w_id", rs.getString("w_id"));// 이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
 				map.put("lb_name", rs.getString("lb_name"));// 이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
 				map.put("w_title", rs.getString("w_title"));// 이걸 쓸 줄 알아야 덜 지저분해질 것 같다...
@@ -190,7 +213,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 
 			// SQL 실행준비
 			PreparedStatement ps = conn.prepareStatement(query);
-			
+
 			ResultSet rs = ps.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnCount = rsmd.getColumnCount();
@@ -214,7 +237,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 		}
 		return result_list;
 	}
-	
+
 	private int setDBList(String query) {
 		int result = -1;
 		try {

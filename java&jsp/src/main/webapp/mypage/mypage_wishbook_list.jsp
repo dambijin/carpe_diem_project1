@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%><!DOCTYPE html>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -7,7 +11,7 @@
 
 <%@ page import="java.util.Map"%>
 
-
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -321,138 +325,113 @@
 			<div class="right_section">
 				<div class="notice_subject">마이페이지 희망도서 신청목록</div>
 				<div>
+    <!-- 내정보 -->
+    <div class="div1">
+        <table class="div1_table">
+            <tr>
+                <td class="info1">
+                    <c:set var="myInfo" value="${requestScope.myInfo}" />
+                    <strong>내 정보</strong><br>
+                    이름 : ${myInfo[0].M_NAME}<br>
+                    번호 : ${myInfo[0].M_TEL}<br>
+                    주소 : ${myInfo[0].M_ADDRESS}<br>
+                    <c:choose>
+                        <c:when test="${myInfo[0].diff eq null or myInfo[0].diff le 0}">
+                            대출 가능 여부 : 대출 가능
+                        </c:when>
+                        <c:otherwise>
+                            대출 가능 여부 : ${myInfo[0].diff} 일
+                        </c:otherwise>
+                    </c:choose>
+                </td>
 
-					<!-- 내정보 -->
-					<div class="div1">
-						<table class="div1_table">
-							<tr>
-								<td class="info1">
-									<% ArrayList<Map<String,String>> myInfo = (ArrayList<Map<String,String>>)request.getAttribute("myInfo"); 
-							
-							
-							%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME") %><br>
-									번호 : <%=myInfo.get(0).get("M_TEL") %><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS") %><br>
-										<%
-									String limitDate = "";
-									if (myInfo.get(0).get("M_LIMITDATE") != null && !myInfo.get(0).get("M_LIMITDATE").equals("0")) {
-										limitDate = myInfo.get(0).get("M_LIMITDATE").substring(0, 10); // M_LIMITDATE 문자열에서 날짜 부분 추출
-									}
+                <td>
+                    <button type="button" id="chginfo">정보수정</button>
+                </td>
+            </tr>
+        </table>
 
-									// 현재 날짜를 가져오기
-									java.util.Date currentDate = new java.util.Date();
-									java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
-									String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
+        <!-- 분류 -->
+        <div>
+            <div id="select">
+                <div>
+                    <select id="case" onchange="redirectPage()">
+                        <option value=10>10개</option>
+                        <option value=20>20개</option>
+                        <option value=30>30개</option>
+                        <option value=40>40개</option>
+                        <option value=50>50개</option>
+                    </select>
+                </div>
+            </div>
+            <div id="select1">
+                <div>
+                    <form method="get" action="mypage_wishbook_list">
+                        <input type="text" name="search">
+                        <button>검색</button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-									// limitDate와 formattedDate의 차이 계산
-									java.util.Date limitDateObj = sdf.parse(limitDate);
-									java.util.Date formattedDateObj = sdf.parse(formattedDate);
-									
-									long diffInMillies = limitDateObj.getTime() - formattedDateObj.getTime(); // 두 날짜의 밀리초 단위 차이
-									long diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
+        <!-- 보드 -->
+    </div>
+    <table id="page1">
+        <tr id="page1_tr">
+            <th style="cursor:pointer;" onclick="sortTable(0,true)">번호</th>
+            <th style="cursor:pointer;" onclick="sortTable(1,false)">희망소장처</th>
+            <th style="cursor:pointer;" onclick="sortTable(2,false)">자료명</th>
+            <th style="cursor:pointer;" onclick="sortTable(3,false)">저자</th>
+            <!-- <th style="cursor:pointer;" onclick="sortTable(4,true)">발행년도</th> -->
+            <!-- <th style="cursor:pointer;" onclick="sortTable(5,false)">신청사유</th> -->
+            <th style="cursor:pointer;" onclick="sortTable(4,false)">출판사</th>
+            <th style="cursor:pointer;" onclick="sortTable(5,false)">처리상태</th>
+            <th>취소<input type="checkbox" id="selectAll"></th>
+        </tr>
 
-									 if (diff <= 0) {										 
-									 %> 
-									 대출가능여부 : 대출가능 
-									 <%
-									 } else if (diff > 0) {
-									 %> 
-									 대출가능 여부 : <%=diff%> 일 
-									 <%
-									 }
-									 %>
-								</td>
-								<td>
-									<button type="button" id="chginfo">정보수정</button>
-								</td>
-							</tr>
-						</table>
+        <c:forEach var="item" items="${list}" varStatus="loop">
+            <c:set var="state" value="${item.w_state}" />
+            <c:set var="resStateString" value="" />
+            <c:choose>
+                <c:when test="${state eq '0'}">
+                    <c:set var="resStateString" value="진행중" />
+                </c:when>
+                <c:when test="${state eq '1'}">
+                    <c:set var="resStateString" value="완료" />
+                </c:when>
+                <c:when test="${state eq '2'}">
+                    <c:set var="resStateString" value="취소" />
+                </c:when>
+                <c:when test="${state eq '3'}">
+                    <c:set var="resStateString" value="반려" />
+                </c:when>
+                <c:otherwise>
+                    <c:set var="resStateString" value="알 수 없음" />
+                </c:otherwise>
+            </c:choose>
 
-						<!-- 분류 -->
-						<div>
-							<div id="select">
-								<div>
-									<select id="case" onchange="redirectPage()">
-										<option value=10>10개</option>
-										<option value=20>20개</option>
-										<option value=30>30개</option>
-										<option value=40>40개</option>
-										<option value=50>50개</option>
-									</select>
-								</div>
-							</div>
-							<div id="select1">
-								<div>
-									<form method="get" action="mypage_wishbook_list">
-										<input type="text" name="search">
-										<button>검색</button>
-									</form>
-								</div>
-							</div>
-						</div>
+            <tr class="tr">
+                <td>${loop.index + 1}<input type="hidden" value="${item.w_id}"></td>
+                <td>${item.lb_name}</td>
+                <td>
+                    <a href="javacsript:void(0);" onclick="popup('${item.w_id}')">
+                        ${item.w_title}
+                    </a>
+                </td>
+                <td>${item.w_author}</td>
+                <!-- <td>${item.w_pubyear}</td> -->
+                <!-- <td>${item.w_content}</td> -->
+                <td>${item.w_publisher}</td>
+                <td>${resStateString}</td>
+                <td><input type="checkbox" class="checkbox"></td>
+            </tr>
+        </c:forEach>
+    </table>
+    <div id="button_cancle">
+        <button id="cancle">취소</button>
+    </div>
+</div>
 
-						<!-- 보드 -->
-					</div>
-					<table id="page1">
-						<tr id="page1_tr">
-							<th style="cursor:pointer;" onclick="sortTable(0,true)">번호</th>
-							<th style="cursor:pointer;" onclick="sortTable(1,false)">희망소장처</th>
-							<th style="cursor:pointer;" onclick="sortTable(2,false)">자료명</th>
-							<th style="cursor:pointer;" onclick="sortTable(3,false)">저자</th>
-<!-- 							<th style="cursor:pointer;" onclick="sortTable(4,true)">발행년도</th> -->
-<!-- 							<th style="cursor:pointer;" onclick="sortTable(5,false)">신청사유</th> -->
-							<th style="cursor:pointer;" onclick="sortTable(4,false)">출판사</th>
-							<th style="cursor:pointer;" onclick="sortTable(5,false)">처리상태</th>
-							<th>취소<input type="checkbox" id="selectAll"></th>
-						</tr>
-
-						<% ArrayList<Map<String,String>> list = (ArrayList<Map<String,String>>)request.getAttribute("list"); 
-							System.out.println(list.size());
-							
-							for(int i = 0; i< list.size(); i++){
-								String state = list.get(i).get("w_state");
-								 String resStateString;
-							
-							%>
-						<tr class="tr">
-							<td><%=i+1 %><input type="hidden" value="<%=list.get(i).get("w_id")%>"></td>
-							<td><%=list.get(i).get("lb_name") %></td>
-							<td><a href="javacsript:void(0);" onclick="popup('<%=list.get(i).get("w_id") %>')"> <%=list.get(i).get("w_title") %>
-							</a></td>
-							<td><%=list.get(i).get("w_author") %></td>
-<%-- 							<td><%=list.get(i).get("w_pubyear") %></td> --%>
-<%-- 							<td><%=list.get(i).get("w_content") %></td> --%>
-							<td><%=list.get(i).get("w_publisher") %></td>
-							<%    switch(state) {
-					        case "0":
-					            resStateString = "진행중";
-					            break;
-					        case "1":
-					            resStateString = "완료";
-					            break;
-					        case "2":
-					            resStateString = "취소";
-					            break;
-					        case "3":
-					            resStateString = "반려";
-					            break;
-					        default:
-					            resStateString = "알 수 없음";
-					            break; }
-					    %>
-
-							<td><%=resStateString %></td>
-							<td><input type="checkbox" class="checkbox"></td>
-						</tr>
-
-						<%}
-							
-                         %>
-
-					</table>
-					<div id="button_cancle">
-						<button id="cancle">취소</button>
-					</div>
-				</div>
 
 				<div id="paging">
 					<%

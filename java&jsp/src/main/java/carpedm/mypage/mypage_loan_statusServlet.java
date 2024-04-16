@@ -51,8 +51,37 @@ public class mypage_loan_statusServlet extends HttpServlet {
 			return;
 		}
 
-		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
+ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
+
+		
+		
+		// 계산한 다음에
+		String limitDate = "";
+		if (myInfo.get(0).get("M_LIMITDATE") != null && !myInfo.get(0).get("M_LIMITDATE").equals("0")) {
+			System.out.println("if성공");
+			limitDate = myInfo.get(0).get("M_LIMITDATE");
+		}
+
+		// 현재 날짜를 가져오기
+		java.util.Date currentDate = new java.util.Date();
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
+		String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
+
+		// limitDate와 formattedDate의 차이 계산
+		try {
+			java.util.Date limitDateObj = sdf.parse(limitDate);
+			java.util.Date formattedDateObj = sdf.parse(formattedDate);
+
+			long diffInMillies = limitDateObj.getTime() - formattedDateObj.getTime(); // 두 날짜의 밀리초 단위 차이
+			long diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
+
+			myInfo.get(0).put("diff", diff+"");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		request.setAttribute("myInfo", myInfo);
+		
 		
 		ArrayList<Map<String,String>> list = getLoan(login_m_pid);
 		request.setAttribute("list", list);

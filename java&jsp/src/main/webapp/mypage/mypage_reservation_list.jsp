@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><!DOCTYPE html>
+	
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -309,139 +313,87 @@
 
 							<tr>
 
-								<td class="info1">
-									<%
-									ArrayList<Map<String, String>> myInfo = (ArrayList<Map<String, String>>) request.getAttribute("myInfo");
-									System.out.println(myInfo.size());
-									%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME")%><br>
-									번호 : <%=myInfo.get(0).get("M_TEL")%><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS")%><br>
-									<%
-									String limitDate = "";
-									if (myInfo.get(0).get("M_LIMITDATE") != null && !myInfo.get(0).get("M_LIMITDATE").equals("0")) {
-										limitDate = myInfo.get(0).get("M_LIMITDATE").substring(0, 10); // M_LIMITDATE 문자열에서 날짜 부분 추출
-									}
-
-									// 현재 날짜를 가져오기
-									java.util.Date currentDate = new java.util.Date();
-									java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
-									String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
-
-									// limitDate와 formattedDate의 차이 계산
-									java.util.Date limitDateObj = sdf.parse(limitDate);
-									java.util.Date formattedDateObj = sdf.parse(formattedDate);
-
-									long diffInMillies = limitDateObj.getTime() - formattedDateObj.getTime(); // 두 날짜의 밀리초 단위 차이
-									long diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
-
-									if (diff <= 0) {
-									%> 대출가능여부 : 대출가능 <%
-									} else if (diff > 0) {
-									%> 대출가능 여부 : <%=diff%> 일 <%
-									}
-									%>
+								 <td class="info1">
+                    <c:set var="myInfo" value="${requestScope.myInfo}" />
+                    <strong>내 정보</strong><br>
+                    이름 : ${myInfo[0].M_NAME}<br>
+                    번호 : ${myInfo[0].M_TEL}<br>
+                    주소 : ${myInfo[0].M_ADDRESS}<br>
+                    <c:choose>
+                        <c:when test="${myInfo[0].diff eq null or myInfo[0].diff le 0}">
+                            대출 가능 여부 : 대출 가능
+                        </c:when>
+                        <c:otherwise>
+                            대출 가능 여부 : ${myInfo[0].diff} 일
+                        </c:otherwise>
+                    </c:choose>
+                </td>
 								
 								<td>
-									<button type="button" id="chginfo">정보수정</button>
-								</td>
-							</tr>
-
-
-						</table>
-						<!-- 분류 -->
-						<div>
-							<div id="select">
-								<div>
-									<select id="case" onchange="redirectPage()">
-										<option value=10>10개</option>
-										<option value=20>20개</option>
-										<option value=30>30개</option>
-										<option value=40>40개</option>
-										<option value=50>50개</option>
-									</select>
-								</div>
-							</div>
-							<div id="select1">
-								<div>
-									<form method="get" action="mypage_reservation_list">
-										<input type="text" name="search">
-										<button>검색</button>
-									</form>
-								</div>
-							</div>
-						</div>
-						<!-- 보드 -->
-					</div>
-					<table id="page1">
-						<tr id="page1_tr">
-							<th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
-							<th style="cursor: pointer;" onclick="sortTable(1,false)">책제목</th>
-							<th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
-							<th style="cursor: pointer;" onclick="sortTable(3,false)">출판사</th>
-							<th style="cursor: pointer;" onclick="sortTable(4,true)">신청일자</th>
-							<th style="cursor: pointer;" onclick="sortTable(5,true)">대출가능일</th>
-							<th style="cursor: pointer;" onclick="sortTable(6,false)">대출상태</th>
-							<th style="cursor: pointer;" onclick="sortTable(7,false)">소장기관</th>
-							<th>취소 <input type="checkbox" id="selectAll">
-							</th>
-						</tr>
-
-						<%
-						ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) request.getAttribute("list");
-						System.out.println("리스트 사이즈:"+list.size());
-
-						for (int i = 0; i < list.size(); i++) {
-							String resState = list.get(i).get("r_resstate");
-							String resStateString;
-						%>
-						<tr class="tr">
-							<td><%=i + 1%><input type="hidden" value="<%=list.get(i).get("r_id")%>"></td>
-							<td><%=list.get(i).get("b_title")%></td>
-							<td><%=list.get(i).get("b_author")%></td>
-							<td><%=list.get(i).get("b_publisher")%></td>
-							<td><%
-									String resDate = list.get(i).get("r_resdate");
-									String output = (resDate != null) ? resDate.substring(0, 10) : "-";
-									%>
-									<%= output %>
-							</td>
-							<td><%
-									String returndate = list.get(i).get("l_returndate");
-									String input = (returndate != null) ? returndate.substring(0, 10) : "-";
-									%>
-									<%=input%></td>
-							
-							<%
-							switch (resState) {
-							case "0":
-								resStateString = "예약중";
-								break;
-							case "1":
-								resStateString = "취소";
-								break;
-							case "2":
-								resStateString = "대출완료";
-								break;
-							default:
-								resStateString = "알 수 없음";
-								break;
-							}
-							%>
-							<td><%=resStateString%></td>
-
-							<td><%=list.get(i).get("lb_name")%></td>
-
-							<td><input type="checkbox" class="checkbox"></td>
-						</tr>
-						<%
-						}
-						%>
+    <button type="button" id="chginfo">정보수정</button>
+</td>
+</tr>
+</table>
+<!-- 분류 -->
+<div>
+    <div id="select">
+        <div>
+            <select id="case" onchange="redirectPage()">
+                <option value="10">10개</option>
+                <option value="20">20개</option>
+                <option value="30">30개</option>
+                <option value="40">40개</option>
+                <option value="50">50개</option>
+            </select>
+        </div>
+    </div>
+    <div id="select1">
+        <div>
+            <form method="get" action="mypage_reservation_list">
+                <input type="text" name="search">
+                <button>검색</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 보드 -->
+</div>
+<table id="page1">
+    <tr id="page1_tr">
+        <th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
+        <th style="cursor: pointer;" onclick="sortTable(1,false)">책제목</th>
+        <th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
+        <th style="cursor: pointer;" onclick="sortTable(3,false)">출판사</th>
+        <th style="cursor: pointer;" onclick="sortTable(4,true)">신청일자</th>
+        <th style="cursor: pointer;" onclick="sortTable(5,true)">대출가능일</th>
+        <th style="cursor: pointer;" onclick="sortTable(6,false)">대출상태</th>
+        <th style="cursor: pointer;" onclick="sortTable(7,false)">소장기관</th>
+        <th>취소 <input type="checkbox" id="selectAll"></th>
+    </tr>
+    <c:forEach var="item" items="${list}" varStatus="loop">
+        <tr class="tr">
+            <td>${loop.index + 1}<input type="hidden" value="${item.r_id}"></td>
+            <td>${item.b_title}</td>
+            <td>${item.b_author}</td>
+            <td>${item.b_publisher}</td>
+            <td><c:out value="${fn:substring(item.r_resdate, 0, 10)}" /></td>
+            <td><c:out value="${fn:substring(item.l_returndate, 0, 10)}" /></td>
+            
+            
+            <td>${item.resStateString}</td>
+            
+          
+            
+            <td>${item.lb_name}</td>
+            <td><input type="checkbox" class="checkbox"></td>
+        </tr>
+    </c:forEach>
 						
 					</table>
 				</div>
 				<div id="button_cancle">
 					<button id="cancle">취소</button>
 				</div>
-
 				<div id="paging">
 					<%
 					// 서블릿에서 불러온 페이징 정보

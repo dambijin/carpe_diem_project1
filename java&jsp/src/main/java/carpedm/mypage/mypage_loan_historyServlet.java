@@ -43,7 +43,35 @@ public class mypage_loan_historyServlet extends HttpServlet {
 			return;
 		}
 
-		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
+ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
+
+		
+		
+		// 계산한 다음에
+		String limitDate = "";
+		if (myInfo.get(0).get("M_LIMITDATE") != null && !myInfo.get(0).get("M_LIMITDATE").equals("0")) {
+			System.out.println("if성공");
+			limitDate = myInfo.get(0).get("M_LIMITDATE");
+		}
+
+		// 현재 날짜를 가져오기
+		java.util.Date currentDate = new java.util.Date();
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
+		String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
+
+		// limitDate와 formattedDate의 차이 계산
+		try {
+			java.util.Date limitDateObj = sdf.parse(limitDate);
+			java.util.Date formattedDateObj = sdf.parse(formattedDate);
+
+			long diffInMillies = limitDateObj.getTime() - formattedDateObj.getTime(); // 두 날짜의 밀리초 단위 차이
+			long diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
+
+			myInfo.get(0).put("diff", diff+"");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		request.setAttribute("myInfo", myInfo);
 		
 		// page를 가져옴
@@ -70,17 +98,11 @@ public class mypage_loan_historyServlet extends HttpServlet {
 		ArrayList<Map<String, String>> pageList = new ArrayList<>();
 		
 		String query2 = "";
-		query2 += " select";
-		query2 += " count(*)";
-		query2 += " from";
-		query2 += " reservation";
-		query2 += " inner join book";
-		query2 += " on reservation.b_id = book.b_id";
-		query2 += " inner join library";
-		query2 += " on book.lb_id = library.lb_id";
-		query2 += " LEFT JOIN ";
-		query2 += " loan ON reservation.b_id = loan.b_id";
-		query2 += " where reservation.m_pid = " + login_m_pid ;
+		 query2 = "SELECT count(*) FROM (SELECT ROWNUM rnum, l_id, b_title, b_author, b_publisher, l_loandate, l_returnrealdate, library.lb_name " +
+	               "FROM loan " +
+	               "INNER JOIN book ON loan.b_id = book.b_id " +
+	               "INNER JOIN library ON book.lb_id = library.lb_id " +
+	               "WHERE loan.l_returnrealdate IS NOT NULL AND m_pid = " + login_m_pid + " AND b_title LIKE '%" + search + "%') ";
 		
 		
 		ArrayList<Map<String, String>> totalList = getDBList(query2);
@@ -118,16 +140,12 @@ public class mypage_loan_historyServlet extends HttpServlet {
 		try {
 			Connection conn = getConnection();
 			// SQL준비
-			String query = "";
-			query += "select";
-			query += " l_id, b_title, b_author, b_publisher, l_loandate, l_returnrealdate, library.lb_name";
-			query += " from";
-			query += " loan";
-			query += " INNER join book";
-			query += " on loan.b_id = book.b_id ";
-			query += " inner join library ";
-			query += " on book.lb_id = library.lb_id ";
-			query += " where loan.l_returnrealdate IS NOT NULL AND m_pid = " + m_pid + " and b_title like '%" + search + "%'";
+			String query = "SELECT * FROM (SELECT ROWNUM rnum, l_id, b_title, b_author, b_publisher, l_loandate, l_returnrealdate, library.lb_name " +
+		               "FROM loan " +
+		               "INNER JOIN book ON loan.b_id = book.b_id " +
+		               "INNER JOIN library ON book.lb_id = library.lb_id " +
+		               "WHERE loan.l_returnrealdate IS NOT NULL AND m_pid = " + m_pid + " AND b_title LIKE '%" + search + "%') " +
+		               "WHERE rnum >= " + start_page + " AND rnum <= " + end_page;
 			
 			 
 			System.out.println("query:" + query);

@@ -86,6 +86,7 @@
 		        if(data == 0) {
 		        	alert("취소 신청 완료");
 		        	window.close();
+		        	window.opener.location.reload();
 		        } 
 		    };
 		 }
@@ -93,8 +94,7 @@
 		document.querySelector("#cancle").addEventListener("click", () => {
 			let ww_id = document.querySelector("#cancle").getAttribute("data-id");
 			cancle(ww_id);
-			window.location.reload();
-
+			
 		})
 
          

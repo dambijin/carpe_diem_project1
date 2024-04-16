@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><!DOCTYPE html>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -214,91 +217,58 @@
 					<div class="div1">
 						<table class="div1_table">
 							<tr>
-								<td class="info1">
-									<%
-									ArrayList<Map<String, String>> myInfo = (ArrayList<Map<String, String>>) request.getAttribute("myInfo");
-									System.out.println(myInfo.size());
-									%><Strong>내정보</Strong><br> 이름 : <%=myInfo.get(0).get("M_NAME")%><br>
-									번호 : <%=myInfo.get(0).get("M_TEL")%><br> 주소 : <%=myInfo.get(0).get("M_ADDRESS")%><br>
-									<%
-									String limitDate = "";
-									if (myInfo.get(0).get("M_LIMITDATE") != null && !myInfo.get(0).get("M_LIMITDATE").equals("0")) {
-										limitDate = myInfo.get(0).get("M_LIMITDATE").substring(0, 10); // M_LIMITDATE 문자열에서 날짜 부분 추출
-									}
-
-									// 현재 날짜를 가져오기
-									java.util.Date currentDate = new java.util.Date();
-									java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
-									String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
-
-									// limitDate와 formattedDate의 차이 계산
-									if("".equals(limitDate) || limitDate == null)
-									{
-										limitDate = formattedDate;
-									}
-									java.util.Date limitDateObj = sdf.parse(limitDate);
-									java.util.Date formattedDateObj = sdf.parse(formattedDate);
-									
-									long diffInMillies = limitDateObj.getTime() - formattedDateObj.getTime(); // 두 날짜의 밀리초 단위 차이
-									long diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
-
-									 if (diff <= 0 ) {										 
-									 %> 
-									 대출가능여부 : 대출가능 
-									 <%
-									 } else if (diff > 0) {
-									 %> 
-									 대출가능 여부 : <%=diff%> 일 
-									 <%
-									 }
-									 %>
+								 <td class="info1">
+                    <c:set var="myInfo" value="${requestScope.myInfo}" />
+                    <strong>내 정보</strong><br>
+                    이름 : ${myInfo[0].M_NAME}<br>
+                    번호 : ${myInfo[0].M_TEL}<br>
+                    주소 : ${myInfo[0].M_ADDRESS}<br>
+                    <c:choose>
+                        <c:when test="${myInfo[0].diff eq null or myInfo[0].diff le 0}">
+                            대출 가능 여부 : 대출 가능
+                        </c:when>
+                        <c:otherwise>
+                            대출 가능 여부 : ${myInfo[0].diff} 일
+                        </c:otherwise>
+                    </c:choose>
+                </td>
 								<td>
-									<button type="button" id="chginfo">정보수정</button>
-								</td>
-							</tr>
-
-
-						</table>
-						<!-- 분류 -->
-						<div></div>
-						<div id="select2">
-							<div></div>
-						</div>
-					</div>
-					<!-- 보드 -->
-					<table id="page1">
-						<tr id="page1_tr">
-							<th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
-							<!-- 							<th style="cursor:pointer;" onclick="sortTable(0,true)">관리번호</th> -->
-							<th style="cursor: pointer;" onclick="sortTable(1,false)">책이름</th>
-							<th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
-							<th style="cursor: pointer;" onclick="sortTable(3,false)">출판사</th>
-							<th style="cursor: pointer;" onclick="sortTable(4,true)">대출일</th>
-							<th style="cursor: pointer;" onclick="sortTable(5,true)">반납예정일</th>
-							<th style="cursor: pointer;" onclick="sortTable(6,false)">소장기관</th>
-							<th>반납연기</th>
-						</tr>
-						<%
-						ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) request.getAttribute("list");
-						System.out.println(list.size());
-
-						for (int i = 0; i < list.size(); i++) {
-						%>
-						<tr class="tr">
-							<td><%=i + 1%></td>
-							<%-- 							<td><%=list.get(i).get("l_id") %></td> --%>
-							<td><%=list.get(i).get("b_title")%></td>
-							<td><%=list.get(i).get("b_author")%></td>
-							<td><%=list.get(i).get("b_publisher")%></td>
-							<td><%=list.get(i).get("l_loandate").substring(0, 10)%></td>
-							<td><%=list.get(i).get("l_returndate").substring(0, 10)%></td>
-							<td><%=list.get(i).get("lb_name")%></td>
-							<td><button onclick="weapon(<%=list.get(i).get("l_id")%>)">연장</button></td>
-
-						</tr>
-						<%
-						}
-						%>
+    <button type="button" id="chginfo">정보수정</button>
+</td>
+</tr>
+</table>
+<!-- 분류 -->
+<div></div>
+<div id="select2">
+    <div></div>
+</div>
+</div>
+<!-- 보드 -->
+<table id="page1">
+    <tr id="page1_tr">
+        <th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
+        <!-- <th style="cursor:pointer;" onclick="sortTable(0,true)">관리번호</th> -->
+        <th style="cursor: pointer;" onclick="sortTable(1,false)">책이름</th>
+        <th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
+        <th style="cursor: pointer;" onclick="sortTable(3,false)">출판사</th>
+        <th style="cursor: pointer;" onclick="sortTable(4,true)">대출일</th>
+        <th style="cursor: pointer;" onclick="sortTable(5,true)">반납예정일</th>
+        <th style="cursor: pointer;" onclick="sortTable(6,false)">소장기관</th>
+        <th>반납연기</th>
+    </tr>
+    <c:forEach var="item" items="${list}" varStatus="loop">
+        <tr class="tr">
+            <td>${loop.index + 1}</td>
+            <!-- <td>${item.l_id}</td> -->
+            <td>${item.b_title}</td>
+            <td>${item.b_author}</td>
+            <td>${item.b_publisher}</td>
+            <td>${fn:substring(item.l_loandate, 0, 10)}</td>
+            <td>${fn:substring(item.l_returndate, 0, 10)}</td>
+            <td>${item.lb_name}</td>
+            <td><button onclick="weapon(${item.l_id})">연장</button></td>
+        </tr>
+    </c:forEach>
 
 					</table>
 				</div>

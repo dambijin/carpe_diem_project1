@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import zmq.socket.reqrep.Req.ReqSession;
+
 @WebServlet("/mypage_reservation_list")
 public class mypage_reservation_listServlet extends HttpServlet {
 
@@ -41,7 +43,40 @@ public class mypage_reservation_listServlet extends HttpServlet {
 			request.getRequestDispatcher("/sign_in").forward(request, response);
 			return;
 		}
-		ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
+ArrayList<Map<String, String>> myInfo = getDBList("select * from member where m_pid = " + login_m_pid);
+
+
+				
+				
+		
+		
+		// 계산한 다음에
+		String limitDate = "";
+		if (myInfo.get(0).get("M_LIMITDATE") != null && !myInfo.get(0).get("M_LIMITDATE").equals("0")) {
+			limitDate = myInfo.get(0).get("M_LIMITDATE");
+		}
+
+		// 현재 날짜를 가져오기
+		java.util.Date currentDate = new java.util.Date();
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
+		String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
+
+		// limitDate와 formattedDate의 차이 계산
+		try {
+			java.util.Date limitDateObj = sdf.parse(limitDate);
+			java.util.Date formattedDateObj = sdf.parse(formattedDate);
+
+			long diffInMillies = limitDateObj.getTime() - formattedDateObj.getTime(); // 두 날짜의 밀리초 단위 차이
+			long diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
+
+			myInfo.get(0).put("diff", diff+"");
+		
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		request.setAttribute("myInfo", myInfo);
 
 		
@@ -88,6 +123,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 		int totalViewCount = Integer.parseInt(totalList.get(0).get("COUNT(*)"));
 
 		request.setAttribute("list", list);
+		System.out.println(list);
 		request.setAttribute("totalViewCount", totalViewCount);
 //		request.setAttribute("list", list);
 
@@ -139,8 +175,20 @@ public class mypage_reservation_listServlet extends HttpServlet {
 		return conn;
 	}
 
+	
+	
 	private ArrayList<Map<String, String>> getReservation(String m_pid, String search) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
+		
+		
+		
+		ArrayList<Map<String, String>> resState = getDBList("select * from reservation where m_pid = " + 15);
+		
+           
+		
+        
+			
+    	
 		try {
 			Connection conn = getConnection();
 			// SQL준비
@@ -165,8 +213,19 @@ public class mypage_reservation_listServlet extends HttpServlet {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Map<String, String> map = new HashMap<String, String>();
-
 				
+				String getresState = rs.getString("r_resstate");
+				String resStateString = "";
+
+				if (getresState.equals("0")) {
+				    resStateString = "예약중";
+				} else if (getresState.equals("1")) {
+				    resStateString = "취소";
+				} else if (getresState.equals("2")) {
+				    resStateString = "대출완료";
+				} else {
+				    resStateString = "알수 없음";
+				}
 				
 				map.put("r_id", rs.getString("r_id"));
 				map.put("b_title", rs.getString("b_title"));
@@ -176,7 +235,7 @@ public class mypage_reservation_listServlet extends HttpServlet {
 				map.put("lb_name", rs.getString("lb_name"));
 				map.put("r_resstate", rs.getString("r_resstate"));
 				map.put("l_returndate", rs.getString("l_returndate"));
-
+				map.put("resStateString", resStateString);
 //				
 				result_list.add(map);
 //		    	System.out.println(rs.getString("l_returndate"));
