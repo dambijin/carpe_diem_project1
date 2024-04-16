@@ -18,6 +18,7 @@
 	<typeAliases>
 		<typeAlias type="carpedm.admin.MemberDTO" alias="MemberDTO" />
 		<typeAlias type="carpedm.admin.BookDTO" alias="BookDTO" />
+		<typeAlias type="carpedm.admin.wishListDTO" alias="wishListDTO" />
 	</typeAliases>
 
 	<environments default="development">
@@ -35,6 +36,7 @@
 	<mappers>
 		<mapper resource = "mybatis/mappers/member_list.xml" />
 		<mapper resource = "mybatis/mappers/book_list.xml" />
+		<mapper resource = "mybatis/mappers/wishbook_list.xml" />
 	</mappers>
 	
 </configuration>

@@ -362,33 +362,23 @@
 	                </tr>
                 </thead>
                 <tbody id ="ajaxTable">
-					<%
-					ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("wishbook_list");
-					%>
-
-					<%
-					for (int i = 0; i < data_list.size(); i++) {
-					%>
-					
-					<tr>
-						<td><%=data_list.get(i).get("w_id")%></td>
-						<td><a href="javacsript:void(0);" onclick="popup('<%=data_list.get(i).get("w_id") %>')"><%=data_list.get(i).get("w_title")%></a></td>
-						<td><%=data_list.get(i).get("w_author")%></td>
-						<td><%=data_list.get(i).get("w_publisher")%></td>
-						<td><%=data_list.get(i).get("m_id")%></td>
-						<td><%=data_list.get(i).get("lb_name")%></td>
-						<td><%=data_list.get(i).get("w_pubyear")%></td>
-<%-- 						<td><%=data_list.get(i).get("w_content")%></td> --%>
-						<td><%=data_list.get(i).get("w_state")%></td>
-						<td width="150px">
-							<input type="button" value="완료" class="complete" onclick="complete('<%=data_list.get(i).get("w_id")%>')"> 
-							<input type="button" value="반려" class="companion" onclick="companion('<%=data_list.get(i).get("w_id")%>')">
-						</td>
-					</tr>
-					<%
-					}
-					%>
-				</tbody>
+					<c:forEach var="data" items="${wishbook_list}">
+				        <tr>
+				            <td>${data.w_id}</td>
+				            <td><a href="javacsript:void(0);" onclick="popup('${data.w_id}')">${data.w_title}</a></td>
+				            <td>${data.w_author}</td>
+				            <td>${data.w_publisher}</td>
+				            <td>${data.m_id}</td>
+				            <td>${data.lb_name}</td>
+				            <td>${data.w_pubyear}</td>
+				            <!-- <td>${data.w_content}</td> --> <!-- 주석 처리된 코드 -->
+				            <td>${data.w_state}</td>
+				            <td width="150px">
+				                <input type="button" value="완료" class="complete" onclick="complete('${data.w_id}')"> 
+				                <input type="button" value="반려" class="companion" onclick="companion('${data.w_id}')">
+				            </td>
+				        </tr>
+				    </c:forEach>
             </table>
              <div id="paging">
 					<%
