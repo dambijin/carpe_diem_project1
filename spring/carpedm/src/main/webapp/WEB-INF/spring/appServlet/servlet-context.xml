@@ -36,5 +36,5 @@
 		<beans:property name="order" value="1" />
 	</beans:bean>
 	
-	<context:component-scan base-package="carpedm_test222" />
+	<context:component-scan base-package="carpedm" />
 </beans:beans>
