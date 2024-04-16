@@ -20,15 +20,24 @@
 		<put-attribute name="body" value="" />
 	</definition>
 	
-	<definition name="home" extends="baseLayout">
-		<put-attribute name="title" value="메인페이지" />
+	<definition name="*.jsp" extends="baseLayout">
 		<put-attribute name="body"
-			value="/WEB-INF/views/home.jsp" />
+			value="/WEB-INF/views/{1}.jsp" />
 	</definition>
 
 	<definition name="*.noTiles" extends="baseLayout2">
 		<put-attribute name="body"
 			value="/WEB-INF/views/{1}.jsp" />
+	</definition>
+
+	<definition name="*/*.jsp" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+
+	<definition name="*/*.noTiles" extends="baseLayout2">
+		<put-attribute name="body"
+			value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
 
 <!-- 	<definition name="*/*.noTiles" extends="baseLayout2"> -->

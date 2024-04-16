@@ -9,7 +9,7 @@
 	</select>
 	
 	<select id="selectLibList" resultType="LibraryDTO">
-		select lb_name,lb_opentime,lb_address,lb_tel,lb_content from library
+		select * from library
 	</select>
 	
 </mapper>
