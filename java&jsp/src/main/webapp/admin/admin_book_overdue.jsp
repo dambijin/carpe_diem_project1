@@ -15,7 +15,7 @@
 </head>
 
 <!-- function 스크립트 -->
-<script src="/carpedm/js/admin_library.js"></script>
+<script src="/carpedm_old/js/admin_library.js"></script>
 <script>
 
     window.addEventListener("load", function () {

@@ -12,8 +12,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지 예약 목록</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
-<link href="/carpedm/css/mypage.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/mypage.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous">
@@ -52,7 +52,7 @@
            
             // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
-                window.open('http://localhost:8080/carpedm/mypage_chginfo', '_self')
+                window.open('http://localhost:8080/carpedm_old/mypage_chginfo', '_self')
 
             });
 //             // 임시 보드 작성
@@ -125,7 +125,7 @@
                     }
                     
                     let xhr = new XMLHttpRequest();
-                    xhr.open("POST", "/carpedm/mypage_reservation_list", true);
+                    xhr.open("POST", "/carpedm_old/mypage_reservation_list", true);
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
                     xhr.onreadystatechange = function () {
@@ -134,7 +134,7 @@
                                 // 요청이 성공적으로 완료됨
                                 console.log("서버 응답:", xhr.responseText);
                                 alert("취소가 완료 되었습니다.")
-                                window.location.href = "/carpedm/mypage_reservation_list";
+                                window.location.href = "/carpedm_old/mypage_reservation_list";
                             } else {
                                 // 요청이 실패함
                                 console.error("서버 응답 오류:", xhr.status);
@@ -233,7 +233,7 @@
 			let perPage = document.getElementById("case").value;  
 //     	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
 
-    	    window.location.href = '/carpedm/mypage_reservation_list?'
+    	    window.location.href = '/carpedm_old/mypage_reservation_list?'
     	    + '&page=' + "1"
     	    + '&perPage=' + perPage;
         }
@@ -289,13 +289,13 @@
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-				<a href="/carpedm/mypage_loan_status"><button type="button"
+				<a href="/carpedm_old/mypage_loan_status"><button type="button"
 						class="sub_but">대출 현황</button></a><br> <a
-					href="/carpedm/mypage_loan_history"><button type="button"
+					href="/carpedm_old/mypage_loan_history"><button type="button"
 						class="sub_but">대출 내역</button></a><br> <a
-					href="/carpedm/mypage_reservation_list"><button type="button"
+					href="/carpedm_old/mypage_reservation_list"><button type="button"
 						class="sub_but">예약</button></a> <a
-					href="/carpedm/mypage_wishbook_list"><button type="button"
+					href="/carpedm_old/mypage_wishbook_list"><button type="button"
 						class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
@@ -495,7 +495,7 @@
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
+	<script src="/carpedm_old/js/header.js"></script>
 </body>
 
 </html>

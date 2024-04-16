@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
 <style>
 section {
 	width: 830px;
@@ -204,7 +204,7 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 		HttpSession getSession = request.getSession();
 		String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 // 	    alert(b_id + " 예약되었습니다.");
-	    let url = '/carpedm/book_search';
+	    let url = '/carpedm_old/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
 		//dopost로 보내기위한 코드
 	    fetch(url, {
@@ -223,7 +223,7 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
     	    location.reload();  // fetch가 완료된 후에
     	  } else if (data.message === 'fail') {
     	    alert('비로그인상태입니다. 로그인해주세요.');
-    	    window.location.href = "/carpedm/sign_in";
+    	    window.location.href = "/carpedm_old/sign_in";
     	  } else {
     	    alert('알 수 없는 오류가 발생하였습니다.');
     	  }	      

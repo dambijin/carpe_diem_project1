@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>도서관 안내</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -95,7 +95,7 @@ h3 {
 //             h1.innerHTML = libs_list[libidx].lb_name;
 //             //이미지
 //             document.querySelector(".library-image").setAttribute("src",libs_list[libidx].lb_imgUrl);
-//             document.querySelector(".library-image").setAttribute("src","/carpedm/resource/logo.png");
+//             document.querySelector(".library-image").setAttribute("src","/carpedm_old/resource/logo.png");
         };
     </script>
 </head>
@@ -145,7 +145,7 @@ h3 {
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
+	<script src="/carpedm_old/js/header.js"></script>
 </body>
 
 </html>

@@ -56,7 +56,7 @@
 // 	         	  }
 // 	         	  else if (data.message === 'fail') {
 // 	         	    alert('비로그인상태입니다. 로그인해주세요.');
-// 	         	    window.location.href = "/carpedm/sign_in";
+// 	         	    window.location.href = "/carpedm_old/sign_in";
 // 	         	  } else {
 // 	         	    	alert('알 수 없는 오류가 발생하였습니다.');
 // 	         	  }	

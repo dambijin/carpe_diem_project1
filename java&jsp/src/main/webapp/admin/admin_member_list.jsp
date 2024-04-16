@@ -15,11 +15,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자페이지(회원목록)</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script defer src="/carpedm/js/admin_library.js"></script>
+<script defer src="/carpedm_old/js/admin_library.js"></script>
 <script>
 	// 윈도우가 로드됐을 때 bind함수 작동
 	window.addEventListener("load", function () {
@@ -138,18 +138,18 @@
 	// 연체상태 popup창
 	function openOverduePopup(m_pid) {
 		window.open
-		("/carpedm/admin_book_overdue?m_pid="+m_pid, "팝업", "width=1200, height=900, left=200, top=200");
+		("/carpedm_old/admin_book_overdue?m_pid="+m_pid, "팝업", "width=1200, height=900, left=200, top=200");
 	}
 	
 	// 예약목록 popup창
 	function openReservation(m_pid) {
 		window.open
-		("/carpedm/admin_reservation_list?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm_old/admin_reservation_list?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	// 대출내역 popup창
 	function openLoan(m_pid) {
 		window.open
-		("/carpedm/admin_loan?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm_old/admin_loan?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	
 	// 예약목록 조회 이벤트
@@ -447,7 +447,7 @@ h1 {
 						        </td>
 								<td><input type="button" value="조회" onclick="openReservation('${dto.m_pid}')"></td>
 								<td><input type="button" value="조회" onclick="openLoan('${dto.m_pid}')"></td>
-								<td><input type="button" value="수정" onclick="location.href='/carpedm/admin_member_chginfo?m_pid=${dto.m_pid}'"></td>
+								<td><input type="button" value="수정" onclick="location.href='/carpedm_old/admin_member_chginfo?m_pid=${dto.m_pid}'"></td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -515,7 +515,7 @@ h1 {
 
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header_admin.js"></script>
+	<script src="/carpedm_old/js/header_admin.js"></script>
 </body>
 
 </html>

@@ -12,8 +12,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지 대출 현황</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
-<link href="/carpedm/css/mypage.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/mypage.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous">
@@ -41,7 +41,7 @@
 
             // 정보수정 클릭시 페이지 이동
             button1.addEventListener('click', function () {
-                window.open('/carpedm/mypage_chginfo', '_self')
+                window.open('/carpedm_old/mypage_chginfo', '_self')
 
             });
 
@@ -110,7 +110,7 @@
     	String login_m_pid = (String) getSession.getAttribute("m_pid");
     	%>
         {
-        	 let url = '/carpedm/mypage_loan_status';
+        	 let url = '/carpedm_old/mypage_loan_status';
 	     	    let data = 'l_id=' + encodeURIComponent(l_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
 	     		//dopost로 보내기위한 코드
 	     	    fetch(url, {
@@ -126,13 +126,13 @@
 	         	  // 서버에서 전달한 결과 메시지에 따라 분기처리
 	         	  if (data.message === 'success') {
 	         	    alert(' 연장되었습니다.');
-	         	   window.location.href = "/carpedm/mypage_loan_status";  // fetch가 완료된 후에 search 함수를 실행
+	         	   window.location.href = "/carpedm_old/mypage_loan_status";  // fetch가 완료된 후에 search 함수를 실행
 	         	  }else if (data.message === '앙실패띠') {
 		         	    alert('연장 횟수 초과');
 		         	  }
 	         	  else if (data.message === 'fail') {
 	         	    alert('비로그인상태입니다. 로그인해주세요.');
-	         	    window.location.href = "/carpedm/sign_in";
+	         	    window.location.href = "/carpedm_old/sign_in";
 	         	  } else {
 	         	    alert('알 수 없는 오류가 발생하였습니다.');
 	         	  }	
@@ -195,13 +195,13 @@
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-				<a href="/carpedm/mypage_loan_status"><button type="button"
+				<a href="/carpedm_old/mypage_loan_status"><button type="button"
 						class="sub_but">대출 현황</button></a><br> <a
-					href="/carpedm/mypage_loan_history"><button type="button"
+					href="/carpedm_old/mypage_loan_history"><button type="button"
 						class="sub_but">대출 내역</button></a><br> <a
-					href="/carpedm/mypage_reservation_list"><button type="button"
+					href="/carpedm_old/mypage_reservation_list"><button type="button"
 						class="sub_but">예약</button></a> <a
-					href="/carpedm/mypage_wishbook_list"><button type="button"
+					href="/carpedm_old/mypage_wishbook_list"><button type="button"
 						class="sub_but">
 						희망도서<br>신청목록
 					</button></a>
@@ -307,7 +307,7 @@
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
+	<script src="/carpedm_old/js/header.js"></script>
 </body>
 
 

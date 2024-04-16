@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>도서 관리 시스템</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-1.10.2.min.js">
     </script>
@@ -439,7 +439,7 @@ input {
 	</section>
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
+	<script src="/carpedm_old/js/header.js"></script>
 </body>
 
 </html>

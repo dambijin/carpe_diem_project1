@@ -14,16 +14,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>관리자페이지(재고)</title>
-	<link href="/carpedm/css/layout.css" rel="stylesheet">
+	<link href="/carpedm_old/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script defer src="/carpedm/js/admin_library.js"></script>
+<script defer src="/carpedm_old/js/admin_library.js"></script>
 <script>
 	// admin_book_list 등록 팝업창열기
 	function bookadd_popup() {
 		window.open
-			("/carpedm/admin_book_add", "책 등록", "width=1000, height=800, left=100, top=100");
+			("/carpedm_old/admin_book_add", "책 등록", "width=1000, height=800, left=100, top=100");
 	}
 	// todo 이벤트
 	// 책 추가버튼 가져오기
@@ -204,7 +204,7 @@
 	
 	function openBookPopup(b_id){
 		window.open
-		("/carpedm/book_detail?id="+b_id, "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm_old/book_detail?id="+b_id, "팝업", "width=1000, height=700, left=100, top=100");
 	}
 
 </script>
@@ -545,7 +545,7 @@
 			</div>
 		</div>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header_admin.js"></script>
+	<script src="/carpedm_old/js/header_admin.js"></script>
 
 </body>
 

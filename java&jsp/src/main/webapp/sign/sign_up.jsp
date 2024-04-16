@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <link href="/carpedm/css/layout.css" rel="stylesheet">
+    <link href="/carpedm_old/css/layout.css" rel="stylesheet">
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
         .sign_up_nav {
@@ -386,7 +386,7 @@
         </form>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="/carpedm/js/header.js"></script>
+    <script src="/carpedm_old/js/header.js"></script>
 </body>
 
 

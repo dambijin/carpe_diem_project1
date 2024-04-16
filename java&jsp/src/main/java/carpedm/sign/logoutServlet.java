@@ -29,7 +29,7 @@ public class logoutServlet extends HttpServlet {
 		    response.sendRedirect(referer);
 		} else {
 		    // referer 값이 없는 경우
-			response.sendRedirect("/carpedm/main");
+			response.sendRedirect("/carpedm_old/main");
 		}
 	
 	}

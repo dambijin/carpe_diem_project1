@@ -13,8 +13,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>메인 페이지</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
-<link href="/carpedm/css/calender.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/calender.css" rel="stylesheet">
 
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
@@ -508,7 +508,7 @@ nav .inner .inner-list img {
 	function search() {
 		let textbox = document.getElementById("searchWord");
 		let selectbox = document.getElementById("libsear");
-		window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;		
+		window.location.href = '/carpedm_old/book_search?search=' + encodeURIComponent(textbox.value)+ '&item=' + selectbox.value;		
 	};
 	
     function openBookDetail(b_id) {
@@ -565,13 +565,13 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 
 					if(banner_list.size()<=0){%>
 						<div class="inner">
-							<img class="banner" src="/carpedm/resource/logo.png">
+							<img class="banner" src="/carpedm_old/resource/logo.png">
 						</div>
 					<%}
 					for (int i = 0; i < banner_list.size(); i++) {
 					%>
 						<div class="inner">
-							<img class="banner" src="<%=banner_list.get(i).get("BAN_IMGURL") %>" onerror="this.onerror=null; this.src='/carpedm/resource/logo.png'">
+							<img class="banner" src="<%=banner_list.get(i).get("BAN_IMGURL") %>" onerror="this.onerror=null; this.src='/carpedm_old/resource/logo.png'">
 						</div>
 					<%
 					}
@@ -678,7 +678,7 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
+	<script src="/carpedm_old/js/header.js"></script>
 </body>
 
 

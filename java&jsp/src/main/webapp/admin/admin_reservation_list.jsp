@@ -11,12 +11,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>예약내역 popup</title>
-    <link href="/carpedm/css/layout.css" rel="stylesheet">
+    <link href="/carpedm_old/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
 <script src="
-/carpedm/js/admin_library.js"></script>
+/carpedm_old/js/admin_library.js"></script>
 <script>
 
     window.addEventListener("load", function () {

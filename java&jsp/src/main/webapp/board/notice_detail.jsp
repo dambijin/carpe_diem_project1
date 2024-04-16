@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>공지사항 상세페이지</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
 
 <style>
 /* 글쓴 내용 테이블의 제목, 작성자, 등록일, 조회, 도서관 ,첨부 */
@@ -178,7 +178,7 @@ window.onload = function() {
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
+	<script src="/carpedm_old/js/header.js"></script>
 </body>
 
 </html>

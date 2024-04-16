@@ -14,11 +14,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자페이지(회원정보수정)</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="/carpedm/js/admin_library.js"></script>
+<script src="/carpedm_old/js/admin_library.js"></script>
 <script
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -108,7 +108,7 @@
 	// 수정 버튼 누르면 수정되게하고 memberlist로 이동
 	function crystal() {
 
-		window.location.href = "/carpedm/admin_member_list";
+		window.location.href = "/carpedm_old/admin_member_list";
 	}
 </script>
 
@@ -340,7 +340,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				<!--  이거 구현하기 -->
 				<input type="submit" value="수정" class="button"> 
 				<input type="reset" value="취소" class="button" 
-					onclick="location.href='/carpedm/admin_member_list';">
+					onclick="location.href='/carpedm_old/admin_member_list';">
 			</div>
 		</form>
 
@@ -349,7 +349,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header_admin.js"></script>
+	<script src="/carpedm_old/js/header_admin.js"></script>
 </body>
 
 </html>

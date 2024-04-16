@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QnA 게시판</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
 <script>
 	window.addEventListener("load", function() {
 
@@ -68,7 +68,7 @@
 			document.querySelector('#searchbox').focus();
 		} else {
 			alert(textbox.value + "검색했습니다");
-			window.location.href = '/carpedm/QnA_board?search='+ encodeURIComponent(textbox.value) + '&n_search='+ document.querySelector("#searchselect").value;
+			window.location.href = '/carpedm_old/QnA_board?search='+ encodeURIComponent(textbox.value) + '&n_search='+ document.querySelector("#searchselect").value;
 		}
 	};
 </script>
@@ -418,7 +418,7 @@
 	</section>
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
+	<script src="/carpedm_old/js/header.js"></script>
 </body>
 
 </html>
