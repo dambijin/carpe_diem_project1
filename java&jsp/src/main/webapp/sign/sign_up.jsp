@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
@@ -13,115 +15,131 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입</title>
-    <link href="/carpedm_old/css/layout.css" rel="stylesheet">
-    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <style>
-        .sign_up_nav {
-            font-family: "Wanted Sans Variable";
-            text-align: center;
-            font-size: 30px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원가입</title>
+<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<script
+	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<style>
+.sign_up_nav {
+	font-family: "Wanted Sans Variable";
+	text-align: center;
+	font-size: 30px;
+}
 
-        /* section */
-        .sign_up_form {
-            font-family: "Wanted Sans Variable";
-            text-align: center;
-        }
+/* section */
+.sign_up_form {
+	font-family: "Wanted Sans Variable";
+	text-align: center;
+}
 
-        .sign_up_form td {
-            width: 100%;
-            height: 40px;
-        }
+.sign_up_form td {
+	width: 100%;
+	height: 40px;
+}
 
-        /* 테이블 왼쪽 td  */
-        .sign_up_form .r_border {
-            background-color: rgba(168, 156, 200, 0.6);
-            width:25%;
-            text-align: center;
-        }
+/* 테이블 왼쪽 td  */
+.sign_up_form .r_border {
+	background-color: rgba(168, 156, 200, 0.6);
+	width: 25%;
+	text-align: center;
+}
 
-        .sign_up_form tr {
-            text-align: left;
-            width: 70%;
-            border: 1px solid grey;
-        }
+.sign_up_form tr {
+	text-align: left;
+	width: 70%;
+	border: 1px solid grey;
+}
 
-        .sign_up_form .inputbox {
-            width: 100%;
-            height: 23px;
-            font-size:18px;
-            font-family: "Wanted Sans Variable";
-        }
+.sign_up_form .inputbox {
+	width: 100%;
+	height: 23px;
+	font-size: 18px;
+	font-family: "Wanted Sans Variable";
+}
 
-        .sign_up_form table {
-            margin: auto;
-            width: 50%;
-        }
+.sign_up_form table {
+	margin: auto;
+	width: 50%;
+}
 
-        /* 회원가입 버튼 */
-        .sign_up_form .sub {
-            font-family: "Wanted Sans Variable";
-            width: 100px;
-            background-color: rgba(155, 178, 225, 0.6);
-            font-size: 18px;
-            border: 0;
-            border-radius: 5px;
-        }
+/* 회원가입 버튼 */
+.sign_up_form .sub {
+	font-family: "Wanted Sans Variable";
+	width: 100px;
+	background-color: rgba(155, 178, 225, 0.6);
+	font-size: 18px;
+	border: 0;
+	border-radius: 5px;
+}
 
-        .sign_up_form .sub:hover {
-            background-color: rgba(205, 155, 225, 0.6);
-        }
+.sign_up_form .sub:hover {
+	background-color: rgba(205, 155, 225, 0.6);
+}
 
-        /* 이메일 */
-        .sign_up_form .email {
-            width: 100px;
-            font-family: "Wanted Sans Variable";
-            font-size: 18px;
-            
-        }
-        #email_domain {
-        	font-family: "Wanted Sans Variable";
-        	height: 30px;
-        }
+/* 이메일 */
+.sign_up_form .email {
+	width: 100px;
+	font-family: "Wanted Sans Variable";
+	font-size: 18px;
+}
 
-        /* 개인정보동의에 있는 체크박스 */
-        .sign_up_form .chk {
-            width: 15px;
-            height: 15px;
+#email_domain {
+	font-family: "Wanted Sans Variable";
+	height: 30px;
+}
 
-        }
+/* 개인정보동의에 있는 체크박스 */
+.sign_up_form .chk {
+	width: 15px;
+	height: 15px;
+}
 
-        /* 테이블 오른쪽의 텍스트상자 */
-        .sign_up_form .textbox {
-            margin-bottom: 5px;
-        }
+/* 테이블 오른쪽의 텍스트상자 */
+.sign_up_form .textbox {
+	margin-bottom: 5px;
+}
 
-        /* 우편번호 인풋상자 */
-        .sign_up_form .zip_code {
-            font-family: "Wanted Sans Variable";
-            font-size: 18px;
-            width: 100px;
-            margin-bottom: 5px;
-        }
+/* 우편번호 인풋상자 */
+.sign_up_form .zip_code {
+	font-family: "Wanted Sans Variable";
+	font-size: 18px;
+	width: 100px;
+	margin-bottom: 5px;
+}
 
-        /* 주소찾기버튼 */
-        #place_button {
-            font-family: "Wanted Sans Variable";
-            height: 30px;
-            font-size: 18px;
-        }
-        
-        #birthday_text::-webkit-inner-spin-button {
-        	-webkit-appearance: none;
-        	margin: 0;
-        }
-       
+/* 주소찾기버튼 */
+#place_button {
+	font-family: "Wanted Sans Variable";
+	width: 70px;
+	height: 20px;
+	background-color: rgba(155, 178, 225, 0.6);
+	font-size: 13px;
+	border: 0;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
 
-    </style>
-    <script>
+#birthday_text::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.sign_up_form table {
+    margin: auto;
+    width: 40%; /* 기존 width 수정 */
+}
+
+/* 아이디 입력창과 중복확인 버튼을 옆으로 배열 */
+.sign_up_form table tr:nth-child(1) td:nth-child(2) input[type="text"],
+.sign_up_form table tr:nth-child(1) td:nth-child(2) input[type="button"] {
+    display: inline-block; /* 옆으로 배열하기 위해 inline-block으로 설정 */
+    width: calc(75% - 5px); /* 텍스트 상자와 버튼의 너비를 반씩 나눔 */
+    vertical-align: middle; /* 세로 중앙 정렬 */
+    margin-right: 5px; /* 텍스트 상자와 버튼 사이 간격 조정 */
+}
+</style>
+<script>
 
         window.onload = function () {
             let button = document.getElementById('button');
@@ -278,115 +296,124 @@
 </head>
 
 <body>
-    <header></header>
-    <nav class="sign_up_nav">
-        회원가입
-    </nav>
-    <section class="sign_up_form">
-        <!-- 회원가입form -->
-        <form method="post" action="sign_up">
-        <table>
-            <tr>
-                <td class="r_border">아이디</td>
-                <td><input type="text" class="inputbox" name="id" placeholder="아이디를 입력(6~20자)" class="textbox" id="id_text">
-                	<input type="button" value="중복확인"></td>
-            </tr>
-            <tr>
-                <td class="r_border">비밀번호</td>
-                <td><input type="password" class="inputbox" name="pw" placeholder="비밀번호를 입력(8~20자)" class="textbox"
-                        id="pw_text">
-                </td>
-            </tr>
-            <tr>
-                <td class="r_border">비밀번호 확인</td>
-                <td><input type="password" class="inputbox" name="pw_check" placeholder="비밀번호 재입력" class="textbox" id="pw_check_text">
-                </td>
-            </tr>
-            <tr>
-                <td class="r_border">이름</td>
-                <td><input type="text" class="inputbox" name="name" placeholder="이름" class="textbox" id="name_text"></td>
-            </tr>
-            <tr>
-                <td class="r_border">생년월일</td>
-                <td><input type="number" class="inputbox" name="birthday" placeholder="생년월일 8자리" class="textbox" id="birthday_text"></td>
-            </tr>
-            <tr>
-                <!-- 숫자만 입력할 수 있게 설정하기 -->
-                <td class="r_border">휴대폰번호</td>
-                <td> <input type="tel" class="inputbox" name="tel" placeholder="-없이 입력해주세요" class="textbox" id="tel_text"> </td>
-            </tr>
-            <tr>
-                <td class="r_border">이메일</td>
-                <td><input type="text" name="email1" placeholder="이메일" class="email textbox" id="email1_text"> @
-                    <input type="text" name="email2" placeholder="직접입력" class="email textbox" id="email2_text">
-                    <select id="email_domain" value="직접입력" class="email">
-                    </select>
-                </td>
-            </tr>
-             <tr>
-                <td class="r_border">이메일 동의</td>
-                <td> 
-                	<input type="radio" class="chk_agree" name="agree" value="Y">동의함
-                	<input type="radio" class="chk_agree" name="agree" value="N">동의안함
-                </td>
-                
-            </tr>
-            <tr>
-                <td class="r_border">주소</td>
-                <td><input type="text" name="address1" placeholder="우편번호" class="zip_code" id="add_text">
-                    <button id="place_button" onclick="sample6_execDaumPostcode(); return false;" >
-                        주소 찾기
-                    </button>
-                    <input type="text" class="inputbox textbox" name="address2" placeholder="기본주소"  id="add1_text">
-                    <input type="text" class="inputbox textbox" name="address3" placeholder="나머지주소"  id="add2_text">
-                </td>
-            </tr>
-            <tr>
+	<header></header>
+	<nav class="sign_up_nav">회원가입</nav>
+	<section class="sign_up_form">
+		<!-- 회원가입form -->
+		<form method="post" action="sign_up">
+			<table>
+				<tr>
+					<td class="r_border">아이디</td>
+					<td><input type="text" class="inputbox" name="id"
+						placeholder="아이디를 입력(6~20자)" class="textbox" id="id_text"
+						value="${id}"> <input type="button" id="place_button" value="중복확인"></td>
+				</tr>
+				<tr>
+					<td class="r_border">비밀번호</td>
+					<td><input type="password" class="inputbox" name="pw"
+						placeholder="비밀번호를 입력(8~20자)" class="textbox" id="pw_text"
+						value="${pw}"></td>
+				</tr>
+				<tr>
+					<td class="r_border">비밀번호 확인</td>
+					<td><input type="password" class="inputbox" name="pw_check"
+						placeholder="비밀번호 재입력" class="textbox" id="pw_check_text"
+						value="${pw_check}"></td>
+				</tr>
+				<tr>
+					<td class="r_border">이름</td>
+					<td><input type="text" class="inputbox" name="name"
+						placeholder="이름" class="textbox" id="name_text" value="${name}"></td>
+				</tr>
+				<tr>
+					<td class="r_border">생년월일</td>
+					<td><input type="number" class="inputbox" name="birthday"
+						placeholder="생년월일 8자리" class="textbox" id="birthday_text"
+						value="${birthday}"></td>
+				</tr>
+				<tr>
+					<td class="r_border">휴대폰번호</td>
+					<td><input type="tel" class="inputbox" name="tel"
+						placeholder="-없이 입력해주세요" class="textbox" id="tel_text"
+						value="${tel}"></td>
+				</tr>
+				<tr>
+					<td class="r_border">이메일</td>
+					<td><input type="text" name="email1" placeholder="이메일"
+						class="email textbox" id="email1_text" value="${email1}">
+						@ <input type="text" name="email2" placeholder="직접입력"
+						class="email textbox" id="email2_text" value="${email2}">
+						<select id="email_domain" value="직접입력" class="email">
+							<!-- JavaScript 코드는 변경되지 않았습니다. -->
+					</select></td>
+				</tr>
+				<tr>
+					<td class="r_border">이메일 동의</td>
+					<td><input type="radio" class="chk_agree" name="agree"
+						value="Y">동의함 <input type="radio" class="chk_agree"
+						name="agree" value="N">동의안함</td>
+				</tr>
+				<tr>
+					<td class="r_border">주소</td>
+					<td><input type="text" name="address1" placeholder="우편번호"
+						class="zip_code" id="add_text">
+						<button id="place_button"
+							onclick="sample6_execDaumPostcode(); return false;">주소
+							찾기</button> <input type="text" class="inputbox textbox" name="address2"
+						placeholder="기본주소" id="add1_text"> <input type="text"
+						class="inputbox textbox" name="address3" placeholder="나머지주소"
+						id="add2_text"></td>
+				</tr>
+				<tr>
 					<td class="r_border">개인정보동의</td>
 					<td class="chk"><details>
-							<summary><input type="checkbox">[필수]개인정보동의</summary>
-							<b>1. 수집하는 개인정보 항목</b>
-국립중앙도서관은 회원가입, 원활한 고객상담, 각종 서비스 등 기본적인 서비스 제공을 위해 회원가입 시 아래와 같은 개인정보를 수집하고 있습니다.<br>
-가. 필수항목: ID, 비밀번호, 성명, E-Mail, 연락처(또는 핸드폰), 생년월일, 주소, 법정대리인 성명(만14세 미만 회원의 경우)<br>
-
-나. 서비스 이용과정에서 아래와 같은 정보들이 자동으로 생성되어 수집될 수 있습니다.
-(IP Address, 쿠키, 방문 일시, 서비스 이용 기록, 불량 이용 기록)<br><br>
-
-
-<b>2. 개인정보의 수집 및 이용 목적</b><br>
-
-가. 서비스 제공에 관한 업무 이행<br>
-
- - 홈페이지 회원에게 정보 서비스 제공<br>
-
-나. 회원관리<br>
-
- - 회원제 서비스 이용 및 제한적 본인 확인제에 따른 본인확인, 개인식별, 가입 의사 확인, 추후 법정 대리인 본인확인, 분쟁 조정을 위한 기록보존, 불만 처리 등 민원처리, 고지사항 전달<br><br>
+							<summary>
+								<input type="checkbox">[필수]개인정보동의
+							</summary>
+							<b>1. 수집하는 개인정보 항목</b> 국립중앙도서관은 회원가입, 원활한 고객상담, 각종 서비스 등 기본적인 서비스
+							제공을 위해 회원가입 시 아래와 같은 개인정보를 수집하고 있습니다.
+							<br> 가. 필수항목: ID, 비밀번호, 성명, E-Mail, 연락처(또는 핸드폰), 생년월일, 주소,
+							법정대리인 성명(만14세 미만 회원의 경우)
+							<br> 나. 서비스 이용과정에서 아래와 같은 정보들이 자동으로 생성되어 수집될 수 있습니다. (IP
+							Address, 쿠키, 방문 일시, 서비스 이용 기록, 불량 이용 기록)
+							<br>
+							<br>
 
 
-<b>3. 개인정보의 보유 및 이용기간</b><br>
+							<b>2. 개인정보의 수집 및 이용 목적</b>
+							<br> 가. 서비스 제공에 관한 업무 이행
+							<br> - 홈페이지 회원에게 정보 서비스 제공
+							<br> 나. 회원관리
+							<br> - 회원제 서비스 이용 및 제한적 본인 확인제에 따른 본인확인, 개인식별, 가입 의사 확인, 추후
+							법정 대리인 본인확인, 분쟁 조정을 위한 기록보존, 불만 처리 등 민원처리, 고지사항 전달
+							<br>
+							<br>
 
-회원 이용자의 개인정보는 개인정보보호법 및 공공기록물법에 따라 마지막 이용일(도서관 방문, 홈페이지 로그인)로부터 5년간 보관되며, 그 이후, 관계법령의 절차에 따라 파기합니다.
-다만, 다음과 같은 경우에 개인정보의 처리 및 이용이 중지됩니다.<br>
 
-가. 휴면회원 전환(마지막 이용일로부터 2년간 미사용)시점부터 계정 활성화 또는 파기 시까지<br>
+							<b>3. 개인정보의 보유 및 이용기간</b>
+							<br> 회원 이용자의 개인정보는 개인정보보호법 및 공공기록물법에 따라 마지막 이용일(도서관 방문, 홈페이지
+							로그인)로부터 5년간 보관되며, 그 이후, 관계법령의 절차에 따라 파기합니다. 다만, 다음과 같은 경우에 개인정보의
+							처리 및 이용이 중지됩니다.
+							<br> 가. 휴면회원 전환(마지막 이용일로부터 2년간 미사용)시점부터 계정 활성화 또는 파기 시까지
+							<br> 나. 회원 탈퇴 요청 시점부터 개인정보 파기시까지
+							<br>
+							<br>
 
-나. 회원 탈퇴 요청 시점부터 개인정보 파기시까지<br><br>
 
-
-<b>4. 동의 거부권 및 동의 거부에 따른 불이익</b><br>
-
-가입자는 개인정보 수집·이용에 대하여 거부할 수 있는 권리가 있습니다. 단, 이에 대한 동의를 거부할 경우, 회원가입이 불가능합니다.</p>
+							<b>4. 동의 거부권 및 동의 거부에 따른 불이익</b>
+							<br> 가입자는 개인정보 수집·이용에 대하여 거부할 수 있는 권리가 있습니다. 단, 이에 대한 동의를
+							거부할 경우, 회원가입이 불가능합니다.
+							</p>
 						</details></td>
 				</tr>
-        </table>
-        <br>
-        <!-- 회원가입완료 -->
-        <input type="submit" class="sub" id="button" value="회원가입">
-        </form>
-    </section>
-    <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="/carpedm_old/js/header.js"></script>
+			</table>
+			<br>
+			<!-- 회원가입완료 -->
+			<input type="submit" class="sub" id="button" value="회원가입">
+		</form>
+	</section>
+	<!-- 헤더를 덮어씌우는 자바스크립트 -->
+	<script src="/carpedm_old/js/header.js"></script>
 </body>
 
 

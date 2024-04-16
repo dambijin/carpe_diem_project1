@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -276,17 +279,17 @@
                         <td><input type="text" id="text_email1" placeholder="이메일을 입력해주세요."> @
                             <input type="text" id="text_email2" placeholder="직접입력">
                             <select id="email_domain" value="직접입력">
+                                <c:forEach var="email" items="${emailList}">
+                                    <option value="${email}">${email}</option>
+                                </c:forEach>
                             </select>
                         </td>
                     </tr>
                 </table>
-				
-
                 <div class="btnSearch">
                     <input type="button" name="enter" value="확인" id="button">
                 </div>
             </div>
-
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
     <script src="/carpedm_old/js/header.js"></script>

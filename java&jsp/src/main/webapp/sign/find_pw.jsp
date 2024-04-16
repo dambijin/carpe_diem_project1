@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -96,25 +99,18 @@
             
         
         
-        <%		
-                List<Map<String, String>> pw_list = (List<Map<String, String>>) request.getAttribute("pw_list");
-                %>
-				
-                let found = false;
-                <% for (Map<String, String> pw : pw_list) { %> // JSP 코드의 Java 코드 영역을 그대로 가져옵니다.
-                    if ("<%= pw.get("id") %>" === userid && "<%= pw.get("name") %>" === username && "<%= pw.get("email") %>" === (useremail1 + "@" + useremail2)) { // 이름과 이메일이 일치하는 경우
-                        console.log("일치하는 비밀번호를 찾았습니다.");
-                        alert("해당 정보의 비밀번호는 " + "<%= pw.get("pw") %>" + "입니다"); // 해당 아이디를 알려주는 알림창 표시
-                        found = true;
-                        // 원하는 작업을 수행하거나 다른 페이지로 이동할 수 있습니다.
-                        onclick(location.href='sign_in')
-                    }
-                <% } %>
-
-                if (!found) {
-                    console.log("일치하는 정보를 찾을 수 없습니다."); // 일치하는 정보가 없는 경우 알림창 표시
-                	alert("일치하는 정보를 찾을 수 없습니다.");
+                <c:forEach var="pw" items="${pw_list}">
+                if ("${pw.id}" === userid && "${pw.name}" === username) {
+                    console.log("일치하는 정보를 찾았습니다.");
+                    alert("해당 정보의 비밀번호는 ${pw.pw}입니다");
+                    found = true;
+                    onclick(location.href='sign_in');
                 }
+            </c:forEach>
+            if (!document.getElementById('found_pw')) {
+                console.log("일치하는 정보를 찾을 수 없습니다.");
+                alert("일치하는 정보를 찾을 수 없습니다.");
+            }
             }
         })
         let textbox1 = document.getElementById("Certification");

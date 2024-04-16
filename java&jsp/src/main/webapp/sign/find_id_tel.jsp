@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -148,26 +151,22 @@
                 // 아이디 찾는 기능 추가
             };
             
-            <%		
-            List<Map<String, String>> nametel_list = (List<Map<String, String>>) request.getAttribute("nametel_list");
-            %>
-			
             let found = false;
-            <% for (Map<String, String> nametel : nametel_list) { %> // JSP 코드의 Java 코드 영역을 그대로 가져옵니다.
-                if ("<%= nametel.get("name") %>" === username && "<%= nametel.get("tel") %>" === usertel) { // 이름과 이메일이 일치하는 경우
-                    console.log("일치하는 아이디를 찾았습니다.");
-                    alert("해당 정보의 아이디는 " + "<%= nametel.get("id") %>" + "입니다"); // 해당 아이디를 알려주는 알림창 표시
-                    found = true;
-                    // 원하는 작업을 수행하거나 다른 페이지로 이동할 수 있습니다.
-                    onclick(location.href='find_pw')
-                   
-                }
-            <% } %>
+                <c:forEach var="nametel" items="${nametel_list}">
+                    if ("<c:out value="${nametel.name}" />" === username && "<c:out value="${nametel.tel}" />" === usertel) {
+                        console.log("일치하는 아이디를 찾았습니다.");
+                        alert("해당 정보의 아이디는 <c:out value="${nametel.id}" />입니다");
+                        found = true;
+                        // 원하는 작업을 수행하거나 다른 페이지로 이동할 수 있습니다.
+                        location.href='find_pw';
+                    }
+                </c:forEach>
 
             if (!found) {
                 console.log("일치하는 정보를 찾을 수 없습니다."); // 일치하는 정보가 없는 경우 알림창 표시
             	alert("일치하는 정보를 찾을 수 없습니다.");
             }
+            });
         
             
         
@@ -199,25 +198,20 @@
                 <div class="search_title" onclick="location.href='find_id_tel'" style="cursor:pointer">
                     전화번호로 찾기
                 </div>
-                    <table class="search_text" cellpadding="5" cellspacing="1">
-                        <tr>
-                            <td width="30%" class="sub">이름</td>
-                            <td width="*"><input type="text" id="text_name" placeholder="이름을 입력해주세요." autofocus></td>
-                        </tr>
-                        <tr>
-                            <td class="sub">전화번호</td>
-                            <td><input type="text" id="text_tel" placeholder="전화번호를 입력해주세요."></td>
-                        </tr>
-                    </table>
-
-                    <div class="btnSearch">
-                        <input type="button" name="enter" value="확인" id="button">
-                    </div>
+                <table class="search_text" cellpadding="5" cellspacing="1">
+                    <tr>
+                        <td width="30%" class="sub">이름</td>
+                        <td width="*"><input type="text" id="text_name" placeholder="이름을 입력해주세요." autofocus></td>
+                    </tr>
+                    <tr>
+                        <td class="sub">전화번호</td>
+                        <td><input type="text" id="text_tel" placeholder="전화번호를 입력해주세요."></td>
+                    </tr>
+                </table>
+                <div class="btnSearch">
+                    <input type="button" name="enter" value="확인" id="button">
                 </div>
-           
-
-
-
+            </div>
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
