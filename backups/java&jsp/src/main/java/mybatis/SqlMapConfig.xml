@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+<!-- tag(또는 node)의 순서에 주의 -->
+	
+	<!-- 전달인자로 null 줄 수 있음 -->
+	<settings>
+
+        <setting name="jdbcTypeForNull" value="NULL" />
+
+    </settings>
+    
+	<!-- mapper에서 사용할 타입이 길어서 짧게 별칭 지정 -->
+	<!--  별칭 : alias -->
+	<typeAliases>
+		<typeAlias type="carpedm.admin.MemberDTO" alias="MemberDTO" />
+		<typeAlias type="carpedm.admin.BookDTO" alias="BookDTO" />
+	</typeAliases>
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"></transactionManager>
+			<dataSource type="POOLED">
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"></property>
+				<property name="url" value="jdbc:oracle:thin:@112.148.46.134:51521:xe"></property>
+				<property name="username" value="carpedm"></property>
+				<property name="password" value="dm1113@"></property>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		<mapper resource = "mybatis/mappers/member_list.xml" />
+		<mapper resource = "mybatis/mappers/book_list.xml" />
+	</mappers>
+	
+</configuration>

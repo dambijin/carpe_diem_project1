@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -16,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자료검색</title>
-<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 
 
 <style>
@@ -475,7 +472,7 @@ section {
     	//현재 세션에서 아이디 값 가져오기
 		 var login_m_pid = "<%=(String) request.getSession().getAttribute("m_pid")%>";
 // 	    alert(b_id + " 예약되었습니다.");
-	    let url = '/carpedm_old/book_search';
+	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(login_m_pid);
 		//dopost로 보내기위한 코드
 	    fetch(url, {
@@ -494,7 +491,7 @@ section {
     	    bookSearch(1);  // fetch가 완료된 후에 search 함수를 실행
     	  } else if (data.message === 'fail') {
     	    alert('비로그인상태입니다. 로그인해주세요.');
-    	    window.location.href = "/carpedm_old/sign_in";
+    	    window.location.href = "/carpedm/sign_in";
     	  } else {
     	    alert('알 수 없는 오류가 발생하였습니다.');
     	  }	      
@@ -514,7 +511,7 @@ section {
 	        libraryIdsParam += '&libraryIds='+ checkboxes[i].value;
 	    }
 
-	    window.location.href = '/carpedm_old/book_search?search=' + encodeURIComponent(textbox.value)
+	    window.location.href = '/carpedm/book_search?search=' + encodeURIComponent(textbox.value)
 	    + '&item=' + selectbox.value
 	    + '&page=' + currentPage
 	    + '&perPage=' + rf_box1.value
@@ -587,7 +584,7 @@ section {
 							.getAttribute("pop_search_list");
 					for (int i = 0; i < pop_search_list.size(); i++) {
 					%>
-					<li><em><%=(i + 1)%></em> <span><a href="/carpedm_old/book_search?search=<%=pop_search_list.get(i).get("SI_KEYWORD")%>"><%=pop_search_list.get(i).get("SI_KEYWORD")%></a></span>
+					<li><em><%=(i + 1)%></em> <span><a href="/carpedm/book_search?search=<%=pop_search_list.get(i).get("SI_KEYWORD")%>"><%=pop_search_list.get(i).get("SI_KEYWORD")%></a></span>
 					</li>
 					<%
 					}
@@ -720,7 +717,7 @@ section {
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm_old/js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>
