@@ -25,6 +25,12 @@
 			value="/WEB-INF/views/{1}.jsp" />
 	</definition>
 
+	<definition name="/admin/admin_member_list.do" extends="baseLayout">
+		<put-attribute name="title" value="메인페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/admin/admin_member_list.jsp" />
+	</definition>
+	
 	<definition name="*.noTiles" extends="baseLayout2">
 		<put-attribute name="body"
 			value="/WEB-INF/views/{1}.jsp" />
