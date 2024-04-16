@@ -82,7 +82,6 @@
 		document.getElementById('button_cancle').addEventListener('click', function () {
 			let list_checked = document.querySelectorAll(".checkbox:checked");
 
-
 			if (list_checked.length == 0) {
 				alert("폐기할 항목을 선택해주세요.");
 			} else if (confirm("선택한 항목을 폐기하시겠습니까?")) {
@@ -94,6 +93,8 @@
 				alert("선택된 항목이 없습니다.");
 			}
 		});
+		
+		
 
 		// 검색에 입력값 받아와 enterkey 작동
 		var inputTodo = document.getElementById("input_todo");
@@ -133,30 +134,30 @@
 			})
 		}
 		
-		document.querySelector("#m_pid").addEventListener("click", function() {
-			// form id 값 잡아옴 			
-			let frm = document.querySelector("#frm");
-			frm.querySelector("[name=orderColumn]").value = "m_pid";
+// 		document.querySelector("#b_pid").addEventListener("click", function() {
+// 			// form id 값 잡아옴 			
+// 			let frm = document.querySelector("#frm");
+// 			frm.querySelector("[name=orderColumn]").value = "b_pid";
 			
-			let orderType = frm.querySelector("[name=orderType]");
-			// 없다가 클릭하면
-			// desc > asc > 없음 순으로 변경
-			console.log(orderType.value);
+// 			let orderType = frm.querySelector("[name=orderType]");
+// 			// 없다가 클릭하면
+// 			// desc > asc > 없음 순으로 변경
+// 			console.log(orderType.value);
 			
-			if(orderType.value == ""){
-				orderType.value = 'desc';
-			} else if(orderType.value == "desc") {
-				orderType.value = 'asc';
-			} else if(orderType.value == "asc") {
-				orderType.value = '';
-				// 차라리 orderColumn을 지우는 방법도 있다
-// 				frm.querySelector("[name=orderColumn]").value = '';
-				frm.querySelector("[name=orderType]").value = "desc";
-			}
+// 			if(orderType.value == ""){
+// 				orderType.value = 'desc';
+// 			} else if(orderType.value == "desc") {
+// 				orderType.value = 'asc';
+// 			} else if(orderType.value == "asc") {
+// 				orderType.value = '';
+// 				// 차라리 orderColumn을 지우는 방법도 있다
+// // 				frm.querySelector("[name=orderColumn]").value = '';
+// 				frm.querySelector("[name=orderType]").value = "desc";
+// 			}
 			
 			
-			frm.submit();
-		})
+// 			frm.submit();
+// 		})
 		
 	} // bind() 함수 종료
 	

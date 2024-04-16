@@ -67,5 +67,28 @@ public class Admin_book_listDAO {
 		return list;
 	}
 	
+	// delete 메소드
+	public void deleteBooks(BookDTO dto) {
+	    try {
+	        sqlMapper = getInstance();
+	            
+	        if(sqlMapper != null) {
+	            System.out.println("연결됨");
+
+	            SqlSession sqlSession = sqlMapper.openSession();
+	            // MyBatis의 delete 메서드를 호출하여 SQL을 실행합니다.
+	            sqlSession.delete("mapper.book_list.deleteBooks", dto);
+	            sqlSession.commit(); // 변경사항을 커밋합니다.
+	            sqlSession.close(); // 세션을 닫습니다.
+	        } else {
+	            System.out.println("DB 접속 실패");
+	        }
+	            
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	}
+	
 	
 }

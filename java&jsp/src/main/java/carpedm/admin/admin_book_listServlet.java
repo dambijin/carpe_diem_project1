@@ -118,64 +118,6 @@ public class admin_book_listServlet extends HttpServlet {
 		// 6. JSP 페이지로 포워딩
 		request.getRequestDispatcher("/admin/admin_book_list.jsp").forward(request, response);
 	}
-
-//	// 기본적인 접속메소드
-//	private static Connection getConnection() {
-//		Connection conn = null;
-//		try {
-//			Class.forName("oracle.jdbc.driver.OracleDriver");
-//			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-////			    System.out.println("db접속성공");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return conn;
-//	}
-	
-	
-//	// 맴버가져오기
-//	private static ArrayList<Map<String,String>> getbook() {
-//		ArrayList<Map<String,String>> result_list = new ArrayList<Map<String,String>>();
-//		try {
-//			Connection conn = getConnection();
-//			// SQL준비
-//			String query = "";
-//			query += " select";
-//			query += " b.b_id,b.lb_id, b.b_title, b.b_author, b.b_publisher, b.b_isbn, l.lb_name, b.b_date, b.b_resstate, b.b_loanstate";
-//			query += " from book b";
-//			query += " join library l on b.lb_id = l.lb_id";
-//			
-//			
-//
-//			System.out.println("query:" + query);
-//			// SQL 실행준비
-//			PreparedStatement ps = conn.prepareStatement(query);
-//			ResultSet rs = ps.executeQuery();
-//			while (rs.next()) {
-//				Map<String,String> map = new HashMap<String, String>();			
-//				map.put("b_id", rs.getString("b_id"));
-//				map.put("lb_id", rs.getString("lb_id"));
-//				map.put("b_title", rs.getString("b_title"));
-//				map.put("b_author", rs.getString("b_author"));
-//				map.put("b_publisher", rs.getString("b_publisher"));
-//				map.put("b_isbn", rs.getString("b_isbn"));
-//				map.put("lb_name", rs.getString("lb_name"));
-//				map.put("b_date", rs.getString("b_date"));
-//				map.put("b_resstate", rs.getString("b_resstate"));
-//				map.put("b_loanstate", rs.getString("b_loanstate"));
-//
-//				result_list.add(map);
-////		    	System.out.println(rs.getString("lb_name"));
-//			}
-//
-//			rs.close();
-//			ps.close();
-//			conn.close();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return result_list;
-//	}
 	
 
 }
