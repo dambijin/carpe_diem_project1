@@ -1,4 +1,4 @@
-package carpedm_test222;
+package carpedm.test222;
 
 import java.text.DateFormat;
 import java.util.Date;
