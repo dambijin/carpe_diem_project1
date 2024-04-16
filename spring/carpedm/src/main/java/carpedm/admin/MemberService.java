@@ -1,10 +1,11 @@
 package carpedm.admin;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import carpedm.dto.MemberDTO;
 
 public interface MemberService {
 
-	public List listMembers();
+	public List listMembers(MemberDTO dto);
 		
 }

@@ -7,9 +7,11 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.stereotype.Repository;
 
 import carpedm.dto.MemberDTO;
 
+@Repository
 public class Admin_member_listDAO {
 
 	private static SqlSessionFactory sqlMapper = null;
