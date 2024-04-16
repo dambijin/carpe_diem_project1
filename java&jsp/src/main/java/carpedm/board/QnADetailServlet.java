@@ -87,6 +87,9 @@ public class QnADetailServlet extends HttpServlet {
 			String update = "UPDATE notice SET N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = ?";
 			viewUpdate(update, nid);
 		}
+		
+		String newline = "\n";
+		request.setAttribute("newline", newline);
 
 		request.getRequestDispatcher("board/QnA_detail.jsp").forward(request, response);
 

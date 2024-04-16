@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -17,10 +20,9 @@
 <link href="/carpedm_old/css/layout.css" rel="stylesheet">
 <script>
 window.onload = function() {
-	<%        HttpSession getSession = request.getSession();
-    String managerChk = (String) getSession.getAttribute("m_managerchk");%>
-    // 서버에서 받은 M_MANAGERCHK 값
-    var mManagerChk = "<%=managerChk%>";
+		<c:set var="managerChk" value="${sessionScope.m_managerchk}" />
+		// 서버에서 받은 M_MANAGERCHK 값
+		var mManagerChk = "${managerChk}";
 		//     console.log(mManagerChk);
 		var wbut = document.querySelector("#writebut");
 		// M_MANAGERCHK 값이 "Y"인 경우 버튼을 표시, 그 외의 경우에는 버튼을 숨김
@@ -29,7 +31,6 @@ window.onload = function() {
 		} else {
 			wbut.style.display = "none";
 		}
-
 	};
 
 	window.addEventListener("load", function() {
@@ -278,60 +279,52 @@ window.onload = function() {
 			<div class="right_section">
 				<div class="notice_subject">공지사항</div>
 				<div class="board_notice">
+		
+		<div class="board">
+		    <div id="select" name="search">
+		        <select class="change_handwriting" id="searchselect" name="n_search">
+		            <option>제목</option>
+		            <option>제목+내용</option>
+		            <option>도서관</option>
+		        </select>
+		        <input type="text" class="change_handwriting search_input" id="searchbox" name="s_box">
+		        <input type="button" name="s_box" class="change_handwriting request search_button" value="검색" onclick="search_box();">
+		    </div>
+		    <form method="post" action="notice_board">
+		        <table class="board_sub">
+		            <tr>
+		                <th class="board_subject">순번</th>
+		                <th class="board_subject lb">도서관</th>
+		                <th class="board_subject sub">제목</th>
+		                <th class="board_subject writer">작성자</th>
+		                <th class="board_subject day">등록일</th>
+		                <th class="board_subject">조회</th>
+		            </tr>
+		
+		            <c:forEach var="map" items="${list}">
+		                <tr>
+		                    <td>${map.LB_NAME}</td>
+		                    <td name="lb_name">${map.LB_NAME}</td>
+		                    <td id="title_st" class="table_title">
+		                        <a href="notice_detail?N_ID=${map.N_ID}" class="table_a">${map.N_TITLE}
+		                            <input type="hidden" name="title" value="${map.N_ID}">
+		                        </a>
+		                    </td>
+		                    <td>
+		                        <!-- 이름 바꾸기 -->
+		                        <c:set var="name" value="${map.M_NAME}" />
+		                        <c:set var="rename" value="${name.substring(0, 1)}**" />
+		                        ${rename}
+		                    </td>
+		                    <td>${map.N_DATE.substring(0, 10)}</td>
+		                    <td>${map.N_VIEWCOUNT}</td>
+		                </tr>
+		            </c:forEach>
+		        </table>
+		    </form>
+		</div>
 
-					<div class="board">
-						<div id="select" name="search">
-							<select class="change_handwriting" id="searchselect"
-								name="n_search">
-								<option>제목</option>
-								<option>제목+내용</option>
-								<option>도서관</option>
-							</select> <input type="text" class="change_handwriting search_input"
-								id="searchbox" name="s_box"> <input type="button"
-								name="s_box" class="change_handwriting request search_button"
-								value="검색" onclick="search_box();">
-						</div>
-						<form method="post" action="notice_board">
-							<table class="board_sub">
-								<tr>
-									<th class="board_subject">순번</th>
-									<th class="board_subject lb">도서관</th>
-									<th class="board_subject sub">제목</th>
-									<th class="board_subject writer">작성자</th>
-									<th class="board_subject day">등록일</th>
-									<th class="board_subject">조회</th>
-								</tr>
-
-								<%
-								List<Map<String, String>> list = (List<Map<String, String>>) request.getAttribute("list");
-
-								for (int i = 0; i < list.size(); i++) {
-									Map map = (Map) list.get(i);
-									//System.out.println(map.toString());
-									//System.out.println(list.get(i).get("num"));
-								%>
-								<tr>
-									<td><%=list.get(i).get("N_ID")%></td>
-									<td name="lb_name"><%=list.get(i).get("LB_NAME")%></td>
-									<td id="title_st" class="table_title"><a
-										href="notice_detail?N_ID=<%=list.get(i).get("N_ID")%>"
-										class="table_a"><%=list.get(i).get("N_TITLE")%> <input
-											type="hidden" name="title"
-											value="<%=list.get(i).get("N_ID")%>"></a></td>
-									<td>
-<!-- 									이름 바꾸기 -->
-									<%String name = list.get(i).get("M_NAME");										
-										String rename = name.substring(0, 1) + "**"; %>
-										<%=rename%></td>
-									<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
-									<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
-								</tr>
-								<%
-								}
-								%>
-							</table>
-						</form>
-					</div>
+					
 					<div class="paging_writing">
 
 						<div class="writing" id="writebut">
@@ -389,6 +382,7 @@ window.onload = function() {
 							<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
 						</div>
 					</div>
+			
 				</div>
 			</div>
 

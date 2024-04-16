@@ -61,6 +61,10 @@ public class NoticeDetailServlet extends HttpServlet {
 
 		ArrayList<Map<String, String>> notice = getDBList(select);
 		request.setAttribute("notice", notice);
+		
+		
+		String newline = "\n";
+		request.setAttribute("newline", newline);
 
 
 //		업데이트문

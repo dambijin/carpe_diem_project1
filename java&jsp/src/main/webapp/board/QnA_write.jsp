@@ -8,6 +8,11 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -420,72 +425,49 @@
                     </div>
                     <!-- 글쓰기 정보 -->
                     <form method="post" action="QnA_write">
-                    <div class="div_table">
-                        <table class="table_table">
-                            <colgroup>  
-                                <col>
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>제목</th>
-                                    <td>
-                                    	<input type="text" class="inputbox" placeholder="제목" id="sject" name="title">
-                                    </td>
-                                </tr>
-                            </thead>
-                            <tbody>
-<!--                                 <tr> -->
-<!--                                     <th>작성자</th> -->
-<!--                                     <td><input type="text" class="inputbox" placeholder="이름을 작성해주세요." id="user_name"> -->
-<!--                                     </td> -->
-<!--                                 </tr> -->
-<!--                                 <tr> -->
-<!--                                     <th>휴대폰번호</th> -->
-<!--                                     <td> -->
-<!--                                         <input class="input_phone phonenumber" type="number" id="pnumber1"> - -->
-<!--                                         <input class="input_phone phonenumber" type="number" id="pnumber2"> - -->
-<!--                                         <input class="input_phone phonenumber" type="number" id="pnumber3"> -->
-<!--                                     </td> -->
-<!--                                 </tr> -->
-<tr>
-								<th class="sub">소속도서관</th>
-								<td class="text"><select class="textbox" id="library" name="library">
-								<%	ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
-								for (int i = 0; i < library_list.size(); i++) {
-								%>
-    							<option value="<%= library_list.get(i).get("LB_ID")%>"><%= library_list.get(i).get("LB_NAME") %></option>
-								<% } %>
-								</select></td>
-							</tr>
-                                <tr>
-                                    <th>공개</th>
-                                    <td class="private">
-                                        <input type="radio" name="pub" checked value="1">
-                                        공개
-                                        <input type="radio" name="pub" value="2">
-                                        비공개
+					<div class="div_table">
+					    <table class="table_table">
+					        <colgroup>
+					            <col />
+					        </colgroup>
+					        <thead>
+					            <tr>
+					                <th>제목</th>
+					                <td>
+					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="title" />
+					                </td>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr>
+					                <th class="sub">소속도서관</th>
+					                <td class="text">
+					                    <select class="textbox" id="library" name="library">
+					                        <c:forEach var="library" items="${requestScope.library_list}">
+					                            <option value="${library.LB_ID}">${library.LB_NAME}</option>
+					                        </c:forEach>
+					                    </select>
+					                </td>
+					            </tr>
+					            <tr>
+					                <th>공개</th>
+					                <td class="private">
+					                    <input type="radio" name="pub" checked value="1" /> 공개
+					                    <input type="radio" name="pub" value="2" /> 비공개
+					                </td>
+					            </tr>
+					            <tr>
+					                <th>첨부파일</th>
+					                <td>
+					                    <input type="text" id="file_route" disabled="disabled" value="" />
+					                    <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
+					                    <input type="file" id="upload_file" style="position: absolute; clip: rect(0, 0, 0, 0);" name="n_file" />
+					                </td>
+					            </tr>
+					        </tbody>
+					    </table>
+					</div>
 
-                                    </td>
-                                </tr>
-                                
-                                <tr>
-                                    <th>첨부파일</th>
-                                    <td><input type="text" id="file_route" disabled="disabled" value="">
-                                        <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
-                                        <input type="file" id="upload_file" 
-                                            style="position:absolute; clip:rect(0, 0, 0, 0);" name="n_file">
-                                    </td>
-
-                                </tr>
-<!--                                 <tr> -->
-<!--                                     <th>비밀번호(비회원)</th> -->
-<!--                                     <td><input type="password" class="inputbox" placeholder="비밀번호(4~10자로 입력해주세요)" -->
-<!--                                             id="user_pw"></td> -->
-<!--                                 </tr> -->
-                            </tbody>
-                        </table>
-                        <!-- 글쓰기 -->
-                    </div>
                     <div class="td1">
                         <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_textarea"></textarea>
                     </div>

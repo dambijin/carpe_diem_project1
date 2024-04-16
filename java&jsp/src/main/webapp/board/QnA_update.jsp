@@ -7,7 +7,11 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.List"%>
-<!DOCTYPE html>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <html lang="ko">
 
 <head>
@@ -294,11 +298,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 </head>
 
 <body>
-	<%
-	List<Map<String, String>> qna_notice = (List<Map<String, String>>) request.getAttribute("qna_notice");
-	List<Map<String, String>> library = (List<Map<String, String>>) request.getAttribute("library");
-	Map<String, String> map = new HashMap<String, String>();
-	%>
 	<header> </header>
 	<section>
 		<div class="s_section">
@@ -327,75 +326,50 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 					<!-- 글쓰기 정보 -->
 					<div class="div_table">
-						<table class="table_table">
-							<colgroup>
-								<col>
-							</colgroup>
-							<thead>
-								<tr>
-									<th>제목</th>
-									<td><input type="text" class="inputbox" placeholder="제목"
-										id="sject" name="notice_subject" value="<%=qna_notice.get(0).get("N_TITLE")%>"></td>
-								</tr>
-							</thead>
-							<tbody>
-<!-- 								<tr> -->
-<!-- 									<th>작성자</th> -->
-<!-- 									<td><input type="text" class="inputbox" -->
-<!-- 										placeholder="이름을 작성해주세요." id="user_name" -->
-<%-- 										value="<%=member.get(0).get("M_NAME")%>"></td> --%>
-<!-- 								</tr> -->
-<!-- 								<tr> -->
-<!-- 									<th>휴대폰번호</th> -->
-<!-- 									<td><input class="input_phone phonenumber" type="number" -->
-<!-- 										id="pnumber1" -->
-<%-- 										value="<%=member_tel.get(0).get("M_TEL").substring(0, 3)%>"> --%>
-<!-- 										- <input class="input_phone phonenumber" type="number" -->
-<!-- 										id="pnumber2" -->
-<%-- 										value="<%=member_tel.get(0).get("M_TEL").substring(3, 7)%>"> --%>
-<!-- 										- <input class="input_phone phonenumber" type="number" -->
-<!-- 										id="pnumber3" -->
-<%-- 										value="<%=member_tel.get(0).get("M_TEL").substring(7, 11)%>"> --%>
-<!-- 									</td> -->
-<!-- 								</tr> -->
-<!-- 								<tr> -->
-<!-- 									<th>공개</th> -->
-<!-- 									<td class="private"> -->
-<%-- 										<%if (result_list.get(0).get("N_OPT").equals("1")) {%>  --%>
-<!-- 										<input type="radio" name="pub" checked> 공개 <input -->
-<%-- 										type="radio" name="pub"> 비공개 <% } else { %>  --%>
-<!-- 										<input type="radio" name="pub"> 공개 <input type="radio" -->
-<%-- 										name="pub" checked> 비공개 <% } %> --%>
-
-<!-- 									</td> -->
-<!-- 								</tr> -->
-								<tr>
-								<th>소속도서관<input type="hidden" name="n_id" value="<%=qna_notice.get(0).get("N_ID")%>"></th>
-								<td ><select class="inputbox" id="library" name="library">
-								<option selected value="<%=qna_notice.get(0).get("LB_ID")%>"><%=qna_notice.get(0).get("LB_NAME")%></option>
-				<%for (int i = 0; i < library.size(); i++) {	%>
-    				<option value="<%=library.get(i).get("LB_ID")%>"><%= library.get(i).get("LB_NAME") %></option>
-				<% } %>
-								</select></td>
-							</tr>
-
-								<tr>
-									<th>첨부파일</th>
-									<td><input type="text" id="file_route" disabled="disabled"
-										value="" name="n_file"> <label for="upload_file" class="btn"
-										id="file_upload">파일첨부</label> <input type="file"
-										id="upload_file" 
-										style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
-								</tr>
-								
-							</tbody>
-						</table>
-						<!-- 글쓰기 -->
+					    <c:set var="qna_notice" value="${requestScope.qna_notice}" />
+					    <c:set var="library" value="${requestScope.library}" />
+					    <table class="table_table">
+					        <colgroup>
+					            <col />
+					        </colgroup>
+					        <thead>
+					            <tr>
+					                <th>제목</th>
+					                <td>
+					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="notice_subject" value="${qna_notice[0].N_TITLE}" />
+					                </td>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr>
+					                <th>소속도서관
+					                    <input type="hidden" name="n_id" value="${qna_notice[0].N_ID}" />
+					                </th>
+					                <td>
+					                    <select class="inputbox" id="library" name="library">
+					                        <option selected value="${qna_notice[0].LB_ID}">${qna_notice[0].LB_NAME}</option>
+					                        <c:forEach var="lib" items="${library}">
+					                            <option value="${lib.LB_ID}">${lib.LB_NAME}</option>
+					                        </c:forEach>
+					                    </select>
+					                </td>
+					            </tr>
+					            <tr>
+					                <th>첨부파일</th>
+					                <td>
+					                    <input type="text" id="file_route" disabled="disabled" value="" name="n_file" />
+					                    <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
+					                    <input type="file" id="upload_file" style="position: absolute; clip: rect(0, 0, 0, 0);" />
+					                </td>
+					            </tr>
+					        </tbody>
+					    </table>
 					</div>
+					
 					<div class="td1">
-						<textarea id="textarea" class="inputbox inputbox_subject"
-							placeholder="내용을 입력해주세요." name="n_textarea" ><%=qna_notice.get(0).get("N_CONTENT")%></textarea>
+					    <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_textarea">${qna_notice[0].N_CONTENT}</textarea>
 					</div>
+
 					<!-- 버튼 -->
 					<div class="div_buttonAll">
 						<div class="div_button">

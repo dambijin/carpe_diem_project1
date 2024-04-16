@@ -7,7 +7,10 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.List"%>
-	
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -175,11 +178,7 @@
 </head>
 
 <body>
-<%
-	List<Map<String, String>> qna_notice = (List<Map<String, String>>) request.getAttribute("qna_notice");
-	List<Map<String, String>> library = (List<Map<String, String>>) request.getAttribute("library");
-	Map<String, String> map = new HashMap<String, String>();
-	%>
+
 	<header></header>
 	<div class="notice_update">
 		<section>
@@ -200,51 +199,57 @@
 				<div class="right_section">
 					<div class="notice_update_name">공지사항 수정</div>
 					<form method="post" action="notice_update">
-					<div class="notice_table">
-						<table class="table_table">
-							<tr>
-								<td class="sub">제목<input type="hidden" name="n_id" value="<%=qna_notice.get(0).get("N_ID")%>"></td>
-								<td class="text"><input type="text" id="notice_write_title" value="<%=qna_notice.get(0).get("N_TITLE")%>" name="notice_subject"></td>
-							</tr>
-							<tr>
-								<td class="sub">작성자</td>
-								<td class="text" id="writer">
-									<%String name = qna_notice.get(0).get("M_NAME");										
-									String rename = name.substring(0, 1) + "**"; %>
-									<%=rename%>
-								</td>
-							</tr>
-							<tr>
-								<td class="sub">소속도서관</td>
-								<td class="text"><select class="textbox" id="library" name="library">
-								<option selected value="<%=qna_notice.get(0).get("LB_ID")%>"><%=qna_notice.get(0).get("LB_NAME")%></option>
-									<%for (int i = 0; i < library.size(); i++) {	%>
-    							<option value="<%=library.get(i).get("LB_ID")%>"><%= library.get(i).get("LB_NAME") %></option>
-									<% } %>
-								</select></td>
-							</tr>
-							<tr>
-								<td class="sub">첨부파일</td>
-								<td class="text">
-								<input type="text" id="file_route"
-									disabled="disabled" value="" name="n_file"> <label for="upload_file"
-									id="file_upload">파일첨부</label> <input type="file"
-									id="upload_file" 
-									style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
-							</tr>
-						</table>
+					    <c:set var="qna_notice" value="${requestScope.qna_notice}" />
+					    <c:set var="library" value="${requestScope.library}" />
+					    
+					    <div class="notice_table">
+					        <table class="table_table">
+					            <tr>
+					                <td class="sub">제목
+					                    <input type="hidden" name="n_id" value="${qna_notice[0].N_ID}">
+					                </td>
+					                <td class="text">
+					                    <input type="text" id="notice_write_title" value="${qna_notice[0].N_TITLE}" name="notice_subject">
+					                </td>
+					            </tr>
+					            <tr>
+					                <td class="sub">작성자</td>
+					                <td class="text" id="writer">
+					                    <c:set var="name" value="${qna_notice[0].M_NAME}" />
+					                    <c:set var="rename" value="${fn:substring(name, 0, 1)}**" />${rename}
+					                </td>
+					            </tr>
+					            <tr>
+					                <td class="sub">소속도서관</td>
+					                <td class="text">
+					                    <select class="textbox" id="library" name="library">
+					                        <option selected value="${qna_notice[0].LB_ID}">${qna_notice[0].LB_NAME}</option>
+					                        <c:forEach var="lib" items="${library}">
+					                            <option value="${lib.LB_ID}">${lib.LB_NAME}</option>
+					                        </c:forEach>
+					                    </select>
+					                </td>
+					            </tr>
+					            <tr>
+					                <td class="sub">첨부파일</td>
+					                <td class="text">
+					                    <input type="text" id="file_route" disabled="disabled" value="" name="n_file">
+					                    <label for="upload_file" id="file_upload">파일첨부</label>
+					                    <input type="file" id="upload_file" style="position: absolute; clip: rect(0, 0, 0, 0);">
+					                </td>
+					            </tr>
+					        </table>
+					    </div>
+					    <div class="td1">
+					        <textarea name="n_textarea" id="subtext">${qna_notice[0].N_CONTENT}</textarea>
+					    </div>
+					    <div class="div_buttonAll">
+					        <div class="div_button">
+					            <button type="submit" class="but" id="completion">수정</button>
+					        </div>
+					    </div>
+					</form>
 
-					</div>
-					<div class="td1">
-						<textarea name="n_textarea" id="subtext"><%=qna_notice.get(0).get("N_CONTENT")%></textarea>
-					</div>
-
-					<div class="div_buttonAll">
-						<div class="div_button">
-							<button type="submit" class="but" id="completion">수정</button>
-						</div>
-					</div>
-				</form>
 				</div>
 				
 			</div>

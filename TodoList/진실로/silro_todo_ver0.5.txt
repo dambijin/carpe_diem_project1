@@ -1,0 +1,33 @@
+◆ 공지사항 게시판(notice_board)
+
+
+◆ 공지사항 글(notice_detail)
+
+
+◆ 공지사항 글쓰기(notice_write)
+
+
+◆ 공지사항 수정(notice_update)
+
+
+◆ QnA 게시판(QnA_board)
+
+
+◆ QnA 글(QnA_detail)
+
+
+◆ QnA 수정(QnA_update)
+
+
+◆ QnA 글쓰기(QnA_write)
+- 유효성검사 안되어 있음
+
+◆ QnA 답글쓰기(QnA_reply_write)
+
+
+◆ 희망도서 신청(wishbook_add)
+
+
+
+
+

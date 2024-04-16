@@ -7,6 +7,10 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.List"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -17,46 +21,41 @@
 <link href="/carpedm_old/css/layout.css" rel="stylesheet">
 <script>
 window.onload = function() {
-	
-// 	수정, 삭제 버튼 보이기 안보이기
-	<%HttpSession getSession = request.getSession();
-	String login_m_pid = (String) getSession.getAttribute("m_pid");
-	String login_manger = (String) getSession.getAttribute("m_managerchk");
-	List<Map<String, String>> select = (List<Map<String, String>>) request.getAttribute("notice");
-	%>
-    var login_mpid = "<%=login_m_pid%>"; 
-    var mpid = "<%=select.get(0).get("M_PID")%>"; 
-    
-    
-    var mgChk = "<%=login_manger%>";
-		var qnabut = document.querySelector("#qna_but"); // 수정 
-		var debut = document.querySelector("#delet_but"); // 삭제 
-		var mgbut = document.querySelector("#detail_but"); // 답글
-	
-		if (login_mpid == mpid) {
-			qnabut.style.display = "inline-block";
-		} else {			
-			if(<%=select.get(0).get("N_OPT")%>==2 && mgChk != "Y"){
-				location.href="QnA_board";
-				alert("비공개 글입니다.");
-			}
-			qnabut.style.display = "none";			
-		}
-		//  로그인한 아이디와 게시물 작성자가 일치하고, 관리자라면 보이게
-		if (login_mpid == mpid || mgChk == "Y") {
-			debut.style.display = "inline-block";
-		} else {
-			debut.style.display = "none";
-		}
+    // 변수 설정
+    var login_mpid = '${sessionScope.m_pid}';
+    var mpid = '${notice[0].M_PID}';
+    var mgChk = '${sessionScope.m_managerchk}';
+    var qnabut = document.querySelector("#qna_but"); // 수정
+    var debut = document.querySelector("#delet_but"); // 삭제
+    var mgbut = document.querySelector("#detail_but"); // 답글
 
-		//   관리자는 답글 보이게
-		if (mgChk == "Y") {
-			mgbut.style.display = "inline-block";
-		} else {
-			mgbut.style.display = "none";
-		}
+    // 로그인한 아이디와 게시물 작성자가 일치할 때 수정 버튼 표시
+    if (login_mpid === mpid) {
+        qnabut.style.display = "inline-block";
+    } else {
+        var n_opt = '${notice[0].N_OPT}';
+        if (n_opt == 2 && mgChk !== "Y") {
+            location.href = "QnA_board";
+            alert("비공개 글입니다.");
+        }
+        qnabut.style.display = "none";
+    }
 
-	};
+    // 로그인한 아이디와 게시물 작성자가 일치하거나 관리자일 때 삭제 버튼 표시
+    if (login_mpid === mpid || mgChk === "Y") {
+        debut.style.display = "inline-block";
+    } else {
+        debut.style.display = "none";
+    }
+
+    // 관리자인 경우 답글 버튼 표시
+    if (mgChk === "Y") {
+        mgbut.style.display = "inline-block";
+    } else {
+        mgbut.style.display = "none";
+    }
+};
+
 
 	window.addEventListener("load", function() {
 		// 답글
@@ -280,63 +279,76 @@ window.onload = function() {
 			</div>
 			<div class="right_section" id="rs">
 				<div class="QnA_detail">
-					<table>
-						<tr>
-							<td class="subject">제목</td>
-							<td colspan="5" class="subject_title" id="qna_title"><%=select.get(0).get("N_TITLE")%></td>
-						</tr>
-						<tr>
-							<td class="subject">작성자</td>
-							<td class="writer"><%String name = select.get(0).get("M_NAME");										
-									String rename = name.substring(0, 1) + "**"; %>
-									<%=rename%>
-									<input type="hidden" value="<%=select.get(0).get("N_OPT")%>" name="NOPT">
-									<input type="hidden" value="<%=select.get(0).get("M_PID")%>" name="mpid">
-									
-									</td>
-							<td class="subject">등록일</td>
-							<td><%=select.get(0).get("N_DATE").substring(0, 10)%></td>
-							<td class="subject">조회</td>
-							<td class="inquiry"><%=select.get(0).get("N_VIEWCOUNT")%></td>
-						</tr>
-						<tr>
-							<td class="subject">도서관</td>
-							<td colspan="5"><%=select.get(0).get("LB_NAME")%></td>
-						</tr>
-						<tr>
-							<td class="subject">첨부</td>
-							<td colspan="5" id="subject_file">
-								<%
-								if (select.get(0).get("N_FILE") == null) {
-									out.print(" ");
-								} else {
-									out.print(select.get(0).get("N_FILE"));
-								}
-								%>
-							</td>
-						</tr>
-						<tr>
-							<td class="content" colspan="6"><%=select.get(0).get("N_CONTENT").replace("\n","<br>")%></td>
-						</tr>
-					</table>
-
-					<div id=qna_but>
-						<button type="button" class="notice_but" id="QnAupdate"
-							onclick="location.href='QnA_update?N_ID=<%=select.get(0).get("N_ID")%>';">수정</button>
-					</div>
-
-					<div id="detail_but">
-						<button type="button" class="notice_but completion reply"
-							id="writebut"
-							onclick="location.href='QnA_reply_write?N_ID=<%=select.get(0).get("N_ID")%>';">답글</button>
-					</div>
-					<div id="delet_but">
-						<form method="get" action="QnA_delete">
-							<button type="submit" class="notice_but" id="QnAdelete"
-								onclick="location.href='QnA_delete?N_ID=<%=select.get(0).get("N_ID")%>';">삭제</button>
-						</form>
-					</div>
+				    <c:set var="select" value="${requestScope.notice}" />
+				    <table>
+				        <tr>
+				            <td class="subject">제목</td>
+				            <td colspan="5" class="subject_title" id="qna_title">
+				                ${select[0].N_TITLE}
+				            </td>
+				        </tr>
+				        <tr>
+				            <td class="subject">작성자</td>
+				            <td class="writer">
+				                <c:set var="name" value="${select[0].M_NAME}" />
+				                <c:set var="rename" value="${fn:substring(name, 0, 1)}**" />
+				                ${rename}
+				                <input type="hidden" value="${select[0].N_OPT}" name="NOPT" />
+				                <input type="hidden" value="${select[0].M_PID}" name="mpid" />
+				            </td>
+				            <td class="subject">등록일</td>
+				            <td>
+				                ${fn:substring(select[0].N_DATE, 0, 10)}
+				            </td>
+				            <td class="subject">조회</td>
+				            <td class="inquiry">${select[0].N_VIEWCOUNT}</td>
+				        </tr>
+				        <tr>
+				            <td class="subject">도서관</td>
+				            <td colspan="5">${select[0].LB_NAME}</td>
+				        </tr>
+				        <tr>
+				            <td class="subject">첨부</td>
+				            <td colspan="5" id="subject_file">
+				                <c:choose>
+				                    <c:when test="${empty select[0].N_FILE}">
+				                        <c:out value=" " />
+				                    </c:when>
+				                    <c:otherwise>
+				                        ${select[0].N_FILE}
+				                    </c:otherwise>
+				                </c:choose>
+				            </td>
+				        </tr>
+				        <tr>
+				            <td class="content" colspan="6">
+				            	<c:set var="newline" value="${newline}" />
+				                ${fn:replace(select[0].N_CONTENT, newline, "<br>")}
+				            </td>
+				        </tr>
+				    </table>
+				
+				    <div id="qna_but">
+				        <button type="button" class="notice_but" id="QnAupdate"
+				                onclick="location.href='QnA_update?N_ID=${select[0].N_ID}'">수정
+				        </button>
+				    </div>
+				
+				    <div id="detail_but">
+				        <button type="button" class="notice_but completion reply"
+				                id="writebut"
+				                onclick="location.href='QnA_reply_write?N_ID=${select[0].N_ID}'">답글
+				        </button>
+				    </div>
+				    <div id="delet_but">
+				        <form method="get" action="QnA_delete">
+				            <button type="submit" class="notice_but" id="QnAdelete"
+				                    onclick="location.href='QnA_delete?N_ID=${select[0].N_ID}'">삭제
+				            </button>
+				        </form>
+				    </div>
 				</div>
+
 			</div>
 		</div>
 	</section>

@@ -3,6 +3,11 @@
 
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -35,11 +40,10 @@
 		});
 		
 		
-		<% HttpSession getSession = request.getSession();
-        String login_m_pid = (String) getSession.getAttribute("m_pid");%>
+		<c:set var="login_m_pid" value="${sessionScope.m_pid}" />
 // 		로그인한 아이디
-        let login_nid= <%=login_m_pid%>;
-        let hrefValue = document.querySelector("#title_st").getAttribute("href");
+        const login_nid = "${login_m_pid}";
+        const hrefValue = document.querySelector("#title_st").getAttribute("href");
         
 // 		document.querySelector("#title_st").addEventListener('click', function () {
 // 			cosole.log(hrefValue);
@@ -286,72 +290,53 @@
 								onclick="search_box()">
 						</div>
 						<form method="post" action="QnA_board">
-							<table class="board_sub">
-								<thead>
-									<tr>
-										<th class="board_subject">순번</th>
-										<th class="board_subject open">분류</th>
-										<th class="board_subject sub">제목</th>
-										<th class="board_subject">작성자</th>
-										<th class="board_subject day">등록일</th>
-										<th class="board_subject">조회</th>
-									</tr>
-								</thead>
-								<tbody>
-						
-									<%
-									List<Map<String, String>> list = (List<Map<String, String>>) request.getAttribute("list");
-									System.out.println("jsp > list.size() : " + list.size());
-									for (int i = 0; i < list.size(); i++) {
-										Map map = (Map) list.get(i);
-		
-										String open = "1";
-									%>
-									<tr>
-										<td id="nid_value"><%=list.get(i).get("N_ID")%></td>
-										<td name="close_tx">
-										<input type="hidden" id="close_id" value="<%=list.get(i).get("N_OPT")%>" name="n_opt">
-											<%
-											if (list.get(i).get("N_OPT").equals(open)) {
-											%> 공개 <%
-											} else {
-											%> 비공개 <%
-											}
-											%>
-										</td>
-										<%
-										int lv= Integer.parseInt(list.get(i).get("LV"));
-										int pad=  lv * 10;
-										%>
-										<td class="table_title" style="padding-left: <%=pad%>px;">
-										<a id="title_st" href="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" class="table_a"
-										value="QnA_detail?N_ID=<%=list.get(i).get("N_ID")%>" name="a_tag">
-											<% if(list.get(i).get("N_PARENT_ID") != null){%>
-											└
-											<% } %>
-											
-											<%=list.get(i).get("N_TITLE")%>
-										</a>
-										</td>
-										<td>
-											<%String name = list.get(i).get("M_NAME");	
-											if(name == null){
-												name = " ";
-											}
-											String rename = name.substring(0, 1) + "**"; %>
-											<%=rename%>
-											<input type="hidden" name="m_writer_id" value="<%=list.get(0).get("M_PID")%>">
-											
-										</td>
-										<td><%=list.get(i).get("N_DATE").substring(0, 10)%></td>
-										<td><%=list.get(i).get("N_VIEWCOUNT")%></td>
-									</tr>
-									<%
-									}
-									%>
-								</tbody>
-							</table>
+						    <table class="board_sub">
+						        <thead>
+						            <tr>
+						                <th class="board_subject">순번</th>
+						                <th class="board_subject open">분류</th>
+						                <th class="board_subject sub">제목</th>
+						                <th class="board_subject">작성자</th>
+						                <th class="board_subject day">등록일</th>
+						                <th class="board_subject">조회</th>
+						            </tr>
+						        </thead>
+						        <tbody>
+						            <c:forEach var="item" items="${list}">
+						                <tr>
+						                    <td id="nid_value">${item.N_ID}</td>
+						                    <td name="close_tx">
+						                        <input type="hidden" id="close_id" value="${item.N_OPT}" name="n_opt">
+						                        <c:choose>
+						                            <c:when test="${item.N_OPT == '1'}">공개</c:when>
+						                            <c:otherwise>비공개</c:otherwise>
+						                        </c:choose>
+						                    </td>
+						                    <c:set var="lv" value="${item.LV}" />
+						                    <c:set var="pad" value="${lv * 10}" />
+						                    <td class="table_title" style="padding-left: ${pad}px;">
+						                        <a id="title_st" href="QnA_detail?N_ID=${item.N_ID}" class="table_a" name="a_tag">
+						                            <c:if test="${item.N_PARENT_ID != null}">└</c:if>
+						                            ${item.N_TITLE}
+						                        </a>
+						                    </td>
+						                    <td>
+						                        <c:set var="name" value="${item.M_NAME}" />
+						                        <c:if test="${name == null}">
+						                            <c:set var="name" value=" " />
+						                        </c:if>
+						                        <c:set var="rename" value="${fn:substring(name, 0, 1)}**" />
+						                        ${rename}
+						                        <input type="hidden" name="m_writer_id" value="${item.M_PID}">
+						                    </td>
+						                    <td>${fn:substring(item.N_DATE, 0, 10)}</td>
+						                    <td>${item.N_VIEWCOUNT}</td>
+						                </tr>
+						            </c:forEach>
+						        </tbody>
+						    </table>
 						</form>
+
 					</div>
 					<div class="paging_writing">
 

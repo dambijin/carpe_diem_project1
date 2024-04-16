@@ -3,12 +3,12 @@ package carpedm.board;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.Context;
@@ -51,7 +51,7 @@ public class Wishbook_addServlet extends HttpServlet {
 //		library += " where LB_ID=";
 //		library += lb_id;
 		System.out.println(library);
-		ArrayList<Map<String, String>> library_list = getDBList(library);
+		List<Map<String, String>> library_list = getDBList(library);
 
 		request.setAttribute("library_list", library_list);
 		
@@ -67,7 +67,7 @@ public class Wishbook_addServlet extends HttpServlet {
 		query += login_m_pid;
 		
 		System.out.println("MEMBER테이블 쿼리: " + query);
-		ArrayList<Map<String, String>> mem = getDBList(query);
+		List<Map<String, String>> mem = getDBList(query);
 		request.setAttribute("mem", mem);
 		
 		System.out.println("M_NAME 이름: " + mem.get(0).get("M_NAME"));
@@ -80,7 +80,7 @@ public class Wishbook_addServlet extends HttpServlet {
 	
 	
 
-	public static ArrayList<Map<String, String>> getDBList(String notice) {
+	public static List<Map<String, String>> getDBList(String notice) {
 		ArrayList<Map<String, String>> result_list = new ArrayList<Map<String, String>>();
 		try {
 			Connection conn = getConnection();

@@ -9,6 +9,12 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.ArrayList"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -179,10 +185,7 @@
 
 <body>
 	<header></header>
-	<%
-	List<Map<String, String>> result_list = (List<Map<String, String>>) request.getAttribute("notice");
-	Map<String, String> map = new HashMap<String, String>();
-	%>
+
 	<div class="notice_update">
 
 		<section>
@@ -204,49 +207,43 @@
 
 						<div class="notice_update_name">공지사항 글쓰기</div>
 						<div class="notice_table">
-
-							<table class="table_table">
-								<tr>
-									<td class="sub">제목</td>
-									<td class="text"><input type="text"
-										id="notice_write_title" name="title"></td>
-								</tr>
-								<tr>
-								<%
-									ArrayList<Map<String, String>> member = (ArrayList<Map<String, String>>) request.getAttribute("member");
-								%>
-									<td class="sub">작성자</td>
-									<td class="text" name="writer">
-										<%String name = member.get(0).get("M_NAME");										
-										String rename = name.substring(0, 1) + "**"; %>
-										<%=rename%>
-									</td>
-								</tr>
-								<tr>
-									<td class="sub">소속도서관</td>
-									<td class="text"><select class="textbox" id="library"
-										name="library">
-											<%
-											ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
-
-											for (int i = 0; i < library_list.size(); i++) {
-											%>
-											<option value="<%=library_list.get(i).get("LB_ID")%>"><%=library_list.get(i).get("LB_NAME")%></option>
-											<%
-											}
-											%>
-									</select></td>
-								</tr>
-								<tr>
-									<td class="sub">첨부파일</td>
-									<td class="text"><input type="text" id="file_route"
-										disabled="disabled" value="" name="n_file"> <label
-										for="upload_file" class="btn" id="file_upload">파일첨부</label> <input
-										type="file" id="upload_file" 
-										style="position: absolute; clip: rect(0, 0, 0, 0);"></td>
-								</tr>
-							</table>
+						    <table class="table_table">
+						        <tr>
+						            <td class="sub">제목</td>
+						            <td class="text"><input type="text" id="notice_write_title" name="title"></td>
+						        </tr>
+						        <tr>
+						            <td class="sub">작성자</td>
+						            <td class="text" name="writer">
+						                <!-- `member` 리스트에서 첫 번째 작성자의 이름 가져오기 -->
+						                <c:set var="name" value="${member[0].M_NAME}" />
+						                <!-- 이름의 첫 글자와 나머지 글자를 숨긴 값 계산 -->
+						                <c:set var="rename" value="${fn:substring(name, 0, 1)}**" />
+						                ${rename}
+						            </td>
+						        </tr>
+						        <tr>
+						            <td class="sub">소속도서관</td>
+						            <td class="text">
+						                <select class="textbox" id="library" name="library">
+						                    <!-- 도서관 목록을 순회하며 옵션 생성 -->
+						                    <c:forEach var="library" items="${library_list}">
+						                        <option value="${library.LB_ID}">${library.LB_NAME}</option>
+						                    </c:forEach>
+						                </select>
+						            </td>
+						        </tr>
+						        <tr>
+						            <td class="sub">첨부파일</td>
+						            <td class="text">
+						                <input type="text" id="file_route" disabled="disabled" value="" name="n_file">
+						                <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
+						                <input type="file" id="upload_file" style="position: absolute; clip: rect(0, 0, 0, 0);">
+						            </td>
+						        </tr>
+						    </table>
 						</div>
+
 						<div class="td1">
 							<textarea name="n_textarea" id="ntextarea"></textarea>
 						</div>
