@@ -55,4 +55,26 @@
 	</select>
 
 
+	<!-- admin_book_list -->
+	<select id="selectBook" parameterType="BookDTO" resultType="BookDTO">
+		select 
+		b.b_id,b.lb_id, b.b_title, b.b_author, b.b_publisher, b.b_isbn, l.lb_name, b.b_date, b.b_resstate, b.b_loanstate
+		from book b
+		join library l on b.lb_id = l.lb_id
+		
+	</select>
+	
+	<!-- 새로운 책을 삽입하는 insert 문 -->
+    <insert id="insertBook" parameterType="BookDTO">
+        insert into book (b_id, lb_id, b_title, b_author, b_publisher, b_isbn, b_date, b_resstate, b_loanstate)
+        values (#{b_id}, #{lb_id}, #{b_title}, #{b_author}, #{b_publisher}, #{b_isbn}, #{b_date}, #{b_resstate}, #{b_loanstate})
+    </insert>
+    
+     <!-- 책을 삭제하는 delete 문 -->
+    <delete id="deleteBook" parameterType="int">
+        delete from book
+        where b_id = #{b_id}
+    </delete>
+    
+    
 </mapper>

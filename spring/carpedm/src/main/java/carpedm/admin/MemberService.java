@@ -2,10 +2,23 @@ package carpedm.admin;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import carpedm.dto.MemberDTO;
 
-public interface MemberService {
+@Service
+public class MemberService {
 
-	public List listMembers(MemberDTO dto);
+	@Autowired
+	Member_listDAO dao;
+	
+	public List listMembers(MemberDTO dto) {
+		
+		List list = dao.getMemberList(dto);
+		
+		return list;
+	}
+	
 		
 }

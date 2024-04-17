@@ -25,7 +25,9 @@ public class MemberController {
 		System.out.println("MemberController > listMembers 실행");
 		
 		List list = memberService.listMembers(dto);  // memberService를 통해 회원 목록을 가져옵니다.
-		model.addAttribute("memberList",list); // 모델에 회원 목록을 속성으로 추가합니다.
+
+		System.out.println("aaaa:"+list);
+		model.addAttribute("member_list",list); // 모델에 회원 목록을 속성으로 추가합니다.
 		
 		return "admin/admin_member_list.jsp"; // "admin/admin_member_list" 뷰를 반환합니다.
 		

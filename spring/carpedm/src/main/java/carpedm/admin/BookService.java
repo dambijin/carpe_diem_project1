@@ -5,17 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import carpedm.dto.MemberDTO;
+import carpedm.dto.BookDTO;
 
 @Service
-public class MemberServiceImpl implements MemberService {
-	
+public class BookService {
+
 	@Autowired
-	Admin_member_listDAO dao;
+	Book_listDAO dao;
 	
-	public List listMembers(MemberDTO dto) {
+	public List listBooks(BookDTO dto) {
 		
-		return dao.getMemberList(dto);
+		List list = dao.getBookList(dto);
+		
+		return list;
 	}
 	
+		
 }

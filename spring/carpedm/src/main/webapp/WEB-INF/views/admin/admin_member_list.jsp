@@ -469,7 +469,7 @@ h1 {
 	
 <!-- 	<div id="paging"> -->
 <%-- 		<% --%>
-<!-- //  		// 서블릿에서 불러온 페이징 정보 --> -->
+<!-- //  		// 서블릿에서 불러온 페이징 정보 -->
 <!-- //  		int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값 -->
 <!-- //  		int perPage = Integer.parseInt((String) request.getAttribute("perPage")); -->
 <!-- //  		int current_page = Integer.parseInt((String) request.getAttribute("page")); -->
