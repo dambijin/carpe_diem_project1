@@ -46,7 +46,7 @@ public class Admin_member_listDAO {
 				SqlSession sqlSession = sqlMapper.openSession();
 				// select 결과가 없으면 null
 //				list = sqlSession.selectList("mapper.emp.dynamic.selectEmp", dto);
-				list = sqlSession.selectList("mapper.member_list.selectMember", dto);
+				list = sqlSession.selectList("mapper.carpedm.admin.selectMember", dto);
 			} else {
 				System.out.println("DB 접속 실패");
 			}
