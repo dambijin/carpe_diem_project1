@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.carpedm.board">
+
+	<!-- notice_board 페이지 select문 -->
+	<select id="n_board" resultType="carpedm.dto.NoticeBoardDTO">
+	    <!--SELECT * FROM (-->
+	    <!--SELECT rownum rnum, n1.* FROM (-->
+	    SELECT notice.*, library.lb_name, member.m_name
+	    FROM notice
+	    INNER JOIN LIBRARY ON notice.lb_id = library.lb_id
+	    INNER JOIN MEMBER ON notice.m_pid = member.m_pid
+	    WHERE n_opt = 0
+	    ORDER BY n_id DESC
+	    <!--) n1-->
+	    <!--) n2-->
+	    <!--WHERE rnum >= 1 AND rnum <= 10-->
+	</select>
+
+	<!-- notice_detail 페이지 select문 -->
+	<select id="n_detail" resultType="carpedm.dto.NoticeBoardDTO" parameterType="carpedm.dto.NoticeBoardDTO">
+		SELECT notice.*, library.lb_name, member.m_name
+		FROM notice
+		JOIN library ON notice.lb_id = library.lb_id
+		JOIN member ON notice.m_pid = member.m_pid
+		WHERE notice.n_id = #{n_id}
+	</select>
+	
+	<!-- notice_update 페이지 -->
+	<select id="n_update" resultType="carpedm.dto.NoticeBoardDTO" parameterType="carpedm.dto.NoticeBoardDTO">
+		SELECT n.*, m.M_NAME, l.LB_NAME
+		FROM notice n
+		JOIN member m ON n.M_PID = m.M_PID
+		JOIN library l ON n.LB_ID = l.LB_ID
+		WHERE n.N_ID = #{n_id}
+	</select>
+	
+</mapper>
