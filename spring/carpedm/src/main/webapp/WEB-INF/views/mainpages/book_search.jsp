@@ -16,8 +16,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자료검색</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
-
 
 <style>
 section {
@@ -376,7 +374,6 @@ section {
 </style>
 </head>
 
-
 <script>
     window.addEventListener("load", function () {
 
@@ -408,12 +405,12 @@ section {
 
         //리다이렉트로 받아온 값을 재설정(ajax쓸껄...)
         //키워드 유지
-        document.getElementById("searchWord").value = "<%=request.getAttribute("searchWord")%>";
+        document.getElementById("searchWord").value = "${searchWord}";
         
         //옵션값 유지
         let search_opt_list_values = document.getElementById("search_opt_list").options;
         for(let i = 0; i< search_opt_list_values.length;i++){   
-            if(search_opt_list_values[i].value == '<%=request.getAttribute("item")%>') {
+            if(search_opt_list_values[i].value == '${item}') {
             	search_opt_list_values.selectedIndex = i;
                 break;
             }
@@ -421,7 +418,7 @@ section {
         //옵션값 유지
         let result_filter1_values = document.getElementById("result_filter1").options;
         for(let i = 0; i< result_filter1_values.length;i++){   
-            if(result_filter1_values[i].value == '<%=request.getAttribute("perPage")%>') {
+            if(result_filter1_values[i].value == '${perPage}') {
             	result_filter1_values.selectedIndex = i;
                 break;
             }
@@ -430,16 +427,18 @@ section {
         //옵션값 유지
         let result_filter2_values = document.getElementById("result_filter2").options;
         for(let i = 0; i< result_filter2_values.length;i++){   
-            if(result_filter2_values[i].value == '<%=request.getAttribute("okywd")%>') {
+            if(result_filter2_values[i].value == '${okywd}') {
             	result_filter2_values.selectedIndex = i;
                 break;
             }
         }
         
         // 서버에서 전달받은 libraryIds 값
-		<%String[] libraryIds = (String[]) request.getAttribute("libraryIds");%>
-    	 let libraryIds = <%=Arrays.toString(libraryIds)%>; // libraryIds 값을 자바스크립트 변수로 변환
-    	 libraryIds = libraryIds.map(String); // 모든 원소를 문자열로 변환
+    	let libraryIds = ${libraryIds}; // libraryIds 값을 자바스크립트 변수로 변환
+    	console.log(libraryIds);
+    	libraryIds = libraryIds.map(String); // 모든 원소를 문자열로 변환
+    	
+
         let libs_filter_values = document.querySelectorAll('#_multiChk1 input[type="checkbox"]');
     	 	 
         for(let i = 0; i < libs_filter_values.length;i++)
@@ -465,14 +464,14 @@ section {
 
     function openBookDetail(b_id) {
         // 쿼리 문자열을 URL에 추가하여 새 창을 열기
-        window.open("book_detail?id="+ b_id + "&si_id=<%=request.getAttribute("si_id")%>" ,"", "width=900,height=600");
+        window.open("book_detail?id="+ b_id + "&si_id=${si_id}" ,"", "width=900,height=600");
     }
 
 
     //예약기능
 	function reservation(b_id) {
     	//현재 세션에서 아이디 값 가져오기
-		 var login_m_pid = "<%=(String) request.getSession().getAttribute("m_pid")%>";
+		 var login_m_pid = "${m_pid}";
 // 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(login_m_pid);
@@ -538,7 +537,7 @@ section {
 						<ul id="_multiChk1">
 							<c:forEach items="${library_list}" var="library">
 								<li><input class="chk" type="checkbox" name="libraryIds"
-									value="${library.LB_ID}">&nbsp;&nbsp;${library.LB_NAME}
+									value="${library.lb_id}">&nbsp;&nbsp;${library.lb_name}
 								</li>
 							</c:forEach>
 						</ul>
@@ -579,7 +578,7 @@ section {
 					<c:forEach items="${pop_search_list}" var="keyword"
 						varStatus="loop">
 						<li><em>${loop.index + 1}</em> <span> <a
-								href="/carpedm/book_search?search=${keyword.SI_KEYWORD}">${keyword.SI_KEYWORD}</a>
+								href="/carpedm/book_search?search=${keyword.si_keyword}">${keyword.si_keyword}</a>
 						</span></li>
 					</c:forEach>
 				</ul>
@@ -672,57 +671,36 @@ section {
 			</c:forEach>
 		</div>
 
-
 		<div id="paging">
-			<%
-			// 서블릿에서 불러온 페이징 정보
-			int total_count = Integer.parseInt((String) request.getAttribute("book_count"));// 임시로 설정한 값
-			int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
-			int current_page = Integer.parseInt((String) request.getAttribute("page"));
-			int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
+		    <%-- 서블릿에서 불러온 페이징 정보 --%>
+		    <c:set var="total_count" value="${book_count}" />
+		    <c:set var="perPage" value="${perPage}" />
+		    <c:set var="current_page" value="${page}" />
 
-			// 표시할 페이지의 범위 계산
-			int start_page = Math.max(current_page - 2, 1);
-			int end_page = Math.min(start_page + 4, total_pages);
-			start_page = Math.max(1, end_page - 4);
-			%>
-
-			<div class="total_count">
-				전체 : 총&nbsp;<%=total_count%>&nbsp;권
-			</div>
-			<div class="total">
-				<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
-			</div>
-			<div class="paging">
-				<%
-				if (current_page > 1) {
-				%>
-				<a href="javascript:void(0);"
-					onclick="bookSearch(<%=current_page - 1%>)" class="pre">◀</a>
-				<%
-				}
-				%>
-				<%
-				for (int i = start_page; i <= end_page; i++) {
-				%>
-				<a href="javascript:void(0);" onclick="bookSearch(<%=i%>)"
-					class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
-				<%
-				}
-				%>
-				<%
-				if (current_page < total_pages) {
-				%>
-				<a href="javascript:void(0);"
-					onclick="bookSearch(<%=current_page + 1%>)" class="next">▶</a>
-				<%
-				}
-				%>
-			</div>
+		    <%-- 표시할 페이지의 범위 계산 --%>
+			<c:set var="total_pages" value="${total_pages}" />
+		    <c:set var="start_page" value="${start_page}" />
+		    <c:set var="end_page" value="${end_page}" />
+	
+		    <div class="total_count">
+		        전체 : 총&nbsp;<c:out value="${total_count}" />&nbsp;권
+		    </div>
+		    <div class="total">
+		        <strong><c:out value="${current_page}" /></strong>페이지 / 총 <strong><c:out value="${total_pages}" /></strong>페이지
+		    </div>
+		    <div class="paging">
+		        <c:if test="${current_page > 1}">
+		            <a href="javascript:void(0);" onclick="bookSearch(${current_page - 1})" class="pre">◀</a>
+		        </c:if>
+		        <c:forEach var="i" begin="${start_page}" end="${end_page}">
+		            <a href="javascript:void(0);" onclick="bookSearch(${i})" class="${i == current_page ? 'num active' : 'num'}">${i}</a>
+		        </c:forEach>
+		        <c:if test="${current_page < total_pages}">
+		            <a href="javascript:void(0);" onclick="bookSearch(${current_page + 1})" class="next">▶</a>
+		        </c:if>
+		    </div>
 		</div>
 	</section>
-	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

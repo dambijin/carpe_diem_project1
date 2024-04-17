@@ -41,7 +41,7 @@ public class libs_infolistController extends HttpServlet {
 	protected String libs_infolist(Locale locale, Model model)
 			throws ServletException, IOException {
 		
-		List list = sqlSession.selectList("mapper.carpedm.mainpages.selectLibList");
+		List list = sqlSession.selectList("mapper.carpedm.mainpages.selectLib_libinfo");
 		System.out.println("list : " + list);
 		
 		if (list != null) {
@@ -53,4 +53,5 @@ public class libs_infolistController extends HttpServlet {
 		
 		return "mainpages/libs_infolist.jsp";
 	}		
+	
 }

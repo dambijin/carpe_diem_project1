@@ -40,7 +40,7 @@ public class mainController extends HttpServlet {
 	private SqlSession sqlSession;
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	protected String libs_infolist(Locale locale, Model model)
+	protected String main(Locale locale, Model model)
 			throws ServletException, IOException {
 		String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		List library_list = sqlSession.selectList("mapper.carpedm.mainpages.selectLibList");
@@ -54,5 +54,5 @@ public class mainController extends HttpServlet {
 		model.addAttribute("banner_list", banner_list);
 		
 		return "mainpages/main.jsp";
-	}		
+	}			
 }
