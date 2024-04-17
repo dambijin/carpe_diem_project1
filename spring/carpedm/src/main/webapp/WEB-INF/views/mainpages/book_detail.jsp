@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -145,13 +148,13 @@ section {
 	height: 490px;
 	width: 100%;
 	background-color: rgba(220, 220, 220);
-/*  	border: 2px solid black;  */
+	/*  	border: 2px solid black;  */
 	font-size: 20px;
 	font-weight: bold;
 	text-align: center;
 	font-family: "Wanted Sans Variable";
-	margin-top:10px;
-	padding-top:10px;
+	margin-top: 10px;
+	padding-top: 10px;
 }
 
 /* 추천도서 테이블 */
@@ -201,8 +204,8 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 	//예약기능
 	function reservation(b_id) {
 			<%// 세션에서 현재 아이디값 가져오기
-		HttpSession getSession = request.getSession();
-		String login_m_pid = (String) getSession.getAttribute("m_pid");%>
+HttpSession getSession = request.getSession();
+String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 // 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
@@ -240,21 +243,21 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 		<div id="searchDetailInfo">
 			<div class="view">
 				<dl>
-					<em class="label"> <img
-						src="<%=bookdetail_list.get(0).get("B_IMGURL")%>" alt="사진불러오기 실패" />
+					<em class="label"> 
+						<img src="${bookdetail_list[0].B_IMGURL}" alt="사진불러오기 실패" />
 					</em>
 					<dd>
 						<div class="ico ico-bk">
-							<span><%=bookdetail_list.get(0).get("B_TITLE")%></span>
+							<span>${bookdetail_list[0].B_TITLE}</span>
 						</div>
 						<ul>
-							<li class="label_no"><strong>ㆍ키워드</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_KYWD")%></li>
-							<li><strong>ㆍ저자</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_AUTHOR")%></li>
-							<li><strong>ㆍ발행년도</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_PUBYEAR")%></li>
-							<li><strong>ㆍ출판사</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_PUBLISHER")%></li>
-							<li><strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("B_ISBN")%></li>
-							<li><strong>ㆍ장르</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("BG_NAME")%></li>
-							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%=bookdetail_list.get(0).get("LB_NAME")%></li>
+							<li class="label_no"><strong>ㆍ키워드</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_KYWD}</li>
+							<li><strong>ㆍ저자</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_AUTHOR}</li>
+							<li><strong>ㆍ발행년도</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_PUBYEAR}</li>
+							<li><strong>ㆍ출판사</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_PUBLISHER}</li>
+							<li><strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_ISBN}</li>
+							<li><strong>ㆍ장르</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].BG_NAME}</li>
+							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].LB_NAME}</li>
 						</ul>
 					</dd>
 				</dl>
@@ -275,7 +278,7 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 					<thead>
 						<tr>
 							<th scope="col">등록번호</th>
-							<!-- 							<th scope="col">낱권정보</th> -->
+							<!-- <th scope="col">낱권정보</th> -->
 							<th scope="col">ISBN</th>
 							<th scope="col">자료상태</th>
 							<th scope="col">반납예정일</th>
@@ -284,24 +287,31 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 					</thead>
 					<tbody>
 						<tr>
-							<td><%=bookdetail_list.get(0).get("B_ID")%></td>
-							<!-- 							<td></td> -->
-							<td><strong><%=bookdetail_list.get(0).get("B_ISBN")%></strong></td>
-							<td><strong
-								class="<%=bookdetail_list.get(0).get("B_LOANSTATE").equals("Y") ? "_success" : "_fail"%>">
-									<%=bookdetail_list.get(0).get("B_LOANSTATE").equals("Y") ? "대출가능" : "대출불가"%>
-							</strong><br></td>
-							<td><%=bookdetail_list.get(0).get("L_RETURNDATE")==null ? "-" : bookdetail_list.get(0).get("L_RETURNDATE").substring(0,10)%></td>
-							<td><strong
-								class="<%=bookdetail_list.get(0).get("B_RESSTATE").equals("Y") ? "reservation_success" : "_fail"%>"
-								<%if (bookdetail_list.get(0).get("B_RESSTATE").equals("Y")) {%>
-								onclick="reservation('<%=bookdetail_list.get(0).get("B_ID")%>')"
-								<%}%>> <%=bookdetail_list.get(0).get("B_RESSTATE").equals("Y") ? "예약가능" : "예약불가"%>
-							</strong><br></td>
+							<td>${bookdetail_list[0].B_ID}</td>
+							<!-- <td></td> -->
+							<td>
+								<strong>${bookdetail_list[0].B_ISBN}</strong>
+							</td>
+							<td>
+								<strong	class="${bookdetail_list[0].B_LOANSTATE eq 'Y' ? '_success' : '_fail'}">${bookdetail_list[0].B_LOANSTATE eq 'Y' ? '대출가능' : '대출불가'}</strong><br>
+							</td>
+							<td>${empty bookdetail_list[0].L_RETURNDATE ? '-' : bookdetail_list[0].L_RETURNDATE.substring(0, 10)}</td>
+							
+							<c:set var="onclickAttribute" value=""/>
+							<c:if test="${bookdetail_list[0].B_RESSTATE eq 'Y'}">
+							    <c:set var="onclickAttribute">
+							     	onclick='reservation(${bookdetail_list[0].B_ID})'
+							     </c:set>
+							</c:if>
+							<td>
+							    <strong class="${bookdetail_list[0].B_RESSTATE eq 'Y' ? 'reservation_success' : '_fail'}"
+							            ${onclickAttribute}>
+							        ${bookdetail_list[0].B_RESSTATE eq 'Y' ? '예약가능' : '예약불가'}
+							    </strong><br>
+							</td>
 						</tr>
 					</tbody>
 				</table>
-
 				<div class="info">
 					<h3>특이사항</h3>
 					<div>
@@ -315,28 +325,20 @@ ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>
 			관련추천도서
 			<table class="recommendbook_table">
 				<tr id="rcb">
-					<%
-					ArrayList<Map<String, String>> bookrecommend_list = (ArrayList<Map<String, String>>) request
-							.getAttribute("bookrecommend_list");
-
-					for (int i = 0; i < bookrecommend_list.size(); i++) {
-						String tdStyle = "";
-						if (i == bookrecommend_list.size()-1) {
-							tdStyle = "border-right: 0px;"; // 마지막에 오른쪽 줄 없애기
-						}
-					%>
-					<td style="<%=tdStyle%>" onclick="window.open('<%=bookrecommend_list.get(i).get("b_src")%>','', 'width=1200,height=700');">
-						<div class="recommendbook_div">
-							<img class="recommendbook_img"
-								src="<%=bookrecommend_list.get(i).get("b_img")%>">
-						</div>
-						<div class="recommendbook_title"><%=bookrecommend_list.get(i).get("b_title")%></div>
-						<hr>
-						<div class="recommendbook_author"><%=bookrecommend_list.get(i).get("b_auth")%></div>
-					</td>
-					<%
-					}
-					%>
+					<c:forEach items="${bookrecommend_list}" var="bookrecommend"
+						varStatus="loop">
+						<c:set var="tdStyle"
+							value="${loop.last ? 'border-right: 0px;' : ''}" />
+						<td style="${tdStyle}"
+							onclick="window.open('${bookrecommend.b_src}','','width=1200,height=700');">
+							<div class="recommendbook_div">
+								<img class="recommendbook_img" src="${bookrecommend.b_img}">
+							</div>
+							<div class="recommendbook_title">${bookrecommend.b_title}</div>
+							<hr>
+							<div class="recommendbook_author">${bookrecommend.b_auth}</div>
+						</td>
+					</c:forEach>
 				</tr>
 			</table>
 		</div>

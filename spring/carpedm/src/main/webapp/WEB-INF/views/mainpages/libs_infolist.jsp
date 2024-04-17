@@ -11,7 +11,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>도서관 안내</title>
-<!-- <link href="/carpedm/css/layout.css" rel="stylesheet"> -->
 <style>
 section {
 	width: 90%;
@@ -56,17 +55,17 @@ h3 {
 	<section>
 		<div class="s_section">
 			<div class="left_section">
-				<c:forEach var="item" items="${list}">
-					<button type='button' class='sub_but'
-						onclick="location.href='libs_infolist?lb=${item.lb_id}'">${item.lb_name}</button>
-					<br>
+				<c:forEach var="item" items="${list}" varStatus="status">
+				    <button type='button' class='sub_but'
+				            onclick="location.href='libs_infolist?lb=${status.index}'">${item.lb_name}</button>
+				    <br>
 				</c:forEach>
 			</div>
 			<div class="right_section">
 				<div class="library-guide">
 					<c:set var="lb_id" value="${param.lb}" scope="page" />
 					<c:if test="${lb_id == 0 || empty lb_id}">
-						<c:set var="lb_id" value="1" scope="page" />
+						<c:set var="lb_id" value="0" scope="page" />
 					</c:if>
 					<img class="library-image" src="${list[lb_id].lb_imgurl}"
 						alt="이미지 오류">
@@ -94,7 +93,7 @@ h3 {
 							<c:out value="${fn:replace(list[lb_id].lb_content,LF, '<br>')}"
 								escapeXml="false" />
 						</p>
-						<p class="text_detail"></p>
+<!-- 						<p class="text_detail"></p> -->
 					</div>
 				</div>
 			</div>

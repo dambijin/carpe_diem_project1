@@ -3,13 +3,21 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.carpedm.mainpages">
-
-	<select id="selectBook" resultType="BookDTO">
-		select * from book
-	</select>
 	
 	<select id="selectLibList" resultType="LibraryDTO">
 		select * from library
 	</select>
 	
+	<select id="selectNotice_main" resultType="NoticeDTO">
+		select n_id,n_title,n_date from notice where n_opt = 0 order by n_id desc
+	</select>
+	
+	<select id="selectBook_main" resultType="BookDTO">
+		select b_id,b_title,b_author,b_imgurl from book order by b_id desc
+	</select>
+	
+	<select id="selectBanner_main" resultType="BannerDTO" parameterType="string">
+		    SELECT * FROM banner
+    		WHERE TO_DATE(#{_parameter},'YYYY-MM-DD HH24:MI:SS') BETWEEN ban_startdate AND ban_enddate
+	</select>
 </mapper>

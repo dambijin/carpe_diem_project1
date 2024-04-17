@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -13,8 +16,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>메인 페이지</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
-<link href="/carpedm/css/calender.css" rel="stylesheet">
+<link href="/carpedm/resources/css/layout.css" rel="stylesheet">
+<link href="/carpedm/resources/css/calender.css" rel="stylesheet">
 
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
@@ -194,7 +197,6 @@
 	margin-top: 8px;
 	cursor: pointer;
 	width: 100%;
-
 }
 
 .newbook_table img {
@@ -531,11 +533,15 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 </head>
 
 <body>
-	<header></header>
+	<header>
+		<div id="header-container"></div>
+	</header>
+
 	<div class="bodysize">
+		<!-- 검색 상자 -->
 		<div class="search_box">
 			<fieldset class="search_fieldset">
-				<!-- <legend>통합검색</legend> -->
+				<!-- 검색 폼 -->
 				<div class="search">
 					<div class="input">
 						<strong> <select name="item" id="libsear">
@@ -548,7 +554,6 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 						</select>
 						</strong> <input type="text" name="searchWord" autocomplete="off"
 							id="searchWord" style="ime-mode: active" placeholder="검색어를 적어주세요">
-						<!-- input type="hidden" name="item" value="title" id="item" -->
 					</div>
 					<input type="button" class="btn btn-search" value="도서검색"
 						id="libsearch" onclick="search();">
@@ -556,26 +561,27 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 			</fieldset>
 		</div>
 		<br>
+
+		<!-- 네비게이션 -->
 		<nav>
 			<div class="outer">
 				<!-- 메인배너 -->
 				<div class="inner-list">
-					<%
-					ArrayList<Map<String, String>> banner_list = (ArrayList<Map<String, String>>) request.getAttribute("banner_list");
-
-					if(banner_list.size()<=0){%>
-						<div class="inner">
-							<img class="banner" src="/carpedm/resource/logo.png">
-						</div>
-					<%}
-					for (int i = 0; i < banner_list.size(); i++) {
-					%>
-						<div class="inner">
-							<img class="banner" src="<%=banner_list.get(i).get("BAN_IMGURL") %>" onerror="this.onerror=null; this.src='/carpedm/resource/logo.png'">
-						</div>
-					<%
-					}
-					%>
+					<c:choose>
+						<c:when test="${empty banner_list}">
+							<div class="inner">
+								<img class="banner" src="/carpedm/resources/resource/logo.png">
+							</div>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items="${banner_list}" var="banner">
+								<div class="inner">
+									<img class="banner" src="${banner.ban_imgurl}"
+										onerror="this.onerror=null; this.src='/carpedm/resources/resource/logo.png'">
+								</div>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="button-list">
 					<button class="button-left">←</button>
@@ -585,101 +591,77 @@ String m_pid = (String) getSession.getAttribute("m_pid");%>
 		</nav>
 	</div>
 
+	<!-- 라이브러리 정보 섹션 -->
 	<section class="library_information_content">
+		<!-- 공지사항 -->
 		<div class="announcement_library_information">
 			<div class="announcement">
 				공지사항
 				<table class="announcement_table" id="announcement_table">
-					<%
-					ArrayList<Map<String, String>> notice_list = (ArrayList<Map<String, String>>) request.getAttribute("notice_list");
-
-					for (int i = 0; i < notice_list.size(); i++) {
-					%>
-					<tr>
-
-						<td class="ann_id"><%=notice_list.get(i).get("N_ID")%></td>
-						<td class="ann_title"><a class="title_a"
-							href="notice_detail?N_ID=<%=notice_list.get(i).get("N_ID")%>"><%=notice_list.get(i).get("N_TITLE")%></a>
-						</td>
-						<td class="ann_day"><%=notice_list.get(i).get("N_DATE").substring(0, 10)%></td>
-					</tr>
-					<%
-						if (i >= 4) {
-							break;
-						}
-					}
-					%>
+					<c:forEach items="${notice_list}" var="notice" varStatus="loop">
+						<c:if test="${loop.index < 4}">
+							<tr>
+								<td class="ann_id">${notice.n_id}</td>
+								<td class="ann_title"><a class="title_a"
+									href="notice_detail?N_ID=${notice.n_id}">${notice.n_title}</a></td>
+								<td class="ann_day">
+								    <fmt:formatDate value="${notice.n_date}" pattern="yyyy-MM-dd" />
+								</td>
+							</tr>
+						</c:if>
+					</c:forEach>
 				</table>
 			</div>
 
+			<!-- 신착도서 -->
 			<div class="newbook">
 				신착도서
 				<table class="newbook_table">
 					<tr id="nb">
-						<%
-						ArrayList<Map<String, String>> book_list = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
-
-						for (int i = 0; i < 3; i++) {
-							String tdStyle = "";
-							if (i == 2) {
-								tdStyle = "border-right: 0px;"; // 마지막에 오른쪽 줄 없애기
-							}
-						%>
-						<td style="<%=tdStyle%>">
-							<div class="newbook_div"
-								onclick="openBookDetail('<%=book_list.get(i).get("B_ID")%>')">
-								<img class="newbook_img"
-									src="<%=book_list.get(i).get("B_IMGURL")%>">
-							</div>
-							<div class="newbook_title"><%=book_list.get(i).get("B_TITLE")%></div>
-							<hr>
-							<div class="newbook_author"><%=book_list.get(i).get("B_AUTHOR")%></div>
-						</td>
-						<%
-						}
-						%>
+						<c:forEach items="${book_list}" var="book" varStatus="loop"
+							begin="0" end="2">
+							<td style="${loop.last ? 'border-right: 0px;' : ''}">
+								<div class="newbook_div"
+									onclick="openBookDetail('${book.b_id}')">
+									<img class="newbook_img" src="${book.b_imgurl}">
+								</div>
+								<div class="newbook_title">${book.b_title}</div>
+								<hr>
+								<div class="newbook_author">${book.b_author}</div>
+							</td>
+						</c:forEach>
 					</tr>
 				</table>
 			</div>
 		</div>
 
+		<!-- 이용 정보 -->
 		<div class="library_information">
 			이용 정보 <select id="libs_info"
 				onchange="chg_text_detail(this.selectedIndex);">
-				<%
-				ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
-
-				for (int i = 0; i < library_list.size(); i++) {
-				%>
-				<option><%=library_list.get(i).get("LB_NAME")%></option>
-				<%
-				}
-				%>
+				<c:forEach items="${library_list}" var="library">
+					<option>${library.lb_name}</option>
+				</c:forEach>
 			</select>
 			<div id="libs_time" class="calendar"></div>
-
 			<div class="calendar">
 				<div class="text_detail"></div>
 				<script>
-					library_list_js = [
-					<%for (int i = 0; i < library_list.size(); i++) {%>
-					    {
-					        lb_name: '<%=library_list.get(i).get("LB_NAME")%>',
-					        lb_address: '<%=library_list.get(i).get("LB_ADDRESS")%>',
-					        lb_opentime: '<%=library_list.get(i).get("LB_OPENTIME")%>',
-					        lb_tel: '<%=library_list.get(i).get("LB_TEL")%>',
-					        lb_content: '<%=library_list.get(i).get("LB_CONTENT").replace("\n", "<br>").replace("\"", "\\\"").replace("\r", "\\r")%>'
-					    }<%=(i < library_list.size() - 1) ? "," : ""%>
-					<%}%>
-					];
-					</script>
+				    library_list_js = [
+				        <c:forEach items="${library_list}" var="library" varStatus="loop">
+				            {
+				                lb_name: '${library.lb_name}',
+				                lb_address: '${library.lb_address}',
+				                lb_opentime: '${library.lb_opentime}',
+				                lb_tel: '${library.lb_tel}',
+				            }${!loop.last ? ',' : ''}
+				        </c:forEach>
+				    ];
+				</script>
 			</div>
 			<div id="datepicker"></div>
 		</div>
 	</section>
-	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
 </body>
-
 
 </html>

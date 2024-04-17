@@ -12,8 +12,9 @@ public class BookDTO {
 	long b_isbn;
 	String b_publisher;
 	String b_kywd;
-//	String b_imgurl;
+	String b_imgurl;
 	char b_loanstate;
+
 	char b_resstate;
 	int bg_id;
 	String b_like;
@@ -32,14 +33,16 @@ public class BookDTO {
 	// 연체날짜계산
 	private String m_limitdate_text;
 
+
+
 	@Override
 	public String toString() {
-		return "BookDTO [lb_name=" + lb_name + ", lb_id=" + lb_id + ", b_id=" + b_id + ", b_title=" + b_title
-				+ ", b_author=" + b_author + ", b_pubyear=" + b_pubyear + ", b_isbn=" + b_isbn + ", b_publisher="
-				+ b_publisher + ", b_kywd=" + b_kywd + ", b_loanstate=" + b_loanstate + ", b_resstate=" + b_resstate
-				+ ", bg_id=" + bg_id + ", b_like=" + b_like + ", b_star=" + b_star + ", b_date=" + b_date + ", type="
-				+ type + ", keyword=" + keyword + ", orderColumn=" + orderColumn + ", orderType=" + orderType
-				+ ", m_limitdate_text=" + m_limitdate_text + "]";
+		return "BookDTO [lb_id=" + lb_id + ", b_id=" + b_id + ", b_title=" + b_title + ", b_author=" + b_author
+				+ ", b_pubyear=" + b_pubyear + ", b_isbn=" + b_isbn + ", b_publisher=" + b_publisher + ", b_kywd="
+				+ b_kywd + ", b_imgurl=" + b_imgurl + ", b_loanstate=" + b_loanstate + ", b_resstate=" + b_resstate
+				+ ", bg_id=" + bg_id + ", b_like=" + b_like + ", b_star=" + b_star + ", b_date=" + b_date + ", lb_name="
+				+ lb_name + ", type=" + type + ", keyword=" + keyword + ", orderColumn=" + orderColumn + ", orderType="
+				+ orderType + ", m_limitdate_text=" + m_limitdate_text + "]";
 	}
 
 	/**
@@ -154,19 +157,13 @@ public class BookDTO {
 		this.b_kywd = b_kywd;
 	}
 
-//	/**
-//	 * @return the b_imgurl
-//	 */
-//	public String getB_imgurl() {
-//		return b_imgurl;
-//	}
-//
-//	/**
-//	 * @param b_imgurl the b_imgurl to set
-//	 */
-//	public void setB_imgurl(String b_imgurl) {
-//		this.b_imgurl = b_imgurl;
-//	}
+	public String getB_imgurl() {
+		return b_imgurl;
+	}
+
+	public void setB_imgurl(String b_imgurl) {
+		this.b_imgurl = b_imgurl;
+	}
 
 	/**
 	 * @return the b_loanstate

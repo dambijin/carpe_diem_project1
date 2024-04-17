@@ -24,7 +24,7 @@
 		</layout>
 	</appender>
 	<!-- Application Loggers -->
-	<logger name="kr.or.carpedm">
+	<logger name="carpedm">
 		<level value="info" />
 		<appender-ref ref="daily" />
 	</logger>

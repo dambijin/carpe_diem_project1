@@ -30,19 +30,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import carpedm.test222.HomeController;
 
 @Controller
-public class libs_infolistController extends HttpServlet {
+public class book_detailController extends HttpServlet {
 	
-	private static final Logger logger = LoggerFactory.getLogger(libs_infolistController.class);
+	private static final Logger logger = LoggerFactory.getLogger(book_detailController.class);
 	
 	@Autowired	
 	private SqlSession sqlSession;
 	
-	@RequestMapping(value = "/libs_infolist", method = RequestMethod.GET)
+	@RequestMapping(value = "/book_detail", method = RequestMethod.GET)
 	protected String libs_infolist(Locale locale, Model model)
 			throws ServletException, IOException {
 		
 		List list = sqlSession.selectList("mapper.carpedm.mainpages.selectLibList");
-		System.out.println("list : " + list);
+//		System.out.println("list : " + list);
 		
 		if (list != null) {
 			System.out.println("list.isze : " + list.size());
@@ -51,6 +51,6 @@ public class libs_infolistController extends HttpServlet {
 
 		model.addAttribute("list", list);		
 		
-		return "mainpages/libs_infolist.jsp";
+		return "mainpages/book_detail.jsp";
 	}		
 }

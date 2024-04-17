@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -318,7 +321,7 @@ section {
 	max-width: 300px; /* 최대 너비 설정, 필요에 따라 조정 */
 	margin: 0 auto; /* 가운데 정렬 */
 	padding: 5px; /* 내부 여백 */
-	padding-left:30px;
+	padding-left: 30px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 	border-radius: 8px; /* 모서리 둥글게 */
 	position: fixed; /* 뷰포트에 상대적으로 고정 */
@@ -327,13 +330,12 @@ section {
 	background-color: rgba(255, 255, 255, 0.9); /* 배경 색상 및 투명도 설정 */
 	z-index: 1000; /* 다른 요소 위에 렌더링 되도록 z-index 설정 */
 	box-sizing: border-box; /* padding을 포함한 박스 모델 */
-	height:500px;
+	height: 500px;
 	max-height: 70px; /* 초기 최대 높이 설정 */
 	overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
 	transition: max-height 0.5s ease; /* 최대 높이 변경시 부드러운 전환 효과 */
 	border: 1px solid black;
 }
-
 
 .pop_searchkeyword ul {
 	list-style: none; /* 기본 리스트 스타일 제거 */
@@ -529,20 +531,16 @@ section {
 				<legend>도서관 필터</legend>
 				<dl>
 					<dd>
-						<label class="all none"><input id="multiChk1"
+						<label class="all none"> <input id="multiChk1"
 							type="checkbox" name="multiChk1" value="1" title="전체선택"
-							onclick="selboxAllChecked(this.id);"> 전체선택</label>
+							onclick="selboxAllChecked(this.id);"> 전체선택
+						</label>
 						<ul id="_multiChk1">
-							<%
-							ArrayList<Map<String, String>> libs_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
-							for (int i = 0; i < libs_list.size(); i++) {
-							%>
-							<li><input class="chk" type="checkbox" name="libraryIds"
-								value="<%=libs_list.get(i).get("LB_ID")%>"> &nbsp;&nbsp;<%=libs_list.get(i).get("LB_NAME")%>
-							</li>
-							<%
-							}
-							%>
+							<c:forEach items="${library_list}" var="library">
+								<li><input class="chk" type="checkbox" name="libraryIds"
+									value="${library.LB_ID}">&nbsp;&nbsp;${library.LB_NAME}
+								</li>
+							</c:forEach>
 						</ul>
 					</dd>
 				</dl>
@@ -569,7 +567,6 @@ section {
 								</strong> <input type="text" name="word" autocomplete="off"
 									id="searchWord" style="ime-mode: active"
 									placeholder="검색어를 적어주세요">
-								<!-- input type="hidden" name="item" value="title" id="item" -->
 							</div>
 							<input type="button" class="btn btn-search" value="도서검색">
 						</div>
@@ -579,31 +576,26 @@ section {
 			<div class="pop_searchkeyword">
 				<h3>인기 검색어 TOP 10</h3>
 				<ul>
-					<%
-					ArrayList<Map<String, String>> pop_search_list = (ArrayList<Map<String, String>>) request
-							.getAttribute("pop_search_list");
-					for (int i = 0; i < pop_search_list.size(); i++) {
-					%>
-					<li><em><%=(i + 1)%></em> <span><a href="/carpedm/book_search?search=<%=pop_search_list.get(i).get("SI_KEYWORD")%>"><%=pop_search_list.get(i).get("SI_KEYWORD")%></a></span>
-					</li>
-					<%
-					}
-					%>
+					<c:forEach items="${pop_search_list}" var="keyword"
+						varStatus="loop">
+						<li><em>${loop.index + 1}</em> <span> <a
+								href="/carpedm/book_search?search=${keyword.SI_KEYWORD}">${keyword.SI_KEYWORD}</a>
+						</span></li>
+					</c:forEach>
 				</ul>
 			</div>
 			<div class="result_filter_div">
-				<div class="blank_space total_count">
-					전체 : 총&nbsp;<%=(String) request.getAttribute("book_count")%>&nbsp;권
-				</div>
+				<div class="blank_space total_count">전체 :
+					총&nbsp;${book_count}&nbsp;권</div>
 				<div class="result_text">검색결과</div>
 				<div class="result_filter_all">
 					<select class="result_filter" id="result_filter1"
 						onchange="bookSearch(1)">
-						<option value=10>10개씩</option>
-						<option value=20>20개씩</option>
-						<option value=30>30개씩</option>
-						<option value=40>40개씩</option>
-						<option value=50>50개씩</option>
+						<option value="10">10개씩</option>
+						<option value="20">20개씩</option>
+						<option value="30">30개씩</option>
+						<option value="40">40개씩</option>
+						<option value="50">50개씩</option>
 					</select> &nbsp; <select class="result_filter" id="result_filter2"
 						onchange="bookSearch(1)">
 						<option>제목 오름차순</option>
@@ -623,48 +615,61 @@ section {
 
 		<!-- 책 리스트 -->
 		<div id="result_booklist">
-			<%
-			ArrayList<Map<String, String>> books = (ArrayList<Map<String, String>>) request.getAttribute("book_list");
-			for (int i = 0; i < books.size(); i++) {
-				Map<String, String> book = books.get(i);
-				String loan_stat = "<li class=\"_fail\">대출불가</li>";
-				String reservation_stat = "<li class=\"_fail\">예약불가</li>";
-				if ("Y".equals(book.get("B_LOANSTATE"))) {
-					loan_stat = "<li class=\"loan_success\">대출가능</li>";
-				}
-				if ("Y".equals(book.get("B_RESSTATE"))) {
-					reservation_stat = "<li class=\"reservation_success\" onclick=\"reservation('" + book.get("B_ID")
-					+ "')\">예약가능</li>";
-				}
-			%>
-			<dl>
-				<dt>
-					<em class="label label-bk"><img
-						src="<%=book.get("B_IMGURL")%>" alt="사진불러오기실패"></em>
-				</dt>
-				<dd>
-					<div class="ico ico-bk">
-						<a href="javascript:void(0);"
-							onclick="openBookDetail('<%=book.get("B_ID")%>')"><%=book.get("B_TITLE")%></a>
-					</div>
-					<ul>
-						<li class="label_no"><strong>키워드 : </strong> <%=book.get("B_KYWD")%></li>
-						<li><strong>저자 : </strong> <%=book.get("B_AUTHOR")%> <em>|</em>
-							<strong>발행처 : </strong> <%=book.get("B_PUBLISHER")%></li>
-						<li><strong>발행년 : </strong> <%=book.get("B_PUBYEAR")%> <em>|</em>
-							<strong>ISBN : </strong> <%=book.get("B_ISBN")%></li>
-						<li class="so"><strong>소장기관 : </strong> <span class="blue"><%=book.get("LB_NAME")%></span>
-						</li>
-					</ul>
-					<ol>
-						<%=loan_stat%>
-						<%=reservation_stat%>
-					</ol>
-				</dd>
-			</dl>
-			<%
-			}
-			%>
+			<c:forEach items="${book_list}" var="book">
+				<c:set var="loan_stat">
+					<li class='_fail'>대출불가</li>
+				</c:set>
+				<c:set var="reservation_stat">
+					<li class='_fail'>예약불가</li>
+				</c:set>
+
+				<c:if test="${book.B_LOANSTATE eq 'Y'}">
+					<c:set var="loan_stat">
+						<li class='loan_success'>대출가능</li>
+					</c:set>
+				</c:if>
+
+				<c:if test="${book.B_RESSTATE eq 'Y'}">
+					<c:set var="reservation_stat">
+					    <li class="reservation_success" onclick="reservation('${book.B_ID}')">예약가능</li>
+					</c:set>
+				</c:if>
+				
+				<dl>
+					<dt>
+						<em class="label label-bk"> <img src="${book.B_IMGURL}"
+							alt="사진불러오기실패">
+						</em>
+					</dt>
+					<dd>
+						<div class="ico ico-bk">
+							<a href="javascript:void(0);"
+								onclick="openBookDetail('${book.B_ID}')">${book.B_TITLE}</a>
+						</div>
+						<ul>
+							<li class="label_no">
+								<strong>키워드 : </strong> ${book.B_KYWD}
+							</li>
+							<li>
+								<strong>저자 : </strong> ${book.B_AUTHOR}
+								<em>|</em>
+								<strong>발행처 : </strong> ${book.B_PUBLISHER}
+							</li>
+							<li>
+								<strong>발행년 : </strong> ${book.B_PUBYEAR} 
+								<em>|</em> 
+								<strong>ISBN : </strong> ${book.B_ISBN}
+							</li>
+							<li class="so"><strong>소장기관 : </strong> <span class="blue">${book.LB_NAME}</span></li>
+						</ul>
+						<ol>
+							${loan_stat}
+							${reservation_stat}
+						</ol>
+						
+					</dd>
+				</dl>
+			</c:forEach>
 		</div>
 
 
