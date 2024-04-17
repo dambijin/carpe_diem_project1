@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><!DOCTYPE html>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -109,9 +109,8 @@
         // 연장버튼 클릭
         function weapon(l_id)
     	<%// 세션에서 현재 아이디값 가져오기
-    	HttpSession getSession = request.getSession();
-    	String login_m_pid = (String) getSession.getAttribute("m_pid");
-    	%>
+HttpSession getSession = request.getSession();
+String login_m_pid = (String) getSession.getAttribute("m_pid");%>
         {
         	 let url = '/carpedm/mypage_loan_status';
 	     	    let data = 'l_id=' + encodeURIComponent(l_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
@@ -217,60 +216,56 @@
 					<div class="div1">
 						<table class="div1_table">
 							<tr>
-								 <td class="info1">
-                    <c:set var="myInfo" value="${requestScope.myInfo}" />
-                    <strong>내 정보</strong><br>
-                    이름 : ${myInfo[0].M_NAME}<br>
-                    번호 : ${myInfo[0].M_TEL}<br>
-                    주소 : ${myInfo[0].M_ADDRESS}<br>
-                    <c:choose>
-                        <c:when test="${myInfo[0].diff eq null or myInfo[0].diff le 0}">
+								<td class="info1"><c:set var="myInfo"
+										value="${requestScope.myInfo}" /> <!--                     <strong>내 정보</strong><br> -->
+									이름 : ${myInfo.m_name}<br> 번호 : ${myInfo.m_tel}<br> 주소
+									: ${myInfo.m_address}<br> <c:choose>
+										<c:when test="${diff eq null or diff le 0}">
                             대출 가능 여부 : 대출 가능
                         </c:when>
-                        <c:otherwise>
-                            대출 가능 여부 : ${myInfo[0].diff} 일
+										<c:otherwise>
+                            대출 가능 여부 : ${diff} 일
                         </c:otherwise>
-                    </c:choose>
-                </td>
+									</c:choose></td>
 								<td>
-    <button type="button" id="chginfo">정보수정</button>
-</td>
-</tr>
-</table>
-<!-- 분류 -->
-<div></div>
-<div id="select2">
-    <div></div>
-</div>
-</div>
-<!-- 보드 -->
-<table id="page1">
-    <tr id="page1_tr">
-        <th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
-        <!-- <th style="cursor:pointer;" onclick="sortTable(0,true)">관리번호</th> -->
-        <th style="cursor: pointer;" onclick="sortTable(1,false)">책이름</th>
-        <th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
-        <th style="cursor: pointer;" onclick="sortTable(3,false)">출판사</th>
-        <th style="cursor: pointer;" onclick="sortTable(4,true)">대출일</th>
-        <th style="cursor: pointer;" onclick="sortTable(5,true)">반납예정일</th>
-        <th style="cursor: pointer;" onclick="sortTable(6,false)">소장기관</th>
-        <th>반납연기</th>
-    </tr>
-    <c:forEach var="item" items="${list}" varStatus="loop">
-        <tr class="tr">
-        
-            <td>${loop.index + 1}</td>
-            <!-- <td>${item.l_id}</td> -->
-            <td>${item.B_TITLE}</td>
-            <td>${item.B_AUTHOR}</td>
-            <td>${item.B_PUBLISHER}</td>
-            <td>${fn:substring(item.L_LOANDATE, 0, 10)}</td>
-            <td>${fn:substring(item.L_RETURNDATE, 0, 10)}</td>
-            <td>${item.LB_NAME}</td>
-            <td><button onclick="weapon(${item.L_ID})">연장</button></td>
-            
-        </tr>
-    </c:forEach>
+									<button type="button" id="chginfo">정보수정</button>
+								</td>
+							</tr>
+						</table>
+						<!-- 분류 -->
+						<div></div>
+						<div id="select2">
+							<div></div>
+						</div>
+					</div>
+					<!-- 보드 -->
+					<table id="page1">
+						<tr id="page1_tr">
+							<th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
+							<!-- <th style="cursor:pointer;" onclick="sortTable(0,true)">관리번호</th> -->
+							<th style="cursor: pointer;" onclick="sortTable(1,false)">책이름</th>
+							<th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
+							<th style="cursor: pointer;" onclick="sortTable(3,false)">출판사</th>
+							<th style="cursor: pointer;" onclick="sortTable(4,true)">대출일</th>
+							<th style="cursor: pointer;" onclick="sortTable(5,true)">반납예정일</th>
+							<th style="cursor: pointer;" onclick="sortTable(6,false)">소장기관</th>
+							<th>반납연기</th>
+						</tr>
+						<c:forEach var="item" items="${list}" varStatus="loop">
+							<tr class="tr">
+
+								<td>${loop.index + 1}</td>
+								<!-- <td>${item.l_id}</td> -->
+								<td>${item.B_TITLE}</td>
+								<td>${item.B_AUTHOR}</td>
+								<td>${item.B_PUBLISHER}</td>
+								<td>${fn:substring(item.L_LOANDATE, 0, 10)}</td>
+								<td>${fn:substring(item.L_RETURNDATE, 0, 10)}</td>
+								<td>${item.LB_NAME}</td>
+								<td><button onclick="weapon(${item.L_ID})">연장</button></td>
+
+							</tr>
+						</c:forEach>
 
 					</table>
 				</div>
@@ -279,7 +274,7 @@
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	
+
 </body>
 
 

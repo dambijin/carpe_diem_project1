@@ -30,6 +30,7 @@ public class mypage_wishbook_listServlet extends HttpServlet {
 
 		HttpSession getSession = request.getSession();
 		String login_m_pid = (String) getSession.getAttribute("m_pid");
+		System.out.println(login_m_pid);
 
 //		String id = request.getParameter("id");
 //		request.setAttribute("id2", id);

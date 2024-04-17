@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><!DOCTYPE html>
-	
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -245,74 +245,70 @@
 
 							<tr>
 
-								 <td class="info1">
-                    <c:set var="myInfo" value="${requestScope.myInfo}" />
-                    <strong>내 정보</strong><br>
-                    이름 : ${myInfo[0].M_NAME}<br>
-                    번호 : ${myInfo[0].M_TEL}<br>
-                    주소 : ${myInfo[0].M_ADDRESS}<br>
-                    <c:choose>
-                        <c:when test="${myInfo[0].diff eq null or myInfo[0].diff le 0}">
+								<td class="info1"><c:set var="myInfo"
+										value="${requestScope.myInfo}" /> <!--                     <strong>내 정보</strong><br> -->
+									이름 : ${myInfo.m_name}<br> 번호 : ${myInfo.m_tel}<br> 주소
+									: ${myInfo.m_address}<br> <c:choose>
+										<c:when test="${diff eq null or diff le 0}">
                             대출 가능 여부 : 대출 가능
                         </c:when>
-                        <c:otherwise>
-                            대출 가능 여부 : ${myInfo[0].diff} 일
+										<c:otherwise>
+                            대출 가능 여부 : ${diff} 일
                         </c:otherwise>
-                    </c:choose>
-                </td>
+									</c:choose></td>
 								<td>
-    <button type="button" id="chginfo">정보수정</button>
-</td>
-</tr>
-</table>
+									<button type="button" id="chginfo">정보수정</button>
+								</td>
+							</tr>
+						</table>
 
 
-<!-- 분류 -->
-<div>
-    <div id="select">
-        <div>
+						<!-- 분류 -->
+						<div>
+							<div id="select">
+								<div>
 
-            <select id="case" onchange="redirectPage()">
-                <option value="10">10개</option>
-                <option value="20">20개</option>
-                <option value="30">30개</option>
-                <option value="40">40개</option>
-                <option value="50">50개</option>
-            </select>
+									<select id="case" onchange="redirectPage()">
+										<option value="10">10개</option>
+										<option value="20">20개</option>
+										<option value="30">30개</option>
+										<option value="40">40개</option>
+										<option value="50">50개</option>
+									</select>
 
 
-        </div>
+								</div>
 
-    </div>
-    <div id="select1">
-        <div>
-            <form method="get" action="mypage_loan_history">
-                <input type="text" name="search">
-                <button>검색</button>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- 보드 -->
-<table id="page1">
-    <tr id="page1_tr">
-        <th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
-        <th style="cursor: pointer;" onclick="sortTable(1,false)">자료명/등록번호</th>
-        <th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
-        <th style="cursor: pointer;" onclick="sortTable(3,true)">대출일</th>
-        <th style="cursor: pointer;" onclick="sortTable(4,true)">실반납일</th>
-        <th style="cursor: pointer;" onclick="sortTable(5,false)">소장기관</th>
-    </tr>
-    <c:forEach var="item" items="${list}" varStatus="loop">
-        <tr class="tr">
-            <td>${loop.index + 1}</td>
-            <td>${item.b_title}</td>
-            <td>${item.b_author}</td>
-            <td>${fn:substring(item.l_loandate, 0, 10)}</td>
-            <td>${item.l_returnrealdate != null ? fn:substring(item.l_returnrealdate, 0, 10) : ""}</td>
-            <td>${item.lb_name}</td>
-        </tr>
-    </c:forEach>
+							</div>
+							<div id="select1">
+								<div>
+									<form method="get" action="mypage_loan_history">
+										<input type="text" name="search">
+										<button>검색</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<!-- 보드 -->
+						<table id="page1">
+							<tr id="page1_tr">
+								<th style="cursor: pointer;" onclick="sortTable(0,true)">번호</th>
+								<th style="cursor: pointer;" onclick="sortTable(1,false)">자료명/등록번호</th>
+								<th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
+								<th style="cursor: pointer;" onclick="sortTable(3,true)">대출일</th>
+								<th style="cursor: pointer;" onclick="sortTable(4,true)">실반납일</th>
+								<th style="cursor: pointer;" onclick="sortTable(5,false)">소장기관</th>
+							</tr>
+							<c:forEach var="item" items="${list}" varStatus="loop">
+								<tr class="tr">
+									<td>${loop.index + 1}</td>
+									<td>${item.b_title}</td>
+									<td>${item.b_author}</td>
+									<td>${fn:substring(item.l_loandate, 0, 10)}</td>
+									<td>${item.l_returnrealdate != null ? fn:substring(item.l_returnrealdate, 0, 10) : ""}</td>
+									<td>${item.lb_name}</td>
+								</tr>
+							</c:forEach>
 						</table>
 						<div id="paging">
 							<%

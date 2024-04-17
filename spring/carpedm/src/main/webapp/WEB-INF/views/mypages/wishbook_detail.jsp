@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><!DOCTYPE html>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -153,39 +156,39 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 	<h2 class="title">신청한 희망도서</h2>
 	<section class="hope">
 		<table>
-			<c:forEach var="item" items="${wish}">
+			<c:forEach var="item" items="${list}">
 				<tr>
 					<td class="substance">희망소장처</td>
-					<td>${item.LB_NAME}</td>
+					<td>${item.lb_name}</td>
 				</tr>
 				<tr>
 					<td class="substance">자료명</td>
-					<td>${item.W_TITLE}</td>
+					<td>${item.w_title}</td>
 				</tr>
 				<tr>
 					<td class="substance">저자</td>
-					<td>${item.W_AUTHOR}</td>
+					<td>${item.w_author}</td>
 				</tr>
 				<tr>
 					<td class="substance">발행연도</td>
-					<td>${item.W_PUBYEAR}</td>
+					<td>${item.w_pubyear}</td>
 				</tr>
 				<tr>
 					<td class="substance">ISBN번호<br> ISSN번호
 					</td>
-					<td>${item.W_ISBN}</td>
+					<td>${item.w_isbn}</td>
 				</tr>
 				<tr>
 					<td class="substance">신청사유</td>
-					<td class="because">${item.W_CONTENT}</td>
+					<td class="because">${item.w_content}</td>
 				</tr>
 				<tr>
 					<td class="substance">출판사</td>
-					<td>${item.W_PUBLISHER}</td>
+					<td>${item.w_publisher}</td>
 				</tr>
 				<tr>
 					<td class="substance">휴대폰번호</td>
-					<td>${item.W_TEL}</td>
+					<td>${item.w_tel}</td>
 				</tr>
 			</c:forEach>
 

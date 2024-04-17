@@ -331,16 +331,16 @@
             <tr>
                 <td class="info1">
                     <c:set var="myInfo" value="${requestScope.myInfo}" />
-                    <strong>내 정보</strong><br>
-                    이름 : ${myInfo[0].M_NAME}<br>
-                    번호 : ${myInfo[0].M_TEL}<br>
-                    주소 : ${myInfo[0].M_ADDRESS}<br>
+<!--                     <strong>내 정보</strong><br> -->
+                    이름 : ${myInfo.m_name}<br>
+                    번호 : ${myInfo.m_tel}<br>
+                    주소 : ${myInfo.m_address}<br>
                     <c:choose>
-                        <c:when test="${myInfo[0].diff eq null or myInfo[0].diff le 0}">
+                        <c:when test="${diff eq null or diff le 0}">
                             대출 가능 여부 : 대출 가능
                         </c:when>
                         <c:otherwise>
-                            대출 가능 여부 : ${myInfo[0].diff} 일
+                            대출 가능 여부 : ${diff} 일
                         </c:otherwise>
                     </c:choose>
                 </td>

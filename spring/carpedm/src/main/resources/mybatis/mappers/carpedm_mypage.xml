@@ -153,4 +153,8 @@
     <result property="w_state" column="w_state" />
 </resultMap>
 
+<select id="myInfo" resultType="MemberDTO" parameterType="String">
+    select * from member where m_pid = #{_parameter}
+</select>
+
 </mapper>
