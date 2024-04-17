@@ -30,14 +30,5 @@
 		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	
-	<!-- 임우혁이 만듬 -->
-<!-- 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
-<!-- 	    <property name="prefix" value="/WEB-INF/views/" /> -->
-<!-- 	    <property name="suffix" value=".jsp" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="empDAO" class="com.spring.emp.dao.EmpDAOImpl"> -->
-<!-- 		<property name="sqlSession" ref="sqlSession"></property> -->
-<!-- 	</bean> -->
 	
 </beans>
