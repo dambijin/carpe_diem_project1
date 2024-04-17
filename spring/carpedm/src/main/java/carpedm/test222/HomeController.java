@@ -36,7 +36,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 
 
-		List list = sqlSession.selectList("mapper.carpedm.mainpages.selectLibList");
+		List list = sqlSession.selectList("mapper.carpedm.mainpages.selectLib_libinfo");
 		System.out.println("list : " + list);
 		
 		if (list != null) {

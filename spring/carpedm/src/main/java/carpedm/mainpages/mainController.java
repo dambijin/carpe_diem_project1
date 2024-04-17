@@ -43,7 +43,7 @@ public class mainController extends HttpServlet {
 	protected String main(Locale locale, Model model)
 			throws ServletException, IOException {
 		String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-		List library_list = sqlSession.selectList("mapper.carpedm.mainpages.selectLibList");
+		List library_list = sqlSession.selectList("mapper.carpedm.mainpages.selectLib_libinfo");
 		List notice_list = sqlSession.selectList("mapper.carpedm.mainpages.selectNotice_main");
 		List book_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBook_main");
 		List banner_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBanner_main",now_date);
