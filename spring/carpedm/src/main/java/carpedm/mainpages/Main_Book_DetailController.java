@@ -3,6 +3,7 @@ package carpedm.mainpages;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -42,7 +43,8 @@ public class Main_Book_DetailController extends HttpServlet {
 			logger.info("업데이트 여부 : " + succhk);
 		}
 		long unixTime = System.currentTimeMillis();
-		Map<String, String> bookdetail_map = sqlSession.selectOne("mapper.carpedm.mainpages.selectBookDetail_book_detail", b_id);
+		List<Map<String, String>> bookdetail_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBookDetail_book_detail", b_id);
+		Map<String, String> bookdetail_map = bookdetail_list.get(0);
 		System.out.println("책 상세(DB) 걸린시간 : " + (System.currentTimeMillis() - unixTime));
 		
 		bookdetail_map.put("B_ISBN", String.valueOf(bookdetail_map.get("B_ISBN")));

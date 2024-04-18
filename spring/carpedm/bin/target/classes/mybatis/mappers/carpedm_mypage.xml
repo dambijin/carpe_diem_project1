@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.carpedm.mypage">
+
+	<resultMap id="loanstatusresult" type="HashMap">
+		<result property="l_id" column="loan.l_id" />
+		<result property="b_title" column="book.b_title" />
+		<result property="b_author" column="book.b_author" />
+		<result property="b_publisher" column="book.b_publisher" />
+		<result property="l_loandate" column="loan.l_loandate" />
+		<result property="l_returndate" column="loan.l_returndate" />
+		<result property="l_returnrealdate"
+			column="loan.l_returnrealdate" />
+		<result property="l_extendcount" column="loan.l_extendcount" />
+		<result property="lb_name" column="library.lb_name" />
+	</resultMap>
+
+	<select id="loanstatus" resultMap="loanstatusresult">
+		SELECT
+		loan.l_id,
+		book.b_title,
+		book.b_author,
+		book.b_publisher,
+		loan.l_loandate,
+		loan.l_returndate,
+		loan.l_returnrealdate,
+		loan.l_extendcount,
+		library.lb_name
+		FROM
+		loan
+		INNER
+		JOIN
+		book ON loan.b_id = book.b_id
+		INNER JOIN
+		library ON book.lb_id =
+		library.lb_id
+		WHERE
+		loan.l_returnrealdate IS NULL
+		AND loan.m_pid = 15
+	</select>
+
+
+	<resultMap id="loanhistoryResult" type="HashMap">
+		<result property="l_id" column="l_id" />
+		<result property="b_title" column="b_title" />
+		<result property="b_author" column="b_author" />
+		<result property="b_publisher" column="b_publisher" />
+		<result property="l_loandate" column="l_loandate" />
+		<result property="l_returndate" column="l_returndate" />
+		<result property="l_returnrealdate" column="l_returnrealdate" />
+		<result property="l_extendcount" column="l_extendcount" />
+		<result property="lb_name" column="lb_name" />
+	</resultMap>
+
+	<select id="loanhistory" resultMap="loanhistoryResult">
+		SELECT * FROM (
+		SELECT ROWNUM
+		AS rnum, l_id, b_title, b_author, b_publisher, l_loandate,
+		l_returnrealdate, library.lb_name
+		FROM loan
+		INNER JOIN book ON loan.b_id
+		= book.b_id
+		INNER JOIN library ON book.lb_id = library.lb_id
+		WHERE
+		loan.l_returnrealdate IS NOT NULL AND m_pid = 15 AND b_title LIKE
+		'%%'
+		)
+		WHERE rnum BETWEEN 1 AND 10
+	</select>
+
+	<select id="reservationlist" resultMap="reservationlistResult">
+		SELECT * FROM (
+		SELECT
+		rownum AS rnum, b_id, r_id, b_title, b_author, b_publisher,
+		r_resdate,
+		r_resstate, L_returndate, lb_name
+		FROM (
+		SELECT book.b_id, r_id,
+		b_title, b_author, b_publisher, r_resdate,
+		reservation.r_resstate,
+		loan.L_returndate, library.lb_name
+		FROM reservation
+		INNER JOIN book ON
+		reservation.b_id = book.b_id
+		INNER JOIN library ON book.lb_id =
+		library.lb_id
+		LEFT JOIN loan ON reservation.b_id = loan.b_id
+		WHERE
+		reservation.m_pid = 15 AND b_title LIKE '%%'
+		)
+		)
+		WHERE rnum BETWEEN 1 AND
+		10
+	</select>
+
+	<resultMap id="reservationlistResult" type="HashMap">
+		<result property="b_id" column="b_id" />
+		<result property="r_id" column="r_id" />
+		<result property="b_title" column="b_title" />
+		<result property="b_author" column="b_author" />
+		<result property="b_publisher" column="b_publisher" />
+		<result property="r_resdate" column="r_resdate" />
+		<result property="r_resstate" column="r_resstate" />
+		<result property="L_returndate" column="L_returndate" />
+		<result property="lb_name" column="lb_name" />
+	</resultMap>
+	
+	<select id="wishbooklist" resultMap="wishbooklistResult">
+    SELECT * FROM (
+        SELECT rownum AS rnum, w_title, w_id, lb_name, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid, w_state
+        FROM wishlist
+        INNER JOIN library ON library.lb_id = wishlist.lb_id
+        WHERE wishlist.m_pid = 15 AND w_title LIKE '%%'
+    )
+    WHERE rnum BETWEEN 1 AND 10
+</select>
+
+<resultMap id="wishbooklistResult" type="HashMap">
+    <result property="w_title" column="w_title" />
+    <result property="w_id" column="w_id" />
+    <result property="lb_name" column="lb_name" />
+    <result property="w_author" column="w_author" />
+    <result property="w_pubyear" column="w_pubyear" />
+    <result property="w_isbn" column="w_isbn" />
+    <result property="w_content" column="w_content" />
+    <result property="w_publisher" column="w_publisher" />
+    <result property="w_tel" column="w_tel" />
+    <result property="w_date" column="w_date" />
+    <result property="m_pid" column="m_pid" />
+    <result property="w_state" column="w_state" />
+</resultMap>
+
+<select id="wishboodetail" parameterType="int" resultMap="wishboodetailResult">
+    SELECT * FROM wishlist
+    JOIN library ON wishlist.lb_id = library.lb_id
+    WHERE w_id = #{w_id}
+</select>
+
+<resultMap id="wishboodetailResult" type="HashMap">
+    <result property="w_title" column="w_title" />
+    <result property="w_id" column="w_id" />
+    <result property="lb_name" column="lb_name" />
+    <result property="w_author" column="w_author" />
+    <result property="w_pubyear" column="w_pubyear" />
+    <result property="w_isbn" column="w_isbn" />
+    <result property="w_content" column="w_content" />
+    <result property="w_publisher" column="w_publisher" />
+    <result property="w_tel" column="w_tel" />
+    <result property="w_date" column="w_date" />
+    <result property="m_pid" column="m_pid" />
+    <result property="w_state" column="w_state" />
+</resultMap>
+
+<select id="myInfo" resultType="MemberDTO" parameterType="String">
+    select * from member where m_pid = #{_parameter}
+</select>
+<select id="myInfo1" resultType="HashMap" parameterType="String">
+    select * from member where m_pid = #{_parameter}
+</select>
+
+<update id="updateInfo" parameterType="Map">
+ UPDATE member
+SET m_pw = #{password},
+    m_tel = #{phonenumber},
+    m_email = #{email_id} || '@' || #{email_domain},
+    m_email_agree = #{email},
+    m_address = #{sample6_postcode} || '\n' || #{sample6_address} || '\n' || #{sample6_address2}
+WHERE m_pid = 15;
+</update>
+
+</mapper>

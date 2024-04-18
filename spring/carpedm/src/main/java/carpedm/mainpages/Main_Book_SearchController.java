@@ -57,7 +57,6 @@ public class Main_Book_SearchController extends HttpServlet {
 		} else if (item.equals("ISBN")) {
 			item_query = "b.b_isbn";
 		}
-
 		String okywd_kywd = "b.b_title";
 		String okywd_order = "ASC";
 		try {
