@@ -77,8 +77,8 @@ public class My_Loan_historyController {
 					model.addAttribute("myInfo", myInfo);
 					
 
-			System.out.println(list);
-			model.addAttribute("list", list);
+					System.out.println(list);
+					model.addAttribute("list", list);
 
 			return "mypages/mypage_loan_history.jsp";
 		}
