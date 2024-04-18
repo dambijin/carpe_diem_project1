@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -204,17 +207,12 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				</tr>
 				<tr>
 					<th>소장기관</th>
-					<td><select id="libs_info">
-									<%
-				ArrayList<Map<String, String>> library_list = (ArrayList<Map<String, String>>) request.getAttribute("library_list");
-
-				for (int i = 0; i < library_list.size(); i++) {
-				%>
-				<option value="<%=library_list.get(i).get("LB_ID")%>"><%=library_list.get(i).get("LB_NAME")%></option>
-				<%
-				}
-				%>
-					</select></td>
+					<td>
+					<c:forEach var="dto" items="${list}">
+					    <option value="${dto.lb_id}">${dto.lb_name}</option>
+					</c:forEach>
+					
+					</td>
 				</tr>
 				<tr>
 					<th>등록일자</th>

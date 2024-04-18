@@ -3,13 +3,15 @@ package carpedm.dto;
 import java.sql.Date;
 
 public class LoanDTO {
+	
 	  int l_id;
-	    int b_id;
-	    Date l_loandate;
-	    Date l_returndate;
-	    Date l_returnrealdate;
-	    int l_extendcount;
-	    int m_pid;
+	  int b_id;
+	  Date l_loandate;
+	  Date l_returndate;
+	  Date l_returnrealdate;
+	  int l_extendcount;
+	  int m_pid;
+	    
 		public int getL_id() {
 			return l_id;
 		}

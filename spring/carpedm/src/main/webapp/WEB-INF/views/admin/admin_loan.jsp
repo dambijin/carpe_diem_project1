@@ -4,6 +4,9 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Map"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,67 +14,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>대출내역 popup</title>
-<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="
-../js/admin_library.js"></script>
+<script src="/carpedm/resources/js/admin_library.js"></script>
 <script>
 	window.addEventListener("load", function() {
 		bind();
 	});
 
 	function bind() {
-<%ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("loan");%>
-	// 테이블 가져오기
-		//         let add = document.querySelector("#todo_booktable");
-
-		//         for (let i = 1; i <= 10; i++) {
-		//             // 테이블을 todlist 에 담아둠
-		//             let todolist = document.querySelector("#todo_booktable");
-
-		//             let book_html = '';
-
-		//             // html += '</tr>';
-		//             // 추가한다
-		//             book_html += '<td>1</td>';
-		//             book_html += '<td>홍길동</td>';
-		//             book_html += '<td>2024-03-04</td>';
-		//             book_html += '<td>2024-03-04</td>';
-		//             book_html += '<td>2024-03-05</td>';
-		//             book_html += '<td>2</td>';
-		//             book_html += '<td>10</td>';
-		//             book_html += '<td><input type="checkbox" class="checkbox"></td>';
-		//             // html +=	'</tr>'
-
-		//             let tr = document.createElement("tr"); // <tr></tr>
-		//             tr.innerHTML = book_html;
-
-		//             // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
-		//             tr.querySelector(".checkbox").addEventListener("click", function (event) {
-		//                 // 만약 현재 클릭된 체크박스가 체크 해제되었다면
-		//                 if (!event.target.checked) {
-		//                     // 전체선택 체크박스도 체크 해제
-		//                     document.querySelector("#select_all").checked = false;
-		//                 } else {
-		//                     // 전체 체크박스 개수와 현재 체크된 체크박스 개수를 세어서 비교
-		//                     let allCount = document.querySelectorAll(".checkbox").length;
-		//                     let checkedCount = document.querySelectorAll(".checkbox:checked").length;
-
-		//                     // 만약 모든 체크박스가 체크 되어있다면
-		//                     if (allCount == checkedCount) {
-		//                         // 전체선택 체크박스를 체크
-		//                         document.querySelector("#select_all").checked = true;
-		//                     } else {
-		//                         // else 전체선택 체크박스를 체크 해제
-		//                         document.querySelector("#select_all").checked = false;
-		//                     }
-		//                 }
-		//             });
-
-		//             todolist.append(tr);
-		//         }
+<%-- <%ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("loan");%> --%>
 
 		// 전체선택 이벤트
 		document.querySelector("#select_all").addEventListener("click",
@@ -195,7 +149,6 @@ section {
 				<thead>
 					<tr>
 						<th>회원번호</th>
-<!-- 						<th>회원이름</th> -->
 						<th>책제목</th>
 						<th>저자</th>
 						<th>소장기관</th>
@@ -207,25 +160,21 @@ section {
 					</tr>
 				</thead>
 				<tbody>
-						<%
-					for (int i = 0; i < data_list.size(); i++) {
-					%>
-					<tr>
-						<td><%=data_list.get(i).get("m_pid")%></td>
-<%-- 						<td><%=data_list.get(i).get("m_name")%></td> --%>
-						<td><%=data_list.get(i).get("b_title")%></td>
-						<td><%=data_list.get(i).get("b_author")%></td>
-						<td><%=data_list.get(i).get("lb_name")%></td>
-						<td><%=data_list.get(i).get("l_loanDate").substring(0,10)%></td>
-						<td><%= data_list.get(i).get("l_returnrealdate") != null ? data_list.get(i).get("l_returnrealdate").substring(0,10) : "" %></td>
-						<td><%=data_list.get(i).get("b_resstate")%></td>
-						<td><%=data_list.get(i).get("b_loanstate")%></td>
-					</tr>
-					<%
-					}
-					%>
+				    <c:forEach var="item" items="${list}">
+				        <tr>
+				        
+				            <td>${item.m_pid}</td>
+				            <td>${item.b_title}</td>
+				            <td>${item.b_author}</td>
+				            <td>${item.lb_name}</td>
+				            <td>${fn:substring(item.l_loandate, 0, 10)}</td>
+				            <td>${item.l_returnrealdate != null ? fn:substring(item.l_returnrealdate, 0, 10) : ""}</td>
+				            <td>${item.b_resstate}</td>
+				            <td>${item.b_loanstate}</td>
+				        </tr>
+				    </c:forEach>
 				</tbody>
-
+				
 			</table>
 		</div>
 	</section>
