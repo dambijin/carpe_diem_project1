@@ -156,5 +156,18 @@
 <select id="myInfo" resultType="MemberDTO" parameterType="String">
     select * from member where m_pid = #{_parameter}
 </select>
+<select id="myInfo1" resultType="HashMap" parameterType="String">
+    select * from member where m_pid = #{_parameter}
+</select>
+
+<update id="updateInfo" parameterType="Map">
+ UPDATE member
+SET m_pw = #{password},
+    m_tel = #{phonenumber},
+    m_email = #{email_id} || '@' || #{email_domain},
+    m_email_agree = #{email},
+    m_address = #{sample6_postcode} || '\n' || #{sample6_address} || '\n' || #{sample6_address2}
+WHERE m_pid = 15;
+</update>
 
 </mapper>

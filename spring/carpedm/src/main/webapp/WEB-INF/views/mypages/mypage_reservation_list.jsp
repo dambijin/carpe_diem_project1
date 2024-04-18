@@ -56,7 +56,7 @@
            
             // 정보수정 창으로 이동
             button1.addEventListener('click', function () {
-                window.open('/carpedm/mypage_chginfo', '_self')
+                window.open('mypage_chginfo', '_self')
 
             });
 //             // 임시 보드 작성

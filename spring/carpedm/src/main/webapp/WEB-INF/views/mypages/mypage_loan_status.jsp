@@ -44,7 +44,7 @@
 
             // 정보수정 클릭시 페이지 이동
             button1.addEventListener('click', function () {
-                window.open('/carpedm/mypage_chginfo', '_self')
+                window.open('mypage_chginfo', '_self')
 
             });
 
