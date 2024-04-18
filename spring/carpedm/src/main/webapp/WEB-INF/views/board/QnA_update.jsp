@@ -326,8 +326,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 					<!-- 글쓰기 정보 -->
 					<div class="div_table">
-					    <c:set var="qna_notice" value="${qna_notice}" />
-					    <c:set var="library" value="${library}" />
+					    <c:set var="qna_notice" value="${requestScope.qna_notice}" />
+					    <c:set var="library" value="${requestScope.library}" />
 					    <table class="table_table">
 					        <colgroup>
 					            <col />
@@ -336,20 +336,20 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					            <tr>
 					                <th>제목</th>
 					                <td>
-					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="notice_subject" value="${qna_notice[0].n_title}" />
+					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="notice_subject" value="${qna_notice[0].N_TITLE}" />
 					                </td>
 					            </tr>
 					        </thead>
 					        <tbody>
 					            <tr>
 					                <th>소속도서관
-					                    <input type="hidden" name="n_id" value="${qna_notice[0].n_id}" />
+					                    <input type="hidden" name="n_id" value="${qna_notice[0].N_ID}" />
 					                </th>
 					                <td>
 					                    <select class="inputbox" id="library" name="library">
-					                        <option selected value="${qna_notice[0].lb_id}">${qna_notice[0].lb_name}</option>
+					                        <option selected value="${qna_notice[0].LB_ID}">${qna_notice[0].LB_NAME}</option>
 					                        <c:forEach var="lib" items="${library}">
-					                            <option value="${lib.lb_id}">${lib.lb_name}</option>
+					                            <option value="${lib.LB_ID}">${lib.LB_NAME}</option>
 					                        </c:forEach>
 					                    </select>
 					                </td>
@@ -367,7 +367,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					</div>
 					
 					<div class="td1">
-					    <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_textarea">${qna_notice[0].n_content}</textarea>
+					    <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_textarea">${qna_notice[0].N_CONTENT}</textarea>
 					</div>
 
 					<!-- 버튼 -->

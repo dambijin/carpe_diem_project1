@@ -46,8 +46,8 @@ public class notice_updateController extends HttpServlet {
 		noticeDTO.setN_id(N_ID);
 		System.out.println("엔아이디 "+N_ID);
 		
-		List qna_notice = sqlSession.selectList("mapper.carpedm.board.notice_nid", noticeDTO);
-		List library = sqlSession.selectList("mapper.carpedm.board.library_nid", noticeDTO);
+		List qna_notice = sqlSession.selectList("mapper.carpedm.board.n_update", noticeDTO);
+		List library = sqlSession.selectList("mapper.carpedm.board.n_update_lb", noticeDTO);
 		
 		if (qna_notice != null) {
 			System.out.println("qna_notice.isze : " + qna_notice.size());

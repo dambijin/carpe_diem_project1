@@ -188,9 +188,11 @@
 			</div>
 			<div class="right_section" id="rs">
 				<form method="post" action="QnA_reply_write">
-				    <c:set var="login_pid" value="${loginpid}" />
-				    <c:set var="qna_notice" value="${qna_notice}" />
-				    <c:set var="library" value="${library}" />
+				    <c:set var="login_m_pid" value="${sessionScope.m_pid}" />
+				    <c:set var="login_manager" value="${sessionScope.m_managerchk}" />
+				    <c:set var="login_name" value="${sessionScope.m_name}" />
+				    <c:set var="qna_notice" value="${requestScope.qna_notice}" />
+				    <c:set var="library" value="${requestScope.library}" />
 				
 				    <div class="QnA_detail answer_detail">
 				        <table>
@@ -198,22 +200,22 @@
 				                <td class="subject">제목</td>
 				                <td colspan="5" class="subject_title">
 				                    <input type="text" class="answer_write answer_subject" id="answer_title" name="title"
-				                           value="${qna_notice[0].n_title}">
-				                    <input type="hidden" name="pub" value="${qna_notice[0].n_opt}">
-				                    <input type="hidden" name="p_nid" value="${qna_notice[0].n_id}">
+				                           value="${qna_notice[0].N_TITLE}">
+				                    <input type="hidden" name="pub" value="${qna_notice[0].N_OPT}">
+				                    <input type="hidden" name="p_nid" value="${qna_notice[0].N_ID}">
 				                </td>
 				            </tr>
 				            <tr>
 				                <td class="subject">작성자</td>
-				                <td class="writer" colspan="5">${loginpid[0].m_name}</td>
+				                <td class="writer" colspan="5">${login_name}</td>
 				            </tr>
 				            <tr>
 				                <td class="subject">도서관</td>
 				                <td colspan="5">
 				                    <select id="libs_info" name="n_library">
-				                        <option selected value="${qna_notice[0].lb_id}">${qna_notice[0].lb_name}</option>
+				                        <option selected value="${qna_notice[0].LB_ID}">${qna_notice[0].LB_NAME}</option>
 				                        <c:forEach var="lib" items="${library}">
-				                            <option value="${lib.lb_id}">${lib.lb_name}</option>
+				                            <option value="${lib.LB_ID}">${lib.LB_NAME}</option>
 				                        </c:forEach>
 				                    </select>
 				                </td>

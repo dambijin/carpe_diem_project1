@@ -41,15 +41,15 @@ public class QnA_writeController extends HttpServlet {
 	protected String QnA_write(Locale locale, Model model)
 			throws ServletException, IOException {
 		
-		List library = sqlSession.selectList("mapper.carpedm.board.library_list");
-		System.out.println("list : " + library);
+		List list = sqlSession.selectList("mapper.carpedm.board.selectLibList");
+		System.out.println("list : " + list);
 		
-		if (library != null) {
-			System.out.println("list.isze : " + library.size());
-			logger.error("list.size : " + library.size());
+		if (list != null) {
+			System.out.println("list.isze : " + list.size());
+			logger.error("list.size : " + list.size());
 		}
 
-		model.addAttribute("library", library);		
+//		model.addAttribute("list", list);		
 		
 		return "board/QnA_write.jsp";
 	}		

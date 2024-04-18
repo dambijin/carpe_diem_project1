@@ -443,8 +443,8 @@
 					                <th class="sub">소속도서관</th>
 					                <td class="text">
 					                    <select class="textbox" id="library" name="library">
-					                        <c:forEach var="library" items="${library}">
-					                            <option value="${library.lb_id}">${library.lb_name}</option>
+					                        <c:forEach var="library" items="${requestScope.library_list}">
+					                            <option value="${library.LB_ID}">${library.LB_NAME}</option>
 					                        </c:forEach>
 					                    </select>
 					                </td>

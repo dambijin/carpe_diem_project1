@@ -4,5 +4,3 @@ java&jsp/.settings/org.eclipse.core.resources.prefs
 .settings/org.eclipse.core.resources.prefs
 *.class
 /spring/carpedm/target
-spring/carpedm/.settings/org.eclipse.wst.common.component
-spring/carpedm/.classpath

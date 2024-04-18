@@ -41,7 +41,7 @@ public class QnA_boardController extends HttpServlet {
 	protected String QnA_board(Locale locale, Model model)
 			throws ServletException, IOException {
 		
-		List list = sqlSession.selectList("mapper.carpedm.board.Q_board");
+		List list = sqlSession.selectList("mapper.carpedm.board.selectLibList");
 		System.out.println("list : " + list);
 		
 		if (list != null) {
@@ -49,7 +49,7 @@ public class QnA_boardController extends HttpServlet {
 			logger.error("list.size : " + list.size());
 		}
 
-		model.addAttribute("list", list);		
+//		model.addAttribute("list", list);		
 		
 		return "board/QnA_board.jsp";
 	}		

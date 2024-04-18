@@ -304,33 +304,33 @@
 						        <tbody>
 						            <c:forEach var="item" items="${list}">
 						                <tr>
-						                    <td id="nid_value">${item.n_id}</td>
+						                    <td id="nid_value">${item.N_ID}</td>
 						                    <td name="close_tx">
-						                        <input type="hidden" id="close_id" value="${item.n_opt}" name="n_opt">
+						                        <input type="hidden" id="close_id" value="${item.N_OPT}" name="n_opt">
 						                        <c:choose>
-						                            <c:when test="${item.n_opt == '1'}">공개</c:when>
+						                            <c:when test="${item.N_OPT == '1'}">공개</c:when>
 						                            <c:otherwise>비공개</c:otherwise>
 						                        </c:choose>
 						                    </td>
-						                    <c:set var="lv" value="${item.lv}" />
+						                    <c:set var="lv" value="${item.LV}" />
 						                    <c:set var="pad" value="${lv * 10}" />
 						                    <td class="table_title" style="padding-left: ${pad}px;">
-						                        <a id="title_st" href="QnA_detail?N_ID=${item.n_id}" class="table_a" name="a_tag">
-						                            <c:if test="${item.n_parent_id != 0 && item.n_parent_id != null}">└</c:if>
-						                            ${item.n_title}
+						                        <a id="title_st" href="QnA_detail?N_ID=${item.N_ID}" class="table_a" name="a_tag">
+						                            <c:if test="${item.N_PARENT_ID != null}">└</c:if>
+						                            ${item.N_TITLE}
 						                        </a>
 						                    </td>
 						                    <td>
-						                        <c:set var="name" value="${item.m_name}" />
+						                        <c:set var="name" value="${item.M_NAME}" />
 						                        <c:if test="${name == null}">
 						                            <c:set var="name" value=" " />
 						                        </c:if>
 						                        <c:set var="rename" value="${fn:substring(name, 0, 1)}**" />
 						                        ${rename}
-						                        <input type="hidden" name="m_writer_id" value="${item.m_pid}">
+						                        <input type="hidden" name="m_writer_id" value="${item.M_PID}">
 						                    </td>
-						                    <td>${fn:substring(item.n_date, 0, 10)}</td>
-						                    <td>${item.n_viewcount}</td>
+						                    <td>${fn:substring(item.N_DATE, 0, 10)}</td>
+						                    <td>${item.N_VIEWCOUNT}</td>
 						                </tr>
 						            </c:forEach>
 						        </tbody>
@@ -339,9 +339,11 @@
 
 					</div>
 					<div class="paging_writing">
+
 						<div class="writing">
 							<button class="change_handwriting request"
 								onclick="location.href='QnA_write';">글쓰기</button>
+
 						</div>
 
 <!-- 						<div id="paging"> -->
