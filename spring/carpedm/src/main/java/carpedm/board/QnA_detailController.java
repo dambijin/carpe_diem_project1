@@ -26,7 +26,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import carpedm.dto.NoticeBoardDTO;
 import carpedm.test222.HomeController;
 
 @Controller // MVC컨트롤러로 선언
@@ -38,10 +40,12 @@ public class QnA_detailController extends HttpServlet {
 	private SqlSession sqlSession;
 	
 	@RequestMapping(value = "/QnA_detail", method = RequestMethod.GET)
-	protected String QnA_detail(Locale locale, Model model)
+	protected String QnA_detail(Locale locale, Model model, @RequestParam("N_ID") int N_ID)
 			throws ServletException, IOException {
-		
-		List list = sqlSession.selectList("mapper.carpedm.board.selectLibList");
+		NoticeBoardDTO noticeDTO = new NoticeBoardDTO();
+		System.out.println("엔아이디 "+N_ID);
+		noticeDTO.setN_id(N_ID);
+		List list = sqlSession.selectList("mapper.carpedm.board.notice_nid",noticeDTO);
 		System.out.println("list : " + list);
 		
 		if (list != null) {
@@ -49,7 +53,7 @@ public class QnA_detailController extends HttpServlet {
 			logger.error("list.size : " + list.size());
 		}
 
-//		model.addAttribute("list", list);		
+		model.addAttribute("qnanotice", list);		
 		
 		return "board/QnA_detail.jsp";
 	}		

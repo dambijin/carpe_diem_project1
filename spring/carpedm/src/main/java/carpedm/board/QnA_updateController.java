@@ -26,7 +26,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import carpedm.dto.NoticeBoardDTO;
 import carpedm.test222.HomeController;
 
 @Controller // MVC컨트롤러로 선언
@@ -38,18 +40,22 @@ public class QnA_updateController extends HttpServlet {
 	private SqlSession sqlSession;
 	
 	@RequestMapping(value = "/QnA_update", method = RequestMethod.GET)
-	protected String QnA_update(Locale locale, Model model)
+	protected String QnA_update(Locale locale, Model model, @RequestParam int N_ID)
 			throws ServletException, IOException {
+		NoticeBoardDTO noticeDTO = new NoticeBoardDTO();
+		System.out.println("엔아이디 "+N_ID);
+		noticeDTO.setN_id(N_ID);
 		
-		List list = sqlSession.selectList("mapper.carpedm.board.selectLibList");
-		System.out.println("list : " + list);
+		List qna_notice = sqlSession.selectList("mapper.carpedm.board.notice_nid", noticeDTO);
+		List library = sqlSession.selectList("mapper.carpedm.board.library_nid", noticeDTO);
 		
-		if (list != null) {
-			System.out.println("list.isze : " + list.size());
-			logger.error("list.size : " + list.size());
+		if (qna_notice != null) {
+			System.out.println("list.isze : " + qna_notice.size());
+			logger.error("list.size : " + qna_notice.size());
 		}
 
-//		model.addAttribute("list", list);		
+		model.addAttribute("qna_notice", qna_notice);		
+		model.addAttribute("library", library);		
 		
 		return "board/QnA_update.jsp";
 	}		

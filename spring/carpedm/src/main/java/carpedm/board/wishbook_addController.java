@@ -41,15 +41,17 @@ public class wishbook_addController extends HttpServlet {
 	protected String wishbook_add(Locale locale, Model model)
 			throws ServletException, IOException {
 		
-		List list = sqlSession.selectList("mapper.carpedm.mainpages.selectLibList");
-		System.out.println("list : " + list);
+		List library = sqlSession.selectList("mapper.carpedm.board.library_list");
+		List mem = sqlSession.selectList("mapper.carpedm.board.login_mpid","21");
+		System.out.println("list : " + library);
 		
-		if (list != null) {
-			System.out.println("list.isze : " + list.size());
-			logger.error("list.size : " + list.size());
+		if (library != null) {
+			System.out.println("list.isze : " + library.size());
+			logger.error("list.size : " + library.size());
 		}
 
-//		model.addAttribute("list", list);		
+		model.addAttribute("library", library);		
+		model.addAttribute("mem", mem);		
 		
 		return "board/wishbook_add.jsp";
 	}		

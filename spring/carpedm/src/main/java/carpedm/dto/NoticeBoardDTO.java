@@ -16,14 +16,25 @@ public class NoticeBoardDTO {
 	int n_parent_id;
 	String m_name;
 	String lb_name;
+	int lv;
+	String m_tel; // 전화번호
 
 
-	@Override
-	public String toString() {
-		return "NoticeBoardDTO [n_id=" + n_id + ", lb_id=" + lb_id + ", n_opt=" + n_opt + ", n_title=" + n_title
-				+ ", n_content=" + n_content + ", n_date=" + n_date + ", n_viewcount=" + n_viewcount + ", n_file="
-				+ n_file + ", n_chgdate=" + n_chgdate + ", m_pid=" + m_pid + ", n_parent_id=" + n_parent_id
-				+ ", m_name=" + m_name + ", lb_name=" + lb_name + "]";
+
+	public String getM_tel() {
+		return m_tel;
+	}
+
+	public void setM_tel(String m_tel) {
+		this.m_tel = m_tel;
+	}
+
+	public int getLv() {
+		return lv;
+	}
+
+	public void setLv(int lv) {
+		this.lv = lv;
 	}
 
 	public String getM_name() {

@@ -6,43 +6,95 @@
 
 	<!-- notice_board 페이지 select문 -->
 	<select id="n_board" resultType="carpedm.dto.NoticeBoardDTO">
-	    <!--SELECT * FROM (-->
-	    <!--SELECT rownum rnum, n1.* FROM (-->
-	    SELECT notice.*, library.lb_name, member.m_name
-	    FROM notice
-	    INNER JOIN LIBRARY ON notice.lb_id = library.lb_id
-	    INNER JOIN MEMBER ON notice.m_pid = member.m_pid
-	    WHERE n_opt = 0
-	    ORDER BY n_id DESC
-	    <!--) n1-->
-	    <!--) n2-->
-	    <!--WHERE rnum >= 1 AND rnum <= 10-->
-	</select>
-
-	<!-- notice_detail 페이지 select문 -->
-	<select id="n_detail" resultType="carpedm.dto.NoticeBoardDTO" parameterType="carpedm.dto.NoticeBoardDTO">
+		<!--SELECT * FROM ( -->
+		<!--SELECT rownum rnum, n1.* FROM ( -->
 		SELECT notice.*, library.lb_name, member.m_name
 		FROM notice
-		JOIN library ON notice.lb_id = library.lb_id
-		JOIN member ON notice.m_pid = member.m_pid
-		WHERE notice.n_id = #{n_id}
+		INNER JOIN LIBRARY ON notice.lb_id = library.lb_id
+		INNER JOIN MEMBER ON notice.m_pid = member.m_pid
+		WHERE n_opt = 0
+		ORDER BY n_id DESC
+		<!--) n1 -->
+		<!--) n2 -->
+		<!--WHERE rnum >= 1 AND rnum <= 10 -->
 	</select>
-	
-	<!-- notice_update 페이지 -->
-	<select id="n_update" resultType="carpedm.dto.NoticeBoardDTO" parameterType="carpedm.dto.NoticeBoardDTO">
+
+	<!-- notice_detail/notice_update/QnA_update/QnA_detail/QnA_reply_write 페이지 -->
+	<select id="notice_nid" resultType="carpedm.dto.NoticeBoardDTO"
+		parameterType="carpedm.dto.NoticeBoardDTO">
 		SELECT n.*, m.M_NAME, l.LB_NAME
 		FROM notice n
 		JOIN member m ON n.M_PID = m.M_PID
 		JOIN library l ON n.LB_ID = l.LB_ID
 		WHERE n.N_ID = #{n_id}
 	</select>
-	
-	<!-- notice_update 페이지 도서관 값 불러오기 -->
-	<select id="n_update_lb" resultType="carpedm.dto.NoticeBoardDTO" parameterType="carpedm.dto.NoticeBoardDTO">
-	    SELECT *
-	    FROM LIBRARY
-	    WHERE LB_ID &lt;&gt; #{n_id}
+
+	<!-- notice_update/QnA_update/QnA_reply_write 페이지 도서관 값 불러오기 -->
+	<select id="library_nid" resultType="carpedm.dto.NoticeBoardDTO"
+		parameterType="carpedm.dto.NoticeBoardDTO">
+		SELECT *
+		FROM LIBRARY
+		WHERE LB_ID &lt;&gt; #{n_id}
 	</select>
 
+	<!-- notice_write/QnA_write/wishbook_add 페이지 도서관 값 불러오기 -->
+	<select id="library_list" resultType="carpedm.dto.LibraryDTO">
+		SELECT *
+		FROM LIBRARY
+	</select>
+
+	<!-- notice_write 페이지 로그인된 사람 데이터 불러오기 -->
+	<select id="login_mpid"
+		resultType="carpedm.dto.NoticeBoardDTO" parameterType="String">
+		SELECT * FROM member where
+		M_PID = #{_parameter}
+	</select>
+
+
+	<!-- QnA_board 페이지 -->
+	<select id="Q_board" resultType="carpedm.dto.NoticeBoardDTO">
+		select * from (
+		select rownum rnum, n1.* from (
+		with notice_recu (lv, n_id, n_opt, n_title, m_pid, n_date, n_parent_id,
+		m_name, n_viewcount) as (
+		select
+		1 as lv,
+		N.n_id, N.n_opt, N.n_title, N.m_pid, N.n_date, N.n_parent_id, M.m_name,
+		N.n_viewcount
+		from NOTICE N
+		left outer join MEMBER M on N.m_pid = M.m_pid
+		where N.n_parent_id is null
+		union all
+		select
+		nr.lv + 1 as lv,
+		n.n_id, n.n_opt,
+		n.n_title, n.m_pid, n.n_date, n.n_parent_id, m.m_name, n.n_viewcount
+		from notice_recu nr
+		left outer join notice n on n.n_parent_id = nr.n_id
+		left outer join member m on n.m_pid = m.m_pid
+		where n.n_parent_id is
+		not null)
+		search depth first by n_id desc set sort_n_id
+		select * from notice_recu
+		where n_opt = 1 or n_opt = 2
+		order by sort_n_id
+		) n1
+		) n2
+		where rnum &gt;= 1 and rnum &lt;= 10
+	</select>
+
+
+	<!-- QnA_write 페이지 도서관 값 불러오기 -->
+	<select id="Q_write" resultType="carpedm.dto.NoticeBoardDTO">
+		library_nid
+	</select>
 	
+	
+	<!-- wishbook_add 페이지 도서관 값 불러오기 -->
+	<select id="libry" resultType="carpedm.dto.LibraryDTO">
+		SELECT *
+		FROM LIBRARY
+	</select>
+	
+
 </mapper>

@@ -35,7 +35,7 @@ public class notice_detailController extends HttpServlet {
 		NoticeBoardDTO noticeDTO = new NoticeBoardDTO();
 		System.out.println("엔아이디 "+N_ID);
 		noticeDTO.setN_id(N_ID);
-		List list = sqlSession.selectList("mapper.carpedm.board.n_detail", noticeDTO);
+		List list = sqlSession.selectList("mapper.carpedm.board.notice_nid", noticeDTO);
 		System.out.println("list : " + list);
 		
 		if (list != null) {
