@@ -42,13 +42,8 @@ public class book_detailController extends HttpServlet {
 			throws ServletException, IOException {
 		
 		List list = sqlSession.selectList("mapper.carpedm.mainpages.selectLibList");
-//		System.out.println("list : " + list);
-		
-		if (list != null) {
-			System.out.println("list.isze : " + list.size());
-			logger.error("list.size : " + list.size());
-		}
 
+		
 		model.addAttribute("list", list);		
 		
 		return "mainpages/book_detail.jsp";
