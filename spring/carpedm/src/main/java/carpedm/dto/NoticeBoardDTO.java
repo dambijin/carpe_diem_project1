@@ -18,6 +18,7 @@ public class NoticeBoardDTO {
 	String lb_name;
 	int lv;
 	String m_tel; // 전화번호
+<<<<<<< HEAD
 
 	@Override
 	public String toString() {
@@ -26,6 +27,10 @@ public class NoticeBoardDTO {
 				+ n_file + ", n_chgdate=" + n_chgdate + ", m_pid=" + m_pid + ", n_parent_id=" + n_parent_id
 				+ ", m_name=" + m_name + ", lb_name=" + lb_name + ", lv=" + lv + ", m_tel=" + m_tel + "]";
 	}
+=======
+
+
+>>>>>>> origin/main
 
 	public String getM_tel() {
 		return m_tel;
