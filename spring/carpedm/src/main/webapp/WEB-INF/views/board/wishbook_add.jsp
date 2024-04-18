@@ -98,6 +98,7 @@
 /* 신청안내 */
 .right_section .details_summary .application_guide{
     font-family: "Wanted Sans Variable";
+    text-align : "left";
 }
         /* 신청안내 펼치기/접기 */
         .right_section .details_summary details {
@@ -277,8 +278,8 @@
 					            <td class="subject">* 희망소장처</td>
 					            <td>
 					                <select class="textbox" id="library" name="library">
-					                    <c:forEach var="library" items="${library_list}">
-					                        <option value="${library.LB_ID}">${library.LB_NAME}</option>
+					                    <c:forEach var="library" items="${library}">
+					                        <option value="${library.lb_id}">${library.lb_name}</option>
 					                    </c:forEach>
 					                </select>
 					            </td>
@@ -311,11 +312,11 @@
 					        </tr>
 					        <tr>
 					            <td class="subject">신청자 이름</td>
-					            <td><input type="text" value="${mem[0].M_NAME}" name="w_name" class="textbox" placeholder="이름" id="user_name" /></td>
+					            <td><input type="text" value="${mem[0].m_name}" name="w_name" class="textbox" placeholder="이름" id="user_name" /></td>
 					        </tr>
 					        <tr>
 					            <td class="subject">* 휴대폰 번호</td>
-					            <td><input type="number" value="${mem[0].M_TEL}" name="w_tel" class="textbox" placeholder="-없이 입력해주세요" id="handphone" /></td>
+					            <td><input type="number" value="${mem[0].m_tel}" name="w_tel" class="textbox" placeholder="-없이 입력해주세요" id="handphone" /></td>
 					        </tr>
 					        <tr>
 					            <td class="subject">* 개인정보 수집 동의</td>

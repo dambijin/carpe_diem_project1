@@ -41,15 +41,15 @@ public class notice_writeController extends HttpServlet {
 	protected String notice_write(Locale locale, Model model)
 			throws ServletException, IOException {
 		
-		List list = sqlSession.selectList("mapper.carpedm.board.selectLibList");
-		System.out.println("list : " + list);
+		List list = sqlSession.selectList("mapper.carpedm.board.library_list");
+		List login_mpid = sqlSession.selectList("mapper.carpedm.board.login_mpid", "15");
 		
 		if (list != null) {
 			System.out.println("list.isze : " + list.size());
 			logger.error("list.size : " + list.size());
 		}
-
-//		model.addAttribute("list", list);		
+		model.addAttribute("library_list", list);		
+		model.addAttribute("member", login_mpid);		
 		
 		return "board/notice_write.jsp";
 	}		
