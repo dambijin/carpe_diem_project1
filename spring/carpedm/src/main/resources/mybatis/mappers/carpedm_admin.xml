@@ -55,6 +55,9 @@
 	</select>
 
 
+
+
+
 	<!-- admin_book_list -->
 	<select id="selectBook" parameterType="BookDTO" resultType="BookDTO">
 		select 
@@ -77,4 +80,44 @@
     </delete>
     
     
+    
+    
+    
+    <!-- admin_wish_book_list -->
+	<select id="selectWishlist" parameterType="WishlistDTO" resultType="carpedm.dto.WishlistDTO2">
+		select
+		l.lb_name, w.w_id, l.lb_id, w.w_title, w.w_author, w.w_publisher, 
+		w.m_pid, w.w_pubyear, w.w_content, w.w_state,m.m_id
+		from wishlist w
+		join library l on w.lb_id = l.lb_id
+		join member m on w.m_pid = m.m_pid
+	</select>
+    
+    
+    <!-- admin_reservation_list -->
+    <select id="selectReservation" resultType="carpedm.dto.ReservationDTO2">
+    	select
+    	b_title, b_author,b_publisher, r_resdate, library.lb_name, r_resstate
+    	from reservation
+    	inner join book
+    	on reservation.b_id = book.b_id
+    	inner join library
+    	on book.lb_id = library.lb_id
+		where m_pid =  #{_parameter}
+	</select>
+    
+    
+    
+    <!-- admin_book_overdue -->
+    <select id="selectOverdue" resultType="carpedm.dto.OverdueDTO">
+    	select
+    	m.m_pid, m.m_name, b.b_title, b.b_author, l.lb_name, o.l_loanDate, o.l_returnDate, b.b_resstate, b.b_loanstate
+    	from member m
+    	join library l on (m.lb_id = l.lb_id)
+    	join loan o on(m.m_pid = o.m_pid)
+    	join book b on(o.b_id = b.b_id)
+		where m.m_pid =  #{_parameter}
+	</select>
+	
+	
 </mapper>

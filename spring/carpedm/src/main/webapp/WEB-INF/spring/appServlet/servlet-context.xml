@@ -44,4 +44,5 @@
 	
 	<context:component-scan base-package="carpedm" />
 	<mybatis:scan base-package="carpedm" />
+	
 </beans:beans>

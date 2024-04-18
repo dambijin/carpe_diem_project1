@@ -4,6 +4,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,59 +26,12 @@
         bind();
     });
 
-
     function bind() {
     	
     	<%
 		ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("reser_list");
 		%>
 		
-        // 테이블 가져오기
-//         let add = document.querySelector("#todo_booktable");
-
-//         for (let i = 1; i <= 10; i++) {
-//             // 테이블을 todlist 에 담아둠
-//             let todolist = document.querySelector("#todo_booktable");
-
-//             let book_html = '';
-
-//             // html += '</tr>';
-//             // 추가한다
-//             book_html += '<td>1</td>';
-//             book_html += '<td>홍길동</td>';
-//             book_html += '<td>2024-03-04</td>';
-//             book_html += '<td>예약중</td>';
-//             book_html += '<td>53</td>';
-//             // html +=	'</tr>'
-
-//             let tr = document.createElement("tr"); // <tr></tr>
-//             tr.innerHTML = book_html;
-
-//             // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
-//             tr.querySelector(".checkbox").addEventListener("click", function (event) {
-//                 // 만약 현재 클릭된 체크박스가 체크 해제되었다면
-//                 if (!event.target.checked) {
-//                     // 전체선택 체크박스도 체크 해제
-//                     document.querySelector("#select_all").checked = false;
-//                 } else {
-//                     // 전체 체크박스 개수와 현재 체크된 체크박스 개수를 세어서 비교
-//                     let allCount = document.querySelectorAll(".checkbox").length;
-//                     let checkedCount = document.querySelectorAll(".checkbox:checked").length;
-
-//                     // 만약 모든 체크박스가 체크 되어있다면
-//                     if (allCount == checkedCount) {
-//                         // 전체선택 체크박스를 체크
-//                         document.querySelector("#select_all").checked = true;
-//                     } else {
-//                         // else 전체선택 체크박스를 체크 해제
-//                         document.querySelector("#select_all").checked = false;
-//                     }
-//                 }
-//             });
-
-//             todolist.append(tr);
-//         }
-
         // 전체선택 이벤트
         document.querySelector("#select_all").addEventListener("click", function (event) {
             let list_check = document.querySelectorAll(".checkbox");
@@ -187,7 +143,7 @@
     <!-- section -->
     <section>
         <div>
-            <h2 align="center">예약목록</h2>
+            <h2 align="center">예약목록2</h2>
         </div>
 
         <div>
@@ -209,44 +165,38 @@
 						</tr>
 				</thead>
 				<tbody>
-					<%
-						ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) request.getAttribute("reserv_list");
-						System.out.println(list.size());
-
-						for (int i = 0; i < list.size(); i++) {
-							 String resState = list.get(i).get("r_resstate");
-							 String resStateString;
-						%>
-						<tr class="tr">
-							<td><%=i + 1%></td>
-							<td><%=list.get(i).get("b_title")%></td>
-							<td><%=list.get(i).get("b_author")%></td>
-							<td><%=list.get(i).get("b_publisher")%></td>
-							<td><%=list.get(i).get("r_resdate").substring(0,10)%></td>
-							<td><%=list.get(i).get("r_resdate").substring(0,10)%></td>
-							<%    switch(resState) {
-					        case "0":
-					            resStateString = "예약중";
-					            break;
-					        case "1":
-					            resStateString = "취소";
-					            break;
-					        case "2":
-					            resStateString = "대출완료";
-					            break;
-					        default:
-					            resStateString = "알 수 없음";
-					            break; }
-					    %>
-							<td><%=resStateString%></td>
-							
-							<td><%=list.get(i).get("lb_name")%></td>
-
-							<td><input type="checkbox" class="checkbox"></td>
-						</tr>
-						<%
-						}
-						%>
+					<c:if test="${not empty list }">
+						<c:forEach var="item" items="${list}" varStatus="loop">
+						    <c:set var="resState" value="${item.r_resstate}" />
+						    <c:set var="resStateString" value="" />
+						    <c:choose>
+						        <c:when test="${resState eq '0'}">
+						            <c:set var="resStateString" value="예약중" />
+						        </c:when>
+						        <c:when test="${resState eq '1'}">
+						            <c:set var="resStateString" value="취소" />
+						        </c:when>
+						        <c:when test="${resState eq '2'}">
+						            <c:set var="resStateString" value="대출완료" />
+						        </c:when>
+						        <c:otherwise>
+						            <c:set var="resStateString" value="알 수 없음" />
+						        </c:otherwise>
+						    </c:choose>
+						
+						    <tr class="tr">
+						        <td>${loop.index + 1}</td>
+						        <td>${item.b_title}</td>
+						        <td>${item.b_author}</td>
+						        <td>${item.b_publisher}</td>
+						        <td>${fn:substring(item.r_resdate, 0, 10)}</td>
+						        <td>${fn:substring(item.r_resdate, 0, 10)}</td>
+						        <td>${resStateString}</td>
+						        <td>${item.lb_name}</td>
+						        <td><input type="checkbox" class="checkbox" /></td>
+						    </tr>
+						</c:forEach>
+					</c:if>
 				</tbody>
 			</table>
 		</div>
@@ -257,8 +207,6 @@
         <button type="button" value="취소" class="button" id="button_cancle" onclick="closeOverduePopup()">취소</button>
         <input type="reset" value="닫기" class="button" onclick="closePopup()">
     </div>
-
-
 
 </body>
 

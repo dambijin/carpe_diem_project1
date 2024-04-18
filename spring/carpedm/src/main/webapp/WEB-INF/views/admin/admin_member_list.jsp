@@ -137,18 +137,18 @@
 	// 연체상태 popup창
 	function openOverduePopup(m_pid) {
 		window.open
-		("/carpedm_old/admin_book_overdue?m_pid="+m_pid, "팝업", "width=1200, height=900, left=200, top=200");
+		("/carpedm/admin_book_overdue?m_pid="+m_pid, "팝업", "width=1200, height=900, left=200, top=200");
 	}
 	
 	// 예약목록 popup창
 	function openReservation(m_pid) {
 		window.open
-		("/carpedm_old/admin_reservation_list?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm/admin_reservation_list?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	// 대출내역 popup창
 	function openLoan(m_pid) {
 		window.open
-		("/carpedm_old/admin_loan?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm/admin_loan?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	
 	// 예약목록 조회 이벤트
@@ -447,7 +447,8 @@ h1 {
 								<td>${dto.m_tel}</td>
 								<td>${dto.m_address}</td>
 								<td>
-						            <div class="overdue_name" onclick="openOverduePopup('${dto.m_pid}')">${dto.m_limitdate_text}
+						            <div class="overdue_name" onclick="openOverduePopup('${dto.m_pid}')">
+						            	${dto.m_limitdate_text}
 						            </div>
 						        </td>
 								<td><input type="button" value="예약조회" onclick="openReservation('${dto.m_pid}')"></td>

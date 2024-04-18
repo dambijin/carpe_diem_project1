@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import carpedm.dto.BookDTO;
 
 @Controller
-public class Book_listController{
+public class A_Book_listController{
 
-	Book_listController(){
-		System.out.println("Book_listController 생성자");
+	A_Book_listController(){
+		System.out.println("A_Book_listController 생성자");
 	}
 	
 	@Autowired	
-	BookService bookService;
+	A_BookService bookService;
 	
 	@RequestMapping("/admin_book_list")
 	public String listBooks(Model model, @ModelAttribute BookDTO dto) {
@@ -29,7 +29,7 @@ public class Book_listController{
 		System.out.println("aaaa:"+list);
 		model.addAttribute("book_list",list); // 모델에 회원 목록을 속성으로 추가합니다.
 		
-		return "admin/admin_book_list.jsp"; // "admin/admin_member_list" 뷰를 반환합니다.
+		return "admin/admin_book_list.jsp.admin"; // "admin/admin_member_list" 뷰를 반환합니다.
 		
 	}
 	

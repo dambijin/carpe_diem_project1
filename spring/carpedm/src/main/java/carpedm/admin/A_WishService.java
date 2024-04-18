@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import carpedm.dto.MemberDTO;
+import carpedm.dto.WishlistDTO;
 
 @Service
-public class MemberService {
+public class A_WishService {
 
 	@Autowired
-	Member_listDAO dao;
+	A_WishbookDAO dao;
 	
-	public List listMembers(MemberDTO dto) {
+	public List listBooks(WishlistDTO dto) {
 		
-		List list = dao.getMemberList(dto);
+		List list = dao.getWishList(dto);
 		
 		return list;
 	}

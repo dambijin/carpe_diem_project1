@@ -4,6 +4,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,11 +14,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>연체상태 popup</title>
-    <link href="../css/layout.css" rel="stylesheet">
+    <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="/carpedm_old/js/admin_library.js"></script>
+<script src="/carpedm/resources/js/admin_library.js"></script>
 <script>
 
     window.addEventListener("load", function () {
@@ -240,27 +243,23 @@
 	                    </th>
                 </tr>
                 </thead>
-                <tbody>
-
-					<%
-					for (int i = 0; i < data_list.size(); i++) {
-					%>
-					<tr>
-						<td><%=data_list.get(i).get("m_pid")%></td>
-						<td><%=data_list.get(i).get("m_name")%></td>
-						<td><%=data_list.get(i).get("b_title")%></td>
-						<td><%=data_list.get(i).get("b_author")%></td>
-						<td><%=data_list.get(i).get("lb_name")%></td>
-						<td><%=data_list.get(i).get("l_loanDate").substring(0,10)%></td>
-						<td><%=data_list.get(i).get("l_returnDate").substring(0,10)%></td>
-						<td><%=data_list.get(i).get("b_resstate")%></td>
-						<td><%=data_list.get(i).get("b_loanstate")%></td>
-						<td><input type="checkbox" class="checkbox"></td>
-					</tr>
-					<%
-					}
-					%>
-                </tbody>
+				<tbody>
+				    <c:forEach var="item" items="${list}">
+				        <tr>
+				            <td>${item.m_pid}</td>
+				            <td>${item.m_name}</td>
+				            <td>${item.b_title}</td>
+				            <td>${item.b_author}</td>
+				            <td>${item.lb_name}</td>
+				            <td>${fn:substring(item.l_loanDate, 0, 10)}</td>
+				            <td>${fn:substring(item.l_returnDate, 0, 10)}</td>
+				            <td>${item.b_resstate}</td>
+				            <td>${item.b_loanstate}</td>
+				            <td><input type="checkbox" class="checkbox"></td>
+				        </tr>
+				    </c:forEach>
+				</tbody>
+				
             </table>
         </div>
     </section>
