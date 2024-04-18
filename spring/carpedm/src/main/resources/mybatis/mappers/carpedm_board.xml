@@ -37,4 +37,12 @@
 		WHERE n.N_ID = #{n_id}
 	</select>
 	
+	<!-- notice_update 페이지 도서관 값 불러오기 -->
+	<select id="n_update_lb" resultType="carpedm.dto.NoticeBoardDTO" parameterType="carpedm.dto.NoticeBoardDTO">
+	    SELECT *
+	    FROM LIBRARY
+	    WHERE LB_ID &lt;&gt; #{n_id}
+	</select>
+
+	
 </mapper>

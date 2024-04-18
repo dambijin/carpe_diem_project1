@@ -215,7 +215,7 @@
 					            <tr>
 					                <td class="sub">작성자</td>
 					                <td class="text" id="writer">
-					                    <c:set var="name" value="${qna_notice[0].M_NAME}" />
+					                    <c:set var="name" value="${qna_notice[0].m_name}" />
 					                    <c:set var="rename" value="${fn:substring(name, 0, 1)}**" />${rename}
 					                </td>
 					            </tr>
@@ -223,9 +223,9 @@
 					                <td class="sub">소속도서관</td>
 					                <td class="text">
 					                    <select class="textbox" id="library" name="library">
-					                        <option selected value="${qna_notice[0].LB_ID}">${qna_notice[0].LB_NAME}</option>
+					                        <option selected value="${qna_notice[0].lb_id}">${qna_notice[0].lb_name}</option>
 					                        <c:forEach var="lib" items="${library}">
-					                            <option value="${lib.LB_ID}">${lib.LB_NAME}</option>
+					                            <option value="${lib.lb_id}">${lib.lb_name}</option>
 					                        </c:forEach>
 					                    </select>
 					                </td>
@@ -241,7 +241,7 @@
 					        </table>
 					    </div>
 					    <div class="td1">
-					        <textarea name="n_textarea" id="subtext">${qna_notice[0].N_CONTENT}</textarea>
+					        <textarea name="n_textarea" id="subtext">${qna_notice[0].n_content}</textarea>
 					    </div>
 					    <div class="div_buttonAll">
 					        <div class="div_button">
