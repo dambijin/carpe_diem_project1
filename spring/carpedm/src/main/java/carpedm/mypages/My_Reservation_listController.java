@@ -3,11 +3,13 @@ package carpedm.mypages;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +24,11 @@ import carpedm.dto.MemberDTO;
 import carpedm.test222.HomeController;
 
 @Controller
-public class Reservation_listController {
+public class My_Reservation_listController {
 
 	MypageService mypageService;
 
-	Reservation_listController() {
+	My_Reservation_listController() {
 		System.out.println("Reservation_listController 입장");
 	}
 	
@@ -38,9 +40,18 @@ public class Reservation_listController {
 
 	// 예약페이지
 		@RequestMapping(value = "/mypage_reservation_list", method = RequestMethod.GET)
-		protected String reservation_list(Locale locale, Model model) throws ServletException, IOException {
+		protected String reservation_list(Locale locale, Model model,
+				@RequestParam(value = "search", defaultValue = "") String keyword 
+				) throws ServletException, IOException {
 
-			List list = sqlSession.selectList("mapper.carpedm.mypage.reservationlist");
+			Map<String, String> map = new HashedMap();
+			
+			//m_pid 자리 넘보지 마셈
+			map.put("m_pid", 15+"");
+			map.put("keyword", keyword);
+			
+			
+			List list = sqlSession.selectList("mapper.carpedm.mypage.reservationlist", map);
 			MemberDTO myInfo = sqlSession.selectOne("mapper.carpedm.mypage.myInfo","2");
 			String limitDate = myInfo.getM_limitdate()+"";
 

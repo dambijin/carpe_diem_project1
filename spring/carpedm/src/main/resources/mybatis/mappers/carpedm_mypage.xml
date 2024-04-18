@@ -38,7 +38,7 @@
 		library.lb_id
 		WHERE
 		loan.l_returnrealdate IS NULL
-		AND loan.m_pid = 15
+		AND loan.m_pid = ${m_pid}
 	</select>
 
 
@@ -64,8 +64,8 @@
 		= book.b_id
 		INNER JOIN library ON book.lb_id = library.lb_id
 		WHERE
-		loan.l_returnrealdate IS NOT NULL AND m_pid = 15 AND b_title LIKE
-		'%%'
+		loan.l_returnrealdate IS NOT NULL AND m_pid = ${m_pid} AND b_title LIKE
+		'%${keyword}%'
 		)
 		WHERE rnum BETWEEN 1 AND 10
 	</select>
@@ -88,7 +88,7 @@
 		library.lb_id
 		LEFT JOIN loan ON reservation.b_id = loan.b_id
 		WHERE
-		reservation.m_pid = 15 AND b_title LIKE '%%'
+		reservation.m_pid = ${m_pid} AND b_title LIKE '%${keyword}%'
 		)
 		)
 		WHERE rnum BETWEEN 1 AND
@@ -112,7 +112,7 @@
         SELECT rownum AS rnum, w_title, w_id, lb_name, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid, w_state
         FROM wishlist
         INNER JOIN library ON library.lb_id = wishlist.lb_id
-        WHERE wishlist.m_pid = 15 AND w_title LIKE '%%'
+        WHERE wishlist.m_pid = ${m_pid} AND w_title LIKE '%${keyword}%'
     )
     WHERE rnum BETWEEN 1 AND 10
 </select>
@@ -161,13 +161,17 @@
 </select>
 
 <update id="updateInfo" parameterType="Map">
- UPDATE member
-SET m_pw = #{password},
-    m_tel = #{phonenumber},
-    m_email = #{email_id} || '@' || #{email_domain},
-    m_email_agree = #{email},
-    m_address = #{sample6_postcode} || '\n' || #{sample6_address} || '\n' || #{sample6_address2}
-WHERE m_pid = 15;
+<![CDATA[ UPDATE member
+	SET m_pw = #{password},
+	    m_tel = #{phonenumber},
+	    m_email = #{email_id} || '@' || #{email_domain},
+	    m_email_agree = #{email},
+	    m_address = #{sample6_postcode} || CHR(10) || #{sample6_address} || CHR(10) || #{sample6_address2}
+	WHERE m_pid = ${m_pid}]]>
 </update>
+
+<delete id="deleteDetail" parameterType="Map">
+DELETE FROM wishlist WHERE w_id = #{w_id} AND m_pid = ${m_pid}
+</delete>
 
 </mapper>

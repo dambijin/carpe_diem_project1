@@ -172,6 +172,7 @@
 											+ "\n" + "로 변경되었습니다.")
 
 									forms.submit();
+									window.location.href = "/carpedm/mypage_loan_status";
 
 								} else {
 									document.querySelector("#password").value = "";

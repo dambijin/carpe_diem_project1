@@ -377,14 +377,10 @@
             <td>${item.b_author}</td>
             <td>${item.b_publisher}</td>
             <td><c:out value="${fn:substring(item.r_resdate, 0, 10)}" /></td>
-            <td><c:out value="${fn:substring(item.l_returndate, 0, 10)}" /></td>
-            
-            
-            <td>${item.resStateString}</td>
-            
-          
-            
+            <td><c:out value="${fn:substring(item.L_returndate, 0, 10)}" /></td>
+            <td><c:out value="${fn:substring(item.r_resdate, 0, 10)}" /></td>
             <td>${item.lb_name}</td>
+
             <td><input type="checkbox" class="checkbox"></td>
         </tr>
     </c:forEach>
@@ -394,7 +390,7 @@
 				<div id="button_cancle">
 					<button id="cancle">취소</button>
 				</div>
-				<div id="paging">
+			<%--	<div id="paging">
 					<%
 					// 서블릿에서 불러온 페이징 정보
 					int total_count = (int) request.getAttribute("totalViewCount");// 임시로 설정한 값
@@ -444,10 +440,10 @@
 				</div>
 			</div>
 		</div>
-		</div>
+		</div> --%>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm_old/js/header.js"></script>
+	
 </body>
 
 </html>

@@ -432,7 +432,7 @@
     </div>
 </div>
 
-
+<%--
 				<div id="paging">
 					<%
 					// 서블릿에서 불러온 페이징 정보
@@ -483,9 +483,8 @@
 			</div>
 		</div>
 	</section>
+ --%>
 
-	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm_old/js/header.js"></script>
 </body>
 
 </html>

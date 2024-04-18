@@ -310,7 +310,7 @@
 								</tr>
 							</c:forEach>
 						</table>
-						<div id="paging">
+			<%--			<div id="paging">
 							<%
 							// 서블릿에서 불러온 페이징 정보
 							int total_count = (int) request.getAttribute("totalViewCount");// 임시로 설정한 값
@@ -357,14 +357,14 @@
 							<div class="total">
 								<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
 							</div>
-						</div>
+						</div>  
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>--%>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm_old/js/header.js"></script>
+
 </body>
 
 </html>

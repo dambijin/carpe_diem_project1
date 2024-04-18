@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import carpedm.test222.HomeController;
 
 @Controller
-public class Mypage_chginfoController {
+public class My_chginfoController {
 
 	MypageService mypageService;
 	
-	Mypage_chginfoController(){
+	My_chginfoController(){
 		System.out.println("Mypage_chginfoController 입장");
 	}
 	
@@ -56,9 +56,7 @@ public class Mypage_chginfoController {
 		@RequestMapping(value = "/mypage_chginfo", method = RequestMethod.POST)
 		    public String handleFormSubmit(
 		                                   @RequestParam("password") String password,
-		                                  
 		                                   @RequestParam("phonenumber") String phoneNumber,
-		                                  
 		                                   @RequestParam("email_id") String emailId,
 		                                   @RequestParam("email_domain") String emailDomain,
 		                                   @RequestParam("email") String emailAgree,
@@ -70,24 +68,17 @@ public class Mypage_chginfoController {
 			
 			
 			chgInfo.put("password", password);
-			
 			chgInfo.put("phonenumber", phoneNumber);
-			
 			chgInfo.put("email_id", emailId);
 			chgInfo.put("email_domain", emailDomain);
 			chgInfo.put("email", emailAgree);
 			chgInfo.put("sample6_postcode", postcode);
 			chgInfo.put("sample6_address", address);
 			chgInfo.put("sample6_address2", address2);
-			
-			System.out.println("aaaa:"+chgInfo);
-			
-			int succhk = sqlSession.update("mapper.carpedm.mypage.updateInfo", chgInfo);
-			System.out.println(succhk);
-			
-			
-			System.out.println("업뎃 완");
-		        return "mypages/mypage_loan_status.jsp"; // 성공 페이지로 리다이렉트
+
+			int succhk = sqlSession.insert("mapper.carpedm.mypage.updateInfo", chgInfo);
+	
+		        return "mypage_loan_status.jsp"; 
 		    }
 		
 }

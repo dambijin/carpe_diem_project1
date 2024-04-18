@@ -84,11 +84,10 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 		    xhr.onload = function() {
 		        let data = xhr.responseText;
 		        console.log("data : " + data);
-		        if(data == 0) {
 		        	alert("취소 신청 완료");
 		        	window.close();
 		        	window.opener.location.reload();
-		        } 
+		        
 		    };
 		 }
 		
