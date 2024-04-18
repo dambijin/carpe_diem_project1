@@ -28,9 +28,9 @@ import carpedm.dto.LibraryDTO;
 import carpedm.dto.SearchinfoDTO;
 
 @Controller
-public class book_searchController extends HttpServlet {
+public class Main_Book_SearchController extends HttpServlet {
 
-	private static final Logger logger = LoggerFactory.getLogger(book_searchController.class);
+	private static final Logger logger = LoggerFactory.getLogger(Main_Book_SearchController.class);
 
 	@Autowired
 	private SqlSession sqlSession;

@@ -183,13 +183,10 @@ section {
 }
 </style>
 </head>
-<%
-ArrayList<Map<String, String>> bookdetail_list = (ArrayList<Map<String, String>>) request
-		.getAttribute("bookdetail_list");
-%>
+
 <script>
 	window.addEventListener("load",function() {
-		document.title ='<%=bookdetail_list.get(0).get("B_TITLE")%>';
+		document.title ='${bookdetail_map.get("B_TITLE")}';
 	});
 	
 	function selboxAllChecked(id) {
@@ -244,20 +241,20 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 			<div class="view">
 				<dl>
 					<em class="label"> 
-						<img src="${bookdetail_list[0].B_IMGURL}" alt="사진불러오기 실패" />
+						<img src="${bookdetail_map.B_IMGURL}" alt="사진불러오기 실패" />
 					</em>
 					<dd>
 						<div class="ico ico-bk">
-							<span>${bookdetail_list[0].B_TITLE}</span>
+							<span>${bookdetail_map.B_TITLE}</span>
 						</div>
 						<ul>
-							<li class="label_no"><strong>ㆍ키워드</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_KYWD}</li>
-							<li><strong>ㆍ저자</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_AUTHOR}</li>
-							<li><strong>ㆍ발행년도</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_PUBYEAR}</li>
-							<li><strong>ㆍ출판사</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_PUBLISHER}</li>
-							<li><strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].B_ISBN}</li>
-							<li><strong>ㆍ장르</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].BG_NAME}</li>
-							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_list[0].LB_NAME}</li>
+							<li class="label_no"><strong>ㆍ키워드</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_map.B_KYWD}</li>
+							<li><strong>ㆍ저자</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_map.B_AUTHOR}</li>
+							<li><strong>ㆍ발행년도</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_map.B_PUBYEAR}</li>
+							<li><strong>ㆍ출판사</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_map.B_PUBLISHER}</li>
+							<li><strong>ㆍISBN</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_map.B_ISBN}</li>
+							<li><strong>ㆍ장르</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_map.BG_NAME}</li>
+							<li><strong>ㆍ소장기관</strong>&nbsp;&nbsp;&nbsp;&nbsp;${bookdetail_map.LB_NAME}</li>
 						</ul>
 					</dd>
 				</dl>
@@ -287,26 +284,26 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 					</thead>
 					<tbody>
 						<tr>
-							<td>${bookdetail_list[0].B_ID}</td>
+							<td>${bookdetail_map.B_ID}</td>
 							<!-- <td></td> -->
 							<td>
-								<strong>${bookdetail_list[0].B_ISBN}</strong>
+								<strong>${bookdetail_map.B_ISBN}</strong>
 							</td>
 							<td>
-								<strong	class="${bookdetail_list[0].B_LOANSTATE eq 'Y' ? '_success' : '_fail'}">${bookdetail_list[0].B_LOANSTATE eq 'Y' ? '대출가능' : '대출불가'}</strong><br>
+								<strong	class="${bookdetail_map.B_LOANSTATE eq 'Y' ? '_success' : '_fail'}">${bookdetail_map.B_LOANSTATE eq 'Y' ? '대출가능' : '대출불가'}</strong><br>
 							</td>
-							<td>${empty bookdetail_list[0].L_RETURNDATE ? '-' : bookdetail_list[0].L_RETURNDATE.substring(0, 10)}</td>
+							<td>${empty bookdetail_map.L_RETURNDATE ? '-' : bookdetail_map.L_RETURNDATE.substring(0, 10)}</td>
 							
 							<c:set var="onclickAttribute" value=""/>
-							<c:if test="${bookdetail_list[0].B_RESSTATE eq 'Y'}">
+							<c:if test="${bookdetail_map.B_RESSTATE eq 'Y'}">
 							    <c:set var="onclickAttribute">
-							     	onclick='reservation(${bookdetail_list[0].B_ID})'
+							     	onclick='reservation(${bookdetail_map.B_ID})'
 							     </c:set>
 							</c:if>
 							<td>
-							    <strong class="${bookdetail_list[0].B_RESSTATE eq 'Y' ? 'reservation_success' : '_fail'}"
+							    <strong class="${bookdetail_map.B_RESSTATE eq 'Y' ? 'reservation_success' : '_fail'}"
 							            ${onclickAttribute}>
-							        ${bookdetail_list[0].B_RESSTATE eq 'Y' ? '예약가능' : '예약불가'}
+							        ${bookdetail_map.B_RESSTATE eq 'Y' ? '예약가능' : '예약불가'}
 							    </strong><br>
 							</td>
 						</tr>

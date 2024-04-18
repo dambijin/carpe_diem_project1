@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.zip.GZIPInputStream;
 
 
-public class Book_Recommend {
+public class Main_Book_Recommend {
 
 	// yes24에서 isbn으로 검색하여 기존 책의 yes24 책 id값을 가져옴
 	public String yes24SearchISBN(String isbn) {

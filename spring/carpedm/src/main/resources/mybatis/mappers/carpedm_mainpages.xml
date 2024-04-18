@@ -57,7 +57,7 @@
 		${_parameter}
 	</select>
 
-	<insert id="insertSearchInfo_book_search" parameterType="map">
+	<insert id="insertSearchInfo_book_search" parameterType="Map">
 		INSERT INTO searchinfo (SI_ID, SI_KEYWORD, SI_OPT, SI_TIME, B_ID, SI_IP)
 		VALUES (
 		searchinfo_seq.nextval,
@@ -69,4 +69,19 @@
 		)
 	</insert>
 	<!-- 자료검색 끝 -->
+	
+	<!-- 도서상세 시작 -->
+	<update id="updateSearchInfo_book_detail" parameterType="map">
+		UPDATE searchinfo SET B_ID = #{b_id} WHERE si_id = #{si_id}
+	</update>
+	<select id="selectBookDetail_book_detail" resultType="Map">
+        SELECT b.*, bg.bg_name, l.lb_name, ln.L_RETURNDATE
+        FROM book b
+        JOIN bookgenre bg ON b.bg_id = bg.bg_id
+        JOIN library l ON b.lb_id = l.lb_id
+        LEFT JOIN LOAN ln ON b.b_id = ln.b_id
+        WHERE b.b_id = #{_parameter}
+        ORDER BY ln.L_RETURNDATE DESC
+	</select>
+	<!-- 도서상세 끝 -->
 </mapper>

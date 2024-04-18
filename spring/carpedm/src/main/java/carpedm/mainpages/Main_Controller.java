@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -30,28 +32,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import carpedm.test222.HomeController;
 
 @Controller
-public class libs_infolistController extends HttpServlet {
+public class Main_Controller extends HttpServlet {
 	
-	private static final Logger logger = LoggerFactory.getLogger(libs_infolistController.class);
+	private static final Logger logger = LoggerFactory.getLogger(Main_Controller.class);
 	
 	@Autowired	
 	private SqlSession sqlSession;
 	
-	@RequestMapping(value = "/libs_infolist", method = RequestMethod.GET)
-	protected String libs_infolist(Locale locale, Model model)
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	protected String main(Locale locale, Model model)
 			throws ServletException, IOException {
-		
-		List list = sqlSession.selectList("mapper.carpedm.mainpages.selectLib_libinfo");
-		System.out.println("list : " + list);
-		
-		if (list != null) {
-			System.out.println("list.isze : " + list.size());
-			logger.error("list.size : " + list.size());
-		}
+		String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		List library_list = sqlSession.selectList("mapper.carpedm.mainpages.selectLib_libinfo");
+		List notice_list = sqlSession.selectList("mapper.carpedm.mainpages.selectNotice_main");
+		List book_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBook_main");
+		List banner_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBanner_main",now_date);
 
-		model.addAttribute("list", list);		
+		model.addAttribute("library_list", library_list);		
+		model.addAttribute("notice_list", notice_list);		
+		model.addAttribute("book_list", book_list);
+		model.addAttribute("banner_list", banner_list);
 		
-		return "mainpages/libs_infolist.jsp";
-	}		
-	
+		return "mainpages/main.jsp";
+	}			
 }
