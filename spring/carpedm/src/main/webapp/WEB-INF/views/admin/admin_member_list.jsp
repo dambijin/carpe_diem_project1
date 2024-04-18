@@ -453,7 +453,7 @@ h1 {
 						        </td>
 								<td><input type="button" value="예약조회" onclick="openReservation('${dto.m_pid}')"></td>
 								<td><input type="button" value="대출조회" onclick="openLoan('${dto.m_pid}')"></td>
-								<td><input type="button" value="정보수정" onclick="location.href='/carpedm_old/admin_member_chginfo?m_pid=${dto.m_pid}'"></td>
+								<td><input type="button" value="정보수정" onclick="location.href='/carpedm/admin_member_chginfo?m_pid=${dto.m_pid}'"></td>
 							</tr>
 						</c:forEach>
 					</c:if>

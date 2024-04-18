@@ -7,6 +7,9 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.Map"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,11 +17,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자페이지(회원정보수정)</title>
-<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="/carpedm_old/js/admin_library.js"></script>
+<script src="/carpedm/resources/js/admin_library.js"></script>
 <script
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -123,6 +126,14 @@ header .nav .member_list {
 	width: 150px;
 	font-size: 20px;
 	margin-top: 10px;
+}
+
+/* 테이블 thead */
+.custom-table {
+    border: 0;
+    margin: auto; /* Align center */
+    border-spacing: 5px;
+    background-color: #cccccc;
 }
 
 /* 회원 정보 수정 글씨 */
@@ -244,95 +255,78 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 	<div class="chtable">
 		<form method="get" action="admin_member_update">
-			<table border="0" align="center" cellpadding="5" cellspacing="1"
-				bgcolor="cccccc">
+			<table class="custom-table">
 				<thead>
-					<%
-					ArrayList<Map<String, String>> data_list = (ArrayList<Map<String, String>>) request.getAttribute("list");
-
-					// data_list가 비어 있거나 null이면 초기화
-					if (data_list == null || data_list.isEmpty()) {
-						data_list = new ArrayList<>();
-					}
-					%>
-					<tr>
-						<input type="hidden" style="display: none;" name="m_pid"
-							value="<%=data_list.get(0).get("m_pid")%>">
-						<th width="20%" height="40px">항목</th>
-						<th width="80%">정보</th>
-					</tr>
-					<tr>
-						<th height="40px">이름</th>
-						<td><input type="text" id="name" name="name" value="<%=data_list.get(0).get("m_name")%>"></td>
-					</tr>
-					<tr>
-						<th height="40px">생년월일</th>
-						<td><input type="date" name="date" id="yymmdd"
-							value="<%=data_list.get(0).get("m_birthday").substring(0, 10)%>">
-						</td>
-					</tr>
-					<tr>
-						<th height="40px">아이디</th>
-						<td><input type="text" name="id" id="userid"
-							value="<%=data_list.get(0).get("m_id")%>"></td>
-					</tr>
-					<tr>
-						<th height="40px">비밀번호</th>
-						<td><input type="password" name="pw" id="password"
-							maxlength="20" placeholder=" 비밀번호를 입력해주세요."
-							value="<%=data_list.get(0).get("m_pw")%>"></td>
-					</tr>
-
-					<tr>
-						<th height="40px">비밀번호확인</th>
-
-						<td><input type="password" id="password_check" name="pw_chk"
-							maxlength="16" placeholder=" 비밀번호를 확인해주세요."></td>
-					</tr>
-					<tr>
-						<th height="40px">휴대폰번호</th>
-						<td><input type="number" name="phone_number" id="phone"
-							placeholder="-를 빼고 작성해주세요."
-							value="<%=data_list.get(0).get("m_tel").replace("-", "")%>">
-
-							SMS수신 <input type="radio" name="sms1" checked>예 <input
-							type="radio" name="sms1">아니오</td>
-					</tr>
-					<tr height="100px">
-						<td colspan="2" align="center" height="40px">
-							<div class="colspan">
-								고객님께 물어봐주세요<br> <br> 마케팅 / 홍보를 위하여 귀하의 개인정보를
-								이용(SMS,이메일)하는데 동의 하십니까?<br> 동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가
-								제한됩니다.
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th height="40px">이메일</th>
-						<td><input type="text" name="email1" id="emailId1"
-							placeholder="이메일 입력"
-							value="<%=data_list.get(0).get("m_email").split("@")[0]%>">
-
-							<span>@</span> <input type="text" name="email2" id="emailId2"
-							placeholder="이메일을 선택하세요."
-							value="<%=data_list.get(0).get("m_email").split("@")[1]%>">
-
-							<select class="temail" onchange="selectWebsite()"
-							id="select_email">
-								<!-- 자바스크립트화 -->
-						</select> 이메일수신 <input type="radio" name="sms2" checked>예 <input
-							type="radio" name="sms2">아니오</td>
-					</tr>
-					<tr>
-						<th height="40px">주소</th>
-						<td><input type="text" class="zipcode" id="zipcodenum"
-							placeholder="우편번호"> <input type="button" value="주소찾기"
-							class="add" onclick="sample6_execDaumPostcode()"><br>
-							<input type="text" class="adr" name="address1" id="adr1"
-							placeholder="기본주소" value="<%=data_list.get(0).get("m_address")%>"><br>
-							<input type="text" class="adr" id="adr2" placeholder="상세주소">
-						</td>
-					</tr>
+					<c:if test="${not empty list }">
+						<c:set var="data_list" value="${list}" />
+						<tr>
+					        <input type="hidden" style="display: none;" name="m_pid" value="${data_list[0].m_pid}" />
+					        <th width="20%" height="40px">항목</th>
+					        <th width="80%">정보</th>
+					    </tr>
+					    <tr>
+					        <th height="40px">이름</th>
+					        <td><input type="text" id="name" name="name" value="${data_list[0].m_name}" /></td>
+					    </tr>
+					    <tr>
+					        <th height="40px">생년월일</th>
+					        <td><input type="date" name="date" id="yymmdd" value="${fn:substring(data_list[0].m_birthday, 0, 10)}" /></td>
+					    </tr>
+					    <tr>
+					        <th height="40px">아이디</th>
+					        <td><input type="text" name="id" id="userid" value="${data_list[0].m_id}" /></td>
+					    </tr>
+					    <tr>
+					        <th height="40px">비밀번호</th>
+					        <td><input type="password" name="pw" id="password" maxlength="20" placeholder="비밀번호를 입력해주세요." value="${data_list[0].m_pw}" /></td>
+					    </tr>
+					    <tr>
+					        <th height="40px">비밀번호확인</th>
+					        <td><input type="password" id="password_check" name="pw_chk" maxlength="16" placeholder="비밀번호를 확인해주세요." /></td>
+					    </tr>
+					    <tr>
+					        <th height="40px">휴대폰번호</th>
+					        <td>
+					            <input type="number" name="phone_number" id="phone" placeholder="-를 빼고 작성해주세요." value="${data_list[0].m_tel.replace('-', '')}" />
+					            SMS수신
+					            <input type="radio" name="sms1" checked />예
+					            <input type="radio" name="sms1" />아니오
+					        </td>
+					    </tr>
+					    <tr height="100px">
+					        <td colspan="2" align="center" height="40px">
+					            <div class="colspan">
+					                고객님께 물어봐주세요<br /><br />
+					                마케팅 / 홍보를 위하여 귀하의 개인정보를 이용(SMS,이메일)하는데 동의 하십니까?<br />
+					                동의 거부 시 대출·반납, 희망도서 정보안내 등 서비스가 제한됩니다.
+					            </div>
+					        </td>
+					    </tr>
+					    <tr>
+					        <th height="40px">이메일</th>
+					        <td>
+					            <input type="text" name="email1" id="emailId1" placeholder="이메일 입력" value="${data_list[0].m_email.split('@')[0]}" />
+					            <span>@</span>
+					            <input type="text" name="email2" id="emailId2" placeholder="이메일을 선택하세요." value="${data_list[0].m_email.split('@')[1]}" />
+					            <select class="temail" onchange="selectWebsite()" id="select_email">
+					                <!-- 자바스크립트화 -->
+					            </select>
+					            이메일수신
+					            <input type="radio" name="sms2" checked />예
+					            <input type="radio" name="sms2" />아니오
+					        </td>
+					    </tr>
+					    <tr>
+					        <th height="40px">주소</th>
+					        <td>
+					            <input type="text" class="zipcode" id="zipcodenum" placeholder="우편번호" />
+					            <input type="button" value="주소찾기" class="add" onclick="sample6_execDaumPostcode()" /><br />
+					            <input type="text" class="adr" name="address1" id="adr1" placeholder="기본주소" value="${data_list[0].m_address}" /><br />
+					            <input type="text" class="adr" id="adr2" placeholder="상세주소" />
+					        </td>
+					    </tr>
+					</c:if>
+				    <c:set var="data_list" value="${list}" />
 				</thead>
 			</table>
 			<!-- 수정 취소 -->
@@ -340,7 +334,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				<!--  이거 구현하기 -->
 				<input type="submit" value="수정" class="button"> 
 				<input type="reset" value="취소" class="button" 
-					onclick="location.href='/carpedm_old/admin_member_list';">
+					onclick="location.href='/carpedm/admin_member_list';">
 			</div>
 		</form>
 

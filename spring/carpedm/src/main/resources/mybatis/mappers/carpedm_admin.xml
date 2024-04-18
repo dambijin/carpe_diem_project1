@@ -120,4 +120,32 @@
 	</select>
 	
 	
+	
+	
+	<!-- admin_loan -->
+    <select id="selectloan" resultType="carpedm.dto.LoanDTO2">
+    	select
+    	l_id, b_title, b_author, b_publisher, l_loandate, l_returnrealdate, l_extendcount, library.lb_name, m_pid, book.b_resstate, book.b_loanstate
+    	from loan
+    	INNER JOIN book ON loan.b_id = book.b_id INNER JOIN library ON book.lb_id = library.lb_id
+    	WHERE m_pid = #{_parameter}
+	</select>
+	
+	
+	<!-- admin_member_chginfo -->
+    <select id="selectChginfo" resultType="MemberDTO">
+    	select * from
+    	member
+    	where m_pid = #{_parameter}
+	</select>
+	
+	
+	<!-- admin_book_add -->
+    <select id="selectBooKAdd" resultType="LibraryDTO">
+    	select * from
+    	library
+	</select>
+	
+	
+	
 </mapper>

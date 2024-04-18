@@ -23,7 +23,7 @@
 	// admin_book_list 등록 팝업창열기
 	function bookadd_popup() {
 		window.open
-			("/carpedm_old/admin_book_add", "책 등록", "width=1000, height=800, left=100, top=100");
+			("/carpedm/admin_book_add", "책 등록", "width=1000, height=800, left=100, top=100");
 	}
 	// todo 이벤트
 	// 책 추가버튼 가져오기
