@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -164,9 +165,9 @@ public class Main_Book_SearchController extends HttpServlet {
         int endPage = Math.min(startPage + 4, totalPages);     
 //        끝 페이지를 기준으로 조정
         startPage = Math.max(1, endPage - 4);
-//		HttpSession session = request.getSession();
-//		String m_pid = (String)session.getAttribute("m_pid");
-		String m_pid = "15";
+		HttpSession session = request.getSession();
+		String m_pid = (String)session.getAttribute("m_pid");
+//		String m_pid = "15";
 
 		model.addAttribute("library_list", library_list);
 		model.addAttribute("pop_search_list", pop_search_list);

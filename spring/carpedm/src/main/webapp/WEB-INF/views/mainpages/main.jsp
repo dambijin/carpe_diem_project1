@@ -526,9 +526,6 @@ nav .inner .inner-list img {
 	    document.querySelector('.text_detail').innerHTML = content;
 	};
 	
-	<%// 세션에서 현재 아이디값 가져오기
-HttpSession getSession = request.getSession();
-String m_pid = (String) getSession.getAttribute("m_pid");%>
 </script>
 </head>
 
