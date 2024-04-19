@@ -437,11 +437,6 @@
     <!-- 쪽이동 -->
     <!-- 쪽이동 -->
   
-
-
-
-    <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="/carpedm/resources/js/header_admin.js"></script>
 </body>
 
 </html>

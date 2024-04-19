@@ -137,7 +137,7 @@
 	// 연체상태 popup창
 	function openOverduePopup(m_pid) {
 		window.open
-		("/carpedm/admin_book_overdue?m_pid="+m_pid, "팝업", "width=1200, height=900, left=200, top=200");
+		("/carpedm/admin_book_overdue?m_pid="+m_pid, "팝업", "width=1050, height=700, left=100, top=100");
 	}
 	
 	// 예약목록 popup창
@@ -149,6 +149,12 @@
 	function openLoan(m_pid) {
 		window.open
 		("/carpedm/admin_loan?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
+	}
+	
+	// 정보수정 popup창
+	function openChinfo(m_pid) {
+		window.open
+		("/carpedm/admin_member_chginfo?m_pid="+m_pid, "팝업", "width=1000, height=700, left=100, top=100");
 	}
 	
 	// 예약목록 조회 이벤트
@@ -176,11 +182,6 @@
         alert("대출내역 조회 - 회원 ID: " + memberId);
     }
     
-//     function alertAndRedirect((url) {
-// 		alert("정보를 수정합니다.");
-//             location.href = url;
-//         }
-//     }
 </script>
 
 
@@ -453,6 +454,7 @@ h1 {
 						        </td>
 								<td><input type="button" value="예약조회" onclick="openReservation('${dto.m_pid}')"></td>
 								<td><input type="button" value="대출조회" onclick="openLoan('${dto.m_pid}')"></td>
+<%-- 								<td><input type="button" value="정보수정" onclick="openChinfo('${dto.m_pid}')"></td> --%>
 								<td><input type="button" value="정보수정" onclick="location.href='/carpedm/admin_member_chginfo?m_pid=${dto.m_pid}'"></td>
 							</tr>
 						</c:forEach>

@@ -78,24 +78,55 @@
 		    });
 		}
 
-		//폐기버튼 알림창 및 폐기 클릭 시 remove()
+		// 폐기버튼 알림창 및 폐기
 		document.getElementById('button_cancle').addEventListener('click', function () {
 			let list_checked = document.querySelectorAll(".checkbox:checked");
 
-			if (list_checked.length == 0) {
-				alert("폐기할 항목을 선택해주세요.");
-			} else if (confirm("선택한 항목을 폐기하시겠습니까?")) {
-				for (let i = 0; i < list_checked.length; i++) {
-					list_checked[i].parentNode.parentNode.remove();
-				}
-				alert("폐기되었습니다.");
-			} else {
-				alert("선택된 항목이 없습니다.");
-			}
-		});
-		
-		
+			let ids = [];
+			
+			for (let i = 0; i < list_checked.length; i++) {
+                let row = list_checked[i].closest("tr");
+                let id = row.querySelector('input[type="hidden"]').value;
+                ids.push(id);
+                console.log(ids)
+            }
+			
+			let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/carpedm/admin_book_list", true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // 요청이 성공적으로 완료됨
+                        console.log("서버 응답:", xhr.responseText);
+                        alert("취소가 완료 되었습니다.")
+                        window.location.href = "/carpedm/admin_book_list";
+                    } else {
+                        // 요청이 실패함
+                        console.error("서버 응답 오류:", xhr.status);
+                    }
+                }
+            };
+            // ids 배열을 query string으로 변환합니다.
+            let queryString = "ids=" + encodeURIComponent(JSON.stringify(ids));
+            console.log(queryString);
+
+            xhr.send(queryString);
+			
+		});
+// 			if (list_checked.length == 0) {
+// 				alert("폐기할 항목을 선택해주세요.");
+// 			} else if (confirm("선택한 항목을 폐기하시겠습니까?")) {
+// 				for (let i = 0; i < list_checked.length; i++) {
+// 					list_checked[i].parentNode.parentNode.remove();
+// 				}
+// 				alert("폐기되었습니다.");
+// 			} else {
+// 				alert("선택된 항목이 없습니다.");
+// 			}
+		
+		
 		// 검색에 입력값 받아와 enterkey 작동
 		var inputTodo = document.getElementById("input_todo");
 		if (inputTodo != null) {
@@ -125,14 +156,14 @@
 		}
 
 		
-		let m_names = document.querySelectorAll("#m_name")
-		console.log("m_names : "+ m_names)
-		for(let i=0; i<m_names.length; i++){
-			m_names[i].addEventListener("click", (event) => {
-				// event.target.parentNode : 부모 즉,<td>를 뜻함
-				event.target.parentNode.querySelector("form").submit();
-			})
-		}
+// 		let m_names = document.querySelectorAll("#m_name")
+// 		console.log("m_names : "+ m_names)
+// 		for(let i=0; i<m_names.length; i++){
+// 			m_names[i].addEventListener("click", (event) => {
+// 				// event.target.parentNode : 부모 즉,<td>를 뜻함
+// 				event.target.parentNode.querySelector("form").submit();
+// 			})
+// 		}
 		
 // 		document.querySelector("#b_pid").addEventListener("click", function() {
 // 			// form id 값 잡아옴 			
@@ -179,33 +210,33 @@
 
 	//나중에 쓸 수 있는 코드	
 	// 검색 옵션과 검색 텍스트박스에 입력된 값을 처리하는 함수
-	function handleSearchOption() {
-		// 검색 옵션 가져옴
-		var searchOption = document.getElementById("search_option").value;
-		// 검색 텍스트박스 입력값을 가져옴
-		var searchTextbox = document.getElementById("input_todo");
+// 	function handleSearchOption() {
+// 		// 검색 옵션 가져옴
+// 		var searchOption = document.getElementById("search_option").value;
+// 		// 검색 텍스트박스 입력값을 가져옴
+// 		var searchTextbox = document.getElementById("input_todo");
 
-		// 선택된 옵션에 따라 다르게 동작
-		switch (searchOption) {
-			case "책이름":
-				alert("책이름: " + searchTextbox.value);
-				break;
-			case "청구기호":
-				alert("청구기호: " + searchTextbox.value);
-				break;
-			case "등록번호":
-				alert("등록번호: " + searchTextbox.value);
-				break;
-			default:
-				// 기타 옵션의 경우 아무 동작도 수행하지 않음
-				break;
-		}
-	};
+// 		// 선택된 옵션에 따라 다르게 동작
+// 		switch (searchOption) {
+// 			case "책이름":
+// 				alert("책이름: " + searchTextbox.value);
+// 				break;
+// 			case "청구기호":
+// 				alert("청구기호: " + searchTextbox.value);
+// 				break;
+// 			case "등록번호":
+// 				alert("등록번호: " + searchTextbox.value);
+// 				break;
+// 			default:
+// 				// 기타 옵션의 경우 아무 동작도 수행하지 않음
+// 				break;
+// 		}
+// 	};
 	
 	
 	function openBookPopup(b_id){
 		window.open
-		("/carpedm_old/book_detail?id="+b_id, "팝업", "width=1000, height=700, left=100, top=100");
+		("/carpedm/book_detail?id="+b_id, "팝업", "width=1000, height=700, left=100, top=100");
 	}
 
 </script>
@@ -463,7 +494,7 @@
 				<c:if test="${not empty book_list }">
 					<c:forEach var="dto" items="${book_list }" varStatus="status">
 						<tr>
-							<td>${dto.b_id}</td>
+							<td>${dto.b_id}<input type="hidden" value="${item.b_id}"></td>
 							<td><div class="book_name" onclick="openBookPopup('${dto.b_id}')">${dto.b_title}</div></td>
 							<td>${dto.b_author}</td>
 			                <td>${dto.b_publisher}</td>
@@ -546,7 +577,7 @@
 <!-- 			</div> -->
 <!-- 		</div> -->
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/resources/js/header_admin.js"></script>
+<!-- 	<script src="/carpedm/resources/js/header_admin.js"></script> -->
 
 </body>
 

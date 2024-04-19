@@ -20,5 +20,11 @@ public class A_BookService {
 		return list;
 	}
 	
+	public int deleteBooks(BookDTO dto) {
 		
+		int result = dao.getBookDelete(dto);
+		
+		return result;
+	}
+	
 }

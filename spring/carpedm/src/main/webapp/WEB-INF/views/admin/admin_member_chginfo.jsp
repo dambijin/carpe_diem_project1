@@ -113,6 +113,13 @@
 
 		window.location.href = "/carpedm_old/admin_member_list";
 	}
+	
+	// 닫기
+    function closePopup() {
+        window.open('', '_self', '');
+        window.close();
+    }
+	
 </script>
 
 <style>
@@ -254,7 +261,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	</div>
 
 	<div class="chtable">
-		<form method="get" action="admin_member_update">
+		<form method="post" action="admin_member_chginfo">
 			<table class="custom-table">
 				<thead>
 					<c:if test="${not empty list }">
@@ -266,7 +273,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					    </tr>
 					    <tr>
 					        <th height="40px">이름</th>
-					        <td><input type="text" id="name" name="name" value="${data_list[0].m_name}" /></td>
+					        <td><input type="text" id="name" name="name" value="${data_list[0].m_name}" readonly></td>
 					    </tr>
 					    <tr>
 					        <th height="40px">생년월일</th>
@@ -333,17 +340,12 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 			<div class="input">
 				<!--  이거 구현하기 -->
 				<input type="submit" value="수정" class="button"> 
-				<input type="reset" value="취소" class="button" 
-					onclick="location.href='/carpedm/admin_member_list';">
+				<input type="reset" value="취소" class="button" onclick="location.href='/carpedm/admin_member_list'">
 			</div>
 		</form>
 
 	</div>
 
-
-
-	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm_old/js/header_admin.js"></script>
 </body>
 
 </html>

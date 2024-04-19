@@ -143,7 +143,7 @@
     <!-- section -->
     <section>
         <div>
-            <h2 align="center">예약목록2</h2>
+            <h2 align="center">예약목록</h2>
         </div>
 
         <div>

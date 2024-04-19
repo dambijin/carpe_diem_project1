@@ -66,6 +66,14 @@
         });
 
     });
+    
+    
+ // 닫기
+ function closePopup() {
+	 window.open('', '_self', '');
+	 window.close();
+ }
+ 
 </script>
 
 <style>
