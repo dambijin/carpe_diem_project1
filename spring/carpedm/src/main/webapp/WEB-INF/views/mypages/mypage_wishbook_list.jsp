@@ -123,7 +123,7 @@
                         let row = list_checked[i].closest("tr");
                         let id = row.querySelector('input[type="hidden"]').value;
                         ids.push(id);
-                        console.log(ids)
+                        console.log("ids :" + ids)
                     }
                     
                     let xhr = new XMLHttpRequest();
@@ -144,7 +144,7 @@
                         }
                     };
                     // ids 배열을 query string으로 변환합니다.
-                    let queryString = "ids=" + encodeURIComponent(JSON.stringify(ids));
+                    let queryString = "ids=" + encodeURIComponent(ids.join(','));
 
                     xhr.send(queryString);
                 });

@@ -1,13 +1,13 @@
 package carpedm.mypages;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.SqlSession;
@@ -33,7 +33,7 @@ public class My_Reservation_listController {
 	}
 	
 		
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -72,7 +72,19 @@ public class My_Reservation_listController {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+			//페이징관련
+			//book_count는 총 검색 게시글 수
+			//단순계산용(모델에 안넣음)
+			int currentPage = Integer.parseInt(page);
+			int itemsPerPage = Integer.parseInt(perPage);
+			int startRow = (currentPage - 1) * itemsPerPage + 1;
+			int endRow = currentPage * itemsPerPage;
 			
+			// 페이지 처리를 위한 계산(모델에 넣어야함)
+			int startPage = Math.max(currentPage - 2, 1);
+			int totalPages = book_count > 0 ? (int) Math.ceil(book_count / Double.parseDouble(perPage)) : 1;
+			int endPage = Math.min(startPage + 4, totalPages); 
+		    startPage = Math.max(1, endPage - 4);
 			
 					model.addAttribute("diff", diff);
 					model.addAttribute("myInfo", myInfo);
@@ -82,5 +94,30 @@ public class My_Reservation_listController {
 
 			return "mypages/mypage_reservation_list.jsp";
 		}
+		
+		// 취소 메소드 
+				@RequestMapping(value = "/mypage_reservation_list", method = RequestMethod.POST)
+				protected String reservation_cancle(Locale locale, Model model,
+						@RequestParam(value = "m_pid", defaultValue = "") String m_pid, 
+						@RequestParam(value = "ids", defaultValue = "") String r_id	
+						) throws ServletException, IOException {
+
+							
+					        Map<String, String> map = new HashMap();
+					        map.put("m_pid", 15+""); // 숫자를 문자열로 변환하여 넣어줌
+					        map.put("r_id", r_id); // 공백 제거 후 추가
+			
+					  
+					        int update = sqlSession.insert("mapper.carpedm.mypage.reservationUpdate", map);
+					        logger.info("업데이트 렁공 :" + update);
+					       
+
+					        int delete = sqlSession.insert("mapper.carpedm.mypage.reservationCancle", map);
+					        logger.info("딜리트 렁공 :" + delete);
+			
+					    return "mypages/mypage_reservation_list.jsp";
+					}
+		
+		
 
 }

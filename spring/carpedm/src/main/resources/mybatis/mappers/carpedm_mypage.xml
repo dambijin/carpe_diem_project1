@@ -174,4 +174,34 @@
 DELETE FROM wishlist WHERE w_id = #{w_id} AND m_pid = ${m_pid}
 </delete>
 
+<update id="weapon" parameterType="Map">
+ <![CDATA[
+   UPDATE loan
+SET l_returndate = l_returndate + 7, 
+    l_extendcount = l_extendcount + 1
+WHERE l_id = #{l_id} AND l_extendcount < 2
+    ]]>
+</update>
+<delete id="reservationCancle" parameterType="Map">
+ <![CDATA[
+  delete from reservation where m_pid = ${m_pid} and r_id in ( ${r_id} )
+    ]]>
+</delete>
+<update id="reservationUpdate" parameterType="Map">
+
+  UPDATE book 
+SET b_resstate = 'Y' 
+WHERE book.b_id IN (
+    SELECT book.b_id 
+    FROM reservation 
+    INNER JOIN book ON reservation.b_id = book.b_id 
+    WHERE m_pid = ${m_pid} AND r_id in( ${r_id} )
+)
+   
+</update>
+<update id="wishDelete" parameterType="Map">
+DELETE FROM wishlist 
+WHERE m_pid = ${m_pid}
+AND w_id IN (${w_id})
+</update>
 </mapper>

@@ -79,5 +79,27 @@ public class My_Wishbook_listController {
 
 			return "mypages/mypage_wishbook_list.jsp";
 		}
+		
+				// 희망 도서 신청 목록 페이지
+				@RequestMapping(value = "/mypage_wishbook_list", method = RequestMethod.POST)
+				protected String wishbook_delete(Locale locale, Model model,
+						@RequestParam(value = "ids", defaultValue = "") String w_id, 
+						@RequestParam(value = "m_pid", defaultValue = "") String m_pid
+						) throws ServletException, IOException {
+					
+						Map<String, String> map = new HashedMap();
+					System.out.println(w_id);
+					//m_pid 자리 넘보지 마셈
+					map.put("m_pid", 15+"");
+					map.put("w_id", w_id);
+
+					
+					int list = sqlSession.insert("mapper.carpedm.mypage.wishDelete", map);
+				
+
+					
+
+					return "mypages/mypage_wishbook_list.jsp";
+				}
 
 }

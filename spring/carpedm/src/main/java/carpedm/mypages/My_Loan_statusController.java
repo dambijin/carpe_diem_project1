@@ -1,6 +1,7 @@
 package carpedm.mypages;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import carpedm.dto.MemberDTO;
 import carpedm.test222.HomeController;
@@ -73,16 +75,32 @@ public class My_Loan_statusController {
 		return "mypages/mypage_loan_status.jsp";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/mypage_loan_status", method = RequestMethod.POST)
-	public String handleFormSubmit() {
+	public Map<String, String > handleFormSubmit(
+				@RequestParam("l_id") String l_id,
+				@RequestParam ("m_pid")String m_pid
+				
+				) {
 		// 폼 데이터 처리 로직 작성
-		Map<String, String> chgInfo = new HashedMap();
-
+		Map<String, String> weapon = new HashedMap();
 		
+		weapon.put("l_id", l_id);
+		weapon.put("m_pid", m_pid);
+		
+		Map response = new HashMap();
+		
+		System.out.println(weapon);
+		int succhk = sqlSession.insert("mapper.carpedm.mypage.weapon", weapon);
+		if (succhk > 0) {
+	        response.put("message", "success");
+	    } else {
+	        response.put("message", "fail");
+	    }
 
-		int succhk = sqlSession.insert("mapper.carpedm.mypage.updateInfo", chgInfo);
+	    return response;
 
-		return "mypagesmypage_loan_status.jsp";
+//		return "mypages/mypage_loan_status.jsp";
 	}
 
 }

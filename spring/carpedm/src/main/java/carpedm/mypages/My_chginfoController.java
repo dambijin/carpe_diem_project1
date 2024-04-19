@@ -40,15 +40,9 @@ public class My_chginfoController {
 					
 				) throws ServletException, IOException {
 
-			
-			
 			List<Map<String, Object>> myInfo = sqlSession.selectList("mapper.carpedm.mypage.myInfo1", "15");
-			
-					
-					model.addAttribute("myInfo", myInfo);
 
-			
-			
+					model.addAttribute("myInfo", myInfo);
 
 			return "mypages/mypage_chginfo.jsp.noTiles";
 		}
