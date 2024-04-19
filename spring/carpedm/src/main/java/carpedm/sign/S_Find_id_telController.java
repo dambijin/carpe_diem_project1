@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class S_Find_id_tel {
+public class S_Find_id_telController {
 
-private static final Logger logger = LoggerFactory.getLogger(S_Find_id_tel.class);
+	
+	private static final Logger logger = LoggerFactory.getLogger(S_Find_id_telController.class);
 	
 	@Autowired	
 	private SqlSession sqlSession;
@@ -38,5 +39,5 @@ private static final Logger logger = LoggerFactory.getLogger(S_Find_id_tel.class
 		model.addAttribute("list", list);		
 		
 		return "sign/find_id_tel.jsp";
-	}		
+	}	
 }

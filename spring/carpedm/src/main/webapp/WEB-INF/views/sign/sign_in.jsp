@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
-    <link href="/carpedm_old/css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         /* 헤더 아래 모두 */
@@ -145,7 +145,7 @@
                     document.querySelector('.textbox2').focus();
                  }else {
                     // 로그인 요청 보내기
-                    fetch('/carpedm_old/sign_in', {
+                    fetch('/carpedm/sign_in', {
                         method: 'POST',
                         headers: {
                         	'Content-Type': 'application/x-www-form-urlencoded'
@@ -311,7 +311,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="/carpedm_old/js/header.js"></script>
+<!--     <script src="/carpedm_old/js/header.js"></script> -->
 </body>
 
 </html>

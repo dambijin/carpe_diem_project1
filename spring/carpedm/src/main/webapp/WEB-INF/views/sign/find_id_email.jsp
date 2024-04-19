@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이메일로 아이디 찾기</title>
-    <link href="/carpedm_old/css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <style>
         .email_find {
             width: 80%;
@@ -285,7 +285,7 @@
             </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="/carpedm_old/js/header.js"></script>
+<!--     <script src="/carpedm_old/js/header.js"></script> -->
 </body>
 
 </html>

@@ -5,8 +5,8 @@
 <mapper namespace="mapper.carpedm.sign">
 
 	<select id="sign_in" resultType="MemberDTO">
-		select * from member
-	</select>
+        select * from member where m_id = #{m_id} and m_pw = #{m_pw}
+    </select>
 	
 	<select id="login_up" resultType="MemberDTO">
 		select * from member
