@@ -34,7 +34,7 @@ import carpedm.test222.HomeController;
 @Controller
 public class Main_Controller extends HttpServlet {
 	
-	private static final Logger logger = LoggerFactory.getLogger(Main_Controller.class);
+	private final Logger logger = LoggerFactory.getLogger(Main_Controller.class);
 	
 	@Autowired	
 	private SqlSession sqlSession;

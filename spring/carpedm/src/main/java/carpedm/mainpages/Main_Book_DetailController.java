@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class Main_Book_DetailController extends HttpServlet {
 
-	private static final Logger logger = LoggerFactory.getLogger(Main_Book_DetailController.class);
+	private final Logger logger = LoggerFactory.getLogger(Main_Book_DetailController.class);
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -43,8 +43,8 @@ public class Main_Book_DetailController extends HttpServlet {
 			logger.info("업데이트 여부 : " + succhk);
 		}
 		long unixTime = System.currentTimeMillis();
-		List<Map<String, String>> bookdetail_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBookDetail_book_detail", b_id);
-		Map<String, String> bookdetail_map = bookdetail_list.get(0);
+		List<Map<String, String>> bookdetail_map_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBookDetail_book_detail", b_id);
+		Map<String, String> bookdetail_map = bookdetail_map_list.get(0);
 		System.out.println("책 상세(DB) 걸린시간 : " + (System.currentTimeMillis() - unixTime));
 		
 		bookdetail_map.put("B_ISBN", String.valueOf(bookdetail_map.get("B_ISBN")));

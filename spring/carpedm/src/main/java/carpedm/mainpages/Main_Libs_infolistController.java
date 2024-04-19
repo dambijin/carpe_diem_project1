@@ -32,7 +32,7 @@ import carpedm.test222.HomeController;
 @Controller
 public class Main_Libs_infolistController extends HttpServlet {
 	
-	private static final Logger logger = LoggerFactory.getLogger(Main_Libs_infolistController.class);
+	private final Logger logger = LoggerFactory.getLogger(Main_Libs_infolistController.class);
 	
 	@Autowired	
 	private SqlSession sqlSession;
@@ -42,12 +42,12 @@ public class Main_Libs_infolistController extends HttpServlet {
 			throws ServletException, IOException {
 		
 		List list = sqlSession.selectList("mapper.carpedm.mainpages.selectLib_libinfo");
-		System.out.println("list : " + list);
-		
-		if (list != null) {
-			System.out.println("list.isze : " + list.size());
-			logger.error("list.size : " + list.size());
-		}
+//		System.out.println("list : " + list);
+//		
+//		if (list != null) {
+//			System.out.println("list.isze : " + list.size());
+//			logger.error("list.size : " + list.size());
+//		}
 
 		model.addAttribute("list", list);		
 		

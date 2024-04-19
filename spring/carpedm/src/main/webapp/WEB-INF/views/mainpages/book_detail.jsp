@@ -15,7 +15,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 <style>
 section {
 	width: 830px;
@@ -201,8 +201,8 @@ section {
 	//예약기능
 	function reservation(b_id) {
 			<%// 세션에서 현재 아이디값 가져오기
-HttpSession getSession = request.getSession();
-String login_m_pid = (String) getSession.getAttribute("m_pid");%>
+			HttpSession getSession = request.getSession();
+			String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 // 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
@@ -292,16 +292,7 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 							<td>
 								<strong	class="${bookdetail_map.B_LOANSTATE eq 'Y' ? '_success' : '_fail'}">${bookdetail_map.B_LOANSTATE eq 'Y' ? '대출가능' : '대출불가'}</strong><br>
 							</td>
-							<td>
-							    <c:choose>
-							        <c:when test="${not empty bookdetail_map.L_RETURNDATE}">
-							            <fmt:formatDate value="${bookdetail_map.L_RETURNDATE}" pattern="yyyy-MM-dd" />
-							        </c:when>
-							        <c:otherwise>
-							            -
-							        </c:otherwise>
-							    </c:choose>
-							</td>
+							<td>${empty bookdetail_map.L_RETURNDATE ? '-' : fn:substring(bookdetail_map.L_RETURNDATE, 0, 10)}</td>
 							
 							<c:set var="onclickAttribute" value=""/>
 							<c:if test="${bookdetail_map.B_RESSTATE eq 'Y'}">

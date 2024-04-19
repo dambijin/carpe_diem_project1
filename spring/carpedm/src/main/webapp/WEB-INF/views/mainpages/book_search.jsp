@@ -16,7 +16,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자료검색</title>
-
+<link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 <style>
 section {
 	width: 80%;
@@ -475,6 +475,7 @@ section {
 // 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(login_m_pid);
+// 	    console.log(data);
 		//dopost로 보내기위한 코드
 	    fetch(url, {
 	      method: 'POST',

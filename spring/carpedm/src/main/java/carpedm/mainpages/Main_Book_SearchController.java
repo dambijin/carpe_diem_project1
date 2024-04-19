@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
@@ -30,7 +31,7 @@ import carpedm.dto.SearchinfoDTO;
 @Controller
 public class Main_Book_SearchController extends HttpServlet {
 
-	private static final Logger logger = LoggerFactory.getLogger(Main_Book_SearchController.class);
+	private final Logger logger = LoggerFactory.getLogger(Main_Book_SearchController.class);
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -57,6 +58,7 @@ public class Main_Book_SearchController extends HttpServlet {
 		} else if (item.equals("ISBN")) {
 			item_query = "b.b_isbn";
 		}
+
 		String okywd_kywd = "b.b_title";
 		String okywd_order = "ASC";
 		try {
@@ -120,7 +122,7 @@ public class Main_Book_SearchController extends HttpServlet {
 		String query = "SELECT *" + " FROM (SELECT rownum rnum, a.* FROM (" + baseQuery + ") a" + " WHERE rownum <= "
 				+ endRow + ")" + " WHERE rnum >= " + startRow;
 
-		System.out.println(query);
+//		System.out.println(query);
 		
 		List<Map> book_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBookList_book_search", query);
 		List<SearchinfoDTO> pop_search_list = sqlSession
@@ -153,7 +155,9 @@ public class Main_Book_SearchController extends HttpServlet {
 		        si_id = (String) sqlSession.selectOne("mapper.carpedm.mainpages.selectSiId_book_search");
 		}
 
-		int book_count = sqlSession.selectList("mapper.carpedm.mainpages.selectBookList_book_search", baseQuery).size();
+		Map<String, String> temp_book_count = new HashMap();
+		temp_book_count = (Map<String,String>)sqlSession.selectOne("mapper.carpedm.mainpages.selectBookList_book_search", baseQuery.replace("SELECT b.*, l.lb_name ", "SELECT count(*) "));
+		int book_count = Integer.parseInt(String.valueOf(temp_book_count.get("COUNT(*)")));
 
         int startPage = Math.max(currentPage - 2, 1);
         int totalPages = book_count > 0 ? (int) Math.ceil(book_count / Double.parseDouble(perPage)) : 1;
@@ -182,5 +186,31 @@ public class Main_Book_SearchController extends HttpServlet {
         model.addAttribute("end_page", endPage);
         model.addAttribute("total_pages", totalPages);
 		return "mainpages/book_search.jsp";
+	}
+	
+	@RequestMapping(value = "/book_search", method = RequestMethod.POST,consumes = "application/x-www-form-urlencoded")
+	@ResponseBody
+	protected String book_search_post(@RequestParam("b_id") String b_id, @RequestParam("m_pid") String m_pid) throws IOException {
+        String result = "fail";
+
+        Map<String, String> params = new HashMap<String,String>();
+        params.put("b_id", b_id);
+        params.put("m_pid", m_pid);
+        
+		if (m_pid != null && !m_pid.isEmpty() && !"null".equals(m_pid)) {
+			int succhk = sqlSession.update("mapper.carpedm.mainpages.updateBookResState_book_search", params);
+			logger.info("업데이트 : " + succhk);
+			if(succhk > 0)
+			{
+				succhk = sqlSession.insert("mapper.carpedm.mainpages.insertBookRes_book_search", params);
+				logger.info("인서트 : " + succhk);
+			}
+			
+			result = "{\"message\": \"success\"}";
+        } else {
+        	result = "{\"message\": \"fail\"}";
+        }
+		
+		return result;
 	}
 }

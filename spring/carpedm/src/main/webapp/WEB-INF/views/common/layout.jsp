@@ -87,6 +87,14 @@
     color: rgba(239, 168, 176, 1.0);
 }
 
+#header .sign_out {
+    display: inline-block;
+}
+
+#header .sign_out:hover {
+    color: rgba(239, 168, 176, 1.0);
+}
+
 #header .sign_up_in a {
     color: inherit;    /* 텍스트 색상을 상위 요소와 동일하게 설정 */
     text-decoration: none;    /* 밑줄 제거 */
