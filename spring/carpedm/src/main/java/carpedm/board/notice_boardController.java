@@ -22,27 +22,30 @@ import carpedm.dto.NoticeBoardDTO;
 @Controller // MVC컨트롤러로 선언
 public class notice_boardController extends HttpServlet {
 	private static final Logger logger = LoggerFactory.getLogger(notice_boardController.class);
-	
-	@Autowired	
+
+	@Autowired
 	notice_boardService NBdao;
+
 	
+//  @RequestMapping이 NoticeBoardDTO를 new(생성)를 하고 필드에 값을 넣어줌
+//	그래서 notice_boardController 파일 안에서 new를 따로 적지 않은 것
 	@RequestMapping(value = "/notice_board", method = RequestMethod.GET)
-	protected String notice_board(Locale locale, Model model, @ModelAttribute NoticeBoardDTO dto
-			, @RequestParam(value="search", defaultValue="") String search
-			, @RequestParam(value="type", defaultValue="제목") String type)
-			throws ServletException, IOException {
-		List list = NBdao.listNotice(dto);
-		
-		
-		
+	protected String notice_board(Locale locale, Model model, @ModelAttribute NoticeBoardDTO dto,
+			@RequestParam(value = "search", defaultValue = "") String search,
+			@RequestParam(value = "n_search", defaultValue = "제목") String type) throws ServletException, IOException {
+
+		System.out.println("타입 : " + type);
+		System.out.println("검색어 : " + search);
+
+		List list = NBdao.listNotice(dto, search, type);
 		if (list != null) {
 			System.out.println("list.isze : " + list.size());
 			logger.error("list.size : " + list.size());
 		}
 
-		model.addAttribute("list", list);		
-		
+		model.addAttribute("list", list);
+
 		return "board/notice_board.jsp";
-	}	
-	
+	}
+
 }

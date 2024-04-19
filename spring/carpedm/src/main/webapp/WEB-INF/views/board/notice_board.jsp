@@ -55,7 +55,7 @@ window.onload = function() {
 			document.querySelector('#searchbox').focus();
 		} else {
 			alert(textbox.value + "검색했습니다");
-			window.location.href = '/carpedm_old/notice_board?search='
+			window.location.href = '/carpedm/notice_board?search='
 					+ encodeURIComponent(textbox.value) + '&n_search='
 					+ document.querySelector("#searchselect").value;
 		}
@@ -285,6 +285,7 @@ window.onload = function() {
 		        <select class="change_handwriting" id="searchselect" name="n_search">
 		            <option>제목</option>
 		            <option>제목+내용</option>
+		            <option>내용</option>
 		            <option>도서관</option>
 		        </select>
 		        <input type="text" class="change_handwriting search_input" id="searchbox" name="s_box">
@@ -391,7 +392,7 @@ window.onload = function() {
 	</section>
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm_old/js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

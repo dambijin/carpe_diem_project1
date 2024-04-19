@@ -18,7 +18,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QnA상세페이지</title>
-<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 <script>
 window.onload = function() {
     // 변수 설정
@@ -279,43 +279,43 @@ window.onload = function() {
 			</div>
 			<div class="right_section" id="rs">
 				<div class="QnA_detail">
-				    <c:set var="select" value="${requestScope.notice}" />
+				    <c:set var="select" value="${qnanotice}" />
 				    <table>
 				        <tr>
 				            <td class="subject">제목</td>
 				            <td colspan="5" class="subject_title" id="qna_title">
-				                ${select[0].N_TITLE}
+				                ${select[0].n_title}
 				            </td>
 				        </tr>
 				        <tr>
 				            <td class="subject">작성자</td>
 				            <td class="writer">
-				                <c:set var="name" value="${select[0].M_NAME}" />
+				                <c:set var="name" value="${select[0].m_name}" />
 				                <c:set var="rename" value="${fn:substring(name, 0, 1)}**" />
 				                ${rename}
-				                <input type="hidden" value="${select[0].N_OPT}" name="NOPT" />
-				                <input type="hidden" value="${select[0].M_PID}" name="mpid" />
+				                <input type="hidden" value="${select[0].n_opt}" name="NOPT" />
+				                <input type="hidden" value="${select[0].m_pid}" name="mpid" />
 				            </td>
 				            <td class="subject">등록일</td>
 				            <td>
-				                ${fn:substring(select[0].N_DATE, 0, 10)}
+				                ${fn:substring(select[0].n_date, 0, 10)}
 				            </td>
 				            <td class="subject">조회</td>
-				            <td class="inquiry">${select[0].N_VIEWCOUNT}</td>
+				            <td class="inquiry">${select[0].n_viewcount}</td>
 				        </tr>
 				        <tr>
 				            <td class="subject">도서관</td>
-				            <td colspan="5">${select[0].LB_NAME}</td>
+				            <td colspan="5">${select[0].lb_name}</td>
 				        </tr>
 				        <tr>
 				            <td class="subject">첨부</td>
 				            <td colspan="5" id="subject_file">
 				                <c:choose>
-				                    <c:when test="${empty select[0].N_FILE}">
+				                    <c:when test="${empty select[0].n_file}">
 				                        <c:out value=" " />
 				                    </c:when>
 				                    <c:otherwise>
-				                        ${select[0].N_FILE}
+				                        ${select[0].n_file}
 				                    </c:otherwise>
 				                </c:choose>
 				            </td>
@@ -323,27 +323,27 @@ window.onload = function() {
 				        <tr>
 				            <td class="content" colspan="6">
 				            	<c:set var="newline" value="${newline}" />
-				                ${fn:replace(select[0].N_CONTENT, newline, "<br>")}
+				                ${fn:replace(select[0].n_content, newline, "<br>")}
 				            </td>
 				        </tr>
 				    </table>
 				
 				    <div id="qna_but">
 				        <button type="button" class="notice_but" id="QnAupdate"
-				                onclick="location.href='QnA_update?N_ID=${select[0].N_ID}'">수정
+				                onclick="location.href='QnA_update?N_ID=${select[0].n_id}'">수정
 				        </button>
 				    </div>
 				
 				    <div id="detail_but">
 				        <button type="button" class="notice_but completion reply"
 				                id="writebut"
-				                onclick="location.href='QnA_reply_write?N_ID=${select[0].N_ID}'">답글
+				                onclick="location.href='QnA_reply_write?N_ID=${select[0].n_id}'">답글
 				        </button>
 				    </div>
 				    <div id="delet_but">
 				        <form method="get" action="QnA_delete">
 				            <button type="submit" class="notice_but" id="QnAdelete"
-				                    onclick="location.href='QnA_delete?N_ID=${select[0].N_ID}'">삭제
+				                    onclick="location.href='QnA_delete?N_ID=${select[0].n_id}'">삭제
 				            </button>
 				        </form>
 				    </div>
@@ -353,7 +353,7 @@ window.onload = function() {
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm_old/js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 
 </body>
 

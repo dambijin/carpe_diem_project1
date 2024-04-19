@@ -18,21 +18,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import carpedm.dto.NoticeBoardDTO;
 
 @Repository
-public class notice_boardDAO  {
-	
-	@Autowired	
+public class notice_boardDAO {
+
+	@Autowired
 	private SqlSession sqlSession;
-	
-	public List getNotice(NoticeBoardDTO dto) {
+
+	public List getNotice(NoticeBoardDTO dto, String search, String type) {
 		List list = null;
 		try {
-			if(sqlSession != null) {
-				list = sqlSession.selectList("mapper.carpedm.board.n_board");
-				System.out.println("list" +list);
+			if (sqlSession != null) {
+				dto.setSearch(search); // search 값을 설정
+				dto.setType(type); // type 값을 설정
+				System.out.println("dto : " + dto);
+
+				list = sqlSession.selectList("mapper.carpedm.board.n_board", dto);
+				System.out.println("list" + list);
 			} else {
 				System.out.println("DB 접속 실패");
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;

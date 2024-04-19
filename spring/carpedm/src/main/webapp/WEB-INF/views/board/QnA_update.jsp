@@ -18,7 +18,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QnA 게시판 글쓰기(수정)</title>
- <link href="/carpedm_old/css/layout.css" rel="stylesheet">
+ <link href="/carpedm/css/layout.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous">
@@ -326,8 +326,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 					<!-- 글쓰기 정보 -->
 					<div class="div_table">
-					    <c:set var="qna_notice" value="${requestScope.qna_notice}" />
-					    <c:set var="library" value="${requestScope.library}" />
+					    <c:set var="qna_notice" value="${qna_notice}" />
+					    <c:set var="library" value="${library}" />
 					    <table class="table_table">
 					        <colgroup>
 					            <col />
@@ -336,20 +336,20 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					            <tr>
 					                <th>제목</th>
 					                <td>
-					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="notice_subject" value="${qna_notice[0].N_TITLE}" />
+					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="notice_subject" value="${qna_notice[0].n_title}" />
 					                </td>
 					            </tr>
 					        </thead>
 					        <tbody>
 					            <tr>
 					                <th>소속도서관
-					                    <input type="hidden" name="n_id" value="${qna_notice[0].N_ID}" />
+					                    <input type="hidden" name="n_id" value="${qna_notice[0].n_id}" />
 					                </th>
 					                <td>
 					                    <select class="inputbox" id="library" name="library">
-					                        <option selected value="${qna_notice[0].LB_ID}">${qna_notice[0].LB_NAME}</option>
+					                        <option selected value="${qna_notice[0].lb_id}">${qna_notice[0].lb_name}</option>
 					                        <c:forEach var="lib" items="${library}">
-					                            <option value="${lib.LB_ID}">${lib.LB_NAME}</option>
+					                            <option value="${lib.lb_id}">${lib.lb_name}</option>
 					                        </c:forEach>
 					                    </select>
 					                </td>
@@ -367,7 +367,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					</div>
 					
 					<div class="td1">
-					    <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_textarea">${qna_notice[0].N_CONTENT}</textarea>
+					    <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_textarea">${qna_notice[0].n_content}</textarea>
 					</div>
 
 					<!-- 버튼 -->
@@ -383,7 +383,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm_old/js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

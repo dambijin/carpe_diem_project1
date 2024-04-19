@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 신청</title>
-    <link href="/carpedm_old/css/layout.css" rel="stylesheet">
+    <link href="/carpedm/css/layout.css" rel="stylesheet">
     <style>
         /* table 왼쪽 */
         .right_section .subject {
@@ -98,6 +98,7 @@
 /* 신청안내 */
 .right_section .details_summary .application_guide{
     font-family: "Wanted Sans Variable";
+    text-align : "left";
 }
         /* 신청안내 펼치기/접기 */
         .right_section .details_summary details {
@@ -277,8 +278,8 @@
 					            <td class="subject">* 희망소장처</td>
 					            <td>
 					                <select class="textbox" id="library" name="library">
-					                    <c:forEach var="library" items="${library_list}">
-					                        <option value="${library.LB_ID}">${library.LB_NAME}</option>
+					                    <c:forEach var="library" items="${library}">
+					                        <option value="${library.lb_id}">${library.lb_name}</option>
 					                    </c:forEach>
 					                </select>
 					            </td>
@@ -311,11 +312,11 @@
 					        </tr>
 					        <tr>
 					            <td class="subject">신청자 이름</td>
-					            <td><input type="text" value="${mem[0].M_NAME}" name="w_name" class="textbox" placeholder="이름" id="user_name" /></td>
+					            <td><input type="text" value="${mem[0].m_name}" name="w_name" class="textbox" placeholder="이름" id="user_name" /></td>
 					        </tr>
 					        <tr>
 					            <td class="subject">* 휴대폰 번호</td>
-					            <td><input type="number" value="${mem[0].M_TEL}" name="w_tel" class="textbox" placeholder="-없이 입력해주세요" id="handphone" /></td>
+					            <td><input type="number" value="${mem[0].m_tel}" name="w_tel" class="textbox" placeholder="-없이 입력해주세요" id="handphone" /></td>
 					        </tr>
 					        <tr>
 					            <td class="subject">* 개인정보 수집 동의</td>
@@ -335,7 +336,7 @@
         </div>
     </section>
     <!-- 헤더를 덮어씌우는 자바스크립트 -->
-    <script src="/carpedm_old/js/header.js"></script>
+    <script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

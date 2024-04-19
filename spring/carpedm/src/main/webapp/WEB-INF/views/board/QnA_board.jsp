@@ -15,7 +15,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QnA 게시판</title>
-<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<link href="/carpedm/css/layout.css" rel="stylesheet">
 <script>
 	window.addEventListener("load", function() {
 
@@ -72,7 +72,7 @@
 			document.querySelector('#searchbox').focus();
 		} else {
 			alert(textbox.value + "검색했습니다");
-			window.location.href = '/carpedm_old/QnA_board?search='+ encodeURIComponent(textbox.value) + '&n_search='+ document.querySelector("#searchselect").value;
+			window.location.href = '/carpedm/QnA_board?search='+ encodeURIComponent(textbox.value) + '&n_search='+ document.querySelector("#searchselect").value;
 		}
 	};
 </script>
@@ -284,6 +284,7 @@
 								name="n_search">
 								<option>제목</option>
 								<option>제목+내용</option>
+								<option>내용</option>
 							</select> <input type="text" class="change_handwriting search_input"
 								id="searchbox"> <input type="button"
 								class="change_handwriting request search_button" value="검색"
@@ -304,33 +305,33 @@
 						        <tbody>
 						            <c:forEach var="item" items="${list}">
 						                <tr>
-						                    <td id="nid_value">${item.N_ID}</td>
+						                    <td id="nid_value">${item.n_id}</td>
 						                    <td name="close_tx">
-						                        <input type="hidden" id="close_id" value="${item.N_OPT}" name="n_opt">
+						                        <input type="hidden" id="close_id" value="${item.n_opt}" name="n_opt">
 						                        <c:choose>
-						                            <c:when test="${item.N_OPT == '1'}">공개</c:when>
+						                            <c:when test="${item.n_opt == '1'}">공개</c:when>
 						                            <c:otherwise>비공개</c:otherwise>
 						                        </c:choose>
 						                    </td>
-						                    <c:set var="lv" value="${item.LV}" />
+						                    <c:set var="lv" value="${item.lv}" />
 						                    <c:set var="pad" value="${lv * 10}" />
 						                    <td class="table_title" style="padding-left: ${pad}px;">
-						                        <a id="title_st" href="QnA_detail?N_ID=${item.N_ID}" class="table_a" name="a_tag">
-						                            <c:if test="${item.N_PARENT_ID != null}">└</c:if>
-						                            ${item.N_TITLE}
+						                        <a id="title_st" href="QnA_detail?N_ID=${item.n_id}" class="table_a" name="a_tag">
+						                            <c:if test="${item.n_parent_id != 0 && item.n_parent_id != null}">└</c:if>
+						                            ${item.n_title}
 						                        </a>
 						                    </td>
 						                    <td>
-						                        <c:set var="name" value="${item.M_NAME}" />
+						                        <c:set var="name" value="${item.m_name}" />
 						                        <c:if test="${name == null}">
 						                            <c:set var="name" value=" " />
 						                        </c:if>
 						                        <c:set var="rename" value="${fn:substring(name, 0, 1)}**" />
 						                        ${rename}
-						                        <input type="hidden" name="m_writer_id" value="${item.M_PID}">
+						                        <input type="hidden" name="m_writer_id" value="${item.m_pid}">
 						                    </td>
-						                    <td>${fn:substring(item.N_DATE, 0, 10)}</td>
-						                    <td>${item.N_VIEWCOUNT}</td>
+						                    <td>${fn:substring(item.n_date, 0, 10)}</td>
+						                    <td>${item.n_viewcount}</td>
 						                </tr>
 						            </c:forEach>
 						        </tbody>
@@ -339,11 +340,9 @@
 
 					</div>
 					<div class="paging_writing">
-
 						<div class="writing">
 							<button class="change_handwriting request"
 								onclick="location.href='QnA_write';">글쓰기</button>
-
 						</div>
 
 <!-- 						<div id="paging"> -->
@@ -403,7 +402,7 @@
 	</section>
 
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm_old/js/header.js"></script>
+	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

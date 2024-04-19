@@ -18,13 +18,34 @@ public class NoticeBoardDTO {
 	String lb_name;
 	int lv;
 	String m_tel; // 전화번호
+	String search;
+	String type;
 
+
+	
 	@Override
 	public String toString() {
 		return "NoticeBoardDTO [n_id=" + n_id + ", lb_id=" + lb_id + ", n_opt=" + n_opt + ", n_title=" + n_title
 				+ ", n_content=" + n_content + ", n_date=" + n_date + ", n_viewcount=" + n_viewcount + ", n_file="
 				+ n_file + ", n_chgdate=" + n_chgdate + ", m_pid=" + m_pid + ", n_parent_id=" + n_parent_id
-				+ ", m_name=" + m_name + ", lb_name=" + lb_name + ", lv=" + lv + ", m_tel=" + m_tel + "]";
+				+ ", m_name=" + m_name + ", lb_name=" + lb_name + ", lv=" + lv + ", m_tel=" + m_tel + ", search="
+				+ search + ", type=" + type + "]";
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getM_tel() {
