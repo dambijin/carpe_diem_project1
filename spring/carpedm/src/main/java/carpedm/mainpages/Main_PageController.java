@@ -32,26 +32,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import carpedm.test222.HomeController;
 
 @Controller
-public class Main_Controller extends HttpServlet {
+public class Main_PageController{
 	
-	private final Logger logger = LoggerFactory.getLogger(Main_Controller.class);
+	private final Logger logger = LoggerFactory.getLogger(Main_PageController.class);
 	
-	@Autowired	
-	private SqlSession sqlSession;
+    @Autowired	
+    private Main_PageService main_PageService;
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	protected String main(Locale locale, Model model)
 			throws ServletException, IOException {
 		String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-		List library_list = sqlSession.selectList("mapper.carpedm.mainpages.selectLib_libinfo");
-		List notice_list = sqlSession.selectList("mapper.carpedm.mainpages.selectNotice_main");
-		List book_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBook_main");
-		List banner_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBanner_main",now_date);
-
-		model.addAttribute("library_list", library_list);		
-		model.addAttribute("notice_list", notice_list);		
-		model.addAttribute("book_list", book_list);
-		model.addAttribute("banner_list", banner_list);
+        
+		model.addAttribute("library_list", main_PageService.getLibraryList());		
+        model.addAttribute("notice_list", main_PageService.getNoticeList());		
+        model.addAttribute("book_list", main_PageService.getBookList());
+        model.addAttribute("banner_list", main_PageService.getBannerList(now_date));
+        
 		
 		return "mainpages/main.jsp";
 	}			

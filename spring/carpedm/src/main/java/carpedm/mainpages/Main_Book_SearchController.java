@@ -30,12 +30,12 @@ import carpedm.dto.LibraryDTO;
 import carpedm.dto.SearchinfoDTO;
 
 @Controller
-public class Main_Book_SearchController extends HttpServlet {
+public class Main_Book_SearchController {
 
 	private final Logger logger = LoggerFactory.getLogger(Main_Book_SearchController.class);
 
 	@Autowired
-	private SqlSession sqlSession;
+	private Main_Book_SearchService main_Book_SearchService;
 
 	@RequestMapping(value = "/book_search", method = RequestMethod.GET)
 	protected String book_search(Locale locale, Model model, HttpServletRequest request,
@@ -90,7 +90,7 @@ public class Main_Book_SearchController extends HttpServlet {
 		int endRow = currentPage * itemsPerPage;
 
 		// 얘는 앞에서 쓰기때문에 미리 해줘야함
-		List<LibraryDTO> library_list = sqlSession.selectList("mapper.carpedm.mainpages.selectLibList_book_search");
+		List<LibraryDTO> library_list = main_Book_SearchService.getLibListBookSearch();
 		if (libraryIds == null || libraryIds.length == 0) {
 			libraryIds = new String[library_list.size()];
 			for (int i = 0; i < library_list.size(); i++) {
@@ -125,9 +125,8 @@ public class Main_Book_SearchController extends HttpServlet {
 
 //		System.out.println(query);
 		
-		List<Map> book_list = sqlSession.selectList("mapper.carpedm.mainpages.selectBookList_book_search", query);
-		List<SearchinfoDTO> pop_search_list = sqlSession
-				.selectList("mapper.carpedm.mainpages.selectPopSearchList_book_search");
+		List<Map> book_list = main_Book_SearchService.getBookListBookSearch(query);
+		List<SearchinfoDTO> pop_search_list = main_Book_SearchService.getPopSearchListBookSearch();
 
 //		System.out.println(book_list);
 
@@ -150,14 +149,13 @@ public class Main_Book_SearchController extends HttpServlet {
 			  	insert_params.put("now_date", now_date);
 			  	insert_params.put("clientIP", clientIP);
 		        
-		        int succhk = sqlSession.insert("mapper.carpedm.mainpages.insertSearchInfo_book_search", insert_params);
+		        int succhk = main_Book_SearchService.insertBookResBookSearch(insert_params);
 		        System.out.println("검색성공:"+succhk);
 		        // 조회id값 가져오기
-		        si_id = (String) sqlSession.selectOne("mapper.carpedm.mainpages.selectSiId_book_search");
+		        si_id = main_Book_SearchService.getSiIdBookSearch();
 		}
 
-		Map<String, String> temp_book_count = new HashMap();
-		temp_book_count = (Map<String,String>)sqlSession.selectOne("mapper.carpedm.mainpages.selectBookList_book_search", baseQuery.replace("SELECT b.*, l.lb_name ", "SELECT count(*) "));
+		Map<String, String> temp_book_count = (Map<String,String>)main_Book_SearchService.getBookCountBookSearch(baseQuery.replace("SELECT b.*, l.lb_name ", "SELECT count(*) "));
 		int book_count = Integer.parseInt(String.valueOf(temp_book_count.get("COUNT(*)")));
 
         int startPage = Math.max(currentPage - 2, 1);
@@ -200,11 +198,11 @@ public class Main_Book_SearchController extends HttpServlet {
         params.put("m_pid", m_pid);
         
 		if (m_pid != null && !m_pid.isEmpty() && !"null".equals(m_pid)) {
-			int succhk = sqlSession.update("mapper.carpedm.mainpages.updateBookResState_book_search", params);
+			int succhk = main_Book_SearchService.updateBookResStateBookSearch(params);
 			logger.info("업데이트 : " + succhk);
 			if(succhk > 0)
 			{
-				succhk = sqlSession.insert("mapper.carpedm.mainpages.insertBookRes_book_search", params);
+				succhk = main_Book_SearchService.insertBookResBookSearch(params);
 				logger.info("인서트 : " + succhk);
 			}
 			
