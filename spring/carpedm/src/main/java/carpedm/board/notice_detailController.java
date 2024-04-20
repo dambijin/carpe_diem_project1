@@ -35,7 +35,7 @@ public class notice_detailController extends HttpServlet {
 	// N_ID 라는 안에 내용이 일치해서 생략이 가능 그 외에 불가능
 	protected String notice_detail(Locale locale, Model model, 
 			@RequestParam("N_ID") int N_ID,
-			MemberDTO mdto, HttpServletRequest request)
+			HttpServletRequest request)
 			throws ServletException, IOException {
 		NoticeBoardDTO noticeDTO = new NoticeBoardDTO();
 		sqlSession.update("mapper.carpedm.board.updateNotice", N_ID);
@@ -47,9 +47,8 @@ public class notice_detailController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String mpid = (String) session.getAttribute("m_pid");
 		MemberDTO memberDTO = null;
-		mdto.setM_pid(mpid);
 		if (mpid != null) {
-			memberDTO = sqlSession.selectOne("mapper.carpedm.board.member_pid", mdto);
+			memberDTO = sqlSession.selectOne("mapper.carpedm.board.member_pid", mpid);
 			model.addAttribute("m_pid", memberDTO);	
 		}
 		

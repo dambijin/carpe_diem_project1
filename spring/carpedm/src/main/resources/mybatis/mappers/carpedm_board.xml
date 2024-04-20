@@ -5,8 +5,8 @@
 <mapper namespace="mapper.carpedm.board">
 
 	<!-- notice_board 페이지 select문 -->
-	<select id="n_board" resultType="carpedm.dto.NoticeBoardDTO"
-		parameterType="carpedm.dto.NoticeBoardDTO">
+	<select id="n_board" resultType="NoticeBoardDTO"
+		parameterType="NoticeBoardDTO">
 		SELECT * FROM (
 		SELECT rownum rnum, n1.* FROM (
 		SELECT notice.*,
@@ -40,10 +40,10 @@
 
 	<!-- notice_board 페이지 글쓰기 버튼을 위해 로그인된 아이디 관리자인지 아닌지 확인 -->
 	<select id="member_pid" resultType="MemberDTO"
-		parameterType="MemberDTO">
+		parameterType="String">
 		SELECT *
 		FROM MEMBER
-		where m_pid = ${m_pid}
+		where m_pid = ${_parameter}
 	</select>
 
 	<update id="updateNotice" parameterType="int">
@@ -52,8 +52,8 @@
 	</update>
 
 	<!-- notice_detail/notice_update/QnA_update/QnA_detail/QnA_reply_write 페이지 -->
-	<select id="notice_nid" resultType="carpedm.dto.NoticeBoardDTO"
-		parameterType="carpedm.dto.NoticeBoardDTO">
+	<select id="notice_nid" resultType="NoticeBoardDTO"
+		parameterType="NoticeBoardDTO">
 		SELECT n.*, m.M_NAME, l.LB_NAME
 		FROM notice n
 		JOIN member
@@ -64,8 +64,8 @@
 	</select>
 
 	<!-- notice_update/QnA_update/QnA_reply_write 페이지 도서관 값 불러오기 -->
-	<select id="library_nid" resultType="carpedm.dto.NoticeBoardDTO"
-		parameterType="carpedm.dto.NoticeBoardDTO">
+	<select id="library_nid" resultType="NoticeBoardDTO"
+		parameterType="NoticeBoardDTO">
 		SELECT *
 		FROM LIBRARY
 		WHERE LB_ID &lt;&gt; #{n_id}
@@ -78,26 +78,49 @@
 	</select>
 
 	<!-- notice_write 페이지 로그인된 사람 데이터 불러오기 -->
-	<select id="login_mpid" resultType="carpedm.dto.NoticeBoardDTO"
+	<select id="login_mpid" resultType="NoticeBoardDTO"
 		parameterType="String">
 		SELECT * FROM member where
 		M_PID = #{_parameter}
 	</select>
 
 	<!-- notice_write 페이지 로그인된 사람 데이터 불러오기 -->
-	<update id="no_update" parameterType="String">
+	<update id="no_update" parameterType="NoticeBoardDTO">
 		update notice set
-		N_TITLE = #{n_title}
+		N_TITLE =
+		#{n_title}
 		, LB_ID = #{lb_id}
-		<!-- , N_FILE = -->
 		, N_CONTENT = #{n_content}
-		where N_ID = #{n_id}
+		where N_ID =
+		#{n_id}
 	</update>
+
+	<insert id="no_insert" parameterType="NoticeBoardDTO">
+		insert into notice (
+		N_ID,
+		LB_ID,
+		N_OPT,
+		N_TITLE,
+		N_CONTENT,
+		N_DATE,
+		N_VIEWCOUNT,
+		M_PID
+		) values (
+		notice_seq.NEXTVAL,
+		#{lb_id}, 
+		0, 
+		#{n_title},
+		#{n_content},
+		sysdate,
+		0,
+		#{m_pid}
+		)
+	</insert>
 
 
 	<!-- QnA_board 페이지 -->
-	<select id="Q_board" resultType="carpedm.dto.NoticeBoardDTO"
-		parameterType="carpedm.dto.NoticeBoardDTO">
+	<select id="Q_board" resultType="NoticeBoardDTO"
+		parameterType="NoticeBoardDTO">
 		select * from (
 		select rownum
 		rnum, n1.* from (
@@ -153,13 +176,13 @@
 
 
 	<!-- QnA_write 페이지 도서관 값 불러오기 -->
-	<select id="Q_write" resultType="carpedm.dto.NoticeBoardDTO">
+	<select id="Q_write" resultType="NoticeBoardDTO">
 		library_nid
 	</select>
 
 
 	<!-- wishbook_add 페이지 도서관 값 불러오기 -->
-	<select id="libry" resultType="carpedm.dto.LibraryDTO">
+	<select id="libry" resultType="LibraryDTO">
 		SELECT *
 		FROM LIBRARY
 	</select>

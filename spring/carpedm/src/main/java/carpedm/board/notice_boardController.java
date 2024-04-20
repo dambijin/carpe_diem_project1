@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,26 +27,24 @@ public class notice_boardController extends HttpServlet {
 	private static final Logger logger = LoggerFactory.getLogger(notice_boardController.class);
 
 	@Autowired
-	notice_boardService NBdao;
+	notice_boardService nbService;
 
 //  @RequestMapping이 NoticeBoardDTO를 new(생성)를 하고 필드에 값을 넣어줌
 //	그래서 notice_boardController 파일 안에서 new를 따로 적지 않은 것
 	@RequestMapping(value = "/notice_board", method = RequestMethod.GET)
 	protected String notice_board(Locale locale, Model model, @ModelAttribute NoticeBoardDTO dto,
 			@RequestParam(value = "search", defaultValue = "") String search,
-			@RequestParam(value = "n_search", defaultValue = "제목") String type,
-			MemberDTO mdto,
+			@RequestParam(value = "n_search", defaultValue = "제목") String type,			
 			HttpServletRequest request) throws ServletException, IOException {
 
 //		System.out.println("타입 : " + type);
 //		System.out.println("검색어 : " + search);
-		
-		HashMap map = NBdao.listNotice(dto, search, type, mdto, request);
+		HashMap map = nbService.listNotice(dto, search, type, request);
 		
 		List list= (List) map.get("list");
 		MemberDTO member= (MemberDTO)map.get("memberDTO");
 		model.addAttribute("list", list);
-		model.addAttribute("m_managerchk", member);
+		model.addAttribute("member", member);
 
 		return "board/notice_board.jsp";
 	}

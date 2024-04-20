@@ -65,14 +65,13 @@ public class notice_updateController extends HttpServlet {
 	}		
 	
 	
+	// 업데이트 메소드
 	@RequestMapping(value = "/notice_update", method = RequestMethod.POST)
-	protected String notice_board(Locale locale, Model model, 
+	protected String noticeUp(Locale locale, Model model, 
 			@ModelAttribute NoticeBoardDTO dto,
 			HttpServletRequest request) throws ServletException, IOException {
-		
 		sqlSession.update("mapper.carpedm.board.no_update", dto);
-		
 
-		return "board/notice_board.jsp";
+		return "redirect:/notice_board";
 	}
 }

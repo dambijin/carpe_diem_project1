@@ -26,7 +26,6 @@
 
 <script>
 	window.addEventListener("load", function() {
-
 		// 파일첨부
 		document.querySelector("#upload_file").addEventListener("change",
 				function(changeEvent) {
@@ -56,6 +55,7 @@
 	        }
 	        else {
 	        	alert("첨부파일을 제외한 모든 내용을 작성해주세요.");
+	        	// 이벤트 기본 동작 막기
 	        	event.preventDefault();   
 	        }
 		});
@@ -210,23 +210,21 @@
 						    <table class="table_table">
 						        <tr>
 						            <td class="sub">제목</td>
-						            <td class="text"><input type="text" id="notice_write_title" name="title"></td>
+						            <td class="text"><input type="text" id="notice_write_title" name="n_title"></td>
 						        </tr>
 						        <tr>
 						            <td class="sub">작성자</td>
 						            <td class="text" name="writer">
-						                <!-- `member` 리스트에서 첫 번째 작성자의 이름 가져오기 -->
 						                <c:set var="name" value="${member[0].m_name}" />
-						                <!-- 이름의 첫 글자와 나머지 글자를 숨긴 값 계산 -->
 						                <c:set var="rename" value="${fn:substring(name, 0, 1)}**" />
 						                ${rename}
+						                <input type="hidden" value="${member[0].m_pid}" name="m_pid">
 						            </td>
 						        </tr>
 						        <tr>
 						            <td class="sub">소속도서관</td>
 						            <td class="text">
-						                <select class="textbox" id="library" name="library">
-						                    <!-- 도서관 목록을 순회하며 옵션 생성 -->
+						                <select class="textbox" id="library" name="lb_id">
 						                    <c:forEach var="library" items="${library_list}">
 						                        <option value="${library.lb_id}">${library.lb_name}</option>
 						                    </c:forEach>
@@ -245,7 +243,7 @@
 						</div>
 
 						<div class="td1">
-							<textarea name="n_textarea" id="ntextarea"></textarea>
+							<textarea name="n_content" id="ntextarea"></textarea>
 						</div>
 						<div class="div_buttonAll">
 							<div class="div_button">

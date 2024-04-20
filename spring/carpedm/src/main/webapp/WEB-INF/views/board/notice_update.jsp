@@ -142,26 +142,28 @@
 // 		등록 버튼
 	let cont_text = document.querySelector("#subtext");
 	console.log(cont_text.value);
-// 		document.querySelector("#completion").addEventListener('click',function() {
-// 			//제목
-// 			let title = document.querySelector("#notice_write_title");
-// 			//작성자
-// 			let writer = document.querySelector("#writer");
-// 			//소속도서관
-// 			let lib = document.querySelector("#library");
-// 			let lib_text = lib.options[lib.selectedIndex].value;
-// 			//첨부파일
-// 			let attach = document.querySelector("#file_route");
-// 			//내용
-// 			let cont_text = document.querySelector("#subtext");
-// 			if (title.value != "" && writer.innerHTML != ""
-// 				&& lib_text != "" && cont_text.value != "") {
-// 				alert("등록이 완료되었습니다.");
-// 				location.href = "notice_board";
-// 				} else {alert("첨부파일을 제외한 모든 내용을 작성해주세요.");
-// 				}
-// 		});
-
+		document.querySelector("#completion").addEventListener('click', function() {
+		    // 제목
+		    let title = document.querySelector("#notice_write_title");
+		    // 작성자
+		    let writer = document.querySelector("#writer");
+		    // 소속도서관
+		    let lib = document.querySelector("#library");
+		    let lib_text = lib.options[lib.selectedIndex].value;
+		    // 첨부파일
+		    let attach = document.querySelector("#file_route");
+		    // 내용
+		    let cont_text = document.querySelector("#subtext");
+		    
+		    if (title.value !== "" && writer.innerHTML !== "" && lib_text !== "" && cont_text.value !== "") {
+		        alert("등록이 완료되었습니다.");
+		        location.href = "notice_board";
+		    } else {
+		        alert("첨부파일을 제외한 모든 내용을 작성해주세요.");
+		        // 이벤트 기본 동작 막기
+		        event.preventDefault();
+		    }
+		});
 		document.querySelector("#upload_file").addEventListener("change",function(changeEvent) {
 			// 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
 			// 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
