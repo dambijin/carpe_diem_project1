@@ -471,7 +471,7 @@ section {
     //예약기능
 	function reservation(b_id) {
     	//현재 세션에서 아이디 값 가져오기
-		 var login_m_pid = "${m_pid}";
+		 let login_m_pid = "${m_pid}";
 // 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/book_search';
 	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(login_m_pid);

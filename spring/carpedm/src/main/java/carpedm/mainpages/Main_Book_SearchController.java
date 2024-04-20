@@ -166,7 +166,8 @@ public class Main_Book_SearchController extends HttpServlet {
 //        끝 페이지를 기준으로 조정
         startPage = Math.max(1, endPage - 4);
 		HttpSession session = request.getSession();
-		String m_pid = (String)session.getAttribute("m_pid");
+		String m_pid = (String)session.getAttribute("m_pid")+"";
+		logger.info("로그인 id : "+m_pid);
 //		String m_pid = "15";
 
 		model.addAttribute("library_list", library_list);

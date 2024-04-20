@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class MemberDTO {
 
-	int m_pid;
+	String m_pid;
 //	String m_pid_str;
 //
 //	public void setM_pid_str(int m_pid) {
@@ -50,7 +50,7 @@ public class MemberDTO {
 	/**
 	 * @return the m_pid
 	 */
-	public int getM_pid() {
+	public String getM_pid() {
 		return m_pid;
 	}
 
@@ -113,7 +113,7 @@ public class MemberDTO {
 	/**
 	 * @param m_pid the m_pid to set
 	 */
-	public void setM_pid(int m_pid) {
+	public void setM_pid(String m_pid) {
 		this.m_pid = m_pid;
 	}
 
