@@ -17,6 +17,7 @@
 		<typeAlias type="carpedm.dto.SearchinfoDTO" alias="SearchinfoDTO"/>
 		<typeAlias type="carpedm.dto.WishlistDTO" alias="WishlistDTO"/>
 		<typeAlias type="carpedm.dto.LibraryDTO" alias="LibraryDTO"/>
+		<typeAlias type="carpedm.dto.NoticeBoardDTO" alias="NoticeBoardDTO"/>
 	</typeAliases>
 
 	
