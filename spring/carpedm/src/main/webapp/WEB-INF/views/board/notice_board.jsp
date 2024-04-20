@@ -20,7 +20,7 @@
 <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 <script>
 window.onload = function() {
-		<c:set var="managerChk" value="${sessionScope.m_managerchk}" />
+		<c:set var="managerChk" value="${m_managerchk}" />
 		// 서버에서 받은 M_MANAGERCHK 값
 		var mManagerChk = "${managerChk}";
 		//     console.log(mManagerChk);

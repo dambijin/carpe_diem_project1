@@ -9,17 +9,21 @@
 		parameterType="carpedm.dto.NoticeBoardDTO">
 		SELECT * FROM (
 		SELECT rownum rnum, n1.* FROM (
-		SELECT notice.*, library.lb_name, member.m_name
+		SELECT notice.*,
+		library.lb_name, member.m_name
 		FROM notice
-		INNER JOIN LIBRARY ON notice.lb_id = library.lb_id
-		INNER JOIN MEMBER ON notice.m_pid = member.m_pid
+		INNER JOIN LIBRARY ON
+		notice.lb_id = library.lb_id
+		INNER JOIN MEMBER ON notice.m_pid =
+		member.m_pid
 		WHERE n_opt = 0
 		<if test="search != '' and search != null">
 			<if test="type == '제목'">
 				AND N_TITLE LIKE '%' || #{search} || '%'
 			</if>
 			<if test="type == '제목 내용'">
-				AND (N_TITLE LIKE '%' || #{search} || '%' OR N_CONTENT LIKE '%' || #{search} || '%')
+				AND (N_TITLE LIKE '%' || #{search} || '%' OR N_CONTENT
+				LIKE '%' || #{search} || '%')
 			</if>
 			<if test="type == '내용'">
 				AND N_CONTENT LIKE '%' || #{search} || '%'
@@ -33,6 +37,19 @@
 		) n2
 		WHERE rnum &gt;= 1 AND rnum &lt;= 100
 	</select>
+
+	<!-- notice_board 페이지 글쓰기 버튼을 위해 로그인된 아이디 관리자인지 아닌지 확인 -->
+	<select id="member_pid" resultType="MemberDTO"
+		parameterType="MemberDTO">
+		SELECT *
+		FROM MEMBER
+		where m_pid = ${m_pid}
+	</select>
+
+	<update id="updateNotice" parameterType="int">
+		UPDATE notice SET
+		N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = #{n_id}
+	</update>
 
 	<!-- notice_detail/notice_update/QnA_update/QnA_detail/QnA_reply_write 페이지 -->
 	<select id="notice_nid" resultType="carpedm.dto.NoticeBoardDTO"
@@ -67,27 +84,44 @@
 		M_PID = #{_parameter}
 	</select>
 
+	<!-- notice_write 페이지 로그인된 사람 데이터 불러오기 -->
+	<update id="no_update" parameterType="String">
+		update notice set
+		N_TITLE = #{n_title}
+		, LB_ID = #{lb_id}
+		<!-- , N_FILE = -->
+		, N_CONTENT = #{n_content}
+		where N_ID = #{n_id}
+	</update>
+
 
 	<!-- QnA_board 페이지 -->
-	<select id="Q_board" resultType="carpedm.dto.NoticeBoardDTO" parameterType="carpedm.dto.NoticeBoardDTO">
+	<select id="Q_board" resultType="carpedm.dto.NoticeBoardDTO"
+		parameterType="carpedm.dto.NoticeBoardDTO">
 		select * from (
 		select rownum
 		rnum, n1.* from (
-		with notice_recu (lv, n_id, n_opt, n_title, m_pid,
+		with notice_recu (lv,
+		n_id, n_opt, n_title, m_pid,
 		n_date, n_parent_id,
-		m_name, n_viewcount, n_content) as (
+		m_name, n_viewcount,
+		n_content) as (
 		select
 		1 as lv,
 		N.n_id,
-		N.n_opt, N.n_title, N.m_pid, N.n_date, N.n_parent_id, M.m_name,	N.n_viewcount, N.n_content
-		from NOTICE N
+		N.n_opt, N.n_title, N.m_pid,
+		N.n_date, N.n_parent_id, M.m_name, N.n_viewcount, N.n_content
+		from
+		NOTICE N
 		left outer join MEMBER M on N.m_pid = M.m_pid
-		where N.n_parent_id is null
+		where
+		N.n_parent_id is null
 		union all
 		select
 		nr.lv + 1 as lv,
 		n.n_id, n.n_opt,
-		n.n_title, n.m_pid, n.n_date, n.n_parent_id, m.m_name, n.n_viewcount, n.n_content
+		n.n_title, n.m_pid, n.n_date, n.n_parent_id, m.m_name, n.n_viewcount,
+		n.n_content
 		from notice_recu nr
 		left outer join notice n on
 		n.n_parent_id = nr.n_id
@@ -103,7 +137,8 @@
 				AND N_TITLE LIKE '%' || #{search} || '%'
 			</if>
 			<if test="type == '제목 내용'">
-				AND (N_TITLE LIKE '%' || #{search} || '%' OR N_CONTENT LIKE '%' || #{search} || '%')
+				AND (N_TITLE LIKE '%' || #{search} || '%' OR N_CONTENT
+				LIKE '%' || #{search} || '%')
 			</if>
 			<if test="type == '내용'">
 				AND N_CONTENT LIKE '%' || #{search} || '%'

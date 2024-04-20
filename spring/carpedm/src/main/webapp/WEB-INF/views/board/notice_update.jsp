@@ -209,7 +209,7 @@
 					                    <input type="hidden" name="n_id" value="${qna_notice[0].n_id}">
 					                </td>
 					                <td class="text">
-					                    <input type="text" id="notice_write_title" value="${qna_notice[0].n_title}" name="notice_subject">
+					                    <input type="text" id="notice_write_title" value="${qna_notice[0].n_title}" name="n_title">
 					                </td>
 					            </tr>
 					            <tr>
@@ -222,7 +222,7 @@
 					            <tr>
 					                <td class="sub">소속도서관</td>
 					                <td class="text">
-					                    <select class="textbox" id="library" name="library">
+					                    <select class="textbox" id="library" name="lb_id">
 					                        <option selected value="${qna_notice[0].lb_id}">${qna_notice[0].lb_name}</option>
 					                        <c:forEach var="lib" items="${library}">
 					                            <option value="${lib.lb_id}">${lib.lb_name}</option>
@@ -241,7 +241,7 @@
 					        </table>
 					    </div>
 					    <div class="td1">
-					        <textarea name="n_textarea" id="subtext">${qna_notice[0].n_content}</textarea>
+					        <textarea name="n_content" id="subtext">${qna_notice[0].n_content}</textarea>
 					    </div>
 					    <div class="div_buttonAll">
 					        <div class="div_button">

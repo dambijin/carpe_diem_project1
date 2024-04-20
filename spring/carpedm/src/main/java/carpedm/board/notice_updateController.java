@@ -24,10 +24,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import carpedm.dto.MemberDTO;
 import carpedm.dto.NoticeBoardDTO;
 import carpedm.test222.HomeController;
 
@@ -61,4 +63,16 @@ public class notice_updateController extends HttpServlet {
 		
 		return "board/notice_update.jsp";
 	}		
+	
+	
+	@RequestMapping(value = "/notice_update", method = RequestMethod.POST)
+	protected String notice_board(Locale locale, Model model, 
+			@ModelAttribute NoticeBoardDTO dto,
+			HttpServletRequest request) throws ServletException, IOException {
+		
+		sqlSession.update("mapper.carpedm.board.no_update", dto);
+		
+
+		return "board/notice_board.jsp";
+	}
 }

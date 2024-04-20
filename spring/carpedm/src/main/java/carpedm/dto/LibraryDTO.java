@@ -3,7 +3,7 @@ package carpedm.dto;
 import java.sql.Date;
 
 public class LibraryDTO {
-	int lb_id;
+	String lb_id;
 	String lb_name;
 	String lb_address;
 	String lb_tel;
@@ -18,11 +18,11 @@ public class LibraryDTO {
 				+ "]";
 	}
 
-	public int getLb_id() {
+	public String getLb_id() {
 		return lb_id;
 	}
 
-	public void setLb_id(int lb_id) {
+	public void setLb_id(String lb_id) {
 		this.lb_id = lb_id;
 	}
 
