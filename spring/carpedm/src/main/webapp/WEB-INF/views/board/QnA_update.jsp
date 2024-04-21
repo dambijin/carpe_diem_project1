@@ -46,35 +46,23 @@
             button.addEventListener('click', function () {
                 // 제목
                 let subject = document.querySelector('#sject').value;
-                // 작성자
-                let user_name = document.querySelector('#user_name').value;
-                // 휴대폰번호1
-                let number1 = document.querySelector('#pnumber1').value;
-                // 휴대폰번호2
-                let number2 = document.querySelector('#pnumber2').value;
-                // 휴대폰번호3
-                let number3 = document.querySelector('#pnumber3').value;
                 // textarea
                 let btext = document.querySelector('#textarea').value;
 
-
                 if (subject == "") {
+                	// 이벤트 기본 동작 막기
+    		        event.preventDefault();
                     alert("제목을 입력해주세요.");
                     document.querySelector('#sject').focus();
-                } else if (user_name == "") {
-                    alert("이름을 작성해주세요");
+                } else if (btext == "") {
+                	 // 이벤트 기본 동작 막기
+    		        event.preventDefault();
+                    alert("글을 작성해주세요");
                     document.querySelector('#user_name').focus();
-                } else if (number1 == "") {
-                    alert("전화번호를 입력해주세요.");
-                    document.querySelector('#pnumber1').focus();
-                } else if (number2 == "") {
-                    alert("전화번호를 입력해주세요.");
-                    document.querySelector('#pnumber2').focus();
-                } else if (number3 == "") {
-                    alert("전화번호를 입력해주세요.");
-                    document.querySelector('#pnumber3').focus();                
                 } else {
                     if (btext == "") {
+                    	   // 이벤트 기본 동작 막기
+        		        event.preventDefault();
                         alert("내용을 입력해주세요.");
                         document.querySelector('#textarea').focus();
                     } else {
@@ -82,12 +70,8 @@
                         location.href = 'QnA_board';
                     }
                 }
-
             });
-
         });
-        
-        
     </script>
 
 <style>
@@ -336,7 +320,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					            <tr>
 					                <th>제목</th>
 					                <td>
-					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="notice_subject" value="${qna_notice[0].n_title}" />
+					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="n_title" value="${qna_notice[0].n_title}" />
 					                </td>
 					            </tr>
 					        </thead>
@@ -346,7 +330,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					                    <input type="hidden" name="n_id" value="${qna_notice[0].n_id}" />
 					                </th>
 					                <td>
-					                    <select class="inputbox" id="library" name="library">
+					                    <select class="inputbox" id="library" name="lb_id">
 					                        <option selected value="${qna_notice[0].lb_id}">${qna_notice[0].lb_name}</option>
 					                        <c:forEach var="lib" items="${library}">
 					                            <option value="${lib.lb_id}">${lib.lb_name}</option>
@@ -367,7 +351,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					</div>
 					
 					<div class="td1">
-					    <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_textarea">${qna_notice[0].n_content}</textarea>
+					    <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_content">${qna_notice[0].n_content}</textarea>
 					</div>
 
 					<!-- 버튼 -->

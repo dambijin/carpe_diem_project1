@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,4 +60,16 @@ public class QnA_updateController extends HttpServlet {
 		
 		return "board/QnA_update.jsp";
 	}		
+	
+	
+	
+	// 업데이트 메소드
+	@RequestMapping(value = "/QnA_update", method = RequestMethod.POST)
+	protected String noticeUp(Locale locale, Model model, 
+			@ModelAttribute NoticeBoardDTO dto,
+			HttpServletRequest request) throws ServletException, IOException {
+		sqlSession.update("mapper.carpedm.board.QnA_update", dto);
+
+		return "redirect:/QnA_board";
+	}
 }

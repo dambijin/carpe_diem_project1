@@ -323,7 +323,7 @@ window.onload = function() {
 				        </tr>
 				        <tr>
 				            <td class="content" colspan="6">
-				            	<c:set var="newline" value="${newline}" />
+				            	<% pageContext.setAttribute("newline", "\n"); %>
 				                ${fn:replace(select[0].n_content, newline, "<br>")}
 				            </td>
 				        </tr>

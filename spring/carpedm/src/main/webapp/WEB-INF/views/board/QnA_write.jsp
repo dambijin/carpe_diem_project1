@@ -51,16 +51,6 @@
                 let check2 = document.querySelector('#check2').checked;
                 // 제목
                 let subject = document.querySelector('#sject').value;
-                // 작성자
-                let user_name = document.querySelector('#user_name').value;
-                // 휴대폰번호1
-                let number1 = document.querySelector('#pnumber1').value;
-                // 휴대폰번호2
-                let number2 = document.querySelector('#pnumber2').value;
-                // 휴대폰번호3
-                let number3 = document.querySelector('#pnumber3').value;
-                // 비밀번호
-                let userpw = document.querySelector('#user_pw').value;
                 // textarea
                 let btext = document.querySelector('#textarea').value;
 
@@ -68,54 +58,35 @@
                     alert("개인정보 수집+이용 동의에 체크가 필요합니다.");
                 } else if (!check2) {
                     if (!check1) {
+                        event.preventDefault();
                         alert("개인정보 수집+이용 동의에 체크가 필요합니다.");
                     } else {
                         if (subject == "") {
+                            event.preventDefault();
                             alert("제목을 입력해주세요.");
                             document.querySelector('#sject').focus();
-                        } else if (user_name == "") {
-                            alert("이름을 작성해주세요");
-                            document.querySelector('#user_name').focus();
-                        } else if (number1 == "") {
-                            alert("전화번호를 입력해주세요.");
-                            document.querySelector('#pnumber1').focus();
-                        } else if (number2 == "") {
-                            alert("전화번호를 입력해주세요.");
-                            document.querySelector('#pnumber2').focus();
-                        } else if (number3 == "") {
-                            alert("전화번호를 입력해주세요.");
-                            document.querySelector('#pnumber3').focus();
-                        } else if (userpw != "") {
-                            if (userpw.length < 4 || userpw.length > 10) {
-                                alert("비밀번호는 최소 4자 이상, 최대 10자 이하여야 합니다.");
-                                document.querySelector('#user_pw').focus();
-                            } else {
-                                if (btext == "") {
-                                    alert("내용을 입력해주세요.");
-                                    document.querySelector('#textarea').focus();
-                                } else {
-                                    alert("등록 되었습니다");
-                                    location.href = 'QnA_board';
-                                }
-                            }
-
+                        } else if (btext == "") {
+                            event.preventDefault();
+                            alert("내용을 입력해주세요.");
+                            document.querySelector('#textarea').focus();
                         } else {
-                            if (btext == "") {
-                                alert("내용을 입력해주세요.");
-                                document.querySelector('#textarea').focus();
-                            } else {
-                                alert("등록 되었습니다");
-                                location.href = 'QnA_board';
-                            }
+                            alert("등록 되었습니다");
+                            location.href = 'QnA_board';
                         }
                     }
+                } else {
+                    if (btext == "") {
+                        event.preventDefault();
+                        alert("내용을 입력해주세요.");
+                        document.querySelector('#textarea').focus();
+                    } else {
+                        alert("등록 되었습니다");
+                        location.href = 'QnA_board';
+                    }
                 }
+
             });
-
         });
-
-
-
     </script>
     <style>
         /* 개인정보 표, 글쓰기 표 */
@@ -385,10 +356,8 @@
                     <!-- 개인정보 이용 설명 -->
                     <div class="div_back">
                         <p>
-
                             천안시에서는 게시판 운영을 위해 제15조 제1항에 따라 아래와 같이 개인정보를 수집 및 이용하며,
                             수집된 개인정보는 목적 이외의 용도로는 이용되지 않습니다.
-
                         </p>
                     </div>
                     <!-- 개인정보 이용 목적 -->
@@ -410,9 +379,7 @@
                     <!-- 개인정보 이용 동의 설명 -->
                     <div class="div_back">
                         <p height="50px">
-
                             이와 같은 개인정보 수집,이용에 대한 동의를 거부할 수 있으며, 거부할 경우 게시판 경우 게시판 이용이 제한됩니다.
-
                         </p>
                         <!-- 개인정보 이용동의 체크 -->
                         <div class="div_agree private">
@@ -434,7 +401,8 @@
 					            <tr>
 					                <th>제목</th>
 					                <td>
-					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="title" />
+					                    <input type="text" class="inputbox" placeholder="제목" id="sject" name="n_title" />
+					                	<input type="hidden" name="m_pid" value="${login_mpid[0].m_pid}">
 					                </td>
 					            </tr>
 					        </thead>
@@ -442,7 +410,7 @@
 					            <tr>
 					                <th class="sub">소속도서관</th>
 					                <td class="text">
-					                    <select class="textbox" id="library" name="library">
+					                    <select class="textbox" id="lb_id" name="lb_id">
 					                        <c:forEach var="library" items="${library}">
 					                            <option value="${library.lb_id}">${library.lb_name}</option>
 					                        </c:forEach>
@@ -452,8 +420,8 @@
 					            <tr>
 					                <th>공개</th>
 					                <td class="private">
-					                    <input type="radio" name="pub" checked value="1" /> 공개
-					                    <input type="radio" name="pub" value="2" /> 비공개
+					                    <input type="radio" name="n_opt" checked value="1" /> 공개
+					                    <input type="radio" name="n_opt" value="2" /> 비공개
 					                </td>
 					            </tr>
 					            <tr>
@@ -469,7 +437,7 @@
 					</div>
 
                     <div class="td1">
-                        <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_textarea"></textarea>
+                        <textarea id="textarea" class="inputbox inputbox_subject" placeholder="내용을 입력해주세요." name="n_content"></textarea>
                     </div>
                     <!-- 버튼 -->
                     <div class="div_buttonAll">

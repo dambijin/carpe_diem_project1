@@ -182,11 +182,74 @@
 		where rnum &gt;= 1 and rnum &lt;= 100
 	</select>
 
+	<!-- QnA인서트 -->
+	<insert id="QnA_reinsert" parameterType="NoticeBoardDTO">
+		insert into notice (
+		N_ID,
+		LB_ID,
+		N_OPT,
+		N_TITLE,
+		N_CONTENT,
+		N_DATE,
+		N_VIEWCOUNT,
+		M_PID,
+		N_PARENT_ID
+		) values (
+		notice_seq.NEXTVAL,
+		#{lb_id},
+		#{n_opt},
+		#{n_title},
+		#{n_content},
+		sysdate,
+		0,
+		#{m_pid},
+		#{n_parent_id}
+		)
+	</insert>
+
 
 	<!-- QnA_write 페이지 도서관 값 불러오기 -->
 	<select id="Q_write" resultType="NoticeBoardDTO">
 		library_nid
 	</select>
+
+	<!-- QnA_write 페이지 도서관 값 불러오기 -->
+	<update id="QnA_update" parameterType="NoticeBoardDTO">
+		update notice set
+		N_TITLE =
+		#{n_title}
+		, LB_ID = #{lb_id}
+		, N_CONTENT = #{n_content}
+		where N_ID
+		=#{n_id}
+	</update>
+
+	<!-- QnA_write 페이지 인서트 -->
+	<insert id="QnA_insert" parameterType="NoticeBoardDTO">
+		insert into notice
+		(
+		N_ID
+		,
+		N_OPT
+		, LB_ID
+		, N_TITLE
+		, N_CONTENT
+		, N_VIEWCOUNT
+		, N_DATE
+		, M_PID
+		)
+		values(
+		notice_seq.NEXTVAL
+		, #{n_opt}
+		, #{lb_id}
+		, #{n_title}
+		, #{n_content}
+		, 0
+		,
+		sysdate
+		, #{m_pid}
+		)
+	</insert>
 
 
 	<!-- wishbook_add 페이지 도서관 값 불러오기 -->
@@ -194,6 +257,37 @@
 		SELECT *
 		FROM LIBRARY
 	</select>
+
+	<!-- wishbook_add 페이지 인서트 -->
+	<insert id="wishbook_add_insert" parameterType="WishlistDTO">
+		INSERT INTO wishlist
+		(W_ID,
+		LB_ID,
+		W_TITLE,
+		W_AUTHOR,
+		W_PUBYEAR,
+		W_CONTENT,
+		W_PUBLISHER,
+		W_NAME,
+		W_TEL,
+		M_PID,
+		W_STATE,
+		W_DATE)
+		VALUES(
+		wishlist_seq.NEXTVAL,
+		#{lb_id},
+		#{w_title},
+		#{w_author},
+		#{w_pubyear},
+		#{w_content},
+		#{w_publisher},
+		#{w_name},
+		#{w_tel},
+		#{m_pid},
+		0,
+		SYSDATE
+		)
+	</insert>
 
 
 </mapper>

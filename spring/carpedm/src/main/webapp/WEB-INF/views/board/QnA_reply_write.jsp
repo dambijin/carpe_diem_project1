@@ -42,17 +42,23 @@
 
 		// 유효성검사
 		// 등록 버튼
-// 		let registration = document.querySelector("#registration");
-// 		// 등록버튼 클릭시
-// 		registration.addEventListener('click', function() {
-// 			let textarea = document.querySelector('#awtext').value;
-// 			if (textarea == "") {
-// 				alert("내용을 입력해주세요.");
-// 				document.querySelector('#awtext').focus();
-// 			} else {
-// 				alert("등록되었습니다.");
-// 			}
-// 		});
+		let registration = document.querySelector("#registration");
+		// 등록버튼 클릭시
+		registration.addEventListener('click', function() {
+			let textarea = document.querySelector('#awtext').value;
+			let title = document.querySelector('#answer_title').value;
+			if (textarea == "") {
+				event.preventDefault();
+				alert("내용을 입력해주세요.");
+				textarea.focus();
+			} else if(title == ""){
+				event.preventDefault();
+				alert("제목을 입력해주세요.");
+				title.focus();
+			} else {
+				alert("등록되었습니다.");
+			}
+		});
 
 	});
 	
@@ -197,20 +203,22 @@
 				            <tr>
 				                <td class="subject">제목</td>
 				                <td colspan="5" class="subject_title">
-				                    <input type="text" class="answer_write answer_subject" id="answer_title" name="title"
+				                    <input type="text" class="answer_write answer_subject" id="answer_title" name="n_title"
 				                           value="${qna_notice[0].n_title}">
-				                    <input type="hidden" name="pub" value="${qna_notice[0].n_opt}">
-				                    <input type="hidden" name="p_nid" value="${qna_notice[0].n_id}">
+				                    <input type="hidden" name="n_opt" value="${qna_notice[0].n_opt}">
+				                    <input type="hidden" name="n_parent_id" value="${qna_notice[0].n_id}">
 				                </td>
 				            </tr>
 				            <tr>
 				                <td class="subject">작성자</td>
-				                <td class="writer" colspan="5">${loginpid[0].m_name}</td>
+				                <td class="writer" colspan="5">${loginpid[0].m_name}
+				                <input type="hidden" name="m_pid" value="${loginpid[0].m_pid}">
+				                </td>
 				            </tr>
 				            <tr>
 				                <td class="subject">도서관</td>
 				                <td colspan="5">
-				                    <select id="libs_info" name="n_library">
+				                    <select id="libs_info" name="lb_id">
 				                        <option selected value="${qna_notice[0].lb_id}">${qna_notice[0].lb_name}</option>
 				                        <c:forEach var="lib" items="${library}">
 				                            <option value="${lib.lb_id}">${lib.lb_name}</option>
@@ -230,7 +238,7 @@
 				            <tr>
 				                <td class="content" colspan="6">
 				                    <textarea type="textarea" class="answer_write answer_textarea" placeholder="답글을 입력해주세요"
-				                              id="awtext" name="n_textarea"></textarea>
+				                              id="awtext" name="n_content"></textarea>
 				                </td>
 				            </tr>
 				        </table>

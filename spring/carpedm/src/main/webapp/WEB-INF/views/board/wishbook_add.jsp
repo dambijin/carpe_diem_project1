@@ -157,6 +157,7 @@
                     if (input.tagName === 'SELECT') {
                         // select 요소의 경우, selectedIndex가 0보다 크거나 같아야 합니다.
                         if (input.selectedIndex < 0) {
+                        	event.preventDefault();
                             alert('필수작성(*) 칸(을 채워주세요.');
                             input.focus();
                             return;
@@ -164,6 +165,7 @@
                     } else {
                         // input 요소의 경우, value가 비어 있지 않아야 합니다.
                         if (!input.value.trim()) {
+                        	event.preventDefault();
                             alert('필수작성(*) 칸을 채워주세요.');
                             input.focus();
                             return;
@@ -174,6 +176,7 @@
                 // 개인정보 수집 동의 체크박스가 체크되어 있는지 확인
                 let checkbox = document.querySelector('.hope_subscribe input[type="checkbox"]');
                 if (!checkbox.checked) {
+                	event.preventDefault();
                     alert('개인정보 수집에 동의해주세요.');
                     checkbox.focus();
                     return;
@@ -181,41 +184,55 @@
 
                 request();
             });
-        })
+        });
 
-        function request() {
+//         function request() {
 
-            // 신청 버튼
-            let reqbut = document.querySelector("#request_but");
+//             // 신청 버튼
+//             let reqbut = document.querySelector("#request_but");
+//             // 자료명 input
+//             let mrial = document.querySelector("#material");
+//             // 저자
+//             let writer = document.querySelector("#writer");
+//             // 발행연도
+//             let year = document.querySelector("#year");
+//             // 사유
+//             let reason = document.querySelector("#reason");
+//             // 출판사
+//             let publisher = document.querySelector("#publisher");
+//             // 전화번호
+//             let handphone = document.querySelector("#handphone");
 
-            
-            // select (천안도서관, 두정도서관, 아우내도서관)
-            let lib = document.querySelector("#library");
-            // 자료명 input
-            let mrial = document.querySelector("#material");
-            // 저자
-            let writer = document.querySelector("#writer");
-            // 발행연도
-            let year = document.querySelector("#year");
-            // ISBN번호 ISSN번호
-            let is = document.querySelector("#is");
-            // 사유
-            let reason = document.querySelector("#reason");
-            // 출판사
-            let publisher = document.querySelector("#publisher");
-            // 신청자이름
-            let user = document.querySelector("#user_name");
-            // 전화번호
-            let handphone = document.querySelector("#handphone");
-//             alert(lib.value + "\n" + mrial.value + "\n" + writer.value + "\n" + year.value + "\n" + is.value + "\n" + reason.value + "\n" + publisher.value + "\n" + user.value + "\n" + handphone.value + "\n신청이 완료되었습니다.");
-
-            reqbut.addEventListener('click', function () {
-
-
-                alert("신청이 완료되었습니다.");
-
-            });
-        };
+//             reqbut.addEventListener('click', function () {
+//             	if (mrial == "") {
+//             		event.preventDefault();
+//                     alert("자료명을 입력해주세요.");
+//                     mrial.focus();
+//                 } else if (writer == "") {
+//                 	event.preventDefault();
+//                 	alert("저자를 입력해주세요.");
+//                 	writer.focus();
+//                 } else if (year == "") {
+//                 	event.preventDefault();
+//                 	alert("발행연도를 입력해주세요.");
+//                 	year.focus();
+//                 } else if (reason  == "") {
+//                 	event.preventDefault();
+//                 	alert("내용을 입력해주세요.");
+//                 	reason.focus();
+//                 } else if (publisher  == "") {
+//                 	event.preventDefault();
+//                 	alert("출판사를 입력해주세요.");
+//                 	publisher.focus();
+//                 } else if (handphone == "") {
+//                 	event.preventDefault();
+//                 	alert("핸드폰번호를 입력해주세요.");
+//                 	handphone.focus();
+//                 } else{
+//                 	alert("신청이 완료되었습니다.");
+//                 }
+//             });
+//         };
     </script>
 </head>
 
@@ -277,7 +294,7 @@
 					        <tr>
 					            <td class="subject">* 희망소장처</td>
 					            <td>
-					                <select class="textbox" id="library" name="library">
+					                <select class="textbox" id="library" name="lb_id">
 					                    <c:forEach var="library" items="${library}">
 					                        <option value="${library.lb_id}">${library.lb_name}</option>
 					                    </c:forEach>
@@ -290,16 +307,16 @@
 					        </tr>
 					        <tr>
 					            <td class="subject"> * 저자 </td>
-					            <td><input type="text" name="author" class="textbox" placeholder="저자" id="writer" /></td>
+					            <td><input type="text" name="w_author" class="textbox" placeholder="저자" id="writer" /></td>
 					        </tr>
 					        <tr>
 					            <td class="subject"> * 발행연도 </td>
-					            <td><input type="text" name="w_date" class="textbox" placeholder="발행연도" id="year" /></td>
+					            <td><input type="text" name="w_pubyear" class="textbox" placeholder="발행연도" id="year" /></td>
 					        </tr>
-					        <tr>
-					            <td class="subject">ISBN번호<br> ISSN번호</td>
-					            <td><input type="text" name="isbn" class="textbox" placeholder="ISBN/ISSN 번호" id="is" /></td>
-					        </tr>
+<!-- 					        <tr> -->
+<!-- 					            <td class="subject">ISBN번호<br> ISSN번호</td> -->
+<!-- 					            <td><input type="text" name="w_isbn" class="textbox" placeholder="ISBN/ISSN 번호" id="is" /></td> -->
+<!-- 					        </tr> -->
 					        <tr>
 					            <td class="subject">* 신청사유</td>
 					            <td>
@@ -308,11 +325,13 @@
 					        </tr>
 					        <tr>
 					            <td class="subject">* 출판사</td>
-					            <td><input type="text" name="pbs" class="textbox" placeholder="출판사" id="publisher" /></td>
+					            <td><input type="text" name="w_publisher" class="textbox" placeholder="출판사" id="publisher" /></td>
 					        </tr>
 					        <tr>
 					            <td class="subject">신청자 이름</td>
-					            <td><input type="text" value="${mem[0].m_name}" name="w_name" class="textbox" placeholder="이름" id="user_name" /></td>
+					            <td><input type="text" value="${mem[0].m_name}" name="w_name" class="textbox" placeholder="이름" id="user_name" />
+					            	<input type="hidden" value="${mem[0].m_pid}" name="m_pid">
+					            </td>
 					        </tr>
 					        <tr>
 					            <td class="subject">* 휴대폰 번호</td>
