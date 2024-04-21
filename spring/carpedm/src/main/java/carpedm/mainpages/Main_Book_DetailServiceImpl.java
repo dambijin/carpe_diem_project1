@@ -1,13 +1,14 @@
 package carpedm.mainpages;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
+import carpedm.dto.ChaseBookDTO;
 
 @Service
 @Primary
@@ -17,20 +18,18 @@ public class Main_Book_DetailServiceImpl implements Main_Book_DetailService {
 	private Main_Book_DetailDAO main_Book_DetailDAO;
 
 	@Override
-	public List<Object> getBookDetail(String bId, String siId) {
+	public List<Object> getBookDetail(ChaseBookDTO updateParams) {
         List<Object> result = new ArrayList<Object>();
         
         // 검색 키워드 업데이트
-        if (!"".equals(siId)) {
-            Map<String, String> updateParams = new HashMap<String, String>();
-            updateParams.put("b_id", bId);
-            updateParams.put("si_id", siId);
-            int success = main_Book_DetailDAO.updateSearchInfo(updateParams);
+//        if (!"".equals(updateParams.getSi_id())) {
+            int success = main_Book_DetailDAO.insertChaseBook(updateParams);
+            System.out.println("업데이트성공 : " + success);
             // 업데이트 성공 여부에 대한 로깅 등 추가 작업
-        }
+//        }
 
         // 책 상세 정보 조회
-        List<Map<String, String>> bookDetailMapList = main_Book_DetailDAO.selectBookDetail(bId);
+        List<Map<String, String>> bookDetailMapList = main_Book_DetailDAO.selectBookDetail(updateParams.getB_id());
         Map<String, String> bookDetailMap = bookDetailMapList.get(0);
         bookDetailMap.put("B_ISBN", String.valueOf(bookDetailMap.get("B_ISBN")));
         result.add(bookDetailMap);

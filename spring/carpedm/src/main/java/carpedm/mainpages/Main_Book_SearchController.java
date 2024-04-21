@@ -1,7 +1,6 @@
 package carpedm.mainpages;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +8,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +43,9 @@ public class Main_Book_SearchController {
 			@RequestParam(value = "libraryIds", required = false) String[] libraryIds,
 			@RequestParam(value = "okywd", defaultValue = "제목 오름차순") String okywd)
 			throws ServletException, IOException {
-
+		HttpSession session = request.getSession();
+		String m_pid = (String) session.getAttribute("m_pid") + "";
+		logger.info("로그인 id : " + m_pid);
 		String item_query = "b.b_title";
 		if (item.equals("제목")) {
 			item_query = "b.b_title";
@@ -124,9 +123,8 @@ public class Main_Book_SearchController {
 				+ endRow + ")" + " WHERE rnum >= " + startRow;
 
 //		System.out.println(query);
-		
+
 		List<Map> book_list = main_Book_SearchService.getBookListBookSearch(query);
-		List<SearchinfoDTO> pop_search_list = main_Book_SearchService.getPopSearchListBookSearch();
 
 //		System.out.println(book_list);
 
@@ -139,34 +137,36 @@ public class Main_Book_SearchController {
 			clientIP = request.getRemoteAddr();
 		}
 		System.out.println(clientIP);
-		
+
 		String si_id = "";
 		if (!"".equals(searchWord) && searchWord != null) {
-			String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-			  	Map<String, String> insert_params = new HashMap();
-			  	insert_params.put("searchWord", searchWord);
-			  	insert_params.put("item", item);
-			  	insert_params.put("now_date", now_date);
-			  	insert_params.put("clientIP", clientIP);
-		        
-		        int succhk = main_Book_SearchService.insertBookResBookSearch(insert_params);
-		        System.out.println("검색성공:"+succhk);
-		        // 조회id값 가져오기
-		        si_id = main_Book_SearchService.getSiIdBookSearch();
+			Date now_date = new Date();
+//				String now_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+			SearchinfoDTO insert_params = new SearchinfoDTO();
+			insert_params.setSi_keyword(searchWord);
+			insert_params.setSi_opt(item);
+			insert_params.setSi_time(now_date);
+			insert_params.setSi_ip(clientIP);
+			insert_params.setM_pid(m_pid);
+
+			int succhk = main_Book_SearchService.addSearchInfoBookSearch(insert_params);
+			System.out.println("검색기록성공:" + succhk);
+			// 조회id값 가져오기
+			si_id = main_Book_SearchService.getSiIdBookSearch();
 		}
 
-		Map<String, String> temp_book_count = (Map<String,String>)main_Book_SearchService.getBookCountBookSearch(baseQuery.replace("SELECT b.*, l.lb_name ", "SELECT count(*) "));
+		Map<String, String> temp_book_count = (Map<String, String>) main_Book_SearchService
+				.getBookCountBookSearch(baseQuery.replace("SELECT b.*, l.lb_name ", "SELECT count(*) "));
 		int book_count = Integer.parseInt(String.valueOf(temp_book_count.get("COUNT(*)")));
 
-        int startPage = Math.max(currentPage - 2, 1);
-        int totalPages = book_count > 0 ? (int) Math.ceil(book_count / Double.parseDouble(perPage)) : 1;
-        int endPage = Math.min(startPage + 4, totalPages);     
+		int startPage = Math.max(currentPage - 2, 1);
+		int totalPages = book_count > 0 ? (int) Math.ceil(book_count / Double.parseDouble(perPage)) : 1;
+		int endPage = Math.min(startPage + 4, totalPages);
 //        끝 페이지를 기준으로 조정
-        startPage = Math.max(1, endPage - 4);
-		HttpSession session = request.getSession();
-		String m_pid = (String)session.getAttribute("m_pid")+"";
-		logger.info("로그인 id : "+m_pid);
+		startPage = Math.max(1, endPage - 4);
+
 //		String m_pid = "15";
+		List<SearchinfoDTO> pop_search_list = main_Book_SearchService.getPopSearchListBookSearch();
 
 		model.addAttribute("library_list", library_list);
 		model.addAttribute("pop_search_list", pop_search_list);
@@ -182,35 +182,35 @@ public class Main_Book_SearchController {
 		model.addAttribute("si_id", si_id);
 		model.addAttribute("m_pid", m_pid);
 
-        model.addAttribute("start_page", startPage);
-        model.addAttribute("end_page", endPage);
-        model.addAttribute("total_pages", totalPages);
+		model.addAttribute("start_page", startPage);
+		model.addAttribute("end_page", endPage);
+		model.addAttribute("total_pages", totalPages);
 		return "mainpages/book_search.jsp";
 	}
-	
-	@RequestMapping(value = "/book_search", method = RequestMethod.POST,consumes = "application/x-www-form-urlencoded")
-	@ResponseBody
-	protected String book_search_post(@RequestParam("b_id") String b_id, @RequestParam("m_pid") String m_pid) throws IOException {
-        String result = "fail";
 
-        Map<String, String> params = new HashMap<String,String>();
-        params.put("b_id", b_id);
-        params.put("m_pid", m_pid);
-        
+	@RequestMapping(value = "/book_search", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded")
+	@ResponseBody
+	protected String book_search_post(@RequestParam("b_id") String b_id, @RequestParam("m_pid") String m_pid)
+			throws IOException {
+		String result = "fail";
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("b_id", b_id);
+		params.put("m_pid", m_pid);
+
 		if (m_pid != null && !m_pid.isEmpty() && !"null".equals(m_pid)) {
 			int succhk = main_Book_SearchService.updateBookResStateBookSearch(params);
 			logger.info("업데이트 : " + succhk);
-			if(succhk > 0)
-			{
+			if (succhk > 0) {
 				succhk = main_Book_SearchService.insertBookResBookSearch(params);
 				logger.info("인서트 : " + succhk);
 			}
-			
+
 			result = "{\"message\": \"success\"}";
-        } else {
-        	result = "{\"message\": \"fail\"}";
-        }
-		
+		} else {
+			result = "{\"message\": \"fail\"}";
+		}
+
 		return result;
 	}
 }

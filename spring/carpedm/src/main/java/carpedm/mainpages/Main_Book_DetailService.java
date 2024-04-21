@@ -1,11 +1,9 @@
 package carpedm.mainpages;
 
 import java.util.List;
-import java.util.Map;
 
-import carpedm.dto.LibraryDTO;
-import carpedm.dto.SearchinfoDTO;
+import carpedm.dto.ChaseBookDTO;
 
 public interface Main_Book_DetailService {
-	List<Object> getBookDetail(String bId, String siId);
+	List<Object> getBookDetail(ChaseBookDTO updateParams);
 }

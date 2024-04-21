@@ -33,7 +33,7 @@ public class Main_Book_SearchServiceImpl implements Main_Book_SearchService {
 	}
 
 	@Override
-	public int addSearchInfoBookSearch(Map<String, String> params) {
+	public int addSearchInfoBookSearch(SearchinfoDTO params) {
 		return main_Book_SearchDAO.insertSearchInfoBookSearch(params);
 	}
 

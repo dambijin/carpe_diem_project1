@@ -58,16 +58,17 @@
 		${_parameter}
 	</select>
 
-	<insert id="insertSearchInfo_book_search" parameterType="Map">
+	<insert id="insertSearchInfo_book_search" parameterType="SearchinfoDTO">
 		INSERT
-		INTO searchinfo (SI_ID, SI_KEYWORD, SI_OPT, SI_TIME, B_ID, SI_IP)
+		INTO searchinfo (SI_ID, SI_KEYWORD, SI_OPT, SI_TIME, SI_IP, M_PID)
 		VALUES (
 		searchinfo_seq.nextval,
-		#{searchWord},
-		#{item},
-		TO_DATE(#{now_date}, 'YYYY-MM-DD HH24:MI:SS'),
-		'',
-		#{clientIP}
+		#{si_keyword},
+		#{si_opt},
+<!-- 		TO_DATE(#{si_time}, 'YYYY-MM-DD HH24:MI:SS'), -->
+		#{si_time},
+		#{si_ip},
+		#{m_pid}
 		)
 	</insert>
 	<update id="updateBookResState_book_search" parameterType="Map">
@@ -80,9 +81,18 @@
 	<!-- 자료검색 끝 -->
 
 	<!-- 도서상세 시작 -->
-	<update id="updateSearchInfo_book_detail" parameterType="map">
-		UPDATE searchinfo SET b_id = #{b_id} WHERE si_id = #{si_id}
-	</update>
+	<insert id="insertChaseBook_book_detail" parameterType="ChaseBookDTO">
+		INSERT
+		INTO chasebook (BC_ID, M_PID, B_ID, B_TIME, SI_ID)
+		VALUES (
+		chasebook_seq.nextval,
+		#{m_pid},
+<!-- 		TO_DATE(#{si_time}, 'YYYY-MM-DD HH24:MI:SS'), -->
+		#{b_id},
+		#{b_time},
+		#{si_id}
+		)
+	</insert>
 	<select id="selectBookDetail_book_detail" resultType="Map">
 		SELECT b.*,
 		bg.bg_name, l.lb_name, ln.L_RETURNDATE

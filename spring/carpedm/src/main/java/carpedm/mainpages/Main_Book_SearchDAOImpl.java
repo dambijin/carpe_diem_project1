@@ -34,7 +34,7 @@ public class Main_Book_SearchDAOImpl implements Main_Book_SearchDAO {
 	}
 
 	@Override
-	public int insertSearchInfoBookSearch(Map<String, String> params) {
+	public int insertSearchInfoBookSearch(SearchinfoDTO params) {
 		return sqlSession.insert("mapper.carpedm.mainpages.insertSearchInfo_book_search", params);
 	}
 

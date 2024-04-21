@@ -13,7 +13,7 @@ public interface Main_Book_SearchService {
 
 	List<SearchinfoDTO> getPopSearchListBookSearch();
 
-	int addSearchInfoBookSearch(Map<String, String> params);
+	int addSearchInfoBookSearch(SearchinfoDTO params);
 
 	String getSiIdBookSearch();
 

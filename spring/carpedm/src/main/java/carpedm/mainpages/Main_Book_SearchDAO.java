@@ -13,7 +13,7 @@ public interface Main_Book_SearchDAO {
 
 	List<SearchinfoDTO> selectPopSearchListBookSearch();
 
-	int insertSearchInfoBookSearch(Map<String, String> params);
+	int insertSearchInfoBookSearch(SearchinfoDTO params);
 
 	String selectSiIdBookSearch();
 

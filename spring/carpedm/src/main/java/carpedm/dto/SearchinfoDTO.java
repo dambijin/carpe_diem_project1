@@ -1,6 +1,6 @@
 package carpedm.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class SearchinfoDTO {
 
@@ -8,17 +8,25 @@ public class SearchinfoDTO {
 	String si_keyword;
 	String si_opt;
 	Date si_time;
-	int b_id;
 	String si_ip;
+	String m_pid;
 
 	@Override
 	public String toString() {
 		return "SearchinfoDTO [si_id=" + si_id + ", si_keyword=" + si_keyword + ", si_opt=" + si_opt + ", si_time="
-				+ si_time + ", b_id=" + b_id + ", si_ip=" + si_ip + "]";
+				+ si_time + ", si_ip=" + si_ip + ", m_pid=" + m_pid + "]";
 	}
 
 	public int getSi_id() {
 		return si_id;
+	}
+
+	public String getM_pid() {
+		return m_pid;
+	}
+
+	public void setM_pid(String m_pid) {
+		this.m_pid = m_pid;
 	}
 
 	public void setSi_id(int si_id) {
@@ -49,13 +57,6 @@ public class SearchinfoDTO {
 		this.si_time = si_time;
 	}
 
-	public int getB_id() {
-		return b_id;
-	}
-
-	public void setB_id(int b_id) {
-		this.b_id = b_id;
-	}
 
 	public String getSi_ip() {
 		return si_ip;

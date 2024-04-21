@@ -68,10 +68,17 @@
 	</select>
 	
 	<!-- 새로운 책을 삽입하는 insert 문 -->
-    <insert id="insertBook" parameterType="BookDTO">
-        insert into book (b_id, lb_id, b_title, b_author, b_publisher, b_isbn, b_date, b_resstate, b_loanstate)
-        values (#{b_id}, #{lb_id}, #{b_title}, #{b_author}, #{b_publisher}, #{b_isbn}, #{b_date}, #{b_resstate}, #{b_loanstate})
-    </insert>
+	<insert id="insertBook" parameterType="BookDTO">
+		insert into book (b_id,
+		lb_id, b_title, b_author, b_pubyear, b_isbn,
+		b_publisher,b_kywd,b_imgurl,b_loanstate,b_resstate, bg_id, b_like,
+		b_star,b_date )
+		values (book_seq.nextval, #{lb_id}, #{b_title},
+		#{b_author}, #{b_pubyear},
+		#{b_isbn},#{b_publisher}, #{b_kywd},
+		#{b_imgurl},#{b_loanstate} ,
+		#{b_resstate},#{bg_id},#{b_like},#{b_star} , #{b_date})
+	</insert>
     
      <!-- 책을 삭제하는 delete 문 -->
     <delete id="deleteBook" parameterType="BookDTO">
