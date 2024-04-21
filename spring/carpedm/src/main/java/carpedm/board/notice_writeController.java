@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
@@ -40,10 +41,12 @@ public class notice_writeController extends HttpServlet {
 	private SqlSession sqlSession;
 
 	@RequestMapping(value = "/notice_write", method = RequestMethod.GET)
-	protected String notice_write(Locale locale, Model model) throws ServletException, IOException {
-
+	protected String notice_write(Locale locale, Model model,
+			HttpServletRequest request) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String mpid = (String) session.getAttribute("m_pid");
 		List list = sqlSession.selectList("mapper.carpedm.board.library_list");
-		List login_mpid = sqlSession.selectList("mapper.carpedm.board.login_mpid", "15");
+		List login_mpid = sqlSession.selectList("mapper.carpedm.board.login_mpid", mpid);
 
 		if (list != null) {
 			System.out.println("list.isze : " + list.size());

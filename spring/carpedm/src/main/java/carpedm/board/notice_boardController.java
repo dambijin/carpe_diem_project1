@@ -34,7 +34,7 @@ public class notice_boardController extends HttpServlet {
 	@RequestMapping(value = "/notice_board", method = RequestMethod.GET)
 	protected String notice_board(Locale locale, Model model, @ModelAttribute NoticeBoardDTO dto,
 			@RequestParam(value = "search", defaultValue = "") String search,
-			@RequestParam(value = "n_search", defaultValue = "제목") String type,			
+			@RequestParam(value = "n_search", defaultValue = "제목") String type,
 			HttpServletRequest request) throws ServletException, IOException {
 
 //		System.out.println("타입 : " + type);

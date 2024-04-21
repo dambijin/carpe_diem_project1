@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -31,17 +33,17 @@ public class QnA_boardController extends HttpServlet {
 	@RequestMapping(value = "/QnA_board", method = RequestMethod.GET)
 	protected String QnA_board(Locale locale, Model model, @ModelAttribute NoticeBoardDTO dto,
 			@RequestParam(value = "search", defaultValue = "") String search,
-			@RequestParam(value = "n_search", defaultValue = "제목") String type) throws ServletException, IOException {
-		
+			@RequestParam(value = "n_search", defaultValue = "제목") String type, HttpServletRequest request)
+			throws ServletException, IOException {
+
 //		NoticeBoardDTO dto = new NoticeBoardDTO();
 //		System.out.println("타입" + type);
 //		System.out.println("검색내"+search);
 		dto.setSearch(search); // search 값을 설정
 		dto.setType(type); // type 값을 설정
-		System.out.println("DTO내용 : "+dto);
-		
+		System.out.println("DTO내용 : " + dto);
+
 		List list = sqlSession.selectList("mapper.carpedm.board.Q_board", dto);
-		System.out.println("list : " + list);
 
 		if (list != null) {
 			System.out.println("list.isze : " + list.size());
@@ -50,6 +52,13 @@ public class QnA_boardController extends HttpServlet {
 
 		model.addAttribute("list", list);
 
+		HttpSession session = request.getSession();
+		String mpid = (String) session.getAttribute("m_pid");
+		if (mpid != null) {
+			List login_id = sqlSession.selectList("mapper.carpedm.board.member_pid", mpid);
+			model.addAttribute("login_id", login_id);
+			
+			}
 		return "board/QnA_board.jsp";
 	}
 }

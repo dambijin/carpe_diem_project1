@@ -40,28 +40,24 @@
 		});
 		
 		
-		<c:set var="login_m_pid" value="${sessionScope.m_pid}" />
-// 		로그인한 아이디
-        const login_nid = "${login_m_pid}";
-        const hrefValue = document.querySelector("#title_st").getAttribute("href");
+// 		<c:set var="login_m_pid" value="${login_id}" />
+// // 		로그인한 아이디
+//         const login_nid = "${login_m_pid[0].m_pid}";
+//         const managerchk = "${login_m_pid[0].m_managerchk}";
+//         const hrefValue = document.querySelector("#title_st").getAttribute("href");
         
-// 		document.querySelector("#title_st").addEventListener('click', function () {
-// 			cosole.log(hrefValue);
-// 			if(document.querySelector("#close_id").value === 0){
-// 				if(login_nid==nid){
-// // 				href가 사용가능
+// 	document.querySelector("#title_st").addEventListener('click', function () {
+// 			// value 값 int니까 이렇게 적는게 맞는가?
+// 			if(document.querySelector("#close_id").value == 2){
+// 				if(login_nid==nid || managerchk=="Y"){
+// //					href가 사용가능
 // 				window.location.href = hinid;
-// 				} else{
-// //	 				href가 사용불가능
-// 					alert("작성자의 로그인이 필요합니다.");
+// 				} else {
+// // 				href가 사용불가능
+// 				alert("작성자의 로그인이 필요합니다.");
 // 				}
-// 			} else {
-// // 				href가 사용가능
-// 				window.location.href = hinid;
 // 			}
 // 		});
-		
-		
 	});
 
 	// 	검색 버튼 클릭

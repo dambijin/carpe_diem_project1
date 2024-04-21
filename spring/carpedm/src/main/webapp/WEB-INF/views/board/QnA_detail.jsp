@@ -22,9 +22,11 @@
 <script>
 window.onload = function() {
     // 변수 설정
-    var login_mpid = '${sessionScope.m_pid}';
-    var mpid = '${notice[0].M_PID}';
-    var mgChk = '${sessionScope.m_managerchk}';
+    <c:set var="login" value="${login}" />
+    	<c:set var="select" value="${qnanotice}" />
+    var login_mpid = '${login[0].m_pid}';
+    var mpid = '${select[0].m_pid}';
+    var mgChk = '${login[0].m_managerchk}';
     var qnabut = document.querySelector("#qna_but"); // 수정
     var debut = document.querySelector("#delet_but"); // 삭제
     var mgbut = document.querySelector("#detail_but"); // 답글
@@ -33,10 +35,10 @@ window.onload = function() {
     if (login_mpid === mpid) {
         qnabut.style.display = "inline-block";
     } else {
-        var n_opt = '${notice[0].N_OPT}';
+        var n_opt = '${select[0].n_opt}';
         if (n_opt == 2 && mgChk !== "Y") {
             location.href = "QnA_board";
-            alert("비공개 글입니다.");
+            alert("작성자의 로그인이 필요합니다.");
         }
         qnabut.style.display = "none";
     }
@@ -279,7 +281,6 @@ window.onload = function() {
 			</div>
 			<div class="right_section" id="rs">
 				<div class="QnA_detail">
-				    <c:set var="select" value="${qnanotice}" />
 				    <table>
 				        <tr>
 				            <td class="subject">제목</td>
@@ -341,11 +342,9 @@ window.onload = function() {
 				        </button>
 				    </div>
 				    <div id="delet_but">
-				        <form method="get" action="QnA_delete">
-				            <button type="submit" class="notice_but" id="QnAdelete"
-				                    onclick="location.href='QnA_delete?N_ID=${select[0].n_id}'">삭제
+				            <button type="button" class="notice_but" id="QnAdelete"
+				                    onclick="location.href='QnA_board?N_ID=${select[0].n_id}&n_mpid=${select[0].m_pid}';">삭제
 				            </button>
-				        </form>
 				    </div>
 				</div>
 

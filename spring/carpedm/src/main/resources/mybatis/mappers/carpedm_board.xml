@@ -46,6 +46,11 @@
 		where m_pid = ${_parameter}
 	</select>
 
+	<delete id="notice_delete" parameterType="int">
+		DELETE FROM notice
+		WHERE N_ID = ${_parameter}
+	</delete>
+
 	<update id="updateNotice" parameterType="int">
 		UPDATE notice SET
 		N_VIEWCOUNT = N_VIEWCOUNT + 1 WHERE N_ID = #{n_id}
@@ -72,10 +77,13 @@
 	</select>
 
 	<!-- notice_write/QnA_write/wishbook_add 페이지 도서관 값 불러오기 -->
-	<select id="library_list" resultType="carpedm.dto.LibraryDTO">
+	<select id="library_list" resultType="LibraryDTO">
 		SELECT *
 		FROM LIBRARY
 	</select>
+
+
+
 
 	<!-- notice_write 페이지 로그인된 사람 데이터 불러오기 -->
 	<select id="login_mpid" resultType="NoticeBoardDTO"
@@ -107,8 +115,8 @@
 		M_PID
 		) values (
 		notice_seq.NEXTVAL,
-		#{lb_id}, 
-		0, 
+		#{lb_id},
+		0,
 		#{n_title},
 		#{n_content},
 		sysdate,

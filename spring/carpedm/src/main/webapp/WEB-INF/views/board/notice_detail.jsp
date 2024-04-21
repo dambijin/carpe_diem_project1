@@ -83,9 +83,7 @@ window.onload = function() {
 	<c:set var="managerChk" value="${sessionScope.m_managerchk}" />
 	
 	<%-- request 객체에서 notice 목록 가져오기 --%>
-	<c:set var="notice" value="${requestScope.notice}" />
-
-	
+	<c:set var="notice" value="${notice}" />
 		// 세션에서 로그인된 사용자의 m_pid를 가져옵니다.
 	    var login_mpid = "${sessionScope.m_pid}";
 
@@ -99,19 +97,14 @@ window.onload = function() {
 	    var upbut = document.querySelector("#notice_update"); // 수정버튼
 	    var debut = document.querySelector("#notice_delete"); // 삭제버튼
 
-	    // M_MANAGERCHK 값이 "Y"인 경우 삭제 버튼을 표시합니다.
-	    // 그렇지 않은 경우에는 삭제 버튼을 숨깁니다.
-	    if (mManagerChk === "Y") {
-	        debut.style.display = "inline-block";
-	    } else {
-	        debut.style.display = "none";
-	    }
 
 	    // 로그인된 사용자의 m_pid와 notice 목록의 첫 번째 항목의 M_PID가 일치하는지 확인합니다.
 	    if (login_mpid === mpid) {
 	        upbut.style.display = "inline-block";
+	        debut.style.display = "inline-block";
 	    } else {
 	        upbut.style.display = "none";
+	        debut.style.display = "none";
 	    }
 
 	    // 삭제 버튼에 클릭 이벤트를 추가합니다.
@@ -119,10 +112,6 @@ window.onload = function() {
 	        alert("삭제했습니다.");
 	    });
 };
-    
-
-
-
 </script>
 </head>
 
@@ -207,12 +196,10 @@ window.onload = function() {
 							</td>
 						</tr>
 				    </table>
-				    <form method="get" action="notice_delete">
 				        <!-- EL을 사용하여 수정 버튼의 URL에 N_ID를 추가 -->
 				        <button type="button" id="notice_update" onclick="location.href='notice_update?N_ID=${notice[0].n_id}';">수정</button>
 				        <!-- EL을 사용하여 삭제 버튼의 URL에 N_ID를 추가 -->
-				        <button type="submit" id="notice_delete" onclick="location.href='notice_delete?N_ID=${notice[0].n_id}';">삭제</button>
-				    </form>
+				        <button type="button" id="notice_delete" onclick="location.href='notice_delete?N_ID=${notice[0].n_id}&n_mpid=${notice[0].m_pid}';">삭제</button>
 				</div>
 
 			</div>
