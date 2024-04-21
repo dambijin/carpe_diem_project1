@@ -247,7 +247,7 @@ public class Main_Book_Recommend {
 						bdto.setB_publisher(getDataOne(temp, "\"name\":\"", "\""));
 						bdto.setB_kywd(getDataOne(rs_a_text, "\"genre\":\"", "\","));
 						bdto.setB_imgurl(getDataOne(rs_a_text, "<meta property=\"og:image\" content=\"", "\" />").replace("/XL", ""));
-						System.out.println(getDataOne(rs_a_text, "<meta property=\"og:image\" content=\"", "\" />").replace("/XL", ""));
+//						System.out.println(getDataOne(rs_a_text, "<meta property=\"og:image\" content=\"", "\" />").replace("/XL", ""));
 						
 						//여기부턴 임의로 넣자
 						bdto.setLb_id(1);
@@ -261,7 +261,7 @@ public class Main_Book_Recommend {
 						System.out.println("오류발생!!");
 					}
 					result_list.add(bdto);
-					System.out.println(bdto);
+//					System.out.println(bdto);
 				}
 
 			}

@@ -35,13 +35,13 @@ public class Main_Libs_InfolistController {
 		return "mainpages/libs_infolist.jsp";
 	}
 
-	@RequestMapping(value = "/parseletsgo", method = RequestMethod.GET)
+//	@RequestMapping(value = "/parseletsgo", method = RequestMethod.GET)
 	protected String yes24Parse(Locale locale, Model model) throws ServletException, IOException {
 		logger.info("도서관정보 접근");
 
 		Main_Book_Recommend mbr = new Main_Book_Recommend();
 		List<BookDTO> parsing_book_list = mbr.HttpParseYes24(
-				"https://www.yes24.com/Product/Category/BestSeller?categoryNumber=001&pageNumber=3&pageSize=120");
+				"https://www.yes24.com/Product/Category/BestSeller?categoryNumber=001&pageNumber=6&pageSize=120");
 		for (int i = 0; i < parsing_book_list.size(); i++) {
 			try {
 				System.out.println(sqlSession.insert("mapper.carpedm.admin.insertBook", parsing_book_list.get(i)));
