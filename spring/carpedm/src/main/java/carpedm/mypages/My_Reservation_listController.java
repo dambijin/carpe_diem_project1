@@ -40,17 +40,28 @@ public class My_Reservation_listController {
 	// 예약페이지
 		@RequestMapping(value = "/mypage_reservation_list", method = RequestMethod.GET)
 		protected String reservation_list(Locale locale, Model model,
-				@RequestParam(value = "search", defaultValue = "") String keyword 
+				@RequestParam(value = "search", defaultValue = "") String keyword,
+				@RequestParam(value = "page", defaultValue = "1") String page,
+				@RequestParam(value = "perPage", defaultValue = "10") String perPage
 				) throws ServletException, IOException {
 
 			Map<String, String> map = new HashedMap();
 			
+			int currentPage = Integer.parseInt(page);
+			int itemsPerPage = Integer.parseInt(perPage);
+			int startRow = (currentPage - 1) * itemsPerPage + 1;
+			int endRow = currentPage * itemsPerPage;
+			
 			//m_pid 자리 넘보지 마셈
 			map.put("m_pid", 15+"");
 			map.put("keyword", keyword);
+			map.put("startRow", startRow +"");
+			map.put("endRow", endRow+"");
 			
 			
 			List list = sqlSession.selectList("mapper.carpedm.mypage.reservationlist", map);
+			
+			
 			MemberDTO myInfo = sqlSession.selectOne("mapper.carpedm.mypage.myInfo","2");
 			String limitDate = myInfo.getM_limitdate()+"";
 
@@ -80,23 +91,31 @@ public class My_Reservation_listController {
 			//페이징관련
 			//book_count는 총 검색 게시글 수
 			//단순계산용(모델에 안넣음)
-			int currentPage = Integer.parseInt(page);
-			int itemsPerPage = Integer.parseInt(perPage);
-			int startRow = (currentPage - 1) * itemsPerPage + 1;
-			int endRow = currentPage * itemsPerPage;
+		
+			
+			Map res_count_temp = sqlSession.selectOne("mapper.carpedm.mypage.resCount", map);
+			System.out.println(res_count_temp);
+			int res_count = Integer.parseInt(String.valueOf(res_count_temp.get("count")));
+			logger.info("북카운트:" + res_count);
 			
 			// 페이지 처리를 위한 계산(모델에 넣어야함)
 			int startPage = Math.max(currentPage - 2, 1);
-			int totalPages = book_count > 0 ? (int) Math.ceil(book_count / Double.parseDouble(perPage)) : 1;
+			int totalPages = res_count > 0 ? (int) Math.ceil(res_count / Double.parseDouble(perPage)) : 1;
 			int endPage = Math.min(startPage + 4, totalPages); 
 		    startPage = Math.max(1, endPage - 4);
-			
-
+		    
+		    model.addAttribute("page", page);
+			model.addAttribute("perPage", perPage);
+		    model.addAttribute("res_count", res_count);
+		    model.addAttribute("start_page", startPage);
+			model.addAttribute("end_page", endPage);
+			model.addAttribute("total_pages", totalPages);
 
 			return "mypages/mypage_reservation_list.jsp";
 		}
 		
-		// 취소 메소드 
+		
+				// 취소 메소드 
 				@RequestMapping(value = "/mypage_reservation_list", method = RequestMethod.POST)
 				protected String reservation_cancle(Locale locale, Model model,
 						@RequestParam(value = "m_pid", defaultValue = "") String m_pid, 

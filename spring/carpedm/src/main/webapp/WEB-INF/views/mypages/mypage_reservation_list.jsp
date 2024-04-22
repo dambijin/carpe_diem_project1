@@ -234,7 +234,8 @@
 		}
 		function redirectPage()
         {
-			let perPage = document.getElementById("case").value;  
+			let perPage = document.getElementById("case").value;
+			console.log(perPage);
 //     	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
 
     	    window.location.href = '/carpedm/mypage_reservation_list?'
@@ -284,6 +285,7 @@
 	background-color: #007bff;
 	color: #fff;
 }
+
 </style>
 </head>
 
@@ -393,7 +395,7 @@
 
 				<div id="paging">
 					<%-- 서블릿에서 불러온 페이징 정보 --%>
-					<c:set var="total_count" value="${totalViewCount}" />
+					<c:set var="total_count" value="${res_count}" />
 					<c:set var="perPage" value="${perPage}" />
 					<c:set var="current_page" value="${page}" />
 
@@ -413,16 +415,16 @@
 					</div>
 					<div class="paging">
 						<c:if test="${current_page > 1}">
-							<a href="javascript:void(0);"
-								onclick="bookSearch(${current_page - 1})" class="pre">◀</a>
+							<a href="?page=${current_page - 1}&perPage=${perPage}"
+								 class="pre">◀</a>
 						</c:if>
 						<c:forEach var="i" begin="${start_page}" end="${end_page}">
-							<a href="javascript:void(0);" onclick="bookSearch(${i})"
+							<a href="?page=${i}&perPage=${perPage}" 
 								class="${i == current_page ? 'num active' : 'num'}">${i}</a>
 						</c:forEach>
 						<c:if test="${current_page < total_pages}">
-							<a href="javascript:void(0);"
-								onclick="bookSearch(${current_page + 1})" class="next">▶</a>
+							<a href="?page=${current_page + 1}&perPage=${perPage}"
+								 class="next">▶</a>
 						</c:if>
 					</div>
 				</div>
@@ -474,9 +476,9 @@
 						<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
 					</div>
 				</div>
-			</div>
+			</div> --%>
 		</div>
-		</div> --%>
+		</div>
 	</section>
 	<!-- 헤더를 덮어씌우는 자바스크립트 -->
 	

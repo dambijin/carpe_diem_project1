@@ -67,7 +67,7 @@
 		loan.l_returnrealdate IS NOT NULL AND m_pid = ${m_pid} AND b_title LIKE
 		'%${keyword}%'
 		)
-		WHERE rnum BETWEEN 1 AND 10
+		WHERE rnum BETWEEN ${startRow} AND ${endRow}
 	</select>
 
 	<select id="reservationlist" resultMap="reservationlistResult">
@@ -91,8 +91,7 @@
 		reservation.m_pid = ${m_pid} AND b_title LIKE '%${keyword}%'
 		)
 		)
-		WHERE rnum BETWEEN 1 AND
-		10
+		WHERE rnum BETWEEN ${startRow} AND ${endRow}
 	</select>
 
 	<resultMap id="reservationlistResult" type="HashMap">
@@ -204,4 +203,29 @@ DELETE FROM wishlist
 WHERE m_pid = ${m_pid}
 AND w_id IN (${w_id})
 </update>
+
+<resultMap id="resCountResult" type="HashMap">
+   <result property="count" column="count(*)" />
+</resultMap>
+
+
+<select id="resCount" resultMap="resCountResult" parameterType="String">
+		SELECT
+		count(*) 
+		FROM (
+		SELECT book.b_id, r_id,
+		b_title, b_author, b_publisher, r_resdate,
+		reservation.r_resstate,
+		loan.L_returndate, library.lb_name
+		FROM reservation
+		INNER JOIN book ON
+		reservation.b_id = book.b_id
+		INNER JOIN library ON book.lb_id =
+		library.lb_id
+		LEFT JOIN loan ON reservation.b_id = loan.b_id
+		WHERE
+		reservation.m_pid = ${m_pid} AND b_title LIKE '%${keyword}%'
+		)
+</select>
+
 </mapper>

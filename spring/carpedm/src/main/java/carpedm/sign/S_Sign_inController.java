@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import carpedm.dto.MemberDTO;
@@ -39,9 +40,11 @@ public class S_Sign_inController {
 
     @RequestMapping(value = "/sign_in", method = RequestMethod.POST)
     @ResponseBody
-    public String login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String userid = request.getParameter("userid");
-        String userpw = request.getParameter("userpw");
+    public String login(HttpServletRequest request, HttpServletResponse response,
+    		@RequestParam(value = "userid", defaultValue = "") String userid,
+    		@RequestParam(value = "userpw", defaultValue = "") String userpw
+    		) throws IOException {
+         
         
         Map map = new HashMap();
         map.put("m_id", userid);
