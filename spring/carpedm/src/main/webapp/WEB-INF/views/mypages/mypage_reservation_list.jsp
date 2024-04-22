@@ -27,9 +27,6 @@
             bind();
         })
 
-
-
-
         function bind() {
             let button1 = document.getElementById('chginfo');
             let cancle = document.getElementById('cancle');
@@ -150,8 +147,15 @@
 
                     xhr.send(queryString);
                 });
+      		  let filter = document.getElementById("case").options;
+  	        for(let i = 0; i< filter.length;i++){   
+  	            if(filter[i].value == '${perPage}') {
+  	            	filter.selectedIndex = i;
+  	                break;
+  	            }
+  	        }
                 
-}
+		}
 //                 table.append(tr)
                 
                  // 출력 개수
@@ -232,15 +236,17 @@
 		        }
 		    }
 		}
+
 		function redirectPage()
         {
 			let perPage = document.getElementById("case").value;
-			console.log(perPage);
+
 //     	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
 
     	    window.location.href = '/carpedm/mypage_reservation_list?'
     	    + '&page=' + "1"
     	    + '&perPage=' + perPage;
+    	    
         }
 
     </script>
