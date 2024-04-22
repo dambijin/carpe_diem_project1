@@ -78,8 +78,7 @@
 
                 // 체크박스 전체선택 중 항목 체크해제시 전체선택 체크박스 해제
                console.log(document.querySelectorAll(".checkbox"));
-                document.querySelector(".checkbox")
-                    .addEventListener("click", function (event) {
+                document.querySelector(".checkbox").addEventListener("click", function (event) {
 
                         if (!event.target.checked) {
 

@@ -324,12 +324,13 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					        </td>
 					    </tr>
 					    <tr>
+					    <% pageContext.setAttribute("newline", "\n"); %>
 					        <th height="40px">주소</th>
 					        <td>
-					            <input type="text" class="zipcode" id="zipcodenum" placeholder="우편번호" />
-					            <input type="button" value="주소찾기" class="add" onclick="sample6_execDaumPostcode()" /><br />
-					            <input type="text" class="adr" name="address1" id="adr1" placeholder="기본주소" value="${data_list[0].m_address}" /><br />
-					            <input type="text" class="adr" id="adr2" placeholder="상세주소" />
+					            <input type="text" class="zipcode" id="zipcodenum" placeholder="우편번호" value="${fn:split(data_list[0].m_address, newline)[0]}" />
+					            <input type="button" value="주소찾기" class="add" onclick="sample6_execDaumPostcode()"  /><br />
+					            <input type="text" class="adr" name="address1" id="adr1" placeholder="기본주소" value="${fn:split(data_list[0].m_address, newline)[1]}" /><br />
+					            <input type="text" class="adr" id="adr2" placeholder="상세주소" value="${fn:split(data_list[0].m_address, newline)[2]}"/>
 					        </td>
 					    </tr>
 					</c:if>

@@ -115,8 +115,8 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 		    
 		    xhr.open("post", "mypage_loan_status", true);
 		    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-<%-- 		   												 encodeURIComponent(<%=login_m_pid%>) --%>
-		    let param = "l_id=" + encodeURIComponent(l_id)+'&m_pid=' + 15
+		   												
+		    let param = "l_id=" + encodeURIComponent(l_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>)
 		    console.log("param : " + param);
 		    
 		    xhr.send(param);

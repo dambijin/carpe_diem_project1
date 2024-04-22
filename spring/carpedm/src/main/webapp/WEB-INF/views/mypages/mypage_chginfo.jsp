@@ -339,7 +339,7 @@ input {
 					<tr>
 						<th>이름</th>
 						<td class="padding" id="name" name="name">
-							<input type="text" name="name" value="${myInfo[0].M_NAME}" /></td>
+							<input type="text" name="name" value="${myInfo[0].M_NAME}" readonly /></td>
 					</tr>
 					<tr>
 						<th>생년월일</th>
@@ -398,17 +398,19 @@ input {
 						</font></td>
 					</tr>
 					<th>주소</th>
+					<% pageContext.setAttribute("newline", "\n"); %>
 					<td><input class="input_width" type="text" placeholder="우편 번호"
 						name="sample6_postcode" id="sample6_postcode"
-						value="${myInfo[0].M_ADDRESS.split(',')[0]}">
+						value="${fn:split(myInfo[0].M_ADDRESS, newline)[0]}">
 						<button id="place_button"
 							onclick="sample6_execDaumPostcode(); return false;">주소
-							찾기</button> <br> <input class="place_input_width"
+							찾기</button> <br> 
+							<input class="place_input_width"
 						id="sample6_address" name="sample6_address" type="text"
-						placeholder="도로명 주소" value="${myInfo[0].M_ADDRESS.split(',')[1]}"><br>
+						placeholder="도로명 주소" value="${fn:split(myInfo[0].M_ADDRESS, newline)[1]}"><br>
 						<input class="place_input_width" id="sample6_address2"
 						name="sample6_address2" type="text" placeholder="상세 주소"
-						value="${myInfo[0].M_ADDRESS.split(',')[2]}"></td>
+						value="${fn:split(myInfo[0].M_ADDRESS, newline)[2]}"></td>
 				</table>
 			</div>
 			<!-- 버튼 -->

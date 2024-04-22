@@ -88,11 +88,7 @@ private static final Logger logger = LoggerFactory.getLogger(S_Sign_upController
 		int succhk = sqlSession.insert("mapper.carpedm.sign.signInsert", custom);
 		
 		System.out.println("이게 문제냐 쉬발ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ" + succhk);
-		
-		
 
-		
-		
-		return "mainpages/main.jsp";
+		return "redirect:/main";
 	}		
 }

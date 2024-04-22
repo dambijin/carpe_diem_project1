@@ -6,6 +6,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.SqlSession;
@@ -23,7 +25,7 @@ import carpedm.dto.MemberDTO;
 @Controller
 public class My_Wishbook_listController {
 
-	MypageService mypageService;
+	
 
 	My_Wishbook_listController() {
 		System.out.println("Wishbook_listController 입장");
@@ -40,9 +42,17 @@ public class My_Wishbook_listController {
 		protected String wishbook_list(Locale locale, Model model,
 				@RequestParam(value = "search", defaultValue = "") String keyword,
 				@RequestParam(value = "page", defaultValue = "1") String page,
-				@RequestParam(value = "perPage", defaultValue = "10") String perPage
+				@RequestParam(value = "perPage", defaultValue = "10") String perPage,
+				HttpServletRequest request
 				) throws ServletException, IOException {
+			HttpSession session = request.getSession();
+			String m_pid = (String) session.getAttribute("m_pid") + "";
+			logger.info("로그인 id : " + m_pid);
 			
+			if (m_pid == null || "".equals(m_pid) || "null".equals(m_pid)) {
+				
+				return "sign/sign_in.jsp";
+			}
 			//페이징관련
 			//book_count는 총 검색 게시글 수
 			//단순계산용(모델에 안넣음)
@@ -54,32 +64,44 @@ public class My_Wishbook_listController {
 				Map<String, String> map = new HashedMap();
 			
 			//m_pid 자리 넘보지 마셈
-			map.put("m_pid", 15+"");
+			map.put("m_pid", m_pid);
 			map.put("keyword", keyword);
 			map.put("startRow", startRow +"");
 			map.put("endRow", endRow+"");
 
 			List list = sqlSession.selectList("mapper.carpedm.mypage.wishbooklist", map);
-			MemberDTO myInfo = sqlSession.selectOne("mapper.carpedm.mypage.myInfo","2");
-			String limitDate = myInfo.getM_limitdate()+"";
+			MemberDTO myInfo = sqlSession.selectOne("mapper.carpedm.mypage.myInfo",m_pid);
+			String limitDate = myInfo.getM_limitdate() + "";
 
+			System.out.println(limitDate);
 			// 현재 날짜를 가져오기
-					java.util.Date currentDate = new java.util.Date();
-					java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
-					String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
+			java.util.Date currentDate = new java.util.Date();
+			java.text.SimpleDateFormat sdfInput = new java.text.SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy",
+					Locale.ENGLISH);
+			java.text.SimpleDateFormat sdfOutput = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
+			long diff = 0;
+			try {
+				// limitDate 문자열을 파싱하여 Date 객체로 변환
+				java.util.Date limitDateObj = sdfInput.parse(limitDate);
 
-					// limitDate와 formattedDate의 차이 계산
-					long diff = 0;
-					try {
-						java.util.Date limitDateObj = sdf.parse(limitDate);
-						java.util.Date formattedDateObj = sdf.parse(formattedDate);
+				// Date 객체를 "yyyy-MM-dd" 형식의 문자열로 변환
+				String formattedDate = sdfOutput.format(limitDateObj);
 
-						long diffInMillies = limitDateObj.getTime() - formattedDateObj.getTime(); // 두 날짜의 밀리초 단위 차이
-						diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
+				// 변환된 문자열 출력
+				System.out.println(formattedDate);
 
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+				// 현재 날짜를 "yyyy-MM-dd" 형식으로 변환
+				String currentDateStr = sdfOutput.format(currentDate);
+
+				// limitDate와 formattedDate의 차이 계산
+				long diffInMillies = limitDateObj.getTime() - currentDate.getTime(); // 두 날짜의 밀리초 단위 차이
+				diff = diffInMillies / (1000 * 60 * 60 * 24); // 밀리초를 일로 변환
+
+				// 결과 출력
+				System.out.println("날짜 차이: " + diff + "일");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 			
 					model.addAttribute("diff", diff);
@@ -113,13 +135,15 @@ public class My_Wishbook_listController {
 				@RequestMapping(value = "/mypage_wishbook_list", method = RequestMethod.POST)
 				protected String wishbook_delete(Locale locale, Model model,
 						@RequestParam(value = "ids", defaultValue = "") String w_id, 
-						@RequestParam(value = "m_pid", defaultValue = "") String m_pid
+						HttpServletRequest request
 						) throws ServletException, IOException {
-					
+					HttpSession session = request.getSession();
+					String m_pid = (String) session.getAttribute("m_pid") + "";
+					logger.info("로그인 id : " + m_pid);
 						Map<String, String> map = new HashedMap();
 					System.out.println(w_id);
 					//m_pid 자리 넘보지 마셈
-					map.put("m_pid", 15+"");
+					map.put("m_pid", m_pid);
 					map.put("w_id", w_id);
 
 					

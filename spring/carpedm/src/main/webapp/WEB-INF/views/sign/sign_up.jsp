@@ -142,6 +142,9 @@
 <script>
 
 window.onload = function () {
+	
+	  		 email();
+		     
     		let button = document.getElementById('button');
 
 			let forms = document.querySelector("#form")
@@ -150,72 +153,75 @@ window.onload = function () {
 			})
 			
     button.addEventListener('click', function () {
-//         let userid = document.querySelector('#id_text').value;
-//         let userpw = document.querySelector('#pw_text').value;
-//         let userpw_check = document.querySelector('#pw_check_text').value;
-//         let username = document.querySelector('#name_text').value;
-//         let userbirthday = document.querySelector('#birthday_text').value;
-//         let usertel = document.querySelector('#tel_text').value;
-//         let useremail1 = document.querySelector('#email1_text').value;
-//         let useremail2 = document.querySelector('#email2_text').value;
-//         let useradd1 = document.querySelector('#add1_text').value;
-//         let useradd2 = document.querySelector('#add2_text').value;
-//         let userchk = document.querySelector('#chk').checked;
+        let userid = document.querySelector('#id_text').value;
+        let userpw = document.querySelector('#pw_text').value;
+        let userpw_check = document.querySelector('#pw_check_text').value;
+        let username = document.querySelector('#name_text').value;
+        let userbirthday = document.querySelector('#birthday_text').value;
+        let usertel = document.querySelector('#tel_text').value;
+        let useremail1 = document.querySelector('#email1_text').value;
+        let useremail2 = document.querySelector('#email2_text').value;
+        let useradd1 = document.querySelector('#add1_text').value;
+        let useradd2 = document.querySelector('#add2_text').value;
+        let userchk = document.querySelector('#chk').checked;
 
-//         if (userid == "") {
-//             alert("아이디을 입력해주세요.");
-//             document.querySelector('#id_text').focus();
-//         } else if (userid.length < 6 || userid.length > 20) {
-//             alert("아이디는 최소 6자 이상, 최대 20자 이하여야 합니다.");
-//             document.querySelector('#id_text').focus();
-//         } else if (userpw == "") {
-//             alert("비밀번호를 입력해주세요.");
-//             document.querySelector('#pw_text').focus();
-//         } else if (userpw.length < 8 || userpw.length > 20) {
-//             alert("비밀번호는 최소 8자 이상, 최대 20자 이하여야 합니다.");
-//             document.querySelector('#pw_text').focus();
-//         } else if (userpw_check == "") {
-//             alert("비밀번호 확인을 입력해주세요.");
-//             document.querySelector('#pw_check_text').focus();
-//         } else if (userpw !== userpw_check) {
-//             alert("비밀번호가 일치하지 않습니다.");
-//             document.querySelector('#pw_check_text').focus();
-//         } else if (username == "") {
-//             alert("이름를 입력해주세요.");
-//             document.querySelector('#name_text').focus();
-//         } else if (userbirthday == "") {
-//             alert("생년월일을 입력해주세요.");
-//             document.querySelector('#birthday_text').focus();
-//         } else if (usertel == "") {
-//             alert("전화번호을 입력해주세요.");
-//             document.querySelector('#tel_text').focus();
-//         } else if (useremail1 == "") {
-//             alert("이메일을 입력해주세요.");
-//             document.querySelector('#email1_text').focus();
-//         } else if (useremail2 == "") {
-//             alert("이메일주소를 입력해주세요.");
-//             document.querySelector('#email2_text').focus();
-//         } else if (useradd1 == "") {
-//             alert("주소을 입력해주세요.");
-//             document.querySelector('#add1_text').focus();
-//         } else if (useradd2 == "") {
-//             alert("상세주소을 입력해주세요.");
-//             document.querySelector('#add2_text').focus();
-//         } else if (!userchk) {
-//             alert("개인정보에 동의해주세요.");
-//         } else {
-            // 여기에 회원가입 처리를 위한 코드 추가
+        if (userid == "") {
+            alert("아이디을 입력해주세요.");
+            document.querySelector('#id_text').focus();
+        } else if (userid.length < 6 || userid.length > 20) {
+            alert("아이디는 최소 6자 이상, 최대 20자 이하여야 합니다.");
+            document.querySelector('#id_text').focus();
+        } else if (userpw == "") {
+            alert("비밀번호를 입력해주세요.");
+            document.querySelector('#pw_text').focus();
+        } else if (userpw.length < 8 || userpw.length > 20) {
+            alert("비밀번호는 최소 8자 이상, 최대 20자 이하여야 합니다.");
+            document.querySelector('#pw_text').focus();
+        } else if (userpw_check == "") {
+            alert("비밀번호 확인을 입력해주세요.");
+            document.querySelector('#pw_check_text').focus();
+        } else if (userpw !== userpw_check) {
+            alert("비밀번호가 일치하지 않습니다.");
+            document.querySelector('#pw_check_text').focus();
+        } else if (username == "") {
+            alert("이름를 입력해주세요.");
+            document.querySelector('#name_text').focus();
+        } else if (userbirthday == "") {
+            alert("생년월일을 입력해주세요.");
+            document.querySelector('#birthday_text').focus();
+        } else if (usertel == "") {
+            alert("전화번호을 입력해주세요.");
+            document.querySelector('#tel_text').focus();
+        } else if (useremail1 == "") {
+            alert("이메일을 입력해주세요.");
+            document.querySelector('#email1_text').focus();
+        } else if (useremail2 == "") {
+            alert("이메일주소를 입력해주세요.");
+            document.querySelector('#email2_text').focus();
+        } else if (useradd1 == "") {
+            alert("주소을 입력해주세요.");
+            document.querySelector('#add1_text').focus();
+        } else if (useradd2 == "") {
+            alert("상세주소을 입력해주세요.");
+            document.querySelector('#add2_text').focus();
+        } else if (!userchk) {
+            alert("개인정보에 동의해주세요.");
+        } else {
+            //여기에 회원가입 처리를 위한 코드 추가
             alert("회원가입이 완료되었습니다!");
             // 회원가입이 성공했을 경우 리다이렉션 등을 수행할 수 있습니다.
             // 예를 들어, 다른 페이지로 이동하려면 window.location.href를 사용합니다.
 //             window.location.href = 'success.jsp'; // 성공 페이지로 이동
             forms.submit();
-//         }
+        }
     });
 };
 
 		
-
+				
+				 
+				
+			
 		
         function sample6_execDaumPostcode() {
             new daum.Postcode({
@@ -257,12 +263,10 @@ window.onload = function () {
                     // 커서를 상세주소 필드로 이동한다.
                     document.getElementById('add2_text').focus();
                 }
+
             }).open();
         }
-        window.addEventListener("load", function () {
-            email();
-
-        })
+       
         // 이메일 선택시 따라붙기
         function email() {
             let email1 = document.querySelector("#email_domain")
@@ -367,9 +371,9 @@ window.onload = function () {
 					<td class="r_border">주소</td>
 					<td><input type="text" name="address1" placeholder="우편번호"
 						class="zip_code" id="add_text">
-						<button id="place_button"
-							onclick="sample6_execDaumPostcode(); return false;">주소
-							찾기</button> <input type="text" class="inputbox textbox" name="address2"
+						<input type="button" id="place_button" value="주소찾기"
+							onclick="sample6_execDaumPostcode(); return false;">
+							</button> <input type="text" class="inputbox textbox" name="address2"
 						placeholder="기본주소" id="add1_text"> <input type="text"
 						class="inputbox textbox" name="address3" placeholder="나머지주소"
 						id="add2_text"></td>
