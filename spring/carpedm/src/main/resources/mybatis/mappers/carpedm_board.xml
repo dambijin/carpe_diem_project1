@@ -35,7 +35,7 @@
 		ORDER BY n_id DESC
 		) n1
 		) n2
-		WHERE rnum &gt;= 1 AND rnum &lt;= 100
+		where rnum &gt;= ${startRow} and rnum &lt;=	${endRow}
 	</select>
 
 	<!-- notice_board 페이지 글쓰기 버튼을 위해 로그인된 아이디 관리자인지 아닌지 확인 -->
@@ -125,10 +125,27 @@
 		)
 	</insert>
 
+<!-- 	<resultMap id="resCountResult" type="HashMap"> -->
+<!-- 		<result property="count" column="count(*)" /> -->
+<!-- 	</resultMap> -->
 
+
+<!-- notice_board 페이지 게시물 총 개수 -->
+	<select id="NresultCount" resultType="int" parameterType="NoticeBoardDTO">
+		select count(*) from notice
+		where N_OPT = 0
+	</select>
+
+<!-- QnA_board 페이지 게시물 총 개수 -->
+	<select id="QresultCount" resultType="int" parameterType="NoticeBoardDTO">
+		select count(*) from notice
+		where N_OPT = 1 or N_OPT = 2
+	</select>
+	
+	
 	<!-- QnA_board 페이지 -->
 	<select id="Q_board" resultType="NoticeBoardDTO"
-		parameterType="NoticeBoardDTO">
+		parameterType="hashmap">
 		select * from (
 		select rownum
 		rnum, n1.* from (
@@ -179,7 +196,7 @@
 		sort_n_id
 		) n1
 		) n2
-		where rnum &gt;= 1 and rnum &lt;= 100
+		where rnum &gt;= ${startRow} and rnum &lt;=	${endRow}
 	</select>
 
 	<!-- QnA인서트 -->
@@ -260,7 +277,8 @@
 
 	<!-- wishbook_add 페이지 인서트 -->
 	<insert id="wishbook_add_insert" parameterType="WishlistDTO">
-		INSERT INTO wishlist
+		INSERT INTO
+		wishlist
 		(W_ID,
 		LB_ID,
 		W_TITLE,

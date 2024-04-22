@@ -37,7 +37,7 @@ public class notice_boardDAO {
 		return list;
 	}
 
-	public MemberDTO getSessionLogin( HttpServletRequest request) {
+	public MemberDTO getSessionLogin(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String mpid = (String) session.getAttribute("m_pid");
 		System.out.println("로그인 된 아이디 : " + mpid);
@@ -47,8 +47,8 @@ public class notice_boardDAO {
 				// selectOne : member테이블에서 m_pid값 where문으로 찾아서 1명만 가져옴
 				if (mpid != null) {
 					memberDTO = sqlSession.selectOne("mapper.carpedm.board.member_pid", mpid);
-				
-				System.out.println("로그인한 멤버디티오"+memberDTO);
+
+					System.out.println("로그인한 멤버디티오" + memberDTO);
 				}
 				System.out.println("memberDTO : " + memberDTO);
 			} else {
@@ -58,5 +58,19 @@ public class notice_boardDAO {
 			e.printStackTrace();
 		}
 		return memberDTO;
+	}
+
+	public int getNoticeCount(NoticeBoardDTO dto) {
+		int count = 0;
+		try {
+			if(sqlSession != null) {
+				count = sqlSession.selectOne("mapper.carpedm.board.NresultCount", dto);
+			} else {
+				System.out.println("DB 접속 실패");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 }

@@ -18,18 +18,39 @@ public class NoticeBoardDTO {
 	String lb_name;
 	int lv;
 	String m_tel; // 전화번호
+	
+	// 검색
 	String search;
 	String type;
-
-
 	
+	// 페이징
+	int startRow;
+	int endRow;
+
+
 	@Override
 	public String toString() {
 		return "NoticeBoardDTO [n_id=" + n_id + ", lb_id=" + lb_id + ", n_opt=" + n_opt + ", n_title=" + n_title
 				+ ", n_content=" + n_content + ", n_date=" + n_date + ", n_viewcount=" + n_viewcount + ", n_file="
 				+ n_file + ", n_chgdate=" + n_chgdate + ", m_pid=" + m_pid + ", n_parent_id=" + n_parent_id
 				+ ", m_name=" + m_name + ", lb_name=" + lb_name + ", lv=" + lv + ", m_tel=" + m_tel + ", search="
-				+ search + ", type=" + type + "]";
+				+ search + ", type=" + type + ", startrow=" + startRow + ", endrow=" + endRow + "]";
+	}
+
+	public int getStartrow() {
+		return startRow;
+	}
+
+	public void setStartrow(int startrow) {
+		this.startRow = startrow;
+	}
+
+	public int getEndrow() {
+		return endRow;
+	}
+
+	public void setEndrow(int endrow) {
+		this.endRow = endrow;
 	}
 
 	public String getSearch() {
