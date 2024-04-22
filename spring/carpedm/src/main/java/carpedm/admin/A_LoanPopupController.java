@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import carpedm.test222.HomeController;
-
 @Controller
 public class A_LoanPopupController {
 	
@@ -25,7 +23,7 @@ public class A_LoanPopupController {
 		System.out.println("A_LoanPopupController 생성자");
 	}
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(A_LoanPopupController.class);
 
 	@Autowired
 	private SqlSession sqlSession;

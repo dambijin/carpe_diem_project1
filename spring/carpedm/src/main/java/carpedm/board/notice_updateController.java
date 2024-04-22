@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import carpedm.dto.MemberDTO;
 import carpedm.dto.NoticeBoardDTO;
-import carpedm.test222.HomeController;
 
 @Controller // MVC컨트롤러로 선언
 public class notice_updateController extends HttpServlet {

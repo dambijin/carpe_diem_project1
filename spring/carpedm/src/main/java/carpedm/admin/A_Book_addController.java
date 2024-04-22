@@ -14,9 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import carpedm.test222.HomeController;
 
 @Controller
 public class A_Book_addController {
@@ -25,7 +22,7 @@ public class A_Book_addController {
 		System.out.println("A_Book_addController 생성자");
 	}
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(A_Book_addController.class);
 
 	@Autowired
 	private SqlSession sqlSession;

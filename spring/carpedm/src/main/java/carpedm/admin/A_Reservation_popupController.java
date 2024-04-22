@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import carpedm.dto.MemberDTO;
-import carpedm.test222.HomeController;
 
 @Controller
 public class A_Reservation_popupController {
@@ -30,7 +29,7 @@ public class A_Reservation_popupController {
 		System.out.println("Reservation_listController 입장");
 	}
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(A_Reservation_popupController.class);
 
 	@Autowired
 	private SqlSession sqlSession;

@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import carpedm.dto.NoticeBoardDTO;
-import carpedm.test222.HomeController;
 
 @Controller // MVC컨트롤러로 선언
 public class QnA_writeController extends HttpServlet {

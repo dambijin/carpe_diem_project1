@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import carpedm.test222.HomeController;
-
 @Controller
 public class A_ChginfoController {
 	
@@ -27,7 +25,7 @@ public class A_ChginfoController {
 		System.out.println("A_ChginfoController 생성자");
 	}
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(A_ChginfoController.class);
 
 	@Autowired
 	private SqlSession sqlSession;

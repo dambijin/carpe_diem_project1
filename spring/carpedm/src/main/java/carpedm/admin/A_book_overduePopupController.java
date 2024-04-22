@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import carpedm.test222.HomeController;
-
 @Controller
 public class A_book_overduePopupController {
 
@@ -25,7 +23,7 @@ public class A_book_overduePopupController {
 		System.out.println("A_book_overdueController 생성자");
 	}
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(A_book_overduePopupController.class);
 
 	@Autowired
 	private SqlSession sqlSession;
