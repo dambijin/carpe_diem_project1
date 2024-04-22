@@ -41,7 +41,7 @@ public class wishbook_addController extends HttpServlet {
 		}
 		
 		List library = sqlSession.selectList("mapper.carpedm.board.library_list");
-		List mem = sqlSession.selectList("mapper.carpedm.board.login_mpid","21");
+		List mem = sqlSession.selectList("mapper.carpedm.board.login_mpid",mpid);
 		System.out.println("list : " + library);
 		
 		if (library != null) {
