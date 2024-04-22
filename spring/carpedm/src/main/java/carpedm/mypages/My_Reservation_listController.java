@@ -47,6 +47,9 @@ public class My_Reservation_listController {
 
 			Map<String, String> map = new HashedMap();
 			
+			//페이징관련
+			//book_count는 총 검색 게시글 수
+			//단순계산용(모델에 안넣음)
 			int currentPage = Integer.parseInt(page);
 			int itemsPerPage = Integer.parseInt(perPage);
 			int startRow = (currentPage - 1) * itemsPerPage + 1;
@@ -88,9 +91,7 @@ public class My_Reservation_listController {
 					model.addAttribute("diff", diff);
 					model.addAttribute("myInfo", myInfo);
 					
-			//페이징관련
-			//book_count는 총 검색 게시글 수
-			//단순계산용(모델에 안넣음)
+			
 		
 			
 			Map res_count_temp = sqlSession.selectOne("mapper.carpedm.mypage.resCount", map);

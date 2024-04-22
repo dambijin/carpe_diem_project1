@@ -37,16 +37,31 @@ public class My_Loan_historyController {
 	
 	
 	
+	
+	
 	// 대출 내역 페이지
 		@RequestMapping(value = "/mypage_loan_history", method = RequestMethod.GET)
 		protected String loan_history(Locale locale, Model model, 
-				@RequestParam(value = "search", defaultValue = "") String keyword 
+				@RequestParam(value = "search", defaultValue = "") String keyword,
+				@RequestParam(value = "page", defaultValue = "1") String page,
+				@RequestParam(value = "perPage", defaultValue = "10") String perPage
 				) throws ServletException, IOException {
 
+			//페이징관련
+			//book_count는 총 검색 게시글 수
+			//단순계산용(모델에 안넣음)
+			int currentPage = Integer.parseInt(page);
+			int itemsPerPage = Integer.parseInt(perPage);
+			int startRow = (currentPage - 1) * itemsPerPage + 1;
+			int endRow = currentPage * itemsPerPage;
+			
+			
 			Map<String, String> temp = new HashedMap();
 			
 			temp.put("keyword", keyword);
 			temp.put("m_pid", 15+"");
+			temp.put("startRow", startRow +"");
+			temp.put("endRow", endRow+"");
 			
 			List <Map<String, String>> list = sqlSession.selectList("mapper.carpedm.mypage.loanhistory", temp);
 			
@@ -70,11 +85,27 @@ public class My_Loan_historyController {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-			
-			
+	
 					model.addAttribute("diff", diff);
 					model.addAttribute("myInfo", myInfo);
 					
+					Map loan_count_temp = sqlSession.selectOne("mapper.carpedm.mypage.loanCount", temp);
+					System.out.println(loan_count_temp);
+					int res_count = Integer.parseInt(String.valueOf(loan_count_temp.get("count")));
+					logger.info("북카운트:" + res_count);
+					
+					// 페이지 처리를 위한 계산(모델에 넣어야함)
+					int startPage = Math.max(currentPage - 2, 1);
+					int totalPages = res_count > 0 ? (int) Math.ceil(res_count / Double.parseDouble(perPage)) : 1;
+					int endPage = Math.min(startPage + 4, totalPages); 
+				    startPage = Math.max(1, endPage - 4);
+				    
+				    model.addAttribute("page", page);
+					model.addAttribute("perPage", perPage);
+				    model.addAttribute("res_count", res_count);
+				    model.addAttribute("start_page", startPage);
+					model.addAttribute("end_page", endPage);
+					model.addAttribute("total_pages", totalPages);
 
 					System.out.println(list);
 					model.addAttribute("list", list);

@@ -310,6 +310,42 @@
 								</tr>
 							</c:forEach>
 						</table>
+						<div id="paging">
+					<%-- 서블릿에서 불러온 페이징 정보 --%>
+					<c:set var="total_count" value="${res_count}" />
+					<c:set var="perPage" value="${perPage}" />
+					<c:set var="current_page" value="${page}" />
+
+					<%-- 표시할 페이지의 범위 계산 --%>
+					<c:set var="total_pages" value="${total_pages}" />
+					<c:set var="start_page" value="${start_page}" />
+					<c:set var="end_page" value="${end_page}" />
+
+					<div class="total_count">
+						전체 : 총&nbsp;
+						<c:out value="${total_count}" />
+						&nbsp;권
+					</div>
+					<div class="total">
+						<strong><c:out value="${current_page}" /></strong>페이지 / 총 <strong><c:out
+								value="${total_pages}" /></strong>페이지
+					</div>
+					<div class="paging">
+						<c:if test="${current_page > 1}">
+							<a href="?page=${current_page - 1}&perPage=${perPage}"
+								 class="pre">◀</a>
+						</c:if>
+						<c:forEach var="i" begin="${start_page}" end="${end_page}">
+							<a href="?page=${i}&perPage=${perPage}" 
+								class="${i == current_page ? 'num active' : 'num'}">${i}</a>
+						</c:forEach>
+						<c:if test="${current_page < total_pages}">
+							<a href="?page=${current_page + 1}&perPage=${perPage}"
+								 class="next">▶</a>
+						</c:if>
+					</div>
+				</div>
+					
 			<%--			<div id="paging">
 							<%
 							// 서블릿에서 불러온 페이징 정보

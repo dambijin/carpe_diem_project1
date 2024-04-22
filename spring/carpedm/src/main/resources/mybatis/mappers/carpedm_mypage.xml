@@ -228,4 +228,24 @@ AND w_id IN (${w_id})
 		)
 </select>
 
+<resultMap id="loanCountResult" type="HashMap">
+   <result property="count" column="count(*)" />
+</resultMap>
+<select id="loanCount" resultMap="loanCountResult" parameterType="String">
+		SELECT
+		count(*) 
+		FROM (
+		SELECT ROWNUM
+		AS rnum, l_id, b_title, b_author, b_publisher, l_loandate,
+		l_returnrealdate, library.lb_name
+		FROM loan
+		INNER JOIN book ON loan.b_id
+		= book.b_id
+		INNER JOIN library ON book.lb_id = library.lb_id
+		WHERE
+		loan.l_returnrealdate IS NOT NULL AND m_pid = ${m_pid} AND b_title LIKE
+		'%${keyword}%'
+		)
+</select>
+
 </mapper>
