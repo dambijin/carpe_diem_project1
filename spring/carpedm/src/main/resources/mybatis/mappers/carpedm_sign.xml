@@ -23,4 +23,20 @@
 	<select id="find_id_tel" resultType="MemberDTO">
 		select * from member
 	</select>
+	
+	<insert id="signInsert" parameterType="MemberDTO">
+		INSERT INTO member 
+    (M_PID, M_ID, M_PW, M_NAME, M_BIRTHDAY, M_TEL, M_EMAIL, M_ADDRESS, M_EMAIL_AGREE, M_MANAGERCHK) 
+VALUES 
+    (member_seq.nextval, 
+     #{m_id}, 
+     #{m_pw}, 
+     #{m_name}, 
+     #{m_birthday}, 
+     #{m_tel}, 
+     #{m_email}, 
+     #{m_address}, 
+     #{m_email_agree}, 
+     'N')
+	</insert>
 </mapper>

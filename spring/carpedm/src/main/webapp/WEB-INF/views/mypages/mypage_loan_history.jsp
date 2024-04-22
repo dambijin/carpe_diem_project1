@@ -38,7 +38,7 @@
         let case_value_opts = document.getElementById("case").options;
         for(let i = 0; i< case_value_opts.length;i++)
         {   
-            if(case_value_opts[i].value == '<%=request.getAttribute("perPage")%>') {
+            if(case_value_opts[i].value == '${perPage}') {
             	case_value_opts.selectedIndex = i;
                 break;
             }
@@ -312,7 +312,7 @@
 						</table>
 						<div id="paging">
 					<%-- 서블릿에서 불러온 페이징 정보 --%>
-					<c:set var="total_count" value="${res_count}" />
+					<c:set var="total_count" value="${loan_count}" />
 					<c:set var="perPage" value="${perPage}" />
 					<c:set var="current_page" value="${page}" />
 

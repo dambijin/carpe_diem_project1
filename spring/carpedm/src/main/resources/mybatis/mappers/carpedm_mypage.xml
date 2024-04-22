@@ -263,5 +263,21 @@ WHERE l_id = #{l_id} AND l_extendcount < 2
 		'%${keyword}%'
 		)
 	</select>
+	
+	<resultMap id="wishCountResult" type="HashMap">
+		<result property="count" column="count(*)" />
+	</resultMap>
+	<select id="wishCount" resultMap="loanCountResult"
+		parameterType="String">
+		SELECT
+		count(*)
+		FROM (
+		SELECT rownum AS rnum, w_title, w_id, lb_name, w_author, w_pubyear, w_isbn,
+		w_content, w_publisher, w_tel, w_date, m_pid, w_state
+		FROM wishlist
+		INNER JOIN library ON library.lb_id = wishlist.lb_id
+		WHERE wishlist.m_pid = ${m_pid} AND w_title LIKE '%${keyword}%'
+		)
+	</select>
 
 </mapper>

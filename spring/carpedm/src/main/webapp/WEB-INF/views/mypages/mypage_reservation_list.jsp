@@ -147,6 +147,7 @@
 
                     xhr.send(queryString);
                 });
+                //필터 유지
       		  let filter = document.getElementById("case").options;
   	        for(let i = 0; i< filter.length;i++){   
   	            if(filter[i].value == '${perPage}') {

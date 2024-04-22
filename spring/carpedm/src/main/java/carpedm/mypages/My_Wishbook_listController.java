@@ -38,14 +38,26 @@ public class My_Wishbook_listController {
 	// 희망 도서 신청 목록 페이지
 		@RequestMapping(value = "/mypage_wishbook_list", method = RequestMethod.GET)
 		protected String wishbook_list(Locale locale, Model model,
-				@RequestParam(value = "search", defaultValue = "") String keyword 
+				@RequestParam(value = "search", defaultValue = "") String keyword,
+				@RequestParam(value = "page", defaultValue = "1") String page,
+				@RequestParam(value = "perPage", defaultValue = "10") String perPage
 				) throws ServletException, IOException {
+			
+			//페이징관련
+			//book_count는 총 검색 게시글 수
+			//단순계산용(모델에 안넣음)
+			int currentPage = Integer.parseInt(page);
+			int itemsPerPage = Integer.parseInt(perPage);
+			int startRow = (currentPage - 1) * itemsPerPage + 1;
+			int endRow = currentPage * itemsPerPage;
 			
 				Map<String, String> map = new HashedMap();
 			
 			//m_pid 자리 넘보지 마셈
 			map.put("m_pid", 15+"");
 			map.put("keyword", keyword);
+			map.put("startRow", startRow +"");
+			map.put("endRow", endRow+"");
 
 			List list = sqlSession.selectList("mapper.carpedm.mypage.wishbooklist", map);
 			MemberDTO myInfo = sqlSession.selectOne("mapper.carpedm.mypage.myInfo","2");
@@ -72,6 +84,24 @@ public class My_Wishbook_listController {
 			
 					model.addAttribute("diff", diff);
 					model.addAttribute("myInfo", myInfo);
+					
+					Map wish_count_temp = sqlSession.selectOne("mapper.carpedm.mypage.wishCount", map);
+					System.out.println(wish_count_temp);
+					int wish_count = Integer.parseInt(String.valueOf(wish_count_temp.get("count")));
+					logger.info("북카운트:" + wish_count);
+					
+					// 페이지 처리를 위한 계산(모델에 넣어야함)
+					int startPage = Math.max(currentPage - 2, 1);
+					int totalPages = wish_count > 0 ? (int) Math.ceil(wish_count / Double.parseDouble(perPage)) : 1;
+					int endPage = Math.min(startPage + 4, totalPages); 
+				    startPage = Math.max(1, endPage - 4);
+				    
+				    model.addAttribute("page", page);
+					model.addAttribute("perPage", perPage);
+				    model.addAttribute("wish_count", wish_count);
+				    model.addAttribute("start_page", startPage);
+					model.addAttribute("end_page", endPage);
+					model.addAttribute("total_pages", totalPages);
 
 			System.out.println(list);
 			model.addAttribute("list", list);

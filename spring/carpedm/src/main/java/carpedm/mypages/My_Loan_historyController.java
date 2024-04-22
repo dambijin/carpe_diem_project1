@@ -91,18 +91,18 @@ public class My_Loan_historyController {
 					
 					Map loan_count_temp = sqlSession.selectOne("mapper.carpedm.mypage.loanCount", temp);
 					System.out.println(loan_count_temp);
-					int res_count = Integer.parseInt(String.valueOf(loan_count_temp.get("count")));
-					logger.info("북카운트:" + res_count);
+					int loan_count = Integer.parseInt(String.valueOf(loan_count_temp.get("count")));
+					logger.info("북카운트:" + loan_count);
 					
 					// 페이지 처리를 위한 계산(모델에 넣어야함)
 					int startPage = Math.max(currentPage - 2, 1);
-					int totalPages = res_count > 0 ? (int) Math.ceil(res_count / Double.parseDouble(perPage)) : 1;
+					int totalPages = loan_count > 0 ? (int) Math.ceil(loan_count / Double.parseDouble(perPage)) : 1;
 					int endPage = Math.min(startPage + 4, totalPages); 
 				    startPage = Math.max(1, endPage - 4);
 				    
 				    model.addAttribute("page", page);
 					model.addAttribute("perPage", perPage);
-				    model.addAttribute("res_count", res_count);
+				    model.addAttribute("loan_count", loan_count);
 				    model.addAttribute("start_page", startPage);
 					model.addAttribute("end_page", endPage);
 					model.addAttribute("total_pages", totalPages);
