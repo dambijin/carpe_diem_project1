@@ -18,32 +18,26 @@
 <!-- function 스크립트 -->
 <script src="/carpedm/resources/js/admin_library.js"></script>
 <script>
-    // admin_book_add 책 등록           미완성
-//     function bookAdd() {
-//         alert("등록되었습니다");
-//         window.close();
-//     }
     window.addEventListener("load", function () {
         //등록일자에 현재날짜 넣기
-        var today = new Date(); // 현재 날짜와 시간을 가져옴
-        var dd = String(today.getDate()).padStart(2, '0'); // 일자를 2자리 문자열로 변환
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); // 월을 2자리 문자열로 변환 (JavaScript의 월은 0부터 시작하므로 1을 더함)
-        var yyyy = today.getFullYear(); // 연도를 가져옴
+//         var today = new Date(); // 현재 날짜와 시간을 가져옴
+//         var dd = String(today.getDate()).padStart(2, '0'); // 일자를 2자리 문자열로 변환
+//         var mm = String(today.getMonth() + 1).padStart(2, '0'); // 월을 2자리 문자열로 변환 (JavaScript의 월은 0부터 시작하므로 1을 더함)
+//         var yyyy = today.getFullYear(); // 연도를 가져옴
 
-        today = yyyy + '-' + mm + '-' + dd; // 'YYYY-MM-DD' 형식의 문자열로 변환
-        document.querySelector('input[name="regi_date"]').value = today; // <input> 요소의 value 속성에 설정
+//         today = yyyy + '-' + mm + '-' + dd; // 'YYYY-MM-DD' 형식의 문자열로 변환
+//         document.querySelector('input[name="regi_date"]').value = today; // <input> 요소의 value 속성에 설정
 
-        
         //isbn가져오기 버튼리스너
         document.querySelector("#isbn_import").addEventListener("click", function () {
-            let isbn = document.querySelector('input[name="isbn"]').value;
+            let isbn = document.querySelector('input[name="b_isbn"]').value;
             if (isbn.trim() == "") {
             	  alert("값을 입력해주세요.");
             }
             else{
            	    let data = 'isbn=' + encodeURIComponent(isbn);
            		//dopost로 보내기위한 코드
-           	    fetch('/carpedm_old/admin_book_add', {
+           	    fetch('/carpedm/isbn_import', {
            	      method: 'POST',
            	      headers: {
            	        'Content-Type': 'application/x-www-form-urlencoded',
@@ -53,15 +47,33 @@
            	    .then(response => response.json())
            	    .then(data => {
            	    	console.log(data);
-	           	    document.querySelector('input[name="bookname"]').value = data.title;
-	                document.querySelector('input[name="author"]').value = data.author;
-	                document.querySelector('input[name="year"]').value = data.b_date;
-	                document.querySelector('input[name="publisher"]').value = data.publisher;
+	           	    document.querySelector('input[name="b_title"]').value = data.title;
+	                document.querySelector('input[name="b_author"]').value = data.author;
+	                document.querySelector('input[name="b_pubyear"]').value = data.b_date;
+	                document.querySelector('input[name="b_publisher"]').value = data.publisher;
            	    })
            	    .catch((error) => console.error('Error:', error));   
             }
         });
-
+        
+        //qr_isbn가져오기 버튼리스너
+        document.querySelector("#qr_isbn").addEventListener("click", function () {
+           	    let data = 'isbn=' + encodeURIComponent(isbn);
+           		//dopost로 보내기위한 코드
+           	    fetch('/carpedm/qr_isbn', {
+           	      method: 'POST',
+           	      headers: {
+           	        'Content-Type': 'application/x-www-form-urlencoded',
+           	      },
+           	      body: data,
+           	    })
+           	    .then(response => response.json())
+           	    .then(data => {
+           	    	console.log(data);
+	           	  
+           	    })
+           	    .catch((error) => console.error('Error:', error));           
+        });
     });
     
     
@@ -160,12 +172,21 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	font-size: 16px;
 	background-color: rgba(155, 178, 225, 0.6);
 	border: 0;
-	width: 70px;
+	width: 75px;
 	height: 30px;
 	border-radius: 5px;
 	cursor: pointer;
 }
-
+.upload2 {
+	font-family: "Wanted Sans Variable";
+	font-size: 16px;
+	background-color: rgba(155, 178, 225, 0.6);
+	border: 0;
+	width: 100px;
+	height: 30px;
+	border-radius: 5px;
+	cursor: pointer;
+}
 .upload:hover {
 	background-color: rgba(205, 155, 225, 0.6);
 }
@@ -187,6 +208,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 						<th>ISBN</th>
 						<td>
 							<input type="number" name="b_isbn">
+							<input type="button" value="QR가져오기" id="qr_isbn" class="upload2">
 							<input type="button" value="가져오기" id="isbn_import" class="upload">
 						</td>
 					</tr>

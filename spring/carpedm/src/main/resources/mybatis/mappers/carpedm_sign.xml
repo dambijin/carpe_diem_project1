@@ -8,20 +8,16 @@
         select * from member where m_id = #{m_id} and m_pw = #{m_pw}
     </select>
 	
-	<select id="login_up" resultType="MemberDTO">
-		select * from member
-	</select>
-	
 	<select id="find_pw" resultType="MemberDTO">
-		select * from member
+		select * from member where m_id = #{userid} and m_name = #{username} and m_email = #{useremail}
 	</select>
 
-	<select id="find_id_email" resultType="MemberDTO">
-		select * from member
+	<select id="find_id_email" resultType="MemberDTO" parameterType="Map">
+		select * from member where m_name = #{username} and m_email = #{useremail}
 	</select>
 	
 	<select id="find_id_tel" resultType="MemberDTO">
-		select * from member
+		select * from member where m_name = #{username} and m_tel = #{usertel}
 	</select>
 	
 	<insert id="signInsert" parameterType="MemberDTO">

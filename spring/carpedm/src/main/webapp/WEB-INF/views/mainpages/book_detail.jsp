@@ -181,6 +181,14 @@ section {
 	height: 355px;
 	object_fit: contain;
 }
+
+.view .qr_code img {
+	width: 100px;
+	height: 100px;
+	margin-left:-60px;
+	margin-top:-10px;
+	object_fit: contain;
+}
 </style>
 </head>
 
@@ -258,6 +266,10 @@ section {
 						</ul>
 					</dd>
 				</dl>
+				   <!-- 새로운 div 추가 -->
+				    <div class="qr_code">
+				        <img src="${bookdetail_map.B_IMGURL}" alt="사진불러오기 실패" />
+				    </div>
 			</div>
 			<div class="table">
 				<h3>소장정보</h3>
