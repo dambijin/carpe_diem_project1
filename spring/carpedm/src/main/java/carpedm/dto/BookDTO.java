@@ -33,8 +33,12 @@ public class BookDTO {
 	// 연체날짜계산
 	private String m_limitdate_text;
 
+	//페이징용
+	private int startrow;
+	private int endrow;
 	
-	
+
+
 	@Override
 	public String toString() {
 		return "BookDTO [lb_id=" + lb_id + ", b_id=" + b_id + ", b_title=" + b_title + ", b_author=" + b_author
@@ -42,7 +46,24 @@ public class BookDTO {
 				+ b_kywd + ", b_imgurl=" + b_imgurl + ", b_loanstate=" + b_loanstate + ", b_resstate=" + b_resstate
 				+ ", bg_id=" + bg_id + ", b_like=" + b_like + ", b_star=" + b_star + ", b_date=" + b_date + ", lb_name="
 				+ lb_name + ", type=" + type + ", keyword=" + keyword + ", orderColumn=" + orderColumn + ", orderType="
-				+ orderType + ", m_limitdate_text=" + m_limitdate_text + "]";
+				+ orderType + ", m_limitdate_text=" + m_limitdate_text + ", startRow=" + startrow + ", endRow=" + endrow
+				+ "]";
+	}
+
+	public int getStartRow() {
+		return startrow;
+	}
+
+	public void setStartRow(int startRow) {
+		this.startrow = startRow;
+	}
+
+	public int getEndRow() {
+		return endrow;
+	}
+
+	public void setEndRow(int endRow) {
+		this.endrow = endRow;
 	}
 
 	public int getLb_id() {

@@ -33,7 +33,7 @@ public class A_Member_listDAO {
 			if(sqlSession != null) {
 				// select 결과가 없으면 null
 //				list = sqlSession.selectList("mapper.emp.dynamic.selectEmp", dto);
-				list = sqlSession.selectList("mapper.carpedm.admin.selectMember", dto);
+				list = sqlSession.selectList("mapper.carpedm.admin.selectMemberList", dto);
 				System.out.println("list" +list);
 			} else {
 				System.out.println("DB 접속 실패");
@@ -44,6 +44,26 @@ public class A_Member_listDAO {
 		}
 		
 		return list;
+	}
+	
+	// 데이터베이스에서 목록을 가져오는 기능
+	public int getMemberCount(MemberDTO dto) {
+		int count = 0;
+		try {
+
+			if(sqlSession != null) {
+				// select 결과가 없으면 null
+//				list = sqlSession.selectList("mapper.emp.dynamic.selectEmp", dto);
+				count = sqlSession.selectOne("mapper.carpedm.admin.selectMemberCount", dto);
+			} else {
+				System.out.println("DB 접속 실패");
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count;
 	}
 	
 }

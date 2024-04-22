@@ -33,6 +33,30 @@ public class MemberDTO {
 	// 연체날짜계산
 	String m_limitdate_text;
 
+	//페이징용
+	private int startrow;
+	private int endrow;
+	
+	
+	
+	
+	
+	public int getStartrow() {
+		return startrow;
+	}
+
+	public void setStartrow(int startrow) {
+		this.startrow = startrow;
+	}
+
+	public int getEndrow() {
+		return endrow;
+	}
+
+	public void setEndrow(int endrow) {
+		this.endrow = endrow;
+	}
+
 	/**
 	 * @return the m_limitdate_text
 	 */
@@ -263,6 +287,7 @@ public class MemberDTO {
 				+ m_tel + ", m_email=" + m_email + ", m_birthday=" + m_birthday + ", m_address=" + m_address
 				+ ", m_email_agree=" + m_email_agree + ", m_limitdate=" + m_limitdate + ", m_managerchk=" + m_managerchk
 				+ ", type=" + type + ", keyword=" + keyword + ", orderColumn=" + orderColumn + ", orderType="
-				+ orderType + "]";
+				+ orderType + ", m_limitdate_text=" + m_limitdate_text + ", startrow=" + startrow + ", endrow=" + endrow
+				+ "]";
 	}
 }

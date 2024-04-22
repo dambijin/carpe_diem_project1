@@ -34,4 +34,22 @@ public class A_WishbookDAO {
 		return list;
 	}
 	
+	public int getWishListCount(WishlistDTO dto) {
+		int count = 0;
+		try {
+
+			if(sqlSession != null) {
+				// select 결과가 없으면 null
+				count = sqlSession.selectOne("mapper.carpedm.admin.selectWishlistCount", dto);
+			} else {
+				System.out.println("DB 접속 실패");
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+	
 }

@@ -20,6 +20,13 @@ public class A_BookService {
 		return list;
 	}
 	
+	public int listBookscount(BookDTO dto) {
+		
+		int count = dao.getBookCount(dto);
+		
+		return count;
+	}
+	
 	public int deleteBooks(BookDTO dto) {
 		
 		int result = dao.getBookDelete(dto);

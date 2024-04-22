@@ -13,12 +13,18 @@ public class A_WishService {
 	@Autowired
 	A_WishbookDAO dao;
 	
-	public List listBooks(WishlistDTO dto) {
+	public List listWishBooks(WishlistDTO dto) {
 		
 		List list = dao.getWishList(dto);
 		
 		return list;
 	}
 	
+	public int listWishBooksCount(WishlistDTO dto) {
+		
+		int count = dao.getWishListCount(dto);
+		
+		return count;
+	}
 		
 }

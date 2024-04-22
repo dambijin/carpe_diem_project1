@@ -8,65 +8,128 @@
 		and나 or로 시작할 수 있음 -->
 
 	<!-- 직원 목록을 조회하는 SQL 쿼리를 정의 -->
-	<select id="selectMember" parameterType="MemberDTO"
-		resultType="MemberDTO">
-		select * from member
+	<select id="selectMemberList" resultType="MemberDTO"
+		parameterType="MemberDTO">
+		SELECT *
+		FROM (
+		SELECT temp.*, ROWNUM AS rnum
+		FROM (
+		SELECT *
+		FROM member
 		<where>
-			<if test="type != null and type != '' ">
-				<!-- 회원ID가 비어있지 않은 경우 조건을 추가합니다. -->
-				<if test="type == 1">
-					 (
-				        m_pid = #{keyword}
-				        or lower(m_name) like '%' || lower(#{keyword}) || '%'
-				        or lower(m_id) like '%' || lower(#{keyword}) || '%'
-				        or lower(m_birthday) like '%' || lower(#{keyword}) || '%'
-				        or lower(m_tel) like '%' || lower(#{keyword}) || '%'
-				        or lower(m_address) like '%' || lower(#{keyword}) || '%'
-				    )
-				</if>
-				<if test="type == 2">
-					and m_pid = #{keyword}
-				</if>
-				<if test="type == 3">
-					and lower(m_name) like '%' || lower(#{keyword}) || '%'
-				</if>
-				<if test="type == 4">
-					and lower(m_id) like '%' || lower(#{keyword}) || '%'
-				</if>
-			</if>
-			
-			<!-- type이 null이거나 빈 문자열인 경우 전체 검색 -->
-			<if test="type = null and type = '' ">
-				and 1=1
+			<if test="type != null and type != ''">
+				<choose>
+					<when test="type == 1">
+						AND (
+						m_pid = #{keyword}
+						OR LOWER(m_name) LIKE '%' || LOWER(#{keyword}) || '%'
+						OR LOWER(m_id) LIKE '%' || LOWER(#{keyword}) || '%'
+						OR LOWER(m_birthday) LIKE '%' || LOWER(#{keyword}) || '%'
+						OR LOWER(m_tel) LIKE '%' || LOWER(#{keyword}) || '%'
+						OR LOWER(m_address) LIKE '%' || LOWER(#{keyword}) || '%'
+						)
+					</when>
+					<when test="type == 2">
+						AND m_pid = #{keyword}
+					</when>
+					<when test="type == 3">
+						AND LOWER(m_name) LIKE '%' || LOWER(#{keyword}) || '%'
+					</when>
+					<when test="type == 4">
+						AND LOWER(m_id) LIKE '%' || LOWER(#{keyword}) || '%'
+					</when>
+				</choose>
 			</if>
 		</where>
-
-		<if test="orderColumn != null and orderColumn != '' and orderType != '' ">
-			<if test="orderColumn == 'm_pid' ">
-				order by m_pid
-				<if test="orderType == 'desc' ">
-					desc
-				</if>
-				<if test="orderType == 'asc' ">
-					asc
-				</if>
-			</if>
+		<if
+			test="orderColumn != null and orderColumn != '' and orderType != ''">
+			ORDER BY
+			<choose>
+				<when test="orderColumn == 'm_pid'">
+					m_pid
+				</when>
+				<!-- 다른 정렬 기준 추가 가능 -->
+			</choose>
+			<choose>
+				<when test="orderType == 'desc'">
+					DESC
+				</when>
+				<otherwise>
+					ASC
+				</otherwise>
+			</choose>
 		</if>
-	</select>
-
-
-
-
-
-	<!-- admin_book_list -->
-	<select id="selectBook" parameterType="BookDTO" resultType="BookDTO">
-		select 
-		b.b_id,b.lb_id, b.b_title, b.b_author, b.b_publisher, b.b_isbn, l.lb_name, b.b_date, b.b_resstate, b.b_loanstate
-		from book b
-		join library l on b.lb_id = l.lb_id
-		
+		) temp
+		) WHERE rnum BETWEEN #{startrow} AND #{endrow}
 	</select>
 	
+	<!-- 직원 목록을 조회하고 그 개수를 조회하는 sql문 -->
+	<select id="selectMemberCount" resultType="int"
+		parameterType="MemberDTO">
+        SELECT COUNT(*) AS count
+        FROM member
+        <where>
+            <if test="type != null and type != ''">
+                <choose>
+                    <when test="type == 1">
+                        AND (
+                            m_pid = #{keyword}
+                            OR LOWER(m_name) LIKE '%' || LOWER(#{keyword}) || '%'
+                            OR LOWER(m_id) LIKE '%' || LOWER(#{keyword}) || '%'
+                            OR LOWER(m_birthday) LIKE '%' || LOWER(#{keyword}) || '%'
+                            OR LOWER(m_tel) LIKE '%' || LOWER(#{keyword}) || '%'
+                            OR LOWER(m_address) LIKE '%' || LOWER(#{keyword}) || '%'
+                        )
+                    </when>
+                    <when test="type == 2">
+                        AND m_pid = #{keyword}
+                    </when>
+                    <when test="type == 3">
+                        AND LOWER(m_name) LIKE '%' || LOWER(#{keyword}) || '%'
+                    </when>
+                    <when test="type == 4">
+                        AND LOWER(m_id) LIKE '%' || LOWER(#{keyword}) || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+
+	</select>
+	<!-- admin_book_list -->
+	<select id="selectBook" parameterType="BookDTO"
+		resultType="BookDTO">
+		SELECT * FROM (
+		SELECT
+		b.b_id, b.lb_id, b.b_title,
+		b.b_author, b.b_publisher, b.b_isbn, l.lb_name,
+		b.b_date, b.b_resstate,
+		b.b_loanstate,
+		ROWNUM AS rn
+		FROM
+		book b
+		JOIN library l ON b.lb_id =
+		l.lb_id
+		)
+		WHERE rn BETWEEN #{startrow} AND
+		#{endrow}
+	</select>
+	
+	<select id="selectBookCount" parameterType="BookDTO"
+		resultType="int">
+		SELECT Count(*) FROM (
+		SELECT
+		b.b_id, b.lb_id, b.b_title,
+		b.b_author, b.b_publisher, b.b_isbn, l.lb_name,
+		b.b_date, b.b_resstate,
+		b.b_loanstate,
+		ROWNUM AS rn
+		FROM
+		book b
+		JOIN library l ON b.lb_id =
+		l.lb_id
+		)
+	</select>
+
 	<!-- 새로운 책을 삽입하는 insert 문 -->
 	<insert id="insertBook" parameterType="BookDTO">
 		insert into book (b_id,
@@ -79,95 +142,138 @@
 		#{b_imgurl},#{b_loanstate} ,
 		#{b_resstate},#{bg_id},#{b_like},#{b_star} , #{b_date})
 	</insert>
-    
-     <!-- 책을 삭제하는 delete 문 -->
-    <delete id="deleteBook" parameterType="BookDTO">
-        delete from book
-        where b_id = #{b_id}
-    </delete>
-    
-    
-    
-    
-    
-    <!-- admin_wish_book_list -->
-	<select id="selectWishlist" parameterType="WishlistDTO" resultType="carpedm.dto.WishlistDTO2">
+
+	<!-- 책을 삭제하는 delete 문 -->
+	<delete id="deleteBook" parameterType="BookDTO">
+		delete from book
+		where b_id
+		= #{b_id}
+	</delete>
+
+
+
+
+
+	<!-- admin_wish_book_list -->
+	<select id="selectWishlist" parameterType="WishlistDTO"
+		resultType="WishlistDTO">
+		select * from(
 		select
-		l.lb_name, w.w_id, l.lb_id, w.w_title, w.w_author, w.w_publisher, 
-		w.m_pid, w.w_pubyear, w.w_content, w.w_state,m.m_id
+		l.lb_name, w.w_id, l.lb_id, w.w_title,
+		w.w_author,
+		w.w_publisher,
+		w.m_pid, w.w_pubyear, w.w_content,
+		w.w_state,m.m_id, ROWNUM AS rn
 		from wishlist w
-		join library l on w.lb_id = l.lb_id
+		join library
+		l on w.lb_id
+		= l.lb_id
 		join member m on w.m_pid = m.m_pid
+		)
+		where rn between
+		#{startrow} and
+		#{endrow}
 	</select>
-    
-    
-    <!-- admin_reservation_list -->
-    <select id="selectReservation" resultType="carpedm.dto.ReservationDTO2">
-    	select
-    	b_title, b_author,b_publisher, r_resdate, library.lb_name, r_resstate
-    	from reservation
-    	inner join book
-    	on reservation.b_id = book.b_id
-    	inner join library
-    	on book.lb_id = library.lb_id
-		where m_pid =  #{_parameter}
+
+	<select id="selectWishlistCount" parameterType="WishlistDTO"
+		resultType="int">
+		select count(*) from(
+		select
+		l.lb_name, w.w_id, l.lb_id, w.w_title,
+		w.w_author,
+		w.w_publisher,
+		w.m_pid, w.w_pubyear, w.w_content,
+		w.w_state,m.m_id, ROWNUM AS rn
+		from wishlist w
+		join library
+		l on w.lb_id
+		= l.lb_id
+		join member m on w.m_pid = m.m_pid
+		)
 	</select>
-    
-    
-    
-    <!-- admin_book_overdue -->
-    <select id="selectOverdue" resultType="carpedm.dto.OverdueDTO">
-    	select
-    	m.m_pid, m.m_name, b.b_title, b.b_author, l.lb_name, o.l_loanDate, o.l_returnDate, b.b_resstate, b.b_loanstate
-    	from member m
-    	join library l on (m.lb_id = l.lb_id)
-    	join loan o on(m.m_pid = o.m_pid)
-    	join book b on(o.b_id = b.b_id)
-		where m.m_pid =  #{_parameter}
+	<!-- admin_reservation_list -->
+	<select id="selectReservation" resultType="ReservationDTO">
+		select
+		b_title,
+		b_author,b_publisher, r_resdate, library.lb_name, r_resstate
+		from
+		reservation
+		inner join book
+		on reservation.b_id = book.b_id
+		inner join
+		library
+		on book.lb_id = library.lb_id
+		where m_pid = #{_parameter}
 	</select>
-	
-	
-	
-	
+
+
+
+	<!-- admin_book_overdue -->
+	<select id="selectOverdue" resultType="carpedm.dto.OverdueDTO">
+		select
+		m.m_pid, m.m_name,
+		b.b_title, b.b_author, l.lb_name, o.l_loanDate,
+		o.l_returnDate,
+		b.b_resstate, b.b_loanstate
+		from member m
+		join library l on (m.lb_id =
+		l.lb_id)
+		join loan o on(m.m_pid = o.m_pid)
+		join book b on(o.b_id =
+		b.b_id)
+		where m.m_pid = #{_parameter}
+	</select>
+
+
+
+
 	<!-- admin_loan -->
-    <select id="selectloan" resultType="carpedm.dto.LoanDTO2">
-    	select
-    	l_id, b_title, b_author, b_publisher, l_loandate, l_returnrealdate, l_extendcount, library.lb_name, m_pid, book.b_resstate, book.b_loanstate
-    	from loan
-    	INNER JOIN book ON loan.b_id = book.b_id INNER JOIN library ON book.lb_id = library.lb_id
-    	WHERE m_pid = #{_parameter}
+	<select id="selectloan" resultType="LoanDTO">
+		select
+		l_id, b_title,
+		b_author, b_publisher, l_loandate, l_returnrealdate,
+		l_extendcount,
+		library.lb_name, m_pid, book.b_resstate,
+		book.b_loanstate
+		from loan
+		INNER JOIN book ON loan.b_id = book.b_id INNER JOIN library ON
+		book.lb_id =
+		library.lb_id
+		WHERE m_pid = #{_parameter}
 	</select>
-	
-	
+
+
 	<!-- admin_member_chginfo -->
-    <select id="selectChginfo" resultType="MemberDTO">
-    	select * from
-    	member
-    	where m_pid = #{_parameter}
+	<select id="selectChginfo" resultType="MemberDTO">
+		select * from
+		member
+		where
+		m_pid = #{_parameter}
 	</select>
-	
+
 	<update id="updateChginfo" parameterType="java.util.Map">
 		UPDATE member
-	    SET
-	        m_name = #{m_name},
-	        m_birthday = #{m_birthday},
-	        m_id = #{m_id},
-	        m_pw = #{m_pw},
-	        m_tel = #{m_tel},
-	        m_email = #{m_email},
-	        m_address = #{m_address}
-	    WHERE
-	        m_pid = #{m_pid}
+		SET
+		m_name
+		= #{m_name},
+		m_birthday = #{m_birthday},
+		m_id = #{m_id},
+		m_pw = #{m_pw},
+		m_tel = #{m_tel},
+		m_email = #{m_email},
+		m_address = #{m_address}
+		WHERE
+		m_pid = #{m_pid}
 	</update>
-	
-	
-	
+
+
+
 	<!-- admin_book_add -->
-    <select id="selectBooKAdd" resultType="LibraryDTO">
-    	select * from
-    	library
+	<select id="selectBooKAdd" resultType="LibraryDTO">
+		select * from
+		library
 	</select>
-	
-	
-	
+
+
+
 </mapper>

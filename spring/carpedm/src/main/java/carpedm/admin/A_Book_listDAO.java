@@ -38,6 +38,27 @@ public class A_Book_listDAO {
 	}
 	
 	// 데이터베이스에서 목록을 가져오는 기능
+	public int getBookCount(BookDTO dto) {
+		int count = 0;
+		try {
+
+			if(sqlSession != null) {
+				// select 결과가 없으면 null
+//				list = sqlSession.selectList("mapper.emp.dynamic.selectEmp", dto);
+				count = sqlSession.selectOne("mapper.carpedm.admin.selectBookCount", dto);
+
+			} else {
+				System.out.println("DB 접속 실패");
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+	
+	// 데이터베이스에서 목록을 삭제하는 기능
 	public int getBookDelete(BookDTO dto) {
 		int result = -9999;
 		try {

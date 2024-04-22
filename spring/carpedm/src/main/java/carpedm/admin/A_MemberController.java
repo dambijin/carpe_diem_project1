@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import carpedm.dto.MemberDTO;
 
@@ -22,9 +23,19 @@ public class A_MemberController {
 	A_MemberService memberService;
 	
 	@RequestMapping("/admin_member_list")
-	public String listMembers(Model model, @ModelAttribute MemberDTO dto) {
+	public String listMembers(Model model, @ModelAttribute MemberDTO dto,
+			@RequestParam(value = "page", defaultValue = "1") String page,
+			@RequestParam(value = "perPage", defaultValue = "10") String perPage
+			) {
 		System.out.println("MemberController > listMembers 실행");
+		int currentPage = Integer.parseInt(page);
+		int itemsPerPage = Integer.parseInt(perPage);
+		// 페이지 처리를 위한 계산
+		int startRow = (currentPage - 1) * itemsPerPage + 1;
+		int endRow = currentPage * itemsPerPage;
 		
+		dto.setStartrow(startRow);
+		dto.setEndrow(endRow);
 		List list = memberService.listMembers(dto);  // memberService를 통해 회원 목록을 가져옵니다.
 		
 		// 왜 null 이지?
@@ -56,12 +67,26 @@ public class A_MemberController {
 		System.out.println("list : "+ list);
 		model.addAttribute("member_list", list); // 모델에 회원 목록을 속성으로 추가합니다.
 		
+
+		int member_count = memberService.MembersCount(dto);
+
+		int startPage = Math.max(currentPage - 2, 1);	
+		int totalPages = member_count > 0 ? (int) Math.ceil(member_count / Double.parseDouble(perPage)) : 1;
+		int endPage = Math.min(startPage + 4, totalPages);
+//        끝 페이지를 기준으로 조정
+		startPage = Math.max(1, endPage - 4);
 //		model.addAttribute("keyword", keyword);
 //		model.addAttribute("type", type);
 //		
 //		model.addAttribute("orderColumn", orderColumn);
 //		model.addAttribute("orderType", orderType);
 		
+		model.addAttribute("allcount", member_count);
+		model.addAttribute("page", page);
+		model.addAttribute("perPage", perPage);
+		model.addAttribute("start_page", startPage);
+		model.addAttribute("end_page", endPage);
+		model.addAttribute("total_pages", totalPages);
 		return "admin/admin_member_list.jsp.admin"; // "admin/admin_member_list" 뷰를 반환합니다.
 		
 	}

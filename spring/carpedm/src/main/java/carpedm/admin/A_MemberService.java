@@ -20,5 +20,10 @@ public class A_MemberService {
 		return list;
 	}
 	
+	public int MembersCount(MemberDTO dto) {
 		
+		int count = dao.getMemberCount(dto);
+		
+		return count;
+	}
 }

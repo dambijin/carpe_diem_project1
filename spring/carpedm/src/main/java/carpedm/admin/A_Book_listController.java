@@ -31,14 +31,37 @@ public class A_Book_listController{
 	A_BookService bookService;
 	
 	@RequestMapping("/admin_book_list")
-	public String listBooks(Model model, @ModelAttribute BookDTO dto) {
+	public String listBooks(Model model, @ModelAttribute BookDTO dto,
+			@RequestParam(value = "page", defaultValue = "1") String page,
+			@RequestParam(value = "perPage", defaultValue = "10") String perPage
+			) {
 		System.out.println("BookController > listBooks 실행");
+		int book_count = bookService.listBookscount(dto);
 		
+		int currentPage = Integer.parseInt(page);
+		int itemsPerPage = Integer.parseInt(perPage);
+		// 페이지 처리를 위한 계산
+		int startRow = (currentPage - 1) * itemsPerPage + 1;
+		int endRow = currentPage * itemsPerPage;
+		dto.setStartRow(startRow);
+		dto.setEndRow(endRow);
 		List list = bookService.listBooks(dto);
+		
+		int startPage = Math.max(currentPage - 2, 1);	
+		int totalPages = book_count > 0 ? (int) Math.ceil(book_count / Double.parseDouble(perPage)) : 1;
+		int endPage = Math.min(startPage + 4, totalPages);
+//        끝 페이지를 기준으로 조정
+		startPage = Math.max(1, endPage - 4);
 
-		System.out.println("aaaa:"+list);
+//		System.out.println("aaaa:"+list);
 		model.addAttribute("book_list",list); // 모델에 회원 목록을 속성으로 추가합니다.
 		
+		model.addAttribute("allcount", book_count);
+		model.addAttribute("page", page);
+		model.addAttribute("perPage", perPage);
+		model.addAttribute("start_page", startPage);
+		model.addAttribute("end_page", endPage);
+		model.addAttribute("total_pages", totalPages);
 		return "admin/admin_book_list.jsp.admin"; // "admin/admin_member_list" 뷰를 반환합니다.
 		
 	}
