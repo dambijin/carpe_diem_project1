@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import carpedm.dto.MemberDTO;
-import carpedm.test222.HomeController;
+
 
 @Controller
 public class My_Loan_statusController {
@@ -32,7 +32,7 @@ public class My_Loan_statusController {
 		System.out.println("loan_statusController 입장");
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(My_Loan_statusController.class);
 
 	@Autowired
 	private SqlSession sqlSession;

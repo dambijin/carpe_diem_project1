@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import carpedm.dto.MemberDTO;
-import carpedm.test222.HomeController;
 
 @Controller
 public class My_Reservation_listController {
@@ -33,7 +32,7 @@ public class My_Reservation_listController {
 	}
 	
 		
-	private final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private final Logger logger = LoggerFactory.getLogger(My_Reservation_listController.class);
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -60,6 +59,8 @@ public class My_Reservation_listController {
 					java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd"); // 출력 형식 지정
 					String formattedDate = sdf.format(currentDate); // 현재 날짜를 지정한 형식으로 변환
 
+					System.out.println(list);
+					model.addAttribute("list", list);
 					// limitDate와 formattedDate의 차이 계산
 					long diff = 0;
 					try {
@@ -72,6 +73,10 @@ public class My_Reservation_listController {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+			
+					model.addAttribute("diff", diff);
+					model.addAttribute("myInfo", myInfo);
+					
 			//페이징관련
 			//book_count는 총 검색 게시글 수
 			//단순계산용(모델에 안넣음)
@@ -86,11 +91,7 @@ public class My_Reservation_listController {
 			int endPage = Math.min(startPage + 4, totalPages); 
 		    startPage = Math.max(1, endPage - 4);
 			
-					model.addAttribute("diff", diff);
-					model.addAttribute("myInfo", myInfo);
 
-			System.out.println(list);
-			model.addAttribute("list", list);
 
 			return "mypages/mypage_reservation_list.jsp";
 		}

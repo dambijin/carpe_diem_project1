@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import carpedm.dto.MemberDTO;
-import carpedm.test222.HomeController;
 
 @Controller
 public class My_Wishbook_listController {
@@ -31,7 +30,7 @@ public class My_Wishbook_listController {
 	}
 	
 		
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(My_Wishbook_listController.class);
 
 	@Autowired
 	private SqlSession sqlSession;

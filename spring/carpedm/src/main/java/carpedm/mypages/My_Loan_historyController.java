@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import carpedm.dto.MemberDTO;
-import carpedm.test222.HomeController;
 
 @Controller
 public class My_Loan_historyController {
@@ -31,7 +30,7 @@ public class My_Loan_historyController {
 		System.out.println("Loan_historyController 입장");
 	}
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(My_Loan_historyController.class);
 
 	@Autowired
 	private SqlSession sqlSession;
