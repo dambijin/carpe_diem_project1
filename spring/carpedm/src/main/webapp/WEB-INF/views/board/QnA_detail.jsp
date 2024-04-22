@@ -308,19 +308,19 @@ window.onload = function() {
 				            <td class="subject">도서관</td>
 				            <td colspan="5">${select[0].lb_name}</td>
 				        </tr>
-				        <tr>
-				            <td class="subject">첨부</td>
-				            <td colspan="5" id="subject_file">
-				                <c:choose>
-				                    <c:when test="${empty select[0].n_file}">
-				                        <c:out value=" " />
-				                    </c:when>
-				                    <c:otherwise>
-				                        ${select[0].n_file}
-				                    </c:otherwise>
-				                </c:choose>
-				            </td>
-				        </tr>
+<!-- 				        <tr> -->
+<!-- 				            <td class="subject">첨부</td> -->
+<!-- 				            <td colspan="5" id="subject_file"> -->
+<%-- 				                <c:choose> --%>
+<%-- 				                    <c:when test="${empty select[0].n_file}"> --%>
+<%-- 				                        <c:out value=" " /> --%>
+<%-- 				                    </c:when> --%>
+<%-- 				                    <c:otherwise> --%>
+<%-- 				                        ${select[0].n_file} --%>
+<%-- 				                    </c:otherwise> --%>
+<%-- 				                </c:choose> --%>
+<!-- 				            </td> -->
+<!-- 				        </tr> -->
 				        <tr>
 				            <td class="content" colspan="6">
 				            	<% pageContext.setAttribute("newline", "\n"); %>

@@ -226,15 +226,15 @@
 				                    </select>
 				                </td>
 				            </tr>
-				            <tr>
-				                <td class="subject">첨부</td>
-				                <td colspan="5">
-				                    <input type="text" id="file_route" disabled="disabled" value="">
-				                    <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
-				                    <input type="file" id="upload_file" name="n_file"
-				                           style="position: absolute; clip: rect(0, 0, 0, 0);">
-				                </td>
-				            </tr>
+<!-- 				            <tr> -->
+<!-- 				                <td class="subject">첨부</td> -->
+<!-- 				                <td colspan="5"> -->
+<!-- 				                    <input type="text" id="file_route" disabled="disabled" value=""> -->
+<!-- 				                    <label for="upload_file" class="btn" id="file_upload">파일첨부</label> -->
+<!-- 				                    <input type="file" id="upload_file" name="n_file" -->
+<!-- 				                           style="position: absolute; clip: rect(0, 0, 0, 0);"> -->
+<!-- 				                </td> -->
+<!-- 				            </tr> -->
 				            <tr>
 				                <td class="content" colspan="6">
 				                    <textarea type="textarea" class="answer_write answer_textarea" placeholder="답글을 입력해주세요"

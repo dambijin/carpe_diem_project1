@@ -54,7 +54,7 @@
 	            f.submit();
 	        }
 	        else {
-	        	alert("첨부파일을 제외한 모든 내용을 작성해주세요.");
+	        	alert("모든 내용을 작성해주세요.");
 	        	// 이벤트 기본 동작 막기
 	        	event.preventDefault();   
 	        }
@@ -231,14 +231,14 @@
 						                </select>
 						            </td>
 						        </tr>
-						        <tr>
-						            <td class="sub">첨부파일</td>
-						            <td class="text">
-						                <input type="text" id="file_route" disabled="disabled" value="" name="n_file">
-						                <label for="upload_file" class="btn" id="file_upload">파일첨부</label>
-						                <input type="file" id="upload_file" style="position: absolute; clip: rect(0, 0, 0, 0);">
-						            </td>
-						        </tr>
+<!-- 						        <tr> -->
+<!-- 						            <td class="sub">첨부파일</td> -->
+<!-- 						            <td class="text"> -->
+<!-- 						                <input type="text" id="file_route" disabled="disabled" value="" name="n_file"> -->
+<!-- 						                <label for="upload_file" class="btn" id="file_upload">파일첨부</label> -->
+<!-- 						                <input type="file" id="upload_file" style="position: absolute; clip: rect(0, 0, 0, 0);"> -->
+<!-- 						            </td> -->
+<!-- 						        </tr> -->
 						    </table>
 						</div>
 

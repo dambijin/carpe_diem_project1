@@ -151,7 +151,7 @@
 		    let lib = document.querySelector("#library");
 		    let lib_text = lib.options[lib.selectedIndex].value;
 		    // 첨부파일
-		    let attach = document.querySelector("#file_route");
+// 		    let attach = document.querySelector("#file_route");
 		    // 내용
 		    let cont_text = document.querySelector("#subtext");
 		    
@@ -159,7 +159,7 @@
 		        alert("등록이 완료되었습니다.");
 		        location.href = "notice_board";
 		    } else {
-		        alert("첨부파일을 제외한 모든 내용을 작성해주세요.");
+		        alert("내용을 작성해주세요.");
 		        // 이벤트 기본 동작 막기
 		        event.preventDefault();
 		    }
@@ -232,14 +232,14 @@
 					                    </select>
 					                </td>
 					            </tr>
-					            <tr>
-					                <td class="sub">첨부파일</td>
-					                <td class="text">
-					                    <input type="text" id="file_route" disabled="disabled" value="" name="n_file">
-					                    <label for="upload_file" id="file_upload">파일첨부</label>
-					                    <input type="file" id="upload_file" style="position: absolute; clip: rect(0, 0, 0, 0);">
-					                </td>
-					            </tr>
+<!-- 					            <tr> -->
+<!-- 					                <td class="sub">첨부파일</td> -->
+<!-- 					                <td class="text"> -->
+<!-- 					                    <input type="text" id="file_route" disabled="disabled" value="" name="n_file"> -->
+<!-- 					                    <label for="upload_file" id="file_upload">파일첨부</label> -->
+<!-- 					                    <input type="file" id="upload_file" style="position: absolute; clip: rect(0, 0, 0, 0);"> -->
+<!-- 					                </td> -->
+<!-- 					            </tr> -->
 					        </table>
 					    </div>
 					    <div class="td1">

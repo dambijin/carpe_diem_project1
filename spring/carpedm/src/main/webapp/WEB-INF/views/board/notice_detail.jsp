@@ -174,21 +174,21 @@ window.onload = function() {
 				                ${notice[0].lb_name}
 				            </td>
 				        </tr>
-				        <tr>
-				            <td class="subject">첨부</td>
-				            <td colspan="5" id="subject_file">
-				                <!-- EL을 사용하여 notice의 첫 번째 항목의 N_FILE을 가져와서 존재 여부 확인 -->
-				                <c:choose>
-				                    <c:when test="${not empty notice[0].n_file}">
-				                        ${notice[0].n_file}
-				                    </c:when>
-				                    <c:otherwise>
-				                        <!-- 첨부 파일이 없는 경우 공백 표시 -->
-				                        &nbsp;
-				                    </c:otherwise>
-				                </c:choose>
-				            </td>
-				        </tr>
+<!-- 				        <tr> -->
+<!-- 				            <td class="subject">첨부</td> -->
+<!-- 				            <td colspan="5" id="subject_file"> -->
+<!-- 				                EL을 사용하여 notice의 첫 번째 항목의 N_FILE을 가져와서 존재 여부 확인 -->
+<%-- 				                <c:choose> --%>
+<%-- 				                    <c:when test="${not empty notice[0].n_file}"> --%>
+<%-- 				                        ${notice[0].n_file} --%>
+<%-- 				                    </c:when> --%>
+<%-- 				                    <c:otherwise> --%>
+<!-- 				                        첨부 파일이 없는 경우 공백 표시 -->
+<!-- 				                        &nbsp; -->
+<%-- 				                    </c:otherwise> --%>
+<%-- 				                </c:choose> --%>
+<!-- 				            </td> -->
+<!-- 				        </tr> -->
 				        <tr>
 						    <td class="content" colspan="6" id="subject_cont">
 						    	<% pageContext.setAttribute("newline", "\n"); %>
