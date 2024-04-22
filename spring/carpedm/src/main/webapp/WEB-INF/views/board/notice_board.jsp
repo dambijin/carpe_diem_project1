@@ -348,7 +348,7 @@ window.onload = function() {
 							</div>
 							<div class="total">
 								<strong><c:out value="${current_page}" /></strong>페이지 / 총 <strong><c:out
-<%-- 										value="${total_pages}" /></strong>페이지 --%>
+										value="${total_pages}" /></strong>페이지
 							</div>
 							<div class="paging">
 								<c:if test="${current_page > 1}">
@@ -372,9 +372,6 @@ window.onload = function() {
 
 		</div>
 	</section>
-
-	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
 </body>
 
 </html>

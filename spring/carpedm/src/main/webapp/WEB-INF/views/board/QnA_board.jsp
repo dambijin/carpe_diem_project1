@@ -15,7 +15,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QnA 게시판</title>
-<link href="/carpedm/css/layout.css" rel="stylesheet">
+<link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 <script>
 	window.addEventListener("load", function() {
 
@@ -381,8 +381,7 @@
 		</div>
 	</section>
 
-	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-	<script src="/carpedm/js/header.js"></script>
+	
 </body>
 
 </html>

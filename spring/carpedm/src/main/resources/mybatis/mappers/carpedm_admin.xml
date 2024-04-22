@@ -132,15 +132,38 @@
 
 	<!-- 새로운 책을 삽입하는 insert 문 -->
 	<insert id="insertBook" parameterType="BookDTO">
-		insert into book (b_id,
-		lb_id, b_title, b_author, b_pubyear, b_isbn,
-		b_publisher,b_kywd,b_imgurl,b_loanstate,b_resstate, bg_id, b_like,
-		b_star,b_date )
-		values (book_seq.nextval, #{lb_id}, #{b_title},
-		#{b_author}, #{b_pubyear},
-		#{b_isbn},#{b_publisher}, #{b_kywd},
-		#{b_imgurl},#{b_loanstate} ,
-		#{b_resstate},#{bg_id},#{b_like},#{b_star} , #{b_date})
+		insert into book (
+		b_id, 
+		lb_id, 
+		b_title, 
+		b_author, 
+		b_pubyear, 
+		b_imgurl,
+		b_isbn,	
+		b_publisher, 
+		b_kywd,
+		b_loanstate,
+		b_resstate, 
+		bg_id, 
+		b_like,
+		b_star,
+		b_date)
+		values (
+		book_seq.nextval, 
+		#{lb_id},
+		#{b_title},
+		#{b_author}, 
+		#{b_pubyear},
+		#{b_imgurl},
+		#{b_isbn},
+		#{b_publisher},
+		#{b_kywd},
+		'N',
+		'N',
+		#{bg_id},
+		0, 
+		0,
+		sysdate)
 	</insert>
 
 	<!-- 책을 삭제하는 delete 문 -->
@@ -149,9 +172,6 @@
 		where b_id
 		= #{b_id}
 	</delete>
-
-
-
 
 
 	<!-- admin_wish_book_list -->
@@ -170,9 +190,7 @@
 		= l.lb_id
 		join member m on w.m_pid = m.m_pid
 		)
-		where rn between
-		#{startrow} and
-		#{endrow}
+		where rn between #{startrow} and #{endrow}
 	</select>
 
 	<select id="selectWishlistCount" parameterType="WishlistDTO"
@@ -270,9 +288,15 @@
 
 	<!-- admin_book_add -->
 	<select id="selectBooKAdd" resultType="LibraryDTO">
-		select * from
-		library
+		select * from library
 	</select>
+	
+	<!-- admin_book_add/book_genre -->
+	<select id="selectBooKGenre" resultType="BookgenreDTO">
+		select * from bookgenre
+	</select>
+	
+	
 
 
 

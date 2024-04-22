@@ -1,14 +1,13 @@
 package carpedm.admin;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import carpedm.dto.BookDTO;
+import carpedm.dto.BookgenreDTO;
 
 @Repository
 public class A_Book_listDAO {
@@ -80,6 +79,23 @@ public class A_Book_listDAO {
 		}
 			
 		return result;
+	}
+	
+	
+	// Bookgenre 테이블 가져오기
+	public List getBookGenre(BookgenreDTO dto) {
+		List list = null;
+		try {
+			if(sqlSession != null) {
+				list = sqlSession.selectList("mapper.carpedm.admin.selectBooKGenre", dto);
+				System.out.println("list" +list);
+			} else {
+				System.out.println("DB 접속 실패");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 	

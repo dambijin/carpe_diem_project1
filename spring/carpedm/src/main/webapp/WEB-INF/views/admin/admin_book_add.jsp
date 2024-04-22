@@ -12,21 +12,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자페이지 책등록 popup</title>
-<link href="/carpedm_old/css/layout.css" rel="stylesheet">
+<link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 </head>
 
 <!-- function 스크립트 -->
-<script src="/carpedm_old/js/admin_library.js"></script>
+<script src="/carpedm/resources/js/admin_library.js"></script>
 <script>
-
     // admin_book_add 책 등록           미완성
-    function bookAdd() {
-        alert("등록되었습니다");
-        window.close();
-    }
-
+//     function bookAdd() {
+//         alert("등록되었습니다");
+//         window.close();
+//     }
     window.addEventListener("load", function () {
-
         //등록일자에 현재날짜 넣기
         var today = new Date(); // 현재 날짜와 시간을 가져옴
         var dd = String(today.getDate()).padStart(2, '0'); // 일자를 2자리 문자열로 변환
@@ -95,11 +92,11 @@ header .nav .book_in {
 }
 
 /* 테이블 */
-.add_table {
+section .add_table {
+	font-family: 'Wanted Sans Variable';
 	border-collapse: collapse;
 	margin: auto;
 	width: 60%;
-	font-family: 'Wanted Sans Variable';
 }
 
 .add_table th {
@@ -179,63 +176,85 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	<header></header>
 
 	<!-- section -->
-	<section>
-		<div class="add_subject">
-			<h2 align="center">책등록</h2>
-		</div>
+	<form method="post" action="admin_book_add">
+		<section>
+			<div class="add_subject">
+				<h2 align="center">책등록</h2>
+			</div>
+			<div>
+				<table class="add_table">
+					<tr>
+						<th>ISBN</th>
+						<td>
+							<input type="number" name="b_isbn">
+							<input type="button" value="가져오기" id="isbn_import" class="upload">
+						</td>
+					</tr>
+					<tr>
+						<th width="20%">책이름</th>
+						<td width="80%"><input type="text" name="b_title"
+							class="bookname" autofocus></td>
+					</tr>
+					<tr>
+						<th>저자</th>
+						<td><input type="text" name="b_author"></td>
+					</tr>
+					<tr>
+						<th>출판사</th>
+						<td><input type="text" name="b_publisher"></td>
+					</tr>
+					<tr>
+						<th>발행년도</th>
+						<td><input type="text" name="b_pubyear"></td>
+					</tr>
+<!-- 					<tr> -->
+<!-- 						<th>도서ID</th> -->
+<!-- 						<td><input type="number" name="regi_number"></td> -->
+<!-- 					</tr> -->
+					<tr>
+						<th>키워드</th>
+						<td><input type="text" name="b_kywd"></td>
+					</tr>
+					<tr>
+						<th>이미지</th>
+						<td><input type="text" name="b_imgurl"></td>
+					</tr>
+					<tr>
+						<th>소장기관</th>
+						<td>
+						<select id="libs_info" name="lb_id">
+							<c:forEach var="list" items="${list}">
+							    <option value="${list.lb_id}">${list.lb_name}</option>
+							</c:forEach>
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<th>도서 장르</th>
+						<td>
+						<select id="book_genre" name="bg_id">
+							<c:forEach var="genre" items="${genre}">
+							    <option value="${genre.bg_id}">${genre.bg_name}</option>
+							</c:forEach>
+						</select>
+						</td>
+					</tr>
+	<!-- 				<tr> -->
+	<!-- 					<th>등록일자</th> -->
+	<!-- 					<td><input type="b_date" name="regi_date"></td> -->
+	<!-- 				</tr> -->
+	
+				</table>
+			</div>
+			<!-- 등록 취소 -->
+			<div class="input">
+				<input type="submit" value="책 등록" class="button" onclick="bookAdd()">
+				<input type="reset" value="닫기" class="button" onclick="closePopup()">
+			</div>
+		</section>
+	</form>
 
-		<div>
-			<table class="add_table">
-				<tr>
-					<th>ISBN</th>
-					<td><input type="number" name="isbn"> <input
-						type="button" value="가져오기" id="isbn_import" class="upload">
-					</td>
-				</tr>
-				<tr>
-					<th width="20%">책이름</th>
-					<td width="80%"><input type="text" name="bookname"
-						class="bookname" autofocus></td>
-				</tr>
-				<tr>
-					<th>저자</th>
-					<td><input type="text" name="author"></td>
-				</tr>
-				<tr>
-					<th>출판사</th>
-					<td><input type="text" name="publisher"></td>
-				</tr>
-				<tr>
-					<th>발행년도</th>
-					<td><input type="text" name="year"></td>
-				</tr>
-				<tr>
-					<th>도서ID</th>
-					<td><input type="number" name="regi_number"></td>
-				</tr>
-				<tr>
-					<th>소장기관</th>
-					<td>
-					<c:forEach var="dto" items="${list}">
-					    <option value="${dto.lb_id}">${dto.lb_name}</option>
-					</c:forEach>
-					
-					</td>
-				</tr>
-				<tr>
-					<th>등록일자</th>
-					<td><input type="date" name="regi_date"></td>
-				</tr>
-
-			</table>
-		</div>
-	</section>
-
-	<!-- 등록 취소 -->
-	<div class="input">
-		<input type="submit" value="책 등록" class="button" onclick="bookAdd()">
-		<input type="reset" value="닫기" class="button" onclick="closePopup()">
-	</div>
+	
 </body>
 
 </html>
