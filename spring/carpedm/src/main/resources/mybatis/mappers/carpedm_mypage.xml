@@ -38,7 +38,8 @@
 		library.lb_id
 		WHERE
 		loan.l_returnrealdate IS NULL
-		AND loan.m_pid = ${m_pid}
+		AND loan.m_pid =
+		${m_pid}
 	</select>
 
 
@@ -64,7 +65,8 @@
 		= book.b_id
 		INNER JOIN library ON book.lb_id = library.lb_id
 		WHERE
-		loan.l_returnrealdate IS NOT NULL AND m_pid = ${m_pid} AND b_title LIKE
+		loan.l_returnrealdate IS NOT NULL AND m_pid = ${m_pid} AND b_title
+		LIKE
 		'%${keyword}%'
 		)
 		WHERE rnum BETWEEN ${startRow} AND ${endRow}
@@ -91,7 +93,8 @@
 		reservation.m_pid = ${m_pid} AND b_title LIKE '%${keyword}%'
 		)
 		)
-		WHERE rnum BETWEEN ${startRow} AND ${endRow}
+		WHERE
+		rnum BETWEEN ${startRow} AND ${endRow}
 	</select>
 
 	<resultMap id="reservationlistResult" type="HashMap">
@@ -105,61 +108,64 @@
 		<result property="L_returndate" column="L_returndate" />
 		<result property="lb_name" column="lb_name" />
 	</resultMap>
-	
+
 	<select id="wishbooklist" resultMap="wishbooklistResult">
-    SELECT * FROM (
-        SELECT rownum AS rnum, w_title, w_id, lb_name, w_author, w_pubyear, w_isbn, w_content, w_publisher, w_tel, w_date, m_pid, w_state
-        FROM wishlist
-        INNER JOIN library ON library.lb_id = wishlist.lb_id
-        WHERE wishlist.m_pid = ${m_pid} AND w_title LIKE '%${keyword}%'
-    )
-    WHERE rnum BETWEEN 1 AND 10
-</select>
+		SELECT * FROM (
+		SELECT rownum AS rnum, w_title, w_id, lb_name, w_author, w_pubyear, w_isbn,
+		w_content, w_publisher, w_tel, w_date, m_pid, w_state
+		FROM wishlist
+		INNER JOIN library ON library.lb_id = wishlist.lb_id
+		WHERE wishlist.m_pid = ${m_pid} AND w_title LIKE '%${keyword}%'
+		)
+		WHERE rnum BETWEEN 1 AND 10
+	</select>
 
-<resultMap id="wishbooklistResult" type="HashMap">
-    <result property="w_title" column="w_title" />
-    <result property="w_id" column="w_id" />
-    <result property="lb_name" column="lb_name" />
-    <result property="w_author" column="w_author" />
-    <result property="w_pubyear" column="w_pubyear" />
-    <result property="w_isbn" column="w_isbn" />
-    <result property="w_content" column="w_content" />
-    <result property="w_publisher" column="w_publisher" />
-    <result property="w_tel" column="w_tel" />
-    <result property="w_date" column="w_date" />
-    <result property="m_pid" column="m_pid" />
-    <result property="w_state" column="w_state" />
-</resultMap>
+	<resultMap id="wishbooklistResult" type="HashMap">
+		<result property="w_title" column="w_title" />
+		<result property="w_id" column="w_id" />
+		<result property="lb_name" column="lb_name" />
+		<result property="w_author" column="w_author" />
+		<result property="w_pubyear" column="w_pubyear" />
+		<result property="w_isbn" column="w_isbn" />
+		<result property="w_content" column="w_content" />
+		<result property="w_publisher" column="w_publisher" />
+		<result property="w_tel" column="w_tel" />
+		<result property="w_date" column="w_date" />
+		<result property="m_pid" column="m_pid" />
+		<result property="w_state" column="w_state" />
+	</resultMap>
 
-<select id="wishboodetail" parameterType="int" resultMap="wishboodetailResult">
-    SELECT * FROM wishlist
-    JOIN library ON wishlist.lb_id = library.lb_id
-    WHERE w_id = #{w_id}
-</select>
+	<select id="wishboodetail" parameterType="int"
+		resultMap="wishboodetailResult">
+		SELECT * FROM wishlist
+		JOIN library ON wishlist.lb_id = library.lb_id
+		WHERE w_id = #{w_id}
+	</select>
 
-<resultMap id="wishboodetailResult" type="HashMap">
-    <result property="w_title" column="w_title" />
-    <result property="w_id" column="w_id" />
-    <result property="lb_name" column="lb_name" />
-    <result property="w_author" column="w_author" />
-    <result property="w_pubyear" column="w_pubyear" />
-    <result property="w_isbn" column="w_isbn" />
-    <result property="w_content" column="w_content" />
-    <result property="w_publisher" column="w_publisher" />
-    <result property="w_tel" column="w_tel" />
-    <result property="w_date" column="w_date" />
-    <result property="m_pid" column="m_pid" />
-    <result property="w_state" column="w_state" />
-</resultMap>
+	<resultMap id="wishboodetailResult" type="HashMap">
+		<result property="w_title" column="w_title" />
+		<result property="w_id" column="w_id" />
+		<result property="lb_name" column="lb_name" />
+		<result property="w_author" column="w_author" />
+		<result property="w_pubyear" column="w_pubyear" />
+		<result property="w_isbn" column="w_isbn" />
+		<result property="w_content" column="w_content" />
+		<result property="w_publisher" column="w_publisher" />
+		<result property="w_tel" column="w_tel" />
+		<result property="w_date" column="w_date" />
+		<result property="m_pid" column="m_pid" />
+		<result property="w_state" column="w_state" />
+	</resultMap>
 
-<select id="myInfo" resultType="MemberDTO" parameterType="String">
-    select * from member where m_pid = #{_parameter}
-</select>
-<select id="myInfo1" resultType="HashMap" parameterType="String">
-    select * from member where m_pid = #{_parameter}
-</select>
+	<select id="myInfo" resultType="MemberDTO"
+		parameterType="String">
+		select * from member where m_pid = #{_parameter}
+	</select>
+	<select id="myInfo1" resultType="HashMap" parameterType="String">
+		select * from member where m_pid = #{_parameter}
+	</select>
 
-<update id="updateInfo" parameterType="Map">
+	<update id="updateInfo" parameterType="Map">
 <![CDATA[ UPDATE member
 	SET m_pw = #{password},
 	    m_tel = #{phonenumber},
@@ -167,85 +173,95 @@
 	    m_email_agree = #{email},
 	    m_address = #{sample6_postcode} || CHR(10) || #{sample6_address} || CHR(10) || #{sample6_address2}
 	WHERE m_pid = ${m_pid}]]>
-</update>
+	</update>
 
-<delete id="deleteDetail" parameterType="Map">
-DELETE FROM wishlist WHERE w_id = #{w_id} AND m_pid = ${m_pid}
-</delete>
+	<delete id="deleteDetail" parameterType="Map">
+		DELETE FROM wishlist WHERE w_id = #{w_id} AND m_pid = ${m_pid}
+	</delete>
 
-<update id="weapon" parameterType="Map">
+	<update id="weapon" parameterType="Map">
  <![CDATA[
    UPDATE loan
 SET l_returndate = l_returndate + 7, 
     l_extendcount = l_extendcount + 1
 WHERE l_id = #{l_id} AND l_extendcount < 2
     ]]>
-</update>
-<delete id="reservationCancle" parameterType="Map">
+	</update>
+	<delete id="reservationCancle" parameterType="Map">
  <![CDATA[
   delete from reservation where m_pid = ${m_pid} and r_id in ( ${r_id} )
     ]]>
-</delete>
-<update id="reservationUpdate" parameterType="Map">
+	</delete>
+	<update id="reservationUpdate" parameterType="Map">
 
-  UPDATE book 
-SET b_resstate = 'Y' 
-WHERE book.b_id IN (
-    SELECT book.b_id 
-    FROM reservation 
-    INNER JOIN book ON reservation.b_id = book.b_id 
-    WHERE m_pid = ${m_pid} AND r_id in( ${r_id} )
-)
-   
-</update>
-<update id="wishDelete" parameterType="Map">
-DELETE FROM wishlist 
-WHERE m_pid = ${m_pid}
-AND w_id IN (${w_id})
-</update>
+		UPDATE book
+		SET b_resstate = 'Y'
+		WHERE book.b_id IN (
+		SELECT book.b_id
+		FROM reservation
+		INNER JOIN book ON reservation.b_id = book.b_id
+		WHERE m_pid = ${m_pid} AND r_id in( ${r_id} )
+		)
 
-<resultMap id="resCountResult" type="HashMap">
-   <result property="count" column="count(*)" />
-</resultMap>
+	</update>
+	<update id="wishDelete" parameterType="Map">
+		DELETE FROM wishlist
+		WHERE m_pid = ${m_pid}
+		AND w_id IN (${w_id})
+	</update>
+
+	<resultMap id="resCountResult" type="HashMap">
+		<result property="count" column="count(*)" />
+	</resultMap>
 
 
-<select id="resCount" resultMap="resCountResult" parameterType="String">
+	<select id="resCount" resultMap="resCountResult"
+		parameterType="String">
 		SELECT
-		count(*) 
+		count(*)
 		FROM (
 		SELECT book.b_id, r_id,
 		b_title, b_author, b_publisher, r_resdate,
 		reservation.r_resstate,
 		loan.L_returndate, library.lb_name
-		FROM reservation
+		FROM
+		reservation
 		INNER JOIN book ON
 		reservation.b_id = book.b_id
-		INNER JOIN library ON book.lb_id =
+		INNER JOIN
+		library ON book.lb_id =
 		library.lb_id
-		LEFT JOIN loan ON reservation.b_id = loan.b_id
+		LEFT JOIN loan ON reservation.b_id
+		= loan.b_id
 		WHERE
-		reservation.m_pid = ${m_pid} AND b_title LIKE '%${keyword}%'
-		)
-</select>
-
-<resultMap id="loanCountResult" type="HashMap">
-   <result property="count" column="count(*)" />
-</resultMap>
-<select id="loanCount" resultMap="loanCountResult" parameterType="String">
-		SELECT
-		count(*) 
-		FROM (
-		SELECT ROWNUM
-		AS rnum, l_id, b_title, b_author, b_publisher, l_loandate,
-		l_returnrealdate, library.lb_name
-		FROM loan
-		INNER JOIN book ON loan.b_id
-		= book.b_id
-		INNER JOIN library ON book.lb_id = library.lb_id
-		WHERE
-		loan.l_returnrealdate IS NOT NULL AND m_pid = ${m_pid} AND b_title LIKE
+		reservation.m_pid = ${m_pid} AND b_title LIKE
 		'%${keyword}%'
 		)
-</select>
+	</select>
+
+	<resultMap id="loanCountResult" type="HashMap">
+		<result property="count" column="count(*)" />
+	</resultMap>
+	<select id="loanCount" resultMap="loanCountResult"
+		parameterType="String">
+		SELECT
+		count(*)
+		FROM (
+		SELECT ROWNUM
+		AS rnum, l_id, b_title, b_author, b_publisher,
+		l_loandate,
+		l_returnrealdate, library.lb_name
+		FROM loan
+		INNER JOIN book
+		ON loan.b_id
+		= book.b_id
+		INNER JOIN library ON book.lb_id =
+		library.lb_id
+		WHERE
+		loan.l_returnrealdate IS NOT NULL AND m_pid =
+		${m_pid} AND b_title LIKE
+		'%${keyword}%'
+		)
+	</select>
 
 </mapper>
