@@ -37,6 +37,7 @@ public class A_WishbookController{
 		dto.setEndrow(endRow);
 		List list = wishService.listWishBooks(dto);
 
+		System.out.println(list);
 		int wishbook_count = wishService.listWishBooksCount(dto);
 
 		int startPage = Math.max(currentPage - 2, 1);	

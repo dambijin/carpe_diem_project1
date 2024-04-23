@@ -240,6 +240,16 @@
 		b.b_id)
 		where m.m_pid = #{_parameter}
 	</select>
+	
+<!-- 	<update id="updateOverdue" parameterType="string"> -->
+<!-- 	    UPDATE loan o -->
+<!-- 	    JOIN member m ON (m.m_pid = o.m_pid) -->
+<!-- 	    JOIN book b ON (o.b_id = b.b_id) -->
+<!-- 	    SET -->
+<!-- 	        b.b_resstate = #{resState}, -->
+<!-- 	        b.b_loanstate = #{loanState} -->
+<!-- 	    WHERE m.m_pid = #{memberId} -->
+<!-- 	</update> -->
 
 
 

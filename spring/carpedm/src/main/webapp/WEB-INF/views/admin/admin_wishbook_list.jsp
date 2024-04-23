@@ -378,16 +378,16 @@
 					            <c:set var="state" value="${data.w_state}" />
 					            <c:set var="resStateString" value="" />
 					            <c:choose>
-					                <c:when test="${state eq '0'}">
+					                <c:when test="${state eq 0}">
 					                    <c:set var="resStateString" value="진행중" />
 					                </c:when>
-					                <c:when test="${state eq '1'}">
+					                <c:when test="${state eq 1}">
 					                    <c:set var="resStateString" value="완료" />
 					                </c:when>
-					                <c:when test="${state eq '2'}">
+					                <c:when test="${state eq 2}">
 					                    <c:set var="resStateString" value="취소" />
 					                </c:when>
-					                <c:when test="${state eq '3'}">
+					                <c:when test="${state eq 3}">
 					                    <c:set var="resStateString" value="반려" />
 					                </c:when>
 					                <c:otherwise>

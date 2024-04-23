@@ -119,17 +119,47 @@
         document.getElementById('button_cancle').addEventListener('click', function () {
             let list_checked = document.querySelectorAll(".checkbox:checked");
 
-            if (list_checked.length == 0) {
-                alert("폐기할 항목을 선택해주세요.");
-            } else if (confirm("선택한 항목을 폐기하시겠습니까?")) {
-                for (let i = 0; i < list_checked.length; i++) {
-                    // 체크된 걸 for문으로 찾고 체크박스의 부모(td)의 부모(tr)을 remove
-                    list_checked[i].parentNode.parentNode.remove();
-                }
-                alert("폐기되었습니다.");
-            } else {
-                alert("선택된 항목이 없습니다.");
-            }
+         	// 선택된 체크박스가 있는지 확인
+		    if (list_checked.length === 0) {
+		        alert("연체할 항목을 선택해주세요.");
+		        return;
+		    }
+         	
+		    var m_pid = [];
+		    
+		    for (let i = 0; i < list_checked.length; i++) {
+		        let id = list_checked[i].value;
+		        m_pid.push(id); // 배열에 각 id를 추가합니다.
+		    }
+		    
+		    console.log(m_pid);
+		    
+		    let url = '/carpedm/admin_book_overdue';
+		    let data = 'm_pid=' + encodeURIComponent(m_pid);
+//	 	    console.log(data);
+			//dopost로 보내기위한 코드
+		    fetch(url, {
+		      method: 'POST',
+		      headers: {
+		        'Content-Type': 'application/x-www-form-urlencoded',
+		      },
+		      body: data,
+		    })
+		    .then(response => response.json())
+		    .then(data => {
+//	 	    	console.log(data);
+	    	  // 서버에서 전달한 결과 메시지에 따라 분기처리
+	    	  if (data.message === 'success') {
+	    	    alert('연체가 해제되었습니다');
+	    	    window.location.href = "/carpedm/admin_book_overdue";
+	    	  } else if (data.message === 'fail') {
+	    	    alert('연체해제 실패');
+	    	  } else {
+	    	    alert('알 수 없는 오류가 발생하였습니다.');
+	    	  }	      
+		    })
+		    .catch((error) => console.error('Error:', error));
+		    
         })
 
     }
@@ -140,11 +170,11 @@
         window.close();
     }
 
- 	// 연체해제 누르면 확인 후 닫기
-	function closeOverduePopup() {
-		alert("연체해제 되었습니다");
-		window.close();
-	}
+//  	// 연체해제 누르면 확인 후 닫기
+// 	function closeOverduePopup() {
+// 		alert("연체해제 되었습니다");
+// 		window.close();
+// 	}
  	
 </script>
 
@@ -266,7 +296,7 @@
 
     <!-- 등록 취소 -->
     <div class="input">
-        <button type="button" value="연체해제" class="button" id="button_cancle" onclick="closeOverduePopup()">
+        <button type="button" value="연체해제" class="button" id="button_cancle">
         	연체해제
         </button>
         <input type="reset" value="닫기" class="button" onclick="closePopup()">
