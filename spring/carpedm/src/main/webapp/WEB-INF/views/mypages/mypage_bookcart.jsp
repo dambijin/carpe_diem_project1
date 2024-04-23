@@ -15,7 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>마이페이지 예약 목록</title>
+<title>장바구니 </title>
 <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 <link href="/carpedm/resources/css/mypage.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -125,7 +125,7 @@
                     }
                     
                     let xhr = new XMLHttpRequest();
-                    xhr.open("POST", "/carpedm/mypage_reservation_list", true);
+                    xhr.open("POST", "/carpedm/mypage_bookcart", true);
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
                     xhr.onreadystatechange = function () {
@@ -134,7 +134,7 @@
                                 // 요청이 성공적으로 완료됨
                                 console.log("서버 응답:", xhr.responseText);
                                 alert("취소가 완료 되었습니다.")
-                                window.location.href = "/carpedm/mypage_reservation_list";
+                                window.location.href = "/carpedm/mypage_bookcart";
                             } else {
                                 // 요청이 실패함
                                 console.error("서버 응답 오류:", xhr.status);
@@ -301,7 +301,7 @@
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-			<a href="/carpedm/mypage_loan_status">
+				<a href="/carpedm/mypage_loan_status">
 				<button type="button" class="sub_but">대출 현황</button></a><br> 
 				<a href="/carpedm/mypage_loan_history">
 				<button type="button"class="sub_but">대출 내역</button></a><br> 
@@ -313,7 +313,7 @@
 				<button type="button" class="sub_but">장바구니</button></a>
 			</div>
 			<div class="right_section">
-				<div class="notice_subject">마이페이지 예약 목록</div>
+				<div class="notice_subject">장바구니</div>
 				<div>
 					<!-- 내정보 -->
 					<div class="div1">
@@ -357,7 +357,7 @@
     </div>
     <div id="select1">
         <div>
-            <form method="get" action="mypage_reservation_list">
+            <form method="get" action="mypage_bookcart">
                 <input type="text" name="search" placeholder="책 제목을 입력하세요">
                 <button>검색</button>
             </form>
@@ -373,33 +373,19 @@
         <th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
         <th style="cursor: pointer;" onclick="sortTable(3,false)">출판사</th>
         <th style="cursor: pointer;" onclick="sortTable(4,true)">신청일자</th>
-        <th style="cursor: pointer;" onclick="sortTable(5,true)">대출가능일</th>
-        <th style="cursor: pointer;" onclick="sortTable(6,false)">대출상태</th>
-        <th style="cursor: pointer;" onclick="sortTable(7,false)">소장기관</th>
+        <th style="cursor: pointer;" onclick="sortTable(6,false)">소장기관</th>
         <th>취소 <input type="checkbox" id="selectAll"></th>
     </tr>
     <c:forEach var="item" items="${list}" varStatus="loop">
         <tr class="tr">
-            <td>${loop.index + 1}<input type="hidden" value="${item.r_id}"></td>
+            <td>${loop.index + 1}<input type="hidden" value="${item.bc_id}"></td>
+           
             <td>${item.b_title}</td>
             <td>${item.b_author}</td>
             <td>${item.b_publisher}</td>
-            <td><c:out value="${fn:substring(item.r_resdate, 0, 10)}" /></td>
-            <td><c:out value="${fn:substring(item.L_returndate, 0, 10)}" /></td>
-            <td>
-            <c:choose>
-				<c:when test="${item.r_resstate eq 0}">
-            			예약중
-            		</c:when>
-				<c:when test="${item.r_resstate eq 1}">
-            			취소
-            		</c:when>
-				<c:when test="${item.r_resstate eq 2}">
-            			예약 불가
-            		</c:when>
-			</c:choose>
-			</td>      
+            <td>${fn:substring(item.bc_date, 0, 10)}</td>
             <td>${item.lb_name}</td>
+            
 
             <td><input type="checkbox" class="checkbox"></td>
         </tr>
@@ -446,55 +432,7 @@
 						</c:if>
 					</div>
 				</div>
-				<%--	<div id="paging">
-					<%
-					// 서블릿에서 불러온 페이징 정보
-					int total_count = (int) request.getAttribute("totalViewCount");// 임시로 설정한 값
-					int perPage = Integer.parseInt((String) request.getAttribute("perPage"));
-					int current_page = Integer.parseInt((String) request.getAttribute("page"));
-					int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1;
-
-					// 표시할 페이지의 범위 계산
-					int start_page = Math.max(current_page - 2, 1);
-					int end_page = Math.min(start_page + 4, total_pages);
-					start_page = Math.max(1, end_page - 4);
-					%>
-
-					<div class="total_count">
-						전체 : 총&nbsp;<%=total_count%>&nbsp;권
-					</div>
-
-					<div class="paging">
-						<%
-						if (current_page > 1) {
-						%>
-						<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>"
-							class="pre">◀</a>
-						<%
-						}
-						%>
-						<%
-						for (int i = start_page; i <= end_page; i++) {
-						%>
-						<a href="?page=<%=i%>&perPage=<%=perPage%>"
-							class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a>
-						<%
-						}
-						%>
-						<%
-						if (current_page < total_pages) {
-						%>
-						<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>"
-							class="next">▶</a>
-						<%
-						}
-						%>
-					</div>
-					<div class="total">
-						<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지
-					</div>
-				</div>
-			</div> --%>
+				
 		</div>
 		</div>
 	</section>

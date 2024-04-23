@@ -117,7 +117,7 @@
 		INNER JOIN library ON library.lb_id = wishlist.lb_id
 		WHERE wishlist.m_pid = ${m_pid} AND w_title LIKE '%${keyword}%'
 		)
-		WHERE rnum BETWEEN 1 AND 10
+		WHERE rnum BETWEEN ${startRow} AND ${endRow}
 	</select>
 
 	<resultMap id="wishbooklistResult" type="HashMap">
@@ -279,5 +279,68 @@ WHERE l_id = #{l_id} AND l_extendcount < 2
 		WHERE wishlist.m_pid = ${m_pid} AND w_title LIKE '%${keyword}%'
 		)
 	</select>
+	<resultMap id="bookCartResult" type="HashMap">
+		<result property="bc_id" column="bc_id" />
+		<result property="b_title" column="b_title" />
+		<result property="b_author" column="b_author" />
+		<result property="b_publisher" column="b_publisher" />
+		<result property="bc_date" column="bc_date" />
+		<result property="lb_name" column="lb_name" />
+	</resultMap>
+	
+	<select id="bookcart" resultMap="bookCartResult">
+	SELECT *
+FROM (
+    SELECT 
+       rownum AS rnum,
+        bc_id,
+        b_title,
+        b_author,
+        b_publisher,
+        bc_date,
+        lb_name
+    FROM 
+        bookcart 
+    INNER JOIN 
+        book ON book.b_id = bookcart.b_id 
+    INNER JOIN 
+        library ON book.lb_id = library.lb_id 
+    WHERE 
+        m_pid = ${m_pid}
+        AND book.b_title LIKE '%${keyword}%'
+)
+WHERE rnum BETWEEN ${startRow} AND ${endRow}
+</select>
+
+	<select id="booCartCount" resultMap="loanCountResult"
+		parameterType="String">
+		SELECT
+		count(*)
+		FROM (
+    SELECT 
+       rownum AS rnum,
+        bc_id,
+        b_title,
+        b_author,
+        b_publisher,
+        bc_date,
+        lb_name
+    FROM 
+        bookcart 
+    INNER JOIN 
+        book ON book.b_id = bookcart.b_id 
+    INNER JOIN 
+        library ON book.lb_id = library.lb_id 
+    WHERE 
+        m_pid = ${m_pid}
+        AND book.b_title LIKE '%${keyword}%'
+)
+	</select>
+	
+	<delete id="bookCartDelete" parameterType="Map">
+		DELETE FROM bookcart
+		WHERE m_pid = ${m_pid}
+		AND bc_id IN (${bc_id})
+	</delete>
 
 </mapper>

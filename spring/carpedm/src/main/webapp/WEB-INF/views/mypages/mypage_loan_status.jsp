@@ -193,16 +193,16 @@ String login_m_pid = (String) getSession.getAttribute("m_pid");%>
 		<!-- 여기부터 본문작성해주세요 -->
 		<div class="s_section2">
 			<div class="left_section">
-				<a href="/carpedm/mypage_loan_status"><button type="button"
-						class="sub_but">대출 현황</button></a><br> <a
-					href="/carpedm/mypage_loan_history"><button type="button"
-						class="sub_but">대출 내역</button></a><br> <a
-					href="/carpedm/mypage_reservation_list"><button type="button"
-						class="sub_but">예약</button></a> <a
-					href="/carpedm/mypage_wishbook_list"><button type="button"
-						class="sub_but">
-						희망도서<br>신청목록
-					</button></a>
+				<a href="/carpedm/mypage_loan_status">
+				<button type="button" class="sub_but">대출 현황</button></a><br> 
+				<a href="/carpedm/mypage_loan_history">
+				<button type="button"class="sub_but">대출 내역</button></a><br> 
+				<a href="/carpedm/mypage_reservation_list">
+				<button type="button" class="sub_but">예약</button></a> 
+				<a href="/carpedm/mypage_wishbook_list">
+				<button type="button" class="sub_but">희망도서<br>신청목록</button></a>
+				<a href="/carpedm/mypage_bookcart">
+				<button type="button" class="sub_but">장바구니</button></a>
 
 			</div>
 			<div class="right_section">
