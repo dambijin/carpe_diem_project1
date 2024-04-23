@@ -28,11 +28,9 @@ public class A_BookService {
 		return count;
 	}
 
-	public int deleteBooks(BookDTO dto) {
-
-		int result = dao.getBookDelete(dto);
-
-		return result;
+	public int deleteBooks(int[] b_id) {
+	    int result = dao.deleteBooksByIds(b_id); // DAO에게 책의 ID 배열을 전달하여 삭제 요청
+	    return result;
 	}
 
 	// book_genre 셀렉트

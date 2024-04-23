@@ -58,7 +58,7 @@ public class A_Book_listDAO {
 	}
 	
 	// 데이터베이스에서 목록을 삭제하는 기능
-	public int getBookDelete(BookDTO dto) {
+	public int deleteBooksByIds(int[] b_id) {
 		int result = -9999;
 		try {
 
@@ -66,7 +66,7 @@ public class A_Book_listDAO {
 				// select 결과가 없으면 null
 //				list = sqlSession.selectList("mapper.emp.dynamic.selectEmp", dto);
 				
-				result = sqlSession.insert("mapper.carpedm.admin.deleteBook", dto);
+				result = sqlSession.delete("mapper.carpedm.admin.deleteBook", b_id);
 				
 				System.out.println("result : " + result);
 				

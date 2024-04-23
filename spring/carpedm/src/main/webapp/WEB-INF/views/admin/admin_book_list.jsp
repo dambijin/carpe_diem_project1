@@ -19,6 +19,7 @@
 
 <!-- function 스크립트 -->
 <script defer src="/carpedm/resources/js/admin_library.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <script>
 	// admin_book_list 등록 팝업창열기
 	function bookadd_popup() {
@@ -36,7 +37,7 @@
 		// 전체선택 체크 해제
 		document.querySelector("#select_all").addEventListener("click", function (event) {
 			// 클릭된 요소가 check 상태라면
-			let list_check = document.querySelectorAll(".checkbox")
+			let list_check = document.querySelectorAll(".checkbox_book")
 			console.log(list_check.length);
 
 			// 체크된 것만
@@ -54,7 +55,7 @@
 		});
 		
 		// 각 체크박스에 대한 이벤트 리스너 등록
-		let checkboxes = document.querySelectorAll(".checkbox");
+		let checkboxes = document.querySelectorAll(".checkbox_book");
 		for (let i = 0; i < checkboxes.length; i++) {
 		    checkboxes[i].addEventListener("click", function (event) {
 		        // 만약 현재 클릭된 체크박스가 체크 해제되었다면
@@ -64,7 +65,7 @@
 		        } else {
 		            // 전체 체크박스 개수와 현재 체크된 체크박스 개수를 세어서 비교
 		            let allCount = checkboxes.length;
-		            let checkedCount = document.querySelectorAll(".checkbox:checked").length;
+		            let checkedCount = document.querySelectorAll(".checkbox_book:checked").length;
 
 		            // 만약 모든 체크박스가 체크 되어있다면
 		            if (allCount == checkedCount) {
@@ -80,65 +81,50 @@
 
 		// 폐기버튼 알림창 및 폐기
 		document.getElementById('button_cancle').addEventListener('click', function () {
-		    let list_checked = document.querySelectorAll(".checkbox:checked");
-		
+		    let list_checked = document.querySelectorAll(".checkbox_book:checked");
+		    
 		    // 선택된 체크박스가 있는지 확인
 		    if (list_checked.length === 0) {
 		        alert("폐기할 항목을 선택해주세요.");
-		        return; // 선택된 체크박스가 없으면 함수 종료
+		        return;
 		    }
-		
-		    var b_id = []; // b_id를 배열로 선언합니다.
-		
+		    
+		    var b_id = [];
+		    
 		    for (let i = 0; i < list_checked.length; i++) {
-		        let row = list_checked[i].closest("tr");
-		        let id = row.querySelector('input[type="hidden"]').value;
+		        let id = list_checked[i].value;
 		        b_id.push(id); // 배열에 각 id를 추가합니다.
 		    }
-		
-		    let xhr = new XMLHttpRequest();
-		    xhr.open("POST", "/carpedm/admin_book_list", true);
-		    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		
-		    xhr.onreadystatechange = function () {
-		        if (xhr.readyState === XMLHttpRequest.DONE) {
-		            if (xhr.status === 200) {
-		                // 요청이 성공적으로 완료됨
-		                console.log("서버 응답:", xhr.responseText);
-		                alert("취소가 완료 되었습니다.")
-		                window.location.href = "/carpedm/admin_book_list";
-		            } else {
-		                // 요청이 실패함
-		                console.error("서버 응답 오류:", xhr.status);
-		            }
-		        }
-		    };
-		
-		    // 배열이 비어있는지 확인하고 비어있지 않으면 query string으로 변환합니다.
-		    let queryString = "";
-		    if (b_id.length > 0) {
-		        queryString = "b_id=" + encodeURIComponent(JSON.stringify(b_id));
-		    }
-		
-		    xhr.send(queryString);
-		});
+		    
+		    console.log(b_id);
+		    
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/carpedm/admin_book_list", true);
+//             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // 요청이 성공적으로 완료됨
+                        console.log("서버 응답:", xhr.responseText);
+                        alert("취소가 완료 되었습니다.")
+                        window.location.href = "/carpedm/admin_book_list";
+                    } else {
+                        // 요청이 실패함
+                        console.error("서버 응답 오류:", xhr.status);
+                    }
+                }
+            };
+		    
+// 		    let data = "b_id=" + encodeURIComponent(JSON.stringify(b_id));
+// 		    xhr.send(JSON.stringify(b_id));
+		    
+//             xhr.send(data);
+            xhr.send(JSON.stringify(b_id));
+		});    
+		    
 
-
-// 			if (list_checked.length == 0) {
-// 				alert("폐기할 항목을 선택해주세요.");
-// 			} else if (confirm("선택한 항목을 폐기하시겠습니까?")) {
-// 				for (let i = 0; i < list_checked.length; i++) {
-// 					list_checked[i].parentNode.parentNode.remove();
-// 				}
-// 				alert("폐기되었습니다.");
-// 			} else {
-// 				alert("선택된 항목이 없습니다.");
-// 			}
-		
-		
-
-    		
-		
 		// 검색에 입력값 받아와 enterkey 작동
 		var inputTodo = document.getElementById("input_todo");
 		if (inputTodo != null) {
@@ -480,7 +466,7 @@
 
 
 	<!-- table -->
-	<form method="get" action="admin_book_list">
+	<form method="post" action="admin_book_list">
 		<div class="booklist_entire">
 			<table id="todo_booktable">
 				<thead>
@@ -506,7 +492,7 @@
 				<c:if test="${not empty book_list }">
 					<c:forEach var="dto" items="${book_list }" varStatus="status">
 						<tr>
-							<td>${dto.b_id}<input type="hidden" value="${item.b_id}"></td>
+							<td>${dto.b_id}<input type="hidden" value="${b_id}"></td>
 							<td><div class="book_name" onclick="openBookPopup('${dto.b_id}')">${dto.b_title}</div></td>
 							<td>${dto.b_author}</td>
 			                <td>${dto.b_publisher}</td>
@@ -517,7 +503,7 @@
  							<td>${formattedDate}</td>
 			                <td>${dto.b_resstate}</td>
 			                <td>${dto.b_loanstate}</td>
-							<td><input type="checkbox" name="check" class="checkbox"></td>
+							<td><input type="checkbox" name="check" class="checkbox_book" value="${not empty dto ? dto.b_id : ''}"></td>
 						</tr>
 					</c:forEach>
 				</c:if>
@@ -531,16 +517,19 @@
 				</table>
 <!-- 				<input type="hidden" style="display: none;" name="b_id" -->
 <%-- 							value="<%=data_list.get(0).get("b_id")%>"> --%>
-				<input type="hidden" style="display: none;" name="b_id"
-       				value="${not empty book_list ? dto.b_id : ''}">
+<!-- 				<input type="hidden" style="display: none;" name="b_id" -->
+<%--        				value="${not empty book_list ? dto.b_id : ''}"> --%>
 		</div>
-	</form>
-
+		
 		<!-- 등록 삭제 -->
 		<div class="input1">
 			<button type="button" class="button" onclick="bookadd_popup()">등록</button>
 			<button type="submit" class="button" id="button_cancle" name="delete">폐기</button>
 		</div>
+		
+	</form>
+
+		
 
 	<div id="paging">
 		<%-- 서블릿에서 불러온 페이징 정보 --%>

@@ -1,6 +1,7 @@
 package carpedm.admin;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -88,20 +89,20 @@ public class A_Book_listController{
 	
 	@RequestMapping(value = "/admin_book_list", method = RequestMethod.POST)
 	@ResponseBody
-	public int bookdelete(
-			@ModelAttribute BookDTO dto
-//			@RequestParam("b_id") int b_id
-			) {
-		System.out.println("BookController > bookdelete 실행");
+	public int bookdelete(@RequestParam("b_id") int[] b_id) {
+		System.out.println("bookdelete 실행됨????");
 		
-//		System.out.println(b_id);
+//		logger.info("bookdelete 실행됨");
+//		logger.info("삭제할 책 ID들: " + Arrays.toString(b_id));
+		    
+		System.out.println(Arrays.toString(b_id));
 		
-//		dto.setB_id(b_id);
+		int success = bookService.deleteBooks(b_id);
 		
-		int success = bookService.deleteBooks(dto);
 		
 		return success;
 	}
+	
 	
 	
 	
