@@ -15,7 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>장바구니 </title>
+<title>마이페이지 장바구니</title>
 <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 <link href="/carpedm/resources/css/mypage.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -313,7 +313,7 @@
 				<button type="button" class="sub_but">장바구니</button></a>
 			</div>
 			<div class="right_section">
-				<div class="notice_subject">장바구니</div>
+				<div class="notice_subject">마이페이지 장바구니</div>
 				<div>
 					<!-- 내정보 -->
 					<div class="div1">
