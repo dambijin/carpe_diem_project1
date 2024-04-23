@@ -158,7 +158,7 @@
 		#{b_isbn},
 		#{b_publisher},
 		#{b_kywd},
-		'N',
+		'Y',
 		'N',
 		#{bg_id},
 		0, 

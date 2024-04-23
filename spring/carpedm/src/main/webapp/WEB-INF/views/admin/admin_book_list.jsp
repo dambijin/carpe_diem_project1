@@ -80,41 +80,50 @@
 
 		// 폐기버튼 알림창 및 폐기
 		document.getElementById('button_cancle').addEventListener('click', function () {
-			let list_checked = document.querySelectorAll(".checkbox:checked");
-
-			let ids = [];
-			
-			for (let i = 0; i < list_checked.length; i++) {
-                let row = list_checked[i].closest("tr");
-                let id = row.querySelector('input[type="hidden"]').value;
-                ids.push(id);
-                console.log(ids)
-            }
-			
-			let xhr = new XMLHttpRequest();
-            xhr.open("POST", "/carpedm/admin_book_list", true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        // 요청이 성공적으로 완료됨
-                        console.log("서버 응답:", xhr.responseText);
-                        alert("취소가 완료 되었습니다.")
-                        window.location.href = "/carpedm/admin_book_list";
-                    } else {
-                        // 요청이 실패함
-                        console.error("서버 응답 오류:", xhr.status);
-                    }
-                }
-            };
-            // ids 배열을 query string으로 변환합니다.
-            let queryString = "ids=" + encodeURIComponent(JSON.stringify(ids));
-            console.log(queryString);
-
-            xhr.send(queryString);
-			
+		    let list_checked = document.querySelectorAll(".checkbox:checked");
+		
+		    // 선택된 체크박스가 있는지 확인
+		    if (list_checked.length === 0) {
+		        alert("폐기할 항목을 선택해주세요.");
+		        return; // 선택된 체크박스가 없으면 함수 종료
+		    }
+		
+		    var b_id = []; // b_id를 배열로 선언합니다.
+		
+		    for (let i = 0; i < list_checked.length; i++) {
+		        let row = list_checked[i].closest("tr");
+		        let id = row.querySelector('input[type="hidden"]').value;
+		        b_id.push(id); // 배열에 각 id를 추가합니다.
+		    }
+		
+		    let xhr = new XMLHttpRequest();
+		    xhr.open("POST", "/carpedm/admin_book_list", true);
+		    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		
+		    xhr.onreadystatechange = function () {
+		        if (xhr.readyState === XMLHttpRequest.DONE) {
+		            if (xhr.status === 200) {
+		                // 요청이 성공적으로 완료됨
+		                console.log("서버 응답:", xhr.responseText);
+		                alert("취소가 완료 되었습니다.")
+		                window.location.href = "/carpedm/admin_book_list";
+		            } else {
+		                // 요청이 실패함
+		                console.error("서버 응답 오류:", xhr.status);
+		            }
+		        }
+		    };
+		
+		    // 배열이 비어있는지 확인하고 비어있지 않으면 query string으로 변환합니다.
+		    let queryString = "";
+		    if (b_id.length > 0) {
+		        queryString = "b_id=" + encodeURIComponent(JSON.stringify(b_id));
+		    }
+		
+		    xhr.send(queryString);
 		});
+
+
 // 			if (list_checked.length == 0) {
 // 				alert("폐기할 항목을 선택해주세요.");
 // 			} else if (confirm("선택한 항목을 폐기하시겠습니까?")) {
@@ -126,6 +135,9 @@
 // 				alert("선택된 항목이 없습니다.");
 // 			}
 		
+		
+
+    		
 		
 		// 검색에 입력값 받아와 enterkey 작동
 		var inputTodo = document.getElementById("input_todo");
@@ -500,8 +512,9 @@
 			                <td>${dto.b_publisher}</td>
 			                <td>${dto.b_isbn}</td>
 			                <td>${dto.lb_name}</td>
-			                <td>${dto.b_date}</td>
+<%-- 			                <td>${dto.b_date}</td> --%>
 <%-- 			                <td>${dto.b_date.substring(0,10)}</td> --%>
+ 							<td>${formattedDate}</td>
 			                <td>${dto.b_resstate}</td>
 			                <td>${dto.b_loanstate}</td>
 							<td><input type="checkbox" name="check" class="checkbox"></td>
@@ -561,55 +574,6 @@
 			</c:if>
 		</div>
 	</div>
-	<!-- 		<!-- 쪽이동 -->
-<!-- 		<div id="paging"> -->
-<%-- 			<% --%>
-<!-- // 			// 서블릿에서 불러온 페이징 정보 -->
-<!-- // 			int total_count = (int) request.getAttribute("allcount");// 임시로 설정한 값 -->
-<!-- // 			int perPage = Integer.parseInt((String) request.getAttribute("perPage")); -->
-<!-- // 			int current_page = Integer.parseInt((String) request.getAttribute("page")); -->
-<!-- // 		    int total_pages = total_count > 0 ? (int) Math.ceil((double) total_count / perPage) : 1; -->
-
-<!-- // 			// 표시할 페이지의 범위 계산 -->
-<!-- // 			int start_page = Math.max(current_page - 2, 1); -->
-<!-- // 			int end_page = Math.min(start_page + 4, total_pages); -->
-<!-- // 			start_page = Math.max(1, end_page - 4); -->
-<%-- 			%> --%>
-
-<!-- 			<div class="total_count"> -->
-<%-- 				전체 : 총&nbsp;<%=total_count%>&nbsp;권 --%>
-<!-- 			</div> -->
-
-<!-- 			<div class="paging"> -->
-<%-- 				<% --%>
-<!-- // 				if (current_page > 1) { -->
-<%-- 				%> --%>
-<%-- 				<a href="?page=<%=current_page - 1%>&perPage=<%=perPage%>" class="pre">◀</a> --%>
-<%-- 				<% --%>
-<!-- // 				} -->
-<%-- 				%> --%>
-<%-- 				<% --%>
-<!-- // 				for (int i = start_page; i <= end_page; i++) { -->
-<%-- 				%> --%>
-<%-- 				<a href="?page=<%=i%>&perPage=<%=perPage%>" --%>
-<%-- 					class="<%=i == current_page ? "num active" : "num"%>"><%=i%></a> --%>
-<%-- 				<% --%>
-<!-- // 				} -->
-<%-- 				%> --%>
-<%-- 				<% --%>
-<!-- // 				if (current_page < total_pages) { -->
-<%-- 				%> --%>
-<%-- 				<a href="?page=<%=current_page + 1%>&perPage=<%=perPage%>" class="next">▶</a> --%>
-<%-- 				<% --%>
-<!-- // 				} -->
-<%-- 				%> --%>
-<!-- 			</div> -->
-<!-- 			<div class="total"> -->
-<%-- 				<strong><%=current_page%></strong>페이지 / 총 <strong><%=total_pages%></strong>페이지 --%>
-<!-- 			</div> -->
-<!-- 		</div> -->
-	<!-- 헤더를 덮어씌우는 자바스크립트 -->
-<!-- 	<script src="/carpedm/resources/js/header_admin.js"></script> -->
 
 </body>
 

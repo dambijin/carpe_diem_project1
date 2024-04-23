@@ -52,7 +52,7 @@
 							document.getElementById('sign_up_in').innerHTML = '<div class="sign_out"><a href="/carpedm/logout">로그아웃&nbsp;</a></div>';
 // 							if (mchk()) {
 // 								document.getElementById('blank_space').innerHTML = '<a href="/carpedm/admin_member_list">관리자페이지</a>'
-							}
+// 							}
 						} else {
 							document.getElementById('sign_up_in').innerHTML = '<div class="sign_in"><a href="/carpedm/sign_in">로그인&nbsp;</a></div><div class="sign_up"><a href="/carpedm/sign_up"> &nbsp;회원가입&nbsp;</a></div>';
 						}

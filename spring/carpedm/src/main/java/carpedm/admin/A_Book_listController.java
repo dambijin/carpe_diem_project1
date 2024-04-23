@@ -1,9 +1,10 @@
 package carpedm.admin;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import carpedm.dto.BookDTO;
-import carpedm.mypages.My_Wishbook_detailController;
 
 @Controller
 public class A_Book_listController{
@@ -27,11 +27,13 @@ public class A_Book_listController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(A_Book_listController.class);
 	
+	
 	@Autowired	
 	A_BookService bookService;
 	
 	@RequestMapping("/admin_book_list")
-	public String listBooks(Model model, @ModelAttribute BookDTO dto,
+	public String listBooks(Model model,
+			@ModelAttribute BookDTO dto,
 			@RequestParam(value = "page", defaultValue = "1") String page,
 			@RequestParam(value = "perPage", defaultValue = "10") String perPage
 			) {
@@ -40,6 +42,7 @@ public class A_Book_listController{
 		
 		int currentPage = Integer.parseInt(page);
 		int itemsPerPage = Integer.parseInt(perPage);
+		
 		// 페이지 처리를 위한 계산
 		int startRow = (currentPage - 1) * itemsPerPage + 1;
 		int endRow = currentPage * itemsPerPage;
@@ -53,15 +56,31 @@ public class A_Book_listController{
 //        끝 페이지를 기준으로 조정
 		startPage = Math.max(1, endPage - 4);
 
-//		System.out.println("aaaa:"+list);
-		model.addAttribute("book_list",list); // 모델에 회원 목록을 속성으로 추가합니다.
 		
+		// 날짜 한글로 변경
+		BookDTO dto1 = (BookDTO)list.get(0);
+		Date date = dto1.getB_date();
+			
+		System.out.println("date : " + date);
+		
+		if (date != null) {
+		    SimpleDateFormat sdf = new SimpleDateFormat("YYYY년 MM월 dd일", Locale.KOREAN);
+		    // 형식에 맞춰 날짜를 문자열로 변환
+		    String formattedDate = sdf.format(date);
+		    model.addAttribute("formattedDate", formattedDate);
+		} else {
+		    model.addAttribute("formattedDate", "날짜 없음");
+		}
+		
+		// model에 book_list 속성 추가
+		model.addAttribute("book_list",list);
 		model.addAttribute("allcount", book_count);
 		model.addAttribute("page", page);
 		model.addAttribute("perPage", perPage);
 		model.addAttribute("start_page", startPage);
 		model.addAttribute("end_page", endPage);
 		model.addAttribute("total_pages", totalPages);
+		
 		return "admin/admin_book_list.jsp.admin"; // "admin/admin_member_list" 뷰를 반환합니다.
 		
 	}
@@ -70,32 +89,20 @@ public class A_Book_listController{
 	@RequestMapping(value = "/admin_book_list", method = RequestMethod.POST)
 	@ResponseBody
 	public int bookdelete(
-			@ModelAttribute BookDTO dto,
-			@RequestParam("b_id") String b_id
+			@ModelAttribute BookDTO dto
+//			@RequestParam("b_id") int b_id
 			) {
 		System.out.println("BookController > bookdelete 실행");
 		
-		System.out.println(b_id);
+//		System.out.println(b_id);
+		
+//		dto.setB_id(b_id);
 		
 		int success = bookService.deleteBooks(dto);
-		
-		int id = Integer.parseInt(b_id);
-		
-//		// 폼 데이터 처리 로직 작성
-//		Map<String, String> delete = new HashedMap();
-//				
-////		deleteBooks.put("b_id", b_id);
-//		delete.put("b_id", b_id);
-//		
-//		System.out.println(delete);
 		
 		return success;
 	}
 	
-	/* 
-	 * data {
-	 * userid : 인풋 아이디 지정한거 겟엘리멘탈아이디 가져온거
-	 * }
-	 * */
+	
 	
 }

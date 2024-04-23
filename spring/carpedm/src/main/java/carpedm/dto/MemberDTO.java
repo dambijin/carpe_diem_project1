@@ -37,10 +37,25 @@ public class MemberDTO {
 	private int startrow;
 	private int endrow;
 	
+	// 날짜 계산된 생년월일
+	String formattedBirthday;
 	
 	
 	
-	
+	/**
+	 * @return the formattedBirthday
+	 */
+	public String getFormattedBirthday() {
+		return formattedBirthday;
+	}
+
+	/**
+	 * @param formattedBirthday the formattedBirthday to set
+	 */
+	public void setFormattedBirthday(String formattedBirthday) {
+		this.formattedBirthday = formattedBirthday;
+	}
+
 	public int getStartrow() {
 		return startrow;
 	}

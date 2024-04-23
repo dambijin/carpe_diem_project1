@@ -1,7 +1,10 @@
 package carpedm.admin;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,8 @@ public class A_MemberController {
 	A_MemberController(){
 		System.out.println("MemberController 생성자");
 	}
+	
+	MemberDTO dto = new MemberDTO();
 	
 	@Autowired  // Spring이 MemberService의 인스턴스를 이 필드에 자동으로 주입해야 함을 나타냄
 	A_MemberService memberService;
@@ -38,7 +43,7 @@ public class A_MemberController {
 		dto.setEndrow(endRow);
 		List list = memberService.listMembers(dto);  // memberService를 통해 회원 목록을 가져옵니다.
 		
-		// 왜 null 이지?
+		
 		System.out.println("keyword : " + dto.getKeyword());
 		
 		// 연체상태 계산 로직
@@ -75,11 +80,42 @@ public class A_MemberController {
 		int endPage = Math.min(startPage + 4, totalPages);
 //        끝 페이지를 기준으로 조정
 		startPage = Math.max(1, endPage - 4);
+		
 //		model.addAttribute("keyword", keyword);
 //		model.addAttribute("type", type);
 //		
 //		model.addAttribute("orderColumn", orderColumn);
 //		model.addAttribute("orderType", orderType);
+		
+		
+		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+
+		// 날짜 한글로 변경
+		for (int i = 0; i < list.size(); i++) {
+		    MemberDTO dto1 = (MemberDTO) list.get(i);
+		    System.out.println("asdasdasdsad : " + dto1);
+		    
+		    Date birthday = dto1.getM_birthday();
+		    
+		    System.out.println("birthday  : " + birthday);
+		    
+		    String formattedBirthday = null;
+		    
+		    if (birthday != null) {
+		        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREAN);
+		        formattedBirthday = sdf.format(birthday);
+		        
+		        System.out.println("formattedBirthday : " + formattedBirthday);
+		    } else {
+		        formattedBirthday = "생일 정보 없음";
+		    }
+		    
+		    dto1.setFormattedBirthday(formattedBirthday); // DTO에 저장
+		    memberList.add(dto1); // 각 회원의 DTO를 List에 추가
+		}
+
+		model.addAttribute("memberList", memberList); // 모델에 회원 목록을 속성으로 추가
+		
 		
 		model.addAttribute("allcount", member_count);
 		model.addAttribute("page", page);

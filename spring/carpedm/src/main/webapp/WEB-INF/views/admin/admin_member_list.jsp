@@ -444,7 +444,8 @@ h1 {
 								<td class="member_no">${dto.m_pid}</td>
 								<td><div class="member_name">${dto.m_name}</div></td>
 								<td>${dto.m_id}</td>
-								<td>${dto.m_birthday}</td>
+<%-- 								<td>${dto.m_birthday}</td> --%>
+								<td>${dto.formattedBirthday}</td>
 								<td>${dto.m_tel}</td>
 								<td>${dto.m_address}</td>
 								<td>
