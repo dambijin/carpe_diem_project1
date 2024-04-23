@@ -23,7 +23,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>공지사항 글쓰기</title>
 <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
-
+<script
+    type="text/javascript"
+    src='https://cdn.tiny.cloud/1/6iubxq7xzqgf3958wj5d8uhmql5oz2cuvj9y2zlgav7buznq/tinymce/7/tinymce.min.js'
+    referrerpolicy="origin">
+ </script>
 <script>
 	window.addEventListener("load", function() {
 		// 파일첨부
@@ -61,10 +65,29 @@
 		});
 
 	});
+	
+	
+	 tinymce.init({
+		    selector: '#ntextarea',
+		    width: '100%',
+		    height: 400,
+		    plugins: [
+		      'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+		      'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+		      'media', 'table', 'emoticons', 'help'
+		    ],
+		    toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+		      'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+		      'forecolor backcolor emoticons | help',
+		    menu: {
+		      favs: { title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons' }
+		    },
+		    menubar: 'favs file edit view insert format tools table help',
+		    content_css: 'css/content.css'
+		  });
 
-	
-	
 </script>
+
 
 <style>
 /* section */
