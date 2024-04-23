@@ -41,11 +41,13 @@ public class A_MemberController {
 		
 		dto.setStartrow(startRow);
 		dto.setEndrow(endRow);
+		
 		List list = memberService.listMembers(dto);  // memberService를 통해 회원 목록을 가져옵니다.
 		
 		
 		System.out.println("keyword : " + dto.getKeyword());
 		
+		System.out.println("list111 : " + list);
 		// 연체상태 계산 로직
 		for (int i = 0; i < list.size(); i++) {
 	        MemberDTO member = (MemberDTO) list.get(i);

@@ -122,6 +122,7 @@
 			frm.submit();
 		})
 		
+		
 	}
 	
 	
@@ -168,7 +169,8 @@
 	}
 	// 10개씩 누를 때 change 이벤트 : 변동이 있을 때 발생
 	function changeViewCount(count) {
-// 		alert(count + "개씩 보기로 변경되었습니다.");
+		alert(count + "개씩 보기로 변경되었습니다.");
+		location.href="/carpedm/admin_member_list?page=1&perPage="+count;
 	}
 	
 	// 예약목록 조회 클릭 시 동작하는 함수
@@ -382,14 +384,14 @@ h1 {
 	<!-- 검색창   -->
 	<form id="frm" method="get" action="admin_member_list">
 		<div class="search">
-			<select id="viewCount" class="view_count"
+			<select class="view_count" id="viewCount"
 				onchange="changeViewCount(this.value)">
 				<option value="10">10개씩</option>
 				<option value="20">20개씩</option>
 				<option value="30">30개씩</option>
 			</select>
-			<select class="type" name="type">
-				<option value="1" ${type ==1 ? "selected" : "" }>전체</option>
+			<select class="type" name="type" onchange="">
+				<option value="1" ${type ==1 ? "selected='selected'" : "" }>전체</option>
 				<option value="2" ${type ==2 ? "selected='selected'" : "" }>회원번호</option>
 				<option value="3" ${type ==3 ? "selected='selected'" : "" }>이름</option>
 				<option value="4" ${type ==4 ? "selected='selected'" : "" }>회원ID</option>
@@ -426,7 +428,7 @@ h1 {
 						</th>
 						<th width="100px" id="m_name">이름</th>
 						<th>회원ID</th>
-						<th width="100px">생년월일</th>
+						<th width="130px">생년월일</th>
 						<th>전화번호</th>
 						<th>주소</th>
 						<th>연체상태</th>

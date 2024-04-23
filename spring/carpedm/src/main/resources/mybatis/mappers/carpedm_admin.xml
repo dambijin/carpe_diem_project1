@@ -167,10 +167,9 @@
 	</insert>
 
 	<!-- 책을 삭제하는 delete 문 -->
-	<delete id="deleteBook" parameterType="BookDTO">
+	<delete id="deleteBook" parameterType="String">
 		delete from book
-		where b_id
-		= #{b_id}
+		where b_id in (${_parameter})
 	</delete>
 
 

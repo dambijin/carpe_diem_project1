@@ -98,30 +98,32 @@
 		    
 		    console.log(b_id);
 		    
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", "/carpedm/admin_book_list", true);
-//             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        // 요청이 성공적으로 완료됨
-                        console.log("서버 응답:", xhr.responseText);
-                        alert("취소가 완료 되었습니다.")
-                        window.location.href = "/carpedm/admin_book_list";
-                    } else {
-                        // 요청이 실패함
-                        console.error("서버 응답 오류:", xhr.status);
-                    }
-                }
-            };
-		    
-// 		    let data = "b_id=" + encodeURIComponent(JSON.stringify(b_id));
-// 		    xhr.send(JSON.stringify(b_id));
-		    
-//             xhr.send(data);
-            xhr.send(JSON.stringify(b_id));
+		    let url = '/carpedm/admin_book_list';
+		    let data = 'b_id=' + encodeURIComponent(b_id);
+//	 	    console.log(data);
+			//dopost로 보내기위한 코드
+		    fetch(url, {
+		      method: 'POST',
+		      headers: {
+		        'Content-Type': 'application/x-www-form-urlencoded',
+		      },
+		      body: data,
+		    })
+		    .then(response => response.json())
+		    .then(data => {
+//	 	    	console.log(data);
+	    	  // 서버에서 전달한 결과 메시지에 따라 분기처리
+	    	  if (data.message === 'success') {
+	    	    alert('폐기완료');
+	    	    window.location.href = "/carpedm/admin_book_list";
+	    	  } else if (data.message === 'fail') {
+	    	    alert('폐기실패');
+	    	  } else {
+	    	    alert('알 수 없는 오류가 발생하였습니다.');
+	    	  }	      
+		    })
+		    .catch((error) => console.error('Error:', error));   
+
 		});    
 		    
 
@@ -154,39 +156,39 @@
 		}
 
 		
-// 		let m_names = document.querySelectorAll("#m_name")
-// 		console.log("m_names : "+ m_names)
-// 		for(let i=0; i<m_names.length; i++){
-// 			m_names[i].addEventListener("click", (event) => {
-// 				// event.target.parentNode : 부모 즉,<td>를 뜻함
-// 				event.target.parentNode.querySelector("form").submit();
-// 			})
-// 		}
+		let m_names = document.querySelectorAll("#m_name")
+		console.log("m_names : "+ m_names)
+		for(let i=0; i<m_names.length; i++){
+			m_names[i].addEventListener("click", (event) => {
+				// event.target.parentNode : 부모 즉,<td>를 뜻함
+				event.target.parentNode.querySelector("form").submit();
+			})
+		}
 		
-// 		document.querySelector("#b_pid").addEventListener("click", function() {
-// 			// form id 값 잡아옴 			
-// 			let frm = document.querySelector("#frm");
-// 			frm.querySelector("[name=orderColumn]").value = "b_pid";
+		document.querySelector("#b_pid").addEventListener("click", function() {
+			// form id 값 잡아옴 			
+			let frm = document.querySelector("#frm");
+			frm.querySelector("[name=orderColumn]").value = "b_pid";
 			
-// 			let orderType = frm.querySelector("[name=orderType]");
-// 			// 없다가 클릭하면
-// 			// desc > asc > 없음 순으로 변경
-// 			console.log(orderType.value);
+			let orderType = frm.querySelector("[name=orderType]");
+			// 없다가 클릭하면
+			// desc > asc > 없음 순으로 변경
+			console.log(orderType.value);
 			
-// 			if(orderType.value == ""){
-// 				orderType.value = 'desc';
-// 			} else if(orderType.value == "desc") {
-// 				orderType.value = 'asc';
-// 			} else if(orderType.value == "asc") {
-// 				orderType.value = '';
-// 				// 차라리 orderColumn을 지우는 방법도 있다
-// // 				frm.querySelector("[name=orderColumn]").value = '';
-// 				frm.querySelector("[name=orderType]").value = "desc";
-// 			}
+			if(orderType.value == ""){
+				orderType.value = 'desc';
+			} else if(orderType.value == "desc") {
+				orderType.value = 'asc';
+			} else if(orderType.value == "asc") {
+				orderType.value = '';
+				// 차라리 orderColumn을 지우는 방법도 있다
+// 				frm.querySelector("[name=orderColumn]").value = '';
+				frm.querySelector("[name=orderType]").value = "desc";
+			}
 			
 			
-// 			frm.submit();
-// 		})
+			frm.submit();
+		})
 		
 	} // bind() 함수 종료
 	
@@ -440,7 +442,6 @@
 		<h1 align="center">책 재고</h1>
 	</div>
 
-	<form id="frm" method="get" action="admin_member_list">
 		<div class="booklist_entire">
 			<!-- 검색창   -->
 			<div class="search">
@@ -462,11 +463,9 @@
 		<!-- 정렬용 필드 --> 
 		<input type="hidden" name="orderColumn" value="${orderColumn }">
 		<input type="hidden" name="orderType" value="${orderType }">
-	</form>
-
 
 	<!-- table -->
-	<form method="post" action="admin_book_list">
+<!-- 	<form method="post" action="admin_book_list"> -->
 		<div class="booklist_entire">
 			<table id="todo_booktable">
 				<thead>
@@ -524,10 +523,11 @@
 		<!-- 등록 삭제 -->
 		<div class="input1">
 			<button type="button" class="button" onclick="bookadd_popup()">등록</button>
-			<button type="submit" class="button" id="button_cancle" name="delete">폐기</button>
+			<button type="button" class="button" id="button_cancle" name="delete">폐기</button>
+<!-- 			<button type="submit" class="button" id="button_cancle" name="delete">폐기</button> -->
 		</div>
 		
-	</form>
+<!-- 	</form> -->
 
 		
 

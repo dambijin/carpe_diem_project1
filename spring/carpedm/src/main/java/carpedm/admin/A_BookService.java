@@ -28,7 +28,7 @@ public class A_BookService {
 		return count;
 	}
 
-	public int deleteBooks(int[] b_id) {
+	public int deleteBooks(String b_id) {
 	    int result = dao.deleteBooksByIds(b_id); // DAO에게 책의 ID 배열을 전달하여 삭제 요청
 	    return result;
 	}

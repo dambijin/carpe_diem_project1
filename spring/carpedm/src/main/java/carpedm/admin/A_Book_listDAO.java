@@ -58,7 +58,7 @@ public class A_Book_listDAO {
 	}
 	
 	// 데이터베이스에서 목록을 삭제하는 기능
-	public int deleteBooksByIds(int[] b_id) {
+	public int deleteBooksByIds(String b_id) {
 		int result = -9999;
 		try {
 

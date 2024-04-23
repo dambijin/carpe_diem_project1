@@ -89,18 +89,22 @@ public class A_Book_listController{
 	
 	@RequestMapping(value = "/admin_book_list", method = RequestMethod.POST)
 	@ResponseBody
-	public int bookdelete(@RequestParam("b_id") int[] b_id) {
+	public String bookdelete(@RequestParam("b_id") String b_id) {
 		System.out.println("bookdelete 실행됨????");
 		
-//		logger.info("bookdelete 실행됨");
+		logger.info("bookdelete 실행됨");
 //		logger.info("삭제할 책 ID들: " + Arrays.toString(b_id));
 		    
-		System.out.println(Arrays.toString(b_id));
+		System.out.println(b_id);
+//		System.out.println(Arrays.toString(b_id));
 		
 		int success = bookService.deleteBooks(b_id);
-		
-		
-		return success;
+		System.out.println("완료 개수 : "+ success);
+		String result = "{\"message\": \"fail\"}";
+		if(success > 0) {
+			result = "{\"message\": \"success\"}";
+		}
+		return result;
 	}
 	
 	

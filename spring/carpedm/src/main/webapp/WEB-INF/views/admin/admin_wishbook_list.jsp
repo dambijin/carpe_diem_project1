@@ -108,7 +108,7 @@
             let left = (window.innerWidth - width) / 2;
             let top = (window.innerHeight - height) / 2;
             let options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
-            let url = "/carpedm_old/wishbook_detail?w_id=" + w_id;
+            let url = "/carpedm/wishbook_detail?w_id=" + w_id;
             window.open(url, "_blank", options);
      }
 
@@ -374,14 +374,36 @@
 				            <td>${data.m_id}</td>
 				            <td>${data.lb_name}</td>
 				            <td>${data.w_pubyear}</td>
-				            <!-- <td>${data.w_content}</td> --> <!-- 주석 처리된 코드 -->
-				            <td>${data.w_state}</td>
+				            <td>
+					            <c:set var="state" value="${data.w_state}" />
+					            <c:set var="resStateString" value="" />
+					            <c:choose>
+					                <c:when test="${state eq '0'}">
+					                    <c:set var="resStateString" value="진행중" />
+					                </c:when>
+					                <c:when test="${state eq '1'}">
+					                    <c:set var="resStateString" value="완료" />
+					                </c:when>
+					                <c:when test="${state eq '2'}">
+					                    <c:set var="resStateString" value="취소" />
+					                </c:when>
+					                <c:when test="${state eq '3'}">
+					                    <c:set var="resStateString" value="반려" />
+					                </c:when>
+					                <c:otherwise>
+					                    <c:set var="resStateString" value="알 수 없음" />
+					                </c:otherwise>
+					            </c:choose>
+					            ${resStateString}
+					        </td>
+<%-- 				            <td>${data.w_state}</td> --%>
 				            <td width="150px">
 				                <input type="button" value="완료" class="complete" onclick="complete('${data.w_id}')"> 
 				                <input type="button" value="반려" class="companion" onclick="companion('${data.w_id}')">
 				            </td>
 				        </tr>
 				    </c:forEach>
+				</tbody>
             </table>
 
 			<div id="paging">
