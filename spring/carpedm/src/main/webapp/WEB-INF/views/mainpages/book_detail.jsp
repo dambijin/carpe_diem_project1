@@ -287,7 +287,7 @@ section {
 					<thead>
 						<tr>
 							<th scope="col">등록번호</th>
-							<!-- <th scope="col">낱권정보</th> -->
+							<th scope="col">소장도서관</th>
 							<th scope="col">ISBN</th>
 							<th scope="col">자료상태</th>
 							<th scope="col">반납예정일</th>
@@ -295,30 +295,32 @@ section {
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach items="${sameISBNbookDetailList}" var="bookSame">
 						<tr>
-							<td>${bookdetail_map.B_ID}</td>
-							<!-- <td></td> -->
+							<td>${bookSame.B_ID}</td>
+							<td>${bookSame.LB_NAME}</td>
 							<td>
-								<strong>${bookdetail_map.B_ISBN}</strong>
+								<strong>${bookSame.B_ISBN}</strong>
 							</td>
 							<td>
-								<strong	class="${bookdetail_map.B_LOANSTATE eq 'Y' ? '_success' : '_fail'}">${bookdetail_map.B_LOANSTATE eq 'Y' ? '대출가능' : '대출불가'}</strong><br>
+								<strong	class="${bookSame.B_LOANSTATE eq 'Y' ? '_success' : '_fail'}">${bookSame.B_LOANSTATE eq 'Y' ? '대출가능' : '대출불가'}</strong><br>
 							</td>
-							<td>${empty bookdetail_map.L_RETURNDATE ? '-' : fn:substring(bookdetail_map.L_RETURNDATE, 0, 10)}</td>
+							<td>${empty bookSame.L_RETURNDATE ? '-' : fn:substring(bookSame.L_RETURNDATE, 0, 10)}</td>
 							
 							<c:set var="onclickAttribute" value=""/>
-							<c:if test="${bookdetail_map.B_RESSTATE eq 'Y'}">
+							<c:if test="${bookSame.B_RESSTATE eq 'Y'}">
 							    <c:set var="onclickAttribute">
-							     	onclick='reservation(${bookdetail_map.B_ID})'
+							     	onclick='reservation(${bookSame.B_ID})'
 							     </c:set>
 							</c:if>
 							<td>
-							    <strong class="${bookdetail_map.B_RESSTATE eq 'Y' ? 'reservation_success' : '_fail'}"
+							    <strong class="${bookSame.B_RESSTATE eq 'Y' ? 'reservation_success' : '_fail'}"
 							            ${onclickAttribute}>
-							        ${bookdetail_map.B_RESSTATE eq 'Y' ? '예약가능' : '예약불가'}
+							        ${bookSame.B_RESSTATE eq 'Y' ? '예약가능' : '예약불가'}
 							    </strong><br>
 							</td>
 						</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 				<div class="info">

@@ -33,6 +33,15 @@ public class Main_Book_DetailServiceImpl implements Main_Book_DetailService {
         Map<String, String> bookDetailMap = bookDetailMapList.get(0);
         bookDetailMap.put("B_ISBN", String.valueOf(bookDetailMap.get("B_ISBN")));
         result.add(bookDetailMap);
+        
+        //도서관별 소장상황가져오기
+        List<Map<String, String>> SameISBNbookDetailMapList = main_Book_DetailDAO.selectSameISBNBookDetail(String.valueOf(bookDetailMap.get("B_ISBN")));
+        for(int i = 0; i < SameISBNbookDetailMapList.size(); i++){
+            Map<String, String> SameISBNbookDetailMap = SameISBNbookDetailMapList.get(i);
+            SameISBNbookDetailMapList.get(i).put("B_ISBN", String.valueOf(SameISBNbookDetailMap.get("B_ISBN")));
+        }
+ 
+        result.add(SameISBNbookDetailMapList);
 
         // 책 추천 목록 조회
         long unixTime = System.currentTimeMillis();

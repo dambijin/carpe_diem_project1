@@ -50,9 +50,11 @@ public class Main_Book_DetailController {
 		List<Object> bookDetailResult = main_Book_DetailService.getBookDetail(updateParams);
 
 		Map<String, String> bookDetailMap = (Map<String, String>) bookDetailResult.get(0);
-		List<Map<String, String>> bookRecommendList = (List<Map<String, String>>) bookDetailResult.get(1);
+		List<Map<String, String>> sameISBNbookDetailList = (List<Map<String, String>>) bookDetailResult.get(1);
+		List<Map<String, String>> bookRecommendList = (List<Map<String, String>>) bookDetailResult.get(2);
 
 		model.addAttribute("bookdetail_map", bookDetailMap);
+		model.addAttribute("sameISBNbookDetailList", sameISBNbookDetailList);
 		model.addAttribute("bookrecommend_list", bookRecommendList);
 
 		return "mainpages/book_detail.jsp.noTiles";

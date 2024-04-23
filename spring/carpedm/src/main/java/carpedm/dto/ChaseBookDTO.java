@@ -4,23 +4,24 @@ import java.util.Date;
 
 public class ChaseBookDTO {
 
-	String bc_id;
+	String cb_id;
 	String m_pid;
 	String b_id;
 	Date b_time;
 	String si_id;
-
+	
+	
 	
 	@Override
 	public String toString() {
-		return "ChaseBookDTO [bc_id=" + bc_id + ", m_pid=" + m_pid + ", b_id=" + b_id + ", b_time=" + b_time
+		return "ChaseBookDTO [cb_id=" + cb_id + ", m_pid=" + m_pid + ", b_id=" + b_id + ", b_time=" + b_time
 				+ ", si_id=" + si_id + "]";
 	}
-	public String getBc_id() {
-		return bc_id;
+	public String getCb_id() {
+		return cb_id;
 	}
-	public void setBc_id(String bc_id) {
-		this.bc_id = bc_id;
+	public void setCb_id(String cb_id) {
+		this.cb_id = cb_id;
 	}
 	public String getM_pid() {
 		return m_pid;
@@ -47,5 +48,7 @@ public class ChaseBookDTO {
 		this.si_id = si_id;
 	}
 
+	
+	
 
 }

@@ -83,7 +83,7 @@
 	<!-- 도서상세 시작 -->
 	<insert id="insertChaseBook_book_detail" parameterType="ChaseBookDTO">
 		INSERT
-		INTO chasebook (BC_ID, M_PID, B_ID, B_TIME, SI_ID)
+		INTO chasebook (CB_ID, M_PID, B_ID, B_TIME, SI_ID)
 		VALUES (
 		chasebook_seq.nextval,
 		#{m_pid},
@@ -105,6 +105,16 @@
 		WHERE b.b_id = #{_parameter}
 		ORDER BY
 		ln.L_RETURNDATE DESC
+	</select>
+	<select id="selectSameISBN_book_detail" resultType="Map">
+		SELECT b.b_id,b.b_isbn, l.lb_name, ln.L_RETURNDATE,b.B_LOANSTATE,b.B_RESSTATE
+		FROM book b
+		JOIN library l ON b.lb_id = l.lb_id
+		LEFT JOIN LOAN ln
+		ON b.b_id = ln.b_id
+		WHERE b.b_isbn = #{_parameter}
+		ORDER BY
+		l.lb_name ASC
 	</select>
 	<!-- 도서상세 끝 -->
 </mapper>
