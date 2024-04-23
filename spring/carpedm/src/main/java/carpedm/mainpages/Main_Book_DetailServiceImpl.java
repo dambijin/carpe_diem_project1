@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import carpedm.dto.BookCartDTO;
 import carpedm.dto.ChaseBookDTO;
 
 @Service
@@ -59,4 +60,12 @@ public class Main_Book_DetailServiceImpl implements Main_Book_DetailService {
 
         return result;
     }
+	
+	public int insertBookCart(BookCartDTO bcdto)
+	{
+		int result = 0;
+		result = main_Book_DetailDAO.insertBookCart(bcdto);
+		
+		return result;
+	}
 }

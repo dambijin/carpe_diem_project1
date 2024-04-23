@@ -7,4 +7,5 @@ public interface Main_PageDAO {
     List selectNotice_main();
     List selectBook_main();
     List selectBanner_main(String now_date);
+    List selectRecommendBook_main();
 }

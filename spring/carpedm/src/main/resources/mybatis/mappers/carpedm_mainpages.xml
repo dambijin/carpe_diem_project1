@@ -11,13 +11,22 @@
 
 	<!-- 메인페이지 시작 -->
 	<select id="selectNotice_main" resultType="NoticeDTO">
-		select
-		n_id,n_title,n_date from notice where n_opt = 0 order by n_id desc
+		SELECT * FROM (
+		  SELECT n_id, n_title, n_date
+		  FROM notice
+		  WHERE n_opt = 0
+		  ORDER BY n_id DESC
+		)
+		WHERE ROWNUM <![CDATA[ <= ]]> 5
 	</select>
 
 	<select id="selectBook_main" resultType="BookDTO">
-		select
-		b_id,b_title,b_author,b_imgurl from book order by b_id desc
+		SELECT * FROM (
+		  SELECT b_id, b_title, b_author, b_imgurl
+		  FROM book
+		  ORDER BY b_id DESC
+		)
+		WHERE ROWNUM <![CDATA[ <= ]]> 3
 	</select>
 
 	<select id="selectBanner_main" resultType="BannerDTO"
@@ -26,6 +35,16 @@
 		WHERE
 		TO_DATE(#{_parameter},'YYYY-MM-DD HH24:MI:SS') BETWEEN ban_startdate
 		AND ban_enddate
+	</select>
+	
+	<select id="selectRecommendBook_main" resultType="BookDTO">
+		SELECT b_id, b_title, b_author, b_imgurl
+		FROM (
+		    SELECT b.b_id, b.b_title, b.b_author, b.b_imgurl, ROW_NUMBER() OVER (ORDER BY COUNT(cb.b_id) DESC) AS rn
+		    FROM book b
+		    JOIN chasebook cb ON b.b_id = cb.b_id
+		    GROUP BY b.b_id, b.b_title, b.b_author, b.b_imgurl
+		) WHERE rn <![CDATA[ <= ]]> 3
 	</select>
 	<!-- 메인페이지 끝 -->
 
@@ -116,5 +135,16 @@
 		ORDER BY
 		l.lb_name ASC
 	</select>
+	<insert id="insertBookCart_book_detail" parameterType="BookCartDTO">
+		INSERT
+		INTO bookcart (BC_ID, M_PID, B_ID, BC_DATE)
+		VALUES (
+		bookcart_seq.nextval,
+		#{m_pid},
+<!-- 		TO_DATE(#{si_time}, 'YYYY-MM-DD HH24:MI:SS'), -->
+		#{b_id},
+		#{bc_date}
+		)
+	</insert>
 	<!-- 도서상세 끝 -->
 </mapper>

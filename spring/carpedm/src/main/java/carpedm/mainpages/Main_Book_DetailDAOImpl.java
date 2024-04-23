@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import carpedm.dto.BookCartDTO;
 import carpedm.dto.ChaseBookDTO;
 
 @Repository
@@ -31,5 +32,10 @@ public class Main_Book_DetailDAOImpl implements Main_Book_DetailDAO {
 	@Override
     public int insertChaseBook(ChaseBookDTO updateParams) {
         return sqlSession.insert("mapper.carpedm.mainpages.insertChaseBook_book_detail", updateParams);
+    }
+	
+	@Override
+    public int insertBookCart(BookCartDTO bcdto) {
+        return sqlSession.insert("mapper.carpedm.mainpages.insertBookCart_book_detail", bcdto);
     }
 }

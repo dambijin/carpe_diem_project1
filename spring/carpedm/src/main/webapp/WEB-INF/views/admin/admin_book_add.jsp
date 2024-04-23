@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>관리자페이지 책등록 popup</title>
+<title>관리자페이지 책 등록 popup</title>
 <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 </head>
 
@@ -47,6 +47,11 @@
            	    .then(response => response.json())
            	    .then(data => {
            	    	console.log(data);
+//              	    document.querySelector('input[name="b_title"]').innerHTML = data.title;
+// 	                document.querySelector('input[name="b_author"]').innerHTML = data.author;
+// 	                document.querySelector('input[name="b_pubyear"]').innerHTML = data.b_date;
+// 	                document.querySelector('input[name="b_publisher"]').innerHTML = data.publisher;
+	                
 	           	    document.querySelector('input[name="b_title"]').value = data.title;
 	                document.querySelector('input[name="b_author"]').value = data.author;
 	                document.querySelector('input[name="b_pubyear"]').value = data.b_date;
@@ -58,19 +63,22 @@
         
         //qr_isbn가져오기 버튼리스너
         document.querySelector("#qr_isbn").addEventListener("click", function () {
-           	    let data = 'isbn=' + encodeURIComponent(isbn);
            		//dopost로 보내기위한 코드
-           	    fetch('/carpedm/qr_isbn', {
-           	      method: 'POST',
+//            	    fetch('http://192.168.1.62:8001/api/qr/getLastData', {
+           	    fetch('http://124.58.88.184:8001/api/qr/getLastData', {
+           	      method: 'get',
            	      headers: {
            	        'Content-Type': 'application/x-www-form-urlencoded',
            	      },
-           	      body: data,
            	    })
            	    .then(response => response.json())
            	    .then(data => {
-           	    	console.log(data);
-	           	  
+           	    	console.log(data.out_data);
+           	    	if(data.out_data.length >= 13){
+           	    		document.querySelector('input[name="b_isbn"]').value = data.out_data.substring(0,13); 	  
+           	    	}else{
+           	    		alert("가져오기 실패!");
+           	    	}
            	    })
            	    .catch((error) => console.error('Error:', error));           
         });
@@ -182,7 +190,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	font-size: 16px;
 	background-color: rgba(155, 178, 225, 0.6);
 	border: 0;
-	width: 100px;
+	width: 70px;
 	height: 30px;
 	border-radius: 5px;
 	cursor: pointer;
@@ -208,7 +216,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 						<th>ISBN</th>
 						<td>
 							<input type="number" name="b_isbn">
-							<input type="button" value="QR가져오기" id="qr_isbn" class="upload2">
+							<input type="button" value="QR읽기" id="qr_isbn" class="upload2">
 							<input type="button" value="가져오기" id="isbn_import" class="upload">
 						</td>
 					</tr>

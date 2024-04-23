@@ -32,6 +32,7 @@ public class Main_PageController{
         model.addAttribute("notice_list", main_PageService.getNoticeList());		
         model.addAttribute("book_list", main_PageService.getBookList());
         model.addAttribute("banner_list", main_PageService.getBannerList(now_date));
+        model.addAttribute("recommend_list", main_PageService.getRecommendBookList());
         
 		
 		return "mainpages/main.jsp";

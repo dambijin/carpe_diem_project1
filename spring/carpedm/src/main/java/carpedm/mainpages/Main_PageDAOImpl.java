@@ -29,5 +29,9 @@ public class Main_PageDAOImpl implements Main_PageDAO{
 	@Override
 	 public List selectBanner_main(String now_date) {
       return sqlSession.selectList("mapper.carpedm.mainpages.selectBanner_main",now_date);
-  }
+  }	
+	@Override
+	 public List selectRecommendBook_main() {
+     return sqlSession.selectList("mapper.carpedm.mainpages.selectRecommendBook_main");
+ }
 }

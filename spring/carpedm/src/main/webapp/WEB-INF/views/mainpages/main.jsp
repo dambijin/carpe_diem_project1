@@ -640,7 +640,7 @@ nav .inner .inner-list img {
 				공지사항
 				<table class="announcement_table" id="announcement_table">
 					<c:forEach items="${notice_list}" var="notice" varStatus="loop">
-						<c:if test="${loop.index < 4}">
+						<c:if test="${loop.index < 5}">
 							<tr>
 								<td class="ann_id">${notice.n_id}</td>
 								<td class="ann_title"><a class="title_a"
@@ -705,19 +705,19 @@ nav .inner .inner-list img {
 		
 <!-- 		추천도서 -->
 		<div class="recobook">
-				추천도서
+				인기추천도서
 				<table class="recobook_table">
 					<tr id="rb">
-						<c:forEach items="${book_list}" var="book" varStatus="loop"
+						<c:forEach items="${recommend_list}" var="recobook" varStatus="loop"
 							begin="0" end="2">
 							<td style="${loop.last ? 'border-right: 0px;' : ''}">
 								<div class="newbook_div"
-									onclick="openBookDetail('${book.b_id}')">
-									<img class="newbook_img" src="${book.b_imgurl}">
+									onclick="openBookDetail('${recobook.b_id}')">
+									<img class="newbook_img" src="${recobook.b_imgurl}">
 								</div>
-								<div class="newbook_title">${book.b_title}</div>
+								<div class="newbook_title">${recobook.b_title}</div>
 								<hr>
-								<div class="newbook_author">${book.b_author}</div>
+								<div class="newbook_author">${recobook.b_author}</div>
 							</td>
 						</c:forEach>
 					</tr>

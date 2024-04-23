@@ -7,4 +7,5 @@ public interface Main_PageService {
     List getNoticeList();
     List getBookList();
     List getBannerList(String now_date);
+    List getRecommendBookList();
 }

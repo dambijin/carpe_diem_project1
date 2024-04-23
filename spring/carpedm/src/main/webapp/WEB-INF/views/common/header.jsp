@@ -46,11 +46,11 @@
 		<div class="flex-header dropdown">
 			My Page
 			<div class="dropdown-content">
-				<a href="/carpedm/mypage_loan_status">대출현황</a> <a
-					href="/carpedm/mypage_loan_history">대출내역</a> <a
-					href="/carpedm/mypage_reservation_list">예약</a> <a
-					href="/carpedm/mypage_wishbook_list">희망도서<br>신청목록
-				</a>
+				<a href="/carpedm/mypage_loan_status">대출현황</a>
+				<a href="/carpedm/mypage_loan_history">대출내역</a> 
+				<a href="/carpedm/mypage_reservation_list">예약</a>
+				<a href="/carpedm/mypage_wishbook_list">희망도서<br>신청목록</a>
+				<a href="/carpedm/mypage_bookcart">장바구니</a>
 			</div>
 		</div>
 		<hr class="custom-hr">

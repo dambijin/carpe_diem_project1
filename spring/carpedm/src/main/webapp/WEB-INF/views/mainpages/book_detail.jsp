@@ -33,6 +33,7 @@ section {
 	padding: 20px;
 	width: 90%;
 	margin: auto;
+	position: relative;
 }
 
 .view dl {
@@ -78,6 +79,31 @@ section {
 	width: 180px;
 	height: 220px;
 	object_fit: contain;
+}
+/*qr코드*/
+.view .qr_code img {
+	width: 100px;
+	height: 100px;
+	margin-left:-60px;
+	margin-top:-10px;
+	object_fit: contain;
+}
+/*장바구니*/
+.view .goCart button{
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+	padding: 5px 10px;
+	background-color: rgba(168, 156, 200, 1.0);
+	color: #eee;
+	border: none;
+	cursor: pointer;
+	height: 30px;
+	font-family: 'Wanted Sans Variable';
+	font-size: 16px;
+	border-radius: 5px;
+	text-align: center;
+	
 }
 
 /* 소장정보 */
@@ -147,7 +173,7 @@ section {
 .recommendbook {
 	height: 490px;
 	width: 100%;
-	background-color: rgba(220, 220, 220);
+	background-color: rgba(252, 244, 163);
 	/*  	border: 2px solid black;  */
 	font-size: 20px;
 	font-weight: bold;
@@ -165,11 +191,11 @@ section {
 }
 
 .recommendbook_table td {
-	border-right: 2px solid black;
+	border-right: 2px solid rgba(227, 177, 4, 0.6);
 	width: 300px;
 }
 
-/* 신착도서 div */
+/* 추천도서 div */
 .recommendbook_table .recommendbook_div {
 	margin-top: 8px;
 	cursor: pointer;
@@ -182,13 +208,7 @@ section {
 	object_fit: contain;
 }
 
-.view .qr_code img {
-	width: 100px;
-	height: 100px;
-	margin-left:-60px;
-	margin-top:-10px;
-	object_fit: contain;
-}
+
 </style>
 </head>
 
@@ -238,6 +258,36 @@ section {
 	    })
 	    .catch((error) => console.error('Error:', error));   
 	}
+	
+	//예약기능
+	function goBookCart(b_id) {
+// 	    alert(b_id + " 예약되었습니다.");
+	    let url = '/carpedm/goCart';
+	    let data = 'b_id=' + encodeURIComponent(b_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
+		//dopost로 보내기위한 코드
+	    fetch(url, {
+	      method: 'POST',
+	      headers: {
+	        'Content-Type': 'application/x-www-form-urlencoded',
+	      },
+	      body: data,
+	    })
+	    .then(response => response.json())
+	    .then(data => {
+ 	    	console.log(data);
+    	  // 서버에서 전달한 결과 메시지에 따라 분기처리
+    	  if (data.message === 'success') {
+    	    alert('장바구니 담기 완료');
+    	    location.reload();  // fetch가 완료된 후에
+    	  } else if (data.message === 'fail') {
+    	    alert('비로그인상태입니다. 로그인해주세요.');
+    	    window.location.href = "/carpedm/sign_in";
+    	  } else {
+    	    alert('알 수 없는 오류가 발생하였습니다.');
+    	  }	      
+	    })
+	    .catch((error) => console.error('Error:', error));   
+	}
 </script>
 
 <body>
@@ -268,9 +318,13 @@ section {
 				</dl>
 				   <!-- 새로운 div 추가 -->
 				    <div class="qr_code">
-				        <img src="${bookdetail_map.B_IMGURL}" alt="사진불러오기 실패" />
+				        <img src="download?fileName=${qr_img}" alt="사진불러오기 실패" />
+				    </div>
+				    <div class="goCart">
+				    	<button type="button" onclick="goBookCart(${bookdetail_map.B_ID})" id = "goCart_btn">장바구니 담기</button>
 				    </div>
 			</div>
+		
 			<div class="table">
 				<h3>소장정보</h3>
 				<table class="responsive">

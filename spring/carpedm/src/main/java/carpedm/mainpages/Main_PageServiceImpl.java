@@ -32,4 +32,9 @@ public class Main_PageServiceImpl implements Main_PageService{
     public List getBannerList(String now_date) {
         return main_PageDAO.selectBanner_main(now_date);
     }
+    
+    @Override
+    public List getRecommendBookList() {
+        return main_PageDAO.selectRecommendBook_main();
+    }
 }
