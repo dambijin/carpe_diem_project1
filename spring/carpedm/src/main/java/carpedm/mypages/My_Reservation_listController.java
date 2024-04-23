@@ -155,11 +155,11 @@ public class My_Reservation_listController {
 			
 					  
 					        int update = sqlSession.insert("mapper.carpedm.mypage.reservationUpdate", map);
-					        logger.info("업데이트 렁공 :" + update);
+					        logger.info("업데이트 성공 :" + update);
 					       
 
 					        int delete = sqlSession.insert("mapper.carpedm.mypage.reservationCancle", map);
-					        logger.info("딜리트 렁공 :" + delete);
+					        logger.info("딜리트 성공 :" + delete);
 			
 					    return "mypages/mypage_reservation_list.jsp";
 					}

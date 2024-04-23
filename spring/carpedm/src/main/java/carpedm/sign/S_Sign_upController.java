@@ -83,11 +83,11 @@ private static final Logger logger = LoggerFactory.getLogger(S_Sign_upController
 		custom.setM_address(address1 +"\n"+ address2 +"\n"+ address3);
 	
 		
-		System.out.println("이거 오는지 확인이나 좀 해보자ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ " + custom);
+		System.out.println("이거 들어오나 ? " + custom);
 	
 		int succhk = sqlSession.insert("mapper.carpedm.sign.signInsert", custom);
 		
-		System.out.println("이게 문제냐 쉬발ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ" + succhk);
+		System.out.println("이게 문제니...?" + succhk);
 
 		return "redirect:/main";
 	}		
