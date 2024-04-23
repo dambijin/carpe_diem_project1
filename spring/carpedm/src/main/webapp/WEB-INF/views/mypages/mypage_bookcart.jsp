@@ -243,7 +243,7 @@
 
 //     	    let currentPage = document.querySelector('#paging .paging a.num.active').textContent;
 
-    	    window.location.href = '/carpedm/mypage_reservation_list?'
+    	    window.location.href = '/carpedm/mypage_bookcart?'
     	    + '&page=' + "1"
     	    + '&perPage=' + perPage;
     	    
