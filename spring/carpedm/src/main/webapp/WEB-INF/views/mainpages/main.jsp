@@ -26,7 +26,7 @@
 .ui-widget.ui-widget-content {
 	/* 전체 박스 */
 	border: 0px;
-	height: 267px;
+	height: 100%;
 	box-shadow: 5px 5px 10px #ccc;
 	padding: 0;
 	width: 100%;
@@ -180,6 +180,7 @@
 	font-family: "Wanted Sans Variable";
 }
 
+
 /* 신착도서 테이블 */
 .newbook_table {
 	margin-top: 10px;
@@ -190,6 +191,49 @@
 .newbook_table td {
 	border-right: 2px solid rgba(140, 201, 240, 0.6);
 	width: 300px;
+}
+
+/* 신착도서 hr */
+.newbook_table hr{
+	border: 1px solid rgba(140, 201, 240, 0.6);
+}
+
+
+/* 추천도서 */
+.recobook {
+	height: 410px;
+	width: 100%;
+	background-color: rgba(252, 244, 163);
+	border: 2px solid rgba(227, 177, 4, 0.6);
+	border-bottom: 0px;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	border-bottom: 2px solid rgba(227, 177, 4, 0.6);
+	font-family: "Wanted Sans Variable";
+	margin-top : 5px;
+}
+
+/* 추천도서테이블 */
+.recobook_table{
+	margin-top: 10px;
+	font-size: 15px;
+	font-weight: normal;
+}
+
+.recobook_table td{
+	border-right: 2px solid rgba(227, 177, 4, 0.6);
+	width: 300px;
+}
+
+.recobook_table img{
+	width: 250px;
+	height: 300px;
+	object_fit: contain;
+}
+
+.recobook_table hr{
+	border: 1px solid rgba(227, 177, 4, 0.6);
 }
 
 /* 신착도서 div */
@@ -658,6 +702,27 @@ nav .inner .inner-list img {
 			</div>
 			<div id="datepicker"></div>
 		</div>
+		
+<!-- 		추천도서 -->
+		<div class="recobook">
+				추천도서
+				<table class="recobook_table">
+					<tr id="rb">
+						<c:forEach items="${book_list}" var="book" varStatus="loop"
+							begin="0" end="2">
+							<td style="${loop.last ? 'border-right: 0px;' : ''}">
+								<div class="newbook_div"
+									onclick="openBookDetail('${book.b_id}')">
+									<img class="newbook_img" src="${book.b_imgurl}">
+								</div>
+								<div class="newbook_title">${book.b_title}</div>
+								<hr>
+								<div class="newbook_author">${book.b_author}</div>
+							</td>
+						</c:forEach>
+					</tr>
+				</table>
+			</div>
 	</section>
 </body>
 
