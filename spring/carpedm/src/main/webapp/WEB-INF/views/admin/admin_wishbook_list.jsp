@@ -4,6 +4,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map"%>
+<%@ page import="carpedm.dto.WishlistDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -365,7 +366,8 @@
 	                </tr>
                 </thead>
                 <tbody id ="ajaxTable">
-					<c:forEach var="data" items="${wishbook_list}">
+					<c:forEach var="data" items="${wishbook_list}" varStatus="loop">
+					<c:set var="data2" value="${data}" />
 				        <tr>
 				            <td>${data.w_id}</td>
 				            <td><a href="javacsript:void(0);" onclick="popup('${data.w_id}')">${data.w_title}</a></td>
@@ -376,18 +378,19 @@
 				            <td>${data.w_pubyear}</td>
 				            <td>
 					            <c:set var="state" value="${data.w_state}" />
-					            <c:set var="resStateString" value="" />
+					            <c:set var="resStateString" value="${state}" />
+					           
 					            <c:choose>
-					                <c:when test="${state eq 0}">
+					                <c:when test="${state == '0'}">
 					                    <c:set var="resStateString" value="진행중" />
 					                </c:when>
-					                <c:when test="${state eq 1}">
+					                <c:when test="${state eq '1'}">
 					                    <c:set var="resStateString" value="완료" />
 					                </c:when>
-					                <c:when test="${state eq 2}">
+					                <c:when test="${state eq '2'}">
 					                    <c:set var="resStateString" value="취소" />
 					                </c:when>
-					                <c:when test="${state eq 3}">
+					                <c:when test="${state eq '3'}">
 					                    <c:set var="resStateString" value="반려" />
 					                </c:when>
 					                <c:otherwise>

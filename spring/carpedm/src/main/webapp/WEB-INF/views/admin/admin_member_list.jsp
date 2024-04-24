@@ -470,9 +470,7 @@ h1 {
 					</c:if>
 				</tbody>
 			</table>
-		</div>
-	</form>
-		<div id="paging">
+			<div id="paging">
 		<%-- 서블릿에서 불러온 페이징 정보 --%>
 		<c:set var="total_count" value="${allcount}" />
 		<c:set var="perPage" value="${perPage}" />
@@ -504,6 +502,9 @@ h1 {
 			</c:if>
 		</div>
 	</div>
+		</div>
+	</form>
+		
 <!-- 	<div id="paging"> -->
 <%-- 		<% --%>
 <!-- //  		// 서블릿에서 불러온 페이징 정보 -->

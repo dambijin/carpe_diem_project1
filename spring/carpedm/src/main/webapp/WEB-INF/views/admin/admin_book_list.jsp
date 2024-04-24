@@ -399,7 +399,7 @@
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	height: 50px;
-	width:95%;
+	width:85%;
 	margin:auto;
 }
 
@@ -459,7 +459,7 @@
 <!-- 					<input type="text" name="search" class="textbox" id="input_todo"> -->
 				<input type=submit class="button" value="검색" onclick="search()" >
 			</div>
-		</div>
+		
 		<!-- 정렬용 필드 --> 
 		<input type="hidden" name="orderColumn" value="${orderColumn }">
 		<input type="hidden" name="orderType" value="${orderType }">
@@ -518,9 +518,7 @@
 <%-- 							value="<%=data_list.get(0).get("b_id")%>"> --%>
 <!-- 				<input type="hidden" style="display: none;" name="b_id" -->
 <%--        				value="${not empty book_list ? dto.b_id : ''}"> --%>
-		</div>
-		
-		<!-- 등록 삭제 -->
+<!-- 등록 삭제 -->
 		<div class="input1">
 			<button type="button" class="button" onclick="bookadd_popup()">등록</button>
 			<button type="button" class="button" id="button_cancle" name="delete">폐기</button>
@@ -563,6 +561,9 @@
 			</c:if>
 		</div>
 	</div>
+		</div>
+		</div>
+		
 
 </body>
 

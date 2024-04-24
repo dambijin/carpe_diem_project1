@@ -15,7 +15,7 @@ public class WishlistDTO {
 	String w_tel;
 	int m_pid;
 	Date w_date;
-	char w_state;
+	String w_state;
 	
 	// join 해야하는 필드 생성
 	String lb_name;
@@ -123,10 +123,10 @@ public class WishlistDTO {
 	public void setW_date(Date w_date) {
 		this.w_date = w_date;
 	}
-	public char getW_state() {
+	public String getW_state() {
 		return w_state;
 	}
-	public void setW_state(char w_state) {
+	public void setW_state(String w_state) {
 		this.w_state = w_state;
 	}
 	public String getLb_name() {
