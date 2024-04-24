@@ -61,7 +61,7 @@ public class wishbook_addController extends HttpServlet {
 	protected String wishbookAddInsert(Locale locale, Model model, 
 			@ModelAttribute WishlistDTO dto) throws ServletException, IOException {
 		
-		int list= sqlSession.insert("mapper.carpedm.board.wishbook_add_insert", dto);
+		sqlSession.insert("mapper.carpedm.board.wishbook_add_insert", dto);
 
 		return "redirect:/QnA_board";
 	}
