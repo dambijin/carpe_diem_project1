@@ -208,6 +208,19 @@
 		join member m on w.m_pid = m.m_pid
 		)
 	</select>
+	
+	<update id="updateWishlist" parameterType="string">
+	    UPDATE loan o
+	    JOIN member m ON (m.m_pid = o.m_pid)
+	    JOIN book b ON (o.b_id = b.b_id)
+	    SET
+	        b.b_resstate = #{resState},
+	        b.b_loanstate = #{loanState}
+	    WHERE m.m_pid = #{memberId}
+	</update>
+	
+	
+	
 	<!-- admin_reservation_list -->
 	<select id="selectReservation" resultType="ReservationDTO">
 		select

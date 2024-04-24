@@ -94,9 +94,6 @@
 
 
     function complete(w_id) {
-    	var state = document.getElementById("state");
-    	console.log(state);
-    	
     	alert("완료되었습니다 회망도서 ID: " + w_id);
     }
 
@@ -372,6 +369,7 @@
 					<c:forEach var="data" items="${wishbook_list}" varStatus="loop">
 					<c:set var="data2" value="${data}" />
 				        <tr>
+<!-- 				        	<input type="hidden" name="w_id">  -->
 				            <td>${data.w_id}</td>
 				            <td><a href="javacsript:void(0);" onclick="popup('${data.w_id}')">${data.w_title}</a></td>
 				            <td>${data.w_author}</td>
