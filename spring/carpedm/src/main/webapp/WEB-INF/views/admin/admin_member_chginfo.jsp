@@ -276,8 +276,10 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					        <td><input type="text" id="name" name="name" value="${data_list[0].m_name}" readonly></td>
 					    </tr>
 					    <tr>
-					        <th height="40px">생년월일</th>
-					        <td><input type="date" name="date" id="yymmdd" value="${fn:substring(data_list[0].m_birthday, 0, 10)}" /></td>
+					    	<th height="40px">생년월일</th>
+							<td><input type="date" name="date" id="yymmdd" /></td>
+<%-- 							<td><input type="date" name="date" id="yymmdd" value="${fn:substring(data_list[0].m_birthday, 0, 10)}" /></td> --%>
+<%-- 							<td><input type="date" name="date" id="yymmdd" value="${formattedDate}" /></td> --%>
 					    </tr>
 					    <tr>
 					        <th height="40px">아이디</th>
@@ -347,6 +349,22 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 	</div>
 
+	<script>
+		// 원래 날짜 문자열
+		var rawDate = "${data_list[0].m_birthday}";
+		
+		// 날짜를 파싱하여 Date 객체로 변환
+		var parsedDate = new Date(rawDate);
+									
+		// 날짜 형식을 변경하여 YYYY-MM-DD 형식으로 변환
+		var year = parsedDate.getFullYear();
+		var month = ('0' + (parsedDate.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더하고 두 자리로 만듭니다.
+		var day = ('0' + parsedDate.getDate()).slice(-2); // 일을 두 자리로 만듭니다.
+		var formattedDate = year + '-' + month + '-' + day;
+									
+		// 입력 요소의 값을 변경하여 설정
+		document.getElementById('yymmdd').value = formattedDate;
+	</script>
 </body>
 
 </html>

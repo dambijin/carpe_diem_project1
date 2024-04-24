@@ -1,6 +1,9 @@
 package carpedm.admin;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import carpedm.dto.MemberDTO;
 
 @Controller
 public class A_ChginfoController {
@@ -39,6 +44,8 @@ public class A_ChginfoController {
 
 		List list = sqlSession.selectList("mapper.carpedm.admin.selectChginfo", m_pid);
 				
+		
+		
 		model.addAttribute("list", list);
 
 		return "admin/admin_member_chginfo.jsp.noTiles";

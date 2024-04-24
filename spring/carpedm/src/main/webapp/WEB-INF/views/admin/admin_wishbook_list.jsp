@@ -94,6 +94,9 @@
 
 
     function complete(w_id) {
+    	var state = document.getElementById("state");
+    	console.log(state);
+    	
     	alert("완료되었습니다 회망도서 ID: " + w_id);
     }
 
@@ -376,7 +379,7 @@
 				            <td>${data.m_id}</td>
 				            <td>${data.lb_name}</td>
 				            <td>${data.w_pubyear}</td>
-				            <td>
+				            <td id="state">
 					            <c:set var="state" value="${data.w_state}" />
 					            <c:set var="resStateString" value="${state}" />
 					           
