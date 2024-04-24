@@ -337,7 +337,7 @@
 					        </tr>
 					        <tr>
 					            <td class="subject">* 휴대폰 번호</td>
-					            <td><input type="number" value="${fn:replace(mem[0].m_tel, '-', '')}" name="m_tel" class="textbox" placeholder="-없이 입력해주세요" id="handphone"></td>
+					            <td><input type="number" value="${fn:replace(mem[0].m_tel, '-', '')}" name="w_tel" class="textbox" placeholder="-없이 입력해주세요" id="handphone"></td>
 					        </tr>
 					        <tr>
 					            <td class="subject">* 개인정보 수집 동의</td>

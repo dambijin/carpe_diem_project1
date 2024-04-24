@@ -302,7 +302,7 @@
 		#{w_name},
 		#{w_tel},
 		#{m_pid},
-		0,
+		'0',
 		SYSDATE
 		)
 	</insert>

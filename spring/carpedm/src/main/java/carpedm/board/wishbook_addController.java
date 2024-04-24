@@ -60,7 +60,8 @@ public class wishbook_addController extends HttpServlet {
 	@RequestMapping(value = "/wishbook_add", method = RequestMethod.POST)
 	protected String wishbookAddInsert(Locale locale, Model model, 
 			@ModelAttribute WishlistDTO dto) throws ServletException, IOException {
-		sqlSession.insert("mapper.carpedm.board.wishbook_add_insert", dto);
+		
+		int list= sqlSession.insert("mapper.carpedm.board.wishbook_add_insert", dto);
 
 		return "redirect:/QnA_board";
 	}
