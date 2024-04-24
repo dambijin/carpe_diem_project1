@@ -58,6 +58,13 @@ public class Main_Book_DetailServiceImpl implements Main_Book_DetailService {
 
         result.add(bookrecommend_list);
 
+        //장바구니검사
+        BookCartDTO bcdto = new BookCartDTO();
+        bcdto.setB_id(updateParams.getB_id());
+        bcdto.setM_pid(updateParams.getM_pid());
+        List<BookCartDTO> bookcart_count = main_Book_DetailDAO.SearchBookCart(bcdto);
+        result.add(bookcart_count);
+
         return result;
     }
 	

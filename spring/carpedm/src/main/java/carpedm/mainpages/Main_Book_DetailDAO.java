@@ -14,4 +14,6 @@ public interface Main_Book_DetailDAO {
 	int insertChaseBook(ChaseBookDTO updateParams);
 	
 	int insertBookCart(BookCartDTO bcdto);
+	
+	List<BookCartDTO> SearchBookCart(BookCartDTO bcdto);
 }

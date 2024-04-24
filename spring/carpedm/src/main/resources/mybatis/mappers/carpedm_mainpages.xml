@@ -146,5 +146,8 @@
 		#{bc_date}
 		)
 	</insert>
+	<select id="selectBookCart_book_detail" parameterType="BookCartDTO" resultType="BookCartDTO">
+		select * from bookcart where m_pid = ${m_pid} and b_id = ${b_id}
+	</select>
 	<!-- 도서상세 끝 -->
 </mapper>

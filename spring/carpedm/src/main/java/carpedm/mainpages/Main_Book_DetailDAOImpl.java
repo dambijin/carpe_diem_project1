@@ -27,8 +27,7 @@ public class Main_Book_DetailDAOImpl implements Main_Book_DetailDAO {
     public List<Map<String, String>> selectSameISBNBookDetail(String ISBN) {
         return sqlSession.selectList("mapper.carpedm.mainpages.selectSameISBN_book_detail", ISBN);
     }
-	
-	
+
 	@Override
     public int insertChaseBook(ChaseBookDTO updateParams) {
         return sqlSession.insert("mapper.carpedm.mainpages.insertChaseBook_book_detail", updateParams);
@@ -37,5 +36,10 @@ public class Main_Book_DetailDAOImpl implements Main_Book_DetailDAO {
 	@Override
     public int insertBookCart(BookCartDTO bcdto) {
         return sqlSession.insert("mapper.carpedm.mainpages.insertBookCart_book_detail", bcdto);
+    }
+	
+	@Override
+    public List<BookCartDTO> SearchBookCart(BookCartDTO bcdto) {
+        return sqlSession.selectList("mapper.carpedm.mainpages.selectBookCart_book_detail", bcdto);
     }
 }

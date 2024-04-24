@@ -2,6 +2,7 @@ package carpedm.mainpages;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +55,12 @@ public class Main_Book_DetailController {
 		Map<String, String> bookDetailMap = (Map<String, String>) bookDetailResult.get(0);
 		List<Map<String, String>> sameISBNbookDetailList = (List<Map<String, String>>) bookDetailResult.get(1);
 		List<Map<String, String>> bookRecommendList = (List<Map<String, String>>) bookDetailResult.get(2);
+		List<BookCartDTO> bookcart_list = (List<BookCartDTO>) bookDetailResult.get(3);
 
 		model.addAttribute("bookdetail_map", bookDetailMap);
 		model.addAttribute("sameISBNbookDetailList", sameISBNbookDetailList);
 		model.addAttribute("bookrecommend_list", bookRecommendList);
+		model.addAttribute("bookcart_list", bookcart_list);
 
 		// 현재 페이지의 URL을 생성합니다.
 		String requestURL = request.getRequestURL().toString() + "?id=" + b_id;
@@ -96,9 +100,45 @@ public class Main_Book_DetailController {
 		} else {
 			result = "{\"message\": \"fail\"}";
 		}
-		
+
 		return result;
 	}
+	
+	@Autowired
+	private SqlSession sqlSession;
+
+	// 취소 메소드 
+	@RequestMapping(value = "/cancleCart", method = RequestMethod.POST)
+	@ResponseBody
+	protected String BookCart_cancle(Locale locale, Model model,
+			HttpServletRequest request, 
+			@RequestParam(value = "bc_id", defaultValue = "") String bc_id,
+			@RequestParam("m_pid") String m_pid
+			) throws ServletException, IOException {
+		String result = "{\"message\": \"fail\"}";
+
+		HttpSession session = request.getSession();
+		String login_m_pid = (String) session.getAttribute("m_pid") + "";
+		logger.info("로그인 id : " + m_pid);
+
+		if (!login_m_pid.equals(m_pid)) {
+			m_pid = "";
+		}
+
+		if (m_pid != null && !m_pid.isEmpty() && !"null".equals(m_pid)) {
+	        Map<String, String> map = new HashMap();
+	        map.put("m_pid", m_pid); // 숫자를 문자열로 변환하여 넣어줌
+	        map.put("bc_id", bc_id); // 공백 제거 후 추가
+
+		    int succhk = sqlSession.insert("mapper.carpedm.mypage.bookCartDelete", map);
+			logger.info("딜리트 : " + succhk);
+			result = "{\"message\": \"success\"}";
+		} else {
+			result = "{\"message\": \"fail\"}";
+		}
+
+		return result;
+		}
 
 	@RequestMapping("/download")
 	public void download(HttpServletResponse response, @RequestParam("fileName") String fileName) {

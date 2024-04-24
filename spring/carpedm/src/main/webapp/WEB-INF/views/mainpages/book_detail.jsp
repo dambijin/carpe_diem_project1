@@ -89,7 +89,7 @@ section {
 	object_fit: contain;
 }
 /*장바구니*/
-.view .goCart button{
+.view .goCart .btn_possible{
 	position: absolute;
 	bottom: 5px;
 	right: 5px;
@@ -103,7 +103,22 @@ section {
 	font-size: 16px;
 	border-radius: 5px;
 	text-align: center;
-	
+}
+
+.view .goCart .btn_impossible{
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+	padding: 5px 10px;
+	background-color: rgba(140, 201, 240, 1.0);
+	color: #eee;
+	border: none;
+	cursor: pointer;
+	height: 30px;
+	font-family: 'Wanted Sans Variable';
+	font-size: 16px;
+	border-radius: 5px;
+	text-align: center;
 }
 
 /* 소장정보 */
@@ -259,7 +274,7 @@ section {
 	    .catch((error) => console.error('Error:', error));   
 	}
 	
-	//예약기능
+	//장바구니 담기
 	function goBookCart(b_id) {
 // 	    alert(b_id + " 예약되었습니다.");
 	    let url = '/carpedm/goCart';
@@ -278,6 +293,36 @@ section {
     	  // 서버에서 전달한 결과 메시지에 따라 분기처리
     	  if (data.message === 'success') {
     	    alert('장바구니 담기 완료');
+    	    location.reload();  // fetch가 완료된 후에
+    	  } else if (data.message === 'fail') {
+    	    alert('비로그인상태입니다. 로그인해주세요.');
+    	    window.location.href = "/carpedm/sign_in";
+    	  } else {
+    	    alert('알 수 없는 오류가 발생하였습니다.');
+    	  }	      
+	    })
+	    .catch((error) => console.error('Error:', error));   
+	}
+	
+	//장바구니 취소
+	function cancleBookCart(bc_id) {
+// 	    alert(b_id + " 예약되었습니다.");
+	    let url = '/carpedm/cancleCart';
+	    let data = 'bc_id=' + encodeURIComponent(bc_id)+'&m_pid=' + encodeURIComponent(<%=login_m_pid%>);
+		//dopost로 보내기위한 코드
+	    fetch(url, {
+	      method: 'POST',
+	      headers: {
+	        'Content-Type': 'application/x-www-form-urlencoded',
+	      },
+	      body: data,
+	    })
+	    .then(response => response.json())
+	    .then(data => {
+ 	    	console.log(data);
+    	  // 서버에서 전달한 결과 메시지에 따라 분기처리
+    	  if (data.message === 'success') {
+    	    alert('장바구니 취소 완료');
     	    location.reload();  // fetch가 완료된 후에
     	  } else if (data.message === 'fail') {
     	    alert('비로그인상태입니다. 로그인해주세요.');
@@ -321,8 +366,21 @@ section {
 				        <img src="download?fileName=${qr_img}" alt="사진불러오기 실패" />
 				    </div>
 				    <div class="goCart">
-				    	<button type="button" onclick="goBookCart(${bookdetail_map.B_ID})" id = "goCart_btn">장바구니 담기</button>
-				    </div>
+					<c:choose>
+						<c:when test="${fn:length(bookcart_list) > 0}">
+							<!-- bookcart_count가 0보다 크면 버튼 비활성화 -->
+							<button type="button" class="btn_impossible"
+								onclick="cancleBookCart(${bookcart_list.get(0).bc_id})" id="cancleCart_btn"
+								>장바구니 취소</button>
+						</c:when>
+						<c:otherwise>
+							<!-- bookcart_count가 0이거나 작으면 버튼 활성화 -->
+							<button type="button" class="btn_possible"
+								onclick="goBookCart(${bookdetail_map.B_ID})" id="goCart_btn">장바구니
+								담기</button>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
 		
 			<div class="table">
