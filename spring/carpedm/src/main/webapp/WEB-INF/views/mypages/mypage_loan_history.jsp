@@ -228,7 +228,7 @@
 				<a href="/carpedm/mypage_loan_history">
 				<button type="button"class="sub_but">대출 내역</button></a><br> 
 				<a href="/carpedm/mypage_reservation_list">
-				<button type="button" class="sub_but">예약</button></a> 
+				<button type="button" class="sub_but">예약 목록</button></a> 
 				<a href="/carpedm/mypage_wishbook_list">
 				<button type="button" class="sub_but">희망도서<br>신청목록</button></a>
 				<a href="/carpedm/mypage_bookcart">

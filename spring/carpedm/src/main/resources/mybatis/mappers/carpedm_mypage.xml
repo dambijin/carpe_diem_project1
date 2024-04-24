@@ -312,7 +312,7 @@ FROM (
 WHERE rnum BETWEEN ${startRow} AND ${endRow}
 </select>
 
-	<select id="booCartCount" resultMap="loanCountResult"
+	<select id="bookCartCount" resultMap="loanCountResult"
 		parameterType="String">
 		SELECT
 		count(*)

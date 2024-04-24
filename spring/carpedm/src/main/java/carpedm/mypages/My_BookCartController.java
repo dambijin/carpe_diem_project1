@@ -117,7 +117,7 @@ public class My_BookCartController {
 			
 		
 			
-			Map res_count_temp = sqlSession.selectOne("mapper.carpedm.mypage.booCartCount", map);
+			Map res_count_temp = sqlSession.selectOne("mapper.carpedm.mypage.bookCartCount", map);
 			System.out.println(res_count_temp);
 			int res_count = Integer.parseInt(String.valueOf(res_count_temp.get("count")));
 			logger.info("북카운트:" + res_count);

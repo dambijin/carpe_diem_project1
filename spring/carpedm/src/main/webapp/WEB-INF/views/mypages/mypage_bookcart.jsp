@@ -306,7 +306,7 @@
 				<a href="/carpedm/mypage_loan_history">
 				<button type="button"class="sub_but">대출 내역</button></a><br> 
 				<a href="/carpedm/mypage_reservation_list">
-				<button type="button" class="sub_but">예약</button></a> 
+				<button type="button" class="sub_but">예약 목록</button></a> 
 				<a href="/carpedm/mypage_wishbook_list">
 				<button type="button" class="sub_but">희망도서<br>신청목록</button></a>
 				<a href="/carpedm/mypage_bookcart">
@@ -372,7 +372,7 @@
         <th style="cursor: pointer;" onclick="sortTable(1,false)">책제목</th>
         <th style="cursor: pointer;" onclick="sortTable(2,false)">저자</th>
         <th style="cursor: pointer;" onclick="sortTable(3,false)">출판사</th>
-        <th style="cursor: pointer;" onclick="sortTable(4,true)">신청일자</th>
+        <th style="cursor: pointer;" onclick="sortTable(4,true)">담은일자</th>
         <th style="cursor: pointer;" onclick="sortTable(6,false)">소장기관</th>
         <th>취소 <input type="checkbox" id="selectAll"></th>
     </tr>
