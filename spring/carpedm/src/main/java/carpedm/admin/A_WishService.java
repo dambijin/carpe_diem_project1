@@ -27,11 +27,17 @@ public class A_WishService {
 		return count;
 	}
 	
-//	public int listWishBooksUpdate(WishlistDTO dto) {
-//		
-//		int result = Integer.parseInt(dao.getWishListUpdate(dto));  
-//		
-//		return result;
-//	}
+	public int listWishBooksUpdate(WishlistDTO dto) {
 		
+		int result = dao.getWishListUpdate(dto);
+		
+		return result;
+	}
+		
+	public int listCompanionUpdate(WishlistDTO dto) {
+		
+		int result = dao.getWishListCompanion(dto);
+		
+		return result;
+	}
 }

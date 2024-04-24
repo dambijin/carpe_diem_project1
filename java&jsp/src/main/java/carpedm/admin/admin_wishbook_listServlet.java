@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/admin_wishbook_list")
+@WebServlet("/admin_wishbook_list_")
 public class admin_wishbook_listServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      

@@ -209,14 +209,20 @@
 		)
 	</select>
 	
-	<update id="updateWishlist" parameterType="string">
-	    UPDATE loan o
-	    JOIN member m ON (m.m_pid = o.m_pid)
-	    JOIN book b ON (o.b_id = b.b_id)
-	    SET
-	        b.b_resstate = #{resState},
-	        b.b_loanstate = #{loanState}
-	    WHERE m.m_pid = #{memberId}
+	<update id="updateWishlist" parameterType="int">
+	    UPDATE wishlist 
+		SET
+        w_state = 1
+		WHERE
+		w_id = #{w_id}
+	</update>
+	
+	<update id="updateWishCompanion" parameterType="int">
+	    UPDATE wishlist 
+		SET
+        w_state = 3
+		WHERE
+		w_id = #{w_id}
 	</update>
 	
 	

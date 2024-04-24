@@ -1,12 +1,9 @@
 package carpedm.admin;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.servlet.ServletException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import carpedm.dto.WishlistDTO;
 
@@ -72,17 +70,37 @@ public class A_WishbookController{
 	}
 	
 	
-//	// 회원 정보 업데이트 메소드
-//	@RequestMapping(value = "/admin_member_chginfo", method = RequestMethod.POST)
-//	protected String updateMemberInfo(Locale locale, Model model, 
-//			@ModelAttribute WishlistDTO dto
-//			) throws ServletException, IOException {
-//
-//		logger.debug("포스트접근성공");
-//		
-//		dto.setLb_id(lb_id);
-//
-//
-//	}
+	@RequestMapping(value = "/admin_wishbook_list", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateMemberInfo(
+			Locale locale, Model model, 
+			@ModelAttribute WishlistDTO dto,
+			@RequestParam int w_id ) {
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	System.out.println("포스트 접근 성공");
+	        logger.debug("포스트 접근 성공");
+	        dto.setW_id(w_id);
+	        
+	        // 완료!!
+	        int success = wishService.listWishBooksUpdate(dto);
+	        System.out.println("success : " + success);
+	        
+	        // 반려!!
+	        int companion = wishService.listCompanionUpdate(dto);
+	        System.out.println("companion : " + companion);
+	        
+	        // 성공적으로 업데이트되었음을 클라이언트에게 알리는 JSON 응답 생성
+	        map.put("success", true);
+	        map.put("message", "회원 정보가 성공적으로 업데이트되었습니다.");
+	    } catch (Exception e) {
+	        // 업데이트 중에 오류가 발생한 경우 클라이언트에게 알리는 JSON 응답 생성
+	    	map.put("success", false);
+	    	map.put("message", "회원 정보를 업데이트하는 동안 오류가 발생했습니다.");
+	        logger.error("회원 정보 업데이트 중 오류 발생", e);
+	    }
+	    
+	    return map;
+	}
 	
 }

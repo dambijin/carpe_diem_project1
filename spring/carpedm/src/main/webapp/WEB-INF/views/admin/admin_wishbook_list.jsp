@@ -16,6 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지(희망도서목록)</title>
     <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <!-- function 스크립트 -->
@@ -94,12 +95,58 @@
 
 
     function complete(w_id) {
-    	alert("완료되었습니다 회망도서 ID: " + w_id);
+    	var confirmation = confirm("완료하시겠습니까?");
+    	
+    	if (confirmation) {
+            $.ajax({
+                type: "POST",
+                url: "admin_wishbook_list",
+                data: {
+                    w_id: w_id,
+                    new_state: 1 // '완료'에 해당하는 state 값
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert("완료되었습니다.");
+                     	// 페이지를 새로고침합니다.
+                        location.reload();
+                    } else {
+                        alert("완료 실패했습니다.");
+                    }
+                },
+                error: function() {
+                    alert("서버와의 통신 중 오류가 발생했습니다.");
+                }
+            });
+        }
     }
 
 
     function companion(w_id) {
-    	alert("반려되었습니다 회망도서 ID: " + w_id);
+		var confirmation = confirm("반려하시겠습니까?");
+    	
+    	if (confirmation) {
+            $.ajax({
+                type: "POST",
+                url: "admin_wishbook_list",
+                data: {
+                    w_id: w_id,
+                    new_state: 1 // '완료'에 해당하는 state 값
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert("반려되었습니다.");
+                     	// 페이지를 새로고침합니다.
+                        location.reload();
+                    } else {
+                        alert("반려 실패했습니다.");
+                    }
+                },
+                error: function() {
+                    alert("서버와의 통신 중 오류가 발생했습니다.");
+                }
+            });
+        }
     }
 
     // 책이름 클릭 시 팝업창 띄우기
