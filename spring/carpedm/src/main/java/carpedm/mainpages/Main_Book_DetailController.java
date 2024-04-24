@@ -71,29 +71,34 @@ public class Main_Book_DetailController {
 
 		return "mainpages/book_detail.jsp.noTiles";
 	}
-
+	
+	//장바구니 담기 기능
 	@RequestMapping(value = "/goCart", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded")
 	@ResponseBody
 	public String goCart_book_detail(HttpServletRequest request, 
 			@RequestParam("b_id") String b_id,
 			@RequestParam("m_pid") String m_pid) {
-
+		
 		String result = "{\"message\": \"fail\"}";
-
+		
+		
+		//현재 세션에서 로그인되어있는 값을 가져옴
 		HttpSession session = request.getSession();
 		String login_m_pid = (String) session.getAttribute("m_pid") + "";
 		logger.info("로그인 id : " + m_pid);
-
+		
+		//세션과 요청id가 일치하지 않을 경우 초기화시킴
 		if (!login_m_pid.equals(m_pid)) {
 			m_pid = "";
 		}
-
+		//현재 로그인 대상과 비교하여 작동
 		if (m_pid != null && !m_pid.isEmpty() && !"null".equals(m_pid)) {
 			BookCartDTO bcdto = new BookCartDTO();
 			Date now_date = new Date();
 			bcdto.setB_id(b_id);
 			bcdto.setM_pid(login_m_pid);
 			bcdto.setBc_date(now_date);
+			//기존 세팅값을 DTO에 담아서 보냄
 			int succhk = main_Book_DetailService.insertBookCart(bcdto);
 			logger.info("인서트 : " + succhk);
 			result = "{\"message\": \"success\"}";
