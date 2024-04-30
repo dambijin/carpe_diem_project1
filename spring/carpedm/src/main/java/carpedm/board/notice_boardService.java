@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import carpedm.dto.BookDTO;
 import carpedm.dto.MemberDTO;
@@ -36,5 +37,22 @@ public class notice_boardService {
 		int count = nbDAO.getNoticeCount(dto);
 		return count;
 	}
+	
+	public MemberDTO loginID(HttpServletRequest request) {
+		MemberDTO memberDTO = nbDAO.getSessionLogin(request);
+		return memberDTO;
+	}
+	
+	
+	public List noticeDetail(@RequestParam("N_ID") int N_ID) {
+		List list = nbDAO.getNoticeDetail(N_ID);
+		return list;
+	}
+	
+	public int noticeDeleteCount(@RequestParam("N_ID") int N_ID) {
+		int count = nbDAO.getNoticeDelete(N_ID);
+		return count;
+	}
+	
 
 }

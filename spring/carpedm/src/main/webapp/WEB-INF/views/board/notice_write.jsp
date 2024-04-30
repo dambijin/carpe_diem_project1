@@ -28,6 +28,9 @@
     src='https://cdn.tiny.cloud/1/6iubxq7xzqgf3958wj5d8uhmql5oz2cuvj9y2zlgav7buznq/tinymce/7/tinymce.min.js'
     referrerpolicy="origin">
  </script>
+<link rel="stylesheet" href="https://richtexteditor.com/richtexteditor/rte_theme_default.css" />
+<script type="text/javascript" src="https://richtexteditor.com/richtexteditor/rte.js"></script>
+<script type="text/javascript" src='https://richtexteditor.com/richtexteditor/plugins/all_plugins.js'></script>
 <script>
 	window.addEventListener("load", function() {
 		// 파일첨부
@@ -67,24 +70,42 @@
 	});
 	
 	
-	 tinymce.init({
-		    selector: '#ntextarea',
-		    width: '100%',
-		    height: 400,
-		    plugins: [
-		      'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
-		      'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
-		      'media', 'table', 'emoticons', 'help'
-		    ],
-		    toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
-		      'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
-		      'forecolor backcolor emoticons | help',
-		    menu: {
-		      favs: { title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons' }
-		    },
-		    menubar: 'favs file edit view insert format tools table help',
-		    content_css: 'css/content.css'
-		  });
+// 	 tinymce.init({
+// 		    selector: '#ntextarea',
+// 		    width: '100%',
+// 		    height: 400,
+// 		    plugins: [
+// 		      'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+// 		      'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+// 		      'media', 'table', 'emoticons', 'help'
+// 		    ],
+// 		    toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+// 		      'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+// 		      'forecolor backcolor emoticons | help',
+// 		    menu: {
+// 		      favs: { title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons' }
+// 		    },
+// 		    menubar: 'favs file edit view insert format tools table help',
+// 		    content_css: 'css/content.css'
+// 		  });
+
+// https://richtexteditor.com/
+    let _editor = null;
+    window.addEventListener("load", function(){
+        // let editorCfg = {
+        //     enterKeyTag : "br"
+        // }
+        // _editor = new RichTextEditor("#editor", editorCfg);
+        _editor = new RichTextEditor("#ntextarea");
+
+        document.querySelector("#completion").addEventListener("click", function(){
+            // 적은 글씨를 html 코드로 추출
+            let text = _editor.getHTMLCode();
+            // 기존 textarea처럼 글씨만 추출
+            // let text = _editor.getPlainText();
+            console.log(text);
+        })
+    })
 
 </script>
 
@@ -203,6 +224,11 @@
 	font-family: "Wanted Sans Variable";
 	font-size: 18px;
 }
+
+.rte-modern.rte-desktop.rte-toolbar-default {
+    min-width: 100%;
+}
+
 </style>
 </head>
 
