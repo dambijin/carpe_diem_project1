@@ -48,7 +48,6 @@
 				<when test="orderColumn == 'm_pid'">
 					m_pid
 				</when>
-				<!-- 다른 정렬 기준 추가 가능 -->
 			</choose>
 			<choose>
 				<when test="orderType == 'desc'">
@@ -95,6 +94,7 @@
         </where>
 
 	</select>
+	
 	<!-- admin_book_list -->
 	<select id="selectBook" parameterType="BookDTO"
 		resultType="BookDTO">
@@ -114,8 +114,51 @@
 		#{endrow}
 	</select>
 	
-	<select id="selectBookCount" parameterType="BookDTO"
-		resultType="int">
+<!-- 	<select id="selectBook" parameterType="BookDTO" resultType="BookDTO"> -->
+<!-- 	    SELECT * -->
+<!-- 	    FROM ( -->
+<!-- 	        SELECT -->
+<!-- 	            b.b_id, b.lb_id, b.b_title, -->
+<!-- 	            b.b_author, b.b_publisher, b.b_isbn, l.lb_name, -->
+<!-- 	            b.b_date, b.b_resstate, -->
+<!-- 	            b.b_loanstate, -->
+<!-- 	            ROWNUM AS rn -->
+<!-- 	        FROM -->
+<!-- 	            book b -->
+<!-- 	            JOIN library l ON b.lb_id = l.lb_id -->
+<!--         <where> -->
+<!--             <if test="type == 2"> -->
+<!--                 AND LOWER(b.b_title) LIKE '%' || LOWER(#{keyword}) || '%' -->
+<!--             </if> -->
+<!--             <if test="type == 3"> -->
+<!--                 AND LOWER(b.b_author) LIKE '%' || LOWER(#{keyword}) || '%' -->
+<!--             </if> -->
+<!--             <if test="type == 4"> -->
+<!--                 AND LOWER(b.b_publisher) LIKE '%' || LOWER(#{keyword}) || '%' -->
+<!--             </if> -->
+<!--             <if test="type == 5"> -->
+<!--                 AND b.b_isbn = #{keyword} -->
+<!--             </if> -->
+<!--             <if test="type == 6"> -->
+<!--                 AND l.lb_name = #{keyword} -->
+<!--             </if> -->
+<!--             type이 1이거나 지정되지 않은 경우 전체 검색 -->
+<!--             <if test="type == null or type == 1"> -->
+<!--                 AND ( -->
+<!--                     b.b_id = #{keyword} -->
+<!--                     OR LOWER(b.b_title) LIKE '%' || LOWER(#{keyword}) || '%' -->
+<!--                     OR LOWER(b.b_author) LIKE '%' || LOWER(#{keyword}) || '%' -->
+<!--                     OR LOWER(b.b_publisher) LIKE '%' || LOWER(#{keyword}) || '%' -->
+<!--                     OR b.b_isbn = #{keyword} -->
+<!--                     OR l.lb_name = #{keyword} -->
+<!--                 ) -->
+<!--             </if> -->
+<!--         </where> -->
+<!-- 	    	) WHERE rn BETWEEN #{startrow} AND #{endrow} -->
+<!-- 	</select> -->
+
+	
+	<select id="selectBookCount" parameterType="BookDTO" resultType="int">
 		SELECT Count(*) FROM (
 		SELECT
 		b.b_id, b.lb_id, b.b_title,

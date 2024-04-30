@@ -141,19 +141,19 @@
 			}
 		};
 
-		//검색옵션 기본세팅
-		let search_opt_list = ["전체", "책이름", "저자", "출판사", "ISBN", "소장기관"];
+// 		//검색옵션 기본세팅
+// 		let search_opt_list = ["전체", "책이름", "저자", "출판사", "ISBN", "소장기관"];
 
-		for (let i = 0; i < search_opt_list.length; i++) {
-			let search_opt = document.querySelector("#search_option");
-			let html = '';
-			html += search_opt_list[i];
+// 		for (let i = 0; i < search_opt_list.length; i++) {
+// 			let search_opt = document.querySelector("#search_option");
+// 			let html = '';
+// 			html += search_opt_list[i];
 
-			let opt = document.createElement("option");//<option></option>
-			opt.innerHTML = html;//<option>serach_opt_list[i]</option>
+// 			let opt = document.createElement("option");//<option></option>
+// 			opt.innerHTML = html;//<option>serach_opt_list[i]</option>
 
-			search_opt.append(opt);
-		}
+// 			search_opt.append(opt);
+// 		}
 
 		
 		let m_names = document.querySelectorAll("#m_name")
@@ -273,7 +273,7 @@
 
 	}
 
-	.search .search_opt_list {
+	.type {
 		font-family: "Wanted Sans Variable";
 		width: 80px;
 		height: 30px;
@@ -450,10 +450,17 @@
 					<option value="20">20개씩</option>
 					<option value="30">30개씩</option>
 				</select>
-				<!-- <select class="search_opt_list" id="search_option" onchange="handleSearchOption()"> -->
-				<select class="search_opt_list" id="search_option">
-					<!-- 자바스크립트화 -->
-				</select>
+<!-- 				<select class="search_opt_list" id="search_option"> -->
+<!-- 					자바스크립트화 -->
+<!-- 				</select> -->
+				<select class="type" name="type" onchange="">
+					<option value="1" ${type == 1 ? "selected='selected'" : "" }>전체</option>
+					<option value="2" ${type == 2 ? "selected='selected'" : "" }>책이름</option>
+					<option value="3" ${type == 3 ? "selected='selected'" : "" }>저자</option>
+					<option value="4" ${type == 4 ? "selected='selected'" : "" }>출판사</option>
+					<option value="5" ${type == 5 ? "selected='selected'" : "" }>ISBN</option>
+					<option value="6" ${type == 6 ? "selected='selected'" : "" }>소장기관</option>
+				</select> 
 				<input type="text" name="keyword" class="textbox" id="input_todo" 
 						value="" ${keyword }>
 <!-- 					<input type="text" name="search" class="textbox" id="input_todo"> -->
@@ -461,8 +468,8 @@
 			</div>
 		
 		<!-- 정렬용 필드 --> 
-		<input type="hidden" name="orderColumn" value="${orderColumn }">
-		<input type="hidden" name="orderType" value="${orderType }">
+<%-- 		<input type="hidden" name="orderColumn" value="${orderColumn }"> --%>
+<%-- 		<input type="hidden" name="orderType" value="${orderType }"> --%>
 
 	<!-- table -->
 <!-- 	<form method="post" action="admin_book_list"> -->
