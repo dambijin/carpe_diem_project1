@@ -23,31 +23,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>공지사항 글쓰기</title>
 <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
-<script
-    type="text/javascript"
-    src='https://cdn.tiny.cloud/1/6iubxq7xzqgf3958wj5d8uhmql5oz2cuvj9y2zlgav7buznq/tinymce/7/tinymce.min.js'
-    referrerpolicy="origin">
- </script>
 <link rel="stylesheet" href="https://richtexteditor.com/richtexteditor/rte_theme_default.css" />
 <script type="text/javascript" src="https://richtexteditor.com/richtexteditor/rte.js"></script>
 <script type="text/javascript" src='https://richtexteditor.com/richtexteditor/plugins/all_plugins.js'></script>
 <script>
 	window.addEventListener("load", function() {
 		// 파일첨부
-		document.querySelector("#upload_file").addEventListener("change",
-				function(changeEvent) {
-					// 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
-					// 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
-					// 여기서는 첫 번째 파일만 사용하므로 'files[0]'을 선택합니다.
-					var imgFile = changeEvent.target.files[0];
+// 		document.querySelector("#upload_file").addEventListener("change",
+// 				function(changeEvent) {
+// 					// 이벤트 객체의 'target' 속성에서 'files' 배열을 가져옵니다. 
+// 					// 'files' 배열에는 사용자가 선택한 파일의 정보가 들어 있습니다.
+// 					// 여기서는 첫 번째 파일만 사용하므로 'files[0]'을 선택합니다.
+// 					var imgFile = changeEvent.target.files[0];
 
-					// 파일 경로를 표시할 요소를 선택합니다.
-					var fileName = document.getElementById("file_route");
+// 					// 파일 경로를 표시할 요소를 선택합니다.
+// 					var fileName = document.getElementById("file_route");
 
-					// 선택한 요소의 값에 파일 이름을 설정합니다.
-					// 이렇게 하면 사용자가 선택한 파일의 이름이 웹 페이지에 표시됩니다.
-					fileName.value = imgFile.name;
-				});
+// 					// 선택한 요소의 값에 파일 이름을 설정합니다.
+// 					// 이렇게 하면 사용자가 선택한 파일의 이름이 웹 페이지에 표시됩니다.
+// 					fileName.value = imgFile.name;
+// 				});
 		
 		document.querySelector("#completion").addEventListener('click', function () {
 			//제목
@@ -230,6 +225,10 @@
 }
 rte-line-spliter {
 	display : none;
+}
+
+.rte-command-disabled {
+    opacity: 1;
 }
 
 </style>
