@@ -24,7 +24,8 @@
 <title>공지사항 글쓰기</title>
 <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
 <link rel="stylesheet" href="https://richtexteditor.com/richtexteditor/rte_theme_default.css" />
-<script type="text/javascript" src="https://richtexteditor.com/richtexteditor/rte.js"></script>
+<!-- <script type="text/javascript" src="https://richtexteditor.com/richtexteditor/rte.js"></script> -->
+<script type="text/javascript" src="/carpedm/resources/js/rte.js"></script>
 <script type="text/javascript" src='https://richtexteditor.com/richtexteditor/plugins/all_plugins.js'></script>
 <script>
 	window.addEventListener("load", function() {
