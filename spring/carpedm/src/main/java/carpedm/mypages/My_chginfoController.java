@@ -49,6 +49,7 @@ public class My_chginfoController {
 
     @RequestMapping(value = "/mypage_chginfo", method = RequestMethod.POST)
     public String handleFormSubmit(
+    					HttpServletRequest request,
 			    		@RequestParam("password") String password,
 			            @RequestParam("phonenumber") String phoneNumber, 
 			            @RequestParam("email_id") String emailId,
@@ -58,8 +59,16 @@ public class My_chginfoController {
 			            @RequestParam("sample6_address") String address,
 			            @RequestParam("sample6_address2") String address2) {
         // 폼 데이터 처리 로직 작성
+    	HttpSession session = request.getSession();
+		String m_pid = (String) session.getAttribute("m_pid") + "";
+		logger.info("로그인 id : " + m_pid);
+		
+		if (m_pid == null || "".equals(m_pid) || "null".equals(m_pid)) {
+			
+			return "sign/sign_in.jsp";
+		}
         Map<String, String> chgInfo = new HashMap();
-
+        System.out.println("여기까진 들어오니 ? ? ? ? ?? ? ? ? ? ? ?");
         chgInfo.put("password", password);
         chgInfo.put("phonenumber", phoneNumber);
         chgInfo.put("email_id", emailId);
@@ -68,10 +77,13 @@ public class My_chginfoController {
         chgInfo.put("sample6_postcode", postcode);
         chgInfo.put("sample6_address", address);
         chgInfo.put("sample6_address2", address2);
+        chgInfo.put("m_pid", m_pid);
 
         int succhk = mychginfoService.updateInfo(chgInfo);
+        
+        System.out.println("이것이 궁금하다 나는 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ" + succhk);
 
-        return "mypage_loan_status.jsp";
+        return null;
     }
 
 }

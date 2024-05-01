@@ -11,8 +11,7 @@
 		<result property="b_publisher" column="book.b_publisher" />
 		<result property="l_loandate" column="loan.l_loandate" />
 		<result property="l_returndate" column="loan.l_returndate" />
-		<result property="l_returnrealdate"
-			column="loan.l_returnrealdate" />
+		<result property="l_returnrealdate" column="loan.l_returnrealdate" />
 		<result property="l_extendcount" column="loan.l_extendcount" />
 		<result property="lb_name" column="library.lb_name" />
 	</resultMap>
@@ -39,7 +38,7 @@
 		WHERE
 		loan.l_returnrealdate IS NULL
 		AND loan.m_pid =
-		${m_pid}
+		#{m_pid}
 	</select>
 
 
