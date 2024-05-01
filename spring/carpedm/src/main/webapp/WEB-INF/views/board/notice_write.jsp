@@ -222,6 +222,7 @@
 
 .rte-modern.rte-desktop.rte-toolbar-default {
     min-width: 100%;
+    min-height : 500px;
 }
 rte-line-spliter {
 	display : none;
