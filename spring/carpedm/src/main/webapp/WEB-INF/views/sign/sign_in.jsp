@@ -298,7 +298,7 @@
                 </table>
                 <div class="check_sub">
                     <input type="checkbox" id="checkId">아이디 저장
-                    <input type="checkbox">자동 로그인
+<!--                     <input type="checkbox">자동 로그인 -->
                 </div>
                 <div class="log_but"><button type="button" id="log_button">로그인</button></div>
                 <div class="find_button">
