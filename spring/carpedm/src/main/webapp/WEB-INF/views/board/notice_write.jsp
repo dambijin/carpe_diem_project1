@@ -163,6 +163,7 @@
 	font-size: 18px;
 }
 
+
 /* 수정버튼 div */
 .div_button {
 	width: 100%;
@@ -222,6 +223,7 @@
 }
 
 .rte-modern.rte-desktop.rte-toolbar-default {
+	font-family: "Wanted Sans Variable";
     min-width: 100%;
     min-height : 500px;
 }
@@ -231,6 +233,9 @@ rte-line-spliter {
 
 .rte-command-disabled {
     opacity: 1;
+}
+rte-content{
+font-family: "Wanted Sans Variable";
 }
 
 </style>

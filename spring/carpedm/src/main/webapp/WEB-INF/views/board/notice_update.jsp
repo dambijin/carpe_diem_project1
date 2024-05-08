@@ -19,6 +19,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>공지사항 수정</title>
 <link href="/carpedm/resources/css/layout.css" rel="stylesheet">
+<link rel="stylesheet" href="https://richtexteditor.com/richtexteditor/rte_theme_default.css" />
+<script type="text/javascript" src="/carpedm/resources/js/rte.js"></script>
+<script type="text/javascript" src='https://richtexteditor.com/richtexteditor/plugins/all_plugins.js'></script>
 <style>
 /* section */
 .notice_update section {
@@ -135,6 +138,23 @@
 	font-family: "Wanted Sans Variable";
 	font-size: 18px;
 }
+
+
+.rte-modern.rte-desktop.rte-toolbar-default {
+	font-family: "Wanted Sans Variable";
+    min-width: 100%;
+    min-height : 500px;
+}
+rte-line-spliter {
+	display : none;
+}
+
+.rte-command-disabled {
+    opacity: 1;
+}
+rte-content{
+font-family: "Wanted Sans Variable";
+}
 </style>
 
 <script>
@@ -176,6 +196,24 @@
 			fileName.value = imgFile.name;
 			});
 	});
+	
+	
+	let _editor = null;
+    window.addEventListener("load", function(){
+        // let editorCfg = {
+        //     enterKeyTag : "br"
+        // }
+        // _editor = new RichTextEditor("#editor", editorCfg);
+        _editor = new RichTextEditor("#ntextarea");
+
+        document.querySelector("#completion").addEventListener("click", function(){
+            // 적은 글씨를 html 코드로 추출
+            let text = _editor.getHTMLCode();
+            // 기존 textarea처럼 글씨만 추출
+            // let text = _editor.getPlainText();
+            console.log(text);
+        })
+    })
 </script>
 </head>
 
@@ -243,7 +281,7 @@
 					        </table>
 					    </div>
 					    <div class="td1">
-					        <textarea name="n_content" id="subtext">${qna_notice[0].n_content}</textarea>
+					    	<textarea name="n_content" id="ntextarea">${qna_notice[0].n_content}</textarea>
 					    </div>
 					    <div class="div_buttonAll">
 					        <div class="div_button">
@@ -251,11 +289,8 @@
 					        </div>
 					    </div>
 					</form>
-
 				</div>
-				
 			</div>
-			
 		</section>
 	</div>
 </body>

@@ -127,5 +127,43 @@ public class notice_boardController extends HttpServlet {
 
 	}
 	// notice_detaile 페이지 끝
+	
+	
+	// notice_update 페이지 시작
+	@RequestMapping(value = "/notice_update", method = RequestMethod.GET)
+	protected String notice_update(Locale locale, Model model, @RequestParam("N_ID") int N_ID)
+			throws ServletException, IOException {
+		NoticeBoardDTO noticeDTO = new NoticeBoardDTO();
+		noticeDTO.setN_id(N_ID);
+		System.out.println("엔아이디 "+N_ID);
+		
+		List qna_notice = sqlSession.selectList("mapper.carpedm.board.notice_nid", noticeDTO);
+		List library = sqlSession.selectList("mapper.carpedm.board.library_nid", noticeDTO);
+		
+		if (qna_notice != null) {
+			System.out.println("qna_notice.isze : " + qna_notice.size());
+			logger.error("qna_notice.size : " + qna_notice.size());
+			System.out.println("list.isze : " + library.size());
+			logger.error("list.size : " + library.size());			
+		}
+
+		model.addAttribute("qna_notice", qna_notice);	
+		model.addAttribute("library", library);	
+		
+		return "board/notice_update.jsp";
+	}		
+	
+	
+	// 업데이트 메소드
+	@RequestMapping(value = "/notice_update", method = RequestMethod.POST)
+	protected String noticeUp(Locale locale, Model model, 
+			@ModelAttribute NoticeBoardDTO dto,
+			HttpServletRequest request) throws ServletException, IOException {
+		sqlSession.update("mapper.carpedm.board.no_update", dto);
+
+		return "redirect:/notice_board";
+	}
+	
+	// notice_update 페이지 끝
 
 }
