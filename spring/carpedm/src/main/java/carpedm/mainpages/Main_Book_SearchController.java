@@ -187,23 +187,29 @@ public class Main_Book_SearchController {
 		model.addAttribute("total_pages", totalPages);
 		return "mainpages/book_search.jsp";
 	}
-
+	
+	
+	//책 예약 기능	
 	@RequestMapping(value = "/book_search", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded")
 	@ResponseBody
-	protected String book_search_post(@RequestParam("b_id") String b_id, @RequestParam("m_pid") String m_pid)
+	protected String book_reservation(@RequestParam("b_id") String b_id, @RequestParam("m_pid") String m_pid)
 			throws IOException {
-		String result = "fail";
-
+		//ajax으로 접근하기 때문에 json형태로 반환
+		String result = "{\"message\": \"fail\"}";
+		
+		//예약하고자 하는 책과 아이디값을 입력받음
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("b_id", b_id);
 		params.put("m_pid", m_pid);
 
 		if (m_pid != null && !m_pid.isEmpty() && !"null".equals(m_pid)) {
+			//책의 예약상태를 변경
 			int succhk = main_Book_SearchService.updateBookResStateBookSearch(params);
-			logger.info("업데이트 : " + succhk);
+//			logger.info("예약상태 업데이트 : " + succhk);
 			if (succhk > 0) {
+				//책의 예약정보를 예약테이블에 입력
 				succhk = main_Book_SearchService.insertBookResBookSearch(params);
-				logger.info("인서트 : " + succhk);
+//				logger.info("예약정보 인서트 : " + succhk);
 			}
 
 			result = "{\"message\": \"success\"}";

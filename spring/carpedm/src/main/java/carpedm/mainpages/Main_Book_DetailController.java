@@ -78,10 +78,9 @@ public class Main_Book_DetailController {
 	public String goCart_book_detail(HttpServletRequest request, 
 			@RequestParam("b_id") String b_id,
 			@RequestParam("m_pid") String m_pid) {
-		
+		//ajax으로 접근하기 때문에 json형태로 반환
 		String result = "{\"message\": \"fail\"}";
-		
-		
+	
 		//현재 세션에서 로그인되어있는 값을 가져옴
 		HttpSession session = request.getSession();
 		String login_m_pid = (String) session.getAttribute("m_pid") + "";
@@ -100,7 +99,7 @@ public class Main_Book_DetailController {
 			bcdto.setBc_date(now_date);
 			//기존 세팅값을 DTO에 담아서 보냄
 			int succhk = main_Book_DetailService.insertBookCart(bcdto);
-			logger.info("인서트 : " + succhk);
+//			logger.info("장바구니 인서트 : " + succhk);
 			result = "{\"message\": \"success\"}";
 		} else {
 			result = "{\"message\": \"fail\"}";
